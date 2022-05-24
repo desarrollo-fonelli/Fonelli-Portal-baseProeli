@@ -1,0 +1,7 @@
+{
+    "/fonapi/*":{
+        "target":"http://a027/",
+        "secure":false,
+        "logLevel":"debug"
+    }
+}

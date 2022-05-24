@@ -1,16 +1,62 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { routing,appRoutingProviders } from './app.routing';
+import { FormsModule } from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ModalComponent } from './components/modal/modal.component';
+import { ErrorComponent } from './components/error/error.component';
+import { HomeComponent } from './components/home/home.component';
+import { DistribuidoresComponent } from './components/distribuidores/distribuidores.component';
+import { EjecutivosComponent } from './components/ejecutivos/ejecutivos.component';
+import { IndicadoresventaComponent } from './components/indicadoresventa/indicadoresventa.component';
+import { DatosclientesComponent } from './components/datosclientes/datosclientes.component';
+import { ConsultapreciosComponent } from './components/consultaprecios/consultaprecios.component';
+import { ConsultapedidosComponent } from './components/consultapedidos/consultapedidos.component';
+import { RelacionpedidosComponent } from './components/relacionpedidos/relacionpedidos.component';
+import { EstadocuentaComponent } from './components/estadocuenta/estadocuenta.component';
+import { FichatecnicaComponent } from './components/fichatecnica/fichatecnica.component';
+import { VentasarticuloComponent } from './components/ventasarticulo/ventasarticulo.component';
+import { VentasclientearticuloComponent } from './components/ventasclientearticulo/ventasclientearticulo.component';
+import { ReporteventasComponent } from './components/reporteventas/reporteventas.component';
+import { ConsultainactivosComponent } from './components/consultainactivos/consultainactivos.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ModalComponent,
+    ErrorComponent,
+    HomeComponent,
+    DistribuidoresComponent,
+    EjecutivosComponent,
+    IndicadoresventaComponent,
+    DatosclientesComponent,
+    ConsultapreciosComponent,
+    ConsultapedidosComponent,
+    RelacionpedidosComponent,
+    EstadocuentaComponent,
+    FichatecnicaComponent,
+    VentasarticuloComponent,
+    VentasclientearticuloComponent,
+    ReporteventasComponent,
+    ConsultainactivosComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    NgbModule,
+    routing,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    appRoutingProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
