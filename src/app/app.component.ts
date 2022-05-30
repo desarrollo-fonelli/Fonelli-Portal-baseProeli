@@ -15,10 +15,12 @@ import { ServicioContacto } from './services/contacto.service';
 import { ServicioLoginDistribuidor } from './services/loginDistribuidor.service';
 import { ServicioLoginEjecutivo } from './services/loginEjecutivo.service';
 
+
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
   providers: [ServicioContacto,
   ServicioLoginDistribuidor,
 ServicioLoginEjecutivo],
@@ -26,6 +28,9 @@ ServicioLoginEjecutivo],
 export class AppComponent {
   title = 'portal-fonelli';
   closeResult = '';
+  //public MenuHomeAux: string | null;
+
+  //public MenuHome: string | null;
 
   public ModalActivo?: NgbModalRef;
 
@@ -40,10 +45,31 @@ export class AppComponent {
 
   constructor(
     private modalService: NgbModal,
+
+    
   
   ) {
  
+
+    /*this.MenuHomeAux = this.obtenMenu();
+
+    if (this.MenuHomeAux == '2'){
+      sessionStorage.setItem('idMenu', '2');
+      console.log("Entra 2");
+    }else{
+      sessionStorage.setItem('idMenu', '1');
+      console.log("Entra 1");
+    }
+    
+    this.MenuHome = this.obtenMenu();
+    console.log(this.MenuHome);*/
   }
+
+
+  obtenMenu(){
+    return sessionStorage.getItem('idMenu');
+  }
+  
 
  
 }

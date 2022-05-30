@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,VERSION  } from '@angular/core';
+import { Router,ActivatedRoute,Params } from '@angular/router';
+
 import {
   NgbModal,
   ModalDismissReasons,
@@ -16,15 +18,20 @@ import { ServicioLoginDistribuidor } from '../../services/loginDistribuidor.serv
 import { ServicioLoginEjecutivo } from '../../services/loginEjecutivo.service';
 
 
+
+
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
+
 export class HeaderComponent implements OnInit {
 
   closeResult = '';
   
+  public idMenu: String = '1';
   public ModeloContacto: Contacto;
   public ModeloLoginDistribuidor: LoginDistribuidor;
   public ModeloLoginEjecutivo: LoginEjecutivo;
@@ -44,11 +51,30 @@ export class HeaderComponent implements OnInit {
     private modalService: NgbModal,
     private _servicioContacto: ServicioContacto,
     private _servicioLoginDistribuidor: ServicioLoginDistribuidor,
-    private _servicioLoginEjecutivo: ServicioLoginEjecutivo
+    private _servicioLoginEjecutivo: ServicioLoginEjecutivo,
+    private _route: ActivatedRoute,
+    private _router: Router
+    
+
   ) {
     this.ModeloContacto = new Contacto('', '', '', '');
     this.ModeloLoginDistribuidor = new LoginDistribuidor('', '','');
     this.ModeloLoginEjecutivo = new LoginEjecutivo('', '', '');
+
+     console.log("estoooooo:"+window.location.href)
+
+    if (window.location.href.includes('/distribuidores')){
+      console.log("entra menu distribuidor");
+      console.log(this._router.url);
+      this.idMenu = '2';
+      
+    }else{
+      console.log("entra menu home");
+      console.log(this._router.url);
+      this.idMenu = '1';
+      
+    }
+    
   }
 
     //modal distribuidor
@@ -88,15 +114,45 @@ export class HeaderComponent implements OnInit {
     ModeloLoginDistribuidorAux.codigo=filialAux[0];
     ModeloLoginDistribuidorAux.filial=filialAux[1];
 
-
+    //Se realiza login con datos enviados
     this._servicioLoginDistribuidor
       .Login(ModeloLoginDistribuidorAux)
       .subscribe(
         (Response) => {
+          //Respuesta correcta de login
           this.respuestaLoginDistribuidor = Response;
           console.log( Response);
+          
+          console.log(this.respuestaLoginDistribuidor.Codigo)
 
-          this.ModalActivo?.close();
+          
+            //Se valida login incorrecto
+            if (this.respuestaLoginDistribuidor.Codigo == 1) {
+              this.alerLoginDistribuidor = true;
+              this.respuestaLoginDistribuidor ="Datos incorrectos!";
+              //window.alert("Datos incorrectos")
+
+            }else{
+              console.log("Login correcto");
+              console.log(this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString());
+              
+           
+              this.saveData(ModeloLoginDistribuidorAux.codigo.toString(),ModeloLoginDistribuidorAux.filial.toString(),this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString(),'1')
+
+              this.ModalActivo?.close();
+              sessionStorage.setItem('idMenu', '2');              
+              this._router.navigate(['/distribuidores']);
+              //location.reload();
+
+
+              
+                
+              
+              
+
+            }
+
+          
         },
         (error) => {
           this.alerLoginDistribuidor = true;
@@ -146,6 +202,7 @@ export class HeaderComponent implements OnInit {
         console.log('Response: ' + Response);
 
         this.ModalActivo?.close();
+        //2
       },
       (error) => {
         this.alerLoginEjecutivo = true;
@@ -192,6 +249,29 @@ export class HeaderComponent implements OnInit {
         console.log('Error: ' + <any>error);
       }
     );
+  }
+
+  title = 'Session Storage in Angular 12 By Husnain';
+  name = 'Angular ' + VERSION.major;
+
+
+  saveData(codigo: string,filial:string,nombre: string, tipo:string) {
+
+    sessionStorage.setItem('codigo', codigo);
+    sessionStorage.setItem('filial', filial);
+    sessionStorage.setItem('nombre', nombre);
+    sessionStorage.setItem('tipo', tipo);
+    
+  }
+
+  getData() {
+    return sessionStorage.getItem('idMenu');
+  }
+  removeData() {
+    sessionStorage.removeItem('location');
+  }
+  deleteData() {
+    sessionStorage.clear();
   }
 
 }

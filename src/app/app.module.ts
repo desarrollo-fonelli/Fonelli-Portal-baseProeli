@@ -3,6 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { routing,appRoutingProviders } from './app.routing';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatListModule} from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+
+
 
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +30,12 @@ import { ReporteventasComponent } from './components/reporteventas/reporteventas
 import { ConsultainactivosComponent } from './components/consultainactivos/consultainactivos.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SidenavComponent } from './components/sidenav/sidenav.component';
+
+
+
+
 
 @NgModule({
   declarations: [
@@ -45,14 +57,20 @@ import { FooterComponent } from './components/footer/footer.component';
     ReporteventasComponent,
     ConsultainactivosComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
     NgbModule,
     routing,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatListModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [
     appRoutingProviders

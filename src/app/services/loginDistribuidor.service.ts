@@ -6,16 +6,13 @@ import { Configuracion } from "src/app/models/configuraciones";
 
 @Injectable()
 export class ServicioLoginDistribuidor{
-    public url: string;
+    public API: string;
 
 constructor(
     public _http:HttpClient
 ){
 
-    console.log(Configuracion.API);
-    this.url = Configuracion.API;
-
-    console.log(this.url);
+    this.API = Configuracion.API;
 
 }
 
@@ -27,7 +24,7 @@ Login(distribuidor: any): Observable<any>{
                                     . set("Access-Control-Allow-Methods", "GET")
                                     .set("Access-Control-Allow-Credentials", "true");
 
-    return this._http.get('fonapi/catalogos/catalogoclientes.php?ClienteCodigo='+ distribuidor.codigo +'&ClienteFilial='+distribuidor.filial+'&Password='+ distribuidor.password,{headers:headers});
+    return this._http.get(this.API +'catalogos/catalogoclientes.php?ClienteCodigo='+ distribuidor.codigo +'&ClienteFilial='+distribuidor.filial+'&Password='+ distribuidor.password,{headers:headers});
 }
 
 

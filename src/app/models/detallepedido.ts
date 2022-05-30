@@ -11,20 +11,21 @@ export interface Contenido {
 }
 
 export interface PedidoArticulo {
-    PedidoFila?:               number;
+    PedidoFila?:               string;
     ArticuloLinea?:            string;
     ArticuloCodigo?:           string;
     ArticuloDescripc?:         string;
     PedidoStatus?:             string;
-    ArticuloFamilia?:          string;
+    ArticuloCategoria?:        string;
+    ArticuloSubcategoria?:     string;
     FechaPedido?:              Date;
-    CantidadPedida?:           number;
-    FechaSurtido?:             string;
+    CantidadPedida?:           null;
+    FechaSurtido?:             Date;
     CantidadSurtida?:          number;
     DiferenciaSurtido?:        number;
     FacturaSerie?:             string;
     FacturaFolio?:             string;
-    FechaTerminacionArticulo?: string;
+    FechaTerminacionArticulo?: Date;
     CantidadMedida4?:          number;
     CantidadMedida4_5?:        number;
     CantidadMedida5?:          number;
@@ -42,13 +43,13 @@ export interface PedidoArticulo {
     CantidadMedida11?:         number;
     CantidadMedida11_5?:       number;
     CantidadMedida12?:         number;
-    CantidadMedidaP12_5?:      number;
+    CantidadMedida12_5?:       number;
     CantidadMedida13?:         number;
     MedidaEspecial?:           string;
     CantidadMedidaEspecial?:   number;
-    FechaPedidoProduccion?:    string;
+    FechaPedidoProduccion?:    Date | null;
     CantidadPedidoProduccion?: number;
     CantidadProducida?:        number;
     DiferenciaProducido?:      number;
-    FechaProduccionArticulo?:  string;
+    FechaProduccionArticulo?:  Date | null;
 }

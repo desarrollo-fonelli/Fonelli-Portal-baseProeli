@@ -6,7 +6,7 @@ class FiltrosRelacionPedidos {
       public ClienteDesde: number,
       public FilialDesde: number,
       public ClienteHasta: number,
-      public Filialhasta: number,
+      public FilialHasta: number,
       public FechaPedidoDesde: string,
       public FechaPedidoHasta: string,
       public FechaCancelacionDesde: string,

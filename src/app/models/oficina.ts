@@ -1,8 +1,8 @@
 export interface Oficina {
     Codigo?:     number;
     Mensaje?:    string;
-    Contenido?:  Contenido[];
     Paginacion?: Paginacion;
+    Contenido?:  Contenido[];
 }
 
 export interface Contenido {

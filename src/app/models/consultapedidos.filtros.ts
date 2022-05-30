@@ -1,10 +1,9 @@
 class FiltrosConsultaPedidos{
     constructor(
-       public Usuario: number,
+       public TipoUsuario: string,
        public ClienteCodigo: number,
        public ClienteFilial: number,
-       public Estatus: string,
-       public Pagina: number
-
+       public Usuario: number,
+       public Status: string
     ){}
 }

@@ -6,16 +6,13 @@ import { Configuracion } from "src/app/models/configuraciones";
 
 @Injectable()
 export class ServicioLoginEjecutivo{
-    public url: string;
+    public API: string;
 
 constructor(
     public _http:HttpClient
 ){
 
-    console.log(Configuracion.API);
-    this.url = Configuracion.API;
-
-    console.log(this.url);
+    this.API = Configuracion.API;
 
 }
 
@@ -25,10 +22,10 @@ login(ejecutivo: any): Observable<any>{
 
     if(ejecutivo.puesto == 'agente')
     {
-        return this._http.get(this.url + 'api/agente?codigo='+ejecutivo.codigo +'&password='+ejecutivo.password,{headers:headers});
+        return this._http.get(this.API + '/agente?codigo='+ejecutivo.codigo +'&password='+ejecutivo.password,{headers:headers});
     }
     else{
-        return this._http.get(this.url + 'api/gerente?codigo='+ejecutivo.codigo +'&password='+ejecutivo.password,{headers:headers});
+        return this._http.get(this.API + 'gerente?codigo='+ejecutivo.codigo +'&password='+ejecutivo.password,{headers:headers});
     }
 
    

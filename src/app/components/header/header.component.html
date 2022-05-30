@@ -1,7 +1,7 @@
 
     <section class="hero" id="hero">
         <div class="heroText">
-            <h1 class="col-lg-3 text-white mt-5 mb-lg-4" data-aos="zoom-in" data-aos-delay="800">
+            <h1 class="col-lg-3 text-white mt-5 mb-lg-4"  data-aos-delay="800">
                 Fonelli
             </h1>
     
@@ -11,8 +11,8 @@
         </div>
     
         <div class="videoWrapper">
-            <video autoplay="" loop="" muted="" class="custom-video" poster="../../../assets/videos/792bd98f3e617786c850493560e11c45.jpg">
-                <source src="../../../assets/videos/814dc43e870597176cad645798825c03.mp4" type="video/mp4">
+            <video autoplay="" loop="" muted="" class="custom-video">
+                <source src="../../../assets/videos/Página Fonelli.mp4" type="video/mp4">
     
                 Your browser does not support the video tag.
             </video>
@@ -36,7 +36,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
+            <div *ngIf="idMenu == '1' " class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="#about">Nosotros</a>
@@ -55,7 +55,7 @@
 
                     <li class="nav-item">
                         <!--<a class="nav-link" href="#news">News & Events</a>-->
-                        <a class="nav-link" href ="#" (click)="openEjecutivo(LoginEjecutivos)">Ejecutivos de venta</a>
+                        <a class="nav-link" href ="#" (click)="openEjecutivo(LoginEjecutivos)">Asesores comerciales</a>
                     </li>
 
                     <li class="nav-item">
@@ -64,6 +64,26 @@
                     </li>
                 </ul>
             </div>
+
+
+            <!-- <div *ngIf="idMenu == '2' "  class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#about">Nosotros</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href ="https://fonelli.com/">Tienda en linea</a>
+                        
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href ="#" (click)="openDistribuidor(LoginDistribuidor)">Distribuidores</a>
+                    </li>
+
+                </ul>
+            </div> -->
+
         </div>
     </nav>
 
@@ -88,6 +108,7 @@
 
                   
                   <div class="col-12 col-lg-4 ">
+                   
                     <div class="col-lg-3">   
                         <!-- <label for="usuario">Usuario</label><br/> -->
                         <input type ="text" name ="usuario" #codigo="ngModel" placeholder="Usuario" [(ngModel)]="ModeloLoginDistribuidor.codigo" required/>
@@ -96,11 +117,8 @@
                         <!-- <label for="password"  >Contraseña</label><br/> -->
                         <input type ="password" name ="password" #password="ngModel" placeholder="Contraseña" [(ngModel)]="ModeloLoginDistribuidor.password" required/>
                         <span *ngIf="password.touched && !password.valid"> El password es obligatorio</span> <br/>
-                    </div>
-                
-                  </div>
-    
-
+                    </div>                
+                  </div>  
             </div>
         </div>
     </div>
@@ -111,6 +129,9 @@
 
     <div class="modal-footer">
       <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid" (click)="ConsultarLDistribuidor()">INGRESAR</button>
+      <!-- <button (click)="saveData()" class="btn">Save Data in Session Storage</button> -->
+      <button (click)="removeData()" class="btn">Remove Location</button>
+      <button (click)="deleteData()" class="btn">Clear All</button>
     </div>
   </form>
 </ng-template> 

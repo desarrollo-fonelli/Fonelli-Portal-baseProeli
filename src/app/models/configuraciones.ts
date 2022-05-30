@@ -1,3 +1,3 @@
 export var Configuracion = {
-    "API":"http://a027/fonapi/"
+    "API":"med_fonelli_apiportal/"
 }

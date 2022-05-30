@@ -1,5 +1,5 @@
 {
-    "/fonapi/*":{
+    "/med_fonelli_apiportal/*":{
         "target":"http://a027/",
         "secure":false,
         "logLevel":"debug"

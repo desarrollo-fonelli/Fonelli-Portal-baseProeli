@@ -877,13 +877,13 @@ url("../fonts/bootstrap-icons.woff?856008caa5eb66df68595e734e59580d") format("wo
 .bi-layers-fill::before { content: "\f459"; }
 .bi-layers-half::before { content: "\f45a"; }
 .bi-layers::before { content: "\f45b"; }
-.bi-layout-sidebar-inset-reverse::before { content: "\f45c"; }
+/* .bi-layout-sidebar-inset-reverse::before { content: "\f45c"; }
 .bi-layout-sidebar-inset::before { content: "\f45d"; }
 .bi-layout-sidebar-reverse::before { content: "\f45e"; }
-.bi-layout-sidebar::before { content: "\f45f"; }
+.bi-layout-sidebar::before { content: "\f45f"; } */
 .bi-layout-split::before { content: "\f460"; }
-.bi-layout-text-sidebar-reverse::before { content: "\f461"; }
-.bi-layout-text-sidebar::before { content: "\f462"; }
+/* .bi-layout-text-sidebar-reverse::before { content: "\f461"; }
+.bi-layout-text-sidebar::before { content: "\f462"; } */
 .bi-layout-text-window-reverse::before { content: "\f463"; }
 .bi-layout-text-window::before { content: "\f464"; }
 .bi-layout-three-columns::before { content: "\f465"; }

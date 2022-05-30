@@ -1,8 +1,8 @@
 export interface Clientes {
-    Codigo?:     number;
-    Mensaje?:    string;
-    Paginacion?: Paginacion;
-    Contenido?:  Contenido[];
+    Codigo:     number;
+    Mensaje:    string;
+    Paginacion: Paginacion;
+    Contenido:  Contenido[];
 }
 
 export interface Contenido {
@@ -10,9 +10,9 @@ export interface Contenido {
     ClienteFilial?:  string;
     RazonSocial?:    string;
     Password?:       string;
-    DatosGenerales?: DatosGenerales;
-    Condiciones?:    Condiciones;
-    Contactos?:      Contactos;
+    DatosGenerales: DatosGenerales;
+    Condiciones:    Condiciones;
+    Contactos:      Contactos;
 }
 
 export interface Condiciones {

@@ -1,8 +1,8 @@
 export interface ConsultaPedido {
     Codigo?:     number;
     Mensaje?:    string;
-    Contenido?:  Contenido;
     Paginacion?: Paginacion;
+    Contenido?:  Contenido;
 }
 
 export interface Contenido {
@@ -14,17 +14,16 @@ export interface Contenido {
 }
 
 export interface Pedido {
-    PedidoLetra?:             string;
-    PedidoFolio?:             string;
-    OficinaFonelliCodigo?:    string;
-    PedidoStatus?:            string;
-    FechaPedido?:             Date;
-    FechaCancelacion?:        Date;
-    FechaSurtido?:            string;
-    CantidadPedida?:          number;
-    CantidadSurtida?:         number;
-    DiferenciaPedidoSurtido?: number;
-    OficinaFonelli?:          string;
+    PedidoLetra?:              string;
+    PedidoFolio?:              string;
+    OficinaFonelliCodigo?:     string;
+    Status?:                   string;
+    FechaPedido?:              Date;
+    FechaCancelacion?:         Date;
+    FechaSurtido?:             Date | null;
+    CantidadPedida?:           number;
+    CantidadSurtida?:          number;
+    DiferenciaPedidosSurtido?: number;
 }
 
 export interface Paginacion {

@@ -7,8 +7,7 @@ import {MediaMatcher} from '@angular/cdk/layout';
   styleUrls: ['./sidenav.component.css']
 })
 export class SidenavComponent implements OnDestroy {
-
-  let idMenu: String;
+ 
 
   mobileQuery: MediaQueryList;
 
@@ -31,7 +30,7 @@ export class SidenavComponent implements OnDestroy {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    idMenu = obtenMenu()
+   
   }
 
   ngOnDestroy(): void {
@@ -50,9 +49,6 @@ export class SidenavComponent implements OnDestroy {
 
 
 //Se agrega validacion si estamos en menu principal distribuidores mostramos carrucel
-if () {
-  
-}
- 
+
 
 }

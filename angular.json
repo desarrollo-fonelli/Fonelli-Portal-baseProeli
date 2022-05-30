@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/assets/css/templatemo-nomad-force.css",
               "src/assets/css/aos.css"
@@ -99,8 +100,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/assets/css/templatemo-nomad-force.css",
-              "src/assets/css/aos.css"
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
+              
             ],
             "scripts": []
           }
