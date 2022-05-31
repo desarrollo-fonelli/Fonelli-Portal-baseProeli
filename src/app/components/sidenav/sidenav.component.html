@@ -2,7 +2,11 @@
 <div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
   <mat-toolbar >
     <button class="btn btn-primary" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <h1 class="example-app-name">Responsive App</h1>
+    <div class="cat ">
+      <a href="#">
+        <img  src="../../../assets/images/principal/logo_fonelli.png"  >
+      </a>      
+    </div>
   </mat-toolbar>
 
   <mat-sidenav-container class="example-sidenav-container"
@@ -11,14 +15,14 @@
                  [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
       
-        <a mat-list-item routerLink=".">Inicio</a>
+        <a mat-list-item [routerLink]="['/distribuidores/']">Inicio</a>
         <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']">Datos generales de Clientes</a>
         <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']">Consulta de Precios</a>
         <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']">Consulta de Pedidos</a>
         <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']">Relación de Pedidos</a>
         <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']">Estado de Cuenta</a>
         <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Cliente y Artículo</a>
-        <a mat-list-item href="https://setomanfotos.pixieset.com/fonelli/">Catálogo de Joyería</a>
+        <a mat-list-item href="http://www.catalogofonelli.com.mx/" target="_blank">Catálogo de Joyería</a>
       </mat-nav-list>
     </mat-sidenav>
 

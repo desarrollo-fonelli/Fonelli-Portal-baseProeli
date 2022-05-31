@@ -7,6 +7,7 @@ import {
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
 
+declare let AOS: any;
 //Modelos
 import { Contacto } from '../../models/contacto';
 import { LoginDistribuidor } from '../../models/loginDistribuidor';
@@ -92,8 +93,11 @@ export class HeaderComponent implements OnInit {
       );
     }
 
-  ngOnInit(): void {
-  }
+    ngOnInit(): void {
+
+      AOS.init();
+  
+    }
 
   onSubmitLDistribuidor(form: any) {
     /*    console.log("submit");

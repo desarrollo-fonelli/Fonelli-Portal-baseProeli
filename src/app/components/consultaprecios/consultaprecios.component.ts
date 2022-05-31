@@ -1,21 +1,14 @@
 import { Component, OnInit,ChangeDetectorRef, OnDestroy } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
+import { Router,ActivatedRoute,Params } from '@angular/router';
 
 @Component({
   selector: 'app-consultaprecios',
   templateUrl: './consultaprecios.component.html',
   styleUrls: ['./consultaprecios.component.css']
 })
-export class ConsultapreciosComponent {
-
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
-  }
-
-
-
+export class ConsultapreciosComponent implements OnInit {
+ 
 
   mobileQuery: MediaQueryList;
 
@@ -33,11 +26,43 @@ export class ConsultapreciosComponent {
 
   private _mobileQueryListener: () => void;
 
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _route: ActivatedRoute,
+    private _router: Router) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
 
-  ngOnDestroy(): void {
+   
+  }
+
+  ngOnInit(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+
+    const sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
+    const sTipo :string | null = sessionStorage.getItem('tipo');
+    const sFilial :number | null = Number(sessionStorage.getItem('filial'));
+    const sNombre :string | null = sessionStorage.getItem('nombre');
+
+    console.log('ingresa VALIDACION');
+    //Se agrega validacion control de sesion distribuidores
+    if(!sCodigo) {
+      console.log('ingresa VALIDACION');
+      this._router.navigate(['/']);
+    }
   }
 
   shouldRun = true;
 
+
+//Funcion para cerrar sesion y redireccionar al home
+  EliminaSesion() {
+    sessionStorage.clear();
+    this._router.navigate(['/']);    
+  }
+
+
+
+
+
 }
+

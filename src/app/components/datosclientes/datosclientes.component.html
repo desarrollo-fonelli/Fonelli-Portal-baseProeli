@@ -1,370 +1,390 @@
-<!--Filtro de clientes-->
-<div>
-    <h4>Datos de clientes</h4>
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-body">
-          <form
-            #formBusquedaCliente="ngForm"
-            (ngSubmit)="onSubmitBusqueda(formBusquedaCliente)"
-          >
-            <div class="row mb-3">
-              <label for="cliente" class="col-sm-2 col-form-label">Cliente</label>
-              <div class="col-sm-10">
-                <input
-                  type="text"
-                  class="form-control"
-                  name="cliente"
-                  #nombre="ngModel"
-                  [(ngModel)]="Buscar.ClienteCodigo"
-                  disabled="{{ bCliente }}"
-                  required
-                />
-              </div>
-            </div>
-            <div class="row mb-3">
-              <label for="inputEmail" class="col-sm-2 col-form-label"
-                >Filial</label
-              >
-              <div class="col-sm-10">
-                <input
-                  type="email"
-                  class="form-control"
-                  name="filial"
-                  #nombre="ngModel"
-                  [(ngModel)]="Buscar.ClienteFilial"
-                  disabled="{{ bCliente }}"
-                  required
-                />
-              </div>
-            </div>
-  
-            <button type="submit" (click)="consultaCliente()">Buscar</button>
-          </form>
-        </div>
-      </div>
+
+
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
+  <mat-toolbar >
+    <button class="btn btn-primary" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <div class="cat ">
+      <a href="#">
+        <img  src="../../../assets/images/principal/logo_fonelli.png"  >
+      </a>      
     </div>
-  </div>
-  
-  <!--resultado de cliente-->
-  <div *ngIf="bMostrarDatos">
-    <div>
-      <h4>Datos generales</h4>
-  
-      <div class="col-lg-6">
-        <div class="card">
-          <div class="card-body">
-            <div class="row mb-3">
-              <label for="sucursal" class="col-sm-4 col-form-label"
-                >Sucursal/Nombre:</label
+  </mat-toolbar>
+
+  <mat-sidenav-container class="example-sidenav-container"
+                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list>
+      
+        <a mat-list-item [routerLink]="['/distribuidores/']">Inicio</a>
+        <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']">Datos generales de Clientes</a>
+        <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']">Consulta de Precios</a>
+        <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']">Consulta de Pedidos</a>
+        <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']">Relación de Pedidos</a>
+        <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']">Estado de Cuenta</a>
+        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Cliente y Artículo</a>
+        <a mat-list-item href="http://www.catalogofonelli.com.mx/" target="_blank">Catálogo de Joyería</a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+
+    
+    <section >
+    
+      <div>
+        <h4>Datos de clientes</h4>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <form
+                #formBusquedaCliente="ngForm"
+                (ngSubmit)="onSubmitBusqueda(formBusquedaCliente)"
               >
-              <div class="col-sm-10">
-                <label for="sucursalV" class="col-sm-2">{{oDatosGenerales.Sucursal}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="status" class="col-sm-3 col-form-label"
-                >Estatus:</label
-              >
-              <div class="col-sm-10">
-                <label for="statusV" class="col-sm-2">{{oDatosGenerales.Status}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="tipocliente" class="col-sm-3 col-form-label"
-                >Tipo cliente:</label
-              >
-              <div class="col-sm-10">
-                <label for="tipoclienteV" class="col-sm-2">{{oDatosGenerales.TipoClienteDescripc}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="calle" class="col-sm-3 col-form-label"
-                >Calle:</label
-              >
-              <div class="col-sm-10">
-                <label for="calle" class="col-sm-2">{{oDatosGenerales.Calle}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="exterior" class="col-sm-3 col-form-label"
-                >Exterior:</label
-              >
-              <div class="col-sm-10">
-                <label for="exteriorV" class="col-sm-2">{{oDatosGenerales.NumExterior}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="interior" class="col-sm-3 col-form-label"
-                >Interior:</label
-              >
-              <div class="col-sm-10">
-                <label for="interiorV" class="col-sm-2">{{oDatosGenerales.NumInterior}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="colonia" class="col-sm-3 col-form-label"
-                >Colonia:</label
-              >
-              <div class="col-sm-10">
-                <label for="coloniaV" class="col-sm-2">{{oDatosGenerales.Colonia}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="delegacion" class="col-sm-3 col-form-label"
-                >Delegación/Municipio:</label
-              >
-              <div class="col-sm-10">
-                <label for="delegacionV" class="col-sm-2">{{oDatosGenerales.AlcaldiaNombre}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="poblacion" class="col-sm-3 col-form-label"
-                >Ciudad población:</label
-              >
-              <div class="col-sm-10">
-                <label for="poblacionV" class="col-sm-2">{{oDatosGenerales.CiudadPoblacion}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="ciudad" class="col-sm-3 col-form-label"
-                >Estado:</label
-              >
-              <div class="col-sm-10">
-                <label for="ciudadV" class="col-sm-2">{{oDatosGenerales.CiudadPoblacion}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="cp" class="col-sm-3 col-form-label"
-                >C.P.:</label
-              >
-              <div class="col-sm-10">
-                <label for="cpV" class="col-sm-2">{{oDatosGenerales.CiudadPoblacion}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="pais" class="col-sm-3 col-form-label"
-                >País:</label
-              >
-              <div class="col-sm-10">
-                <label for="paisV" class="col-sm-2">{{oDatosGenerales.PaisNombre}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="rfc" class="col-sm-3 col-form-label"
-                >RFC:</label
-              >
-              <div class="col-sm-10">
-                <label for="rfcV" class="col-sm-2">{{oDatosGenerales.Rfc}}</label>
-              </div>
-            </div>
-  
-            <div class="row mb-3">
-              <label for="telefono" class="col-sm-3 col-form-label"
-                >Teléfono:</label
-              >
-              <div class="col-sm-10">
-                <label for="telefonoV" class="col-sm-2">{{oDatosGenerales.Telefono}}</label>
-              </div>
+                <div class="row mb-3">
+                  <label for="cliente" class="col-sm-2 col-form-label">Cliente</label>
+                  <div class="col-sm-10">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="cliente"
+                      #nombre="ngModel"
+                      [(ngModel)]="Buscar.ClienteCodigo"
+                      disabled="{{ bCliente }}"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="inputEmail" class="col-sm-2 col-form-label"
+                    >Filial</label
+                  >
+                  <div class="col-sm-10">
+                    <input
+                      type="email"
+                      class="form-control"
+                      name="filial"
+                      #nombre="ngModel"
+                      [(ngModel)]="Buscar.ClienteFilial"
+                      disabled="{{ bCliente }}"
+                      required
+                    />
+                  </div>
+                </div>
+      
+                <button type="submit" (click)="consultaCliente()">Buscar</button>
+              </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  
-    <div *ngIf="stipo == '2'">
-      <h4>Condiciones</h4>
-      <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <div class="row mb-3">
-                <label for="oficina" class="col-sm-4 col-form-label"
-                  >Oficina de atención:</label
-                >
-                <div class="col-sm-10">
-                  <label for="oficinaV" class="col-sm-2">{{oCondiciones.OficinaAtencionNombre}}}</label>
+
+      <div *ngIf="bMostrarDatos">
+
+        <div>
+          <h4>Datos generales</h4>
+      
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <div class="row mb-3">
+                  <label for="sucursal" class="col-sm-4 col-form-label"
+                    >Sucursal/Nombre:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="sucursalV" class="col-sm-2">{{oDatosGenerales.Sucursal}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="status" class="col-sm-3 col-form-label"
+                    >Estatus:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="statusV" class="col-sm-2">{{oDatosGenerales.Status}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="tipocliente" class="col-sm-3 col-form-label"
+                    >Tipo cliente:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="tipoclienteV" class="col-sm-2">{{oDatosGenerales.TipoClienteDescripc}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="calle" class="col-sm-3 col-form-label"
+                    >Calle:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="calle" class="col-sm-2">{{oDatosGenerales.Calle}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="exterior" class="col-sm-3 col-form-label"
+                    >Exterior:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="exteriorV" class="col-sm-2">{{oDatosGenerales.NumExterior}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="interior" class="col-sm-3 col-form-label"
+                    >Interior:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="interiorV" class="col-sm-2">{{oDatosGenerales.NumInterior}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="colonia" class="col-sm-3 col-form-label"
+                    >Colonia:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="coloniaV" class="col-sm-2">{{oDatosGenerales.Colonia}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="delegacion" class="col-sm-3 col-form-label"
+                    >Delegación/Municipio:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="delegacionV" class="col-sm-2">{{oDatosGenerales.AlcaldiaNombre}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="poblacion" class="col-sm-3 col-form-label"
+                    >Ciudad población:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="poblacionV" class="col-sm-2">{{oDatosGenerales.CiudadPoblacion}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="ciudad" class="col-sm-3 col-form-label"
+                    >Estado:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="ciudadV" class="col-sm-2">{{oDatosGenerales.CiudadPoblacion}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="cp" class="col-sm-3 col-form-label"
+                    >C.P.:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="cpV" class="col-sm-2">{{oDatosGenerales.CiudadPoblacion}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="pais" class="col-sm-3 col-form-label"
+                    >País:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="paisV" class="col-sm-2">{{oDatosGenerales.PaisNombre}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="rfc" class="col-sm-3 col-form-label"
+                    >RFC:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="rfcV" class="col-sm-2">{{oDatosGenerales.Rfc}}</label>
+                  </div>
+                </div>
+      
+                <div class="row mb-3">
+                  <label for="telefono" class="col-sm-3 col-form-label"
+                    >Teléfono:</label
+                  >
+                  <div class="col-sm-10">
+                    <label for="telefonoV" class="col-sm-2">{{oDatosGenerales.Telefono}}</label>
+                  </div>
                 </div>
               </div>
-    
-              <div class="row mb-3">
-                <label for="agente" class="col-sm-3 col-form-label"
-                  >Agente:</label
-                >
-                <div class="col-sm-10">
-                  <label for="agenteV" class="col-sm-2">{{oDatosGenerales.AgenteNombre}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="lista1" class="col-sm-3 col-form-label"
-                  >N°. de Lista 1:</label
-                >
-                <div class="col-sm-10">
-                  <label for="lista1V" class="col-sm-2">{{oCondiciones.TipoListaPreciosDescripc}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="lista2" class="col-sm-3 col-form-label"
-                  >N° de Lista 2:</label
-                >
-                <div class="col-sm-10">
-                  <label for="lista2V" class="col-sm-2">{{oCondiciones.TipoListaPrecios2Descripc}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="paridad" class="col-sm-3 col-form-label"
-                  >Tipo de paridad:</label
-                >
-                <div class="col-sm-10">
-                  <label for="paridad" class="col-sm-2">{{oCondiciones.ParidadCodigo}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="pagoferenciado" class="col-sm-3 col-form-label"
-                  >Pago Refenciado BanameX:</label
-                >
-                <div class="col-sm-10">
-                  <label for="pagoferenciadoV" class="col-sm-2">{{oCondiciones.PagoRefBanamex}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="limitecredito" class="col-sm-3 col-form-label"
-                  >Límite de crédito:</label
-                >
-                <div class="col-sm-10">
-                  <label for="limitecreditoV" class="col-sm-2">{{oCondiciones.LimiteCredito}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="plazopago" class="col-sm-3 col-form-label"
-                  >Plazo pago:</label
-                >
-                <div class="col-sm-10">
-                  <label for="plazopagoV" class="col-sm-2">{{oCondiciones.Plazo}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="alta" class="col-sm-3 col-form-label"
-                  >Alta:</label
-                >
-                <div class="col-sm-10">
-                  <label for="altaV" class="col-sm-2">{{oCondiciones.FechaAlta}}</label>
-                </div>
-              </div>
-    
-  
+            </div>
           </div>
+        </div>
+        
+        <div *ngIf="stipo == '2'">
+          <h4>Condiciones</h4>
+
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+
+                <div class="row mb-3">
+                  <label for="oficina" class="col-sm-4 col-form-label">Oficina de atención:</label>
+                  <div class="col-sm-10">
+                    <label for="oficinaV" class="col-sm-2">{{oCondiciones.OficinaAtencionNombre}}}</label>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="agente" class="col-sm-3 col-form-label">Agente:</label>
+                  <div class="col-sm-10">
+                    <label for="agenteV" class="col-sm-2">{{oDatosGenerales.AgenteNombre}}</label>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="lista1" class="col-sm-3 col-form-label">N°. de Lista 1:</label>
+                  <div class="col-sm-10">
+                    <label for="lista1V" class="col-sm-2">{{oCondiciones.TipoListaPreciosDescripc}}</label>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="lista2" class="col-sm-3 col-form-label">N° de Lista 2:</label>
+                  <div class="col-sm-10">
+                    <label for="lista2V" class="col-sm-2">{{oCondiciones.TipoListaPrecios2Descripc}}</label>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="paridad" class="col-sm-3 col-form-label">Tipo de paridad:</label>
+                  <div class="col-sm-10">
+                    <label for="paridad" class="col-sm-2">{{oCondiciones.ParidadCodigo}}</label>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="pagoferenciado" class="col-sm-3 col-form-label">Pago Refenciado BanameX:</label>
+                  <div class="col-sm-10">
+                    <label for="pagoferenciadoV" class="col-sm-2">{{oCondiciones.PagoRefBanamex}}</label>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="limitecredito" class="col-sm-3 col-form-label">Límite de crédito:</label>
+                  <div class="col-sm-10">
+                    <label for="limitecreditoV" class="col-sm-2">{{oCondiciones.LimiteCredito}}</label>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="plazopago" class="col-sm-3 col-form-label">Plazo pago:</label>
+                  <div class="col-sm-10">
+                    <label for="plazopagoV" class="col-sm-2">{{oCondiciones.Plazo}}</label>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="alta" class="col-sm-3 col-form-label">Alta:</label>
+                  <div class="col-sm-10">
+                    <label for="altaV" class="col-sm-2">{{oCondiciones.FechaAlta}}</label>
+                  </div>
+                </div>
+
+              </div>
+            </div>
           </div>
-  
-  
-  
-  
-    </div>
-  
-    <div>
-      <h4>Contactos</h4>
-  
-      <div class="col-lg-6">
-          <div class="card">
-            <div class="card-body">
-              <div class="row mb-3">
-                <label for="nombre1" class="col-sm-3 col-form-label"
-                  >Nombre:</label
-                >
-                <div class="col-sm-10">
-                  <label for="nombre1V" class="col-sm-2">{{oContacto.Contacto1Nombre}}</label>
+
+          
+          <div>
+            <h4>Contactos</h4>
+
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+
+                  <div class="row mb-3">
+                    <label for="nombre1" class="col-sm-3 col-form-label">Nombre:</label>
+                    <div class="col-sm-10">
+                      <label for="nombre1V" class="col-sm-2">{{oContacto.Contacto1Nombre}}</label>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="paterno1" class="col-sm-3 col-form-label">Apellido paterno:</label>
+                    <div class="col-sm-10">
+                      <label for="paterno1V" class="col-sm-2">{{oContacto.Contacto1ApellidoPaterno}}</label>
+                    </div>
+                  </div>
+        
+                  <div class="row mb-3">
+                    <label for="materno1" class="col-sm-3 col-form-label">Apellido materno:</label>
+                    <div class="col-sm-10">
+                      <label for="materno1V" class="col-sm-2">{{oContacto.Contacto1ApellidoMaterno}}</label>
+                    </div>
+                  </div>
+        
+                  <div class="row mb-3">
+                    <label for="email1" class="col-sm-3 col-form-label">Email:</label>
+                    <div class="col-sm-10">
+                      <label for="emial1V" class="col-sm-2">{{oContacto.Contacto1Email}}</label>
+                    </div>
+                  </div>
+        
+                  <div class="row mb-3">
+                    <label for="nombre2" class="col-sm-3 col-form-label">Nombre:</label>
+                    <div class="col-sm-10">
+                      <label for="nombre2V" class="col-sm-2">{{oContacto.Contacto2Nombre}}</label>
+                    </div>
+                  </div>
+        
+                  <div class="row mb-3">
+                    <label for="paterno2" class="col-sm-3 col-form-label">Apellido paterno:</label>
+                    <div class="col-sm-10">
+                      <label for="paterno2V" class="col-sm-2">{{oContacto.Contacto2ApellidoPaterno}}</label>
+                    </div>
+                  </div>
+        
+                  <div class="row mb-3">
+                    <label for="materno2" class="col-sm-3 col-form-label">Apellido materno:</label>
+                    <div class="materno2V">
+                      <label for="cliente" class="col-sm-2">{{oContacto.Contacto2ApellidoMaterno}}</label>
+                    </div>
+                  </div>
+        
+                  <div class="row mb-3">
+                    <label for="email2" class="col-sm-3 col-form-label">Email:</label>
+                    <div class="col-sm-10">
+                      <label for="email2V" class="col-sm-2">{{oContacto.Contacto2Email}}</label>
+                    </div>
+                  </div>
+
                 </div>
               </div>
-    
-              <div class="row mb-3">
-                <label for="paterno1" class="col-sm-3 col-form-label"
-                  >Apellido paterno:</label
-                >
-                <div class="col-sm-10">
-                  <label for="paterno1V" class="col-sm-2">{{oContacto.Contacto1ApellidoPaterno}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="materno1" class="col-sm-3 col-form-label"
-                  >Apellido materno:</label
-                >
-                <div class="col-sm-10">
-                  <label for="materno1V" class="col-sm-2">{{oContacto.Contacto1ApellidoMaterno}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="email1" class="col-sm-3 col-form-label"
-                  >Email:</label
-                >
-                <div class="col-sm-10">
-                  <label for="emial1V" class="col-sm-2">{{oContacto.Contacto1Email}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="nombre2" class="col-sm-3 col-form-label"
-                  >Nombre:</label
-                >
-                <div class="col-sm-10">
-                  <label for="nombre2V" class="col-sm-2">{{oContacto.Contacto2Nombre}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="paterno2" class="col-sm-3 col-form-label"
-                  >Apellido paterno:</label
-                >
-                <div class="col-sm-10">
-                  <label for="paterno2V" class="col-sm-2">{{oContacto.Contacto2ApellidoPaterno}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="materno2" class="col-sm-3 col-form-label"
-                  >Apellido materno:</label
-                >
-                <div class="materno2V">
-                  <label for="cliente" class="col-sm-2">{{oContacto.Contacto2ApellidoMaterno}}</label>
-                </div>
-              </div>
-    
-              <div class="row mb-3">
-                <label for="email2" class="col-sm-3 col-form-label"
-                  >Email:</label
-                >
-                <div class="col-sm-10">
-                  <label for="email2V" class="col-sm-2">{{oContacto.Contacto2Email}}</label>
-                </div>
-              </div>
-    
+            </div>
+
+            
+
           </div>
-          </div>
-  
-  
-    </div>
-  
-    <div *ngIf="stipo == '2'">
-      <h4>Expediente</h4>
-    </div>
-  </div>
-  
+
+        </div>
+        
+        <div *ngIf="stipo == '2'">
+          <h4>Expediente</h4>
+        </div>
+
+      </div>
+      
+
+      
+  </section>
+
+    
+  </mat-sidenav-container>
+</div>
+
+<div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>
+
+
+
+
+
+<!-- Copyright 2022 Google LLC. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at https://angular.io/license -->
+

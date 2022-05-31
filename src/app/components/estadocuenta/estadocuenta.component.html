@@ -1,1 +1,113 @@
-<p>estadocuenta works!</p>
+
+<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
+    <mat-toolbar >
+      <button class="btn btn-primary" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+      <div class="cat ">
+        <a href="#">
+          <img  src="../../../assets/images/principal/logo_fonelli.png"  >
+        </a>      
+      </div>
+      <button (click)="EliminaSesion()" class="btn btn-primary btn-sm ml-auto">Cerrar Sesión</button>
+    </mat-toolbar>
+  
+    <mat-sidenav-container class="example-sidenav-container"
+                           [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+        <mat-nav-list>
+        
+          <a mat-list-item [routerLink]="['/distribuidores/']">Inicio</a>
+          <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']">Datos generales de Clientes</a>
+          <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']">Consulta de Precios</a>
+          <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']">Consulta de Pedidos</a>
+          <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']">Relación de Pedidos</a>
+          <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']">Estado de Cuenta</a>
+          <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Cliente y Artículo</a>
+          <a mat-list-item href="http://www.catalogofonelli.com.mx/" target="_blank">Catálogo de Joyería</a>
+        </mat-nav-list>
+      </mat-sidenav>
+  
+  
+      
+      <section >
+        <div class="row">
+          <div class="col-lg-6">
+  
+            <div class="card">
+              <div class="card-body">
+                <h2 class="card-title" >Estado de cuenta</h2>
+  
+                <!-- General Form Elements -->
+                <form>
+  
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="inputEmail4">Desde cliente</label>
+                          <input type="email" class="form-control" id="inputEmail4" placeholder="">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="inputPassword4">Filial</label>
+                          <input type="password" class="form-control" id="inputPassword" placeholder="0">
+                        </div>
+  
+                        
+                    </div>
+  
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="inputEmail4">Hasta cliente</label>
+                          <input type="password" class="form-control" id="inputPassword" placeholder="99999">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="inputPassword4">Filial</label>
+                          <input type="text" class="form-control" id="" placeholder="99">
+                        </div>
+                    </div>
+  
+                  
+  
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="inputEmail4">Desde cartera</label>
+                          <input type="email" class="form-control" id="inputEmail4" placeholder="">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="inputPassword4">Hasta cartera</label>
+                          <input type="text" class="form-control" id="" placeholder="Z">
+                        </div>
+                    </div>
+  
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <button type="submit" class="btn btn-primary">BUSCAR</button>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <button type="submit" class="btn btn-primary">CATALOGO DE CLIENTES</button>
+                      </div>
+                    </div>            
+  
+  
+                  
+  
+                  
+                </form><!-- End General Form Elements --> 
+              </div> 
+            </div>
+          </div>
+        </div>
+      </section>
+  
+  
+      
+    </mat-sidenav-container>
+  </div>
+  
+  <div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>
+  
+  
+  
+  
+  
+  <!-- Copyright 2022 Google LLC. All Rights Reserved.
+      Use of this source code is governed by an MIT-style license that
+      can be found in the LICENSE file at https://angular.io/license -->

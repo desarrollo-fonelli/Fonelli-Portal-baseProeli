@@ -10,6 +10,9 @@ import { Contacto } from './models/contacto';
 import { LoginDistribuidor } from './models/loginDistribuidor';
 import { LoginEjecutivo } from './models/loginEjecutivo';
 
+
+
+
 //Servicios
 import { ServicioContacto } from './services/contacto.service';
 import { ServicioLoginDistribuidor } from './services/loginDistribuidor.service';
@@ -66,9 +69,6 @@ export class AppComponent {
   }
 
 
-  obtenMenu(){
-    return sessionStorage.getItem('idMenu');
-  }
   
 
  

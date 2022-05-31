@@ -39,12 +39,12 @@ const appRoutes: Routes = [
     {path:"ejecutivos/consultainactivos/",component:ConsultainactivosComponent},
 
     {path:"distribuidores/datoscliente",component:DatosclientesComponent},
-    {path:"distribuidores/consultaprecios/",component:ConsultapreciosComponent},
-    {path:"distribuidores/consultapedidos/",component:ConsultapedidosComponent},
-    {path:"distribuidores/relacionpedidos/",component:RelacionpedidosComponent},
-    {path:"distribuidores/estadocuenta/",component:EstadocuentaComponent},
-    {path:"distribuidores/ventasclientearticulo/",component:VentasclientearticuloComponent},
-    {path:"distribuidores/reporteventas/",component:ReporteventasComponent},
+    {path:"distribuidores/consultaprecios",component:ConsultapreciosComponent},
+    {path:"distribuidores/consultapedidos",component:ConsultapedidosComponent},
+    {path:"distribuidores/relacionpedidos",component:RelacionpedidosComponent},
+    {path:"distribuidores/estadocuenta",component:EstadocuentaComponent},
+    {path:"distribuidores/ventasclientearticulo",component:VentasclientearticuloComponent},
+    {path:"distribuidores/reporteventas",component:ReporteventasComponent},
 
     {path:"**",component:ErrorComponent}
 ];

@@ -6,7 +6,7 @@ import {MediaMatcher} from '@angular/cdk/layout';
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.css']
 })
-export class SidenavComponent implements OnDestroy {
+export class SidenavComponent implements OnInit {
  
 
   mobileQuery: MediaQueryList;
@@ -33,7 +33,7 @@ export class SidenavComponent implements OnDestroy {
    
   }
 
-  ngOnDestroy(): void {
+  ngOnInit(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
 
