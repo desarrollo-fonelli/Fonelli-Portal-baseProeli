@@ -17,13 +17,13 @@
                    [opened]="mobileQuery.matches ? 'false' : 'true'">
         <mat-nav-list>
         
-          <a mat-list-item [routerLink]="['/distribuidores/']">Inicio</a>
-          <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']">Datos generales de Clientes</a>
-          <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']">Consulta de Precios</a>
-          <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']">Consulta de Pedidos</a>
-          <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']">Relación de Pedidos</a>
-          <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']">Estado de Cuenta</a>
-          <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Artículo</a>
+          <a mat-list-item [routerLink]="['/distribuidores/']"> <span class="font_side">Inicio</span></a>
+          <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"><span class="font_side">Datos generales de Clientes</span></a>
+          <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"><span class="font_side">Consulta de Precios</span></a>
+          <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']"><span class="font_side">Consulta de Pedidos</span></a>
+          <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"><span class="font_side">Relación de Pedidos</span></a> 
+          <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"><span class="font_side">Estado de Cuenta</span></a>
+          <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"><span class="font_side">Ventas por Artículo</span></a>
           
         </mat-nav-list>
       </mat-sidenav>
@@ -51,6 +51,7 @@
                             name="idDesCli"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.ClienteDesde"
+                            disabled="{{ bCliente }}"
                             required
                           >
                         </div>
@@ -63,6 +64,7 @@
                             name="idDesFil"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.FiliadDesde"
+                            disabled="{{ bCliente }}"
                             required
                           >
                         </div>
@@ -80,6 +82,7 @@
                             name="idHasCli"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.ClienteHasta"
+                            disabled="{{ bCliente }}"
                             required
                           >
                         </div>
@@ -92,6 +95,7 @@
                             name="idHasFil"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.FilialHasta"
+                            disabled="{{ bCliente }}"
                             required
                           >
                         </div>
@@ -101,7 +105,7 @@
   
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                          <label>Desde cartera</label>
+                          <label  hidden="{{ bCliente }}">Desde cartera</label>
                           <input 
                             type="text" 
                             id="idDesCar"
@@ -109,11 +113,12 @@
                             name="idDesCar"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.CarteraDesde"
+                            hidden="{{ bCliente }}"
                             required
                           >
                         </div>
                         <div class="form-group col-md-6">
-                          <label>Hasta cartera</label>
+                          <label  hidden="{{ bCliente }}">Hasta cartera</label>
                           <input 
                             type="text" 
                             id="idHasCar"
@@ -121,6 +126,7 @@
                             name="idHasCar"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.CarteraHasta"
+                            hidden="{{ bCliente }}"
                             required
                           >
                         </div>
@@ -131,7 +137,7 @@
                             <button type="submit" (click)="consultaEstadoCuenta()" class="btn btn-primary">BUSCAR</button>
                         </div>
                         <div class="form-group col-md-6">
-                          <button type="submit"  class="btn btn-primary">CATALOGO DE CLIENTES</button>
+                          <button hidden="{{ bCliente }}" type="submit"  class="btn btn-primary">CATALOGO DE CLIENTES</button>
                       </div>
                     </div>            
   
@@ -144,6 +150,70 @@
             </div>
           </div>
         </div>
+
+        <div *ngIf="bBandera" class="table-responsive-sm">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Oficina</th>
+                <th>Folio</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let cliente of oCliente ">
+                <tr>
+                  <td>{{cliente.ClienteCodigo+'-'+cliente.ClienteFilial}}</td>
+                </tr>
+                <ng-container *ngFor="let cartera of cliente.TipoCartera; let idx2 = index">
+               <tr>
+                  <td></td>
+                  <td>{{cartera.TipoCarteraCodigo}}</td>
+                  <td>{{cartera.TipoCarteraDescripc}}</td>
+                  <td></td>
+                </tr>
+                <tr *ngFor="let movimento of cartera.Movimientos; let idx3 = index">
+                  <!-- <td>{{idx1 + '-' + idx2 + '-' + idx3 }}</td> -->
+                  <td>{{ movimento.OficinaFonelliCodigo}}</td>
+                  <td>{{ movimento.DocumentoFolio}}</td>
+                  <td>{{movimento.Saldo}}</td>
+                </tr>
+                  <tr>
+                      <th></th>
+                      <th></th>
+                    <th>Sum</th>
+                    <th>{{getTotalCuenta(cartera.Movimientos)}}</th>
+                  </tr> 
+           
+          
+          
+              </ng-container>
+             
+                  <tr>
+                      <th></th>
+                      <th></th>
+                    <th>Sum</th>
+                    <th>{{getTotalCliente(cliente)}}<th>
+                  </th> 
+              
+              </ng-container>
+              
+            </tbody>
+          
+                  <!-- <tr>
+                      <th></th>
+                      <th></th>
+                    <th>Sum</th>
+                    <th>{{getTotal}}</th>
+                  </tr>
+               -->
+               
+          </table>
+
+
+      </div> 
+
       </section>
   
   

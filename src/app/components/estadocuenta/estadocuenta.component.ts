@@ -5,6 +5,8 @@ import {MediaMatcher} from '@angular/cdk/layout';
 //Modelos
 import {FiltrosEstadoCuenta} from 'src/app/models/estadocuenta.filtros';
 import {EstadoCuenta} from 'src/app/models/estadocuenta';
+import {Cliente} from 'src/app/models/estadocuenta';
+import {Movimiento} from 'src/app/models/estadocuenta'
 
 //Servicios
 import { ServicioEstadoCuenta } from 'src/app/services/estadocuenta.service';
@@ -24,10 +26,13 @@ export class EstadocuentaComponent implements OnInit {
 
   public oBuscar: FiltrosEstadoCuenta;
   oEdoCuentaRes: EstadoCuenta; 
+  oCliente : Cliente[];
 
 
   public bError: boolean=false;
   public sMensaje: string="";
+  public bCliente: boolean;
+  bBandera: boolean;
 
   mobileQuery: MediaQueryList;
 
@@ -59,10 +64,16 @@ export class EstadocuentaComponent implements OnInit {
     this.sFilial  = Number(sessionStorage.getItem('filial'));
     this.sNombre = sessionStorage.getItem('nombre');
 
+    this.bCliente = false;
+    this.bBandera = false;
 
-      //Inicializamos variables consulta pedidos
-      this.oBuscar = new FiltrosEstadoCuenta('',0,0,0,0,0,'','',0)
-      this.oEdoCuentaRes={} as EstadoCuenta;  
+
+
+    //Inicializamos variables consulta pedidos
+    this.oBuscar = new FiltrosEstadoCuenta('',0,0,0,0,0,'','',0)
+    this.oEdoCuentaRes={} as EstadoCuenta;  
+    this.oCliente = [];
+    
       
     }
 
@@ -82,6 +93,30 @@ export class EstadocuentaComponent implements OnInit {
         console.log('ingresa VALIDACION');
         this._router.navigate(['/']);
       }
+
+      switch(sTipo) { 
+        case 'C':{    
+          //Tipo cliente
+           this.oBuscar.ClienteDesde = sCodigo; 
+           this.oBuscar.ClienteHasta = sCodigo;   
+           this.oBuscar.CarteraHasta= 'Z';   
+           this.bCliente = true;    
+           break; 
+        } 
+        case 'A': { 
+           //statements; 
+           break; 
+        } 
+        default: { 
+           //statements; 
+           break; 
+        } 
+     } 
+
+    // this.oCliente = this.json.Contenido.Clientes;
+
+    //this.oCliente = this.json.Contenido.Clientes;
+
     }
 
     shouldRun = true;
@@ -118,7 +153,9 @@ consultaEstadoCuenta(){
           return;
         }
 
+        this.oCliente = this.oEdoCuentaRes.Contenido.Clientes;
         this.sMensaje="";
+        this.bBandera = true;
       
         //this.collectionSize = this.oEdoCuentaRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
 
@@ -134,6 +171,38 @@ consultaEstadoCuenta(){
     );
 
   }
+
+  oCulta(): string {
+    if (this.bCliente){
+      return "hidden";
+    }else{
+      return '';
+    }
+  }
+
+
+  getTotalCuenta(Movimientos: Movimiento[]): number {
+
+    let total = Movimientos.map(item => item.Saldo).reduce((total,actual) => total + actual,0);
+
+    return total;
+   }
+
+   getTotalCliente(ocliente: Cliente): number {
+    
+    let total = 0;
+
+    ocliente.TipoCartera.forEach(function(cartera){
+
+      total += cartera.Movimientos.map(item => item.Saldo).reduce((total,actual) => total + actual,0);
+    });
+
+
+
+    ;
+    return total;
+   }
+
 
     
 //Funcion para cerrar sesion y redireccionar al home

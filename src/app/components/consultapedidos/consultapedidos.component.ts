@@ -127,7 +127,7 @@ export class ConsultapedidosComponent implements OnInit {
     console.log("consultaPedido");
 
     //Inicializamos el tipo de usuario por el momento
-    this.oBuscar.TipoUsuario = "C" 
+    this.oBuscar.TipoUsuario = this.sTipo
 
     console.log(this.oBuscar.ClienteCodigo);
     console.log(this.oBuscar.ClienteFilial);

@@ -106,17 +106,14 @@ export class HeaderComponent implements OnInit {
   }
 
   ConsultarLDistribuidor() {
-    console.log(this.ModeloLoginDistribuidor);
-
-    let filialAux = this.ModeloLoginDistribuidor.codigo.split('-');
-
-    
-
+  
     let ModeloLoginDistribuidorAux: LoginDistribuidor;
-    ModeloLoginDistribuidorAux =this.ModeloLoginDistribuidor;
-
+    ModeloLoginDistribuidorAux = new LoginDistribuidor('','',''); 
+    let filialAux = this.ModeloLoginDistribuidor.codigo.split('-');
     ModeloLoginDistribuidorAux.codigo=filialAux[0];
     ModeloLoginDistribuidorAux.filial=filialAux[1];
+
+    ModeloLoginDistribuidorAux.password = this.ModeloLoginDistribuidor.password;
 
     //Se realiza login con datos enviados
     this._servicioLoginDistribuidor
@@ -141,10 +138,10 @@ export class HeaderComponent implements OnInit {
               console.log(this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString());
               
            
-              this.saveData(ModeloLoginDistribuidorAux.codigo.toString(),ModeloLoginDistribuidorAux.filial.toString(),this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString(),'1')
+              this.saveData(ModeloLoginDistribuidorAux.codigo.toString(),ModeloLoginDistribuidorAux.filial.toString(),this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString(),'C')
 
               this.ModalActivo?.close();
-              sessionStorage.setItem('idMenu', '2');              
+              
               this._router.navigate(['/distribuidores']);
               //location.reload();
 

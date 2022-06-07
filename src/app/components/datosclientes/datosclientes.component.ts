@@ -60,7 +60,7 @@ export class DatosclientesComponent implements OnInit {
               private _router: Router,
               private _servicioCClientes: ServicioClientes, changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) { 
 
-                this.bMostrarDatos = true;
+                this.bMostrarDatos = false;
                 this.bCliente = false;
                 this.stipo="";
             
@@ -97,12 +97,14 @@ export class DatosclientesComponent implements OnInit {
    
 
     
-    if(sTipo =='1'){
-      console.log('2');
+    if(sTipo =='C'){
+      console.log('Cliente');
       this.bCliente = true;
       
       this.Buscar.ClienteCodigo=sCodigo;
       this.Buscar.ClienteFilial=sFilial;
+
+   
       
       
             }
@@ -143,6 +145,7 @@ console.log("ConsultaCliente");
         this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
         this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
         this.oContacto =this.oCliente.Contenido[0].Contactos;
+        this.bMostrarDatos=true;
      
       },
       (error:Clientes) => {
