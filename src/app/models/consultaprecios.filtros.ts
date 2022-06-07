@@ -1,4 +1,4 @@
-class FiltrosConsultaclientes {
+export class FiltrosConsultaPrecios {
   constructor(
     public Usuario: number,
     public ClienteCodigo: number,

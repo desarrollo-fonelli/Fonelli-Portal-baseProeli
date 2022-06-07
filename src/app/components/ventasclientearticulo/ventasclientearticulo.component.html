@@ -13,17 +13,18 @@
     <mat-sidenav-container class="example-sidenav-container"
                            [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
       <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
+                   [opened]="mobileQuery.matches ? 'false' : 'true'">
         <mat-nav-list>
         
-          <a mat-list-item routerLink=".">Inicio</a>
+          <a mat-list-item [routerLink]="['/distribuidores/']">Inicio</a>
           <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']">Datos generales de Clientes</a>
           <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']">Consulta de Precios</a>
           <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']">Consulta de Pedidos</a>
           <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']">Relación de Pedidos</a>
           <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']">Estado de Cuenta</a>
-          <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Cliente y Artículo</a>
-          <a mat-list-item href="http://www.catalogofonelli.com.mx/" target="_blank">Catálogo de Joyería</a>
+          <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Artículo</a>
+          
         </mat-nav-list>
       </mat-sidenav>
   
@@ -44,72 +45,201 @@
                     <div class="col-md-1 col-md-1">
                       <br>
                       <br>
-                      <label for="inputPassword4">Desde</label>
+                      <label >Desde</label>
                     </div>
 
                         <div class="form-group col-md-1">
-                          <label for="inputEmail4">Oficina</label>
-                          <input type="email" class="form-control" id="inputEmail4" placeholder="">
+                          <label>Oficina</label>
+                          <input 
+                            type="text" 
+                            id="idOfiDes"
+                            class="form-control"
+                            name="idOfiDes"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.OficinaDesde"
+                            required
+                          >
                         </div>
                         <div class="form-group col-md-2">
-                          <label for="inputPassword4">Fecha</label>
-                          <input type="date" class="form-control" id="inputPassword" placeholder="">
+                          <label >Fecha</label>
+                          <input 
+                            type="text" 
+                            id="idFecDes"
+                            class="form-control"
+                            name="idFecDes"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.FechaDesde"
+                            required
+                          >
                         </div>
                         <div class="form-group col-md-2">
-                          <label for="inputPassword4">Num</label>
-                          <input type="text" class="form-control" id="inputPassword" placeholder="">
+                          <label >Num</label>
+                          <input 
+                            type="text" 
+                            id="idNumDes"
+                            class="form-control"
+                            name="idNumDes"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.ClienteDesde"
+                            required
+                          >
                         </div>
                         <div class="form-group col-md-1">
-                          <label for="inputPassword4">Fil</label>
-                          <input type="text" class="form-control" id="inputPassword" placeholder="">
+                          <label>Fil</label>
+                          <input 
+                            type="text" 
+                            id="idFilDes"
+                            class="form-control"
+                            name="idFilDes"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.FilialDesde"
+                            required
+                          >
                         </div>
                         <div class="form-group col-md-1">
-                          <label for="inputPassword4">Línea</label>
-                          <input type="text" class="form-control" id="inputPassword" placeholder="">
-                        </div>
-                        <div class="form-group col-md-2">
-                          <label for="inputPassword4">Clave</label>
-                          <input type="text" class="form-control" id="inputPassword" placeholder="">
+                          <label >Línea</label>
+                          <input 
+                            type="text" 
+                            id="idLinDes"
+                            class="form-control"
+                            name="idLinDes"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.LineaDesde"
+                            required
+                          >
                         </div>
                         <div class="form-group col-md-1">
-                          <label for="inputPassword4">Categoria</label>
-                          <input type="text" class="form-control" id="inputPassword" placeholder="">
+                          <label>Clave</label>
+                          <input 
+                            type="text" 
+                            id="idClvDes"
+                            class="form-control"
+                            name="idClvDes"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.ClaveDesde"
+                            required
+                          >
                         </div>
                         <div class="form-group col-md-1">
-                          <label for="inputPassword4">SubCategoria</label>
-                          <input type="text" class="form-control" id="inputPassword" placeholder="">
+                          <label>Categoria</label>
+                          <input 
+                            type="text" 
+                            id="idCatDes"
+                            class="form-control"
+                            name="idCatDes"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.CategoriaDesde"
+                            required
+                          >
+                        </div>
+                        <div class="form-group col-md-1">
+                          <label >SubCategoria</label>
+                          <input 
+                            type="text" 
+                            id="idSucaDes"
+                            class="form-control"
+                            name="idSucaDes"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.SubcategoriaDesde"
+                            required
+                          >
                         </div>
                     </div>
 
                     <div class="form-row">                   
                      
                       <div class="col-md-1">                        
-                        <label for="inputPassword4">Hasta</label>
+                        <label>Hasta</label>
                       </div>
 
                       <div class="form-group col-md-1">
-                        <input type="email" class="form-control" id="inputEmail4" placeholder="">
+                        <input 
+                            type="text" 
+                            id="idOfiHas"
+                            class="form-control"
+                            name="idOfiHas"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.OficinaHasta"
+                            required
+                          >
                       </div>
                       <div class="form-group col-md-2">
-                        <input type="date" class="form-control" id="inputPassword" placeholder="">
+                        <input 
+                          type="text" 
+                          id="idFecHas"
+                          class="form-control"
+                          name="idFecHas"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.FechaHasta"
+                          required
+                        >
                       </div>
                       <div class="form-group col-md-2">
-                        <input type="text" class="form-control" id="inputPassword" placeholder="">
+                        
+                        <input 
+                          type="text" 
+                          id="idNumHas"
+                          class="form-control"
+                          name="idNumHas"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.ClienteHasta"
+                          required
+                        >
                       </div>
                       <div class="form-group col-md-1">
-                        <input type="text" class="form-control" id="inputPassword" placeholder="">
+                        <input 
+                          type="text" 
+                          id="idFilHas"
+                          class="form-control"
+                          name="idFilHas"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.FilialHasta"
+                          required
+                        >
                       </div>
                       <div class="form-group col-md-1">
-                        <input type="text" class="form-control" id="inputPassword" placeholder="">
-                      </div>
-                      <div class="form-group col-md-2">
-                        <input type="text" class="form-control" id="inputPassword" placeholder="">
+                        <input 
+                          type="text" 
+                          id="idLinHas"
+                          class="form-control"
+                          name="idLinHas"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.LineaHasta"
+                          required
+                        >
                       </div>
                       <div class="form-group col-md-1">
-                        <input type="text" class="form-control" id="inputPassword" placeholder="">
+                        <input 
+                          type="text" 
+                          id="idClvHas"
+                          class="form-control"
+                          name="idClvHas"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.ClaveHasta"
+                          required
+                        >
                       </div>
                       <div class="form-group col-md-1">
-                        <input type="text" class="form-control" id="inputPassword" placeholder="">
+                        <input 
+                          type="text" 
+                          id="idCatHas"
+                          class="form-control"
+                          name="idCatHas"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.CategoriaHasta"
+                          required
+                        >
+                      </div>
+                      <div class="form-group col-md-1">
+                        <input 
+                          type="text" 
+                          id="idSucaHas"
+                          class="form-control"
+                          name="idSucatHas"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.SubcategoriaHasta"
+                          required
+                        >
                       </div>
                   </div>
   
@@ -181,7 +311,7 @@
   
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <button type="submit" class="btn btn-primary">BUSCAR</button>
+                            <button type="submit" (click)="consultaVentCArticulo()" class="btn btn-primary">BUSCAR</button>
                         </div>
                     </div>            
   

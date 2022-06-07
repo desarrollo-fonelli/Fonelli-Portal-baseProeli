@@ -29,11 +29,18 @@ Get(FiltrosConPedidos: any): Observable<any>{
 
 
 
-    return this._http.get(this.API + 'reportes/ConsultaPedidos.php?'+
+    /*return this._http.get(this.API + 'reportes/ConsultaPedidos.php?'+
                           'ClienteCodigo='+ FiltrosConPedidos. ClienteCodigo +
                           '&ClienteFilial='+ FiltrosConPedidos. ClienteFilial +
                           '&Estatus='+ FiltrosConPedidos.Estatus +
                           '&Pagina='+ FiltrosConPedidos.Pagina,
+                          {headers:headers});*/
+
+    return this._http.get(this.API + 'reportes/ConsultaPedidos.php?'+
+                          'TipoUsuario='+ FiltrosConPedidos.TipoUsuario +
+                          '&ClienteCodigo='+ FiltrosConPedidos.ClienteCodigo +
+                          '&ClienteFilial='+ FiltrosConPedidos.ClienteFilial +
+                          '&Status='+ FiltrosConPedidos.Status,                         
                           {headers:headers});
 }
 

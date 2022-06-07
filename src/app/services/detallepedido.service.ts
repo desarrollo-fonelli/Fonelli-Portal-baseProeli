@@ -29,8 +29,16 @@ Get(FiltrosDetPedido: any): Observable<any>{
 
 
 
-    return this._http.get(this.API + 'Reportes/DetallePedido.php?'+
+    /*return this._http.get(this.API + 'Reportes/DetallePedido.php?'+
                           'PedidoLetra='+ FiltrosDetPedido.PedidoLetra +
+                          '&PedidoFolio=' + FiltrosDetPedido.PedidoFolio
+                          ,{headers:headers});*/
+
+    return this._http.get(this.API + 'Reportes/DetallePedido.php?'+
+                          'TipoUsuario='+ FiltrosDetPedido.TipoUsuario +
+                          '&ClienteCodigo='+ FiltrosDetPedido.ClienteCodigo +
+                          '&ClienteFilial='+ FiltrosDetPedido.ClienteFilial +
+                          '&PedidoLetra='+ FiltrosDetPedido.PedidoLetra +
                           '&PedidoFolio=' + FiltrosDetPedido.PedidoFolio
                           ,{headers:headers});
 }

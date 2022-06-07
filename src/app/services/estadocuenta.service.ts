@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Configuracion } from "src/app/models/configuraciones";
+import { TipoCliente } from '../models/tipocliente';
 
 
 
@@ -31,13 +32,14 @@ Get(FiltrosEstadoCuenta: any): Observable<any>{
 
 
     return this._http.get(this.API + 'Reportes/EstadoCuenta.php?'+
-                        'ClienteDesde=' + FiltrosEstadoCuenta.ClienteDesde +
-                        '&FiliadDesde=' + FiltrosEstadoCuenta.FiliadDesde +
+                        'TipoUsuario=' + FiltrosEstadoCuenta.TipoUsuario +                        
+                        '&ClienteDesde=' + FiltrosEstadoCuenta.ClienteDesde +
+                        '&FilialDesde=' + FiltrosEstadoCuenta.FiliadDesde +
                         '&ClienteHasta=' + FiltrosEstadoCuenta.ClienteHasta +
-                        '&FilialHasta=' + FiltrosEstadoCuenta.FiliadDesde +
+                        '&FilialHasta=' + FiltrosEstadoCuenta.FilialHasta +
                         '&CarteraDesde=' + FiltrosEstadoCuenta.CarteraDesde +
-                        '&CarteraHasta=' + FiltrosEstadoCuenta.ClienteHasta +
-                        '&Pagina=' + FiltrosEstadoCuenta.Pagina
+                        '&CarteraHasta=' + FiltrosEstadoCuenta.CarteraHasta 
+                        //'&Pagina=' + FiltrosEstadoCuenta.Pagina
                           ,{headers:headers});
 }
 

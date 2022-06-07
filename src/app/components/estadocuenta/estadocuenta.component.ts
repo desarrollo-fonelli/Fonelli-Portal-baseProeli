@@ -2,12 +2,32 @@ import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 
+//Modelos
+import {FiltrosEstadoCuenta} from 'src/app/models/estadocuenta.filtros';
+import {EstadoCuenta} from 'src/app/models/estadocuenta';
+
+//Servicios
+import { ServicioEstadoCuenta } from 'src/app/services/estadocuenta.service';
+
 @Component({
   selector: 'app-estadocuenta',
   templateUrl: './estadocuenta.component.html',
-  styleUrls: ['./estadocuenta.component.css']
+  styleUrls: ['./estadocuenta.component.css'],
+  providers:[ServicioEstadoCuenta]
 })
 export class EstadocuentaComponent implements OnInit {
+
+  sCodigo :number | null;
+  sTipo :string | null;
+  sFilial :number | null;
+  sNombre :string | null;
+
+  public oBuscar: FiltrosEstadoCuenta;
+  oEdoCuentaRes: EstadoCuenta; 
+
+
+  public bError: boolean=false;
+  public sMensaje: string="";
 
   mobileQuery: MediaQueryList;
 
@@ -26,11 +46,26 @@ export class EstadocuentaComponent implements OnInit {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
-    private _router: Router) { 
-      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    private _router: Router,
+    private _servicioEdoCuenta: ServicioEstadoCuenta) { 
+
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
+
+
+    this.sCodigo = Number(sessionStorage.getItem('codigo'));
+    this.sTipo = sessionStorage.getItem('tipo');
+    this.sFilial  = Number(sessionStorage.getItem('filial'));
+    this.sNombre = sessionStorage.getItem('nombre');
+
+
+      //Inicializamos variables consulta pedidos
+      this.oBuscar = new FiltrosEstadoCuenta('',0,0,0,0,0,'','',0)
+      this.oEdoCuentaRes={} as EstadoCuenta;  
+      
     }
+
 
     ngOnInit(): void {
       this.mobileQuery.removeListener(this._mobileQueryListener);
@@ -50,6 +85,55 @@ export class EstadocuentaComponent implements OnInit {
     }
 
     shouldRun = true;
+
+
+    
+//Funcion para consultar estado de cuenta
+consultaEstadoCuenta(){
+    console.log(this.oBuscar);
+
+    this.oBuscar.TipoUsuario = "C" 
+    console.log(this.oBuscar);
+
+    //Realizamos llamada al servicio de pedidos
+    this._servicioEdoCuenta     
+    
+
+    .Get(this.oBuscar)
+    .subscribe(
+      (Response: EstadoCuenta) => {
+
+        this.oEdoCuentaRes = Response;
+        //this.pedido = this.oEdoCuentaRes.Contenido.Pedidos
+               
+
+        //console.log( this.collectionSize);
+        console.log("Resuesta: "+JSON.stringify(this.oEdoCuentaRes ));
+        //console.log(this.pedido);
+
+        if(this.oEdoCuentaRes.Codigo != 0){
+          //this.bError= true;
+          this.sMensaje="No se encontraron datos del estado de cuenta";
+        
+          return;
+        }
+
+        this.sMensaje="";
+      
+        //this.collectionSize = this.oEdoCuentaRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
+
+      },
+      (error:EstadoCuenta) => {
+
+        this.oEdoCuentaRes = error;
+
+        console.log("error");
+        console.log(this.oEdoCuentaRes);
+      
+      }
+    );
+
+  }
 
     
 //Funcion para cerrar sesion y redireccionar al home

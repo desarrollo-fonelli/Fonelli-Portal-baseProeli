@@ -2,12 +2,29 @@ import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 
+
+//Modelos
+import {FiltrosVentaArticuloCliente} from 'src/app/models/ventasclientearticulo.filtros';
+import {VentasClienteArticulo} from 'src/app/models/ventasclientearticulo';
+
+//Servicios
+import { ServicioVentasClienteArticulo } from 'src/app/services/ventasclientearticulo.service';
+
 @Component({
   selector: 'app-ventasclientearticulo',
   templateUrl: './ventasclientearticulo.component.html',
-  styleUrls: ['./ventasclientearticulo.component.css']
+  styleUrls: ['./ventasclientearticulo.component.css'],
+  providers:[ServicioVentasClienteArticulo]
 })
 export class VentasclientearticuloComponent implements OnInit {
+
+  sCodigo :number | null;
+  sTipo :string | null;
+  sFilial :number | null;
+  sNombre :string | null;
+
+  public oBuscar: FiltrosVentaArticuloCliente;
+  oVentasCliRes: VentasClienteArticulo; 
 
   mobileQuery: MediaQueryList;
 
@@ -26,30 +43,39 @@ export class VentasclientearticuloComponent implements OnInit {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
-    private _router: Router) { 
+    private _router: Router,
+    private _servicioVenClientes: ServicioVentasClienteArticulo) { 
 
       this.mobileQuery = media.matchMedia('(max-width: 600px)');
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
 
+      this.sCodigo = Number(sessionStorage.getItem('codigo'));
+      this.sTipo = sessionStorage.getItem('tipo');
+      this.sFilial  = Number(sessionStorage.getItem('filial'));
+      this.sNombre = sessionStorage.getItem('nombre');
+  
+      //Inicializamos variables consulta pedidos
+      this.oBuscar = new FiltrosVentaArticuloCliente(0,'','','','',0,0,0,0,'','','','','','','','','','','','','','',0)
+      this.oVentasCliRes={} as VentasClienteArticulo; 
+
     }
 
     ngOnInit(): void {
-
-      const sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-      const sTipo :string | null = sessionStorage.getItem('tipo');
-      const sFilial :number | null = Number(sessionStorage.getItem('filial'));
-      const sNombre :string | null = sessionStorage.getItem('nombre');
-  
   
       //Se agrega validacion control de sesion distribuidores
-      if(!sCodigo) {
+      if(!this.sCodigo) {
         console.log('ingresa VALIDACION');
         this._router.navigate(['/']);
       }
     }
 
     shouldRun = true;
+
+    //Funcion para consultar las ventas cliente articulo 
+    consultaVentCArticulo(){
+    console.log(this.oBuscar);
+  }
 
     
 //Funcion para cerrar sesion y redireccionar al home

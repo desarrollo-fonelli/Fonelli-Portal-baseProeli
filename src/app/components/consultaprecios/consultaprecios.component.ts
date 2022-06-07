@@ -2,13 +2,30 @@ import { Component, OnInit,ChangeDetectorRef, OnDestroy } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 
+//Modelos
+import {FiltrosConsultaPrecios} from 'src/app/models/consultaprecios.filtros';
+import {ConsultaPrecios} from 'src/app/models/consultaprecios';
+
+//Servicios
+import { ServicioConsultaPrecios } from 'src/app/services/consultaprecios.service';
+
+
 @Component({
   selector: 'app-consultaprecios',
   templateUrl: './consultaprecios.component.html',
-  styleUrls: ['./consultaprecios.component.css']
+  styleUrls: ['./consultaprecios.component.css'],
+  providers:[ServicioConsultaPrecios]
 })
 export class ConsultapreciosComponent implements OnInit {
  
+  sCodigo :number | null;
+  sTipo :string | null;
+  sFilial :number | null;
+  sNombre :string | null;
+
+  public oBuscar: FiltrosConsultaPrecios;
+  oPreciosRes: ConsultaPrecios;
+   //precios: Pedido[];
 
   mobileQuery: MediaQueryList;
 
@@ -27,7 +44,20 @@ export class ConsultapreciosComponent implements OnInit {
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _route: ActivatedRoute,
-    private _router: Router) {
+    private _router: Router,
+    private _servicioCPrecios: ServicioConsultaPrecios,) {
+
+    this.sCodigo = Number(sessionStorage.getItem('codigo'));
+    this.sTipo = sessionStorage.getItem('tipo');
+    this.sFilial  = Number(sessionStorage.getItem('filial'));
+    this.sNombre = sessionStorage.getItem('nombre')
+
+    //Inicializamos variables consulta precios
+    this.oBuscar = new FiltrosConsultaPrecios(0,0,0,0,'','','')
+    this.oPreciosRes={} as ConsultaPrecios;  
+    //this.pedido = [];
+  
+
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
@@ -38,20 +68,21 @@ export class ConsultapreciosComponent implements OnInit {
   ngOnInit(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
 
-    const sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-    const sTipo :string | null = sessionStorage.getItem('tipo');
-    const sFilial :number | null = Number(sessionStorage.getItem('filial'));
-    const sNombre :string | null = sessionStorage.getItem('nombre');
 
     console.log('ingresa VALIDACION');
     //Se agrega validacion control de sesion distribuidores
-    if(!sCodigo) {
+    if(!this.sCodigo) {
       console.log('ingresa VALIDACION');
       this._router.navigate(['/']);
     }
   }
 
   shouldRun = true;
+
+  //Funcion para consultar los pedidos 
+  consultaPrecios(){
+    console.log(this.oBuscar)
+  }
 
 
 //Funcion para cerrar sesion y redireccionar al home

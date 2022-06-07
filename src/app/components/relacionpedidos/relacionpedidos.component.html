@@ -14,7 +14,9 @@
   <mat-sidenav-container class="example-sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
+                 [opened]="mobileQuery.matches ? 'false' : 'true'">
+                
       <mat-nav-list>
       
         <a mat-list-item [routerLink]="['/distribuidores/']">Inicio</a>
@@ -23,8 +25,8 @@
         <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']">Consulta de Pedidos</a>
         <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']">Relación de Pedidos</a>
         <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']">Estado de Cuenta</a>
-        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Cliente y Artículo</a>
-        <a mat-list-item href="http://www.catalogofonelli.com.mx/" target="_blank">Catálogo de Joyería</a>
+        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Artículo</a>
+        
       </mat-nav-list>
     </mat-sidenav>
 
@@ -42,12 +44,28 @@
   
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label for="inputEmail4">Desde oficina</label>
-                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                        <label >Desde oficina</label>
+                        <input 
+                          type="text" 
+                          id="idDesOfi"
+                          class="form-control"
+                          name="idDesOfi"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.OficinaDesde"
+                          required
+                        >                        
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputPassword4">Hasta oficina</label>
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+                        <label >Hasta oficina</label>
+                        <input 
+                          type="text" 
+                          id="idHasOfi"
+                          class="form-control"
+                          name="idHasOfi"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.OficinaHasta"
+                          required
+                        >  
                       </div>
                       <div class="form-group col-md-6">
                           <button type="submit" class="btn btn-primary">CATALOGO DE CLIENTES</button>
@@ -56,121 +74,272 @@
   
                   <div class="form-row">
                       <div class="form-group col-md-3">
-                        <label for="inputCity">Desde cliente</label>
-                        <input type="text" class="form-control" id="inputCity5" placeholder="0">
+                        <label >Desde cliente</label>
+                        <input 
+                          type="text" 
+                          id="idDesCli"
+                          class="form-control"
+                          name="idDesCli"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.ClienteDesde"
+                          required
+                        >
                       </div>
                       <div class="form-group col-md-3">
-                        <label for="inputState">Hasta oficina</label>
-                        <input type="text" class="form-control" id="inputCity5" placeholder="0">
+                        <label>Filial</label>
+                        <input 
+                          type="text" 
+                          id="idDesFil"
+                          class="form-control"
+                          name="idDesFil"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.FilialDesde"
+                          required
+                        >
                       </div>
                       <div class="form-group col-md-3">
-                        <label for="inputZip">Hasta cliente</label>
-                        <input type="text" class="form-control" id="inputZip5" placeholder="999999">
+                        <label >Hasta cliente</label>
+                        <input 
+                          type="text" 
+                          id="idHasCli"
+                          class="form-control"
+                          name="idHasCli"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.ClienteHasta"
+                          required
+                        >
                       </div>
                       <div class="form-group col-md-3">
-                          <label for="inputZip">Filial</label>
-                          <input type="text" class="form-control" id="inputZip5" placeholder="999">
+                          <label >Filial</label>
+                          <input 
+                            type="text" 
+                            id="idHasFil"
+                            class="form-control"
+                            name="idHasFil"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.FilialHasta"
+                            required
+                          >
                         </div>
                     </div>
   
                     <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label for="inputEmail4">Desde fecha pedido</label>
+                        <label >Desde fecha pedido</label>
                         <div class="input-group">
-                          <input type="text" class="form-control drgpicker" id="date-input1" value="04/24/2020" aria-describedby="button-addon2">
-                          <div class="input-group-append">
-                            <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16"></span></div>
-                          </div>
+                          <input 
+                            type="date" 
+                            id="idDesFP"
+                            class="form-control"
+                            name="idDesFP"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.FechaPedidoDesde"
+                            required
+                          >
                         </div>
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputPassword4">Hasta fecha pedido</label>
+                        <label >Hasta fecha pedido</label>
                         <div class="input-group">
-                          <input type="text" class="form-control drgpicker" id="date-input1" value="04/24/2020" aria-describedby="button-addon2">
-                          <div class="input-group-append">
-                            <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16"></span></div>
-                          </div>
+                          <input 
+                            type="date" 
+                            id="idHasFP"
+                            class="form-control"
+                            name="idHasFP"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.FechaPedidoHasta"
+                            required
+                          >                                                    
                         </div>
                       </div>                                     
                   </div>
   
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label for="inputEmail4">Desde fecha cancelacion operacion</label>
+                        <label >Desde fecha cancelacion operacion</label>
                         <div class="input-group">
-                          <input type="text" class="form-control drgpicker" id="date-input1" value="04/24/2020" aria-describedby="button-addon2">
-                          <div class="input-group-append">
-                            <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16"></span></div>
-                          </div>
+                          <input 
+                            type="date" 
+                            id="idDesFCO"
+                            class="form-control"
+                            name="idDesFCO"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.FechaCancelacDesde"
+                            required
+                          >
+                          
                         </div>
                       </div>
                       <div class="form-group col-md-6">
                         <label for="inputPassword4">Hasta fecha cancelacion operacion</label>
                         <div class="input-group">
-                          <input type="text" class="form-control drgpicker" id="date-input1" value="04/24/2020" aria-describedby="button-addon2">
-                          <div class="input-group-append">
-                            <div class="input-group-text" id="button-addon-date"><span class="fe fe-calendar fe-16"></span></div>
-                          </div>
+                          <input 
+                            type="date" 
+                            id="idHasFCO"
+                            class="form-control"
+                            name="idHasFCO"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.FechaCancelacHasta"
+                            required
+                          >                          
                         </div>
                       </div>                                     
                   </div>
   
   
-                  <div class="row">
-                     
+                  <div class="row">                     
                       <div class="form-group col-md-3">
                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                          <label class="form-check-label" for="gridRadios1"> Activos</label>
+                          <input 
+                            class="form-check-input" 
+                            type="radio" 
+                            name="gpoStatus"
+                            value="A"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.Status"
+                            required
+                            checked
+                          >
+                          <label class="form-check-label"> Activos</label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                          <label class="form-check-label" for="gridRadios2">Inactivos</label>
+                          <input 
+                            class="form-check-input" 
+                            type="radio" 
+                            name="gpoStatus"
+                            value="I"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.Status"
+                            required
+                            checked
+                          >
+                          <label class="form-check-label" >Inactivos</label>
                         </div>
-                        <div class="form-check disabled">
-                          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-                          <label class="form-check-label" for="gridRadios3"> Todos </label>
+                        <div class="form-check">
+                          <input 
+                            class="form-check-input" 
+                            type="radio" 
+                            name="gpoStatus"
+                            value="T"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.Status"
+                            required
+                            checked
+                          >
+                          <label class="form-check-label" > Todos </label>
                         </div>
                       </div>
   
                       <div class="form-group col-md-3">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                            <label class="form-check-label" for="gridRadios1"> Pedidos</label>
+                            <input 
+                              class="form-check-input" 
+                              type="radio" 
+                              name="gpoTipPed"
+                              value="P"
+                              #nombre="ngModel"
+                              [(ngModel)]="oBuscar.TipoPedido"
+                              required
+                              checked
+                            >
+                            <label class="form-check-label"> Pedidos</label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                            <label class="form-check-label" for="gridRadios2"> Servicio </label>
+                            <input 
+                              class="form-check-input" 
+                              type="radio" 
+                              name="gpoTipPed"
+                              value="S"
+                              #nombre="ngModel"
+                              [(ngModel)]="oBuscar.TipoPedido"
+                              required
+                              checked
+                            >
+                            <label class="form-check-label" > Servicio </label>
                           </div>
                           <div class="form-check disabled">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-                            <label class="form-check-label" for="gridRadios3"> Todos </label>
+                            <input 
+                              class="form-check-input" 
+                              type="radio" 
+                              name="gpoTipPed"
+                              value="E"
+                              #nombre="ngModel"
+                              [(ngModel)]="oBuscar.TipoPedido"
+                              required
+                              checked
+                            >
+                            <label class="form-check-label" > Existencia </label>
                           </div>
                         </div>
   
                         <div class="form-group col-md-3">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                            <label class="form-check-label" for="gridRadios1"> Internos </label>
+                            <input 
+                              class="form-check-input" 
+                              type="radio" 
+                              name="gpoTipOri"
+                              value="I"
+                              #nombre="ngModel"
+                              [(ngModel)]="oBuscar.TipoOrigen"
+                              required
+                              checked
+                            >
+                            <label class="form-check-label" > Internos </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                            <label class="form-check-label" for="gridRadios2"> Externos </label>
+                            <input 
+                              class="form-check-input" 
+                              type="radio" 
+                              name="gpoTipOri"
+                              value="E"
+                              #nombre="ngModel"
+                              [(ngModel)]="oBuscar.TipoOrigen"
+                              required
+                              checked
+                            >
+                            <label class="form-check-label" > Externos </label>
                           </div>
                           <div class="form-check disabled">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-                            <label class="form-check-label" for="gridRadios3"> Todos </label>
+                            <input 
+                              class="form-check-input" 
+                              type="radio" 
+                              name="gpoTipOri"
+                              value="T"
+                              #nombre="ngModel"
+                              [(ngModel)]="oBuscar.TipoOrigen"
+                              required
+                              checked
+                            >
+                            <label class="form-check-label" > Todos </label>
                           </div>
                         </div>
   
                         <div class="form-group col-md-3">
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                            <label class="form-check-label" for="gridRadios1"> Solo atrasados </label>
+                            <input 
+                              class="form-check-input" 
+                              type="radio" 
+                              name="gpoAtra"
+                              value="S"
+                              #nombre="ngModel"
+                              [(ngModel)]="oBuscar.SoloAtrasados"
+                              required
+                              checked
+                            >
+                            <label class="form-check-label" > Solo atrasados </label>
                           </div>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                            <label class="form-check-label" for="gridRadios2"> Todos </label>
+                            <input 
+                              class="form-check-input" 
+                              type="radio" 
+                              name="gpoAtra"
+                              value="T"
+                              #nombre="ngModel"
+                              [(ngModel)]="oBuscar.SoloAtrasados"
+                              required
+                              checked
+                            >
+                            <label class="form-check-label"> Todos </label>
                           </div>
                           
                         </div>
@@ -184,7 +353,7 @@
                   <br>   
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                          <button type="submit" class="btn btn-primary">BUSCAR</button>
+                          <button type="submit" (click)="consultaRelPed()" class="btn btn-primary">BUSCAR</button>
                       </div>
                   </div>            
   

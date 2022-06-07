@@ -2,12 +2,31 @@ import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 
+//Modelos
+import {FiltrosRelacionPedidos} from 'src/app/models/relacionpedidos.filtros';
+import {RelacionPedidos} from 'src/app/models/relacionpedidos';
+
+//Servicios
+import { ServicioRelacionPedido } from 'src/app/services/relacionpedidos.service';
+
 @Component({
   selector: 'app-relacionpedidos',
   templateUrl: './relacionpedidos.component.html',
-  styleUrls: ['./relacionpedidos.component.css']
+  styleUrls: ['./relacionpedidos.component.css'],
+  providers:[ServicioRelacionPedido]
 })
 export class RelacionpedidosComponent implements OnInit {
+
+  sCodigo :number | null;
+  sTipo :string | null;
+  sFilial :number | null;
+  sNombre :string | null;
+
+  public oBuscar: FiltrosRelacionPedidos;
+  oRelacionPedRes: RelacionPedidos; 
+
+  public bError: boolean=false;
+  public sMensaje: string="";
 
   mobileQuery: MediaQueryList;
 
@@ -25,9 +44,23 @@ export class RelacionpedidosComponent implements OnInit {
 
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
-    private _router: Router) { 
-      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+  constructor(
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher,
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _servicioRelacionPed: ServicioRelacionPedido) { 
+
+      this.sCodigo = Number(sessionStorage.getItem('codigo'));
+      this.sTipo = sessionStorage.getItem('tipo');
+      this.sFilial  = Number(sessionStorage.getItem('filial'));
+      this.sNombre = sessionStorage.getItem('nombre');
+
+    //Inicializamos variables consulta pedidos
+    this.oBuscar = new FiltrosRelacionPedidos('',0,'','',0,0,0,0,'','','','','','','','',0)
+    this.oRelacionPedRes={} as RelacionPedidos;  
+
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
@@ -35,20 +68,65 @@ export class RelacionpedidosComponent implements OnInit {
 
     ngOnInit(): void {
 
-      const sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-      const sTipo :string | null = sessionStorage.getItem('tipo');
-      const sFilial :number | null = Number(sessionStorage.getItem('filial'));
-      const sNombre :string | null = sessionStorage.getItem('nombre');
+
   
   
       //Se agrega validacion control de sesion distribuidores
-      if(!sCodigo) {
+      if(!this.sCodigo) {
         console.log('ingresa VALIDACION');
         this._router.navigate(['/']);
       }
     }
 
     shouldRun = true;
+
+//Funcion para consultar la relacion de pedidos
+consultaRelPed(){
+
+
+  this.oBuscar.TipoUsuario = 'C'
+
+  console.log(this.oBuscar);
+
+    //Realizamos llamada al servicio de relacion de pedidos
+    this._servicioRelacionPed    
+    
+
+    .Get(this.oBuscar)
+    .subscribe(
+      (Response: RelacionPedidos) => {
+
+        this.oRelacionPedRes = Response;
+        //this.pedido = this.oRelacionPedRes.Contenido.Pedidos
+               
+
+        //console.log( this.collectionSize);
+        console.log("RESULTADO LLAMADA  "+JSON.stringify(this.oRelacionPedRes) );
+        //console.log(this.pedido);
+
+        if(this.oRelacionPedRes.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron datos del cliente";
+          //this.bBandera = false;
+          return;
+        }
+
+        this.sMensaje="";
+        //this.bBandera = true;
+        //this.collectionSize = this.oRelacionPedRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
+
+      },
+      (error:RelacionPedidos) => {
+
+        this.oRelacionPedRes = error;
+
+        console.log("error");
+        console.log(this.oRelacionPedRes);
+      
+      }
+    );
+
+}
 
     
 //Funcion para cerrar sesion y redireccionar al home

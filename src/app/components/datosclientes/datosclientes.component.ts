@@ -163,4 +163,12 @@ console.log("ConsultaCliente");
     
   }
 
+  //Funcion para cerrar sesion y redireccionar al home
+  EliminaSesion() {
+    sessionStorage.clear();
+    this._router.navigate(['/']);    
+  }
+
+
+
 }

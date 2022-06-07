@@ -152,8 +152,8 @@ svg {
   overflow: hidden;
   vertical-align: middle; }
 
-table {
-  border-collapse: collapse; }
+/* table {
+  border-collapse: collapse; } */
 
 caption {
   padding-top: 0.75rem;

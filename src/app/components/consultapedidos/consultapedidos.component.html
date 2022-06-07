@@ -14,7 +14,8 @@
   <mat-sidenav-container class="example-sidenav-container"
                          [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+                [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"                 
+                [opened]="mobileQuery.matches ? 'false' : 'true'">
       <mat-nav-list>
       
         <a mat-list-item [routerLink]="['/distribuidores/']">Inicio</a>
@@ -23,8 +24,8 @@
         <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']">Consulta de Pedidos</a>
         <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']">Relación de Pedidos</a>
         <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']">Estado de Cuenta</a>
-        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Cliente y Artículo</a>
-        <a mat-list-item href="http://www.catalogofonelli.com.mx/" target="_blank">Catálogo de Joyería</a>
+        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']">Ventas por Artículo</a>
+        
       </mat-nav-list>
     </mat-sidenav>
 
@@ -32,7 +33,7 @@
     
     <section >
       <div class="row">
-         <div class="col-lg-6">
+         <div class="col-lg-12">
    
            <div class="card">
              <div class="card-body">
@@ -41,85 +42,344 @@
                <!-- General Form Elements -->
                <form>
   
-                  <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputEmail4">Numero</label>
-                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputPassword4">Filial</label>
-                        <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-                      </div>
-                      <div class="form-group col-md-6">
-                          <button type="submit" class="btn btn-primary">CATALOGO DE CLIENTES</button>
-                      </div>
-  
-  
-                      
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label >Numero</label>
+                    <input 
+                      type="text" 
+                      id="idNumpPed"
+                      class="form-control"
+                      name="idNumpPed"
+                      #nombre="ngModel"
+                      [(ngModel)]="oBuscar.ClienteCodigo"
+                      required
+                    >
                   </div>
+                  <div class="form-group col-md-6">
+                    <label >Filial</label>
+                    <input
+                      type="text" 
+                      id="idFilPed"
+                      class="form-control"
+                      name="idFilPed"
+                      #nombre="ngModel"
+                      [(ngModel)]="oBuscar.ClienteFilial"
+                      required
+                    >
+                  </div>
+                  <div class="form-group col-md-6">
+                      <button type="submit" class="btn btn-primary">CATALOGO DE CLIENTES</button>
+                  </div>
+
+
+                  
+              </div>
   
                   <div class="row">
                      
-                      <div class="col-sm-9">
+                      <div class=" form-group col-md-3">
                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-                          <label class="form-check-label" for="gridRadios1"> First radio </label>
+                          <input 
+                            class="form-check-input"
+                            type="radio"
+                            name="gridRadios"
+                            id="idAct"
+                            value="A"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.Status"
+                          >
+                          <label class="form-check-label" for="gridRadios1"> Activos </label>
                         </div>
                         <div class="form-check">
-                          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                          <label class="form-check-label" for="gridRadios2"> Second radio </label>
+                          <input 
+                            class="form-check-input"
+                            type="radio"
+                            name="gridRadios"
+                            id="idIna"
+                            value="I"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.Status"
+                          >
+                          <label class="form-check-label" for="gridRadios2"> Inactivos</label>
                         </div>
-                        <div class="form-check disabled">
-                          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-                          <label class="form-check-label" for="gridRadios3"> Third disabled radio </label>
+                        <div class="form-check ">
+                          <input 
+                            class="form-check-input"
+                            type="radio"
+                            name="gridRadios"
+                            id="idTod"
+                            value="T"
+                            #nombre="ngModel"
+                            [(ngModel)]="oBuscar.Status"
+                          >
+                          <label class="form-check-label" for="gridRadios3"> Todos </label>
                         </div>
                       </div>
                     </div>
   
                
-  
+                    <p>{{sMensaje}}</p>
                   
                   <br>   
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                          <button type="submit" class="btn btn-primary">BUSCAR</button>
+                          <button type="submit" (click)="consultaPedido()" class="btn btn-primary">BUSCAR</button>
                       </div>
-                  </div>            
-  
-  
-                
-   
-                 
+                  </div>         
                </form><!-- End General Form Elements -->
-   
              </div>
              <hr class="my-1" />
-   
-         
-   
-     
-   
-   
-   
-   
-   
-   
            </div>
-   
          </div>
-   
-   
+       </div> 
+
+       <!-- <div *ngIf="bBandera" class="table-responsive-sm">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Country</th>
+            <th scope="col">Area</th>
+            <th scope="col">Population</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let country of countries; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>
+              <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="me-2" style="width: 20px">
+              {{ country.name }}
+            </td>
+            <td>{{ country.area | number }}</td>
+            <td>{{ country.population | number }}</td>
+          </tr>
+          </tbody>
+        </table>
+  
        </div>
+        -->
+      
+
+       
+        <div *ngIf="bBandera" class="table-responsive-sm">
+
+          <table  class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">L</th>
+              <th scope="col">PEDIDO</th>
+              <th scope="col">OF</th>
+              <th scope="col">S</th>
+              <th scope="col">FECHA PED</th>
+              <th scope="col">FECHA CANCOP</th>
+              <th scope="col">FECHA SURT</th>
+              <th scope="col">PEDIDO</th>
+              <th scope="col">SURTIDO</th>
+              <th scope="col">DIFCIA</th>
+            </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ped of pedido; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ ped.PedidoLetra}}</td>
+                <td> <u>{{ped.PedidoFolio}}</u> </td>                
+                <td>{{ ped.OficinaFonelliCodigo}}</td>
+                <td>{{ ped.Status}}</td>
+                <td>{{ ped.FechaPedido}}</td>
+                <td>{{ ped.FechaCancelacion}}</td>
+                <td>{{ ped.FechaSurtido}}</td>
+                <td>{{ ped.CantidadPedida}}</td>
+                <td>{{ ped.CantidadSurtida}}</td>
+                <td>{{ ped.DiferenciaPedidosSurtido}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+
+        <div class="d-flex justify-content-between p-2">
+          <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshCountries()">
+          </ngb-pagination>
+        
+          <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCountries()">
+            <option [ngValue]="2">2 items per page</option>
+            <option [ngValue]="4">4 items per page</option>
+            <option [ngValue]="6">6 items per page</option>
+          </select>
+        </div>
+
+      </div> 
+
   </section>
 
     
   </mat-sidenav-container>
 </div>
 
-<div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>
+<!-- <div *ngIf="!shouldRun">Please open on Stackblitz to see result</div> -->
 
 
 
+    <!--Modal pedidos detalle-->
+    <ng-template #PedidoDetalle let-modal>
+      <div class="modal-header">
+        
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
+      <form #formLoginDistribuidor="ngForm" >
+      <div class="modal-body-tables">
+  
+          <div class="container">
+              <div class="row">
+
+                <div >
+                  <a >Numero de cliente:   {{oBuscar.ClienteCodigo}}  -  {{sNombre}}</a>
+                  <br>
+                  <a > Pedido: {{oBuscaDetalle.PedidoFolio}} </a>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <button  *ngIf="bBanderaBtnPro" type="submit" (click)="verDetalleProd()" class="btn btn-primary">DETALLE PRODUCCIÓN</button>
+                      <button  *ngIf="bBanderaBtnPed" type="submit" (click)="verDetallePed()" class="btn btn-primary">DETALLE PEDIDO</button>
+                  </div>
+                </div> 
+
+                    <div class="col-12" class="table-responsive-sm">                     
+                      <table *ngIf="bBanderaDet"  class="table table-striped">
+                        <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">LN</th>
+                          <th scope="col">CLAVE</th>
+                          <th scope="col">S</th>
+                          <th scope="col">CAT</th>
+                          <th scope="col">SCAT</th>
+                          <th scope="col">FECHA PED</th>
+                          <th scope="col">PEDIDO</th>
+                          <th scope="col">FEC SUR</th>
+                          <th scope="col">SURTIDO</th>
+                          <th scope="col">SERIE</th>
+                          <th scope="col">DOCTO</th>
+                          <th scope="col">FEC TER</th>
+                          <th scope="col">DESCRIPCIÓN</th>
+                          <th scope="col">CP4</th>
+                          <th scope="col">CP45</th>
+                          <th scope="col">CP5</th>
+                          <th scope="col">CP55</th>
+                          <th scope="col">CP6</th>
+                          <th scope="col">CP65</th>
+                          <th scope="col">CP7</th>
+                          <th scope="col">CP75</th>
+                          <th scope="col">CP8</th>
+                          <th scope="col">CP85</th>
+                          <th scope="col">CP9</th>
+                          <th scope="col">CP95</th>
+                          <th scope="col">CP10</th>
+                          <th scope="col">CP105</th>
+                          <th scope="col">CP11</th>
+                          <th scope="col">CP115</th>
+                          <th scope="col">CP12</th>
+                          <th scope="col">CP125</th>
+                          <th scope="col">CP13</th>
+                          <th scope="col">MEDX</th>
+                          <th scope="col">CANX</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let pedDet of pedidoDet; index as i">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ pedDet.ArticuloLinea}}</td>
+                            <td> <u>{{pedDet.ArticuloCodigo}}</u> </td>                
+                            <td>{{ pedDet.PedidoStatus}}</td>
+                            <td>{{ pedDet.ArticuloCategoria}}</td>
+                            <td>{{ pedDet.ArticuloSubcategoria}}</td>
+                            <td>{{ pedDet.FechaPedido}}</td>
+                            <td>{{ pedDet.CantidadPedida}}</td>
+                            <td>{{ pedDet.FechaSurtido}}</td>
+                            <td>{{ pedDet.CantidadSurtida}}</td>
+                            <td>{{ pedDet.FacturaSerie}}</td>
+                            <td>{{ pedDet.FacturaFolio}}</td>
+                            <td>{{ pedDet.FechaTerminacionArticulo}}</td>
+                            <td>{{ pedDet.ArticuloDescripc}}</td>
+                            <td>{{ pedDet.CantidadMedida4}}</td>
+                            <td>{{ pedDet.CantidadMedida4_5}}</td>
+                            <td>{{ pedDet.CantidadMedida5}}</td>
+                            <td>{{ pedDet.CantidadMedida5_5}}</td>
+                            <td>{{ pedDet.CantidadMedida6}}</td>
+                            <td>{{ pedDet.CantidadMedida6_5}}</td>
+                            <td>{{ pedDet.CantidadMedida7}}</td>
+                            <td>{{ pedDet.CantidadMedida7_5}}</td>
+                            <td>{{ pedDet.CantidadMedida8}}</td>
+                            <td>{{ pedDet.CantidadMedida8_5}}</td>
+                            <td>{{ pedDet.CantidadMedida9}}</td>
+                            <td>{{ pedDet.CantidadMedida9_5}}</td>
+                            <td>{{ pedDet.CantidadMedida10}}</td>
+                            <td>{{ pedDet.CantidadMedida10_5}}</td>
+                            <td>{{ pedDet.CantidadMedida11}}</td>
+                            <td>{{ pedDet.CantidadMedida11_5}}</td>
+                            <td>{{ pedDet.CantidadMedida12}}</td>
+                            <td>{{ pedDet.CantidadMedida12_5}}</td>
+                            <td>{{ pedDet.CantidadMedida13}}</td>
+                            <td>{{ pedDet.MedidaEspecial}}</td>
+                            <td>{{ pedDet.CantidadMedidaEspecial}}</td>            
+                          </tr>
+                        </tbody>
+                      </table>
+
+                      <table *ngIf="bBanderaDetPro"  class="table table-striped">
+                        <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">LN</th>
+                          <th scope="col">CLAVE</th>
+                          <th scope="col">S</th>
+                          <th scope="col">CAT</th>
+                          <th scope="col">SCAT</th>
+                          <th scope="col">FECHA PED</th>
+                          <th scope="col">PEDIDO</th>
+                          <th scope="col">A PRODUCIR</th>
+                          <th scope="col">PRODUCIDO</th>
+                          <th scope="col">DIFEREN</th>
+                          <th scope="col">FEC PROD</th>                          
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let pedDet of pedidoDet; index as i">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td>{{ pedDet.ArticuloLinea}}</td>
+                            <td> <u>{{pedDet.ArticuloCodigo}}</u> </td>                
+                            <td>{{ pedDet.PedidoStatus}}</td>
+                            <td>{{ pedDet.ArticuloCategoria}}</td>
+                            <td>{{ pedDet.ArticuloSubcategoria}}</td>
+                            <td>{{ pedDet.FechaPedido}}</td>
+                            <td>{{ pedDet.CantidadPedidoProduccion}}</td>
+                            <td>{{ pedDet.CantidadProducida}}</td>
+                            <td>{{ pedDet.CantidadSurtida}}</td>
+                            <td>{{ pedDet.DiferenciaProducido}}</td>
+                            <td>{{ pedDet.FechaProduccionArticulo}}</td>                                       
+                          </tr>
+                        </tbody>
+                      </table>
+            
+                      
+                    </div>  
+              </div>
+              
+          </div>
+      </div>
+  
+      <!-- <div *ngIf="alerLoginDistribuidor">
+        <p class="alert alert-danger" role="alert">{{respuestaLoginDistribuidor}}</p>
+      </div> -->
+  
+      <div class="modal-footer">
+        <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+        
+      </div>
+    </form>
+  </ng-template> 
+  
 
 
 <!-- Copyright 2022 Google LLC. All Rights Reserved.

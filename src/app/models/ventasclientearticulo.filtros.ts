@@ -1,4 +1,4 @@
-class FiltrosVentaArticuloCliente {
+export class FiltrosVentaArticuloCliente {
   constructor(
     public Usuario: number,
     public OficinaDesde: string,
@@ -13,6 +13,10 @@ class FiltrosVentaArticuloCliente {
     public LineaHasta: string,
     public ClaveDesde: string,
     public ClaveHasta: string,
+    public CategoriaDesde: string,
+    public SubcategoriaDesde: string ,
+    public CategoriaHasta: string,
+    public SubcategoriaHasta: string ,
     public FamiliaDesde: string,
     public FamiliaHasta: string,
     public TipoArticulo: string,
