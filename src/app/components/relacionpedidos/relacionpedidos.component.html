@@ -1,36 +1,3 @@
-
-
-<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
-  <mat-toolbar >
-    <button class="btn btn-primary" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <div class="cat ">
-      <a href="#">
-        <img  src="../../../assets/images/principal/logo_fonelli.png"  >
-      </a>      
-    </div>
-    <button (click)="EliminaSesion()" class="btn btn-primary btn-sm ml-auto">Cerrar Sesión</button>
-  </mat-toolbar>
-
-  <mat-sidenav-container class="example-sidenav-container"
-                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
-                 [opened]="mobileQuery.matches ? 'false' : 'true'">
-                
-      <mat-nav-list>
-      
-        <a mat-list-item [routerLink]="['/distribuidores/']"> <span class="font_side">Inicio</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"><span class="font_side">Datos generales de Clientes</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"><span class="font_side">Consulta de Precios</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']"><span class="font_side">Consulta de Pedidos</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"><span class="font_side">Relación de Pedidos</span></a> 
-        <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"><span class="font_side">Estado de Cuenta</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"><span class="font_side">Ventas por Artículo</span></a>
-        
-      </mat-nav-list>
-    </mat-sidenav>
-
-
     <section >
       <div class="row">
          <div class="col-lg-6">
@@ -52,6 +19,7 @@
                           name="idDesOfi"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.OficinaDesde"
+                          disabled="{{ bCliente }}"
                           required
                         >                        
                       </div>
@@ -64,11 +32,16 @@
                           name="idHasOfi"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.OficinaHasta"
+                          disabled="{{ bCliente }}"
                           required
                         >  
                       </div>
                       <div class="form-group col-md-6">
-                          <button type="submit" class="btn btn-primary">CATALOGO DE CLIENTES</button>
+                          <button 
+                            type="submit"
+                            class="btn btn-primary"
+                            hidden="{{ bCliente }}"
+                          >CATALOGO DE CLIENTES</button>
                       </div>                    
                   </div>
   
@@ -82,6 +55,7 @@
                           name="idDesCli"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.ClienteDesde"
+                          disabled="{{ bCliente }}"
                           required
                         >
                       </div>
@@ -94,6 +68,7 @@
                           name="idDesFil"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.FilialDesde"
+                          disabled="{{ bCliente }}"
                           required
                         >
                       </div>
@@ -106,6 +81,7 @@
                           name="idHasCli"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.ClienteHasta"
+                          disabled="{{ bCliente }}"
                           required
                         >
                       </div>
@@ -118,6 +94,7 @@
                             name="idHasFil"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.FilialHasta"
+                            disabled="{{ bCliente }}"
                             required
                           >
                         </div>
@@ -131,7 +108,7 @@
                             type="date" 
                             id="idDesFP"
                             class="form-control"
-                            name="idDesFP"
+                            name="idDesFP"                            
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.FechaPedidoDesde"
                             required
@@ -197,8 +174,7 @@
                             value="A"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.Status"
-                            required
-                            checked
+                            
                           >
                           <label class="form-check-label"> Activos</label>
                         </div>
@@ -209,9 +185,7 @@
                             name="gpoStatus"
                             value="I"
                             #nombre="ngModel"
-                            [(ngModel)]="oBuscar.Status"
-                            required
-                            checked
+                            [(ngModel)]="oBuscar.Status"   
                           >
                           <label class="form-check-label" >Inactivos</label>
                         </div>
@@ -222,9 +196,8 @@
                             name="gpoStatus"
                             value="T"
                             #nombre="ngModel"
-                            [(ngModel)]="oBuscar.Status"
-                            required
-                            checked
+                            [(ngModel)]="oBuscar.Status"                            
+                            
                           >
                           <label class="form-check-label" > Todos </label>
                         </div>
@@ -364,38 +337,289 @@
                </form><!-- End General Form Elements -->
    
              </div>
-   
-         
-   
-     
-   
-   
-   
-   
-   
-   
            </div>
-   
          </div>
-   
-   
        </div>
+
+       <div *ngIf="bBandera" class="table-responsive-sm">
+        <table class="table table-hover table-striped  ">
+          <thead>
+            <tr class="bg-info">
+              <th>TP</th><!--Pedido codigo -->
+              <th>L</th><!-- Pedido letra -->
+              <th>PEDIDO</th><!--Pedido folio -->
+              <th>CLTE</th><!--Cliente codigo -->
+              <th>FIL</th><!--Cliente filial -->
+              <th>FECHA PEDIDO</th><!--Fecha pedido -->
+              <th>FECHA APROD</th><!--Fecha pedido produccion -->
+              <th>FECHA CANCOP</th><!--Fecha cancelacion -->
+              <th>S</th><!--Pedido status -->
+              <th>DIAS ATRAS</th><!--Dias atraso -->
+              <th class="text-right">CANT PEDID</th><!--Cantidad perdida -->
+              <th class="text-right">IMPORTE</th><!-- Cantidad perdida importe -->
+              <th class="text-right">VALOR AGREGADO</th><!---->
+              <th class="text-right">CANT SURTID</th><!--Cantidad surtida -->
+              <th class="text-right">IMPORTE</th><!--Cantidad surtida importe -->
+              <th class="text-right">VALOR AGREGADO</th><!-- -->
+              <th class="text-right">DIFER</th><!--Diferencia cantidad producto -->
+              <th class="text-right">IMPORTE</th><!--Diferencia importe surtido -->
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let relPed of oRelacionPedRes.Contenido ">
+              <tr class="table-info">
+                <td colspan="18">{{relPed.OficinaFonelliNombre}}</td>
+              </tr>
+            <ng-container *ngFor="let tipoPed of relPed.TipoPedido;">
+
+              <!-- <ng-container *ngFor="let pedido of tipoPed.Pedidos;"> -->
+              <!-- <tr>
+                  <td></td>
+                  <td>{{cartera.TipoCarteraCodigo}}</td>
+                  <td>{{cartera.TipoCarteraDescripc}}</td>
+                  <td></td>
+                </tr> -->
+                <tr *ngFor="let pedido of tipoPed.Pedidos;" (click)="openPedidoDetalle(PedidoDetalle,pedido.PedidoFolio)">
+                  <!-- <td>{{idx1 + '-' + idx2 + '-' + idx3 }}</td> -->
+                  <td>{{pedido.PedidoLetra}}</td>
+                  <td>{{tipoPed.TipoPedidoCodigo}}</td>
+                  <td><u>{{pedido.PedidoFolio}}</u></td>
+                  <td>{{pedido.ClienteCodigo}}</td>
+                  <td>{{pedido.ClienteFilial}}</td>
+                  <td>{{pedido.FechaPedido}}</td>
+                  <td>{{pedido.FechaPedidoProduccion}}</td>
+                  <td>{{pedido.FechaCancelacion}}</td>
+                  <td>{{pedido.PedidoStatus}}</td>
+                  <td>{{pedido.DiasAtraso}}</td>
+                  <td class="text-right">{{pedido.CantidadPedida}}</td>
+                  <td class="text-right">{{pedido.CantidadPedidaImporte}}</td>
+                  <td class="text-right">{{pedido.CantidadPedidaValorAgregado}}</td>                
+                  <td class="text-right">{{pedido.CantidadSurtida}}</td>                
+                  <td class="text-right">{{pedido.CantidadSurtidaImporte}}</td>                
+                  <td class="text-right">{{pedido.CantidadSurtidaValorAgregado}}</td>                
+                  <td class="text-right">{{pedido.DiferenciaCantidadProducido}}</td>                
+                  <td class="text-right">{{pedido.DiferenciaImporteSurtido}}</td>                
+                </tr>
+
+                <!-- TOTAL PEDIDOS-->
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td><strong>Total</strong></td>
+                  <td><strong>{{getTotalPedidos(tipoPed.Pedidos)}}</strong></td>
+                  <td></td>
+                  <td>Pedidos</td>
+                  <td></td>
+                  <td><strong>{{tipoPed.TipoPedido}}</strong></td>
+                  <td></td>
+                  <td></td>   
+                  <td class="text-right"><strong>{{getTotalCanPed(tipoPed.Pedidos)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalImportes(tipoPed.Pedidos)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalCPValorAgregado(tipoPed.Pedidos)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalCanSurtida(tipoPed.Pedidos)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalCanSurtidaImporte(tipoPed.Pedidos)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalCSValorImporte(tipoPed.Pedidos)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalDifCantidadPro(tipoPed.Pedidos)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalDifImporteSurtido(tipoPed.Pedidos)}}</strong></td>
+                </tr>               
+              <!-- </ng-container> -->
+            </ng-container>
+
+             <!-- TOTAL OFICINA-->
+             <tr>
+              <td></td>
+              <td></td>
+              <td><strong>Total</strong></td>
+              <td><strong>{{getTotalPedidosOficina(relPed.TipoPedido)}}</strong></td>
+              <td></td>
+              <td>Pedidos</td>
+              <td></td>
+              <td><strong>OFICINA</strong></td>
+              <td></td>
+              <td></td> 
+              <td class="text-right"><strong>{{getTotalCanPedOficina(relPed.TipoPedido)}}</strong></td>
+              <td class="text-right"><strong>{{getTotalImportesOficina(relPed.TipoPedido)}}</strong></td>
+              <td class="text-right"><strong>{{getTotalCPValorAgregadoOficina(relPed.TipoPedido)}}</strong></td>
+              <td class="text-right"><strong>{{getTotalCanSurtidaOficina(relPed.TipoPedido)}}</strong></td>
+              <td class="text-right"><strong>{{getTotalCanSurtidaImporteOficina(relPed.TipoPedido)}}</strong></td>
+              <td class="text-right"><strong>{{getTotalCSValorImporteOficina(relPed.TipoPedido)}}</strong></td>
+              <td class="text-right"><strong>{{getTotalDifCantidadProOficina(relPed.TipoPedido)}}</strong></td>
+              <td class="text-right"><strong>{{getTotalDifImporteSurtidoOficina(relPed.TipoPedido)}}</strong></td>              
+            </tr>
+          </ng-container>               
+          
+          <!-- GRAN TOTALES-->
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><strong>{{getTotalPedidosGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+            <td></td>
+            <td>Pedidos</td>
+            <td></td>
+            <td><strong>GRAN TOTAL</strong></td>
+            <td></td>
+            <td></td> 
+            <td class="text-right"><strong>{{getTotalCanPedGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+            <td class="text-right"><strong>{{getTotalImportesGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+            <td class="text-right"><strong>{{getTotalCPValorAgregadoGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+            <td class="text-right"><strong>{{getTotalCanSurtidaGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+            <td class="text-right"><strong>{{getTotalCanSurtidaImporteGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+            <td class="text-right"><strong>{{getTotalCSValorImporteGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+            <td class="text-right"><strong>{{getTotalDifCantidadProGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+            <td class="text-right"><strong>{{getTotalDifImporteSurtidoGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+          </tr>
+
+          </tbody>               
+        </table>
+    </div> 
+
   </section>
 
 
+ <!--Modal pedidos detalle-->
+ <ng-template #PedidoDetalle let-modal>
+  <div class="modal-header">
     
-  </mat-sidenav-container>
-</div>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <form #formLoginDistribuidor="ngForm" >
+  <div class="modal-body-tables">
+
+      <div class="container">
+          <div class="row">
+
+            <div >
+              
+              <a > Pedido: {{oBuscaDetalle.PedidoFolio}} </a>
+            </div>
+
+
+                <div class="col-12" class="table-responsive-sm">                     
+                  <table *ngIf="bBanderaDet"  class="table table-striped">
+                    <thead>
+                    <tr  class="bg-info">
+                      <th scope="col">#</th>
+                      <th scope="col">LN</th>
+                      <th scope="col">CLAVE</th>
+                      <th scope="col">DESCRIPCIÓN</th>
+                      <th scope="col">S</th>
+                      <th scope="col">CAT</th>
+                      <th scope="col">SCAT</th>
+                      <th scope="col">FECHA PED</th>
+                      <th scope="col" class="text-right">CANT PEDIDA</th>        
+                      <th scope="col">FEC SUR</th>
+                      <th scope="col">CANT SURTIDA</th>
+                      <th scope="col">DIFEREN</th>
+                      <th scope="col">S</th>
+                      <th scope="col">DOCTO</th>
+                      <th scope="col">FEC TERM</th>
+                      <th scope="col">CANT A PRODUCIR</th>
+                      <th scope="col">PRODUCIDO</th>
+                      <th scope="col">DIFERENC</th>
+                      <th scope="col">FEC PROD</th>                      
+                      <th scope="col">CP4</th>
+                      <th scope="col">CP45</th>
+                      <th scope="col">CP5</th>
+                      <th scope="col">CP55</th>
+                      <th scope="col">CP6</th>
+                      <th scope="col">CP65</th>
+                      <th scope="col">CP7</th>
+                      <th scope="col">CP75</th>
+                      <th scope="col">CP8</th>
+                      <th scope="col">CP85</th>
+                      <th scope="col">CP9</th>
+                      <th scope="col">CP95</th>
+                      <th scope="col">CP10</th>
+                      <th scope="col">CP105</th>
+                      <th scope="col">CP11</th>
+                      <th scope="col">CP115</th>
+                      <th scope="col">CP12</th>
+                      <th scope="col">CP125</th>
+                      <th scope="col">CP13</th>
+                      <th scope="col">MEDX</th>
+                      <th scope="col">CANX</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let pedDet of pedidoDet; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ pedDet.ArticuloLinea}}</td>
+                        <td>{{pedDet.ArticuloCodigo}}</td>                
+                        <td>{{ pedDet.ArticuloDescripc}}</td>
+                        <td>{{ pedDet.PedidoStatus}}</td>
+                        <td>{{ pedDet.ArticuloCategoria}}</td>                        
+                        <td>{{ pedDet.ArticuloSubcategoria}}</td>
+                        <td>{{ pedDet.FechaPedido}}</td>
+                        <td class="text-right">{{ pedDet.CantidadPedida}}</td>
+                        <td>{{ pedDet.FechaSurtido}}</td>
+                        <td class="text-right">{{ pedDet.CantidadSurtida}}</td>
+                        <td class="text-right">{{ pedDet.DiferenciaSurtido}}</td>
+                        <td>{{ pedDet.FacturaSerie}}</td>
+                        <td>{{ pedDet.FacturaFolio}}</td>
+                        <td>{{ pedDet.FechaTerminacionArticulo}}</td>
+                        <td class="text-right">{{ pedDet.CantidadPedidoProduccion}}</td>
+                        <td class="text-right">{{ pedDet.CantidadProducida}}</td>
+                        <td class="text-right">{{ pedDet.DiferenciaProducido}}</td>
+                        <td>{{ pedDet.FechaProduccionArticulo}}</td>
+                        <td>{{ pedDet.CantidadMedida4}}</td>
+                        <td>{{ pedDet.CantidadMedida4_5}}</td>
+                        <td>{{ pedDet.CantidadMedida5}}</td>
+                        <td>{{ pedDet.CantidadMedida5_5}}</td>
+                        <td>{{ pedDet.CantidadMedida6}}</td>
+                        <td>{{ pedDet.CantidadMedida6_5}}</td>
+                        <td>{{ pedDet.CantidadMedida7}}</td>
+                        <td>{{ pedDet.CantidadMedida7_5}}</td>
+                        <td>{{ pedDet.CantidadMedida8}}</td>
+                        <td>{{ pedDet.CantidadMedida8_5}}</td>
+                        <td>{{ pedDet.CantidadMedida9}}</td>
+                        <td>{{ pedDet.CantidadMedida9_5}}</td>
+                        <td>{{ pedDet.CantidadMedida10}}</td>
+                        <td>{{ pedDet.CantidadMedida10_5}}</td>
+                        <td>{{ pedDet.CantidadMedida11}}</td>
+                        <td>{{ pedDet.CantidadMedida11_5}}</td>
+                        <td>{{ pedDet.CantidadMedida12}}</td>
+                        <td>{{ pedDet.CantidadMedida12_5}}</td>
+                        <td>{{ pedDet.CantidadMedida13}}</td>
+                        <td>{{ pedDet.MedidaEspecial}}</td>
+                        <td>{{ pedDet.CantidadMedidaEspecial}}</td>            
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Total</td>
+                        <td class="text-right"><strong>{{getTotalPedidosDetalle(pedidoDet)}}</strong></td>
+                        <td></td>
+                        <td class="text-right"><strong>{{getTotalCanSurDetalle(pedidoDet)}}</strong></td>
+                        <td class="text-right"><strong>{{getTotalDifSurtidaDetalle(pedidoDet)}}</strong></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="text-right"><strong>{{getTotalCanAProdDetalle(pedidoDet)}}</strong></td>
+                        <td class="text-right"><strong>{{getTotalCanProducidaDetalle(pedidoDet)}}</strong></td>
+                        <td class="text-right"><strong>{{getTotalDifProducidaDetalle(pedidoDet)}}</strong></td>
+                  
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                </div>  
+          </div>
+          
+      </div>
+  </div>
 
 
 
-
-
-
-
-<!-- Copyright 2022 Google LLC. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at https://angular.io/license -->
-
-
-
+  <div class="modal-footer">
+    <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+    
+  </div>
+</form>
+</ng-template> 

@@ -1,82 +1,35 @@
+<mat-toolbar class="fixedElement">
+  <button class="btn btn-primary" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+  <div class="cat ">
+    <a href="#">
+      <img  src="../../../assets/images/principal/logo_fonelli.png"  >
+    </a>      
+  </div>
+  <button (click)="EliminaSesion()" class="btn btn-primary btn-sm ml-auto">Cerrar Sesión</button>
+</mat-toolbar>
 
-<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
-  <mat-toolbar >
-    <button class="btn btn-primary" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    
-    <div class="cat ">
-      <a href="#">
-        <img  src="../../../assets/images/principal/logo_fonelli.png"  >
-      </a>      
-    </div>
-  </mat-toolbar>
 
-  <mat-sidenav-container class="example-sidenav-container"
-                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+<div class="main-container">
+  <mat-sidenav-container >
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                 [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"
-                 [opened]="mobileQuery.matches ? 'false' : 'true'">
-      <mat-nav-list>
-      
-      <a mat-list-item [routerLink]="['/distribuidores/']"> <span class="font_side">Inicio</span></a>
-      <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"><span class="font_side">Datos generales de Clientes</span></a>
-      <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"><span class="font_side">Consulta de Precios</span></a>
-      <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']"><span class="font_side">Consulta de Pedidos</span></a>
-      <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"><span class="font_side">Relación de Pedidos</span></a> 
-      <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"><span class="font_side">Estado de Cuenta</span></a>
-      <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"><span class="font_side">Ventas por Artículo</span></a>
+    [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"                 
+    [opened]="mobileQuery.matches ? 'false' : 'true'">
+<mat-nav-list>
 
-      </mat-nav-list>
-    </mat-sidenav>
+<a mat-list-item [routerLink]="['/distribuidores/']"> <span class="font_side">Inicio</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"><span class="font_side">Datos generales de Clientes</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"><span class="font_side">Consulta de Precios</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']"><span class="font_side">Consulta de Pedidos</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"><span class="font_side">Relación de Pedidos</span></a> 
+<a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"><span class="font_side">Estado de Cuenta</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"><span class="font_side">Ventas por Artículo</span></a>
 
-    
-    <ngb-carousel >
-      <ng-template ngbSlide>
-        <div class="picsum-img-wrapper">
-          <img src="../assets/images/1.jpg" alt="Random first slide">
-        </div>
-        <div class="carousel-caption">
-          <h3>10 seconds between slides...</h3>
-          <p>This carousel uses customized default values.</p>
-        </div>
-      </ng-template>
-      <ng-template ngbSlide>
-        <div class="picsum-img-wrapper">
-          <img src="../assets/images/img_2.jpg" alt="Random second slide">
-        </div>
-        <div class="carousel-caption">
-          <h3>No mouse events...</h3>
-          <p>This carousel doesn't pause or resume on mouse events</p>
-        </div>
-      </ng-template>
-      <ng-template ngbSlide>
-        <div class="picsum-img-wrapper">
-          <img src="../assets/images/img_3.jpg"  alt="Random third slide">
-        </div>
-        <div class="carousel-caption">
-          <h3>No keyboard...</h3>
-          <p>This carousel uses customized default values.</p>
-        </div>
-      </ng-template>
-      <ng-template ngbSlide>
-        <div class="picsum-img-wrapper">
-          <img src="../assets/images/img_4.jpg" alt="Random fourth slide">
-        </div>
-        <div class="carousel-caption">
-          <h3>And no wrap after last slide.</h3>
-          <p>This carousel uses customized default values.</p>
-        </div>
-      </ng-template>
-    </ngb-carousel>
-    
+</mat-nav-list>
+</mat-sidenav>
+  
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+
+    </mat-sidenav-content>
   </mat-sidenav-container>
-</div>
-
-<div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>
-
-
-    <h5 class="card-title">Contactos</h5>
-
-
-<!-- Copyright 2022 Google LLC. All Rights Reserved.
-    Use of this source code is governed by an MIT-style license that
-    can be found in the LICENSE file at https://angular.io/license -->
+  </div>

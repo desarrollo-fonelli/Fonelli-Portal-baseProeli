@@ -1,13 +1,14 @@
 export class FiltrosVentaArticuloCliente {
   constructor(
+    public TipoUsuario: String | null,
     public Usuario: number,
     public OficinaDesde: string,
     public OficinaHasta: string,
     public FechaDesde: string,
     public FechaHasta: string,
-    public ClienteDesde: number,
+    public ClienteDesde: number | null,
     public FilialDesde: number,
-    public ClienteHasta: number,
+    public ClienteHasta: number | null,
     public FilialHasta: number,
     public LineaDesde: string,
     public LineaHasta: string,
@@ -21,7 +22,7 @@ export class FiltrosVentaArticuloCliente {
     public FamiliaHasta: string,
     public TipoArticulo: string,
     public TipoOrigen: string,
-    public Orden: string,
+    public OrdenReporte: string,
     public Presentacion: string,
     public Pagina: number
   ) {}

@@ -18,36 +18,50 @@ import { VentasarticuloComponent } from "./components/ventasarticulo/ventasartic
 import { VentasclientearticuloComponent } from "./components/ventasclientearticulo/ventasclientearticulo.component";
 import { ReporteventasComponent } from "./components/reporteventas/reporteventas.component";
 import { ConsultainactivosComponent } from "./components/consultainactivos/consultainactivos.component";
-
+import {SidenavComponent} from "./components/sidenav/sidenav.component";
 
 const appRoutes: Routes = [
-
-    {path:"",component:HomeComponent},
-    {path:"distribuidores",component:DistribuidoresComponent},
-    {path:"ejecutivos",component:EjecutivosComponent},
-
-    {path:"ejecutivos/indicadoresventa/",component:IndicadoresventaComponent},
-    {path:"ejecutivos/datoscliente/",component:DatosclientesComponent},
-    {path:"ejecutivos/consultaprecios/",component:ConsultapreciosComponent},
-    {path:"ejecutivos/consultapedidos/",component:ConsultapedidosComponent},
-    {path:"ejecutivos/relacionpedidos/",component:RelacionpedidosComponent},
-    {path:"ejecutivos/estadocuenta/",component:EstadocuentaComponent},
-    {path:"ejecutivos/fichatecnica/",component:FichatecnicaComponent},
-    {path:"ejecutivos/ventasarticulo/",component:VentasarticuloComponent},
-    {path:"ejecutivos/ventasclientearticulo/",component:VentasclientearticuloComponent},
-    {path:"ejecutivos/reporteventas/",component:ReporteventasComponent},
-    {path:"ejecutivos/consultainactivos/",component:ConsultainactivosComponent},
-
-    {path:"distribuidores/datoscliente",component:DatosclientesComponent},
-    {path:"distribuidores/consultaprecios",component:ConsultapreciosComponent},
-    {path:"distribuidores/consultapedidos",component:ConsultapedidosComponent},
-    {path:"distribuidores/relacionpedidos",component:RelacionpedidosComponent},
-    {path:"distribuidores/estadocuenta",component:EstadocuentaComponent},
-    {path:"distribuidores/ventasclientearticulo",component:VentasclientearticuloComponent},
-    {path:"distribuidores/reporteventas",component:ReporteventasComponent},
-
-    {path:"**",component:ErrorComponent}
-];
+    { path: '', component: HomeComponent },
+    {
+      path: 'distribuidores',
+      component: SidenavComponent,
+      children: [
+        { path: '', component: DistribuidoresComponent },
+        { path: 'datoscliente', component: DatosclientesComponent },
+        { path: 'consultaprecios', component: ConsultapreciosComponent },
+        { path: 'consultapedidos', component: ConsultapedidosComponent },
+        { path: 'relacionpedidos', component: RelacionpedidosComponent },
+        { path: 'estadocuenta', component: EstadocuentaComponent },
+        {
+          path: 'ventasclientearticulo',
+          component: VentasclientearticuloComponent,
+        },
+      ],
+    },
+  
+    {
+      path: 'ejecutivos',
+      component: SidenavComponent,
+      children: [
+        { path: '', component: EjecutivosComponent },
+        { path: 'indicadoresventa', component: IndicadoresventaComponent },
+        { path: 'datoscliente', component: DatosclientesComponent },
+        { path: 'consultaprecios', component: ConsultapreciosComponent },
+        { path: 'consultapedidos', component: ConsultapedidosComponent },
+        { path: 'relacionpedidos', component: RelacionpedidosComponent },
+        { path: 'estadocuenta', component: EstadocuentaComponent },
+        { path: 'fichatecnica', component: FichatecnicaComponent },
+        { path: 'ventasarticulo', component: VentasarticuloComponent },
+        {
+          path: 'ventasclientearticulo',
+          component: VentasclientearticuloComponent,
+        },
+        { path: 'reporteventas', component: ReporteventasComponent },
+        { path: 'consultainactivos', component: ConsultainactivosComponent },
+      ],
+    },
+    { path: '**', component: ErrorComponent },
+  ];
 
 
 export const appRoutingProviders: any[] =[];

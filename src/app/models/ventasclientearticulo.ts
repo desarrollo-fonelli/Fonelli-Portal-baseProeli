@@ -9,12 +9,19 @@ export interface Contenido {
     ClienteCodigo?: string;
     ClienteFilial?: string;
     ClienteNombre?: string;
-    Familias?:      Familia[];
+    Categorias?:    Categorias[];
 }
 
-export interface Familia {
-    FamiliaCodigo?:  string;
-    LineasProducto?: LineasProducto[];
+export interface Categorias {
+    CategoriaCodigo?:   string;
+    CategoriaNombre?:      string;
+    Subcategorias?:     Subcategorias[];
+}
+
+export interface Subcategorias {
+    SubcategoCodigo?:   string;
+    SubcategoNombre?:   string;
+    LineasProducto?:    LineasProducto[];
 }
 
 export interface LineasProducto {

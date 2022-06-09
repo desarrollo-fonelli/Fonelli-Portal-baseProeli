@@ -1,14 +1,14 @@
 .fondo_fonelli {
 
-  background-image:url("../images/diamante_destello.jpg") ;
+   background-image: url("../images/diamante_destello.jpg");
 
-  background-position: center;
+   background-position: center;
 
-  background-attachment: fixed;
+   background-attachment: fixed;
 
-  background-repeat: no-repeat;
+   background-repeat: no-repeat;
 
-  background-size: 680px 480px ;
+   background-size: 680px 480px;
 
 
 
@@ -18,7 +18,7 @@
 
 @font-face {
 
-   font-family:"Quicksand-SemiBold" ;
+   font-family: "Quicksand-SemiBold";
 
    src: url("../fonts/Quicksand-SemiBold.ttf");
 
@@ -26,19 +26,48 @@
 
 
 
-.font1{
+.font1 {
 
    color: #003f66;
 
-   font-size: 35px ;
+   font-size: 35px;
 
-   font-family:"Quicksand-SemiBold"  ;
+   font-family: "Quicksand-SemiBold";
 
 }
 
-.font_side{
+.font_side {
    color: #003f66;
-   font-size: 22px ;
-   font-family:"Quicksand-SemiBold";
+   font-size: 22px;
+   font-family: "Quicksand-SemiBold";
 }
 
+.bordered {
+   border: solid #ccc 1px;
+   -moz-border-radius: 20px;
+   -webkit-border-radius: 20px;
+   border-radius: 20px;
+   -webkit-box-shadow: 0 3px #ccc;
+   -moz-box-shadow: 0 3px #ccc;
+   box-shadow: 0 3px #ccc;
+}
+
+.font_nosotros {
+   color: black;
+}
+
+.fondo_mensaje_sesion {
+   background-color: #e8b4c1;
+   color: white;
+   font-size: large;
+}
+
+.footer-list-item {
+   list-style-type: none;
+   display: inline-block;
+}
+
+.footer-list {
+   background: #00a1ca;
+   text-align: center;
+}

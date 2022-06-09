@@ -19,13 +19,19 @@ import { ServicioLoginDistribuidor } from '../../services/loginDistribuidor.serv
 import { ServicioLoginEjecutivo } from '../../services/loginEjecutivo.service';
 
 
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  //styleUrls: ['./header.component.css']
+  styles: [`
+  .example-pizza-party {
+    color: hotpink;
+  }
+`]
 })
 
 export class HeaderComponent implements OnInit {
@@ -54,7 +60,8 @@ export class HeaderComponent implements OnInit {
     private _servicioLoginDistribuidor: ServicioLoginDistribuidor,
     private _servicioLoginEjecutivo: ServicioLoginEjecutivo,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private snackBar: MatSnackBar
     
 
   ) {
@@ -80,6 +87,36 @@ export class HeaderComponent implements OnInit {
 
     //modal distribuidor
     openDistribuidor(LoginDistribuidor: any) {
+
+      let sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
+      let sTipo :string | null = sessionStorage.getItem('tipo');
+      let sFilial :number | null = Number(sessionStorage.getItem('filial'));
+      let sNombre :string | null = sessionStorage.getItem('nombre');
+
+
+      if(sTipo=='C')
+      {
+        console.log(1);
+        this._router.navigate(['/distribuidores']);
+        return;
+       
+      }
+      else if(sTipo =='A' || sTipo =='G')
+      {
+          this.snackBar.openFromComponent(mensajesesion, {
+          horizontalPosition: "center",
+          verticalPosition: "top",
+          duration: 2500,
+          panelClass: ['fondo_mensaje_sesion'],
+        });
+        return;
+      }
+
+      console.log(3);
+      
+
+   
+
       this.ModalActivo = this.modalService.open(LoginDistribuidor, {
         ariaLabelledBy: 'LoginDistribuidor',
       });
@@ -91,6 +128,7 @@ export class HeaderComponent implements OnInit {
           console.log('reason ' + reason);
         }
       );
+      
     }
 
     ngOnInit(): void {
@@ -106,7 +144,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ConsultarLDistribuidor() {
-  
+ 
     let ModeloLoginDistribuidorAux: LoginDistribuidor;
     ModeloLoginDistribuidorAux = new LoginDistribuidor('','',''); 
     let filialAux = this.ModeloLoginDistribuidor.codigo.split('-');
@@ -252,8 +290,6 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  title = 'Session Storage in Angular 12 By Husnain';
-  name = 'Angular ' + VERSION.major;
 
 
   saveData(codigo: string,filial:string,nombre: string, tipo:string) {
@@ -275,4 +311,21 @@ export class HeaderComponent implements OnInit {
     sessionStorage.clear();
   }
 
+
 }
+
+@Component({
+  selector: 'mensaje-sesion-component',
+  template: `<span class="mensaje-sesion-style">
+  Para iniciar sesión como distribuidor primero cierre la sesión de asesor
+</span>
+`,
+  styles: [
+    `
+    .mensaje-sesion-style {
+      color: white;
+    }
+  `,
+  ],
+})
+export class mensajesesion {}

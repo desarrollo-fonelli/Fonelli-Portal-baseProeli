@@ -1,36 +1,3 @@
-
-
-<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
-  <mat-toolbar >
-    <button class="btn btn-primary" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-    <div class="cat ">
-      <a href="#">
-        <img  src="../../../assets/images/principal/logo_fonelli.png"  >
-      </a>      
-    </div>
-    <button (click)="EliminaSesion()" class="btn btn-primary btn-sm ml-auto">Cerrar Sesión</button>
-  </mat-toolbar>
-
-  <mat-sidenav-container class="example-sidenav-container"
-                         [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"                 
-                [opened]="mobileQuery.matches ? 'false' : 'true'">
-      <mat-nav-list>
-      
-        <a mat-list-item [routerLink]="['/distribuidores/']"> <span class="font_side">Inicio</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"><span class="font_side">Datos generales de Clientes</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"><span class="font_side">Consulta de Precios</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']"><span class="font_side">Consulta de Pedidos</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"><span class="font_side">Relación de Pedidos</span></a> 
-        <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"><span class="font_side">Estado de Cuenta</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"><span class="font_side">Ventas por Artículo</span></a>
-        
-      </mat-nav-list>
-    </mat-sidenav>
-
-
-    
     <section >
       <div class="row">
          <div class="col-lg-12">
@@ -165,7 +132,7 @@
 
           <table  class="table table-striped">
             <thead>
-            <tr>
+            <tr class="bg-info">
               <th scope="col">#</th>
               <th scope="col">L</th>
               <th scope="col">PEDIDO</th>
@@ -212,12 +179,6 @@
 
   </section>
 
-    
-  </mat-sidenav-container>
-</div>
-
-<!-- <div *ngIf="!shouldRun">Please open on Stackblitz to see result</div> -->
-
 
 
     <!--Modal pedidos detalle-->
@@ -248,7 +209,7 @@
                     <div class="col-12" class="table-responsive-sm">                     
                       <table *ngIf="bBanderaDet"  class="table table-striped">
                         <thead>
-                        <tr>
+                        <tr  class="bg-info">
                           <th scope="col">#</th>
                           <th scope="col">LN</th>
                           <th scope="col">CLAVE</th>
@@ -329,7 +290,7 @@
 
                       <table *ngIf="bBanderaDetPro"  class="table table-striped">
                         <thead>
-                        <tr>
+                        <tr  class="bg-info">
                           <th scope="col">#</th>
                           <th scope="col">LN</th>
                           <th scope="col">CLAVE</th>

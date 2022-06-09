@@ -1,25 +1,25 @@
 export interface RelacionPedidos {
     Codigo?:     number;
     Mensaje?:    string;
-    Contenido?:  Contenido[];
+    Contenido:  Contenido[];
     Paginacion?: Paginacion;
 }
 
 export interface Contenido {
     OficinaFonelliCodigo?: string;
     OficinaFonelliNombre?: string;
-    TipoPedido?:           TipoPedido[];
+    TipoPedido:           TipoPedido[];
 }
 
 export interface TipoPedido {
     TipoPedidoCodigo?: string;
     TipoPedido?:       string;
-    Pedidos?:          Pedido[];
+    Pedidos:          Pedido[];
 }
 
 export interface Pedido {
     PedidoLetra?:                       string;
-    PedidoFolio?:                       string;
+    PedidoFolio:                       string;
     ClienteCodigo?:                     string;
     ClienteFilial?:                     string;
     FechaPedido?:                       Date;
@@ -27,15 +27,18 @@ export interface Pedido {
     FechaCancelacion?:                  Date;
     PedidoStatus?:                      string;
     DiasAtraso?:                        number;
-    CantidadPedida?:                    number;
-    CantidadPedidaImporte?:             number;
-    CantidadSurtida?:                   number;
-    CantidadSurtidaImporte?:            number;
+    CantidadPedida:                    number;
+    CantidadPedidaImporte:             number;
+    CantidadPedidaValorAgregado:       number;
+    CantidadSurtida:                   number;
+    CantidadSurtidaImporte:            number;
+    CantidadSurtidaValorAgregado:      number;
     DiferenciaCantidadSurtido?:         number;
-    DiferenciaImporteSurtido?:          number;
+    DiferenciaImporteSurtido:          number;
     CantidadPedidaProduccion?:          number;
     CantidadProducida?:                 number;
-    DiferenciaCantidadProducido?:       number;
+    DiferenciaValorAgregado?:           number;
+    DiferenciaCantidadProducido:       number;
     InternoExterno?:                    string;
     DiferenciaCantidadPedidoSurtido?:   number;
     DiferenciaImportePedidoSurtido?:    number;

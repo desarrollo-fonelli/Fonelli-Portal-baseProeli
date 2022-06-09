@@ -19,7 +19,7 @@ export interface PedidoArticulo {
     ArticuloCategoria:        string;
     ArticuloSubcategoria:     string;
     FechaPedido:              Date;
-    CantidadPedida:           null;
+    CantidadPedida:           number;
     FechaSurtido:             Date;
     CantidadSurtida:          number;
     DiferenciaSurtido:        number;

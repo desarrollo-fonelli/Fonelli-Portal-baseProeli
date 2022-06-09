@@ -8,12 +8,15 @@ import { Configuracion } from "src/app/models/configuraciones";
 @Injectable()
 export class ServicioOficinas{
     public API: string;
+    public sFiltros: string;
 
 constructor(
     public _http:HttpClient
 ){
 
     this.API = Configuracion.API;
+    this.sFiltros = '';
+
 
 }
 
@@ -25,7 +28,28 @@ Get(FiltrosOficinas: any): Observable<any>{
                                     . set("Access-Control-Allow-Methods", "GET")
                                     .set("Access-Control-Allow-Credentials", "true");
 
-    return this._http.get(this.API + 'catalogos/OficinasFonelli.php',{headers:headers});
+
+                                    console.log(FiltrosOficinas);
+  
+            
+                                    if(FiltrosOficinas.OficinaCodigo)
+                                    {
+                                        this.sFiltros += 'OficinaCodigo=' + FiltrosOficinas.OficinaCodigo;
+                                    }
+                                    if(FiltrosOficinas.Pagina)
+                                    {
+                                        this.sFiltros += '&Pagina' + FiltrosOficinas.Pagina;
+                                    }
+
+                                    console.log(this.sFiltros);
+
+
+                        return this._http.get(this.API + 'catalogos/OficinasFonelli.php?'+this.sFiltros,{headers:headers});
+            
+            
+
+
+    //return this._http.get(this.API + 'catalogos/OficinasFonelli.php',{headers:headers});
 }
 
 

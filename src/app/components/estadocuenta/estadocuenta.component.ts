@@ -5,8 +5,8 @@ import {MediaMatcher} from '@angular/cdk/layout';
 //Modelos
 import {FiltrosEstadoCuenta} from 'src/app/models/estadocuenta.filtros';
 import {EstadoCuenta} from 'src/app/models/estadocuenta';
-import {Cliente} from 'src/app/models/estadocuenta';
-import {Movimiento} from 'src/app/models/estadocuenta'
+import {Cliente, Movimiento, ResumenStatusCliente, ResumenTipoCartera, ResumenTipoCliente} from 'src/app/models/estadocuenta';
+
 
 //Servicios
 import { ServicioEstadoCuenta } from 'src/app/services/estadocuenta.service';
@@ -27,6 +27,9 @@ export class EstadocuentaComponent implements OnInit {
   public oBuscar: FiltrosEstadoCuenta;
   oEdoCuentaRes: EstadoCuenta; 
   oCliente : Cliente[];
+  oResumenStatusCliente : ResumenStatusCliente[];
+  oResumenTipoCartera : ResumenTipoCartera[];
+  oResumenTipoCliente : ResumenTipoCliente[];
 
 
   public bError: boolean=false;
@@ -73,6 +76,9 @@ export class EstadocuentaComponent implements OnInit {
     this.oBuscar = new FiltrosEstadoCuenta('',0,0,0,0,0,'','',0)
     this.oEdoCuentaRes={} as EstadoCuenta;  
     this.oCliente = [];
+    this.oResumenStatusCliente = [];
+    this.oResumenTipoCartera = [];
+    this.oResumenTipoCliente = [];
     
       
     }
@@ -81,24 +87,18 @@ export class EstadocuentaComponent implements OnInit {
     ngOnInit(): void {
       this.mobileQuery.removeListener(this._mobileQueryListener);
 
-
-      const sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-      const sTipo :string | null = sessionStorage.getItem('tipo');
-      const sFilial :number | null = Number(sessionStorage.getItem('filial'));
-      const sNombre :string | null = sessionStorage.getItem('nombre');
-  
   
       //Se agrega validacion control de sesion distribuidores
-      if(!sCodigo) {
+      if(!this.sCodigo) {
         console.log('ingresa VALIDACION');
         this._router.navigate(['/']);
       }
 
-      switch(sTipo) { 
+      switch(this.sTipo) { 
         case 'C':{    
           //Tipo cliente
-           this.oBuscar.ClienteDesde = sCodigo; 
-           this.oBuscar.ClienteHasta = sCodigo;   
+           this.oBuscar.ClienteDesde = this.sCodigo; 
+           this.oBuscar.ClienteHasta = this.sCodigo;   
            this.oBuscar.CarteraHasta= 'Z';   
            this.bCliente = true;    
            break; 
@@ -111,7 +111,7 @@ export class EstadocuentaComponent implements OnInit {
            //statements; 
            break; 
         } 
-     } 
+      } 
 
     // this.oCliente = this.json.Contenido.Clientes;
 
@@ -154,6 +154,9 @@ consultaEstadoCuenta(){
         }
 
         this.oCliente = this.oEdoCuentaRes.Contenido.Clientes;
+        this.oResumenStatusCliente = this.oEdoCuentaRes.Contenido.ResumenStatusCliente;
+        this.oResumenTipoCartera = this.oEdoCuentaRes.Contenido.ResumenTipoCartera;
+        this.oResumenTipoCliente = this.oEdoCuentaRes.Contenido.ResumenTipoCliente;
         this.sMensaje="";
         this.bBandera = true;
       
@@ -180,13 +183,38 @@ consultaEstadoCuenta(){
     }
   }
 
+  getTotalCargos(Movimientos: Movimiento[]): number {
 
-  getTotalCuenta(Movimientos: Movimiento[]): number {
+    let total = Movimientos.map(item => item.Cargos).reduce((total,actual) => total + actual,0);
+    total = Number(total.toFixed(2));
+    return total;
+   }
+
+  getTotalAbonos(Movimientos: Movimiento[]): number {
+
+    let total = Movimientos.map(item => item.Abonos).reduce((total,actual) => total + actual,0);
+    total = Number(total.toFixed(2));
+    return total;
+   }
+
+   getTotalSaldo(Movimientos: Movimiento[]): number {
 
     let total = Movimientos.map(item => item.Saldo).reduce((total,actual) => total + actual,0);
+    total = Number(total.toFixed(2));
 
     return total;
    }
+
+
+   getTotalVencido(Movimientos: Movimiento[]): number {
+
+    let total = Movimientos.map(item => item.SaldoVencido).reduce((total,actual) => total + actual,0);
+    total = Number(total.toFixed(2));
+    return total;
+   }
+
+
+   
 
    getTotalCliente(ocliente: Cliente): number {
     

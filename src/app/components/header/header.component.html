@@ -12,7 +12,7 @@
     
         <div class="videoWrapper">
             <video video loop muted autoplay oncanplay="this.play()" onloadedmetadata="this.muted = true" class="custom-video">
-                <source src="../../../assets/videos/PaginaFonelli.mp4" type="video/mp4">
+                <source src="../../../assets/videos/intro/PaginaFonelli.mp4" type="video/mp4">
     
                 Your browser does not support the video tag.
             </video>
@@ -50,7 +50,7 @@
 
                     <li class="nav-item">
                         <!--<a class="nav-link" href="#portfolio">Portfolio</a>-->
-                        <a class="nav-link" href ="#" (click)="openDistribuidor(LoginDistribuidor)">Distribuidores</a>
+                        <a class="nav-link"  (click)="openDistribuidor(LoginDistribuidor)">Distribuidores</a>
                     </li>
 
                     <li class="nav-item">
@@ -92,54 +92,61 @@
 
     <!--Modal login distribuidor-->
 <ng-template #LoginDistribuidor let-modal>
-    <div class="modal-header">
-      
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    <form #formLoginDistribuidor="ngForm" (ngSubmit)="onSubmitLDistribuidor(formLoginDistribuidor)">
-    <div class="modal-body">
+   <section class="h-100">
+    <div class="container h-100">
+        <div class="row justify-content-md-center h-100">
+            <div class="card-wrapper">
 
-        <div class="container">
-            <div class="row">
-
-                <div class="col-12 col-lg-4 ">
-                    <img src="../../../assets/images/img_1.jpg" class="img-fluid large-news-image news-image" alt="">
-                    <!-- <h4>BIENVENIDO</h4> -->
+                <div class="modal-header">
+               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+               
+                    
                   </div>
 
-                  
-                  <div class="col-12 col-lg-4 ">
+                <div class="card fat">
+                    <div class="card-body">
                    
-                    <div class="col-lg-3">   
-                        <!-- <label for="usuario">Usuario</label><br/> -->
-                        <input type ="text" name ="usuario" #codigo="ngModel" placeholder="Usuario" [(ngModel)]="ModeloLoginDistribuidor.codigo" required/>
-                        <span *ngIf="codigo.touched && !codigo.valid"> El usuario es obligatorio</span> <br/>
-                        <br>
-                        <!-- <label for="password"  >Contraseña</label><br/> -->
-                        <input type ="password" name ="password" #password="ngModel" placeholder="Contraseña" [(ngModel)]="ModeloLoginDistribuidor.password" required/>
-                        <span *ngIf="password.touched && !password.valid"> El password es obligatorio</span> <br/>
-                    </div>                
-                  </div>  
+                        <img src="../../../assets/images/principal/logo_fonelli.png" alt="logo" style="height: 50%; width: 50%;">
+                        
+                        <form #formLoginDistribuidor="ngForm" (ngSubmit)="onSubmitLDistribuidor(formLoginDistribuidor)">
+                            <div class="form-group">
+                                <label for="usuario">Usuario</label>
+                                <input class="form-control" type ="text" name ="usuario" #codigo="ngModel"  [(ngModel)]="ModeloLoginDistribuidor.codigo" required autofocus>
+                                
+                                <span *ngIf="codigo.touched && !codigo.valid"> El usuario es obligatorio</span> 
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password">Contraseña
+                                    
+                                </label>
+                                <input id="password" type="password" class="form-control" name="password" #password="ngModel"  [(ngModel)]="ModeloLoginDistribuidor.password" required data-eye>
+                                <span *ngIf="password.touched && !password.valid"> El password es obligatorio</span>
+                            </div>
+                            
+
+                            <div class="form-group m-0">
+                                <button type="submit" class="btn btn-primary btn-block" [disabled]="!formLoginDistribuidor.form.valid" (click)="ConsultarLDistribuidor()">INGRESAR</button>
+                            </div>
+                            
+                        
+                            
+                        </form>
+                    </div>
+                </div>
+                <div class="footer">
+                  <br>
+                </div>
             </div>
         </div>
     </div>
-
-    <div *ngIf="alerLoginDistribuidor">
-      <p class="alert alert-danger" role="alert">{{respuestaLoginDistribuidor}}</p>
-    </div>
-
-    <div class="modal-footer">
-      <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid" (click)="ConsultarLDistribuidor()">INGRESAR</button>
-      <!-- <button (click)="saveData()" class="btn">Save Data in Session Storage</button> -->
-      <button (click)="removeData()" class="btn">Remove Location</button>
-      <button (click)="deleteData()" class="btn">Clear All</button>
-    </div>
-  </form>
+</section>
 </ng-template> 
 
 
   <!--Modal login ejecutivos de venta-->
   <ng-template #LoginEjecutivos let-modal>
+      
     <div class="modal-header">
       <h4 class="modal-title" id="LoginEjecutivos"></h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
@@ -190,47 +197,52 @@
 
    <!--Modal Contacto-->
    <ng-template #Contacto let-modal>
-    <div class="modal-header" data-backdrop="false" style="background-color: rgb(6, 136, 235)" >
-      <label class= "col-9 title"  id="Contacto">¡ESCRIBENOS!</label>
+    <div class="modal-header" data-backdrop="false" style="background-color: #00a1ca" >
+        
+      <!--<label class= "col-9 title"  id="Contacto">¡ESCRIBENOS!</label>-->
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
+
     <form #formContacto="ngForm" (ngSubmit)="onSubmitContacto(formContacto)">
-    <div class="modal-body" data-backdrop="false" style="background-color: rgb(6, 136, 235)">
-      
-        <div class="container">
-            <div class="row">
-         
+        <div class="modal-body" data-backdrop="false" style="background-color: #00a1ca">
           
-            <label class= "classy" for="nombre"  >Nombre</label><br/>
-            <input type ="text" name ="nombre" #nombre="ngModel" [(ngModel)]="ModeloContacto.nombre" required/>
-            <span *ngIf="nombre.touched && !nombre.valid"> El nombre es obligatorio</span> <br/>
-
-            <label class= "classy" for="email"  >Email</label><br/>
-            <input type ="email" name ="email" #email="ngModel" [(ngModel)]="ModeloContacto.email" required/>
-            <span *ngIf="email.touched && !email.valid"> El email es obligatorio</span> <br/>
-
-            <label class= "classy" for="numero"  >Número de teléfono</label><br/>
-            <input type ="text" name ="numero" #numero="ngModel" [(ngModel)]="ModeloContacto.numero" required/>
-            <span *ngIf="numero.touched && !numero.valid"> El número de teléfono es obligatorio</span> <br/>
-
-            <label class= "classy" for="mensaje"  >Mensaje</label><br/>
-           <textarea name="mensaje" #mensaje="ngModel" [(ngModel)]="ModeloContacto.mensaje" required></textarea>
-           <span *ngIf="mensaje.touched && !mensaje.valid"> El mensaje es obligatorio</span> <br/>   
+            <div class="container">
+                <div class="row">
+             
+              
+                <label class= "classy" for="nombre"  >Nombre</label><br/>
+                <input type ="text" name ="nombre" #nombre="ngModel" [(ngModel)]="ModeloContacto.nombre" required/>
+                <span *ngIf="nombre.touched && !nombre.valid"> El nombre es obligatorio</span> <br/>
+    
+                <label class= "classy" for="email"  >Email</label><br/>
+                <input type ="email" name ="email" #email="ngModel" [(ngModel)]="ModeloContacto.email" required/>
+                <span *ngIf="email.touched && !email.valid"> El email es obligatorio</span> <br/>
+    
+                <label class= "classy" for="numero"  >Número de teléfono</label><br/>
+                <input type ="text" name ="numero" #numero="ngModel" [(ngModel)]="ModeloContacto.numero" required/>
+                <span *ngIf="numero.touched && !numero.valid"> El número de teléfono es obligatorio</span> <br/>
+    
+                <label class= "classy" for="mensaje"  >Mensaje</label><br/>
+               <textarea name="mensaje" #mensaje="ngModel" [(ngModel)]="ModeloContacto.mensaje" required></textarea>
+               <span *ngIf="mensaje.touched && !mensaje.valid"> El mensaje es obligatorio</span> <br/>   
+            </div>
         </div>
-    </div>
-     
-    </div>
-
-    <div *ngIf="mensaje_contacto_guardado">
-      <p class="alert alert-danger" role="alert">{{contacto_guardado}}</p>
-    </div>
-
-    <div class="modal-footer" data-backdrop="false" style="background-color: rgb(6, 136, 235)">
-            <button type="submit" class="btn btn-primary" [disabled]="!formContacto.form.valid" (click)="addContacto()">Enviar</button>
-    </div>
-</form>
+         
+        </div>
+    
+        <div *ngIf="mensaje_contacto_guardado">
+          <p class="alert alert-danger" role="alert">{{contacto_guardado}}</p>
+        </div>
+    
+        <div class="modal-footer" data-backdrop="false" style="background-color: #00a1ca">
+                <button type="submit" class="btn btn-primary" [disabled]="!formContacto.form.valid" (click)="addContacto()">Enviar</button>
+        </div>
+    </form>
+    
 
   </ng-template>
+
+  
 
 
 

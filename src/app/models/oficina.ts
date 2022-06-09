@@ -2,12 +2,12 @@ export interface Oficina {
     Codigo?:     number;
     Mensaje?:    string;
     Paginacion?: Paginacion;
-    Contenido?:  Contenido[];
+    Contenido:  Contenido[];
 }
 
 export interface Contenido {
-    OficinaCodigo?: string;
-    OficinaNombre?: string;
+    OficinaCodigo: string;
+    OficinaNombre: string;
 }
 
 export interface Paginacion {
