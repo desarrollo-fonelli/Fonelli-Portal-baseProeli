@@ -5,13 +5,14 @@ import {MediaMatcher} from '@angular/cdk/layout';
 
 //Modelos
 import {FiltrosVentaArticuloCliente} from 'src/app/models/ventasclientearticulo.filtros';
-import {VentasClienteArticulo} from 'src/app/models/ventasclientearticulo';
+import {VentasClienteArticulo, Articulo, Subcategorias, LineasProducto} from 'src/app/models/ventasclientearticulo';
 import {FiltrosOficina} from 'src/app/models/oficina.filtros';
 import {Oficina} from 'src/app/models/oficina';
 
 //Servicios
 import { ServicioVentasClienteArticulo } from 'src/app/services/ventasclientearticulo.service';
 import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
+import { Contenido } from '../../models/ventasclientearticulo';
 
 @Component({
   selector: 'app-ventasclientearticulo',
@@ -116,9 +117,10 @@ export class VentasclientearticuloComponent implements OnInit {
             (error:Oficina) => {
 
               this.oOficinasRes = error;
-
+              this.sMensaje="No se encontraron oficinas";
               console.log("error");
               console.log(this.oOficinasRes);
+              return;
             
             }
           );
@@ -166,7 +168,7 @@ export class VentasclientearticuloComponent implements OnInit {
  
          if(this.oVentasCliRes.Codigo != 0){
            this.bError= true;
-           this.sMensaje="No se encontraron datos del cliente";
+           this.sMensaje="No se encontraron datos de venta por artículo";
            //this.bBandera = false;
            return;
          }
@@ -183,12 +185,308 @@ export class VentasclientearticuloComponent implements OnInit {
  
          console.log("error");
          console.log(this.oVentasCliRes);
+         this.sMensaje="No se encontraron datos de venta por artículo";
        
        }
      );
   }
 
+  // #### Obten totales por lineas ####
+
+  getTotalPiezasArticulo(oArticulo: Articulo[]): number {   
+    let Total: number = 0;
+  
+    for(var art of oArticulo){ 
+        Total += art.Piezas;    
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+   }
+
+   getTotalPiezasPorArticulo(oArticulo: Articulo[]): number {   
+    let Total: number = 0;
+  
+    for(var art of oArticulo){ 
+        Total += art.PiezasPorcentaje;    
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+   }
+
+   getTotalGramosArticulo(oArticulo: Articulo[]): number {   
+    let Total: number = 0;
+  
+    for(var art of oArticulo){ 
+        Total += art.Gramos;    
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+   }
+
+   getTotalGramosPorArticulo(oArticulo: Articulo[]): number {   
+    let Total: number = 0;
+  
+    for(var art of oArticulo){ 
+        Total += art.GramosPorcentaje;    
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+   }
+
+   getTotalImpVenArticulo(oArticulo: Articulo[]): number {   
+    let Total: number = 0;
+  
+    for(var art of oArticulo){ 
+        Total += art.ImporteVenta;    
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+   }
+
+   // #### Obten totales por lineas ####
+
+  // #### Obten totales por SubCategoria ####
+  getTotalPiezasPorxSubCat(oLineaPro: LineasProducto[]): number {   
+    let Total: number = 0;  
+  
+      for(var linPro of oLineaPro){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.PiezasPorcentaje;       
+        }    
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getTotalPiezasxSubCat(oLineaPro: LineasProducto[]): number {   
+    let Total: number = 0;  
+  
+      for(var linPro of oLineaPro){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.Piezas;       
+        }    
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getTotalGramosxSubCat(oLineaPro: LineasProducto[]): number {
+    let Total: number = 0;
+  
+  
+    for(var linPro of oLineaPro){ 
+      for(var art of linPro.Articulos){ 
+        Total += art.Gramos;       
+      }    
+  }
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}
+
+
+  getTotalGramosPorxSubCat(oLineaPro: LineasProducto[]): number {  
+    let Total: number = 0;
+  
+  
+      for(var linPro of oLineaPro){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.GramosPorcentaje;       
+        }    
+      }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  } 
+   
+   getTotalImpVenxSubCat(oLineaPro: LineasProducto[]): number {   
+    let Total: number = 0;
+  
+  
+    for(var linPro of oLineaPro){ 
+      for(var art of linPro.Articulos){ 
+        Total += art.ImporteVenta;       
+      }    
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  } 
     
+   // #### Obten totales por SubCategoria ####
+
+  // #### Obten totales por Categoria ####
+  getTotalPiezasxCategoria(oSubCat: Subcategorias[]): number {   
+    let Total: number = 0;
+  
+    for(var subCat of oSubCat){ 
+      for(var linPro of subCat.LineasProducto){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.Piezas;  
+        }        
+      }
+          
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getTotalPiezasPorxCategoria(oSubCat: Subcategorias[]): number {   
+    let Total: number = 0;
+  
+    for(var subCat of oSubCat){ 
+      for(var linPro of subCat.LineasProducto){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.PiezasPorcentaje;  
+        }        
+      }
+          
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+
+  getTotalGramosxCategoria(oSubCat: Subcategorias[]): number {   
+    let Total: number = 0;
+  
+    for(var subCat of oSubCat){ 
+      for(var linPro of subCat.LineasProducto){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.Gramos;  
+        }        
+      }
+          
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+
+  getTotalGramosPorxCategoria(oSubCat: Subcategorias[]): number {   
+    let Total: number = 0;
+  
+    for(var subCat of oSubCat){ 
+      for(var linPro of subCat.LineasProducto){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.GramosPorcentaje;  
+        }        
+      }
+          
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+   getTotalImpVenxCategoria(oSubCat: Subcategorias[]): number {   
+    let Total: number = 0;
+  
+    for(var subCat of oSubCat){ 
+      for(var linPro of subCat.LineasProducto){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.ImporteVenta;  
+        }        
+      }
+          
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }    
+  // #### Obten totales por Categoria ####
+
+  // #### Obten totales por Cliente ####
+  getTotalPiezasxCliente(oContenido: Contenido[]): number {   
+  let Total: number = 0;
+  
+  for(var oConte of oContenido){ 
+    for(var oCat of oConte.Categorias){     
+    for(var subCat of oCat.Subcategorias){ 
+      for(var linPro of subCat.LineasProducto){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.Piezas;  
+        }        
+      }
+    } 
+    }
+  }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getTotalPiezasPorxCliente(oContenido: Contenido[]): number {   
+    let Total: number = 0;
+    
+    for(var oConte of oContenido){ 
+      for(var oCat of oConte.Categorias){     
+      for(var subCat of oCat.Subcategorias){ 
+        for(var linPro of subCat.LineasProducto){ 
+          for(var art of linPro.Articulos){ 
+            Total += art.PiezasPorcentaje;  
+          }        
+        }
+      } 
+      }
+    }
+      Total = Number(Total.toFixed(2));
+      return Total; 
+    }
+
+  getTotalGramosxCliente(oContenido: Contenido[]): number {   
+  let Total: number = 0;
+
+  for(var oConte of oContenido){ 
+    for(var oCat of oConte.Categorias){     
+    for(var subCat of oCat.Subcategorias){ 
+      for(var linPro of subCat.LineasProducto){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.Gramos;  
+        }        
+      }
+    } 
+    }
+  }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+
+  getTotalGramosPorxCliente(oContenido: Contenido[]): number {   
+  let Total: number = 0;
+
+  for(var oConte of oContenido){ 
+    for(var oCat of oConte.Categorias){     
+    for(var subCat of oCat.Subcategorias){ 
+      for(var linPro of subCat.LineasProducto){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.GramosPorcentaje;  
+        }        
+      }
+    } 
+    }
+  }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getTotalImpVenxCliente(oContenido: Contenido[]): number {   
+  let Total: number = 0;
+
+  for(var oConte of oContenido){ 
+    for(var oCat of oConte.Categorias){     
+    for(var subCat of oCat.Subcategorias){ 
+      for(var linPro of subCat.LineasProducto){ 
+        for(var art of linPro.Articulos){ 
+          Total += art.ImporteVenta;  
+        }        
+      }
+    } 
+    }
+  }
+  Total = Number(Total.toFixed(2));
+    return Total; 
+  }   
+
+  // #### Obten totales por Cliente ####
+
+
+
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
     sessionStorage.clear();

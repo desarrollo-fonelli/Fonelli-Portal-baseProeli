@@ -154,7 +154,7 @@ export class ConsultapedidosComponent implements OnInit {
 
         if(this.oPedidoRes.Codigo != 0){
           this.bError= true;
-          this.sMensaje="No se encontraron datos del cliente";
+          this.sMensaje="No se encontraron de pedidos";
           this.bBandera = false;
           return;
         }
@@ -167,7 +167,7 @@ export class ConsultapedidosComponent implements OnInit {
       (error:ConsultaPedido) => {
 
         this.oPedidoRes = error;
-
+        this.sMensaje="No se encontraron de pedidos";
         console.log("error");
         console.log(this.oPedidoRes);
       

@@ -166,6 +166,7 @@ consultaEstadoCuenta(){
       (error:EstadoCuenta) => {
 
         this.oEdoCuentaRes = error;
+        this.sMensaje="No se encontraron datos del estado de cuenta";
 
         console.log("error");
         console.log(this.oEdoCuentaRes);

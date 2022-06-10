@@ -194,7 +194,7 @@ consultaRelPed(){
 
         if(this.oRelacionPedRes.Codigo != 0){
           this.bError= true;
-          this.sMensaje="No se encontraron datos del cliente";
+          this.sMensaje="No se encontraron datos relacion de pedidos";
           //this.bBandera = false;
           return;
         }
@@ -208,7 +208,7 @@ consultaRelPed(){
       (error:RelacionPedidos) => {
 
         this.oRelacionPedRes = error;
-
+        this.sMensaje="No se encontraron datos relacion de pedidos";
         console.log("error");
         console.log(this.oRelacionPedRes);
       

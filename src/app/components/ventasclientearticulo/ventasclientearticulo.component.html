@@ -369,7 +369,8 @@
                         <div class="form-group col-md-6">
                             <button type="submit" (click)="consultaVentCArticulo()" class="btn btn-primary">BUSCAR</button>
                         </div>
-                    </div>            
+                    </div>    
+                    <p>{{sMensaje}}</p>   
   
   
                   
@@ -385,86 +386,84 @@
             <table class="table table-hover table-striped  ">
               <thead>
                 <tr class="bg-info">
-                  <th>TP</th><!--Pedido codigo -->
-                  <th>L</th><!-- Pedido letra -->
-                  <th>PEDIDO</th><!--Pedido folio -->
-                  <th>CLTE</th><!--Cliente codigo -->
-                  <th>FIL</th><!--Cliente filial -->
-                  <th>FECHA PEDIDO</th><!--Fecha pedido -->
-                  <th>FECHA APROD</th><!--Fecha pedido produccion -->
-                  <th>FECHA CANCOP</th><!--Fecha cancelacion -->
-                  <th>S</th><!--Pedido status -->
-                  <th>DIAS ATRAS</th><!--Dias atraso -->
-                  <th class="text-right">CANT PEDID</th><!--Cantidad perdida -->
-                  <th class="text-right">IMPORTE</th><!-- Cantidad perdida importe -->
-                  <th class="text-right">VALOR AGREGADO</th><!---->
-                  <th class="text-right">CANT SURTID</th><!--Cantidad surtida -->
-                  <th class="text-right">IMPORTE</th><!--Cantidad surtida importe -->
-                  <th class="text-right">VALOR AGREGADO</th><!-- -->
-                  <th class="text-right">DIFER</th><!--Diferencia cantidad producto -->
-                  <th class="text-right">IMPORTE</th><!--Diferencia importe surtido -->
+                  <th>LN</th>
+                  <th>DESCRIPCION LÍNEA</th>
+                  <th>COLECCIÓN</th>
+                  <th class="text-right">PIEZAS</th>
+                  <th class="text-right">%P/CAT</th>
+                  <th class="text-right">GRAMOS</th>
+                  <th class="text-right">%G/CAT</th>
+                  <th class="text-right">IMPORTE VENTA</th>              
                 </tr>
               </thead>
               <tbody>
                 <ng-container *ngFor="let venArt of oVentasCliRes.Contenido ">
                   <tr class="table-info">
-                    <td colspan="3">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
+                    <td colspan="8">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
                   </tr>
                   <ng-container *ngFor="let cat of venArt.Categorias;">
                     
                     <tr class="table-warning">
-                      <td colspan="3">{{'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoriaNombre }}</td>
+                      <td colspan="8">{{'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoriaNombre }}</td>
                     </tr>
-                    
-                    <tr *ngFor="let subCat of cat.Subcategorias;" >                
-                      
-                      <td>{{subCat.SubcategoCodigo + ' - ' + subCat.SubcategoNombre }}</td>
-                    </tr> 
-                      <!-- <td>{{pedido.PedidoLetra}}</td>
-                      <td>{{tipoPed.TipoPedidoCodigo}}</td>
-                      <td><u>{{pedido.PedidoFolio}}</u></td>
-                      <td>{{pedido.ClienteCodigo}}</td>
-                      <td>{{pedido.ClienteFilial}}</td>
-                      <td>{{pedido.FechaPedido}}</td>
-                      <td>{{pedido.FechaPedidoProduccion}}</td>
-                      <td>{{pedido.FechaCancelacion}}</td>
-                      <td>{{pedido.PedidoStatus}}</td>
-                      <td>{{pedido.DiasAtraso}}</td>
-                      <td class="text-right">{{pedido.CantidadPedida}}</td>
-                      <td class="text-right">{{pedido.CantidadPedidaImporte}}</td>
-                      <td class="text-right">{{pedido.CantidadPedidaValorAgregado}}</td>                
-                      <td class="text-right">{{pedido.CantidadSurtida}}</td>                
-                      <td class="text-right">{{pedido.CantidadSurtidaImporte}}</td>                
-                      <td class="text-right">{{pedido.CantidadSurtidaValorAgregado}}</td>                
-                      <td class="text-right">{{pedido.DiferenciaCantidadProducido}}</td>                
-                      <td class="text-right">{{pedido.DiferenciaImporteSurtido}}</td>                 -->
-                   
-    
-                    <!-- TOTAL PEDIDOS-->
-                    <!-- <tr>
+
+                    <ng-container *ngFor="let subCat of cat.Subcategorias;">
+                      <tr>  
+                        <td>{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>
+                      </tr> 
+
+                      <ng-container *ngFor="let linPro of subCat.LineasProducto;">
+                        <tr>  
+                          <td>{{linPro.LineaCodigo}}</td>
+                          <td>{{linPro.LineaDescripc}}</td>
+                          <td>{{linPro.ColeccionDescripc}}</td>
+                          <td class="text-right">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
+                          <td class="text-right">{{getTotalPiezasPorArticulo(linPro.Articulos)}}</td>
+                          <td class="text-right">{{getTotalGramosArticulo(linPro.Articulos)}}</td>
+                          <td class="text-right">{{getTotalGramosPorArticulo(linPro.Articulos)}}</td>
+                          <td class="text-right">{{getTotalImpVenArticulo(linPro.Articulos)}}</td>
+                        </tr> 
+
+                      </ng-container>
+
+                      <tr>  
+                        <td></td>
+                        <td></td>      
+                        <td class="text-right">Total SubCategoria</td>
+                        <td class="text-right"><strong>{{getTotalPiezasxSubCat(subCat.LineasProducto)}}</strong></td>
+                        <td class="text-right"><strong>{{getTotalPiezasPorxSubCat(subCat.LineasProducto)}}</strong></td>
+                        <td class="text-right"><strong>{{getTotalGramosxSubCat(subCat.LineasProducto)}}</strong></td>
+                        <td class="text-right"><strong>{{getTotalGramosPorxSubCat(subCat.LineasProducto)}}</strong></td>
+                        <td class="text-right"><strong>{{getTotalImpVenxSubCat(subCat.LineasProducto)}}</strong></td>
+                      </tr> 
+
+                    </ng-container>
+
+                    <tr>  
                       <td></td>
-                      <td></td>
-                      <td><strong>Total</strong></td>
-                      <td><strong>{{getTotalPedidos(tipoPed.Pedidos)}}</strong></td>
-                      <td></td>
-                      <td>Pedidos</td>
-                      <td></td>
-                      <td><strong>{{tipoPed.TipoPedido}}</strong></td>
-                      <td></td>
-                      <td></td>   
-                      <td class="text-right"><strong>{{getTotalCanPed(tipoPed.Pedidos)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalImportes(tipoPed.Pedidos)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalCPValorAgregado(tipoPed.Pedidos)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalCanSurtida(tipoPed.Pedidos)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalCanSurtidaImporte(tipoPed.Pedidos)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalCSValorImporte(tipoPed.Pedidos)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalDifCantidadPro(tipoPed.Pedidos)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalDifImporteSurtido(tipoPed.Pedidos)}}</strong></td>
-                    </tr>                -->
-                    <!-- </ng-container> -->
+                      <td></td>      
+                      <td class="text-right">Total Categoria</td>
+                      <td class="text-right"><strong>{{getTotalPiezasxCategoria(cat.Subcategorias)}}</strong></td>
+                      <td class="text-right"><strong>{{getTotalPiezasPorxCategoria(cat.Subcategorias)}}</strong></td>
+                      <td class="text-right"><strong>{{getTotalGramosxCategoria(cat.Subcategorias)}}</strong></td>
+                      <td class="text-right"><strong>{{getTotalGramosPorxCategoria(cat.Subcategorias)}}</strong></td>
+                      <td class="text-right"><strong>{{getTotalImpVenxCategoria(cat.Subcategorias)}}</strong></td>
+                    </tr>                    
+
                   </ng-container>
     
-                <!-- TOTAL OFICINA-->
+                <!-- TOTAL CLIENTE-->
+
+                <tr>  
+                  <td></td>
+                  <td></td>      
+                  <td class="text-right">Total Cliente</td>
+                  <td class="text-right"><strong>{{getTotalPiezasxCliente(oVentasCliRes.Contenido)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalPiezasPorxCliente(oVentasCliRes.Contenido)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalGramosxCliente(oVentasCliRes.Contenido)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalGramosPorxCliente(oVentasCliRes.Contenido)}}</strong></td>
+                  <td class="text-right"><strong>{{getTotalImpVenxCliente(oVentasCliRes.Contenido)}}</strong></td>
+                </tr> 
                 <!-- <tr>
                   <td></td>
                   <td></td>
