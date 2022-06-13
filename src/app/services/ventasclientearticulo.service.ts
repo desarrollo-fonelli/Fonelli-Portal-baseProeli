@@ -58,12 +58,12 @@ Get(FiltrosVentasClienteArticulo: any): Observable<any>{
                                     this.sFiltros += '&CategoriaHasta=' + FiltrosVentasClienteArticulo.CategoriaHasta;
                                     this.sFiltros += '&SubcategoHasta=' + FiltrosVentasClienteArticulo.SubcategoriaHasta;
                                     
-                                    if(FiltrosVentasClienteArticulo.TipoArticulo)
+                                    if(FiltrosVentasClienteArticulo.TipoArticulo != 'T')
                                     {
                                         this.sFiltros += '&TipoArticulo=' + FiltrosVentasClienteArticulo.TipoArticulo;
                                     }
 
-                                    if(FiltrosVentasClienteArticulo.TipoOrigen)
+                                    if(FiltrosVentasClienteArticulo.TipoOrigen!= 'T')
                                     {
                                         this.sFiltros += '&TipoOrigen=' + FiltrosVentasClienteArticulo.TipoOrigen;
                                     }

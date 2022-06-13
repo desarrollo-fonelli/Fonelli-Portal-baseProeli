@@ -8,12 +8,14 @@ import { Configuracion } from "src/app/models/configuraciones";
 @Injectable()
 export class ServicioConsultaPedidos{
     public API: string;
+    public sFiltros: string;
 
 constructor(
     public _http:HttpClient
 ){
 
     this.API = Configuracion.API;
+    this.sFiltros = '';
 
 }
 
@@ -36,12 +38,33 @@ Get(FiltrosConPedidos: any): Observable<any>{
                           '&Pagina='+ FiltrosConPedidos.Pagina,
                           {headers:headers});*/
 
-    return this._http.get(this.API + 'reportes/ConsultaPedidos.php?'+
-                          'TipoUsuario='+ FiltrosConPedidos.TipoUsuario +
-                          '&ClienteCodigo='+ FiltrosConPedidos.ClienteCodigo +
-                          '&ClienteFilial='+ FiltrosConPedidos.ClienteFilial +
-                          '&Status='+ FiltrosConPedidos.Status,                         
-                          {headers:headers});
+                          this.sFiltros='';
+
+
+                          if(FiltrosConPedidos.TipoUsuario)
+                          {
+                              this.sFiltros += '&TipoUsuario=' + FiltrosConPedidos.TipoUsuario;
+                          }
+
+
+                          if(FiltrosConPedidos.ClienteCodigo)
+                          {
+                              this.sFiltros += '&ClienteCodigo=' + FiltrosConPedidos.ClienteCodigo;
+                          }
+                      
+                          if(FiltrosConPedidos.ClienteFilial || FiltrosConPedidos.ClienteFilial==0)
+                          {
+                              this.sFiltros += '&ClienteFilial=' + FiltrosConPedidos.ClienteFilial;
+                          }
+
+                          if(FiltrosConPedidos.Status != 'T')
+                          {
+                              this.sFiltros += '&Status=' + FiltrosConPedidos.Status;
+                          }
+
+                     
+
+    return this._http.get(this.API + 'reportes/ConsultaPedidos.php?'+this.sFiltros,{headers:headers});
 }
 
 

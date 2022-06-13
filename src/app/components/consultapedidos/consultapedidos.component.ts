@@ -2,6 +2,8 @@
 import { Component, OnInit,ChangeDetectorRef, OnDestroy } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { Router,ActivatedRoute,Params } from '@angular/router';
+import { DecimalPipe } from '@angular/common';
+import { FormControl } from '@angular/forms';
 
 import {
   NgbModal,
@@ -24,14 +26,18 @@ import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
   selector: 'app-consultapedidos',
   templateUrl: './consultapedidos.component.html',
   styleUrls: ['./consultapedidos.component.css'],
-  providers:[ServicioConsultaPedidos,ServicioDetallePedido]
+  providers:[ServicioConsultaPedidos,ServicioDetallePedido, DecimalPipe]
 })
 export class ConsultapedidosComponent implements OnInit {
+
+  searchtext = '';
 
   sCodigo :number | null;
   sTipo :string | null;
   sFilial :number | null;
   sNombre :string | null;
+
+  public bCliente: boolean;
 
   public oBuscar: FiltrosConsultaPedidos;
   oPedidoRes: ConsultaPedido; 
@@ -60,18 +66,6 @@ export class ConsultapedidosComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
 
-  fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
-
-  fillerContent = Array.from(
-    {length: 50},
-    () =>
-      `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-       labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-       laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-       voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-       cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-  );
-
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef,
@@ -90,6 +84,8 @@ export class ConsultapedidosComponent implements OnInit {
     this.sTipo = sessionStorage.getItem('tipo');
     this.sFilial  = Number(sessionStorage.getItem('filial'));
     this.sNombre = sessionStorage.getItem('nombre');
+
+    this.bCliente=false;
 
     //Inicializamos variables consulta pedidos
     this.oBuscar = new FiltrosConsultaPedidos('',0,0,0,'');
@@ -114,16 +110,27 @@ export class ConsultapedidosComponent implements OnInit {
       console.log('ingresa VALIDACION');
       this._router.navigate(['/']);
     }
+
+    if(this.sTipo=='C')
+    {
+      this.bCliente=true;
+      this.oBuscar.ClienteCodigo= this.sCodigo;
+      this.oBuscar.ClienteFilial= this.sFilial;
+      this.oBuscar.Status= 'A';
+
+    }
+    else{
+      this.bCliente=false;
+    }
+
+
+
+
   }
 
-  shouldRun = true;
-
-
-
-
-
-//Funcion para consultar los pedidos 
+ //Funcion para consultar los pedidos 
   consultaPedido(){
+    this.bBandera = false;
     console.log("consultaPedido");
 
     //Inicializamos el tipo de usuario por el momento

@@ -1,6 +1,8 @@
 import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
+import { DecimalPipe } from '@angular/common';
+import { FormControl } from '@angular/forms';
 
 import {
   NgbModal,
@@ -26,7 +28,7 @@ import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
   selector: 'app-relacionpedidos',
   templateUrl: './relacionpedidos.component.html',
   styleUrls: ['./relacionpedidos.component.css'],
-  providers:[ServicioRelacionPedido,ServicioOficinas,ServicioDetallePedido]
+  providers:[ServicioRelacionPedido,ServicioOficinas,ServicioDetallePedido, DecimalPipe]
 })
 export class RelacionpedidosComponent implements OnInit {
 
@@ -34,6 +36,7 @@ export class RelacionpedidosComponent implements OnInit {
   sTipo :string | null;
   sFilial :number | null;
   sNombre :string | null;
+  searchtext = '';
 
   public oBuscar: FiltrosRelacionPedidos;
   oRelacionPedRes: RelacionPedidos; 
@@ -56,19 +59,7 @@ export class RelacionpedidosComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
 
-  fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
-
-  fillerContent = Array.from(
-    {length: 50},
-    () =>
-      `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-       labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-       laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-       voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-       cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-  );
-
-  private _mobileQueryListener: () => void;
+   private _mobileQueryListener: () => void;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
@@ -165,8 +156,6 @@ export class RelacionpedidosComponent implements OnInit {
      } 
 
     }
-
-    shouldRun = true;
 
 //Funcion para consultar la relacion de pedidos
 consultaRelPed(){

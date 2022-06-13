@@ -5,7 +5,24 @@
       <img  src="../../../assets/images/principal/logo_fonelli.png"  >
     </a>      
   </div>
-  <button (click)="EliminaSesion()" class="btn btn-primary btn-sm ml-auto">Cerrar Sesión</button>
+  <!--<button (click)="EliminaSesion()" class="btn btn-primary btn-sm ml-auto">Cerrar Sesión</button>-->
+
+  <div class="ms-auto">
+    <button mat-button [matMenuTriggerFor]="menu">
+      <img src="../../../assets/images/principal/usuario.png"  alt="" style="height:30px ; width:30px;">
+    </button>
+    <mat-menu #menu="matMenu" class="profile-dropdown">
+
+      <span class="fs-16" mat-menu-item>{{sCuenta}}</span>
+      <span  *ngIf="bCliente" class="fs-16" mat-menu-item>{{'Cuenta: ' + sCodigo +'-'+ sFilial}}</span>
+      <span class="fs-16" mat-menu-item>{{'Nombre: ' + sNombre}}</span>
+      
+      <hr>
+        <button (click)="EliminaSesion()" class="btn btn-info w-100">Cerrar Sesión</button>
+      
+    </mat-menu>
+  </div>
+
 </mat-toolbar>
 
 
@@ -17,12 +34,12 @@
 <mat-nav-list>
 
 <a mat-list-item [routerLink]="['/distribuidores/']"> <span class="font_side">Inicio</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"><span class="font_side">Datos generales de Clientes</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"><span class="font_side">Consulta de Precios</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']"><span class="font_side">Consulta de Pedidos</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"><span class="font_side">Relación de Pedidos</span></a> 
-<a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"><span class="font_side">Estado de Cuenta</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"><span class="font_side">Ventas por Artículo</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"><span class="font_side">Datos generales de clientes</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"><span class="font_side">Consulta de precios</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']"><span class="font_side">Consulta de pedidos</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"><span class="font_side">Relación de pedidos</span></a> 
+<a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"><span class="font_side">Estado de cuenta</span></a>
+<a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"><span class="font_side">Ventas por artículo</span></a>
 
 </mat-nav-list>
 </mat-sidenav>

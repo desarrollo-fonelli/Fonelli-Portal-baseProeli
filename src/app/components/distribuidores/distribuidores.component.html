@@ -1,32 +1,32 @@
 <ngb-carousel >
     <ng-template ngbSlide>
       <div class="picsum-img-wrapper">
-        <img src="../../../assets/images/banner_distribuidor/1.jpg" alt="Random first slide">
+        <img src="../../../assets/images/banner_distribuidor/1.png" alt="Random first slide" [style]="mobileQuery.matches ? 'height: 450px; width: 450px;' : 'height: 550px; width: 800px;'"  >
       </div>
-      <div class="carousel-caption">
+      <!--<div class="carousel-caption">
         <h3>10 seconds between slides...</h3>
         <p>This carousel uses customized default values.</p>
-      </div>
+      </div>-->
     </ng-template>
     <ng-template ngbSlide>
       <div class="picsum-img-wrapper">
-        <img src="../../../assets/images/banner_distribuidor/img_2.jpg" alt="Random second slide">
+        <img src="../../../assets/images/banner_distribuidor/2.png" alt="Random second slide" [style]="mobileQuery.matches ? 'height: 450px; width: 450px;' : 'height: 550px; width: 800px;'">
       </div>
-      <div class="carousel-caption">
+      <!--<div class="carousel-caption">
         <h3>No mouse events...</h3>
         <p>This carousel doesn't pause or resume on mouse events</p>
-      </div>
+      </div>-->
     </ng-template>
     <ng-template ngbSlide>
       <div class="picsum-img-wrapper">
-        <img src="../../../assets/images/banner_distribuidor/img_3.jpg"  alt="Random third slide">
+        <img src="../../../assets/images/banner_distribuidor/3.png"  alt="Random third slide" [style]="mobileQuery.matches ? 'height: 450px; width: 450px;' : 'height: 550px; width: 800px;'">
       </div>
-      <div class="carousel-caption">
+      <!--<div class="carousel-caption">
         <h3>No keyboard...</h3>
         <p>This carousel uses customized default values.</p>
-      </div>
+      </div>-->
     </ng-template>
-    <ng-template ngbSlide>
+    <!--<ng-template ngbSlide>
       <div class="picsum-img-wrapper">
         <img src="../../../assets/images/banner_distribuidor/img_4.jpg" alt="Random fourth slide">
       </div>
@@ -34,6 +34,6 @@
         <h3>And no wrap after last slide.</h3>
         <p>This carousel uses customized default values.</p>
       </div>
-    </ng-template>
+    </ng-template>-->
   </ngb-carousel>
   

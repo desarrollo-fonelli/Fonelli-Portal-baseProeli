@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef, } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 declare let AOS: any;
 

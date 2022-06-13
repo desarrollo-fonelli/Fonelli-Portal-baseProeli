@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef  } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 
 
@@ -11,9 +12,19 @@ import { Router,ActivatedRoute,Params } from '@angular/router';
 
 })
 export class DistribuidoresComponent implements OnInit {
+  mobileQuery: MediaQueryList;
+
+
+  private _mobileQueryListener: () => void;
 
   constructor(private _route: ActivatedRoute,
-    private _router: Router) { 
+    private _router: Router,
+    changeDetectorRef: ChangeDetectorRef, 
+    media: MediaMatcher) { 
+
+      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+      this.mobileQuery.addListener(this._mobileQueryListener);
 
     }
   

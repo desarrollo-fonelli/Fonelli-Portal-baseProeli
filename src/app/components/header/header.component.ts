@@ -1,5 +1,6 @@
-import { Component, OnInit,VERSION  } from '@angular/core';
+import { Component, OnInit,VERSION,ChangeDetectorRef  } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
+import {MediaMatcher} from '@angular/cdk/layout';
 
 import {
   NgbModal,
@@ -35,6 +36,10 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 
 export class HeaderComponent implements OnInit {
+  mobileQuery: MediaQueryList;
+
+
+  private _mobileQueryListener: () => void;
 
   closeResult = '';
   
@@ -61,10 +66,17 @@ export class HeaderComponent implements OnInit {
     private _servicioLoginEjecutivo: ServicioLoginEjecutivo,
     private _route: ActivatedRoute,
     private _router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    changeDetectorRef: ChangeDetectorRef, 
+    media: MediaMatcher
     
 
   ) {
+
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addListener(this._mobileQueryListener);
+    
     this.ModeloContacto = new Contacto('', '', '', '');
     this.ModeloLoginDistribuidor = new LoginDistribuidor('', '','');
     this.ModeloLoginEjecutivo = new LoginEjecutivo('', '', '');

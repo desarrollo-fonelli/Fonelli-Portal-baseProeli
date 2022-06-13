@@ -7,6 +7,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 
@@ -36,7 +37,11 @@ import { NgbdTablePagination } from './components/tabla/table-pagination';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 
-
+//Pipes
+import { SearchEstadoCuentaPipe } from './pipes/estadocuenta.pipe';
+import { SearchConsultaPedidoPipe } from './pipes/consultapedidos.pipe';
+import { SearchRelacionPedidosPipe } from './pipes/relacionpedidos.pipe';
+import { SearchVentasClienteArticuloPipe } from './pipes/ventasclientearticulo.pipe';
 
 
 
@@ -64,7 +69,11 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     HeaderComponent,
     FooterComponent,
     SidenavComponent,
-    NgbdTablePagination
+    NgbdTablePagination,
+    SearchEstadoCuentaPipe ,
+    SearchConsultaPedidoPipe,
+    SearchRelacionPedidosPipe,
+    SearchVentasClienteArticuloPipe
   ],
   imports: [
     BrowserModule,
@@ -77,7 +86,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule 
   ],
   providers: [
     appRoutingProviders

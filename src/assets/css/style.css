@@ -1,6 +1,6 @@
 .fondo_fonelli {
 
-   background-image: url("../images/diamante_destello.jpg");
+   background-image: url("../images/fondo/diamante_destello.jpg");
 
    background-position: center;
 
@@ -21,6 +21,14 @@
    font-family: "Quicksand-SemiBold";
 
    src: url("../fonts/Quicksand-SemiBold.ttf");
+
+}
+
+@font-face {
+
+   font-family: "Brittany-Angella";
+
+   src: url("../fonts/brittany-angella.ttf");
 
 }
 
@@ -70,4 +78,19 @@
 .footer-list {
    background: #00a1ca;
    text-align: center;
+}
+
+.font_video {
+   font-family: "Brittany-Angella";
+   color: black;
+
+   font-size: 100px;
+}
+
+.font_video_movil {
+   font-family: "Brittany-Angella";
+   color: black;
+   text-align: left;
+
+   font-size: 50px;
 }

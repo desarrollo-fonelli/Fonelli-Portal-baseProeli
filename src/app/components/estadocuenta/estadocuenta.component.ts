@@ -1,6 +1,8 @@
 import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
+import { DecimalPipe } from '@angular/common';
+import { FormControl } from '@angular/forms';
 
 //Modelos
 import {FiltrosEstadoCuenta} from 'src/app/models/estadocuenta.filtros';
@@ -15,7 +17,8 @@ import { ServicioEstadoCuenta } from 'src/app/services/estadocuenta.service';
   selector: 'app-estadocuenta',
   templateUrl: './estadocuenta.component.html',
   styleUrls: ['./estadocuenta.component.css'],
-  providers:[ServicioEstadoCuenta]
+  providers:[ServicioEstadoCuenta,
+    DecimalPipe]
 })
 export class EstadocuentaComponent implements OnInit {
 
@@ -23,6 +26,8 @@ export class EstadocuentaComponent implements OnInit {
   sTipo :string | null;
   sFilial :number | null;
   sNombre :string | null;
+
+  searchtext = '';
 
   public oBuscar: FiltrosEstadoCuenta;
   oEdoCuentaRes: EstadoCuenta; 
