@@ -1,8 +1,12 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
 
 import {
   NgbModal,
@@ -32,6 +36,8 @@ import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
 })
 export class RelacionpedidosComponent implements OnInit {
 
+  @ViewChild('pdfTable') pdfTable: ElementRef;
+  
   sCodigo :number | null;
   sTipo :string | null;
   sFilial :number | null;
@@ -116,8 +122,7 @@ export class RelacionpedidosComponent implements OnInit {
             (Response: Oficina) => {
 
               this.oOficinasRes = Response;
-              console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
-              //console.log(this.pedido);
+              //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );              
 
               if(this.oOficinasRes.Codigo != 0){
                 this.bError= true;
@@ -140,8 +145,28 @@ export class RelacionpedidosComponent implements OnInit {
             }
           );
 
+          let date: Date = new Date
+          let mes;
+          
+          //Valida mes 
+          if (date.getMonth().toString.length == 1){
+            mes = '0'+(date.getMonth()+1);
+          }
+
+          let fechaActual =  (date.getFullYear()+1) +'-'+ mes +'-'+date.getDate();          
+          let fechaAyer =  date.getFullYear()+'-'+ mes +'-'+(date.getDate()-1);                 
+ 
+
            this.oBuscar.ClienteDesde = this.sCodigo; 
            this.oBuscar.ClienteHasta = this.sCodigo;   
+           this.oBuscar.Status = 'A';
+           this.oBuscar.TipoPedido = 'E';
+           this.oBuscar.TipoOrigen = 'T';
+           this.oBuscar.SoloAtrasados = 'T';
+           this.oBuscar.FechaPedidoDesde = '2000-01-01';
+           this.oBuscar.FechaPedidoHasta = fechaAyer;
+           this.oBuscar.FechaCancelacDesde = '2000-01-01';
+           this.oBuscar.FechaCancelacHasta = fechaActual;
            this.bCliente = true;    
            break; 
         } 
@@ -660,6 +685,17 @@ getTotalPedidosDetalle(Pedido: PedidoArticulo[]): number {
  }
 
  //###### TOTALES DETALLE PEDIDO ####
+
+ downloadAsPDF() {
+
+  const pdfTable = this.pdfTable.nativeElement;
+  console.log(pdfTable);
+  var html = htmlToPdfmake(pdfTable.innerHTML);
+  console.log(html);
+  const documentDefinition = {  pageOrientation: 'landscape',content: html};
+  pdfMake.createPdf(documentDefinition).open();
+
+}
     
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

@@ -74,7 +74,7 @@ Get(FiltrosRelPedido: any): Observable<any>{
                         this.sFiltros += '&FechaCancelacHasta=' + FiltrosRelPedido.FechaCancelacHasta;
                         
 
-                        if(FiltrosRelPedido.Status)
+                        if(FiltrosRelPedido.Status !='T')
                         {
                         this.sFiltros += '&Status=' + FiltrosRelPedido.Status;
                         }
@@ -86,13 +86,13 @@ Get(FiltrosRelPedido: any): Observable<any>{
                         }
 
 
-                        if(FiltrosRelPedido.TipoOrigen)
+                        if(FiltrosRelPedido.TipoOrigen !='T')
                         {
                         this.sFiltros += '&TipoOrigen=' + FiltrosRelPedido.TipoOrigen;
                         }
 
 
-                        if(FiltrosRelPedido.SoloAtrasados)
+                        if(FiltrosRelPedido.SoloAtrasados !='T')
                         {
                         this.sFiltros += '&SoloAtrasados=' + FiltrosRelPedido.SoloAtrasados;
                         }

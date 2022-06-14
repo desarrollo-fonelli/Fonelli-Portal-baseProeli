@@ -124,6 +124,11 @@
         </div>
 
         <div *ngIf="bBandera" class="table-responsive-sm">
+          <div class="col-md-4 text-right">
+            <button class="btn btn-success btn-block" (click)="downloadAsPDF()">      
+              Download PDF      
+            </button>      
+          </div>
 
           <input
           type="text"
@@ -132,7 +137,7 @@
           placeholder="Search"
         />
     
-
+        <div id="pdfTable" #pdfTable>
           <table class="table table-hover table-striped  ">
             <thead>
               <tr class="bg-info">
@@ -192,102 +197,109 @@
                   <td></td>
                   <td  class="text-right">{{getTotalVencido(cartera.Movimientos)}}</td>
                   <td></td>
+                  <td></td>
                 </tr>
               </ng-container>
              
             </ng-container>              
             </tbody>               
           </table>
-      </div> 
 
-      <br>
-      <br>
-<!-- Tablas resumen status cliente y resumen tipo cliente  -->
-      <div *ngIf="bBandera" >
-        <div class="container">
-          <div class="row">
+          <h1 class="pdf-pagebreak-before"></h1>
+          <p></p>
+      
 
-            <div class="col-12 col-lg-2">
-              <table class="table table-sm  table-responsive">
-                <thead>
-                  <tr class="bg-info">
-                    <th colspan="2">CLIENTES</th>
-                  
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container *ngFor="let cliente of oResumenStatusCliente ">
-                    <tr>
-                      <td>{{cliente.StatusClienteDescripc}}</td>
-                      <td  class="text-right">{{cliente.StatusClienteNumero}}</td>
-                    </tr>              
-                </ng-container>              
-                </tbody>               
-              </table>
+          <br>
+          <br>
+          <!-- Tablas resumen status cliente y resumen tipo cliente  -->
+          <div *ngIf="bBandera" >
+            <div class="container">
+              <div class="row">
+
+                <div class="col-12 col-lg-2">
+                  <table class="table table-sm  table-responsive">
+                    <thead>
+                      <tr class="bg-info">
+                        <th colspan="2">CLIENTES</th>
+                      
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let cliente of oResumenStatusCliente ">
+                        <tr>
+                          <td>{{cliente.StatusClienteDescripc}}</td>
+                          <td  class="text-right">{{cliente.StatusClienteNumero}}</td>
+                        </tr>              
+                    </ng-container>              
+                    </tbody>               
+                  </table>
+                </div>
+
+
+                <div class="col-12 col-lg-2">
+                  <table class="table table-sm  ">
+                    <thead>
+                      <tr class="bg-info">
+                        <th>TC</th>
+                        <th>TOTAL</th>                  
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let resCliente of oResumenTipoCliente ">
+                        <tr>
+                          <td>{{resCliente.TipoClienteCodigo}}</td>
+                          <td class="text-right">{{resCliente.TipoClienteTotal}}</td>
+                        </tr>              
+                    </ng-container>              
+                    </tbody>               
+                  </table>
+                </div>
+
+                <br>
+                <br>
+                <h2>Resumen Tipos de Cartera</h2>
+                <!-- Tablas resumen status cliente y resumen tipo cliente  -->
+                <div *ngIf="bBandera" >
+                  <table class="table table-sm  ">
+                    <thead>
+                      <tr class="bg-info">
+                        <th>CART</th>
+                        <th>DESCRIPCION</th>                  
+                        <th class="text-right">CARGOS</th>                  
+                        <th class="text-right">ABONOS</th>                  
+                        <th class="text-right">SALDO</th>                  
+                        <th class="text-right">SALDO VENCIDO</th>                  
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <ng-container *ngFor="let resCartera of oResumenTipoCartera ">
+                        <tr>
+                          <td>{{resCartera.TipoCarteraCodigo}}</td>
+                          <td>{{resCartera.TipoCarteraDescripc}}</td>
+                          <td class="text-right">{{resCartera.TipoCarteraCargos}}</td>
+                          <td class="text-right">{{resCartera.TipoCarteraAbonos}}</td>
+                          <td class="text-right">{{resCartera.TipoCarteraSaldo}}</td>
+                          <td class="text-right">{{resCartera.TipoCarteraSaldoVencido}}</td>
+                        </tr>              
+                    </ng-container>              
+                    </tbody>               
+                  </table>
+                </div>           
+
+                
+                
+              </div>
             </div>
-
-
-            <div class="col-12 col-lg-2">
-              <table class="table table-sm  ">
-                <thead>
-                  <tr class="bg-info">
-                    <th>TC</th>
-                    <th>TOTAL</th>                  
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container *ngFor="let resCliente of oResumenTipoCliente ">
-                    <tr>
-                      <td>{{resCliente.TipoClienteCodigo}}</td>
-                      <td class="text-right">{{resCliente.TipoClienteTotal}}</td>
-                    </tr>              
-                </ng-container>              
-                </tbody>               
-              </table>
-            </div>
-
-            <br>
-            <br>
-            <h2>Resumen Tipos de Cartera</h2>
-            <!-- Tablas resumen status cliente y resumen tipo cliente  -->
-            <div *ngIf="bBandera" >
-              <table class="table table-sm  ">
-                <thead>
-                  <tr class="bg-info">
-                    <th>CART</th>
-                    <th>DESCRIPCION</th>                  
-                    <th class="text-right">CARGOS</th>                  
-                    <th class="text-right">ABONOS</th>                  
-                    <th class="text-right">SALDO</th>                  
-                    <th class="text-right">SALDO VENCIDO</th>                  
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container *ngFor="let resCartera of oResumenTipoCartera ">
-                    <tr>
-                      <td>{{resCartera.TipoCarteraCodigo}}</td>
-                      <td>{{resCartera.TipoCarteraDescripc}}</td>
-                      <td class="text-right">{{resCartera.TipoCarteraCargos}}</td>
-                      <td class="text-right">{{resCartera.TipoCarteraAbonos}}</td>
-                      <td class="text-right">{{resCartera.TipoCarteraSaldo}}</td>
-                      <td class="text-right">{{resCartera.TipoCarteraSaldoVencido}}</td>
-                    </tr>              
-                </ng-container>              
-                </tbody>               
-              </table>
-            </div>           
-
+          
             
-            
-          </div>
-        </div>
-       
-        
-    </div> 
+          </div> 
 
+      
+         
+        </div> 
+  </div> 
 
-
-      </section>
+</section>
   
   
    

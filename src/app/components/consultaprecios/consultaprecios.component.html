@@ -19,6 +19,7 @@
                           name="idNumpPre"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.ClienteCodigo"
+                          disabled="{{ bCliente }}"
                           required
                         >
                       </div>
@@ -31,11 +32,16 @@
                           name="idFilPre"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.ClienteFilial"
+                          disabled="{{ bCliente }}"
                           required
                         >
                       </div>
                       <div class="form-group col-md-6">
-                          <button type="submit" class="btn btn-primary">CATALOGO DE CLIENTES</button>
+                          <button 
+                            type="submit"
+                             class="btn btn-primary"
+                             hidden="{{ bCliente }}"
+                             >CATALOGO DE CLIENTES</button>
                       </div>
 
 
@@ -52,8 +58,8 @@
                           [(ngModel)]="oBuscar.Lista"
                           required
                         >
-                          <option value="Lista 1">Lista 1</option>
-                          <option value="Lista 2">Lista 2</option>
+                          <option value="Lista 1">Pedido</option>
+                          <option value="Lista 2">Servicio</option>
                           
                         </select>
                       </div>
@@ -65,12 +71,13 @@
 
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label >Tipo de paridad</label>
+                        <label hidden="{{ bCliente }}">Tipo de paridad</label>
                         <select 
                           class="form-select"
                           name="idParidadPre"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.Paridad"
+                          hidden="{{ bCliente }}"
                           required
                         >
                           <option value="Normal">Normal</option>

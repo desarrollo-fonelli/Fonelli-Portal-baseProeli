@@ -1,8 +1,12 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
 
 //Modelos
 import {FiltrosEstadoCuenta} from 'src/app/models/estadocuenta.filtros';
@@ -21,6 +25,8 @@ import { ServicioEstadoCuenta } from 'src/app/services/estadocuenta.service';
     DecimalPipe]
 })
 export class EstadocuentaComponent implements OnInit {
+
+  @ViewChild('pdfTable') pdfTable: ElementRef;
 
   sCodigo :number | null;
   sTipo :string | null;
@@ -231,12 +237,33 @@ consultaEstadoCuenta(){
       total += cartera.Movimientos.map(item => item.Saldo).reduce((total,actual) => total + actual,0);
     });
 
-
-
     ;
     return total;
    }
 
+
+   downloadAsPDF() {
+
+    const pdfTable = this.pdfTable.nativeElement;
+    console.log(pdfTable);
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+    console.log(html);
+    const documentDefinition = {  pageOrientation: 'landscape',content: html,   
+      styles:{
+        'html-th':{
+          background:'yellow'
+        }
+      },
+      pageBreakBefore: function(currentNode) {
+        return currentNode.style && currentNode.style.indexOf('pdf-pagebreak-before') > -1;
+      }
+      
+  
+
+    };
+    pdfMake.createPdf(documentDefinition).open();
+
+  }
 
     
 //Funcion para cerrar sesion y redireccionar al home

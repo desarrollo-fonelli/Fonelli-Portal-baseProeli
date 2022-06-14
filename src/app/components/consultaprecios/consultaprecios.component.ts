@@ -23,6 +23,8 @@ export class ConsultapreciosComponent implements OnInit {
   sFilial :number | null;
   sNombre :string | null;
 
+  public bCliente: boolean;
+
   public oBuscar: FiltrosConsultaPrecios;
   oPreciosRes: ConsultaPrecios;
    //precios: Pedido[];
@@ -56,6 +58,8 @@ export class ConsultapreciosComponent implements OnInit {
     this.oBuscar = new FiltrosConsultaPrecios(0,0,0,0,'','','')
     this.oPreciosRes={} as ConsultaPrecios;  
     //this.pedido = [];
+
+    this.bCliente=false;
   
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -75,6 +79,27 @@ export class ConsultapreciosComponent implements OnInit {
       console.log('ingresa VALIDACION');
       this._router.navigate(['/']);
     }
+
+    switch(this.sTipo) { 
+      case 'C':{    
+        //Tipo cliente       
+
+         this.oBuscar.ClienteCodigo = this.sCodigo; 
+         this.oBuscar.ClienteFilial = this.sFilial;   
+         this.bCliente = true;    
+         break; 
+      } 
+      case 'A': { 
+         //statements; 
+         break; 
+      } 
+      default: { 
+         //statements; 
+         break; 
+      } 
+   } 
+   
+
   }
 
   shouldRun = true;

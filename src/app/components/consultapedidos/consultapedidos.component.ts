@@ -1,9 +1,14 @@
 
-import { Component, OnInit,ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef,ElementRef, ViewChild  } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
+
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
 
 import {
   NgbModal,
@@ -29,6 +34,8 @@ import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
   providers:[ServicioConsultaPedidos,ServicioDetallePedido, DecimalPipe]
 })
 export class ConsultapedidosComponent implements OnInit {
+
+  @ViewChild('pdfTable') pdfTable: ElementRef;
 
   searchtext = '';
 
@@ -300,6 +307,80 @@ export class ConsultapedidosComponent implements OnInit {
     }
 
 
+  createPdf(){
+
+    const pdfDefinition: any = {
+      content: [
+        {text: 'Codigo cliente: '+this.oBuscar.ClienteCodigo+ ' Filial: '+this.oBuscar.ClienteFilial, style: 'header'},
+        'Official documentation is in progress, this document is just a glimpse of what is possible with pdfmake and its layout engine.',
+        {text: 'A simple table (no headers, no width specified, no spans, no styling)', style: 'subheader'},
+        'The following table has nothing more than a body array',
+        {
+          style: 'tableExample',
+          table: {
+            body: [
+              ['#', 'L', 'PEDIDO','OF','FECHA PED','FECHA CANCOP','FECHA SURT','PEDIDO','SURTIDO','DIFCIA']
+             // buildTableBody(this.pedido,['#', 'L', 'PEDIDO','OF','FECHA PED','FECHA CANCOP','FECHA SURT','PEDIDO','SURTIDO','DIFCIA'])
+              
+              /*['One value goes here', 'Another one here', 'OK?']*/
+            ]
+          }
+        }
+        
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 0, 0, 10]
+        },
+        subheader: {
+          fontSize: 16,
+          bold: true,
+          margin: [0, 10, 0, 5]
+        },
+        tableExample: {
+          bold: true,
+          fontSize: 13,
+          color: 'black'
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 13,
+          color: 'yellow'
+        }
+      }
+    }
+
+    const pdf = pdfMake.createPdf(pdfDefinition);
+    pdf.open();
+    pdf.download();
+
+  }
+
+
+  downloadAsPDF() {
+
+    const pdfTable = this.pdfTable.nativeElement;
+    console.log(pdfTable);
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+    console.log(html);
+    const documentDefinition = {  pageOrientation: 'landscape',content: html};
+    pdfMake.createPdf(documentDefinition).open();
+
+  }
+
+  /*generatePDF(){
+    const pdf = new PdfMakeWrapper();
+
+    pdf.add(
+       new Txt('Hola mundo').bold().Italics().end
+    );
+
+    pdf.create().open
+  }*/
+
+    
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
     sessionStorage.clear();

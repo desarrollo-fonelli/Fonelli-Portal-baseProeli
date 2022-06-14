@@ -92,7 +92,7 @@
                   <br>   
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                          <button type="submit" (click)="consultaPedido()" class="btn btn-primary">BUSCAR</button>
+                          <button type="submit" (click)="consultaPedido()" class="btn btn-primary">BUSCAR</button>                          
                       </div>
                   </div>  
                   <p>{{sMensaje}}</p>       
@@ -132,6 +132,11 @@
 
        
         <div *ngIf="bBandera" class="table-responsive-sm">
+          <div class="col-md-4 text-right">
+            <button class="btn btn-success btn-block" (click)="downloadAsPDF()">      
+              Download PDF      
+            </button>      
+          </div>
 
           <input
           type="text"
@@ -139,7 +144,7 @@
           [(ngModel)]="searchtext"
           placeholder="Search"
         />
-
+      <div id="pdfTable" #pdfTable>
           <table  class="table table-striped">
             <thead>
             <tr class="bg-info">
@@ -174,17 +179,9 @@
           </table>
 
 
-        <div class="d-flex justify-content-between p-2">
-          <ngb-pagination [collectionSize]="collectionSize" [(page)]="page" [pageSize]="pageSize" (pageChange)="refreshCountries()">
-          </ngb-pagination>
-        
-          <select class="form-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCountries()">
-            <option [ngValue]="2">2 items per page</option>
-            <option [ngValue]="4">4 items per page</option>
-            <option [ngValue]="6">6 items per page</option>
-          </select>
-        </div>
+       
 
+      </div> 
       </div> 
 
   </section>

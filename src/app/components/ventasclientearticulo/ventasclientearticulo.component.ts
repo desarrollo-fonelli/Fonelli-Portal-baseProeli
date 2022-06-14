@@ -1,8 +1,12 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild} from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
 
 
 //Modelos
@@ -23,6 +27,8 @@ import { Contenido } from '../../models/ventasclientearticulo';
   providers:[ServicioVentasClienteArticulo,ServicioOficinas, DecimalPipe]
 })
 export class VentasclientearticuloComponent implements OnInit {
+
+  @ViewChild('pdfTable') pdfTable: ElementRef;
 
   sCodigo :number | null;
   sTipo :string | null;
@@ -117,9 +123,32 @@ export class VentasclientearticuloComponent implements OnInit {
             }
           );
 
+
+          let date: Date = new Date
+          let mes;
+          
+          //Valida mes 
+          if (date.getMonth().toString.length == 1){
+            mes = '0'+(date.getMonth()+1);
+          }
+
+          let fechaDesde =  date.getFullYear() +'-01-01';          
+          let fechaHasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate()-1);          
+
            this.oBuscar.ClienteDesde = this.sCodigo; 
            this.oBuscar.ClienteHasta = this.sCodigo;   
-           //this.oBuscar.CarteraHasta= 'Z';   
+           this.oBuscar.TipoArticulo = 'T';   
+           this.oBuscar.TipoOrigen = 'T';   
+           this.oBuscar.OrdenReporte = 'C';   
+           this.oBuscar.Presentacion = 'R';   
+           this.oBuscar.FechaDesde = fechaDesde;
+           this.oBuscar.FechaHasta = fechaHasta;
+           this.oBuscar.LineaHasta = 'ZZ';
+           this.oBuscar.ClaveHasta = 'ZZZZZZZZZZZ';
+           this.oBuscar.CategoriaDesde = 'A';
+           this.oBuscar.CategoriaHasta = 'Z';
+           this.oBuscar.SubcategoriaDesde = '0';
+           this.oBuscar.SubcategoriaHasta = '9';
            this.bCliente = true;    
            break; 
         } 
@@ -473,9 +502,18 @@ export class VentasclientearticuloComponent implements OnInit {
     return Total; 
   }   
 
-  // #### Obten totales por Cliente ####
+// #### Obten totales por Cliente ####
 
+downloadAsPDF() {
 
+    const pdfTable = this.pdfTable.nativeElement;
+    console.log(pdfTable);
+    var html = htmlToPdfmake(pdfTable.innerHTML);
+    console.log(html);
+    const documentDefinition = {  content: html };
+    pdfMake.createPdf(documentDefinition).open();
+
+  }
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

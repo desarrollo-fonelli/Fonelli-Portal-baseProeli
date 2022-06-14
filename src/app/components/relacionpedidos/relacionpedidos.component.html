@@ -243,6 +243,19 @@
                             >
                             <label class="form-check-label" > Existencia </label>
                           </div>
+                          <div class="form-check disabled">
+                            <input 
+                              class="form-check-input" 
+                              type="radio" 
+                              name="gpoTipPed"
+                              value="T"
+                              #nombre="ngModel"
+                              [(ngModel)]="oBuscar.TipoPedido"
+                              required
+                              checked
+                            >
+                            <label class="form-check-label" > Todos </label>
+                          </div>
                         </div>
   
                         <div class="form-group col-md-3">
@@ -342,7 +355,15 @@
          </div>
        </div>
 
+
+
        <div *ngIf="bBandera" class="table-responsive-sm">
+        <div class="col-md-4 text-right">
+          <button class="btn btn-success btn-block" (click)="downloadAsPDF()">      
+            Download PDF      
+          </button>      
+        </div>
+        
         <input
         type="text"
         class="form-control"
@@ -350,7 +371,7 @@
         placeholder="Search"
       />
 
-
+      <div id="pdfTable" #pdfTable>
         <table class="table table-hover table-striped  ">
           <thead>
             <tr class="bg-info">
@@ -481,6 +502,8 @@
 
           </tbody>               
         </table>
+
+      </div> 
     </div> 
 
   </section>
