@@ -11,14 +11,20 @@
     <button class="boton_sesion" [matMenuTriggerFor]="menu">
       <img src="../../../assets/images/principal/usuario.png"  alt="" style="height:30px ; width:30px;">
     </button>
-    <mat-menu #menu="matMenu" class="profile-dropdown">
+    <mat-menu #menu="matMenu" class="profile-dropdown">    
 
-      <span class="fs-16" mat-menu-item>{{sCuenta}}</span>
-      <span  *ngIf="bCliente" class="fs-16" mat-menu-item>{{'Cuenta: ' + sCodigo +'-'+ sFilial}}</span>
-      <span class="fs-16" mat-menu-item>{{'Nombre: ' + sNombre}}</span>
+      <span class="fs-16 text-center"  mat-menu-item>{{sCuenta}}</span>
+      <span  *ngIf="bCliente" class="fs-16" mat-menu-item>{{'Cuenta: '}}<strong>{{ sCodigo +'-'+ sFilial}}</strong></span>
+      <!-- <span class="fs-16" mat-menu-item><mat-icon>login</mat-icon>{{'Nombre: '}}<strong>{{ sNombre }}</strong> </span> -->
+      <span class="fs-16" mat-menu-item>{{'Nombre: '}}<strong>{{ sNombre }}</strong> </span>
       
-      <hr>
-        <button (click)="EliminaSesion()" class="btn btn-info w-100">Cerrar Sesión</button>
+      
+      <div class="container float-left">
+        <div class="row">   
+          <button (click)="EliminaSesion()" class="btnLogout btn">Cerrar Sesión</button>
+        </div>  
+      </div>  
+        
       
     </mat-menu>
   </div>
@@ -28,25 +34,28 @@
 
 <div class="main-container">
   <mat-sidenav-container >
+    <!-- <mat-sidenav #snav class="mat-elevation-z10" [opened]="true" fixedTopGap="64" [mode]="mobileQuery.matches ? 'over' : 'side'" fixedInViewport="true" style="width:260px;"> -->
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-    [fixedInViewport]="mobileQuery.matches" fixedTopGap="56"                 
-    [opened]="mobileQuery.matches ? 'false' : 'true'">
-<mat-nav-list>
-
-<a mat-list-item [routerLink]="['/distribuidores/']"> <span class="font_side">Inicio</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"><span class="font_side">Datos generales de clientes</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"><span class="font_side">Consulta de precios</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']"><span class="font_side">Consulta de pedidos</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"><span class="font_side">Relación de pedidos</span></a> 
-<a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"><span class="font_side">Estado de cuenta</span></a>
-<a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"><span class="font_side">Ventas por artículo</span></a>
-
-</mat-nav-list>
-</mat-sidenav>
+    [fixedInViewport]="mobileQuery.matches" fixedTopGap="64" 
+    [opened]="mobileQuery.matches ? 'false' : 'true'"
+    style="width:260px;"
+    
+    >
+      <mat-nav-list nav-list>
+        <a mat-list-item [routerLink]="['/distribuidores/']"> <span class="font_side">Inicio</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"><span class="font_side">Datos generales de clientes</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"><span class="font_side">Consulta de precios</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']"><span class="font_side">Consulta de pedidos</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"><span class="font_side">Relación de pedidos</span></a> 
+        <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"><span class="font_side">Estado de cuenta</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"><span class="font_side">Ventas por artículo</span></a>
+      </mat-nav-list>
+    </mat-sidenav>
   
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
-
+    <mat-sidenav-content  >
+      
+        <router-outlet></router-outlet>
+     
     </mat-sidenav-content>
   </mat-sidenav-container>
-  </div>
+</div>

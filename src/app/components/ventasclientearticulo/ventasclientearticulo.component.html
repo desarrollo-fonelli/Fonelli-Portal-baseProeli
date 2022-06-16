@@ -1,5 +1,6 @@
      
       <section >
+        <div class="container float-left">
         <div class="row">
           <div class="col-lg-12">
   
@@ -14,11 +15,11 @@
                     <div class="col-md-1 col-md-1">
                       <br>
                       <br>
-                      <label >Desde</label>
+                      <label class="CamposFonelli">Desde</label>
                     </div>
 
                         <div class="form-group col-md-1">
-                          <label>Oficina</label>
+                          <label class="CamposFonelli">Oficina</label>
                           <input 
                             type="text" 
                             id="idOfiDes"
@@ -31,7 +32,7 @@
                           >
                         </div>
                         <div class="form-group col-md-2">
-                          <label >Fecha</label>
+                          <label class="CamposFonelli">Fecha</label>
                           <input 
                             type="date" 
                             id="idFecDes"
@@ -43,7 +44,7 @@
                           >
                         </div>
                         <div class="form-group col-md-2">
-                          <label >Num</label>
+                          <label class="CamposFonelli">Num</label>
                           <input 
                             type="text" 
                             id="idNumDes"
@@ -56,7 +57,7 @@
                           >
                         </div>
                         <div class="form-group col-md-1">
-                          <label>Fil</label>
+                          <label class="CamposFonelli">Fil</label>
                           <input 
                             type="text" 
                             id="idFilDes"
@@ -69,7 +70,7 @@
                           >
                         </div>
                         <div class="form-group col-md-1">
-                          <label >Línea</label>
+                          <label class="CamposFonelli">Línea</label>
                           <input 
                             type="text" 
                             id="idLinDes"
@@ -81,7 +82,7 @@
                           >
                         </div>
                         <div class="form-group col-md-1">
-                          <label>Clave</label>
+                          <label class="CamposFonelli">Clave</label>
                           <input 
                             type="text" 
                             id="idClvDes"
@@ -93,7 +94,7 @@
                           >
                         </div>
                         <div class="form-group col-md-1">
-                          <label>Categoria</label>
+                          <label class="CamposFonelli">Categoria</label>
                           <input 
                             type="text" 
                             id="idCatDes"
@@ -105,7 +106,7 @@
                           >
                         </div>
                         <div class="form-group col-md-1">
-                          <label >SubCategoria</label>
+                          <label class="CamposFonelli">SubCategoria</label>
                           <input 
                             type="text" 
                             id="idSucaDes"
@@ -121,7 +122,7 @@
                     <div class="form-row">                   
                      
                       <div class="col-md-1">                        
-                        <label>Hasta</label>
+                        <label class="CamposFonelli">Hasta</label>
                       </div>
 
                       <div class="form-group col-md-1">
@@ -222,7 +223,7 @@
                   <div class="row">
                      
                     <div class="form-group col-md-3">
-                      <p> Tipo de artículos</p>                        
+                      <p class="CamposFonelli"> Tipo de artículos</p>                        
                       <div class="form-check" >                        
                         <input 
                             class="form-check-input" 
@@ -232,7 +233,7 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.TipoArticulo"                            
                           >
-                        <label class="form-check-label" for="gridRadios1"> Línea</label>
+                        <label class="form-check-label CamposFonelli" for="gridRadios1"> Línea</label>
                       </div>
                       <div class="form-check">
                         <input 
@@ -243,7 +244,7 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.TipoArticulo"                            
                           >
-                        <label class="form-check-label" for="gridRadios2">Especiales</label>
+                        <label class="form-check-label CamposFonelli" for="gridRadios2">Especiales</label>
                       </div>
                       <div class="form-check">
                         <input 
@@ -254,12 +255,12 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.TipoArticulo"                            
                           >
-                        <label class="form-check-label"> Todos </label>
+                        <label class="form-check-label CamposFonelli"> Todos </label>
                       </div>
                     </div>
 
                     <div class="form-group col-md-3">
-                      <p> Internos/Externos</p>  
+                      <p class="CamposFonelli"> Internos/Externos</p>  
                         <div class="form-check">
                           <input 
                             class="form-check-input" 
@@ -269,7 +270,7 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.TipoOrigen"                            
                           >
-                          <label class="form-check-label"> Internos</label>
+                          <label class="form-check-label CamposFonelli"> Internos</label>
                         </div>
                         <div class="form-check">
                           <input 
@@ -280,7 +281,7 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.TipoOrigen"                            
                           >
-                          <label class="form-check-label" for="gridRadios2"> Externos </label>
+                          <label class="form-check-label CamposFonelli" for="gridRadios2"> Externos </label>
                         </div>
                         <div class="form-check">
                           <input 
@@ -291,12 +292,12 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.TipoOrigen"                            
                           >
-                          <label class="form-check-label" for="gridRadios3"> Todos </label>
+                          <label class="form-check-label CamposFonelli" for="gridRadios3"> Todos </label>
                         </div>
                       </div>
 
                       <div class="form-group col-md-3">
-                        <p> Ordenado por</p> 
+                        <p class="CamposFonelli"> Ordenado por</p> 
                         <div class="form-check">
                           <input 
                             class="form-check-input" 
@@ -306,7 +307,7 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.OrdenReporte"                            
                           >
-                          <label class="form-check-label" for="gridRadios1"> Categoria </label>
+                          <label class="form-check-label CamposFonelli" for="gridRadios1"> Categoria </label>
                         </div>
                         <div class="form-check">
                           <input 
@@ -317,7 +318,7 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.OrdenReporte"                            
                           >
-                          <label class="form-check-label" for="gridRadios2"> Piezas </label>
+                          <label class="form-check-label CamposFonelli" for="gridRadios2"> Piezas </label>
                         </div>
                         <div class="form-check">
                           <input 
@@ -328,12 +329,12 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.OrdenReporte"                            
                           >
-                          <label class="form-check-label" for="gridRadios3"> Importe </label>
+                          <label class="form-check-label CamposFonelli" for="gridRadios3"> Importe </label>
                         </div>
                       </div>
 
                       <div class="form-group col-md-3">
-                        <p> Presentación</p> 
+                        <p class="CamposFonelli"> Presentación</p> 
                         <div class="form-check">
                           <input 
                             class="form-check-input" 
@@ -343,7 +344,7 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.Presentacion"                            
                           >
-                          <label class="form-check-label" for="gridRadios1"> Detallado </label>
+                          <label class="form-check-label CamposFonelli" for="gridRadios1"> Detallado </label>
                         </div>
                         <div class="form-check">
                           <input 
@@ -354,7 +355,7 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.Presentacion"                            
                           >
-                          <label class="form-check-label" for="gridRadios2"> Resumido </label>
+                          <label class="form-check-label CamposFonelli" for="gridRadios2"> Resumido </label>
                         </div>
                         
                       </div>
@@ -367,7 +368,7 @@
   
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <button type="submit" (click)="consultaVentCArticulo()" class="btn btn-primary">BUSCAR</button>
+                            <button type="submit" (click)="consultaVentCArticulo()" class="btnFonelli btn">BUSCAR</button>
                         </div>
                     </div>    
                     <p>{{sMensaje}}</p>   
@@ -381,6 +382,7 @@
             </div>
           </div>
         </div>
+      </div>
 
           <div *ngIf="bBandera" class="table-responsive-sm">
             <div class="col-md-4 text-right">

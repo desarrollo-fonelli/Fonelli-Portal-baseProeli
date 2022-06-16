@@ -1,9 +1,10 @@
-    <section>
-      <div>
-        <h4>Datos de clientes</h4>
-        <div class="col-lg-6">
+  <section>
+    <div class="container float-left">
+      <div  class="row">        
+        <div class="col-lg-8">
           <div class="card">
             <div class="card-body">
+              <h2>Datos de clientes</h2>
               <form
                 #formBusquedaCliente="ngForm"
                 (ngSubmit)="onSubmitBusqueda(formBusquedaCliente)"
@@ -41,14 +42,15 @@
                   </div>
                 </div>
 
-                <button type="submit" (click)="consultaCliente()">
-                  Buscar
+                <button type="submit" (click)="consultaCliente()" class="btnFonelli btn">
+                  BUSCAR
                 </button>
               </form>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
       <div *ngIf="bMostrarDatos">
         <div>

@@ -1,6 +1,7 @@
     <section >
+      <div class="container float-left">
       <div class="row">
-         <div class="col-lg-6">
+         <div class="col-lg-8">
    
            <div class="card">
              <div class="card-body">
@@ -11,7 +12,7 @@
   
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label >Desde oficina</label>
+                        <label class="CamposFonelli">Desde oficina</label>
                         <input 
                           type="text" 
                           id="idDesOfi"
@@ -24,7 +25,7 @@
                         >                        
                       </div>
                       <div class="form-group col-md-6">
-                        <label >Hasta oficina</label>
+                        <label class="CamposFonelli">Hasta oficina</label>
                         <input 
                           type="text" 
                           id="idHasOfi"
@@ -47,7 +48,7 @@
   
                   <div class="form-row">
                       <div class="form-group col-md-3">
-                        <label >Desde cliente</label>
+                        <label class="CamposFonelli">Desde cliente</label>
                         <input 
                           type="text" 
                           id="idDesCli"
@@ -60,7 +61,7 @@
                         >
                       </div>
                       <div class="form-group col-md-3">
-                        <label>Filial</label>
+                        <label class="CamposFonelli">Filial</label>
                         <input 
                           type="text" 
                           id="idDesFil"
@@ -73,7 +74,7 @@
                         >
                       </div>
                       <div class="form-group col-md-3">
-                        <label >Hasta cliente</label>
+                        <label class="CamposFonelli">Hasta cliente</label>
                         <input 
                           type="text" 
                           id="idHasCli"
@@ -86,7 +87,7 @@
                         >
                       </div>
                       <div class="form-group col-md-3">
-                          <label >Filial</label>
+                          <label class="CamposFonelli">Filial</label>
                           <input 
                             type="text" 
                             id="idHasFil"
@@ -102,7 +103,7 @@
   
                     <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label >Desde fecha pedido</label>
+                        <label class="CamposFonelli">Desde fecha pedido</label>
                         <div class="input-group">
                           <input 
                             type="date" 
@@ -116,7 +117,7 @@
                         </div>
                       </div>
                       <div class="form-group col-md-6">
-                        <label >Hasta fecha pedido</label>
+                        <label class="CamposFonelli">Hasta fecha pedido</label>
                         <div class="input-group">
                           <input 
                             type="date" 
@@ -133,7 +134,7 @@
   
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label >Desde fecha cancelacion operacion</label>
+                        <label class="CamposFonelli">Desde fecha cancelacion operacion</label>
                         <div class="input-group">
                           <input 
                             type="date" 
@@ -148,7 +149,7 @@
                         </div>
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputPassword4">Hasta fecha cancelacion operacion</label>
+                        <label class="CamposFonelli">Hasta fecha cancelacion operacion</label>
                         <div class="input-group">
                           <input 
                             type="date" 
@@ -176,7 +177,7 @@
                             [(ngModel)]="oBuscar.Status"
                             
                           >
-                          <label class="form-check-label"> Activos</label>
+                          <label class="form-check-label CamposFonelli"> Activos</label>
                         </div>
                         <div class="form-check">
                           <input 
@@ -187,7 +188,7 @@
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.Status"   
                           >
-                          <label class="form-check-label" >Inactivos</label>
+                          <label class="form-check-label CamposFonelli" >Inactivos</label>
                         </div>
                         <div class="form-check">
                           <input 
@@ -199,7 +200,7 @@
                             [(ngModel)]="oBuscar.Status"                            
                             
                           >
-                          <label class="form-check-label" > Todos </label>
+                          <label class="form-check-label CamposFonelli" > Todos </label>
                         </div>
                       </div>
   
@@ -215,7 +216,7 @@
                               required
                               checked
                             >
-                            <label class="form-check-label"> Pedidos</label>
+                            <label class="form-check-label CamposFonelli"> Pedidos</label>
                           </div>
                           <div class="form-check">
                             <input 
@@ -228,7 +229,7 @@
                               required
                               checked
                             >
-                            <label class="form-check-label" > Servicio </label>
+                            <label class="form-check-label CamposFonelli" > Servicio </label>
                           </div>
                           <div class="form-check disabled">
                             <input 
@@ -241,7 +242,7 @@
                               required
                               checked
                             >
-                            <label class="form-check-label" > Existencia </label>
+                            <label class="form-check-label CamposFonelli" > Existencia </label>
                           </div>
                           <div class="form-check disabled">
                             <input 
@@ -254,7 +255,7 @@
                               required
                               checked
                             >
-                            <label class="form-check-label" > Todos </label>
+                            <label class="form-check-label CamposFonelli" > Todos </label>
                           </div>
                         </div>
   
@@ -270,7 +271,7 @@
                               required
                               checked
                             >
-                            <label class="form-check-label" > Internos </label>
+                            <label class="form-check-label CamposFonelli" > Internos </label>
                           </div>
                           <div class="form-check">
                             <input 
@@ -283,7 +284,7 @@
                               required
                               checked
                             >
-                            <label class="form-check-label" > Externos </label>
+                            <label class="form-check-label CamposFonelli" > Externos </label>
                           </div>
                           <div class="form-check disabled">
                             <input 
@@ -296,7 +297,7 @@
                               required
                               checked
                             >
-                            <label class="form-check-label" > Todos </label>
+                            <label class="form-check-label CamposFonelli" > Todos </label>
                           </div>
                         </div>
   
@@ -312,7 +313,7 @@
                               required
                               checked
                             >
-                            <label class="form-check-label" > Solo atrasados </label>
+                            <label class="form-check-label CamposFonelli" > Solo atrasados </label>
                           </div>
                           <div class="form-check">
                             <input 
@@ -325,7 +326,7 @@
                               required
                               checked
                             >
-                            <label class="form-check-label"> Todos </label>
+                            <label class="form-check-label CamposFonelli"> Todos </label>
                           </div>
                           
                         </div>
@@ -339,7 +340,7 @@
                   <br>   
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                          <button type="submit" (click)="consultaRelPed()" class="btn btn-primary">BUSCAR</button>
+                          <button type="submit" (click)="consultaRelPed()" class="btnFonelli btn">BUSCAR</button>
                       </div>
                   </div> 
                   <p>{{sMensaje}}</p>             
@@ -355,7 +356,7 @@
          </div>
        </div>
 
-
+      </div>
 
        <div *ngIf="bBandera" class="table-responsive-sm">
         <div class="col-md-4 text-right">

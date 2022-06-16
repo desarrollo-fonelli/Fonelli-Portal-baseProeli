@@ -1,17 +1,17 @@
     <section >
+      <div class="container float-left">
       <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-8">
 
           <div class="card">
             <div class="card-body">
-              <h2 class="card-title" >Consulta de precios</h2>
+              <h2 >Consulta de precios</h2>
 
               <!-- General Form Elements -->
               <form>
-
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label>Numero</label>
+                        <label class="CamposFonelli">Numero</label>
                         <input 
                           type="text" 
                           id="idNumpPre"
@@ -24,7 +24,7 @@
                         >
                       </div>
                       <div class="form-group col-md-6">
-                        <label >Filial</label>
+                        <label class="CamposFonelli">Filial</label>
                         <input
                           type="text" 
                           id="idFilPre"
@@ -50,7 +50,7 @@
 
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label for="inputEmail4">No de lista</label>
+                        <label class="CamposFonelli">No de lista</label>
                         <select 
                           class="form-select" 
                           name="idListaPre"
@@ -71,7 +71,7 @@
 
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label hidden="{{ bCliente }}">Tipo de paridad</label>
+                        <label class="CamposFonelli" hidden="{{ bCliente }}">Tipo de paridad</label>
                         <select 
                           class="form-select"
                           name="idParidadPre"
@@ -90,7 +90,7 @@
 
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                        <label for="inputEmail4">Linea</label>
+                        <label class="CamposFonelli">Linea</label>
                         <input
                           type="text" 
                           id="idLineaPre"
@@ -102,7 +102,7 @@
                         >
                       </div>
                       <div class="form-group col-md-6">
-                        <label for="inputPassword4">Clave</label>
+                        <label class="CamposFonelli">Clave</label>
                         <input
                           type="text" 
                           id="idClvPre"
@@ -117,19 +117,20 @@
 
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                          <button type="submit" (click)="consultaPrecios()" class="btn btn-primary">BUSCAR</button>
+                          <button type="submit" (click)="consultaPrecios()" class="btnFonelli btn">BUSCAR</button>
                       </div>
-                  </div>            
-
-
-                
-
-                
+                  </div>  
               </form><!-- End General Form Elements --> 
+              
             </div> 
           </div>
         </div>
       </div>
+    </div>
     </section>
+
+    
+
+
 
 

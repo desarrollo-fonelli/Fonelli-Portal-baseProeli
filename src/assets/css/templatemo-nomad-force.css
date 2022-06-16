@@ -57,7 +57,8 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--dark-color);
+  color: #24a4cc;
+  font-family: CormorantGaramond-Regular;
   line-height: inherit;
 }
 
@@ -576,6 +577,7 @@ strong {
 
 .contact-form button[type='submit']:hover {
   background: var(--primary-color);
+  
 }
 
 .form-label {
@@ -746,7 +748,7 @@ label.title {
   min-height: 100%; 
   max-height: 100%; 
   display:block;
-  margin:auto;
+  margin: auto;
  }
 
  .images_main{
@@ -780,14 +782,18 @@ span {
   font-size: auto;
 } 
 
-/* .marcaAgua{
-  width: 400px;
-  height: 250px;
-  background-image: url("../../assets/images/img_1.jpg");
-  position: relative;
-  display: inline-flex;
+button.btnFonelli {
+  background-color: #c3cfd9;
+  color: #f9f9f9;
 }
-div.marcaAgua img{
-  width: auto;
-}  */
+label.CamposFonelli {
+  color: #183e6f;
+  font-family: Quicksand-SemiBold;
+  font-size: medium;
+  
+}
 
+button.btnLogout {
+  background-color: #e8b4c1;
+  color: #f9f9f9;
+}
