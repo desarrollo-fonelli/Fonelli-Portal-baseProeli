@@ -80,7 +80,7 @@ Get(FiltrosRelPedido: any): Observable<any>{
                         }
 
                         
-                        if(FiltrosRelPedido.TipoPedido)
+                        if(FiltrosRelPedido.TipoPedido!='T')
                         {
                         this.sFiltros += '&TipoPedido=' + FiltrosRelPedido.TipoPedido;
                         }

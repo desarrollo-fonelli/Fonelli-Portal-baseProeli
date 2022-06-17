@@ -82,18 +82,16 @@
 }
 
 .font_video {
-   font-family: "Brittany-Angella";
-   color: black;
-
-   font-size: 100px;
+   font-family:CormorantGaramond-Regular;
+   color: white;
+   font-size: 50px;
 }
 
 .font_video_movil {
-   font-family: "Brittany-Angella";
-   color: black;
+   font-family: CormorantGaramond-Regular;
+   color: white;
    text-align: left;
-
-   font-size: 50px;
+   font-size: 25px;
 }
 
 .boton_sesion

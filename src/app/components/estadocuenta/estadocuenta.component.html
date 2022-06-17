@@ -3,7 +3,7 @@
       <section >
         <div class="container float-left">
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-12">
   
             <div class="card">
               <div class="card-body">
@@ -13,7 +13,7 @@
                 <form>
   
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                           <label class="CamposFonelli">Desde cliente</label>
                           <input 
                             type="text" 
@@ -26,7 +26,7 @@
                             required
                           >
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                           <label class="CamposFonelli">Filial</label>
                           <input 
                             type="text" 
@@ -43,8 +43,8 @@
                         
                     </div>
   
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
+                    <div class="form-row" hidden="{{ bCliente }}" >
+                        <div class="form-group col-md-3">
                           <label class="CamposFonelli">Hasta cliente</label>
                           <input 
                             type="text" 
@@ -57,7 +57,7 @@
                             required
                           >
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                           <label class="CamposFonelli">Filial</label>
                           <input 
                             type="text" 
@@ -75,7 +75,7 @@
                   
   
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                           <label  hidden="{{ bCliente }}">Desde cartera</label>
                           <input 
                             type="text" 
@@ -88,7 +88,7 @@
                             required
                           >
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                           <label  hidden="{{ bCliente }}">Hasta cartera</label>
                           <input 
                             type="text" 
@@ -104,63 +104,65 @@
                     </div>
   
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <button type="submit" (click)="consultaEstadoCuenta()" class="btnFonelli btn">BUSCAR</button>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                           <button hidden="{{ bCliente }}" type="submit"  class="btnFonelli btn">CATALOGO DE CLIENTES</button>
                       </div>
                     </div>  
                     
-                    <p>{{sMensaje}}</p>            
-  
-  
-                  
-  
-                  
+                    <p>{{sMensaje}}</p>              
                 </form><!-- End General Form Elements --> 
               </div> 
             </div>
           </div>
         </div>
 
-        <div *ngIf="bBandera" class="table-responsive-sm">
-          <div class="col-md-4 text-right">
-            <button class="btn btn-success btn-block" (click)="downloadAsPDF()">      
-              Download PDF      
-            </button>      
+        <div *ngIf="bBandera" class="table-responsive container">
+          <br>
+          <div class="form-row">
+            <div class="form-group col-md-1">              
+              <label class="CamposFonelli">Búsqueda</label>
+            </div>
+            <div class="form-group col-md-5">              
+              <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="searchtext"
+                  placeholder="Search"                 
+                />
+              </div>
+                <div class="form-group col-md-6">
+                  <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+                    Imprimir PDF      
+                  </button> 
+                </div> 
           </div>
-
-          <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="searchtext"
-          placeholder="Search"
-        />
     
         <div id="pdfTable" #pdfTable>
           <table class="table table-hover table-striped  ">
             <thead>
-              <tr class="bg-info">
-                <th>OF</th><!--Codigo oficina -->
-                <th>C</th><!--Codigo tipo cartera -->
-                <th>S</th><!--Documento serie -->
-                <th>DOCTO</th><!--Documento folio -->
-                <th>FECHA EXP</th><!--Fecha expedicion -->
-                <th>FECHA VENG</th><!--Fecha vencimiento -->
-                <th class="text-right">CARGOS</th><!--Cargos -->
-                <th class="text-right">ABONOS</th><!--Abonos -->
-                <th class="text-right">SALDO</th><!--Saldo -->
-                <th>DIAS</th><!--Dias vencimiento -->
-                <th class="text-right">VENCIDO</th><!--Saldo vencido -->
-                <th>S</th><!--Documento2 Serie -->
-                <th>REFCIA</th><!--Referencia -->
+              <tr>
+                <th style="background-color: #24a4cc; color: white;">OF</th><!--Codigo oficina -->
+                <th style="background-color: #24a4cc; color: white;">C</th><!--Codigo tipo cartera -->
+                <th style="background-color: #24a4cc; color: white;">S</th><!--Documento serie -->
+                <th style="background-color: #24a4cc; color: white;">DOCTO</th><!--Documento folio -->
+                <th style="background-color: #24a4cc; color: white;">FECHA EXP</th><!--Fecha expedicion -->
+                <th style="background-color: #24a4cc; color: white;">FECHA VENG</th><!--Fecha vencimiento -->
+                <th style="background-color: #24a4cc; color: white; text-align:right;">CARGOS</th><!--Cargos -->
+                <th style="background-color: #24a4cc; color: white; text-align:right;">ABONOS</th><!--Abonos -->
+                <th style="background-color: #24a4cc; color: white; text-align:right;">SALDO</th><!--Saldo -->
+                <th style="background-color: #24a4cc; color: white;">DIAS</th><!--Dias vencimiento -->
+                <th style="background-color: #24a4cc; color: white; text-align:right;">VENCIDO</th><!--Saldo vencido -->
+                <th style="background-color: #24a4cc; color: white;">S</th><!--Documento2 Serie -->
+                <th style="background-color: #24a4cc; color: white;">REFCIA</th><!--Referencia -->
               </tr>
             </thead>
             <tbody>
               <ng-container *ngFor="let cliente of oCliente | searchestadocuenta: searchtext">
                 <tr class="table-info">
-                  <td colspan="13">{{'('+cliente.ClienteCodigo+' '+cliente.ClienteFilial+ ') ' +cliente.ClienteNombre+ '-' +cliente.Sucursal}}</td>
+                  <td  class="FilasFonelli" colspan="13">{{'('+cliente.ClienteCodigo+' '+cliente.ClienteFilial+ ') ' +cliente.ClienteNombre+ '-' +cliente.Sucursal}}</td>
                 </tr>
               <ng-container *ngFor="let cartera of cliente.TipoCartera;">
                <!-- <tr>
@@ -171,32 +173,32 @@
                 </tr> -->
                 <tr *ngFor="let movimento of cartera.Movimientos; let idx3 = index">
                   <!-- <td>{{idx1 + '-' + idx2 + '-' + idx3 }}</td> -->
-                  <td>{{movimento.OficinaFonelliCodigo}}</td>
-                  <td>{{cartera.TipoCarteraCodigo}}</td>
-                  <td>{{movimento.DocumentoSerie}}</td>
-                  <td>{{movimento.DocumentoFolio}}</td>
-                  <td>{{movimento.FechaExpedicion}}</td>
-                  <td>{{movimento.FechaVencimiento}}</td>
-                  <td  class="text-right">{{movimento.Cargos}}</td>
-                  <td  class="text-right">{{movimento.Abonos}}</td>
-                  <td  class="text-right">{{movimento.Saldo}}</td>
-                  <td>{{movimento.DiasVencimiento}}</td>
-                  <td  class="text-right">{{movimento.SaldoVencido}}</td>
-                  <td>{{movimento.Documento2Serie}}</td>
-                  <td>{{movimento.Referencia}}</td>                
+                  <td class="FilasFonelli">{{movimento.OficinaFonelliCodigo}}</td>
+                  <td class="FilasFonelli">{{cartera.TipoCarteraCodigo}}</td>
+                  <td class="FilasFonelli">{{movimento.DocumentoSerie}}</td>
+                  <td class="FilasFonelli">{{movimento.DocumentoFolio}}</td>
+                  <td class="FilasFonelli">{{movimento.FechaExpedicion}}</td>
+                  <td class="FilasFonelli">{{movimento.FechaVencimiento}}</td>
+                  <td class="FilasFonelli text-right">{{formatoMoneda(movimento.Cargos)}}</td>
+                  <td class="FilasFonelli text-right">{{formatoMoneda(movimento.Abonos)}}</td>
+                  <td class="FilasFonelli text-right">{{formatoMoneda(movimento.Saldo)}}</td>
+                  <td class="FilasFonelli">{{movimento.DiasVencimiento}}</td>
+                  <td class="FilasFonelli text-right">{{formatoMoneda(movimento.SaldoVencido)}}</td>
+                  <td class="FilasFonelli">{{movimento.Documento2Serie}}</td>
+                  <td class="FilasFonelli">{{movimento.Referencia}}</td>                
                 </tr>
                 <tr>
                   <td></td>
-                  <td>{{cartera.TipoCarteraCodigo}}</td>
+                  <td class="FilasFonelli">{{cartera.TipoCarteraCodigo}}</td>
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td  class="text-right">{{cartera.TipoCarteraDescripc}}</td>
-                  <td  class="text-right">{{getTotalCargos(cartera.Movimientos)}}</td>
-                  <td  class="text-right">{{getTotalAbonos(cartera.Movimientos)}}</td>
-                  <td  class="text-right">{{getTotalSaldo(cartera.Movimientos)}}</td>
+                  <td  class="FilasFonelli text-right">{{cartera.TipoCarteraDescripc}}</td>
+                  <td  class="FilasFonelli text-right">{{formatoMoneda(getTotalCargos(cartera.Movimientos))}}</td>
+                  <td  class="FilasFonelli text-right">{{formatoMoneda(getTotalAbonos(cartera.Movimientos))}}</td>
+                  <td  class="FilasFonelli text-right">{{formatoMoneda(getTotalSaldo(cartera.Movimientos))}}</td>
                   <td></td>
-                  <td  class="text-right">{{getTotalVencido(cartera.Movimientos)}}</td>
+                  <td  class="FilasFonelli text-right">{{formatoMoneda(getTotalVencido(cartera.Movimientos))}}</td>
                   <td></td>
                   <td></td>
                 </tr>
@@ -217,11 +219,11 @@
             <div class="container">
               <div class="row">
 
-                <div class="col-12 col-lg-2">
+                <div *ngIf="!bCliente" class="col-12 col-lg-2">
                   <table class="table table-sm  table-responsive">
                     <thead>
-                      <tr class="bg-info">
-                        <th colspan="2">CLIENTES</th>
+                      <tr>
+                        <th style="background-color: #24a4cc; color: white;" colspan="2">CLIENTES</th>
                       
                       </tr>
                     </thead>
@@ -229,7 +231,7 @@
                       <ng-container *ngFor="let cliente of oResumenStatusCliente ">
                         <tr>
                           <td>{{cliente.StatusClienteDescripc}}</td>
-                          <td  class="text-right">{{cliente.StatusClienteNumero}}</td>
+                          <td  class="FilasFonelli text-right">{{cliente.StatusClienteNumero}}</td>
                         </tr>              
                     </ng-container>              
                     </tbody>               
@@ -237,19 +239,19 @@
                 </div>
 
 
-                <div class="col-12 col-lg-2">
+                <div *ngIf="!bCliente"  class="col-12 col-lg-2">
                   <table class="table table-sm  ">
                     <thead>
-                      <tr class="bg-info">
-                        <th>TC</th>
-                        <th>TOTAL</th>                  
+                      <tr>
+                        <th style="background-color: #24a4cc; color: white;">TC</th>
+                        <th style="background-color: #24a4cc; color: white;">TOTAL</th>                  
                       </tr>
                     </thead>
                     <tbody>
                       <ng-container *ngFor="let resCliente of oResumenTipoCliente ">
                         <tr>
                           <td>{{resCliente.TipoClienteCodigo}}</td>
-                          <td class="text-right">{{resCliente.TipoClienteTotal}}</td>
+                          <td class="FilasFonelli text-right">{{resCliente.TipoClienteTotal}}</td>
                         </tr>              
                     </ng-container>              
                     </tbody>               
@@ -263,13 +265,13 @@
                 <div *ngIf="bBandera" >
                   <table class="table table-sm  ">
                     <thead>
-                      <tr class="bg-info">
-                        <th>CART</th>
-                        <th>DESCRIPCION</th>                  
-                        <th class="text-right">CARGOS</th>                  
-                        <th class="text-right">ABONOS</th>                  
-                        <th class="text-right">SALDO</th>                  
-                        <th class="text-right">SALDO VENCIDO</th>                  
+                      <tr>
+                        <th style="background-color: #24a4cc; color: white;">CART</th>
+                        <th style="background-color: #24a4cc; color: white;">DESCRIPCION</th>                  
+                        <th style="background-color: #24a4cc; color: white; text-align: right;" >CARGOS</th>                  
+                        <th style="background-color: #24a4cc; color: white; text-align: right;">ABONOS</th>                  
+                        <th style="background-color: #24a4cc; color: white; text-align: right;">SALDO</th>                  
+                        <th style="background-color: #24a4cc; color: white; text-align: right;">SALDO VENCIDO</th>                  
                       </tr>
                     </thead>
                     <tbody>
@@ -277,10 +279,10 @@
                         <tr>
                           <td>{{resCartera.TipoCarteraCodigo}}</td>
                           <td>{{resCartera.TipoCarteraDescripc}}</td>
-                          <td class="text-right">{{resCartera.TipoCarteraCargos}}</td>
-                          <td class="text-right">{{resCartera.TipoCarteraAbonos}}</td>
-                          <td class="text-right">{{resCartera.TipoCarteraSaldo}}</td>
-                          <td class="text-right">{{resCartera.TipoCarteraSaldoVencido}}</td>
+                          <td class="FilasFonelli text-right">{{resCartera.TipoCarteraCargos}}</td>
+                          <td class="FilasFonelli text-right">{{resCartera.TipoCarteraAbonos}}</td>
+                          <td class="FilasFonelli text-right">{{resCartera.TipoCarteraSaldo}}</td>
+                          <td class="FilasFonelli text-right">{{resCartera.TipoCarteraSaldoVencido}}</td>
                         </tr>              
                     </ng-container>              
                     </tbody>               

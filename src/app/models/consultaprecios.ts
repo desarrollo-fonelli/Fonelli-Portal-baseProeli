@@ -29,6 +29,7 @@ export interface Contenido {
 
 export interface Componente {
     ComponenteGrupo?:    string;
+    ComponenteLinea?:   string;
     ComponenteCodigo?:   string;
     ComponenteDescripc?: string;
     PiezasNormal?:       number;

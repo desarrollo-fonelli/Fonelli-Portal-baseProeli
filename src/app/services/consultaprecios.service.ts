@@ -30,10 +30,11 @@ Get(FiltrosConPrecios: any): Observable<any>{
 
 
     return this._http.get(this.API + 'reportes/ConsultaPrecios.php?'+
-                          'ClienteCodigo=' + FiltrosConPrecios.ClienteCodigo +
+                          'TipoUsuario=' + FiltrosConPrecios.TipoUsuario +
+                          '&ClienteCodigo=' + FiltrosConPrecios.ClienteCodigo +
                           '&ClienteFilial=' + FiltrosConPrecios.ClienteFilial +
                           '&Lista=' + FiltrosConPrecios.Lista +
-                          '&Paridad=' + FiltrosConPrecios.Paridad +
+                          '&ParidadTipo=' + FiltrosConPrecios.ParidadTipo +
                           '&ArticuloLinea=' + FiltrosConPrecios.ArticuloLinea +
                           '&ArticuloCodigo=' + FiltrosConPrecios.ArticuloCodigo 
                           ,{headers:headers});

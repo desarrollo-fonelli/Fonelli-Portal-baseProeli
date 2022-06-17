@@ -1,7 +1,7 @@
     <section >
       <div class="container float-left">
       <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-12">
 
           <div class="card">
             <div class="card-body">
@@ -10,7 +10,7 @@
               <!-- General Form Elements -->
               <form>
                   <div class="form-row">
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Numero</label>
                         <input 
                           type="text" 
@@ -23,7 +23,7 @@
                           required
                         >
                       </div>
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Filial</label>
                         <input
                           type="text" 
@@ -36,7 +36,7 @@
                           required
                         >
                       </div>
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                           <button 
                             type="submit"
                              class="btn btn-primary"
@@ -49,7 +49,7 @@
                   </div>
 
                   <div class="form-row">
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">No de lista</label>
                         <select 
                           class="form-select" 
@@ -58,25 +58,25 @@
                           [(ngModel)]="oBuscar.Lista"
                           required
                         >
-                          <option value="Lista 1">Pedido</option>
-                          <option value="Lista 2">Servicio</option>
+                          <option value="1">Pedido</option>
+                          <option value="2">Servicio</option>
                           
                         </select>
                       </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputPassword4">-</label>
-                        <input type="text" class="form-control" id="" placeholder="">
+                      <div class="form-group col-md-3">
+                        <label  hidden="{{ bCliente }}">-</label>
+                        <input type="text" class="form-control" id="" placeholder=""  hidden="{{ bCliente }}">
                       </div>
                   </div>
 
                   <div class="form-row">
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli" hidden="{{ bCliente }}">Tipo de paridad</label>
                         <select 
                           class="form-select"
                           name="idParidadPre"
                           #nombre="ngModel"
-                          [(ngModel)]="oBuscar.Paridad"
+                          [(ngModel)]="oBuscar.ParidadTipo"
                           hidden="{{ bCliente }}"
                           required
                         >
@@ -89,7 +89,7 @@
                   </div>
 
                   <div class="form-row">
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Linea</label>
                         <input
                           type="text" 
@@ -101,7 +101,7 @@
                           required
                         >
                       </div>
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Clave</label>
                         <input
                           type="text" 
@@ -127,6 +127,61 @@
         </div>
       </div>
     </div>
+
+    <div *ngIf="bBandera" class="table-responsive container">  
+
+      <br>
+      <div class="form-row">
+        <div class="form-group col-md-1">              
+          <label class="CamposFonelli">Búsqueda</label>
+        </div>
+        <div class="form-group col-md-5">              
+          <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="searchtext"
+              placeholder="Search"                 
+            />
+          </div>
+            <div class="form-group col-md-6">
+              <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+                Imprimir PDF      
+              </button> 
+            </div> 
+      </div>
+
+  <div id="pdfTable" #pdfTable>
+      <table  class="table table-hover table-striped">
+        <thead>
+          <tr>
+          <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">GPO</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">LN</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">CLAVE</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">COMPONENTE</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">PIEZAS</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>        
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let comp of componente| searchconsultapedido: searchtext; index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td class="FilasFonelli" style="text-align:left">{{ comp.ComponenteGrupo}}</td>
+            <td class="FilasFonelli" style="text-align:right"> <u>{{comp.ComponenteLinea}}</u> </td>                
+            <td class="FilasFonelli" style="text-align:right">{{ comp.ComponenteCodigo}}</td>
+            <td class="FilasFonelli" style="text-align:left">{{ comp.ComponenteDescripc}}</td>
+            <td class="FilasFonelli" style="text-align:left">{{ comp.PiezasNormal}}</td>
+            <td class="FilasFonelli" style="text-align:left">{{ comp.GramosEquivalente}}</td>            
+          </tr>
+        </tbody>
+      </table>
+
+
+   
+
+  </div> 
+
+  </div> 
     </section>
 
     

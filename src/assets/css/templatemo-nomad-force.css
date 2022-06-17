@@ -785,6 +785,7 @@ span {
 button.btnFonelli {
   background-color: #c3cfd9;
   color: #f9f9f9;
+  font-family: Quicksand-SemiBold;
 }
 label.CamposFonelli {
   color: #183e6f;
@@ -796,4 +797,35 @@ label.CamposFonelli {
 button.btnLogout {
   background-color: #e8b4c1;
   color: #f9f9f9;
+  font-family: Quicksand-SemiBold;
+}
+
+button.btnImprimir {
+  background-color: #24a4cc;
+  color: #f9f9f9;
+  font-family: Quicksand-SemiBold;
+}
+
+label.CamposGeneral {
+  color: #183e6f;
+  font-family: Quicksand-SemiBold;
+  font-weight: bold;
+  
+}
+
+tr.EncTabla {
+  background-color: #24a4cc;
+  color: #ffffff;
+  font-family: Quicksand-bold;    
+}
+
+td.FilasFonelli {
+  color: #000000;
+  font-family: Quicksand-SemiBold;    
+}
+
+td.FilasFonBold {
+  color: #000000;
+  font-family: Quicksand-Bold;   
+  font-weight: bold; 
 }

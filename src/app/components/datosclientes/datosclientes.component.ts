@@ -24,6 +24,11 @@ import { ServicioClientes } from 'src/app/services/clientes.service';
 })
 export class DatosclientesComponent implements OnInit {
 
+  sCodigo :number | null;
+  sTipo :string | null;
+  sFilial :number | null;
+  sNombre :string | null;
+
   public bMostrarDatos: boolean;
   public bCliente: boolean;
   public bError: boolean=false;
@@ -40,6 +45,8 @@ export class DatosclientesComponent implements OnInit {
   public oContacto : Contactos;
 
   mobileQuery: MediaQueryList;
+
+  active = 1;
 
     private _mobileQueryListener: () => void;
 
@@ -64,6 +71,11 @@ export class DatosclientesComponent implements OnInit {
                 this.mobileQuery = media.matchMedia('(max-width: 600px)');
                 this._mobileQueryListener = () => changeDetectorRef.detectChanges();
                 this.mobileQuery.addListener(this._mobileQueryListener);
+
+                this.sCodigo = Number(sessionStorage.getItem('codigo'));
+                this.sTipo = sessionStorage.getItem('tipo');
+                this.sFilial  = Number(sessionStorage.getItem('filial'));
+                this.sNombre = sessionStorage.getItem('nombre');
             
 
               }
@@ -71,26 +83,21 @@ export class DatosclientesComponent implements OnInit {
   ngOnInit(): void {
 
 
-    const sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-    const sTipo :string | null = sessionStorage.getItem('tipo');
-    const sFilial :number | null = Number(sessionStorage.getItem('filial'));
-    const sNombre :string | null = sessionStorage.getItem('nombre');
-
 
     //Se agrega validacion control de sesion distribuidores
-    if(!sCodigo) {
+    if(!this.sCodigo) {
       console.log('ingresa VALIDACION');
       this._router.navigate(['/']);
     }
    
 
     
-    if(sTipo =='C'){
+    if(this.sTipo =='C'){
       console.log('Cliente');
       this.bCliente = true;
       
-      this.Buscar.ClienteCodigo=sCodigo;
-      this.Buscar.ClienteFilial=sFilial;
+      this.Buscar.ClienteCodigo=this.sCodigo;
+      this.Buscar.ClienteFilial=this.sFilial;
 
    
       
@@ -120,6 +127,8 @@ console.log("ConsultaCliente");
       (Response: Clientes) => {
 
         this.oCliente = Response;
+
+        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
 
 
         if(this.oCliente.Codigo != 0){

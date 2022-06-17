@@ -696,7 +696,11 @@ getTotalPedidosDetalle(Pedido: PedidoArticulo[]): number {
   pdfMake.createPdf(documentDefinition).open();
 
 }
-    
+
+formatoMoneda(number){
+  return new Intl.NumberFormat('en-US', {currency: 'USD', minimumFractionDigits: 2}).format(number);
+};
+
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
     sessionStorage.clear();

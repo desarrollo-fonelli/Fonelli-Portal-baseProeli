@@ -1,10 +1,11 @@
 export class FiltrosConsultaPrecios {
   constructor(
+    public TipoUsuario: string | null,
     public Usuario: number,
     public ClienteCodigo: number | null,
     public ClienteFilial: number | null,
     public Lista: number,
-    public Paridad: string,
+    public ParidadTipo: string,
     public ArticuloLinea: string,
     public ArticuloCodigo: string
   ) {}

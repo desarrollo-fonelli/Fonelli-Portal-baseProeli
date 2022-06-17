@@ -248,24 +248,16 @@ consultaEstadoCuenta(){
     console.log(pdfTable);
     var html = htmlToPdfmake(pdfTable.innerHTML);
     console.log(html);
-    const documentDefinition = {  pageOrientation: 'landscape',content: html,   
-      styles:{
-        'html-th':{
-          background:'yellow'
-        }
-      },
-      pageBreakBefore: function(currentNode) {
-        return currentNode.style && currentNode.style.indexOf('pdf-pagebreak-before') > -1;
-      }
-      
-  
-
-    };
+    const documentDefinition = {  pageOrientation: 'landscape',content: html};
     pdfMake.createPdf(documentDefinition).open();
 
   }
 
-    
+  
+  formatoMoneda(number){
+    return new Intl.NumberFormat('en-US', {currency: 'USD', minimumFractionDigits: 2}).format(number);
+  };
+  
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
     sessionStorage.clear();

@@ -6,7 +6,7 @@
   
             <div class="card">
               <div class="card-body">
-                <h2 class="card-title" >Ventas por cliente y artículo</h2>
+                <h2 class="card-title" >Ventas por artículo</h2>
   
                 <!-- General Form Elements -->
                 <form>
@@ -18,7 +18,7 @@
                       <label class="CamposFonelli">Desde</label>
                     </div>
 
-                        <div class="form-group col-md-1">
+                        <div class="form-group col-md-1"  hidden="{{ bCliente }}">
                           <label class="CamposFonelli">Oficina</label>
                           <input 
                             type="text" 
@@ -125,7 +125,7 @@
                         <label class="CamposFonelli">Hasta</label>
                       </div>
 
-                      <div class="form-group col-md-1">
+                      <div class="form-group col-md-1" hidden="{{ bCliente }}">
                         <input 
                             type="text" 
                             id="idOfiHas"
@@ -384,36 +384,44 @@
         </div>
       </div>
 
-          <div *ngIf="bBandera" class="table-responsive-sm">
-            <div class="col-md-4 text-right">
-              <button class="btn btn-success btn-block" (click)="downloadAsPDF()">      
-                Download PDF      
-              </button>      
+          <div *ngIf="bBandera" class="table-responsive container">
+            <br>
+            <div class="form-row">
+              <div class="form-group col-md-1">              
+                <label class="CamposFonelli">Búsqueda</label>
+              </div>
+              <div class="form-group col-md-5">              
+                <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="searchtext"
+                    placeholder="Search"                 
+                  />
+                </div>
+                  <div class="form-group col-md-6">
+                    <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+                      Imprimir PDF      
+                    </button> 
+                  </div> 
             </div>
-            <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="searchtext"
-            placeholder="Search"
-          />
           <div id="pdfTable" #pdfTable>
             <table class="table table-hover table-striped  ">
               <thead>
-                <tr class="bg-info">
-                  <th>LN</th>
-                  <th>DESCRIPCION LÍNEA</th>
-                  <th>COLECCIÓN</th>
-                  <th class="text-right">PIEZAS</th>
-                  <th class="text-right">%P/CAT</th>
-                  <th class="text-right">GRAMOS</th>
-                  <th class="text-right">%G/CAT</th>
-                  <th class="text-right">IMPORTE VENTA</th>              
+                <tr class="EncTabla">
+                  <th style="background-color: #24a4cc; color: white;">LN</th>
+                  <th style="background-color: #24a4cc; color: white;">DESCRIPCION LÍNEA</th>
+                  <th style="background-color: #24a4cc; color: white;">COLECCIÓN</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
                 </tr>
               </thead>
               <tbody>
                 <ng-container *ngFor="let venArt of oVentasCliRes.Contenido | searchventasclientearticulo: searchtext">
                   <tr class="table-info">                    
-                    <td >{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
+                    <td class="FilasFonelli">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -425,7 +433,7 @@
                   <ng-container *ngFor="let cat of venArt.Categorias;">
                     
                     <tr class="table-warning">
-                      <td >{{'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoriaNombre }}</td>   
+                      <td class="FilasFonelli">{{'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoriaNombre }}</td>   
                       <td></td>
                     <td></td>
                     <td></td>
@@ -437,7 +445,7 @@
 
                     <ng-container *ngFor="let subCat of cat.Subcategorias;">
                         <tr>  
-                        <td>{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>                
+                        <td class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>                
                         <td></td>
                     <td></td>
                     <td></td>
@@ -449,14 +457,14 @@
 
                       <ng-container *ngFor="let linPro of subCat.LineasProducto;">
                         <tr>  
-                          <td>{{linPro.LineaCodigo}}</td>
-                          <td>{{linPro.LineaDescripc}}</td>
-                          <td>{{linPro.ColeccionDescripc}}</td>
-                          <td class="text-right">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
-                          <td class="text-right">{{getTotalPiezasPorArticulo(linPro.Articulos)}}</td>
-                          <td class="text-right">{{getTotalGramosArticulo(linPro.Articulos)}}</td>
-                          <td class="text-right">{{getTotalGramosPorArticulo(linPro.Articulos)}}</td>
-                          <td class="text-right">{{getTotalImpVenArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
+                          <td class="FilasFonelli">{{linPro.LineaDescripc}}</td>
+                          <td class="FilasFonelli">{{linPro.ColeccionDescripc}}</td>
+                          <td class="FilasFonelli text-right">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli text-right">{{getTotalPiezasPorArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli text-right">{{getTotalGramosArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli text-right">{{getTotalGramosPorArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli text-right">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
                         </tr> 
 
                       </ng-container>
@@ -464,12 +472,12 @@
                       <tr>  
                         <td></td>
                         <td></td>      
-                        <td class="text-right">Total SubCategoria</td>
-                        <td class="text-right"><strong>{{getTotalPiezasxSubCat(subCat.LineasProducto)}}</strong></td>
-                        <td class="text-right"><strong>{{getTotalPiezasPorxSubCat(subCat.LineasProducto)}}</strong></td>
-                        <td class="text-right"><strong>{{getTotalGramosxSubCat(subCat.LineasProducto)}}</strong></td>
-                        <td class="text-right"><strong>{{getTotalGramosPorxSubCat(subCat.LineasProducto)}}</strong></td>
-                        <td class="text-right"><strong>{{getTotalImpVenxSubCat(subCat.LineasProducto)}}</strong></td>
+                        <td class="FilasFonelli text-right">Total SubCategoria</td>
+                        <td class="FilasFonBold text-right">{{getTotalPiezasxSubCat(subCat.LineasProducto)}}</td>
+                        <td class="FilasFonBold text-right">{{getTotalPiezasPorxSubCat(subCat.LineasProducto)}}</td>
+                        <td class="FilasFonBold text-right">{{getTotalGramosxSubCat(subCat.LineasProducto)}}</td>
+                        <td class="FilasFonBold text-right">{{getTotalGramosPorxSubCat(subCat.LineasProducto)}}</td>
+                        <td class="FilasFonBold text-right">{{formatoMoneda(getTotalImpVenxSubCat(subCat.LineasProducto))}}</td>
                       </tr> 
 
                     </ng-container>
@@ -477,12 +485,12 @@
                     <tr>  
                       <td></td>
                       <td></td>      
-                      <td class="text-right">Total Categoria</td>
-                      <td class="text-right"><strong>{{getTotalPiezasxCategoria(cat.Subcategorias)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalPiezasPorxCategoria(cat.Subcategorias)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalGramosxCategoria(cat.Subcategorias)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalGramosPorxCategoria(cat.Subcategorias)}}</strong></td>
-                      <td class="text-right"><strong>{{getTotalImpVenxCategoria(cat.Subcategorias)}}</strong></td>
+                      <td class="FilasFonelli text-right">Total Categoria</td>
+                      <td class="FilasFonBold text-right">{{getTotalPiezasxCategoria(cat.Subcategorias)}}</td>
+                      <td class="FilasFonBold text-right">{{getTotalPiezasPorxCategoria(cat.Subcategorias)}}</td>
+                      <td class="FilasFonBold text-right">{{getTotalGramosxCategoria(cat.Subcategorias)}}</td>
+                      <td class="FilasFonBold text-right">{{getTotalGramosPorxCategoria(cat.Subcategorias)}}</td>
+                      <td class="FilasFonBold text-right">{{formatoMoneda(getTotalImpVenxCategoria(cat.Subcategorias))}}</td>
                     </tr>                    
 
                   </ng-container>
@@ -492,12 +500,12 @@
                 <tr>  
                   <td></td>
                   <td></td>      
-                  <td class="text-right">Total Cliente</td>
-                  <td class="text-right"><strong>{{getTotalPiezasxCliente(oVentasCliRes.Contenido)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalPiezasPorxCliente(oVentasCliRes.Contenido)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalGramosxCliente(oVentasCliRes.Contenido)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalGramosPorxCliente(oVentasCliRes.Contenido)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalImpVenxCliente(oVentasCliRes.Contenido)}}</strong></td>
+                  <td class="FilasFonelli text-right">Total Cliente</td>
+                  <td class="FilasFonBold text-right">{{getTotalPiezasxCliente(oVentasCliRes.Contenido)}}</td>
+                  <td class="FilasFonBold text-right">{{getTotalPiezasPorxCliente(oVentasCliRes.Contenido)}}</td>
+                  <td class="FilasFonBold text-right">{{getTotalGramosxCliente(oVentasCliRes.Contenido)}}</td>
+                  <td class="FilasFonBold text-right">{{getTotalGramosPorxCliente(oVentasCliRes.Contenido)}}</td>
+                  <td class="FilasFonBold text-right">{{formatoMoneda(getTotalImpVenxCliente(oVentasCliRes.Contenido))}}</td>
                 </tr> 
               </ng-container>               
 

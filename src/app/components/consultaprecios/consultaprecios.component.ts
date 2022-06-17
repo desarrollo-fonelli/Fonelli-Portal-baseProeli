@@ -1,10 +1,15 @@
-import { Component, OnInit,ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef,ElementRef, ViewChild } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
+
 //Modelos
 import {FiltrosConsultaPrecios} from 'src/app/models/consultaprecios.filtros';
-import {ConsultaPrecios} from 'src/app/models/consultaprecios';
+import {ConsultaPrecios, Componente} from 'src/app/models/consultaprecios';
 
 //Servicios
 import { ServicioConsultaPrecios } from 'src/app/services/consultaprecios.service';
@@ -17,6 +22,11 @@ import { ServicioConsultaPrecios } from 'src/app/services/consultaprecios.servic
   providers:[ServicioConsultaPrecios]
 })
 export class ConsultapreciosComponent implements OnInit {
+
+  @ViewChild('pdfTable') pdfTable: ElementRef;
+
+  searchtext = '';
+
  
   sCodigo :number | null;
   sTipo :string | null;
@@ -27,7 +37,11 @@ export class ConsultapreciosComponent implements OnInit {
 
   public oBuscar: FiltrosConsultaPrecios;
   oPreciosRes: ConsultaPrecios;
-   //precios: Pedido[];
+  componente: Componente[];
+
+   public bError: boolean=false;
+   public sMensaje: string="";
+   bBandera = false;
 
   mobileQuery: MediaQueryList;
 
@@ -55,10 +69,9 @@ export class ConsultapreciosComponent implements OnInit {
     this.sNombre = sessionStorage.getItem('nombre')
 
     //Inicializamos variables consulta precios
-    this.oBuscar = new FiltrosConsultaPrecios(0,0,0,0,'','','')
+    this.oBuscar = new FiltrosConsultaPrecios('',0,0,0,0,'','','')
     this.oPreciosRes={} as ConsultaPrecios;  
-    //this.pedido = [];
-
+  
     this.bCliente=false;
   
 
@@ -86,6 +99,7 @@ export class ConsultapreciosComponent implements OnInit {
 
          this.oBuscar.ClienteCodigo = this.sCodigo; 
          this.oBuscar.ClienteFilial = this.sFilial;   
+         this.oBuscar.ParidadTipo = 'N';
          this.bCliente = true;    
          break; 
       } 
@@ -104,11 +118,70 @@ export class ConsultapreciosComponent implements OnInit {
 
   shouldRun = true;
 
-  //Funcion para consultar los pedidos 
-  consultaPrecios(){
-    console.log(this.oBuscar)
-  }
+  //Funcion para consultar los precios
+ consultaPrecios(){
 
+  this.bBandera = false;
+  console.log("Consulta de precios");
+
+  //Inicializamos el tipo de usuario por el momento
+  this.oBuscar.TipoUsuario = this.sTipo
+
+  console.log(this.oBuscar.ClienteCodigo);
+  console.log(this.oBuscar.ClienteFilial); 
+
+  console.log(this.oBuscar);
+
+  //Realizamos llamada al servicio de pedidos
+  this._servicioCPrecios     
+  
+
+  .Get(this.oBuscar)
+  .subscribe(
+    (Response: ConsultaPrecios) => {
+
+      this.oPreciosRes = Response;
+      this.componente = this.oPreciosRes.Contenido.Componentes
+             
+
+      console.log("RESPUESTA - "+JSON.stringify(this.oPreciosRes));
+      console.log("RESPUESTA - "+JSON.stringify(this.componente));
+  
+
+      if(this.oPreciosRes.Codigo != 0){
+        this.bError= true;
+        this.sMensaje="No se encontraron de pedidos";
+        this.bBandera = false;
+        return;
+      }
+
+      this.sMensaje="";
+      this.bBandera = true;
+      
+
+    },
+    (error:ConsultaPrecios) => {
+
+      this.oPreciosRes = error;
+      this.sMensaje="No se encontraron los precios";
+      console.log("error");
+      console.log(this.oPreciosRes);
+    
+    }
+  );
+  
+}
+
+downloadAsPDF() {
+
+  const pdfTable = this.pdfTable.nativeElement;
+  console.log(pdfTable);
+  var html = htmlToPdfmake(pdfTable.innerHTML);
+  console.log(html);
+  const documentDefinition = {  pageOrientation: 'landscape',content: html};
+  pdfMake.createPdf(documentDefinition).open();
+
+}
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

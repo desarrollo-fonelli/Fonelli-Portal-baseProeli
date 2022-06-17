@@ -1,7 +1,7 @@
     <section >
       <div class="container float-left">
       <div class="row">
-         <div class="col-lg-8">
+         <div class="col-lg-12">
    
            <div class="card">
              <div class="card-body">
@@ -10,8 +10,8 @@
                <!-- General Form Elements -->
                <form>
   
-                  <div class="form-row">
-                      <div class="form-group col-md-6">
+                  <div class="form-row" hidden="{{ bCliente }}">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Desde oficina</label>
                         <input 
                           type="text" 
@@ -20,11 +20,9 @@
                           name="idDesOfi"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.OficinaDesde"
-                          disabled="{{ bCliente }}"
-                          required
                         >                        
                       </div>
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Hasta oficina</label>
                         <input 
                           type="text" 
@@ -33,15 +31,12 @@
                           name="idHasOfi"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.OficinaHasta"
-                          disabled="{{ bCliente }}"
-                          required
                         >  
                       </div>
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                           <button 
                             type="submit"
                             class="btn btn-primary"
-                            hidden="{{ bCliente }}"
                           >CATALOGO DE CLIENTES</button>
                       </div>                    
                   </div>
@@ -102,7 +97,7 @@
                     </div>
   
                     <div class="form-row">
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Desde fecha pedido</label>
                         <div class="input-group">
                           <input 
@@ -116,7 +111,7 @@
                           >
                         </div>
                       </div>
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Hasta fecha pedido</label>
                         <div class="input-group">
                           <input 
@@ -133,7 +128,7 @@
                   </div>
   
                   <div class="form-row">
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Desde fecha cancelacion operacion</label>
                         <div class="input-group">
                           <input 
@@ -148,7 +143,7 @@
                           
                         </div>
                       </div>
-                      <div class="form-group col-md-6">
+                      <div class="form-group col-md-3">
                         <label class="CamposFonelli">Hasta fecha cancelacion operacion</label>
                         <div class="input-group">
                           <input 
@@ -204,7 +199,7 @@
                         </div>
                       </div>
   
-                      <div class="form-group col-md-3">
+                      <div class="form-group col-md-3" hidden="{{ bCliente }}">
                           <div class="form-check">
                             <input 
                               class="form-check-input" 
@@ -212,11 +207,9 @@
                               name="gpoTipPed"
                               value="P"
                               #nombre="ngModel"
-                              [(ngModel)]="oBuscar.TipoPedido"
-                              required
-                              checked
+                              [(ngModel)]="oBuscar.TipoPedido"      
                             >
-                            <label class="form-check-label CamposFonelli"> Pedidos</label>
+                            <label class="form-check-label CamposFonelli" > Pedidos</label>
                           </div>
                           <div class="form-check">
                             <input 
@@ -226,10 +219,8 @@
                               value="S"
                               #nombre="ngModel"
                               [(ngModel)]="oBuscar.TipoPedido"
-                              required
-                              checked
                             >
-                            <label class="form-check-label CamposFonelli" > Servicio </label>
+                            <label class="form-check-label CamposFonelli"> Servicio </label>
                           </div>
                           <div class="form-check disabled">
                             <input 
@@ -239,10 +230,8 @@
                               value="E"
                               #nombre="ngModel"
                               [(ngModel)]="oBuscar.TipoPedido"
-                              required
-                              checked
                             >
-                            <label class="form-check-label CamposFonelli" > Existencia </label>
+                            <label class="form-check-label CamposFonelli"> Existencia </label>
                           </div>
                           <div class="form-check disabled">
                             <input 
@@ -252,14 +241,12 @@
                               value="T"
                               #nombre="ngModel"
                               [(ngModel)]="oBuscar.TipoPedido"
-                              required
-                              checked
                             >
-                            <label class="form-check-label CamposFonelli" > Todos </label>
+                            <label class="form-check-label CamposFonelli"> Todos </label>
                           </div>
                         </div>
   
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-3" hidden="{{ bCliente }}">
                           <div class="form-check">
                             <input 
                               class="form-check-input" 
@@ -268,10 +255,8 @@
                               value="I"
                               #nombre="ngModel"
                               [(ngModel)]="oBuscar.TipoOrigen"
-                              required
-                              checked
                             >
-                            <label class="form-check-label CamposFonelli" > Internos </label>
+                            <label class="form-check-label CamposFonelli"> Internos </label>
                           </div>
                           <div class="form-check">
                             <input 
@@ -281,10 +266,8 @@
                               value="E"
                               #nombre="ngModel"
                               [(ngModel)]="oBuscar.TipoOrigen"
-                              required
-                              checked
                             >
-                            <label class="form-check-label CamposFonelli" > Externos </label>
+                            <label class="form-check-label CamposFonelli"> Externos </label>
                           </div>
                           <div class="form-check disabled">
                             <input 
@@ -294,10 +277,8 @@
                               value="T"
                               #nombre="ngModel"
                               [(ngModel)]="oBuscar.TipoOrigen"
-                              required
-                              checked
                             >
-                            <label class="form-check-label CamposFonelli" > Todos </label>
+                            <label class="form-check-label CamposFonelli"> Todos </label>
                           </div>
                         </div>
   
@@ -310,8 +291,6 @@
                               value="S"
                               #nombre="ngModel"
                               [(ngModel)]="oBuscar.SoloAtrasados"
-                              required
-                              checked
                             >
                             <label class="form-check-label CamposFonelli" > Solo atrasados </label>
                           </div>
@@ -327,15 +306,9 @@
                               checked
                             >
                             <label class="form-check-label CamposFonelli"> Todos </label>
-                          </div>
-                          
-                        </div>
-  
-                      
-                    </div>
-  
-               
-  
+                          </div>                          
+                        </div>                     
+                    </div>   
                   
                   <br>   
                   <div class="form-row">
@@ -358,48 +331,55 @@
 
       </div>
 
-       <div *ngIf="bBandera" class="table-responsive-sm">
-        <div class="col-md-4 text-right">
-          <button class="btn btn-success btn-block" (click)="downloadAsPDF()">      
-            Download PDF      
-          </button>      
-        </div>
-        
-        <input
-        type="text"
-        class="form-control"
-        [(ngModel)]="searchtext"
-        placeholder="Search"
-      />
+       <div *ngIf="bBandera" class="table-responsive container">
+        <br>
+          <div class="form-row">
+            <div class="form-group col-md-1">              
+              <label class="CamposFonelli">Búsqueda</label>
+            </div>
+            <div class="form-group col-md-5">              
+              <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="searchtext"
+                  placeholder="Search"                 
+                />
+              </div>
+                <div class="form-group col-md-6">
+                  <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+                    Imprimir PDF      
+                  </button> 
+                </div> 
+          </div>
 
       <div id="pdfTable" #pdfTable>
-        <table class="table table-hover table-striped  ">
+        <table class="table table-hover table-striped" >
           <thead>
-            <tr class="bg-info">
-              <th>TP</th><!--Pedido codigo -->
-              <th>L</th><!-- Pedido letra -->
-              <th>PEDIDO</th><!--Pedido folio -->
-              <th>CLTE</th><!--Cliente codigo -->
-              <th>FIL</th><!--Cliente filial -->
-              <th>FECHA PEDIDO</th><!--Fecha pedido -->
-              <th>FECHA APROD</th><!--Fecha pedido produccion -->
-              <th>FECHA CANCOP</th><!--Fecha cancelacion -->
-              <th>S</th><!--Pedido status -->
-              <th>DIAS ATRAS</th><!--Dias atraso -->
-              <th class="text-right">CANT PEDID</th><!--Cantidad perdida -->
-              <th class="text-right">IMPORTE</th><!-- Cantidad perdida importe -->
-              <th class="text-right">VALOR AGREGADO</th><!---->
-              <th class="text-right">CANT SURTID</th><!--Cantidad surtida -->
-              <th class="text-right">IMPORTE</th><!--Cantidad surtida importe -->
-              <th class="text-right">VALOR AGREGADO</th><!-- -->
-              <th class="text-right">DIFER</th><!--Diferencia cantidad producto -->
-              <th class="text-right">IMPORTE</th><!--Diferencia importe surtido -->
+            <tr class="EncTabla">
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;" >TP</th><!--Pedido codigo -->
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">L</th><!-- Pedido letra -->
+              <th style="background-color: #24a4cc; color: white;">PEDIDO</th><!--Pedido folio -->
+              <th style="background-color: #24a4cc; color: white;">CLTE</th><!--Cliente codigo -->
+              <th style="background-color: #24a4cc; color: white;">FIL</th><!--Cliente filial -->
+              <th style="background-color: #24a4cc; color: white;">FECHA PEDIDO</th><!--Fecha pedido -->
+              <th *ngIf="!bCliente"  style="background-color: #24a4cc; color: white;">FECHA APROD</th><!--Fecha pedido produccion -->
+              <th  style="background-color: #24a4cc; color: white;">FECHA CANCOP</th><!--Fecha cancelacion -->
+              <th style="background-color: #24a4cc; color: white;">S</th><!--Pedido status -->
+              <th style="background-color: #24a4cc; color: white; text-align:right;" >DIAS ATRAS</th><!--Dias atraso -->
+              <th style="background-color: #24a4cc; color: white; text-align:right;">CANT PEDID</th><!--Cantidad perdida -->
+              <th style="background-color: #24a4cc; color: white; text-align:right;">IMPORTE</th><!-- Cantidad perdida importe -->
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align:right;">VALOR AGREGADO</th><!---->
+              <th style="background-color: #24a4cc; color: white; text-align:right;">CANT SURTID</th><!--Cantidad surtida -->
+              <th style="background-color: #24a4cc; color: white; text-align:right;">IMPORTE</th><!--Cantidad surtida importe -->
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align:right;">VALOR AGREGADO</th><!-- -->
+              <th style="background-color: #24a4cc; color: white; text-align:right;">DIFER</th><!--Diferencia cantidad producto -->
+              <th style="background-color: #24a4cc; color: white; text-align:right;">IMPORTE</th><!--Diferencia importe surtido -->
             </tr>
           </thead>
           <tbody>
             <ng-container *ngFor="let relPed of oRelacionPedRes.Contenido | searchrelacionpedidos: searchtext ">
               <tr class="table-info">
-                <td colspan="18">{{relPed.OficinaFonelliNombre}}</td>
+                <td *ngIf="!bCliente" ? colspan="14" :colspan="18">{{relPed.OficinaFonelliNombre}}</td>
               </tr>
             <ng-container *ngFor="let tipoPed of relPed.TipoPedido;">
 
@@ -412,93 +392,94 @@
                 </tr> -->
                 <tr *ngFor="let pedido of tipoPed.Pedidos;" (click)="openPedidoDetalle(PedidoDetalle,pedido.PedidoFolio)">
                   <!-- <td>{{idx1 + '-' + idx2 + '-' + idx3 }}</td> -->
-                  <td>{{pedido.PedidoLetra}}</td>
-                  <td>{{tipoPed.TipoPedidoCodigo}}</td>
-                  <td><u>{{pedido.PedidoFolio}}</u></td>
-                  <td>{{pedido.ClienteCodigo}}</td>
-                  <td>{{pedido.ClienteFilial}}</td>
-                  <td>{{pedido.FechaPedido}}</td>
-                  <td>{{pedido.FechaPedidoProduccion}}</td>
-                  <td>{{pedido.FechaCancelacion}}</td>
-                  <td>{{pedido.PedidoStatus}}</td>
-                  <td>{{pedido.DiasAtraso}}</td>
-                  <td class="text-right">{{pedido.CantidadPedida}}</td>
-                  <td class="text-right">{{pedido.CantidadPedidaImporte}}</td>
-                  <td class="text-right">{{pedido.CantidadPedidaValorAgregado}}</td>                
-                  <td class="text-right">{{pedido.CantidadSurtida}}</td>                
-                  <td class="text-right">{{pedido.CantidadSurtidaImporte}}</td>                
-                  <td class="text-right">{{pedido.CantidadSurtidaValorAgregado}}</td>                
-                  <td class="text-right">{{pedido.DiferenciaCantidadProducido}}</td>                
-                  <td class="text-right">{{pedido.DiferenciaImporteSurtido}}</td>                
+                  <td *ngIf="!bCliente" class="FilasFonelli text-left">{{pedido.PedidoLetra}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonelli text-left">{{tipoPed.TipoPedidoCodigo}}</td>
+                  <td class="FilasFonelli text-left"><u>{{pedido.PedidoFolio}}</u></td>
+                  <td class="FilasFonelli text-left">{{pedido.ClienteCodigo}}</td>
+                  <td class="FilasFonelli text-left">{{pedido.ClienteFilial}}</td>
+                  <td class="FilasFonelli text-left">{{pedido.FechaPedido}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonelli text-left">{{pedido.FechaPedidoProduccion}}</td>
+                  <td class="FilasFonelli text-left">{{pedido.FechaCancelacion}}</td>
+                  <td class="FilasFonelli text-left">{{pedido.PedidoStatus}}</td>
+                  <td class="FilasFonelli text-right">{{pedido.DiasAtraso}}</td>
+                  <td class="FilasFonelli text-right">{{pedido.CantidadPedida}}</td>
+                  <td class="FilasFonelli text-right">{{formatoMoneda(pedido.CantidadPedidaImporte)}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonelli text-right">{{formatoMoneda(pedido.CantidadPedidaValorAgregado)}}</td>                
+                  <td class="FilasFonelli text-right">{{pedido.CantidadSurtida}}</td>                
+                  <td class="FilasFonelli text-right">{{formatoMoneda(pedido.CantidadSurtidaImporte)}}</td>                
+                  <td *ngIf="!bCliente" class="FilasFonelli text-right">{{formatoMoneda(pedido.CantidadSurtidaValorAgregado)}}</td>                
+                  <td class="FilasFonelli text-right">{{pedido.DiferenciaCantidadProducido}}</td>                
+                  <td class="FilasFonelli text-right">{{formatoMoneda(pedido.DiferenciaImporteSurtido)}}</td>                
                 </tr>
+                
 
                 <!-- TOTAL PEDIDOS-->
                 <tr>
+                  <td *ngIf="!bCliente"></td>
+                  <td *ngIf="!bCliente"></td>
+                  <td class="FilasFonBold">Total</td>
+                  <td class="FilasFonBold">{{getTotalPedidos(tipoPed.Pedidos)}}</td>
                   <td></td>
-                  <td></td>
-                  <td><strong>Total</strong></td>
-                  <td><strong>{{getTotalPedidos(tipoPed.Pedidos)}}</strong></td>
-                  <td></td>
-                  <td>Pedidos</td>
-                  <td></td>
-                  <td><strong>{{tipoPed.TipoPedido}}</strong></td>
+                  <td class="FilasFonBold">Pedidos</td>
+                  <td *ngIf="!bCliente"></td>
+                  <td class="FilasFonBold">{{tipoPed.TipoPedido}}</td>
                   <td></td>
                   <td></td>   
-                  <td class="text-right"><strong>{{getTotalCanPed(tipoPed.Pedidos)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalImportes(tipoPed.Pedidos)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalCPValorAgregado(tipoPed.Pedidos)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalCanSurtida(tipoPed.Pedidos)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalCanSurtidaImporte(tipoPed.Pedidos)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalCSValorImporte(tipoPed.Pedidos)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalDifCantidadPro(tipoPed.Pedidos)}}</strong></td>
-                  <td class="text-right"><strong>{{getTotalDifImporteSurtido(tipoPed.Pedidos)}}</strong></td>
+                  <td class="FilasFonBold text-right">{{getTotalCanPed(tipoPed.Pedidos)}}</td>
+                  <td class="FilasFonBold text-right">{{formatoMoneda(getTotalImportes(tipoPed.Pedidos))}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonBold text-right">{{formatoMoneda(getTotalCPValorAgregado(tipoPed.Pedidos))}}</td>
+                  <td class="FilasFonBold text-right">{{getTotalCanSurtida(tipoPed.Pedidos)}}</td>
+                  <td class="FilasFonBold text-right">{{formatoMoneda(getTotalCanSurtidaImporte(tipoPed.Pedidos))}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonBold text-right">{{formatoMoneda(getTotalCSValorImporte(tipoPed.Pedidos))}}</td>
+                  <td class="FilasFonBold text-right">{{getTotalDifCantidadPro(tipoPed.Pedidos)}}</td>
+                  <td class="FilasFonBold text-right">{{formatoMoneda(getTotalDifImporteSurtido(tipoPed.Pedidos))}}</td>
                 </tr>               
               <!-- </ng-container> -->
             </ng-container>
 
              <!-- TOTAL OFICINA-->
              <tr>
+              <td *ngIf="!bCliente"></td>
+              <td *ngIf="!bCliente"></td>
+              <td class="FilasFonBold">Total</td>
+              <td class="FilasFonBold">{{getTotalPedidosOficina(relPed.TipoPedido)}}</td>
               <td></td>
-              <td></td>
-              <td><strong>Total</strong></td>
-              <td><strong>{{getTotalPedidosOficina(relPed.TipoPedido)}}</strong></td>
-              <td></td>
-              <td>Pedidos</td>
-              <td></td>
-              <td><strong>OFICINA</strong></td>
+              <td class="FilasFonBold">Pedidos</td>
+              <td *ngIf="!bCliente"></td>
+              <td class="FilasFonBold">OFICINA</td>
               <td></td>
               <td></td> 
-              <td class="text-right"><strong>{{getTotalCanPedOficina(relPed.TipoPedido)}}</strong></td>
-              <td class="text-right"><strong>{{getTotalImportesOficina(relPed.TipoPedido)}}</strong></td>
-              <td class="text-right"><strong>{{getTotalCPValorAgregadoOficina(relPed.TipoPedido)}}</strong></td>
-              <td class="text-right"><strong>{{getTotalCanSurtidaOficina(relPed.TipoPedido)}}</strong></td>
-              <td class="text-right"><strong>{{getTotalCanSurtidaImporteOficina(relPed.TipoPedido)}}</strong></td>
-              <td class="text-right"><strong>{{getTotalCSValorImporteOficina(relPed.TipoPedido)}}</strong></td>
-              <td class="text-right"><strong>{{getTotalDifCantidadProOficina(relPed.TipoPedido)}}</strong></td>
-              <td class="text-right"><strong>{{getTotalDifImporteSurtidoOficina(relPed.TipoPedido)}}</strong></td>              
+              <td class="FilasFonBold text-right">{{getTotalCanPedOficina(relPed.TipoPedido)}}</td>
+              <td class="FilasFonBold text-right">{{formatoMoneda(getTotalImportesOficina(relPed.TipoPedido))}}</td>
+              <td *ngIf="!bCliente" class="FilasFonBold text-right">{{formatoMoneda(getTotalCPValorAgregadoOficina(relPed.TipoPedido))}}</td>
+              <td class="FilasFonBold text-right">{{getTotalCanSurtidaOficina(relPed.TipoPedido)}}</td>
+              <td class="FilasFonBold text-right">{{formatoMoneda(getTotalCanSurtidaImporteOficina(relPed.TipoPedido))}}</td>
+              <td *ngIf="!bCliente" class="FilasFonBold text-right">{{formatoMoneda(getTotalCSValorImporteOficina(relPed.TipoPedido))}}</td>
+              <td class="FilasFonBold text-right">{{getTotalDifCantidadProOficina(relPed.TipoPedido)}}</td>
+              <td class="FilasFonBold text-right">{{formatoMoneda(getTotalDifImporteSurtidoOficina(relPed.TipoPedido))}}</td>  
             </tr>
           </ng-container>               
           
           <!-- GRAN TOTALES-->
           <tr>
+            <td *ngIf="!bCliente"></td>
+            <td *ngIf="!bCliente"></td>
             <td></td>
+            <td class="FilasFonBold">{{getTotalPedidosGranTotal(oRelacionPedRes.Contenido)}}</td>
             <td></td>
-            <td></td>
-            <td><strong>{{getTotalPedidosGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
-            <td></td>
-            <td>Pedidos</td>
-            <td></td>
-            <td><strong>GRAN TOTAL</strong></td>
+            <td class="FilasFonBold">Pedidos</td>
+            <td *ngIf="!bCliente"></td>
+            <td class="FilasFonBold">GRAN TOTAL</td>
             <td></td>
             <td></td> 
-            <td class="text-right"><strong>{{getTotalCanPedGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
-            <td class="text-right"><strong>{{getTotalImportesGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
-            <td class="text-right"><strong>{{getTotalCPValorAgregadoGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
-            <td class="text-right"><strong>{{getTotalCanSurtidaGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
-            <td class="text-right"><strong>{{getTotalCanSurtidaImporteGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
-            <td class="text-right"><strong>{{getTotalCSValorImporteGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
-            <td class="text-right"><strong>{{getTotalDifCantidadProGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
-            <td class="text-right"><strong>{{getTotalDifImporteSurtidoGranTotal(oRelacionPedRes.Contenido)}}</strong></td>
+            <td class="FilasFonBold text-right">{{getTotalCanPedGranTotal(oRelacionPedRes.Contenido)}}</td>
+            <td class="FilasFonBold text-right">{{formatoMoneda(getTotalImportesGranTotal(oRelacionPedRes.Contenido))}}</td>
+            <td  *ngIf="!bCliente" class="FilasFonBold text-right">{{formatoMoneda(getTotalCPValorAgregadoGranTotal(oRelacionPedRes.Contenido))}}</td>
+            <td class="FilasFonBold text-right">{{getTotalCanSurtidaGranTotal(oRelacionPedRes.Contenido)}}</td>
+            <td class="FilasFonBold text-right">{{formatoMoneda(getTotalCanSurtidaImporteGranTotal(oRelacionPedRes.Contenido))}}</td>
+            <td  *ngIf="!bCliente" class="FilasFonBold text-right">{{formatoMoneda(getTotalCSValorImporteGranTotal(oRelacionPedRes.Contenido))}}</td>
+            <td class="FilasFonBold text-right">{{getTotalDifCantidadProGranTotal(oRelacionPedRes.Contenido)}}</td>
+            <td class="FilasFonBold text-right">{{formatoMoneda(getTotalDifImporteSurtidoGranTotal(oRelacionPedRes.Contenido))}}</td>
           </tr>
 
           </tbody>               
@@ -524,14 +505,14 @@
 
             <div >
               
-              <a > Pedido: {{oBuscaDetalle.PedidoFolio}} </a>
+              <label > Pedido: <strong>{{oBuscaDetalle.PedidoFolio}}</strong> </label>
             </div>
 
 
-                <div class="col-12" class="table-responsive-sm">                     
+                <div class="col-12" class="table-responsive container">                     
                   <table *ngIf="bBanderaDet"  class="table table-striped">
                     <thead>
-                    <tr  class="bg-info">
+                    <tr class="EncTabla">
                       <th scope="col">#</th>
                       <th scope="col">LN</th>
                       <th scope="col">CLAVE</th>
@@ -542,80 +523,80 @@
                       <th scope="col">FECHA PED</th>
                       <th scope="col" class="text-right">CANT PEDIDA</th>        
                       <th scope="col">FEC SUR</th>
-                      <th scope="col">CANT SURTIDA</th>
-                      <th scope="col">DIFEREN</th>
+                      <th scope="col" class="FilasFonelli text-right">CANT SURTIDA</th>
+                      <th scope="col" class="FilasFonelli text-right">DIFEREN</th>
                       <th scope="col">S</th>
                       <th scope="col">DOCTO</th>
                       <th scope="col">FEC TERM</th>
-                      <th scope="col">CANT A PRODUCIR</th>
-                      <th scope="col">PRODUCIDO</th>
-                      <th scope="col">DIFERENC</th>
+                      <th scope="col" class="FilasFonelli text-right">CANT A PRODUCIR</th>
+                      <th scope="col" class="FilasFonelli text-right">PRODUCIDO</th>
+                      <th scope="col" class="FilasFonelli text-right">DIFERENC</th>
                       <th scope="col">FEC PROD</th>                      
-                      <th scope="col">CP4</th>
-                      <th scope="col">CP45</th>
-                      <th scope="col">CP5</th>
-                      <th scope="col">CP55</th>
-                      <th scope="col">CP6</th>
-                      <th scope="col">CP65</th>
-                      <th scope="col">CP7</th>
-                      <th scope="col">CP75</th>
-                      <th scope="col">CP8</th>
-                      <th scope="col">CP85</th>
-                      <th scope="col">CP9</th>
-                      <th scope="col">CP95</th>
-                      <th scope="col">CP10</th>
-                      <th scope="col">CP105</th>
-                      <th scope="col">CP11</th>
-                      <th scope="col">CP115</th>
-                      <th scope="col">CP12</th>
-                      <th scope="col">CP125</th>
-                      <th scope="col">CP13</th>
-                      <th scope="col">MEDX</th>
-                      <th scope="col">CANX</th>
+                      <th scope="col" class="FilasFonelli text-right">CP4</th>
+                      <th scope="col" class="FilasFonelli text-right">CP45</th>
+                      <th scope="col" class="FilasFonelli text-right">CP5</th>
+                      <th scope="col" class="FilasFonelli text-right">CP55</th>
+                      <th scope="col" class="FilasFonelli text-right">CP6</th>
+                      <th scope="col" class="FilasFonelli text-right">CP65</th>
+                      <th scope="col" class="FilasFonelli text-right">CP7</th>
+                      <th scope="col" class="FilasFonelli text-right">CP75</th>
+                      <th scope="col" class="FilasFonelli text-right">CP8</th>
+                      <th scope="col" class="FilasFonelli text-right">CP85</th>
+                      <th scope="col" class="FilasFonelli text-right">CP9</th>
+                      <th scope="col" class="FilasFonelli text-right">CP95</th>
+                      <th scope="col" class="FilasFonelli text-right">CP10</th>
+                      <th scope="col" class="FilasFonelli text-right">CP105</th>
+                      <th scope="col" class="FilasFonelli text-right">CP11</th>
+                      <th scope="col" class="FilasFonelli text-right">CP115</th>
+                      <th scope="col" class="FilasFonelli text-right">CP12</th>
+                      <th scope="col" class="FilasFonelli text-right">CP125</th>
+                      <th scope="col" class="FilasFonelli text-right">CP13</th>
+                      <th scope="col" class="FilasFonelli text-right">MEDX</th>
+                      <th scope="col" class="FilasFonelli text-right">CANX</th>
                     </tr>
                     </thead>
                     <tbody>
                       <tr *ngFor="let pedDet of pedidoDet; index as i">
                         <th scope="row">{{ i + 1 }}</th>
-                        <td>{{ pedDet.ArticuloLinea}}</td>
-                        <td>{{pedDet.ArticuloCodigo}}</td>                
-                        <td>{{ pedDet.ArticuloDescripc}}</td>
-                        <td>{{ pedDet.PedidoStatus}}</td>
-                        <td>{{ pedDet.ArticuloCategoria}}</td>                        
-                        <td>{{ pedDet.ArticuloSubcategoria}}</td>
-                        <td>{{ pedDet.FechaPedido}}</td>
-                        <td class="text-right">{{ pedDet.CantidadPedida}}</td>
-                        <td>{{ pedDet.FechaSurtido}}</td>
-                        <td class="text-right">{{ pedDet.CantidadSurtida}}</td>
-                        <td class="text-right">{{ pedDet.DiferenciaSurtido}}</td>
+                        <td class="FilasFonelli">{{ pedDet.ArticuloLinea}}</td>
+                        <td class="FilasFonelli">{{pedDet.ArticuloCodigo}}</td>                
+                        <td class="FilasFonelli">{{ pedDet.ArticuloDescripc}}</td>
+                        <td class="FilasFonelli">{{ pedDet.PedidoStatus}}</td>
+                        <td class="FilasFonelli">{{ pedDet.ArticuloCategoria}}</td>                        
+                        <td class="FilasFonelli">{{ pedDet.ArticuloSubcategoria}}</td>
+                        <td class="FilasFonelli">{{ pedDet.FechaPedido}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadPedida}}</td>
+                        <td class="FilasFonelli">{{ pedDet.FechaSurtido}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadSurtida}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.DiferenciaSurtido}}</td>
                         <td>{{ pedDet.FacturaSerie}}</td>
                         <td>{{ pedDet.FacturaFolio}}</td>
                         <td>{{ pedDet.FechaTerminacionArticulo}}</td>
-                        <td class="text-right">{{ pedDet.CantidadPedidoProduccion}}</td>
-                        <td class="text-right">{{ pedDet.CantidadProducida}}</td>
-                        <td class="text-right">{{ pedDet.DiferenciaProducido}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadPedidoProduccion}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadProducida}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.DiferenciaProducido}}</td>
                         <td>{{ pedDet.FechaProduccionArticulo}}</td>
-                        <td>{{ pedDet.CantidadMedida4}}</td>
-                        <td>{{ pedDet.CantidadMedida4_5}}</td>
-                        <td>{{ pedDet.CantidadMedida5}}</td>
-                        <td>{{ pedDet.CantidadMedida5_5}}</td>
-                        <td>{{ pedDet.CantidadMedida6}}</td>
-                        <td>{{ pedDet.CantidadMedida6_5}}</td>
-                        <td>{{ pedDet.CantidadMedida7}}</td>
-                        <td>{{ pedDet.CantidadMedida7_5}}</td>
-                        <td>{{ pedDet.CantidadMedida8}}</td>
-                        <td>{{ pedDet.CantidadMedida8_5}}</td>
-                        <td>{{ pedDet.CantidadMedida9}}</td>
-                        <td>{{ pedDet.CantidadMedida9_5}}</td>
-                        <td>{{ pedDet.CantidadMedida10}}</td>
-                        <td>{{ pedDet.CantidadMedida10_5}}</td>
-                        <td>{{ pedDet.CantidadMedida11}}</td>
-                        <td>{{ pedDet.CantidadMedida11_5}}</td>
-                        <td>{{ pedDet.CantidadMedida12}}</td>
-                        <td>{{ pedDet.CantidadMedida12_5}}</td>
-                        <td>{{ pedDet.CantidadMedida13}}</td>
-                        <td>{{ pedDet.MedidaEspecial}}</td>
-                        <td>{{ pedDet.CantidadMedidaEspecial}}</td>            
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida4}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida4_5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida5_5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida6}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida6_5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida7}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida7_5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida8}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida8_5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida9}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida9_5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida10}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida10_5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida11}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida11_5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida12}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida12_5}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedida13}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.MedidaEspecial}}</td>
+                        <td class="FilasFonelli text-right">{{ pedDet.CantidadMedidaEspecial}}</td>            
                       </tr>
 
                       <tr>
@@ -627,16 +608,16 @@
                         <td></td>
                         <td></td>
                         <td>Total</td>
-                        <td class="text-right"><strong>{{getTotalPedidosDetalle(pedidoDet)}}</strong></td>
+                        <td class="FilasFonBold text-right">{{getTotalPedidosDetalle(pedidoDet)}}</td>
                         <td></td>
-                        <td class="text-right"><strong>{{getTotalCanSurDetalle(pedidoDet)}}</strong></td>
-                        <td class="text-right"><strong>{{getTotalDifSurtidaDetalle(pedidoDet)}}</strong></td>
+                        <td class="FilasFonBold text-right"><strong>{{getTotalCanSurDetalle(pedidoDet)}}</strong></td>
+                        <td class="FilasFonBold text-right"><strong>{{getTotalDifSurtidaDetalle(pedidoDet)}}</strong></td>
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="text-right"><strong>{{getTotalCanAProdDetalle(pedidoDet)}}</strong></td>
-                        <td class="text-right"><strong>{{getTotalCanProducidaDetalle(pedidoDet)}}</strong></td>
-                        <td class="text-right"><strong>{{getTotalDifProducidaDetalle(pedidoDet)}}</strong></td>
+                        <td class="FilasFonBold text-right"><strong>{{getTotalCanAProdDetalle(pedidoDet)}}</strong></td>
+                        <td class="FilasFonBold text-right"><strong>{{getTotalCanProducidaDetalle(pedidoDet)}}</strong></td>
+                        <td class="FilasFonBold text-right"><strong>{{getTotalDifProducidaDetalle(pedidoDet)}}</strong></td>
                   
                       </tr>
                     </tbody>
