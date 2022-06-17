@@ -23,7 +23,7 @@ export interface Contenido {
     TipoCosteoDescripc?:      string;
     "Valor agregado"?:        number;
     CodigoNormalEquivalente?: string;
-    Precio?:                  number;
+    Precio:                  number;
     Componentes?:             Componente[];
 }
 
