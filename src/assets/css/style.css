@@ -105,3 +105,15 @@
    font-family: lato;
    src: url(../fonts/CormorantGaramond-SemiBold.ttf) format("opentype");
  }
+
+ @font-face {
+   font-family: "Futura_Condensed_Extra_Bold";
+   src: url("../fonts/Futura_Condensed_Extra_Bold.otf");
+}
+
+ .fondo_mensaje_contacto {
+   background-color:    #198754;
+   color: white;
+   font-size: large;
+
+}

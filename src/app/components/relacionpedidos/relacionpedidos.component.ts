@@ -60,6 +60,8 @@ export class RelacionpedidosComponent implements OnInit {
   bBandera: boolean;
   bBanderaDet = false;
 
+  fechaHoy: String
+
   closeResult = '';
   public ModalActivo?: NgbModalRef;
 
@@ -154,13 +156,14 @@ export class RelacionpedidosComponent implements OnInit {
           }
 
           let fechaActual =  (date.getFullYear()+1) +'-'+ mes +'-'+date.getDate();          
-          let fechaAyer =  date.getFullYear()+'-'+ mes +'-'+(date.getDate()-1);                 
+          let fechaAyer =  date.getFullYear()+'-'+ mes +'-'+(date.getDate()-1); 
+          this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());                  
  
 
            this.oBuscar.ClienteDesde = this.sCodigo; 
            this.oBuscar.ClienteHasta = this.sCodigo;   
            this.oBuscar.Status = 'A';
-           this.oBuscar.TipoPedido = 'E';
+           this.oBuscar.TipoPedido = 'T';
            this.oBuscar.TipoOrigen = 'T';
            this.oBuscar.SoloAtrasados = 'T';
            this.oBuscar.FechaPedidoDesde = '2000-01-01';
@@ -168,6 +171,7 @@ export class RelacionpedidosComponent implements OnInit {
            this.oBuscar.FechaCancelacDesde = '2000-01-01';
            this.oBuscar.FechaCancelacHasta = fechaActual;
            this.bCliente = true;    
+
            break; 
         } 
         case 'A': { 
@@ -284,6 +288,30 @@ getTotalPedidos(Pedido: Pedido[]): number {
   total = Number(total.toFixed(2));
   return total;
  }
+
+ getTotalDifValorAgregado(Pedido: Pedido[]): number {
+  let total = Pedido.map(item => item.DiferenciaValorAgregado).reduce((total,actual) => total + actual,0);
+  total = Number(total.toFixed(2));
+  return total;
+ }
+
+ getTotalCantPedidaProd(Pedido: Pedido[]): number {
+  let total = Pedido.map(item => item.CantidadPedidaProduccion).reduce((total,actual) => total + actual,0);
+  total = Number(total.toFixed(2));
+  return total;
+ }
+
+ getTotalCantidadProd(Pedido: Pedido[]): number {
+  let total = Pedido.map(item => item.CantidadProducida).reduce((total,actual) => total + actual,0);
+  total = Number(total.toFixed(2));
+  return total;
+ }
+
+ getTotalDifCantidadProd(Pedido: Pedido[]): number {
+  let total = Pedido.map(item => item.DiferenciaCantidadProducido).reduce((total,actual) => total + actual,0);
+  total = Number(total.toFixed(2));
+  return total;
+ }
  
 
  //##### TOTALES OFICINA #####
@@ -382,6 +410,54 @@ getTotalPedidos(Pedido: Pedido[]): number {
   for(var tiPe of TipoPedido){
     for(var val of tiPe.Pedidos){
       Total += val.DiferenciaImporteSurtido;
+    }    
+  }
+  Total = Number(Total.toFixed(2));
+  return Total;   
+ }
+
+ getTotalDifValorAgregadoOficina(TipoPedido: TipoPedido[]): number {   
+  let Total: number = 0;
+
+  for(var tiPe of TipoPedido){
+    for(var val of tiPe.Pedidos){
+      Total += val.DiferenciaValorAgregado;
+    }    
+  }
+  Total = Number(Total.toFixed(2));
+  return Total;   
+ }
+
+ getTotalCantPedidoProdOficina(TipoPedido: TipoPedido[]): number {   
+  let Total: number = 0;
+
+  for(var tiPe of TipoPedido){
+    for(var val of tiPe.Pedidos){
+      Total += val.CantidadPedidaProduccion;
+    }    
+  }
+  Total = Number(Total.toFixed(2));
+  return Total;   
+ }
+
+ getTotalCantidadProducidaOficina(TipoPedido: TipoPedido[]): number {   
+  let Total: number = 0;
+
+  for(var tiPe of TipoPedido){
+    for(var val of tiPe.Pedidos){
+      Total += val.CantidadProducida;
+    }    
+  }
+  Total = Number(Total.toFixed(2));
+  return Total;   
+ }
+
+  getTotalDifCantidadProdOficina(TipoPedido: TipoPedido[]): number {   
+  let Total: number = 0;
+
+  for(var tiPe of TipoPedido){
+    for(var val of tiPe.Pedidos){
+      Total += val.DiferenciaCantidadProducido;
     }    
   }
   Total = Number(Total.toFixed(2));
@@ -517,6 +593,66 @@ getTotalPedidos(Pedido: Pedido[]): number {
     for(var tipPed of tiPe.TipoPedido){
       for(var ped of tipPed.Pedidos){
         Total += ped.DiferenciaImporteSurtido
+      }
+      
+    }    
+  }
+  Total = Number(Total.toFixed(2));
+  return Total; 
+ }
+
+ getTotalDifValorAgregadoGranTotal(RelacionPed: ContenidoGen[]): number {    
+  let Total: number = 0;
+
+  for(var tiPe of RelacionPed){
+    for(var tipPed of tiPe.TipoPedido){
+      for(var ped of tipPed.Pedidos){
+        Total += ped.DiferenciaValorAgregado
+      }
+      
+    }    
+  }
+  Total = Number(Total.toFixed(2));
+  return Total; 
+ }
+
+ getTotalCantPedProdGranTotal(RelacionPed: ContenidoGen[]): number {    
+  let Total: number = 0;
+
+  for(var tiPe of RelacionPed){
+    for(var tipPed of tiPe.TipoPedido){
+      for(var ped of tipPed.Pedidos){
+        Total += ped.CantidadPedidaProduccion
+      }
+      
+    }    
+  }
+  Total = Number(Total.toFixed(2));
+  return Total; 
+ }
+
+ getTotalCantidadProdGranTotal(RelacionPed: ContenidoGen[]): number {    
+  let Total: number = 0;
+
+  for(var tiPe of RelacionPed){
+    for(var tipPed of tiPe.TipoPedido){
+      for(var ped of tipPed.Pedidos){
+        Total += ped.CantidadProducida
+      }
+      
+    }    
+  }
+  Total = Number(Total.toFixed(2));
+  return Total; 
+ }
+
+ getTotalDifCantidadProdGranTotal(RelacionPed: ContenidoGen[]): number {    
+  let Total: number = 0;
+
+  for(var tiPe of RelacionPed){
+    for(var tipPed of tiPe.TipoPedido){
+      for(var ped of tipPed.Pedidos){
+        Total += ped.DiferenciaCantidadProducido
       }
       
     }    
@@ -685,20 +821,59 @@ getTotalPedidosDetalle(Pedido: PedidoArticulo[]): number {
  }
 
  //###### TOTALES DETALLE PEDIDO ####
-
- downloadAsPDF() {
+downloadAsPDF() {
 
   const pdfTable = this.pdfTable.nativeElement;
   console.log(pdfTable);
   var html = htmlToPdfmake(pdfTable.innerHTML);
   console.log(html);
-  const documentDefinition = {  pageOrientation: 'landscape',content: html};
+  const documentDefinition = { pageOrientation: 'landscape', header: [
+
+    {
+    alignment: 'justify',
+    columns: [
+    /*{
+    image: 'sampleImage.jpg',
+    width: 100,
+    height: 100,
+    },*/
+    {
+    width:330,
+    text: 'Consulta de pedidos', alignment: 'center',style: 'header'
+    
+    },
+    {
+    width: 100,
+    text: this.fechaHoy, alignment: 'right' ,margin: [2, 10]
+    }
+    ]
+    }
+    ],
+    
+    styles: {
+    header: {
+    fontSize: 22,
+    bold: true,
+    color: '#24a4cc'
+    },
+    numeracion: {
+    fontSize: 12
+    
+    },
+    },content: html,
+  footer: function (currentPage, pageCount) {
+    return [
+      { text: currentPage.toString() + ' de ' + pageCount , alignment: 'right',  margin: [25, 20] }
+    ]}
+  };
   pdfMake.createPdf(documentDefinition).open();
+
+  
 
 }
 
 formatoMoneda(number){
-  return new Intl.NumberFormat('en-US', {currency: 'USD', minimumFractionDigits: 2}).format(number);
+  return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
 };
 
 //Funcion para cerrar sesion y redireccionar al home

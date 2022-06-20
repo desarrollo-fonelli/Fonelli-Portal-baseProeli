@@ -259,7 +259,7 @@
                       </div>
                     </div>
 
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-3" hidden="{{ bCliente }}">
                       <p class="CamposFonelli"> Internos/Externos</p>  
                         <div class="form-check">
                           <input 
@@ -430,9 +430,9 @@
                     <td></td>
                     <td></td>                 
                   </tr>
-                  <ng-container *ngFor="let cat of venArt.Categorias;">
-                    
-                    <tr class="table-warning">
+                  <ng-container *ngFor="let cat of venArt.Categorias;">                    
+                  
+                    <tr class="table-warning" [hidden]="!bFiltroOrden" >
                       <td class="FilasFonelli">{{'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoriaNombre }}</td>   
                       <td></td>
                     <td></td>

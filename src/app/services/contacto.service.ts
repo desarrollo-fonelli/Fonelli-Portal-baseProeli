@@ -17,10 +17,20 @@ constructor(
 }
 
 addContacto(nuevoContacto: any): Observable<any>{
+
     let params = JSON.stringify(nuevoContacto);
+
     let headers =  new HttpHeaders().set('Content-Type','application-json');
 
-    return this._http.post(this.API + 'contacto',params,{headers:headers});
+
+
+    const form =  new FormData;
+
+    form.append('DatosForm',params)
+
+    return this._http.post(this.API + 'reportes/Contacto.php',form);
+
+
 
 }
 

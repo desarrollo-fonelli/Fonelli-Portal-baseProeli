@@ -48,6 +48,8 @@ export class EstadocuentaComponent implements OnInit {
   public bCliente: boolean;
   bBandera: boolean;
 
+  fechaHoy: String
+
   mobileQuery: MediaQueryList;
 
   fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
@@ -123,6 +125,17 @@ export class EstadocuentaComponent implements OnInit {
            break; 
         } 
       } 
+
+      let date: Date = new Date
+    let mes;
+    
+    //Valida mes 
+    if (date.getMonth().toString.length == 1){
+      mes = '0'+(date.getMonth()+1);
+    }
+
+    this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());  
+    
 
     // this.oCliente = this.json.Contenido.Clientes;
 
@@ -242,20 +255,64 @@ consultaEstadoCuenta(){
    }
 
 
-   downloadAsPDF() {
+
+  downloadAsPDF() {
 
     const pdfTable = this.pdfTable.nativeElement;
     console.log(pdfTable);
     var html = htmlToPdfmake(pdfTable.innerHTML);
     console.log(html);
-    const documentDefinition = {  pageOrientation: 'landscape',content: html};
+    const documentDefinition = { pageOrientation: 'landscape', header: [
+  
+      {
+      alignment: 'justify',
+      columns: [
+      /*{
+      image: 'sampleImage.jpg',
+      width: 100,
+      height: 100,
+      },*/
+      {
+      width:330,
+      text: 'Consulta de pedidos', alignment: 'center',style: 'header'
+      
+      },
+      {
+      width: 100,
+      text: this.fechaHoy, alignment: 'right' ,margin: [2, 10]
+      }
+      ]
+      }
+      ],
+      
+      styles: {
+      header: {
+      fontSize: 22,
+      bold: true,
+      color: '#24a4cc'
+      },
+      numeracion: {
+      fontSize: 12
+      
+      },
+      },content: html,
+    footer: function (currentPage, pageCount) {
+      return [
+        { text: currentPage.toString() + ' de ' + pageCount , alignment: 'right',  margin: [25, 20] }
+      ]}
+    };
     pdfMake.createPdf(documentDefinition).open();
-
+  
+    
+  
   }
+  
+
+  
 
   
   formatoMoneda(number){
-    return new Intl.NumberFormat('en-US', {currency: 'USD', minimumFractionDigits: 2}).format(number);
+    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
   
 //Funcion para cerrar sesion y redireccionar al home

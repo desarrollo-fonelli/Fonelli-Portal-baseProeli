@@ -178,7 +178,7 @@ downloadAsPDF() {
   console.log(pdfTable);
   var html = htmlToPdfmake(pdfTable.innerHTML);
   console.log(html);
-  const documentDefinition = {  pageOrientation: 'landscape',content: html};
+  const documentDefinition = {  pageOrientation: 'auto',content: html};
   pdfMake.createPdf(documentDefinition).open();
 
 }

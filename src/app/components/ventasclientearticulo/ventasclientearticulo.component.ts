@@ -46,7 +46,10 @@ export class VentasclientearticuloComponent implements OnInit {
   public bError: boolean=false;
   public sMensaje: string="";
   public bCliente: boolean;
+  public bFiltroOrden: boolean;
   bBandera: boolean;
+
+  fechaHoy: String
 
   mobileQuery: MediaQueryList;
 
@@ -75,6 +78,7 @@ export class VentasclientearticuloComponent implements OnInit {
 
       this.bCliente = false;
       this.bBandera = false;
+      this.bFiltroOrden = false;
 
     }
 
@@ -133,7 +137,8 @@ export class VentasclientearticuloComponent implements OnInit {
           }
 
           let fechaDesde =  date.getFullYear() +'-01-01';          
-          let fechaHasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate()-1);          
+          let fechaHasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate()-1); 
+          this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());           
 
            this.oBuscar.ClienteDesde = this.sCodigo; 
            this.oBuscar.ClienteHasta = this.sCodigo;   
@@ -194,6 +199,13 @@ export class VentasclientearticuloComponent implements OnInit {
  
          this.sMensaje="";
          this.bBandera = true;
+         if (this.oBuscar.OrdenReporte == 'C'){
+          this.bFiltroOrden = true;
+         }else{
+          this.bFiltroOrden = false;
+         }
+
+         
          //this.oContenido	= this.oVentasCliRes.Contenido
          //this.collectionSize = this.oVentasCliRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
  
@@ -506,17 +518,58 @@ export class VentasclientearticuloComponent implements OnInit {
 
 downloadAsPDF() {
 
-    const pdfTable = this.pdfTable.nativeElement;
-    console.log(pdfTable);
-    var html = htmlToPdfmake(pdfTable.innerHTML);
-    console.log(html);
-    const documentDefinition = {  content: html };
-    pdfMake.createPdf(documentDefinition).open();
+  const pdfTable = this.pdfTable.nativeElement;
+  console.log(pdfTable);
+  var html = htmlToPdfmake(pdfTable.innerHTML);
+  console.log(html);
+  const documentDefinition = { pageOrientation: 'landscape', header: [
 
-  }
+    {
+    alignment: 'justify',
+    columns: [
+    /*{
+    image: 'sampleImage.jpg',
+    width: 100,
+    height: 100,
+    },*/
+    {
+    width:330,
+    text: 'Consulta de pedidos', alignment: 'center',style: 'header'
+    
+    },
+    {
+    width: 100,
+    text: this.fechaHoy, alignment: 'right' ,margin: [2, 10]
+    }
+    ]
+    }
+    ],
+    
+    styles: {
+    header: {
+    fontSize: 22,
+    bold: true,
+    color: '#24a4cc'
+    },
+    numeracion: {
+    fontSize: 12
+    
+    },
+    },content: html,
+  footer: function (currentPage, pageCount) {
+    return [
+      { text: currentPage.toString() + ' de ' + pageCount , alignment: 'right',  margin: [25, 20] }
+    ]}
+  };
+  pdfMake.createPdf(documentDefinition).open();
+
+  
+
+}
+
   
   formatoMoneda(number){
-    return new Intl.NumberFormat('en-US', {currency: 'USD', minimumFractionDigits: 2}).format(number);
+    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
 
 //Funcion para cerrar sesion y redireccionar al home

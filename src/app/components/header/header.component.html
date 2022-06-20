@@ -1,8 +1,8 @@
 
     <section class="hero" id="hero">
         <div class="heroText">
-            <h2 [class]="mobileQuery.matches ? 'col-lg-5  mt-5 mb-lg-4 font_video_movil' : 'col-lg-5  mt-5 mb-lg-4 font_video'"  data-aos="fade-up"  data-aos-delay="800">
-                Aqui nacen las historias
+            <h2 class="TituloFonelli" [class]="mobileQuery.matches ? 'col-lg-5  mt-5 mb-lg-4 font_video_movil' : 'col-lg-5  mt-5 mb-lg-4 font_video'"  data-aos="fade-up"  data-aos-delay="800">
+                Aquí es donde nacen las historias
             </h2>
     
             <!-- <p class="col-lg-3 text-secondary-white-color" data-aos="fade-up" data-aos-delay="1000">
@@ -211,19 +211,19 @@
              
               
                 <label class= "classy" for="nombre"  >Nombre</label><br/>
-                <input type ="text" name ="nombre" #nombre="ngModel" [(ngModel)]="ModeloContacto.nombre" required/>
+                <input type ="text" name ="nombre" #nombre="ngModel" [(ngModel)]="ModeloContacto.Nombre" required/>
                 <span *ngIf="nombre.touched && !nombre.valid"> El nombre es obligatorio</span> <br/>
     
                 <label class= "classy" for="email"  >Email</label><br/>
-                <input type ="email" name ="email" #email="ngModel" [(ngModel)]="ModeloContacto.email" required/>
+                <input type ="email" name ="email" #email="ngModel" [(ngModel)]="ModeloContacto.Email" required/>
                 <span *ngIf="email.touched && !email.valid"> El email es obligatorio</span> <br/>
     
                 <label class= "classy" for="numero"  >Número de teléfono</label><br/>
-                <input type ="text" name ="numero" #numero="ngModel" [(ngModel)]="ModeloContacto.numero" required/>
+                <input type ="text" name ="numero" #numero="ngModel" [(ngModel)]="ModeloContacto.Telefono" required/>
                 <span *ngIf="numero.touched && !numero.valid"> El número de teléfono es obligatorio</span> <br/>
     
                 <label class= "classy" for="mensaje"  >Mensaje</label><br/>
-               <textarea name="mensaje" #mensaje="ngModel" [(ngModel)]="ModeloContacto.mensaje" required></textarea>
+               <textarea name="mensaje" #mensaje="ngModel" [(ngModel)]="ModeloContacto.Mensaje" required></textarea>
                <span *ngIf="mensaje.touched && !mensaje.valid"> El mensaje es obligatorio</span> <br/>   
             </div>
         </div>
@@ -235,7 +235,7 @@
         </div>
     
         <div class="modal-footer" data-backdrop="false" style="background-color: #00a1ca">
-                <button type="submit" class="btn btn-primary" [disabled]="!formContacto.form.valid" (click)="addContacto()">Enviar</button>
+                <button type="button" class="btn btn-primary" [disabled]="!formContacto.form.valid" (click)="addContacto()">Enviar</button>
         </div>
     </form>
     

@@ -790,8 +790,11 @@ button.btnFonelli {
 label.CamposFonelli {
   color: #183e6f;
   font-family: Quicksand-SemiBold;
-  font-size: medium;
-  
+  font-size: medium;  
+}
+label.LabelNegritas {
+  color: #183e6f;
+  font-family: Quicksand-Bold;
 }
 
 button.btnLogout {
@@ -828,4 +831,9 @@ td.FilasFonBold {
   color: #000000;
   font-family: Quicksand-Bold;   
   font-weight: bold; 
+}
+
+h2.TituloFonelli {
+  color: #ffffff;
+  font-family: Futura_Condensed_Extra_Bold;
 }

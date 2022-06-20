@@ -21,6 +21,7 @@ import { ServicioLoginEjecutivo } from '../../services/loginEjecutivo.service';
 
 
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 
@@ -279,27 +280,45 @@ export class HeaderComponent implements OnInit {
     }
 
   onSubmitContacto(form: any) {
-    /*    console.log("submit");
-    console.log(this.ModeloContacto);*/
+        console.log("submit");
+    console.log(this.ModeloContacto);
     //form.reset();
   }
 
   addContacto() {
-    console.log(this.ModeloContacto);
 
+    console.log(this.ModeloContacto);
     this._servicioContacto.addContacto(this.ModeloContacto).subscribe(
       (Response) => {
-        this.contacto_guardado = Response;
-        console.log('Response: ' + Response);
+        if(Response.Codigo == 0){    
 
-        this.ModalActivo?.close();
+          console.log( Response);
+
+          this.ModalActivo?.close();
+
+          this.snackBar.openFromComponent(mensajecontacto, {
+            horizontalPosition: "center",
+            verticalPosition: "top",
+            duration: 4500,
+            panelClass: ['fondo_mensaje_contacto'],
+          });
+
+          return;
+        }
+
+        else{
+          this.mensaje_contacto_guardado = true;
+          this.contacto_guardado = Response.Mensaje;
+        }     
+
       },
       (error) => {
         this.mensaje_contacto_guardado = true;
-        this.contacto_guardado = <any>error;
-        console.log('Error: ' + <any>error);
-      }
+        this.contacto_guardado = error.error[Object.keys(error.error)[1]];
+        }
+
     );
+
   }
 
 
@@ -340,4 +359,19 @@ export class HeaderComponent implements OnInit {
   `,
   ],
 })
+
+
+
 export class mensajesesion {}
+
+@Component({
+  selector: 'mensaje-contacto-component',
+  template: `<span class="mensaje-contacto-style">
+  Su petición fue procesada correctamente, nuestros asesores se estarán comunicando.
+</span>
+`,
+  styles: [`.mensaje-contacto-style {color: white;}`,
+  ],
+})
+
+export class mensajecontacto {}

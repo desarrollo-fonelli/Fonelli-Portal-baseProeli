@@ -134,13 +134,13 @@
               <tr>
               <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>
               <th style="background-color: #24a4cc; color: white;" scope="col">L</th>
-              <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PEDIDO</th>
-              <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">OF</th>
+              <th style="background-color: #24a4cc; color: white; " scope="col">PEDIDO</th>
+              <th style="background-color: #24a4cc; color: white; " scope="col">OF</th>
               <th style="background-color: #24a4cc; color: white;" scope="col">S</th>
               <th style="background-color: #24a4cc; color: white;" scope="col">FECHA PED</th>
               <th style="background-color: #24a4cc; color: white;" scope="col">FECHA CANCOP</th>
               <th style="background-color: #24a4cc; color: white;" scope="col">FECHA SURT</th>
-              <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PEDIDO</th>
+              <th style="background-color: #24a4cc; color: white;">PEDIDO</th>
               <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">SURTIDO</th>
               <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFCIA</th>
             </tr>
@@ -149,13 +149,13 @@
               <tr *ngFor="let ped of pedido| searchconsultapedido: searchtext; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">
                 <th scope="row">{{ i + 1 }}</th>
                 <td class="FilasFonelli" style="text-align:left">{{ ped.PedidoLetra}}</td>
-                <td class="FilasFonelli" style="text-align:right"> <u>{{ped.PedidoFolio}}</u> </td>                
-                <td class="FilasFonelli" style="text-align:right">{{ ped.OficinaFonelliCodigo}}</td>
+                <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>                
+                <td class="FilasFonelli" >{{ ped.OficinaFonelliCodigo}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ ped.FechaPedido}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ ped.FechaCancelacion}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ ped.FechaSurtido}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadPedida}}</td>
+                <td class="FilasFonelli" >{{ ped.CantidadPedida}}</td>
                 <td class="FilasFonelli" style="text-align:right ">{{ ped.CantidadSurtida}}</td>
                 <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
               </tr>
