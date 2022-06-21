@@ -36,7 +36,7 @@
 
 .font1 {
 
-   color: #003f66;
+   color: #183e6f;
 
    font-size: 35px;
 
@@ -45,7 +45,7 @@
 }
 
 .font_side {
-   color: #003f66;
+   color: #183e6f;
    font-size: 20px;
    font-family: "Quicksand-SemiBold";
 }
@@ -77,7 +77,7 @@
 }
 
 .footer-list {
-   background: #00a1ca;
+   background: #24a4cc;
    text-align: center;
 }
 
@@ -117,3 +117,8 @@
    font-size: large;
 
 }
+
+.active-list-item {
+   color: white;
+   background-color: #e8b4c1;
+ }

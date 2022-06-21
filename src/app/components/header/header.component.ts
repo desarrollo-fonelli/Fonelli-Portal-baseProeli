@@ -110,7 +110,7 @@ export class HeaderComponent implements OnInit {
       if(sTipo=='C')
       {
         console.log(1);
-        this._router.navigate(['/distribuidores']);
+        this._router.navigate(['/distribuidores/inicio/']);
         return;
        
       }
@@ -193,7 +193,7 @@ export class HeaderComponent implements OnInit {
 
               this.ModalActivo?.close();
               
-              this._router.navigate(['/distribuidores']);
+              this._router.navigate(['/distribuidores/inicio/']);
               //location.reload();
 
 

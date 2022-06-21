@@ -26,7 +26,7 @@ const appRoutes: Routes = [
       path: 'distribuidores',
       component: SidenavComponent,
       children: [
-        { path: '', component: DistribuidoresComponent },
+        { path: 'inicio', component: DistribuidoresComponent },
         { path: 'datoscliente', component: DatosclientesComponent },
         { path: 'consultaprecios', component: ConsultapreciosComponent },
         { path: 'consultapedidos', component: ConsultapedidosComponent },
@@ -43,7 +43,7 @@ const appRoutes: Routes = [
       path: 'ejecutivos',
       component: SidenavComponent,
       children: [
-        { path: '', component: EjecutivosComponent },
+        { path: 'inicio', component: EjecutivosComponent },
         { path: 'indicadoresventa', component: IndicadoresventaComponent },
         { path: 'datoscliente', component: DatosclientesComponent },
         { path: 'consultaprecios', component: ConsultapreciosComponent },
