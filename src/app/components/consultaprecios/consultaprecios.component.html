@@ -132,18 +132,8 @@
 
       <br>
       <div class="form-row">
-        <div class="form-group col-md-1">              
-          <label class="CamposFonelli">Búsqueda</label>
-        </div>
-        <div class="form-group col-md-5">              
-          <input
-              type="text"
-              class="form-control"
-              [(ngModel)]="searchtext"
-              placeholder="Search"                 
-            />
-          </div>
-            <div class="form-group col-md-6">
+        
+            <div class="form-group col-md-12">
               <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
                 Imprimir PDF      
               </button> 
@@ -159,26 +149,26 @@
           <th style="background-color: #24a4cc; color: white;" scope="col">LN</th>
           <th style="background-color: #24a4cc; color: white;" scope="col">CLAVE</th>
           <th style="background-color: #24a4cc; color: white;" scope="col">COMPONENTE</th>
-          <th style="background-color: #24a4cc; color: white;" scope="col">PIEZAS</th>
-          <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>        
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PIEZAS</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">GRAMOS</th>        
         </tr>
         </thead>
         <tbody>
           <tr *ngFor="let comp of componente| searchconsultapedido: searchtext; index as i">
             <th scope="row">{{ i + 1 }}</th>
-            <td class="FilasFonelli" style="text-align:left">{{ comp.ComponenteGrupo}}</td>
-            <td class="FilasFonelli" style="text-align:right"> <u>{{comp.ComponenteLinea}}</u> </td>                
-            <td class="FilasFonelli" style="text-align:right">{{ comp.ComponenteCodigo}}</td>
-            <td class="FilasFonelli" style="text-align:left">{{ comp.ComponenteDescripc}}</td>
-            <td class="FilasFonelli" style="text-align:left">{{ comp.PiezasNormal}}</td>
-            <td class="FilasFonelli" style="text-align:left">{{ comp.GramosEquivalente}}</td>            
+            <td class="FilasFonelli" >{{ comp.ComponenteGrupo}}</td>
+            <td class="FilasFonelli" >{{comp.ComponenteLinea}}</td>                
+            <td class="FilasFonelli" >{{ comp.ComponenteCodigo}}</td>
+            <td class="FilasFonelli" >{{ comp.ComponenteDescripc}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ comp.PiezasNormal}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ comp.GramosEquivalente}}</td>            
           </tr>
-        </tbody>
+        </tbody>          
       </table>
 
       <div class="form-group col-md-12">
         <label class="float-right">      
-          <strong>Precio: </strong> {{oPreciosRes.Contenido.Precio}}     
+          <strong >Precio: </strong> {{formatoMoneda(oPreciosRes.Contenido.Precio)}}     
         </label> 
       </div> 
 

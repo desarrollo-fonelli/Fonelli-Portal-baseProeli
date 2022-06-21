@@ -140,7 +140,7 @@
               <th style="background-color: #24a4cc; color: white;" scope="col">FECHA PED</th>
               <th style="background-color: #24a4cc; color: white;" scope="col">FECHA CANCOP</th>
               <th style="background-color: #24a4cc; color: white;" scope="col">FECHA SURT</th>
-              <th style="background-color: #24a4cc; color: white;">PEDIDO</th>
+              <th style="background-color: #24a4cc; color: white; text-align:right;">PEDIDO</th>
               <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">SURTIDO</th>
               <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFCIA</th>
             </tr>
@@ -155,8 +155,8 @@
                 <td class="FilasFonelli" style="text-align:left">{{ ped.FechaPedido}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ ped.FechaCancelacion}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ ped.FechaSurtido}}</td>
-                <td class="FilasFonelli" >{{ ped.CantidadPedida}}</td>
-                <td class="FilasFonelli" style="text-align:right ">{{ ped.CantidadSurtida}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadPedida}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadSurtida}}</td>
                 <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
               </tr>
             </tbody>

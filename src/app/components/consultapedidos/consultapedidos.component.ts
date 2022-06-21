@@ -49,7 +49,7 @@ export class ConsultapedidosComponent implements OnInit {
 
   public bCliente: boolean;
 
-  public oBuscar: FiltrosConsultaPedidos;
+  oBuscar: FiltrosConsultaPedidos;
   oPedidoRes: ConsultaPedido;
   public oBuscaDetalle: FiltrosDetallePedidos;
   oPedidoDetalleRes: DetallePedido;
@@ -366,12 +366,8 @@ export class ConsultapedidosComponent implements OnInit {
     var cadenaaux = pdfTable.innerHTML;
 
     let cadena =
-      '<p>Cliente: ' +
-      this.oBuscar.ClienteCodigo +
-      '-' +
-      this.oBuscar.ClienteFilial +
-      '</p><br/>' +
-      cadenaaux;
+    '<p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.sNombre+'</strong></p>' +    
+    cadenaaux;
 
     console.log('cadena');
     console.log(cadena);

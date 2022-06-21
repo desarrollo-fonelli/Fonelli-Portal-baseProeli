@@ -825,21 +825,31 @@ downloadAsPDF() {
 
   const pdfTable = this.pdfTable.nativeElement;
   console.log(pdfTable);
-  var html = htmlToPdfmake(pdfTable.innerHTML);
+
+  var cadenaaux = pdfTable.innerHTML;
+
+  let cadena =
+      '<p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
+      cadenaaux;
+
+  var html = htmlToPdfmake(cadena);
   console.log(html);
-  const documentDefinition = { pageOrientation: 'landscape', header: [
+  const documentDefinition = { 
+    pageSize: 'LEGAL',
+    pageOrientation: 'landscape',
+    header: [
 
     {
     alignment: 'justify',
     columns: [
       { image: 'logo', heigth: 40, width: 110 },
     {
-    width:330,
-    text: 'Consulta de pedidos', alignment: 'center',style: 'header'
+    width:670,
+    text: 'Relación de pedidos', alignment: 'center',style: 'header'
     
     },
     {
-    width: 100,
+    width: 150,
     text: this.fechaHoy, alignment: 'right' ,margin: [2, 10]
     }
     ]
