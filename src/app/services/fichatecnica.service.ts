@@ -32,7 +32,7 @@ Get(FiltrosFichaTecnica: any): Observable<any>{
 
 
 
-    return this._http.get(this.API_URL+this.API_URL+this.API + 'Reportes/FichaTecnica.php?'+
+    return this._http.get(this.API_URL+this.API_URL+this.API + 'reportes/FichaTecnica.php?'+
                         'Cliente=' + FiltrosFichaTecnica.Cliente +
                         '&FilialDesde=' + FiltrosFichaTecnica.FilialDesde +
                         '&FilialHasta=' + FiltrosFichaTecnica.FilialHasta +

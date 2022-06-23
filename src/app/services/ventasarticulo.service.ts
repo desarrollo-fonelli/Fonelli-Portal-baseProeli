@@ -32,7 +32,7 @@ Get(FiltrosVentasArticulo: any): Observable<any>{
 
 
 
-    return this._http.get(this.API_URL+this.API + 'Reportes/VentasArticulo.php?'+
+    return this._http.get(this.API_URL+this.API + 'reportes/VentasArticulo.php?'+
                         'OficinaDesde=' + FiltrosVentasArticulo.OficinaDesde +
                         '&OficinaHasta=' + FiltrosVentasArticulo.OficinaHasta +
                         '&FechaDesde=' + FiltrosVentasArticulo.FechaDesde +

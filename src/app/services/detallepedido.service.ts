@@ -37,7 +37,7 @@ Get(FiltrosDetPedido: any): Observable<any>{
                           '&PedidoFolio=' + FiltrosDetPedido.PedidoFolio
                           ,{headers:headers});*/
 
-    return this._http.get(this.API_URL+this.API + 'Reportes/DetallePedido.php?'+
+    return this._http.get(this.API_URL+this.API + 'reportes/DetallePedido.php?'+
                           'TipoUsuario='+ FiltrosDetPedido.TipoUsuario +
                           '&ClienteCodigo='+ FiltrosDetPedido.ClienteCodigo +
                           '&ClienteFilial='+ FiltrosDetPedido.ClienteFilial +

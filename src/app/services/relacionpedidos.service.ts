@@ -107,7 +107,7 @@ Get(FiltrosRelPedido: any): Observable<any>{
                         console.log(this.sFiltros);
 
 
-                        return this._http.get(this.API_URL+this.API + 'Reportes/RelacionPedidos.php?'+this.sFiltros,{headers:headers});
+                        return this._http.get(this.API_URL+this.API + 'reportes/RelacionPedidos.php?'+this.sFiltros,{headers:headers});
 
 }
 

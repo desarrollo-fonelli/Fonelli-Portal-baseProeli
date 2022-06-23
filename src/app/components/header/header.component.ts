@@ -371,7 +371,7 @@ export class mensajesesion {}
 @Component({
   selector: 'mensaje-contacto-component',
   template: `<span class="mensaje-contacto-style">
-  Su petición fue procesada correctamente, nuestros asesores se estarán comunicando.
+ Gracias por tu interés en nuestras joyas, enseguida uno de nuestros asesores comerciales se pondrá en contacto contigo
 </span>
 `,
   styles: [`.mensaje-contacto-style {color: white;}`,

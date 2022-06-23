@@ -30,7 +30,7 @@ GetLista(FiltrosClientes: any): Observable<any>{
                                     . set("Access-Control-Allow-Methods", "GET")
                                     .set("Access-Control-Allow-Credentials", "true");
 
-    return this._http.get(this.API + 'catalogos/catalogoclientes.php?Pagina='+FiltrosClientes.Pagina ,{headers:headers});
+    return this._http.get(this.API + 'catalogos/CatalogoClientes.php?Pagina='+FiltrosClientes.Pagina ,{headers:headers});
 }
 
 
@@ -66,7 +66,7 @@ GetCliente(FiltrosClientes: any): Observable<any>{
 console.log(this.sFiltros);
 
 
-  return this._http.get(this.API_URL+this.API + 'catalogos/catalogoclientes.php?'+this.sFiltros,{headers:headers});
+  return this._http.get(this.API_URL+this.API + 'catalogos/CatalogoClientes.php?'+this.sFiltros,{headers:headers});
 }
 
 

@@ -27,7 +27,7 @@ Login(distribuidor: any): Observable<any>{
                                     . set("Access-Control-Allow-Methods", "GET")
                                     .set("Access-Control-Allow-Credentials", "true");
 
-    return this._http.get(this.API_URL+this.API +'catalogos/catalogoclientes.php?ClienteCodigo='+ distribuidor.codigo +'&ClienteFilial='+distribuidor.filial+'&Password='+ distribuidor.password,{headers:headers});
+    return this._http.get(this.API_URL+this.API +'catalogos/CatalogoClientes.php?ClienteCodigo='+ distribuidor.codigo +'&ClienteFilial='+distribuidor.filial+'&Password='+ distribuidor.password,{headers:headers});
 }
 
 

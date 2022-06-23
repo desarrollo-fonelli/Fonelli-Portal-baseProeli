@@ -83,7 +83,7 @@ Get(FiltrosVentasClienteArticulo: any): Observable<any>{
                                     console.log(this.sFiltros);
 
 
-                        return this._http.get(this.API_URL+this.API + 'Reportes/VentasClienteArticulo.php?'+this.sFiltros,{headers:headers});
+                        return this._http.get(this.API_URL+this.API + 'reportes/VentasClienteArticulo.php?'+this.sFiltros,{headers:headers});
 
 
 

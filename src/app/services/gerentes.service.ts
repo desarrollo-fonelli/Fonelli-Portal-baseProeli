@@ -28,7 +28,7 @@ Get(FiltrosGerentes: any): Observable<any>{
                                     . set("Access-Control-Allow-Methods", "GET")
                                     .set("Access-Control-Allow-Credentials", "true");
 
-    return this._http.get(this.API_URL+this.API + 'catalogos/listagerentes.php',{headers:headers});
+    return this._http.get(this.API_URL+this.API + 'catalogos/ListaGerentes.php',{headers:headers});
 }
 
 
