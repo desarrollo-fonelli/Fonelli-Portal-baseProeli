@@ -126,7 +126,7 @@
         <div *ngIf="bBandera" class="table-responsive container">
           <br>
           <div class="form-row">
-            <div class="form-group col-md-1">              
+            <!-- <div class="form-group col-md-1">              
               <label class="CamposFonelli">Búsqueda</label>
             </div>
             <div class="form-group col-md-5">              
@@ -136,8 +136,8 @@
                   [(ngModel)]="searchtext"
                   placeholder="Search"                 
                 />
-              </div>
-                <div class="form-group col-md-6">
+              </div> -->
+                <div class="form-group col-md-12">
                   <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
                     Imprimir PDF      
                   </button> 
@@ -152,8 +152,8 @@
                 <th style="background-color: #24a4cc; color: white;">C</th><!--Codigo tipo cartera -->
                 <th style="background-color: #24a4cc; color: white;">S</th><!--Documento serie -->
                 <th style="background-color: #24a4cc; color: white;">DOCTO</th><!--Documento folio -->
-                <th style="background-color: #24a4cc; color: white;">FECHA EXP</th><!--Fecha expedicion -->
-                <th style="background-color: #24a4cc; color: white;">FECHA VENG</th><!--Fecha vencimiento -->
+                <th style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA EXP</div></th><!--Fecha expedicion -->
+                <th style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA VENG</div></th><!--Fecha vencimiento -->
                 <th style="background-color: #24a4cc; color: white; text-align:right;">CARGOS</th><!--Cargos -->
                 <th style="background-color: #24a4cc; color: white; text-align:right;">ABONOS</th><!--Abonos -->
                 <th style="background-color: #24a4cc; color: white; text-align:right;">SALDO</th><!--Saldo -->

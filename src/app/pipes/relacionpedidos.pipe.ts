@@ -14,37 +14,34 @@ export class SearchRelacionPedidosPipe implements PipeTransform {
     let pedido: any = [];
 
     for (let cont of value) {
-      for (let tp of cont.TipoPedido) {
-        for (let itempedido of tp.Pedidos) {
-          for (var key in itempedido) {
-            if (itempedido[key]) {
-              if (
-                itempedido[key].toString().toLowerCase().includes(searchText)
-              ) {
-                pedido.push(itempedido);
-                break;
-              }
-            }
-          }
-        }
 
+      for (let tp of cont.TipoPedido) {
+        for (let itempedido of tp.Pedidos) { 
+          //console.log(itempedido.PedidoFolio);
+          if (itempedido.PedidoFolio.toString().toLowerCase().includes(searchText)) {
+            pedido.push(itempedido);
+          }
+        }     
+        
         if (pedido.length > 0) {
           tipopedido.push({
             TipoPedidoCodigo: tp.TipoPedidoCodigo,
             TipoPedido: tp.TipoPedido,
-            Movimientos: pedido
+            Pedidos: pedido
           });
-        }
-      }
+        }  
+        pedido = [];      
+      }  
       if (tipopedido.length > 0) {
         contenido.push({
           OficinaFonelliCodigo: cont.OficinaFonelliCodigo,
           OficinaFonelliNombre: cont.OficinaFonelliNombre,
           TipoPedido: tipopedido,
         });
-      }
+      }  
     }
 
+    //console.log("regresa JSON:"+JSON.stringify(contenido));    
     return contenido;
   }
 }

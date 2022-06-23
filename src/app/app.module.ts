@@ -34,8 +34,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { NgbdTablePagination } from './components/tabla/table-pagination';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-
+import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 
 //Pipes
 import { SearchEstadoCuentaPipe } from './pipes/estadocuenta.pipe';
@@ -92,7 +92,8 @@ import { PdfComponent } from './components/pdf/pdf.component';
     MatMenuModule 
   ],
   providers: [
-    appRoutingProviders
+    appRoutingProviders,
+    BnNgIdleService
   ],
   bootstrap: [AppComponent]
 })

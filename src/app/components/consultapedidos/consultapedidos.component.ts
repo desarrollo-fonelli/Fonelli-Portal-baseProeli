@@ -258,8 +258,7 @@ export class ConsultapedidosComponent implements OnInit {
 
     this.ModalActivo = this.modalService.open(PedidoDetalle, {
       ariaLabelledBy: 'PedidoDetalle',
-      size: 'lg',
-      backdrop: 'static',
+      size: 'lg'
     });
 
     this.ModalActivo.result.then(

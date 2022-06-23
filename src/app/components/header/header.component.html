@@ -23,7 +23,7 @@
 
     <nav class="navbar navbar-expand-lg bg-light shadow-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#hero">
+            <a class="navbar-brand" href="#hero" [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 10%;'">
                 <!--<strong>Nomad Force</strong>-->
                 <!--<strong>Fonelli</strong>-->
                 <div class="cat">
@@ -32,13 +32,13 @@
                 
             </a>
 
-            <div  [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 120px;'" >   </div>
+            <div  [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 15%;'" >   </div>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div *ngIf="idMenu == '1' " class="collapse navbar-collapse" id="navbarNav">
+            <div *ngIf="idMenu == '1' " class="collapse navbar-collapse" id="navbarNav" [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 75%;'">
                 <ul class="navbar-nav">
                     <li class="nav-item active">
                         <a class="nav-link" href="#about">Nosotros</a>

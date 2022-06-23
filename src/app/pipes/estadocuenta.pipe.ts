@@ -13,21 +13,20 @@ export class SearchEstadoCuentaPipe implements PipeTransform {
     let carteras: any = [];
     let movimientos: any = [];
 
+
     for (let clie of value) {
       for (let TC of clie.TipoCartera) {
+
+
         for (let movimiento of TC.Movimientos) {
-          for (var key in movimiento) {
-            if (movimiento[key]) {
-              if (
-                movimiento[key].toString().toLowerCase().includes(searchText)
-              ) {
-                movimientos.push(movimiento);
-                break;
-              }
-            }
-          }
+          console.log(TC.TipoCarteraCodigo);
+          console.log(movimiento.DocumentoFolio);
+          if (movimiento.DocumentoFolio.toString().toLowerCase().includes(searchText)) {
+            movimientos.push(movimiento);
+          }         
         }
 
+        
         if (movimientos.length > 0) {
           carteras.push({
             TipoCarteraCodigo: TC.TipoCarteraCodigo,
@@ -35,7 +34,9 @@ export class SearchEstadoCuentaPipe implements PipeTransform {
             Movimientos: movimientos
           });
         }
+        movimientos = [];
       }
+
       if (carteras.length > 0) {
         clientes.push({
           ClienteCodigo: clie.ClienteCodigo,
@@ -45,8 +46,10 @@ export class SearchEstadoCuentaPipe implements PipeTransform {
           TipoCartera: carteras
         });
       }
+
     }
 
+    console.log(JSON.stringify(clientes));
     return clientes;
   }
 }

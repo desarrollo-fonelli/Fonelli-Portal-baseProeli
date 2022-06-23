@@ -11,19 +11,14 @@ export class SearchConsultaPedidoPipe implements PipeTransform {
     searchText = searchText.toLowerCase();
     let Pedidos: any = [];
 
+    //(console.log("Este valor :"+JSON.stringify(value));
     for (let pedido of value) {
-      for (var key in pedido) {
-        if (pedido[key]) {
-          if (pedido[key].toString().toLowerCase().includes(searchText)) {
-            Pedidos.push(pedido);
-            break;
-          }
+        if (pedido.PedidoFolio.toString().toLowerCase().includes(searchText)) {
+          Pedidos.push(pedido);
         }
-      }
     }
 
-    console.log(Pedidos);
-
+    //console.log(Pedidos);
     return Pedidos;
   }
 }

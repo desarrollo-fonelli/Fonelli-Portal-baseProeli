@@ -335,7 +335,7 @@ consultaEstadoCuenta(){
 
   
   formatoMoneda(number){
-    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
+    return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
   
 //Funcion para cerrar sesion y redireccionar al home

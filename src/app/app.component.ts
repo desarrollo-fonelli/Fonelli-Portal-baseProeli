@@ -19,7 +19,8 @@ import { ServicioContacto } from './services/contacto.service';
 import { ServicioLoginDistribuidor } from './services/loginDistribuidor.service';
 import { ServicioLoginEjecutivo } from './services/loginEjecutivo.service';
 
-
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { BnNgIdleService } from 'bn-ng-idle'; // import it to your component
 
 
 @Component({
@@ -48,11 +49,23 @@ export class AppComponent {
   public mensaje_contacto_guardado: boolean = false;
 
   constructor(
-    private modalService: NgbModal,
+    private modalService: NgbModal,private bnIdle: BnNgIdleService,private _router: Router
 
     
   
   ) {
+
+    //Control de inactividad 
+    this.bnIdle.startWatching(1800).subscribe((res) => {
+      if(res) {
+        if (sessionStorage.getItem('codigo') != null){
+          console.log("hay datos");
+          sessionStorage.clear();
+          this._router.navigate(['/']);
+        }
+        
+      }
+    })
  
 
     /*this.MenuHomeAux = this.obtenMenu();
