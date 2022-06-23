@@ -67,6 +67,8 @@ export class ConsultapedidosComponent implements OnInit {
   pedido: Pedido[];
   pedidoDet: PedidoArticulo[];
 
+  public bCargando: boolean = false;
+
   page = 1;
   pageSize = 4;
   collectionSize = 0;
@@ -145,6 +147,7 @@ export class ConsultapedidosComponent implements OnInit {
   consultaPedido() {
     this.bBandera = false;
     console.log('consultaPedido');
+    this.bCargando = true;
 
     //Inicializamos el tipo de usuario por el momento
     this.oBuscar.TipoUsuario = this.sTipo;
@@ -169,18 +172,22 @@ export class ConsultapedidosComponent implements OnInit {
           this.bError = true;
           this.sMensaje = 'No se encontraron de pedidos';
           this.bBandera = false;
+          this.bCargando = false;
           return;
         }
 
         this.sMensaje = '';
         this.bBandera = true;
         this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length; //Seteamos el tamaño de los datos obtenidos
+        this.bCargando = false;
+
       },
       (error: ConsultaPedido) => {
         this.oPedidoRes = error;
         this.sMensaje = 'No se encontraron de pedidos';
         console.log('error');
         console.log(this.oPedidoRes);
+        this.bCargando = false;
       }
     );
   }
@@ -221,7 +228,7 @@ export class ConsultapedidosComponent implements OnInit {
       },
       (error: DetallePedido) => {
         this.oPedidoDetalleRes = error;
-
+        this.sMensaje = 'No se encontro detalle de pedido';
         console.log('error');
         console.log(this.oPedidoDetalleRes);
       }
@@ -246,6 +253,7 @@ export class ConsultapedidosComponent implements OnInit {
   //modal pedido detalle
   openPedidoDetalle(PedidoDetalle: any, folio: string) {
     console.log(folio);
+    this.pedidoDet = [];
     this.consultaPedidoDetalle(folio);
 
     this.ModalActivo = this.modalService.open(PedidoDetalle, {
@@ -290,74 +298,6 @@ export class ConsultapedidosComponent implements OnInit {
     this.bBanderaBtnPro = true; //Buton produccion para ver detalle produccion
   }
 
-  createPdf() {
-    const pdfDefinition: any = {
-      content: [
-        {
-          text:
-            'Codigo cliente: ' +
-            this.oBuscar.ClienteCodigo +
-            ' Filial: ' +
-            this.oBuscar.ClienteFilial,
-          style: 'header',
-        },
-        'Official documentation is in progress, this document is just a glimpse of what is possible with pdfmake and its layout engine.',
-        {
-          text: 'A simple table (no headers, no width specified, no spans, no styling)',
-          style: 'subheader',
-        },
-        'The following table has nothing more than a body array',
-        {
-          style: 'tableExample',
-          table: {
-            body: [
-              [
-                '#',
-                'L',
-                'PEDIDO',
-                'OF',
-                'FECHA PED',
-                'FECHA CANCOP',
-                'FECHA SURT',
-                'PEDIDO',
-                'SURTIDO',
-                'DIFCIA',
-              ],
-              // buildTableBody(this.pedido,['#', 'L', 'PEDIDO','OF','FECHA PED','FECHA CANCOP','FECHA SURT','PEDIDO','SURTIDO','DIFCIA'])
-
-              /*['One value goes here', 'Another one here', 'OK?']*/
-            ],
-          },
-        },
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true,
-          margin: [0, 0, 0, 10],
-        },
-        subheader: {
-          fontSize: 16,
-          bold: true,
-          margin: [0, 10, 0, 5],
-        },
-        tableExample: {
-          bold: true,
-          fontSize: 13,
-          color: 'black',
-        },
-        tableHeader: {
-          bold: true,
-          fontSize: 13,
-          color: 'yellow',
-        },
-      },
-    };
-
-    const pdf = pdfMake.createPdf(pdfDefinition);
-    pdf.open();
-    pdf.download();
-  }
 
   downloadAsPDF() {
     const pdfTable = this.pdfTable.nativeElement;
@@ -366,7 +306,7 @@ export class ConsultapedidosComponent implements OnInit {
     var cadenaaux = pdfTable.innerHTML;
 
     let cadena =
-    '<p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.sNombre+'</strong></p>' +    
+    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.sNombre+'</strong></p>' +    
     cadenaaux;
 
     console.log('cadena');
@@ -381,18 +321,25 @@ export class ConsultapedidosComponent implements OnInit {
           alignment: 'justify',
           heigth: 200,
           columns: [
-            { image: 'logo', heigth: 40, width: 110 },
+            { 
+              image: 'logo', 
+              margin: [25,13],
+              heigth: 40, 
+              width: 110 
+            },
             {
-              width: 330,
+              width: 380,
               text: 'Consulta de pedidos',
               alignment: 'center',
               style: 'header',
+              margin: [8,8],
+              
             },
             {
-              width: 100,
+              width: 65,
               text: this.fechaHoy,
               alignment: 'right',
-              margin: [2, 10],
+              margin: [2, 15],
             },
           ],
         },

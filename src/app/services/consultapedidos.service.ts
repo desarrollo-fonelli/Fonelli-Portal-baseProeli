@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Configuracion } from "src/app/models/configuraciones";
+import { environment } from '../../environments/environment';
 
 
 
@@ -9,6 +10,7 @@ import { Configuracion } from "src/app/models/configuraciones";
 export class ServicioConsultaPedidos{
     public API: string;
     public sFiltros: string;
+    public API_URL: string;
 
 constructor(
     public _http:HttpClient
@@ -16,6 +18,7 @@ constructor(
 
     this.API = Configuracion.API;
     this.sFiltros = '';
+    this.API_URL = environment.API_URL;
 
 }
 
@@ -64,7 +67,7 @@ Get(FiltrosConPedidos: any): Observable<any>{
 
                      
 
-    return this._http.get(this.API + 'reportes/ConsultaPedidos.php?'+this.sFiltros,{headers:headers});
+    return this._http.get(this.API_URL+this.API + 'reportes/ConsultaPedidos.php?'+this.sFiltros,{headers:headers});
 }
 
 

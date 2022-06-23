@@ -43,7 +43,7 @@
                 
 
                 <button type="submit" (click)="consultaCliente()" class="btnFonelli btn">
-                  BUSCAR
+                  <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span> BUSCAR
                 </button>
               </form>
             </div>
@@ -84,12 +84,20 @@
                               <label>{{oDatosGenerales.Status}}</label>
                             </div>     
                           </div>
-                          <div class="form-row">
+                          <div *ngIf="!bCliente" class="form-row" >
                             <div class="col-sm-4">
                               <label class="CamposGeneral"><strong>Tipo cliente:</strong></label>
                             </div>
                             <div class="col-sm-4">                     
                               <label>{{oDatosGenerales.TipoClienteDescripc}}</label>
+                            </div>     
+                          </div>
+                          <div *ngIf="bCliente" class="form-row" >
+                            <div class="col-sm-4">
+                              <label class="CamposGeneral"><strong>Pago referenciado BANAMEX:</strong></label>
+                            </div>
+                            <div class="col-sm-4">                     
+                              <label>{{oCondiciones.PagoRefBanamex}}</label>
                             </div>     
                           </div>
                           <div class="form-row">

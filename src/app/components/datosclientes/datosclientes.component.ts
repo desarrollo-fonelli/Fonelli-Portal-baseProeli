@@ -44,6 +44,8 @@ export class DatosclientesComponent implements OnInit {
   public oDatosGenerales : DatosGenerales;
   public oContacto : Contactos;
 
+  public bCargando: boolean = false;
+
   mobileQuery: MediaQueryList;
 
   active = 1;
@@ -118,6 +120,8 @@ console.log("ConsultaCliente");
 
     this.Buscar.Pagina=1;
     this.Buscar.Usuario= -1;
+    this.bCargando = true;
+    
 
   console.log(this.Buscar);
 
@@ -135,6 +139,7 @@ console.log("ConsultaCliente");
 
           this.bError= true;
           this.sMensaje="No se encontraron datos del cliente";
+          this.bCargando = false;
           return;
         }
    
@@ -143,6 +148,7 @@ console.log("ConsultaCliente");
         this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
         this.oContacto =this.oCliente.Contenido[0].Contactos;
         this.bMostrarDatos=true;
+        this.bCargando = false;
      
       },
       (error:Clientes) => {
@@ -151,6 +157,7 @@ console.log("ConsultaCliente");
 
         console.log("error");
         console.log(this.oCliente);
+        this.bCargando = false;
      
       }
     );

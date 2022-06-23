@@ -3,18 +3,21 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Configuracion } from "src/app/models/configuraciones";
 import { TipoCliente } from '../models/tipocliente';
+import { environment } from '../../environments/environment';
 
 
 
 @Injectable()
 export class ServicioEstadoCuenta{
     public API: string;
+    public API_URL: string;
 
 constructor(
     public _http:HttpClient
 ){
 
     this.API = Configuracion.API;
+    this.API_URL = environment.API_URL;
 
 }
 
@@ -31,7 +34,7 @@ Get(FiltrosEstadoCuenta: any): Observable<any>{
 
 
 
-    return this._http.get(this.API + 'Reportes/EstadoCuenta.php?'+
+    return this._http.get(this.API_URL+this.API + 'Reportes/EstadoCuenta.php?'+
                         'TipoUsuario=' + FiltrosEstadoCuenta.TipoUsuario +                        
                         '&ClienteDesde=' + FiltrosEstadoCuenta.ClienteDesde +
                         '&FilialDesde=' + FiltrosEstadoCuenta.FiliadDesde +

@@ -60,6 +60,9 @@ export class HeaderComponent implements OnInit {
   public contacto_guardado: any;
   public mensaje_contacto_guardado: boolean = false;
 
+  public bCargandoDistribuidor: boolean = false;
+  public bCargandoContacto: boolean = false;
+
   constructor(
     private modalService: NgbModal,
     private _servicioContacto: ServicioContacto,
@@ -157,7 +160,8 @@ export class HeaderComponent implements OnInit {
   }
 
   ConsultarLDistribuidor() {
- 
+
+    this.bCargandoDistribuidor = true;
     let ModeloLoginDistribuidorAux: LoginDistribuidor;
     ModeloLoginDistribuidorAux = new LoginDistribuidor('','',''); 
     let filialAux = this.ModeloLoginDistribuidor.codigo.split('-');
@@ -194,22 +198,16 @@ export class HeaderComponent implements OnInit {
               this.ModalActivo?.close();
               
               this._router.navigate(['/distribuidores/inicio/']);
-              //location.reload();
-
-
-              
-                
-              
-              
-
             }
 
+            this.bCargandoDistribuidor = false;
           
         },
         (error) => {
           this.alerLoginDistribuidor = true;
-          this.respuestaLoginDistribuidor = <any>error;
+          this.respuestaLoginDistribuidor = 'Error en login.';
           console.log(<any>error);
+          this.bCargandoDistribuidor = false;
         }
       );
   }
@@ -287,6 +285,8 @@ export class HeaderComponent implements OnInit {
 
   addContacto() {
 
+    this.bCargandoContacto = true;
+
     console.log(this.ModeloContacto);
     this._servicioContacto.addContacto(this.ModeloContacto).subscribe(
       (Response) => {
@@ -303,6 +303,8 @@ export class HeaderComponent implements OnInit {
             panelClass: ['fondo_mensaje_contacto'],
           });
 
+          this.bCargandoContacto = false;
+          this.ModeloContacto = new Contacto('', '', '', '');
           return;
         }
 
@@ -310,11 +312,13 @@ export class HeaderComponent implements OnInit {
           this.mensaje_contacto_guardado = true;
           this.contacto_guardado = Response.Mensaje;
         }     
+        this.bCargandoContacto = false;
 
       },
       (error) => {
         this.mensaje_contacto_guardado = true;
         this.contacto_guardado = error.error[Object.keys(error.error)[1]];
+        this.bCargandoContacto = false;
         }
 
     );

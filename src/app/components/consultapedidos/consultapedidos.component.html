@@ -89,14 +89,16 @@
   
                
                     
-                  
-                  <br>   
+                    <div *ngIf="sMensaje">
+                      <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+                    </div>
+                     
                   <div class="form-row">
                       <div class="form-group col-md-6">
-                          <button type="submit" (click)="consultaPedido()" class=" btnFonelli btn">BUSCAR</button>                          
+                          <button type="submit" (click)="consultaPedido()" class=" btnFonelli btn"><span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span> BUSCAR</button>                          
                       </div>
                   </div>  
-                  <p>{{sMensaje}}</p>       
+                  
                </form><!-- End General Form Elements -->
              </div>             
            </div>
@@ -131,7 +133,7 @@
       <div id="pdfTable" #pdfTable>
           <table  class="table table-hover table-striped">
             <thead>
-              <tr>
+              <tr class="EncTabla">
               <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>
               <th style="background-color: #24a4cc; color: white;" scope="col">L</th>
               <th style="background-color: #24a4cc; color: white; " scope="col">PEDIDO</th>

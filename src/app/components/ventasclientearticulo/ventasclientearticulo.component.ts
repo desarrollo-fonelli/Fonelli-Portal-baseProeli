@@ -50,6 +50,7 @@ export class VentasclientearticuloComponent implements OnInit {
   bBandera: boolean;
 
   fechaHoy: String
+  public bCargando: boolean = false;
 
   mobileQuery: MediaQueryList;
 
@@ -175,6 +176,7 @@ export class VentasclientearticuloComponent implements OnInit {
     consultaVentCArticulo(){
     console.log(this.oBuscar);
     this.oBuscar.TipoUsuario = this.sTipo
+    this.bCargando = true;
 
      //Realizamos llamada al servicio de relacion de pedidos
      this._servicioVenClientes
@@ -193,7 +195,8 @@ export class VentasclientearticuloComponent implements OnInit {
          if(this.oVentasCliRes.Codigo != 0){
            this.bError= true;
            this.sMensaje="No se encontraron datos de venta por artículo";
-           //this.bBandera = false;
+           this.bBandera = false;
+           this.bCargando = false;
            return;
          }
  
@@ -204,6 +207,7 @@ export class VentasclientearticuloComponent implements OnInit {
          }else{
           this.bFiltroOrden = false;//Es pieza o importe
          }
+         this.bCargando = false;
 
          
          //this.oContenido	= this.oVentasCliRes.Contenido
@@ -217,6 +221,8 @@ export class VentasclientearticuloComponent implements OnInit {
          console.log("error");
          console.log(this.oVentasCliRes);
          this.sMensaje="No se encontraron datos de venta por artículo";
+         this.bCargando = false;
+         this.bBandera = false;
        
        }
      );
@@ -524,7 +530,7 @@ downloadAsPDF() {
   var cadenaaux = pdfTable.innerHTML;
 
   let cadena =
-      '<p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
+      '<br><p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
       cadenaaux;
 
   var html = htmlToPdfmake(cadena);
@@ -536,18 +542,24 @@ downloadAsPDF() {
         alignment: 'justify',
         heigth: 200,
         columns: [
-          { image: 'logo', heigth: 40, width: 110 },
+          { 
+            image: 'logo', 
+            margin: [25,13],
+            heigth: 40, 
+            width: 110 
+          },
           {
             width: 600,
             text: 'Ventas por artículo',
             alignment: 'center',
             style: 'header',
+            margin: [8,8]   
           },
           {
             width: 100,
             text: this.fechaHoy,
             alignment: 'right',
-            margin: [2, 10],
+            margin: [2, 15]
           },
         ],
       },

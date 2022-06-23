@@ -44,6 +44,8 @@ export class ConsultapreciosComponent implements OnInit {
    bBandera = false;
    fechaHoy: String;
 
+   public bCargando: boolean = false;
+
 
   mobileQuery: MediaQueryList;
 
@@ -136,6 +138,7 @@ export class ConsultapreciosComponent implements OnInit {
 
   this.bBandera = false;
   console.log("Consulta de precios");
+  this.bCargando = true;
 
   //Inicializamos el tipo de usuario por el momento
   this.oBuscar.TipoUsuario = this.sTipo
@@ -163,22 +166,25 @@ export class ConsultapreciosComponent implements OnInit {
 
       if(this.oPreciosRes.Codigo != 0){
         this.bError= true;
-        this.sMensaje="No se encontraron de pedidos";
+        this.sMensaje="No se encontraron datos. Verifica la linea, la clave y mayúsculas";
         this.bBandera = false;
+        this.bCargando = false;
         return;
       }
 
       this.sMensaje="";
       this.bBandera = true;
+      this.bCargando = false;
       
 
     },
     (error:ConsultaPrecios) => {
 
       this.oPreciosRes = error;
-      this.sMensaje="No se encontraron los precios";
+      this.sMensaje="No se encontraron datos. Verifica la linea, la clave y mayúsculas";
       console.log("error");
       console.log(this.oPreciosRes);
+      this.bCargando = false;
     
     }
   );
@@ -203,7 +209,7 @@ downloadAsPDF() {
 
 
   let cadena =
-      '<p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.sNombre+'</strong></p>' +
+      '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.sNombre+'</strong></p>' +
       '<label>No de lista: <strong> ' +sNLista +' </strong> <br> Linea: <strong> '+this.oBuscar.ArticuloLinea +' </strong> <br> Clave: <strong> '+this.oBuscar.ArticuloCodigo+' </strong></label><br/>' +
       cadenaaux;
 
@@ -216,18 +222,24 @@ downloadAsPDF() {
         alignment: 'justify',
         heigth: 200,
         columns: [
-          { image: 'logo', heigth: 40, width: 110 },
+          { 
+            image: 'logo', 
+            margin: [25,13],
+            heigth: 40, 
+            width: 110 
+          },
           {
-            width: 330,
+            width: 380,
             text: 'Consulta de precios',
             alignment: 'center',
             style: 'header',
+            margin: [8,8]
           },
           {
-            width: 100,
+            width: 65,
             text: this.fechaHoy,
             alignment: 'right',
-            margin: [2, 10],
+            margin: [2, 15]
           },
         ],
       },

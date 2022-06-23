@@ -61,6 +61,7 @@ export class RelacionpedidosComponent implements OnInit {
   bBanderaDet = false;
 
   fechaHoy: String
+  public bCargando: boolean = false;
 
   closeResult = '';
   public ModalActivo?: NgbModalRef;
@@ -189,10 +190,9 @@ export class RelacionpedidosComponent implements OnInit {
 //Funcion para consultar la relacion de pedidos
 consultaRelPed(){
 
-
   this.oBuscar.TipoUsuario = this.sTipo? this.sTipo : 'C';
-
   console.log(this.oBuscar);
+  this.bCargando = true;
 
     //Realizamos llamada al servicio de relacion de pedidos
     this._servicioRelacionPed    
@@ -202,8 +202,7 @@ consultaRelPed(){
     .subscribe(
       (Response: RelacionPedidos) => {
 
-        this.oRelacionPedRes = Response;
-        //this.pedido = this.oRelacionPedRes.Contenido.Pedidos
+        this.oRelacionPedRes = Response;        //this.pedido = this.oRelacionPedRes.Contenido.Pedidos
                
 
         //console.log( this.collectionSize);
@@ -212,13 +211,15 @@ consultaRelPed(){
 
         if(this.oRelacionPedRes.Codigo != 0){
           this.bError= true;
-          this.sMensaje="No se encontraron datos relacion de pedidos";
-          //this.bBandera = false;
+          this.sMensaje="No se encontraron datos relación de pedidos";
+          this.bCargando = false;
+          this.bBandera = false;
           return;
         }
 
         this.sMensaje="";
         this.bBandera = true;
+        this.bCargando = false;
         //this.oContenido	= this.oRelacionPedRes.Contenido
         //this.collectionSize = this.oRelacionPedRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
 
@@ -226,9 +227,11 @@ consultaRelPed(){
       (error:RelacionPedidos) => {
 
         this.oRelacionPedRes = error;
-        this.sMensaje="No se encontraron datos relacion de pedidos";
+        this.sMensaje="No se encontraron datos relación de pedidos";
         console.log("error");
         console.log(this.oRelacionPedRes);
+        this.bBandera = false;
+        this.bCargando = false;
       
       }
     );
@@ -829,7 +832,7 @@ downloadAsPDF() {
   var cadenaaux = pdfTable.innerHTML;
 
   let cadena =
-      '<p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
+      '<br><p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
       cadenaaux;
 
   var html = htmlToPdfmake(cadena);
@@ -842,15 +845,24 @@ downloadAsPDF() {
     {
     alignment: 'justify',
     columns: [
-      { image: 'logo', heigth: 40, width: 110 },
+      { 
+        image: 'logo', 
+        margin: [25,13],
+        heigth: 40, 
+        width: 110 
+      },
     {
-    width:670,
-    text: 'Relación de pedidos', alignment: 'center',style: 'header'
-    
+      width:750,
+      text: 'Relación de pedidos',
+      alignment: 'center',
+      style: 'header',
+      margin: [8,8]    
     },
     {
-    width: 150,
-    text: this.fechaHoy, alignment: 'right' ,margin: [2, 10]
+      width: 110,
+      text: this.fechaHoy, 
+      alignment: 'right',
+      margin: [2, 15]
     }
     ]
     }

@@ -2,18 +2,21 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Configuracion } from "src/app/models/configuraciones";
+import { environment } from '../../environments/environment';
 
 
 
 @Injectable()
 export class ServicioVentasArticulo{
     public API: string;
+    public API_URL: string;
 
 constructor(
     public _http:HttpClient
 ){
 
     this.API = Configuracion.API;
+    this.API_URL = environment.API_URL;
 
 }
 
@@ -29,7 +32,7 @@ Get(FiltrosVentasArticulo: any): Observable<any>{
 
 
 
-    return this._http.get(this.API + 'Reportes/VentasArticulo.php?'+
+    return this._http.get(this.API_URL+this.API + 'Reportes/VentasArticulo.php?'+
                         'OficinaDesde=' + FiltrosVentasArticulo.OficinaDesde +
                         '&OficinaHasta=' + FiltrosVentasArticulo.OficinaHasta +
                         '&FechaDesde=' + FiltrosVentasArticulo.FechaDesde +

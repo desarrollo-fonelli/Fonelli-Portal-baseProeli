@@ -49,6 +49,7 @@ export class EstadocuentaComponent implements OnInit {
   bBandera: boolean;
 
   fechaHoy: String
+  public bCargando: boolean = false;
 
   mobileQuery: MediaQueryList;
 
@@ -154,6 +155,8 @@ consultaEstadoCuenta(){
     this.oBuscar.TipoUsuario = "C" 
     console.log(this.oBuscar);
 
+    this.bCargando = true;
+
     //Realizamos llamada al servicio de pedidos
     this._servicioEdoCuenta     
     
@@ -173,6 +176,8 @@ consultaEstadoCuenta(){
         if(this.oEdoCuentaRes.Codigo != 0){
           //this.bError= true;
           this.sMensaje="No se encontraron datos del estado de cuenta";
+          this.bCargando = false;
+          this.bBandera = false;
         
           return;
         }
@@ -183,6 +188,7 @@ consultaEstadoCuenta(){
         this.oResumenTipoCliente = this.oEdoCuentaRes.Contenido.ResumenTipoCliente;
         this.sMensaje="";
         this.bBandera = true;
+        this.bCargando = false;
       
         //this.collectionSize = this.oEdoCuentaRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
 
@@ -191,7 +197,8 @@ consultaEstadoCuenta(){
 
         this.oEdoCuentaRes = error;
         this.sMensaje="No se encontraron datos del estado de cuenta";
-
+        this.bCargando = false;
+        this.bBandera = false;
         console.log("error");
         console.log(this.oEdoCuentaRes);
       
@@ -264,7 +271,7 @@ consultaEstadoCuenta(){
     var cadenaaux = pdfTable.innerHTML;
 
     let cadena =
-        '<p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
+        '<br><p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
         cadenaaux;
 
     var html = htmlToPdfmake(cadena);
@@ -276,18 +283,24 @@ consultaEstadoCuenta(){
           alignment: 'justify',
           heigth: 200,
           columns: [
-            { image: 'logo', heigth: 40, width: 110 },
+            { 
+              image: 'logo', 
+              margin: [25,13],
+              heigth: 40, 
+              width: 110 
+            },
             {
               width: 600,
               text: 'Estado de cuenta',
               alignment: 'center',
               style: 'header',
+              margin: [8,8]   
             },
             {
               width: 100,
               text: this.fechaHoy,
               alignment: 'right',
-              margin: [2, 10],
+              margin: [2, 15]
             },
           ],
         },
