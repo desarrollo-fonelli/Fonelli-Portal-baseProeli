@@ -283,10 +283,10 @@
                         <tr>
                           <td>{{resCartera.TipoCarteraCodigo}}</td>
                           <td>{{resCartera.TipoCarteraDescripc}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{resCartera.TipoCarteraCargos}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{resCartera.TipoCarteraAbonos}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{resCartera.TipoCarteraSaldo}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{resCartera.TipoCarteraSaldoVencido}}</td>
+                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraCargos)}}</td>
+                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraAbonos)}}</td>
+                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraSaldo)}}</td>
+                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraSaldoVencido)}}</td>
                         </tr>              
                     </ng-container>              
                     </tbody>               
