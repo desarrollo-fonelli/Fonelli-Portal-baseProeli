@@ -446,9 +446,9 @@
                   <td class="FilasFonBold" style="text-align:right;">{{getTotalDifCantidadPro(tipoPed.Pedidos)}}</td>
                   <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalDifImporteSurtido(tipoPed.Pedidos))}}</td>
                   <td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalDifValorAgregado(tipoPed.Pedidos))}}</td>
-                  <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalCantPedidaProd(tipoPed.Pedidos))}}</td>
-                  <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalCantidadProd(tipoPed.Pedidos))}}</td>
-                  <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalDifCantidadProd(tipoPed.Pedidos))}}</td>
+                  <td class="FilasFonBold" style="text-align:right;">{{getTotalCantPedidaProd(tipoPed.Pedidos)}}</td>
+                  <td class="FilasFonBold" style="text-align:right;">{{getTotalCantidadProd(tipoPed.Pedidos)}}</td>
+                  <td class="FilasFonBold" style="text-align:right;">{{getTotalDifCantidadProd(tipoPed.Pedidos)}}</td>
                 </tr>               
               <!-- </ng-container> -->
             </ng-container>
@@ -474,9 +474,9 @@
               <td class="FilasFonBold" style="text-align:right;">{{getTotalDifCantidadProOficina(relPed.TipoPedido)}}</td>
               <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalDifImporteSurtidoOficina(relPed.TipoPedido))}}</td>  
               <td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalDifValorAgregadoOficina(relPed.TipoPedido))}}</td>  
-              <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalCantPedidoProdOficina(relPed.TipoPedido))}}</td>  
-              <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalCantidadProducidaOficina(relPed.TipoPedido))}}</td>  
-              <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalDifCantidadProdOficina(relPed.TipoPedido))}}</td>  
+              <td class="FilasFonBold" style="text-align:right;">{{getTotalCantPedidoProdOficina(relPed.TipoPedido)}}</td>  
+              <td class="FilasFonBold" style="text-align:right;">{{getTotalCantidadProducidaOficina(relPed.TipoPedido)}}</td>  
+              <td class="FilasFonBold" style="text-align:right;">{{getTotalDifCantidadProdOficina(relPed.TipoPedido)}}</td>  
             </tr>
           </ng-container>               
           
@@ -501,9 +501,9 @@
             <td class="FilasFonBold" style="text-align:right;">{{getTotalDifCantidadProGranTotal(oRelacionPedRes.Contenido)}}</td>
             <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalDifImporteSurtidoGranTotal(oRelacionPedRes.Contenido))}}</td>
             <td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalDifValorAgregadoGranTotal(oRelacionPedRes.Contenido))}}</td>
-            <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalCantPedProdGranTotal(oRelacionPedRes.Contenido))}}</td>
-            <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalCantidadProdGranTotal(oRelacionPedRes.Contenido))}}</td>
-            <td class="FilasFonBold" style="text-align:right;">{{formatoMoneda(getTotalDifCantidadProdGranTotal(oRelacionPedRes.Contenido))}}</td>
+            <td class="FilasFonBold" style="text-align:right;">{{getTotalCantPedProdGranTotal(oRelacionPedRes.Contenido)}}</td>
+            <td class="FilasFonBold" style="text-align:right;">{{getTotalCantidadProdGranTotal(oRelacionPedRes.Contenido)}}</td>
+            <td class="FilasFonBold" style="text-align:right;">{{getTotalDifCantidadProdGranTotal(oRelacionPedRes.Contenido)}}</td>
           </tr>
 
           </tbody>               
