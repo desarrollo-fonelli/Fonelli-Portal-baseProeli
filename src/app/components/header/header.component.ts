@@ -22,6 +22,7 @@ import { ServicioLoginEjecutivo } from '../../services/loginEjecutivo.service';
 
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { Contenido } from '../../models/agentes';
 
 
 
@@ -62,6 +63,7 @@ export class HeaderComponent implements OnInit {
 
   public bCargandoDistribuidor: boolean = false;
   public bCargandoContacto: boolean = false;
+  public bCargandoEmpleados: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -235,29 +237,46 @@ export class HeaderComponent implements OnInit {
         console.log('reason ' + reason);
       }
     );
-  }
-
-  onSubmitLEjecutivo(form: any) {
-    /*    console.log("submit");
-    console.log(this.ModeloContacto);*/
-    //form.reset();
-  }
+  } 
 
   ConsultarLEjecutivo() {
     console.log(this.ModeloLoginEjecutivo);
 
+    this.bCargandoEmpleados = true;
+
     this._servicioLoginEjecutivo.login(this.ModeloLoginEjecutivo).subscribe(
       (Response) => {
         this.respuestaLoginEjecutivo = Response;
-        console.log('Response: ' + Response);
+        console.log('Respuesta login empleados: ' + JSON.stringify(this.respuestaLoginEjecutivo));
 
-        this.ModalActivo?.close();
-        //2
+       
+            //Se valida login incorrecto
+            if (this.respuestaLoginEjecutivo.Codigo == 1) {
+              this.alerLoginEjecutivo = true;
+              this.respuestaLoginEjecutivo ="Datos incorrectos!";
+              //window.alert("Datos incorrectos")
+
+            }else{
+              console.log("Login correcto");
+              //console.log(this.respuestaLoginEjecutivo.Contenido[0].RazonSocial.toString());             
+           
+              if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
+                this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A');  
+              }else{
+                this.saveData(this.respuestaLoginEjecutivo.Contenido[0].GerenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre.toString(),'G');  
+              }             
+
+              this.ModalActivo?.close();
+              
+              this._router.navigate(['/distribuidores/inicio/']);
+            }
+
+        this.bCargandoEmpleados = false;
       },
       (error) => {
         this.alerLoginEjecutivo = true;
-        this.respuestaLoginEjecutivo = <any>error;
-        console.log('Error: ' + <any>error);
+        this.respuestaLoginEjecutivo ="Datos incorrectos!";
+        this.bCargandoEmpleados = false;
       }
     );
   }

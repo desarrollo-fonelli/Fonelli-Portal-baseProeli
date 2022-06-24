@@ -35,7 +35,7 @@ export class SidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
-
+    
 
     //Se agrega validacion control de sesion distribuidores
     if (!this.sCodigo) {
@@ -43,17 +43,26 @@ export class SidenavComponent implements OnInit {
       this._router.navigate(['/']);
     }
 
-    if (this.sTipo == 'C') {
-            this.bCliente = true;
-            this.sCuenta='Distribuidor';
-    } else if (this.sTipo == 'A')  {
-      this.bCliente = false;
-      this.sCuenta='Agente';
-    }
-    else{
-      this.bCliente = false;
-      this.sCuenta='Gerente';
-    }
+    switch(this.sTipo) { 
+      case 'C':{    
+        //Tipo cliente
+        this.bCliente = true;
+        this.sCuenta='Distribuidor';
+         break; 
+      } 
+      case 'A': { 
+        this.bCliente = false;
+        this.sCuenta='Agente';
+         break; 
+      } 
+      default: { 
+        this.bCliente = false;
+        this.sCuenta='Gerente';
+         break; 
+      } 
+    } 
+
+
   }
 
   obtenMenu() {

@@ -47,6 +47,7 @@ export class VentasclientearticuloComponent implements OnInit {
   public sMensaje: string="";
   public bCliente: boolean;
   public bFiltroOrden: boolean;
+  public bFiltrResumido: boolean;
   bBandera: boolean;
 
   fechaHoy: String
@@ -80,6 +81,7 @@ export class VentasclientearticuloComponent implements OnInit {
       this.bCliente = false;
       this.bBandera = false;
       this.bFiltroOrden = false;
+      this.bFiltrResumido = false;
 
     }
 
@@ -207,6 +209,13 @@ export class VentasclientearticuloComponent implements OnInit {
          }else{
           this.bFiltroOrden = false;//Es pieza o importe
          }
+
+         if (this.oBuscar.Presentacion == 'R'){
+          this.bFiltrResumido = true;//Es resumido
+         }else{
+          this.bFiltrResumido = false;//Es detallado
+         }
+
          this.bCargando = false;
 
          

@@ -674,7 +674,8 @@ getTotalPedidos(Pedido: Pedido[]): number {
   
   this.ModalActivo = this.modalService.open(PedidoDetalle, {
     ariaLabelledBy: 'PedidoDetalle',
-    size: 'lg'  
+    size: 'lg',
+    scrollable: true
   });
 
   

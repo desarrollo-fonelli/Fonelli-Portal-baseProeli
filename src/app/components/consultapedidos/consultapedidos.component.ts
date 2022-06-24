@@ -164,10 +164,7 @@ export class ConsultapedidosComponent implements OnInit {
         this.oPedidoRes = Response;
         this.pedido = this.oPedidoRes.Contenido.Pedidos;
 
-        console.log(this.collectionSize);
-        console.log(this.oPedidoRes);
-        console.log(this.pedido);
-
+        
         if (this.oPedidoRes.Codigo != 0) {
           this.bError = true;
           this.sMensaje = 'No se encontraron de pedidos';
@@ -178,7 +175,7 @@ export class ConsultapedidosComponent implements OnInit {
 
         this.sMensaje = '';
         this.bBandera = true;
-        this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length; //Seteamos el tamaño de los datos obtenidos
+        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length; //Seteamos el tamaño de los datos obtenidos
         this.bCargando = false;
 
       },
@@ -194,7 +191,7 @@ export class ConsultapedidosComponent implements OnInit {
 
   //Funcion para consultar los pedidos detalle
   consultaPedidoDetalle(folio: String) {
-    console.log('consultaPedido detalle : ' + folio);
+    //console.log('consultaPedido detalle : ' + folio);
 
     //Inicializamos datos de encabezado requeridos para consultar detalle
     this.oBuscaDetalle.TipoUsuario = this.oBuscar.TipoUsuario;
@@ -212,8 +209,8 @@ export class ConsultapedidosComponent implements OnInit {
         this.pedidoDet = this.oPedidoDetalleRes.Contenido.PedidoArticulos;
 
         //console.log( this.collectionSize);
-        console.log(this.oPedidoDetalleRes);
-        console.log(this.pedidoDet);
+        //console.log(this.oPedidoDetalleRes);
+        //console.log(this.pedidoDet);
 
         if (this.oPedidoDetalleRes.Codigo != 0) {
           this.bError = true;
@@ -229,7 +226,7 @@ export class ConsultapedidosComponent implements OnInit {
       (error: DetallePedido) => {
         this.oPedidoDetalleRes = error;
         this.sMensaje = 'No se encontro detalle de pedido';
-        console.log('error');
+        //console.log('error');
         console.log(this.oPedidoDetalleRes);
       }
     );
@@ -253,12 +250,14 @@ export class ConsultapedidosComponent implements OnInit {
   //modal pedido detalle
   openPedidoDetalle(PedidoDetalle: any, folio: string) {
     console.log(folio);
-    this.pedidoDet = [];
+    //this.pedidoDet = [];
     this.consultaPedidoDetalle(folio);
 
     this.ModalActivo = this.modalService.open(PedidoDetalle, {
       ariaLabelledBy: 'PedidoDetalle',
-      size: 'lg'
+      size: 'lg',
+      scrollable: true
+      
     });
 
     this.ModalActivo.result.then(
@@ -266,14 +265,17 @@ export class ConsultapedidosComponent implements OnInit {
       (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         console.log('reason ' + reason);
+        this.pedidoDet = [];
       }
     );
   }
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
+      this.pedidoDet = [];
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      this.pedidoDet = [];
       return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;

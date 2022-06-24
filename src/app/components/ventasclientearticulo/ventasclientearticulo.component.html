@@ -18,7 +18,7 @@
                       <label class="CamposFonelli">Desde</label>
                     </div>
 
-                        <div class="form-group col-md-1"  hidden="{{ bCliente }}">
+                        <div class="form-group col-md-1" [hidden]="bCliente">
                           <label class="CamposFonelli">Oficina</label>
                           <input 
                             type="text" 
@@ -125,7 +125,7 @@
                         <label class="CamposFonelli">Hasta</label>
                       </div>
 
-                      <div class="form-group col-md-1" hidden="{{ bCliente }}">
+                      <div class="form-group col-md-1" [hidden]="bCliente">
                         <input 
                             type="text" 
                             id="idOfiHas"
@@ -259,7 +259,7 @@
                       </div>
                     </div>
 
-                    <div class="form-group col-md-3" hidden="{{ bCliente }}">
+                    <div class="form-group col-md-3" [hidden]="bCliente">
                       <p class="CamposFonelli"> Internos/Externos</p>  
                         <div class="form-check">
                           <input 
@@ -404,12 +404,22 @@
         <div *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable>
             <table class="table table-hover table-striped  ">
               <thead>
-                <tr class="EncTabla">
+                <tr *ngIf="bFiltrResumido" class="EncTabla">
                   <th style="background-color: #24a4cc; color: white;">LN</th>
                   <th style="background-color: #24a4cc; color: white;">DESCRIPCION LÍNEA</th>
                   <th style="background-color: #24a4cc; color: white;">COLECCIÓN</th>
                   <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
                   <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
+                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
+                </tr>
+                <tr *ngIf="!bFiltrResumido" class="EncTabla">
+                  <th style="background-color: #24a4cc; color: white;">CÓDIGO</th>
+                  <th style="background-color: #24a4cc; color: white;">DESCRIPCIÓN</th>
+                  <th style="background-color: #24a4cc; color: white;">TIPO</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
+                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT/TH</th>
                   <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
                   <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>
                   <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
@@ -443,16 +453,17 @@
                         <tr>  
                         <td class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>                
                         <td></td>
-                    <td></td>
-                    <td></td>
-                    <td *ngIf="!bCliente"></td>
-                    <td></td> 
-                    <td *ngIf="!bCliente"></td>
-                    <td></td> 
+                        <td></td>
+                        <td></td>
+                        <td *ngIf="!bCliente"></td>
+                        <td></td> 
+                        <td *ngIf="!bCliente"></td>
+                        <td></td> 
                       </tr>  
 
+                      <!-- RESUMIDO  -->
                       <ng-container *ngFor="let linPro of subCat.LineasProducto;">
-                        <tr>  
+                        <tr *ngIf="bFiltrResumido">  
                           <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
                           <td class="FilasFonelli">{{linPro.LineaDescripc}}</td>
                           <td class="FilasFonelli">{{linPro.ColeccionDescripc}}</td>
@@ -462,6 +473,34 @@
                           <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{getTotalGramosPorArticulo(linPro.Articulos)}}</td>
                           <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
                         </tr> 
+
+                        <!-- DETALLADO  -->
+                        <ng-container *ngIf="!bFiltrResumido">
+                          <tr>  
+                            <td class=""><strong>{{linPro.LineaCodigo + ' - ' + linPro.LineaDescripc }}</strong></td>                
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td *ngIf="!bCliente"></td>
+                            <td></td> 
+                            <td *ngIf="!bCliente"></td>
+                            <td></td> 
+                          </tr> 
+
+                          <tr *ngFor="let art of linPro.Articulos;">  
+                            <td class="FilasFonelli">{{art.ArticuloCodigo}}</td>
+                            <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
+                            <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
+                            <td class="FilasFonelli" style="text-align: right;">{{art.Piezas}}</td>
+                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.PiezasPorcentaje}}</td>
+                            <td class="FilasFonelli" style="text-align: right;">{{art.Gramos}}</td>
+                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.GramosPorcentaje}}</td>
+                            <td class="FilasFonelli" style="text-align: right;">{{art.ImporteVenta}}</td>
+                          </tr> 
+
+                        </ng-container>
+
+                        
 
                       </ng-container>
 

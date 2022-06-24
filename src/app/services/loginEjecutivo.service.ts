@@ -21,16 +21,29 @@ constructor(
 
 login(ejecutivo: any): Observable<any>{
     //let params = JSON.stringify(nuevoContacto);
-    let headers =  new HttpHeaders().set('Content-Type','application-json');
+    //let headers =  new HttpHeaders().set('Content-Type','application-json');
+    let headers =  new HttpHeaders().set('Content-Type','application-json')
+                                    .set("Access-Control-Allow-Origin","*")
+                                    .set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+                                    . set("Access-Control-Allow-Methods", "GET")
+                                    .set("Access-Control-Allow-Credentials", "true");
 
-    if(ejecutivo.puesto == 'agente')
+    if(ejecutivo.puesto == 'Agente')
     {
-        return this._http.get(this.API_URL+this.API + '/agente?codigo='+ejecutivo.codigo +'&password='+ejecutivo.password,{headers:headers});
+        console.log("Servicio agente");
+        return this._http.get(this.API_URL+this.API + 'catalogos/ListaAgentes.php?AgenteCodigo='+ ejecutivo.codigo +'&Password='+ejecutivo.password,{headers:headers});
     }
     else{
-        return this._http.get(this.API_URL+this.API + 'gerente?codigo='+ejecutivo.codigo +'&password='+ejecutivo.password,{headers:headers});
+        console.log("Servicio  gerente");
+        console.log("url"+this.API_URL);
+        console.log("url"+this.API);
+        return this._http.get(this.API_URL+this.API + 'catalogos/ListaGerentes.php?GerenteCodigo='+ ejecutivo.codigo +'&Password='+ejecutivo.password,{headers:headers});
     }
 
+    
+
+
+    
    
 
 }

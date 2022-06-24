@@ -10,7 +10,7 @@
                <!-- General Form Elements -->
                <form>
   
-                  <div class="form-row" hidden="{{ bCliente }}">
+                  <div class="form-row" [hidden]="bCliente">
                       <div class="form-group col-md-3">
                         <label class="CamposFonelli">Desde oficina</label>
                         <input 
@@ -34,9 +34,10 @@
                         >  
                       </div>
                       <div class="form-group col-md-3">
+                        <label class="CamposFonelli">-</label>
                           <button 
                             type="submit"
-                            class="btn btn-primary"
+                            class="form-control btnFonelli btn"
                           >CATALOGO DE CLIENTES</button>
                       </div>                    
                   </div>
@@ -199,7 +200,7 @@
                         </div>
                       </div>
   
-                      <div class="form-group col-md-3" hidden="{{ bCliente }}">
+                      <div class="form-group col-md-3" [hidden]="bCliente">
                           <div class="form-check">
                             <input 
                               class="form-check-input" 
@@ -246,7 +247,7 @@
                           </div>
                         </div>
   
-                        <div class="form-group col-md-3" hidden="{{ bCliente }}">
+                        <div class="form-group col-md-3" [hidden]="bCliente">
                           <div class="form-check">
                             <input 
                               class="form-check-input" 
@@ -521,7 +522,7 @@
     
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
-  <form #formLoginDistribuidor="ngForm" >
+
   <div class="modal-body-tables">
 
       <div class="container">
@@ -533,7 +534,7 @@
             </div>
 
 
-                <div class="col-12" class="table-responsive container">                     
+                <div class="col-12">                     
                   <table *ngIf="bBanderaDet"  class="table table-striped">
                     <thead>
                     <tr class="EncTabla">
@@ -544,18 +545,18 @@
                       <th scope="col">S</th>
                       <th scope="col">CAT</th>
                       <th scope="col">SCAT</th>
-                      <th scope="col">FECHA PED</th>
+                      <th scope="col" class="FilasFonelli text-center"><div class="size">FECHA PED</div></th>
                       <th scope="col" class="text-right">CANT PEDIDA</th>        
-                      <th scope="col">FEC SUR</th>
+                      <th scope="col" class="FilasFonelli text-center"><div class="size">FEC SUR</div></th>
                       <th scope="col" class="FilasFonelli text-right">CANT SURTIDA</th>
                       <th scope="col" class="FilasFonelli text-right">DIFEREN</th>
                       <th scope="col">S</th>
                       <th scope="col">DOCTO</th>
-                      <th scope="col">FEC TERM</th>
+                      <th scope="col" class="FilasFonelli text-center"><div class="size">FEC  TERM</div></th>
                       <th scope="col" class="FilasFonelli text-right">CANT A PRODUCIR</th>
                       <th scope="col" class="FilasFonelli text-right">PRODUCIDO</th>
                       <th scope="col" class="FilasFonelli text-right">DIFERENC</th>
-                      <th scope="col">FEC PROD</th>                      
+                      <th scope="col" class="FilasFonelli text-center"><div class="size">FEC PROD</div></th>                      
                       <th scope="col" class="FilasFonelli text-right">CP4</th>
                       <th scope="col" class="FilasFonelli text-right">CP45</th>
                       <th scope="col" class="FilasFonelli text-right">CP5</th>
@@ -659,5 +660,5 @@
     <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
     
   </div>
-</form>
+
 </ng-template> 

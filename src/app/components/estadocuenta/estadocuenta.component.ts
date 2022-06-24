@@ -338,7 +338,7 @@ consultaEstadoCuenta(){
     return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
   
-//Funcion para cerrar sesion y redireccionar al home
+  //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
     sessionStorage.clear();
     this._router.navigate(['/']);    
