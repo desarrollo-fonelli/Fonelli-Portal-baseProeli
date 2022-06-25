@@ -463,16 +463,7 @@
 
                       <!-- RESUMIDO  -->
                       <ng-container *ngFor="let linPro of subCat.LineasProducto;">
-                        <tr *ngIf="bFiltrResumido">  
-                          <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
-                          <td class="FilasFonelli">{{linPro.LineaDescripc}}</td>
-                          <td class="FilasFonelli">{{linPro.ColeccionDescripc}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{getTotalPiezasPorArticulo(linPro.Articulos)}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{getTotalGramosArticulo(linPro.Articulos)}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{getTotalGramosPorArticulo(linPro.Articulos)}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
-                        </tr> 
+                     
 
                         <!-- DETALLADO  -->
                         <ng-container *ngIf="!bFiltrResumido">
@@ -495,12 +486,32 @@
                             <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.PiezasPorcentaje}}</td>
                             <td class="FilasFonelli" style="text-align: right;">{{art.Gramos}}</td>
                             <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.GramosPorcentaje}}</td>
-                            <td class="FilasFonelli" style="text-align: right;">{{art.ImporteVenta}}</td>
+                            <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(art.ImporteVenta)}}</td>
                           </tr> 
 
                         </ng-container>
 
-                        
+                        <tr *ngIf="!bFiltrResumido">  
+                          <td class="FilasFonelli"></td>
+                          <td class="FilasFonelli"></td>
+                          <td class="FilasFonelli" style="text-align: right;">Total Línea</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{getTotalPiezasPorArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{getTotalGramosArticulo(linPro.Articulos)}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{getTotalGramosPorArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
+                        </tr> 
+
+                        <tr *ngIf="bFiltrResumido">  
+                          <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
+                          <td class="FilasFonelli">{{linPro.LineaDescripc}}</td>
+                          <td class="FilasFonelli">{{linPro.ColeccionDescripc}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{getTotalPiezasPorArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{getTotalGramosArticulo(linPro.Articulos)}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{getTotalGramosPorArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
+                        </tr> 
 
                       </ng-container>
 
