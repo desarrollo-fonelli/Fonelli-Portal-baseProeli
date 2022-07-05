@@ -1,4 +1,4 @@
-class FiltrosReporteVentas {
+export class FiltrosReporteVentas {
   constructor(
     public Usuario: number,
     public AgenteCodigo: number,

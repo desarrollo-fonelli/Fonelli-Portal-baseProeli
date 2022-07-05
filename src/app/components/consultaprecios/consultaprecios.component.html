@@ -9,50 +9,53 @@
 
               <!-- General Form Elements -->
               <form>
-                  <div class="form-row">
-                      <div class="form-group col-md-3">
-                        <label class="CamposFonelli">Numero</label>
-                        <input 
-                          type="text" 
-                          id="idNumpPre"
-                          class="form-control"
-                          name="idNumpPre"
-                          #nombre="ngModel"
-                          [(ngModel)]="oBuscar.ClienteCodigo"
-                          disabled="{{ bCliente }}"
-                          required
-                        >
-                      </div>
-                      <div class="form-group col-md-3">
-                        <label class="CamposFonelli">Filial</label>
-                        
-                        <input
-                          type="text" 
-                          id="idFilPre"
-                          class="form-control"
-                          name="idFilPre"
-                          #nombre="ngModel"
-                          [(ngModel)]="oBuscar.ClienteFilial"
-                          disabled="{{ bCliente }}"
-                          required
-                        >
-                        
-                      </div>
-                      <div class="form-group col-md-3">
-                        <label class="CamposFonelli">-</label>
-                          <button 
-                            type="submit"
-                             class="form-control btnFonelli"
-                             [hidden]="bCliente"
-                             >CATALOGO DE CLIENTES
-                          </button>
-                      </div>
+                <div class="form-row">
 
+                  <div class="form-group col-md-3">                    
+                      <label class="CamposFonelli">Numero</label> 
+                      <input 
+                        type="text" 
+                        id="idNumpPre"
+                        class="form-control"
+                        name="idNumpPre"
+                        #nombre="ngModel"
+                        [(ngModel)]="oBuscar.ClienteCodigo"
+                        disabled="{{ bCliente }}"
+                        required>
+                        
+                    </div>
+                  
 
-                      
+                  <div class="form-group col-md-3"> 
+                    <label class="CamposFonelli">Filial</label>
+   
+                      <input
+                      type="text" 
+                      id="idFilPre"
+                      class="form-control"
+                      name="idFilPre"
+                      #nombre="ngModel"
+                      [(ngModel)]="oBuscar.ClienteFilial"
+                      disabled="{{ bCliente }}"
+                      required
+                    >
                   </div>
 
+                  <div class="form-group col-md-3" [hidden]="bCliente"> 
+                    <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+                    <button  type="button" class="btnFonelli btn" style="background-color:#24a4cc;" (click)="openClientes(Clientes)"><i class="bi bi-search"></i></button>
+                  </div> 
+
+                </div> 
+  
+                    
+                  
+
+              
+               
+
                   <div class="form-row">
+                    
                       <div class="form-group col-md-3">
                         <label class="CamposFonelli">No de lista</label>
                         <select 
@@ -68,7 +71,7 @@
                         </select>
                       </div>
                       <div class="form-group col-md-3" [hidden]="bCliente">
-                        <label class="CamposFonelli">-</label>
+                        <label class="CamposFonelli" style="color:white;">-</label>
                         <input type="text" class="form-control" id="" placeholder="" >
                       </div>
                   </div>
@@ -83,8 +86,8 @@
                           [(ngModel)]="oBuscar.ParidadTipo"
                           required
                         >
-                          <option value="Normal">Normal</option>
-                          <option value="Especial">Especial</option>
+                          <option value="N">Normal</option>
+                          <option value="E">Especial</option>
                           
                         </select>
                       </div>
@@ -186,6 +189,65 @@
 
   </div> 
     </section>
+
+
+        <!--Modal catalogo clientes-->
+        <ng-template #Clientes let-modal >
+          <div class="modal-header" >        
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+          </div>      
+      
+          <div class="modal-body-tables" style="overflow-y: scroll;" >
+      
+            <div class="container">
+              <div class="row">
+
+                    <div class="col-12" >                     
+                      <table  class="table table-striped">
+                        <thead>
+                        <tr class="EncTabla">
+                          <th>#</th>
+                          <th scope="col" ></th>
+                          <th scope="col" >NUM</th>                         
+                          <th scope="col" >FIL</th>
+                          <th scope="col" >RAZÓN SOCIAL</th>
+                          <th scope="col" >SUCURSAL/NOMBRE</th>
+                          <th scope="col" >S</th>
+                          <th scope="col" >CONTACTO1</th>
+                          <th scope="col" >CONTACTO2</th>                          
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
+                          <tr *ngFor="let emp of oCliente.Contenido; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td class="form-check" >                              
+                              <input  style="border-color: #24a4cc;" type="checkbox">
+                            </td> 
+                            <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
+                            <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
+                            <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                            <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                            <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                            <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                            <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
+                          </tr>
+                        </tbody>
+                      </table>            
+                      
+                    </div>  
+                </div>
+                
+            </div>
+          </div>
+      
+    
+          <div class="modal-footer">
+            <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+            
+          </div>
+      
+        </ng-template> 
 
     
 

@@ -37,7 +37,7 @@ Get(FiltrosEstadoCuenta: any): Observable<any>{
     return this._http.get(this.API_URL+this.API + 'reportes/EstadoCuenta.php?'+
                         'TipoUsuario=' + FiltrosEstadoCuenta.TipoUsuario +                        
                         '&ClienteDesde=' + FiltrosEstadoCuenta.ClienteDesde +
-                        '&FilialDesde=' + FiltrosEstadoCuenta.FiliadDesde +
+                        '&FilialDesde=' + FiltrosEstadoCuenta.FilialDesde +
                         '&ClienteHasta=' + FiltrosEstadoCuenta.ClienteHasta +
                         '&FilialHasta=' + FiltrosEstadoCuenta.FilialHasta +
                         '&CarteraDesde=' + FiltrosEstadoCuenta.CarteraDesde +

@@ -12,17 +12,31 @@ import htmlToPdfmake from 'html-to-pdfmake';
 import {FiltrosEstadoCuenta} from 'src/app/models/estadocuenta.filtros';
 import {EstadoCuenta} from 'src/app/models/estadocuenta';
 import {Cliente, Movimiento, ResumenStatusCliente, ResumenTipoCartera, ResumenTipoCliente} from 'src/app/models/estadocuenta';
+import {FiltrosClientes} from 'src/app/models/clientes.filtros';
+import { Clientes } from 'src/app/models/clientes';
+import { Contenido } from 'src/app/models/clientes';
+import { Condiciones } from 'src/app/models/clientes';
+import { DatosGenerales } from 'src/app/models/clientes';
+import { Contactos } from 'src/app/models/clientes';
 
 
 //Servicios
 import { ServicioEstadoCuenta } from 'src/app/services/estadocuenta.service';
+import { ServicioClientes } from 'src/app/services/clientes.service';
+
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalRef,
+} from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-estadocuenta',
   templateUrl: './estadocuenta.component.html',
   styleUrls: ['./estadocuenta.component.css'],
   providers:[ServicioEstadoCuenta,
-    DecimalPipe]
+    DecimalPipe,ServicioClientes]
 })
 export class EstadocuentaComponent implements OnInit {
 
@@ -50,6 +64,10 @@ export class EstadocuentaComponent implements OnInit {
 
   fechaHoy: String
   public bCargando: boolean = false;
+  public bCargandoClientes: boolean = false;
+
+  closeResult = '';
+  public ModalActivo?: NgbModalRef;
 
   mobileQuery: MediaQueryList;
 
@@ -65,11 +83,22 @@ export class EstadocuentaComponent implements OnInit {
        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
   );
 
+  public Buscar: FiltrosClientes;
+  public oClientes: Clientes; 
+  public oContenido : Contenido;
+  public oCondiciones : Condiciones;
+  public oDatosGenerales : DatosGenerales;
+  public oContacto : Contactos;
+
+  public bBanderaCliente: boolean;
+
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
     private _router: Router,
-    private _servicioEdoCuenta: ServicioEstadoCuenta) { 
+    private _servicioEdoCuenta: ServicioEstadoCuenta,
+    private modalService: NgbModal,
+    private _servicioCClientes: ServicioClientes) { 
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -93,6 +122,13 @@ export class EstadocuentaComponent implements OnInit {
     this.oResumenStatusCliente = [];
     this.oResumenTipoCartera = [];
     this.oResumenTipoCliente = [];
+
+    this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+    this.oClientes={} as Clientes;
+    this.oContenido ={} as Contenido;
+    this.oCondiciones ={} as Condiciones;
+    this.oDatosGenerales ={} as DatosGenerales;
+    this.oContacto ={} as Contactos;
     
       
     }
@@ -137,7 +173,10 @@ export class EstadocuentaComponent implements OnInit {
 
     this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());  
     
-
+    this.Buscar.TipoUsuario = this.sTipo;
+    this.Buscar.Usuario = this.sCodigo;
+    this.oBuscar.ClienteHasta = 999999;
+    this.oBuscar.FilialHasta = 999;
     // this.oCliente = this.json.Contenido.Clientes;
 
     //this.oCliente = this.json.Contenido.Clientes;
@@ -337,6 +376,118 @@ consultaEstadoCuenta(){
   formatoMoneda(number){
     return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
+
+    //Modal clientes
+  openClientes(Clientes: any, cliente: boolean) {
+    console.log("Entra modal clientes");
+    this.bCargandoClientes = true;
+    this.bBanderaCliente = cliente;
+    var result;
+
+    try{
+      result = this.BuscaClientes()
+
+      if(result){
+        this.ModalActivo = this.modalService.open(Clientes, {
+          ariaLabelledBy: 'Clientes',
+          size: 'xl',
+          scrollable: true
+          
+        });
+    
+        this.ModalActivo.result.then(
+          (result) => {},
+          (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            console.log('reason ' + reason);
+            this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+          }
+        );
+      }
+
+      //this.bCargandoClientes = false;
+
+
+      console.log("respuesta"+result);
+
+    }catch(err){
+      
+    }
+  }
+
+  //Funcion para seleccionar cliente
+  obtenCliente(sCodigo: string, sFilial: string) {
+
+    if (this.bBanderaCliente) {//Si es true es cliente desde
+      this.oBuscar.ClienteDesde = Number(sCodigo);
+      this.oBuscar.FilialDesde = Number(sFilial);
+    }else{
+      this.oBuscar.ClienteHasta = Number(sCodigo);
+      this.oBuscar.FilialHasta = Number(sFilial);
+    }
+
+      
+
+      this.ModalActivo.dismiss('Cross click');    
+    }
+
+  BuscaClientes():boolean{
+    this.Buscar.Pagina=1;
+    this.Buscar.Usuario= -1;
+  
+    console.log("Entra");
+
+    this._servicioCClientes
+    .GetCliente(this.Buscar)
+    .subscribe(
+      (Response: Clientes) =>  {
+        
+
+        this.oClientes = Response;
+
+        console.log("Respuesta cliente"+JSON.stringify(this.oClientes));
+        this.bCargandoClientes =false;
+
+
+        if(this.oClientes.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron datos del cliente";
+   
+          return false;
+        }
+   
+        this.oContenido = this.oClientes.Contenido[0];
+        this.oCondiciones = this.oClientes.Contenido[0].Condiciones;
+        this.oDatosGenerales =this.oClientes.Contenido[0].DatosGenerales;
+        this.oContacto =this.oClientes.Contenido[0].Contactos;
+        return true;
+
+     
+      },
+      (error:Clientes) => {
+
+        this.oClientes = error;
+
+        console.log("error");
+        console.log(this.oCliente);
+        this.bCargandoClientes =false;
+        return false;
+     
+      }
+      
+    );
+    return true;
+  } 
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
   
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

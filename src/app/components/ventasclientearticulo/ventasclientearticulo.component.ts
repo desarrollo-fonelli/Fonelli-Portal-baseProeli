@@ -14,17 +14,49 @@ import {FiltrosVentaArticuloCliente} from 'src/app/models/ventasclientearticulo.
 import {VentasClienteArticulo, Articulo, Subcategorias, LineasProducto} from 'src/app/models/ventasclientearticulo';
 import {FiltrosOficina} from 'src/app/models/oficina.filtros';
 import {Oficina} from 'src/app/models/oficina';
+import {FiltrosClientes} from 'src/app/models/clientes.filtros';
+import { Clientes } from 'src/app/models/clientes';
+import { Contenido as ContenidoCli } from 'src/app/models/clientes';
+import { Condiciones } from 'src/app/models/clientes';
+import { DatosGenerales } from 'src/app/models/clientes';
+import { Contactos } from 'src/app/models/clientes';
+import { FiltrosLineas } from 'src/app/models/lineas.filtros';
+import { Lineas, Contenido as LineasCon } from 'src/app/models/lineas';
+import { FiltrosCategorias } from 'src/app/models/categorias.filtros';
+import { Categorias, Contenido as CategoriasCon } from 'src/app/models/categorias';
+
+
+
 
 //Servicios
 import { ServicioVentasClienteArticulo } from 'src/app/services/ventasclientearticulo.service';
 import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
 import { Contenido } from '../../models/ventasclientearticulo';
+import { ServicioClientes } from 'src/app/services/clientes.service';
+import { ServicioLineas } from 'src/app/services/lineas.service';
+import { ServicioCategorias } from 'src/app/services/categorias.service';
+
+
+
+
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalRef,
+} from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-ventasclientearticulo',
   templateUrl: './ventasclientearticulo.component.html',
   styleUrls: ['./ventasclientearticulo.component.css'],
-  providers:[ServicioVentasClienteArticulo,ServicioOficinas, DecimalPipe]
+  providers:[ServicioVentasClienteArticulo,
+    ServicioOficinas,
+    DecimalPipe,
+    ServicioClientes,
+    ServicioLineas,
+    ServicioCategorias
+  ]
 })
 export class VentasclientearticuloComponent implements OnInit {
 
@@ -41,6 +73,15 @@ export class VentasclientearticuloComponent implements OnInit {
   oVentasCliRes: VentasClienteArticulo; 
   public oBuscarOfi: FiltrosOficina;
   oOficinasRes: Oficina; 
+
+  public oBuscarLineas: FiltrosLineas;
+  oLineasRes: Lineas; 
+  oLineasCon: LineasCon[];
+  public oBuscarCategorias: FiltrosCategorias;
+  oCategoriasRes: Categorias; 
+  oCategoriasCon: CategoriasCon[];
+  oSubCatDesde: CategoriasCon[];
+  oSubCatHasta: CategoriasCon[];
  
 
   public bError: boolean=false;
@@ -52,15 +93,32 @@ export class VentasclientearticuloComponent implements OnInit {
 
   fechaHoy: String
   public bCargando: boolean = false;
+  public bCargandoClientes: boolean = false;
+
+  closeResult = '';
+  public ModalActivo?: NgbModalRef;
 
   mobileQuery: MediaQueryList;
+
+  public Buscar: FiltrosClientes;
+  public oCliente: Clientes; 
+  public oContenido : ContenidoCli;
+  public oCondiciones : Condiciones;
+  public oDatosGenerales : DatosGenerales;
+  public oContacto : Contactos;
+
+  public bBanderaCliente: boolean;
 
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
     private _router: Router,
     private _servicioVenClientes: ServicioVentasClienteArticulo,
-    private _servicioOficinas:ServicioOficinas) { 
+    private _servicioOficinas:ServicioOficinas,
+    private modalService: NgbModal,
+    private _servicioCClientes: ServicioClientes,
+    private _servicioLineas:ServicioLineas,
+    private _servicioCategorias:ServicioCategorias) { 
 
       this.mobileQuery = media.matchMedia('(max-width: 600px)');
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -83,6 +141,13 @@ export class VentasclientearticuloComponent implements OnInit {
       this.bFiltroOrden = false;
       this.bFiltrResumido = false;
 
+      this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+	    this.oCliente={} as Clientes;
+	    this.oContenido ={} as ContenidoCli;
+	    this.oCondiciones ={} as Condiciones;
+	    this.oDatosGenerales ={} as DatosGenerales;
+	    this.oContacto ={} as Contactos;
+
     }
 
     ngOnInit(): void {
@@ -93,82 +158,163 @@ export class VentasclientearticuloComponent implements OnInit {
         this._router.navigate(['/']);
       }
 
+      let date: Date = new Date
+      let mes;
+      
+      //Valida mes 
+      if (date.getMonth().toString.length == 1){
+        mes = '0'+(date.getMonth()+1);
+      }
+
+      let fechaDesde =  date.getFullYear() +'-01-01';          
+      let fechaHasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString.length == 1 ? '0'+(date.getDate()-1) : date.getDate());          
+      this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
+
       switch(this.sTipo) { 
         case 'C':{    
           //Tipo cliente
-          console.log('1');
-          //Realizamos llamada al servicio de oficinas
+          console.log('1');                           
 
-          this._servicioOficinas 
-          .Get(this.oBuscarOfi)
+           this.oBuscar.ClienteDesde = this.sCodigo; 
+           this.oBuscar.ClienteHasta = this.sCodigo;   
+           this.bCliente = true;    
+           break; 
+        } 
+        case 'A': { 
+           //Agente; 
+           this.bCliente = false;    
+           break; 
+        } 
+        default: { 
+           //Gerente;
+           this.bCliente = false;     
+           break; 
+        } 
+      } 
+
+
+      this.oBuscar.TipoArticulo = 'T';   
+      this.oBuscar.TipoOrigen = 'T';   
+      this.oBuscar.OrdenReporte = 'C';   
+      this.oBuscar.Presentacion = 'R';   
+      this.oBuscar.FechaDesde = fechaDesde;
+      this.oBuscar.FechaHasta = fechaHasta;
+      this.oBuscar.LineaHasta = 'ZZ';
+      this.oBuscar.ClaveHasta = 'ZZZZZZZZZZZ';
+      this.oBuscar.CategoriaDesde = 'A';
+      this.oBuscar.CategoriaHasta = 'Z';
+      this.oBuscar.SubcategoriaDesde = '0';
+      this.oBuscar.SubcategoriaHasta = '9';
+      this.oBuscar.ClienteHasta = 999999;
+      this.oBuscar.FilialHasta = 999;
+      
+
+      this.Buscar.TipoUsuario = this.sTipo;
+      this.Buscar.Usuario = this.sCodigo;
+
+      //Realizamos llamada al servicio de oficinas
+      this._servicioOficinas 
+      .Get(this.oBuscarOfi)
+      .subscribe(
+        (Response: Oficina) => {
+
+          this.oOficinasRes = Response;
+          //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
+          //console.log(this.pedido);
+
+          if(this.oOficinasRes.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron oficinas";
+            return;
+          }
+
+          this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
+          this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
+          this.sMensaje="";
+
+        },
+        (error:Oficina) => {
+
+          this.oOficinasRes = error;
+          this.sMensaje="No se encontraron oficinas";
+          console.log("error");
+          console.log(this.oOficinasRes);
+          return;
+        
+        }
+      );
+
+       //Realizamos llamada al servicio de lineas
+       this._servicioLineas 
+       .Get(this.oBuscarLineas)
+       .subscribe(
+         (Response: Lineas) => {
+ 
+           this.oLineasRes = Response;
+           //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
+           //console.log(this.pedido);
+ 
+           if(this.oLineasRes.Codigo != 0){
+             this.bError= true;
+             this.sMensaje="No se encontraron Lineas";
+             return;
+           }
+ 
+           this.oLineasCon = this.oLineasRes.Contenido
+           this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
+           this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
+           this.sMensaje="";
+ 
+         },
+         (error:Lineas) => {
+ 
+           this.oLineasRes = error;
+           this.sMensaje="No se encontraron oficinas";
+           console.log("error");
+           console.log(this.oLineasRes);
+           return;
+         
+         }
+       );
+
+       
+          //Realizamos llamada al servicio de categorias 
+          this._servicioCategorias 
+          .Get(this.oBuscarCategorias)
           .subscribe(
-            (Response: Oficina) => {
-
-              this.oOficinasRes = Response;
-              console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
+            (Response: Categorias) => {
+    
+              this.oCategoriasRes = Response;
+              //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
               //console.log(this.pedido);
-
-              if(this.oOficinasRes.Codigo != 0){
+    
+              if(this.oCategoriasRes.Codigo != 0){
                 this.bError= true;
-                this.sMensaje="No se encontraron oficinas";
+                this.sMensaje="No se encontraron Categorias";
                 return;
               }
-
-              this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
-              this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
+    
+              this.oCategoriasCon = this.oCategoriasRes.Contenido;
+              this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
+              this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
               this.sMensaje="";
 
-            },
-            (error:Oficina) => {
 
-              this.oOficinasRes = error;
-              this.sMensaje="No se encontraron oficinas";
+    
+            },
+            (error:Categorias) => {
+    
+              this.oCategoriasRes = error;
+              this.sMensaje="No se encontraron categorias";
               console.log("error");
-              console.log(this.oOficinasRes);
+              console.log(this.oCategoriasRes);
               return;
             
             }
           );
 
 
-          let date: Date = new Date
-          let mes;
-          
-          //Valida mes 
-          if (date.getMonth().toString.length == 1){
-            mes = '0'+(date.getMonth()+1);
-          }
 
-          let fechaDesde =  date.getFullYear() +'-01-01';          
-          let fechaHasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate()-1); 
-          this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());           
-
-           this.oBuscar.ClienteDesde = this.sCodigo; 
-           this.oBuscar.ClienteHasta = this.sCodigo;   
-           this.oBuscar.TipoArticulo = 'T';   
-           this.oBuscar.TipoOrigen = 'T';   
-           this.oBuscar.OrdenReporte = 'C';   
-           this.oBuscar.Presentacion = 'R';   
-           this.oBuscar.FechaDesde = fechaDesde;
-           this.oBuscar.FechaHasta = fechaHasta;
-           this.oBuscar.LineaHasta = 'ZZ';
-           this.oBuscar.ClaveHasta = 'ZZZZZZZZZZZ';
-           this.oBuscar.CategoriaDesde = 'A';
-           this.oBuscar.CategoriaHasta = 'Z';
-           this.oBuscar.SubcategoriaDesde = '0';
-           this.oBuscar.SubcategoriaHasta = '9';
-           this.bCliente = true;    
-           break; 
-        } 
-        case 'A': { 
-           //statements; 
-           break; 
-        } 
-        default: { 
-           //statements; 
-           break; 
-        } 
-      } 
 
       
     }
@@ -176,8 +322,10 @@ export class VentasclientearticuloComponent implements OnInit {
 
     //Funcion para consultar las ventas cliente articulo 
     consultaVentCArticulo(){
+      
     console.log(this.oBuscar);
     this.oBuscar.TipoUsuario = this.sTipo
+    this.oBuscar.Usuario = this.sCodigo
     this.bCargando = true;
 
      //Realizamos llamada al servicio de relacion de pedidos
@@ -604,6 +752,132 @@ downloadAsPDF() {
     return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
 
+
+    //Modal clientes
+    openClientes(Clientes: any, cliente: boolean) {
+      console.log("Entra modal clientes");
+      this.bCargandoClientes = true;
+      this.bBanderaCliente = cliente;
+      var result;
+  
+      try{
+        result = this.BuscaClientes()
+  
+        if(result){
+          this.ModalActivo = this.modalService.open(Clientes, {
+            ariaLabelledBy: 'Clientes',
+            size: 'xl',
+            scrollable: true
+            
+          });
+      
+          this.ModalActivo.result.then(
+            (result) => {},
+            (reason) => {
+              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              console.log('reason ' + reason);
+              this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+            }
+          );
+        }
+  
+        //this.bCargandoClientes = false;
+  
+  
+        console.log("respuesta"+result);
+  
+      }catch(err){
+        
+      }
+    }
+  
+
+  //Funcion para seleccionar cliente
+  obtenCliente(sCodigo: string, sFilial: string) {
+
+    if (this.bBanderaCliente) {//Si es true es cliente desde
+      this.oBuscar.ClienteDesde = Number(sCodigo);
+      this.oBuscar.FilialDesde = Number(sFilial);
+    }else{
+      this.oBuscar.ClienteHasta = Number(sCodigo);
+      this.oBuscar.FilialHasta = Number(sFilial);
+    }
+
+      
+
+      this.ModalActivo.dismiss('Cross click');    
+    }
+    BuscaClientes():boolean{
+      this.Buscar.Pagina=1;
+      this.Buscar.Usuario= -1;
+    
+      console.log("Entra");
+  
+      this._servicioCClientes
+      .GetCliente(this.Buscar)
+      .subscribe(
+        (Response: Clientes) =>  {
+          
+  
+          this.oCliente = Response;
+  
+          console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
+          this.bCargandoClientes =false;
+  
+  
+          if(this.oCliente.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron datos del cliente";
+     
+            return false;
+          }
+     
+          this.oContenido = this.oCliente.Contenido[0];
+          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+          this.oContacto =this.oCliente.Contenido[0].Contactos;
+          return true;
+  
+       
+        },
+        (error:Clientes) => {
+  
+          this.oCliente = error;
+  
+          console.log("error");
+          console.log(this.oCliente);
+          this.bCargandoClientes =false;
+          return false;
+       
+        }
+        
+      );
+      return true;
+    } 
+  
+  
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  cargaSubCat(sCategoria, bCategoria: boolean){
+    console.log(sCategoria); // Aquí iría tu lógica al momento de seleccionar algo  
+
+    if (bCategoria){//Es categoria desde
+      this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria);
+    }else{//Es categoria hasta
+      this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria);
+    }      
+    console.log("Resultado del segundo = "+JSON.stringify(bCategoria ? this.oSubCatDesde : this.oSubCatHasta));
+  }
+  
+  
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
     sessionStorage.clear();

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Configuracion } from "src/app/models/configuraciones";
 import { environment } from '../../environments/environment';
+import { Usuario } from '../models/usuario';
 
 
 
@@ -10,6 +11,7 @@ import { environment } from '../../environments/environment';
 export class ServicioDetallePedido{
     public API: string;
     public API_URL: string;
+    public sFiltros: string;
 
 constructor(
     public _http:HttpClient
@@ -17,6 +19,7 @@ constructor(
 
     this.API = Configuracion.API;
     this.API_URL = environment.API_URL;
+    this.sFiltros = '';
 
 }
 
@@ -37,13 +40,24 @@ Get(FiltrosDetPedido: any): Observable<any>{
                           '&PedidoFolio=' + FiltrosDetPedido.PedidoFolio
                           ,{headers:headers});*/
 
-    return this._http.get(this.API_URL+this.API + 'reportes/DetallePedido.php?'+
-                          'TipoUsuario='+ FiltrosDetPedido.TipoUsuario +
-                          '&ClienteCodigo='+ FiltrosDetPedido.ClienteCodigo +
-                          '&ClienteFilial='+ FiltrosDetPedido.ClienteFilial +
-                          '&PedidoLetra='+ FiltrosDetPedido.PedidoLetra +
-                          '&PedidoFolio=' + FiltrosDetPedido.PedidoFolio
-                          ,{headers:headers});
+                          this.sFiltros='';
+
+                          
+
+                          this.sFiltros += 'TipoUsuario=' + FiltrosDetPedido.TipoUsuario;
+                          this.sFiltros += '&ClienteCodigo=' + FiltrosDetPedido.ClienteCodigo;
+                          this.sFiltros += '&ClienteFilial=' + FiltrosDetPedido.ClienteFilial;
+                          this.sFiltros += '&PedidoLetra=' + FiltrosDetPedido.PedidoLetra;
+                          this.sFiltros += '&PedidoFolio=' + FiltrosDetPedido.PedidoFolio;
+
+                          if(FiltrosDetPedido.Usuario)
+                          {
+                              this.sFiltros += '&Usuario=' + FiltrosDetPedido.Usuario;
+                          }
+
+    return this._http.get(this.API_URL+this.API + 'reportes/DetallePedido.php?'+this.sFiltros,{headers:headers});
+
+
 }
 
 

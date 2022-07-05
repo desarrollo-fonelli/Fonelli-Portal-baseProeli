@@ -61,7 +61,7 @@ export class DatosclientesComponent implements OnInit {
                 this.bCliente = false;
                 this.stipo="";
             
-                this.Buscar = new FiltrosClientes(0, 0, 0, 0);
+                this.Buscar = new FiltrosClientes(0, 0, 0,'',0);
             
                 this.oCliente={} as Clientes;
             

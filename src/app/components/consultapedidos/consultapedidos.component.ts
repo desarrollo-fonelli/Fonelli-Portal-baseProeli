@@ -26,16 +26,24 @@ import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
 import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
 import { ConsultaPedido, Pedido } from 'src/app/models/consultapedidos';
 import { DetallePedido, PedidoArticulo } from 'src/app/models/detallepedido';
+import {FiltrosClientes} from 'src/app/models/clientes.filtros';
+import { Clientes } from 'src/app/models/clientes';
+import { Contenido } from 'src/app/models/clientes';
+import { Condiciones } from 'src/app/models/clientes';
+import { DatosGenerales } from 'src/app/models/clientes';
+import { Contactos } from 'src/app/models/clientes';
+
 
 //Servicios
 import { ServicioConsultaPedidos } from 'src/app/services/consultapedidos.service';
 import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
+import { ServicioClientes } from 'src/app/services/clientes.service';
 
 @Component({
   selector: 'app-consultapedidos',
   templateUrl: './consultapedidos.component.html',
   styleUrls: ['./consultapedidos.component.css'],
-  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe],
+  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes],
 })
 export class ConsultapedidosComponent implements OnInit {
   @ViewChild('pdfTable') pdfTable: ElementRef;
@@ -68,6 +76,7 @@ export class ConsultapedidosComponent implements OnInit {
   pedidoDet: PedidoArticulo[];
 
   public bCargando: boolean = false;
+  public bCargandoClientes: boolean = false;
 
   page = 1;
   pageSize = 4;
@@ -79,6 +88,14 @@ export class ConsultapedidosComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
 
+  public Buscar: FiltrosClientes;
+  public oCliente: Clientes; 
+  public oContenido : Contenido;
+  public oCondiciones : Condiciones;
+  public oDatosGenerales : DatosGenerales;
+  public oContacto : Contactos;
+
+  
   private _mobileQueryListener: () => void;
 
   constructor(
@@ -88,7 +105,9 @@ export class ConsultapedidosComponent implements OnInit {
     private _router: Router,
     private _servicioCPedidos: ServicioConsultaPedidos,
     private _servicioCPedidosDet: ServicioDetallePedido,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private _servicioCClientes: ServicioClientes
+    
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -112,7 +131,14 @@ export class ConsultapedidosComponent implements OnInit {
     this.pedidoDet = [];
 
     this.refreshCountries();
-  }
+
+    this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+    this.oCliente={} as Clientes;
+    this.oContenido ={} as Contenido;
+    this.oCondiciones ={} as Condiciones;
+    this.oDatosGenerales ={} as DatosGenerales;
+    this.oContacto ={} as Contactos;
+}
 
   ngOnInit(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
@@ -123,14 +149,33 @@ export class ConsultapedidosComponent implements OnInit {
       this._router.navigate(['/']);
     }
 
-    if (this.sTipo == 'C') {
-      this.bCliente = true;
-      this.oBuscar.ClienteCodigo = this.sCodigo;
-      this.oBuscar.ClienteFilial = this.sFilial;
-      this.oBuscar.Status = 'A';
-    } else {
-      this.bCliente = false;
-    }
+    switch(this.sTipo) { 
+      case 'C':{    
+        //Tipo cliente                  
+        this.bCliente = true;
+        this.oBuscar.ClienteCodigo = this.sCodigo;
+        this.oBuscar.ClienteFilial = this.sFilial;
+        this.oBuscar.Status = 'A';
+         break; 
+      } 
+      case 'A': { 
+         //Agente; 
+         this.oBuscar.Usuario = this.sCodigo;
+         this.bCliente = false;    
+         this.oBuscar.Status = 'A';         
+         break; 
+      } 
+      default: { 
+         //Gerente; 
+         this.oBuscar.Usuario = this.sCodigo;
+         this.bCliente = false; 
+         this.oBuscar.Status = 'A';   
+         break; 
+      } 
+   } 
+
+   this.Buscar.TipoUsuario = this.sTipo;
+   this.Buscar.Usuario = this.sCodigo;
 
     let date: Date = new Date();
     let mes;
@@ -140,7 +185,9 @@ export class ConsultapedidosComponent implements OnInit {
       mes = '0' + (date.getMonth() + 1);
     }
 
-    this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();
+    this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();    
+
+
   }
 
   //Funcion para consultar los pedidos
@@ -199,6 +246,7 @@ export class ConsultapedidosComponent implements OnInit {
     this.oBuscaDetalle.ClienteFilial = this.oBuscar.ClienteFilial;
     this.oBuscaDetalle.PedidoFolio = Number(folio);
     this.oBuscaDetalle.PedidoLetra = 'C';
+    this.oBuscaDetalle.Usuario = this.oBuscar.ClienteCodigo;
 
     console.log(this.oBuscaDetalle);
 
@@ -373,15 +421,100 @@ export class ConsultapedidosComponent implements OnInit {
     pdfMake.createPdf(documentDefinition).open();
   }
 
-  /*generatePDF(){
-    const pdf = new PdfMakeWrapper();
 
-    pdf.add(
-       new Txt('Hola mundo').bold().Italics().end
+  //Modal clientes
+  openClientes(Clientes: any) {
+    console.log("Entra modal clientes");
+    this.bCargandoClientes = true;
+    var result;
+
+    try{
+      result = this.BuscaClientes()
+
+      if(result){
+        this.ModalActivo = this.modalService.open(Clientes, {
+          ariaLabelledBy: 'Clientes',
+          size: 'xl',
+          scrollable: true
+          
+        });
+    
+        this.ModalActivo.result.then(
+          (result) => {},
+          (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            console.log('reason ' + reason);
+            this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+          }
+        );
+      }
+
+      //this.bCargandoClientes = false;
+
+
+      console.log("respuesta"+result);
+
+    }catch(err){
+      
+    }
+  }
+
+  //Funcion para seleccionar cliente
+  obtenCliente(sCodigo: string, sFilial: string) {
+
+      this.oBuscar.ClienteCodigo = Number(sCodigo);
+      this.oBuscar.ClienteFilial = Number(sFilial);
+
+      this.ModalActivo.dismiss('Cross click');    
+    }
+
+  BuscaClientes():boolean{
+    this.Buscar.Pagina=1;
+    this.Buscar.Usuario= -1;
+  
+    console.log("Entra");
+
+    this._servicioCClientes
+    .GetCliente(this.Buscar)
+    .subscribe(
+      (Response: Clientes) =>  {
+        
+
+        this.oCliente = Response;
+
+        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
+        this.bCargandoClientes =false;
+
+
+        if(this.oCliente.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron datos del cliente";
+   
+          return false;
+        }
+   
+        this.oContenido = this.oCliente.Contenido[0];
+        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+        this.oContacto =this.oCliente.Contenido[0].Contactos;
+        return true;
+
+     
+      },
+      (error:Clientes) => {
+
+        this.oCliente = error;
+
+        console.log("error");
+        console.log(this.oCliente);
+        this.bCargandoClientes =false;
+        return false;
+     
+      }
+      
     );
-
-    pdf.create().open
-  }*/
+    return true;
+  }  
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

@@ -10,16 +10,28 @@ import htmlToPdfmake from 'html-to-pdfmake';
 //Modelos
 import {FiltrosConsultaPrecios} from 'src/app/models/consultaprecios.filtros';
 import {ConsultaPrecios, Componente} from 'src/app/models/consultaprecios';
+import {FiltrosClientes} from 'src/app/models/clientes.filtros';
+import { Clientes } from 'src/app/models/clientes';
+import { Contenido } from 'src/app/models/clientes';
+import { Condiciones } from 'src/app/models/clientes';
+import { DatosGenerales } from 'src/app/models/clientes';
+import { Contactos } from 'src/app/models/clientes';
 
 //Servicios
 import { ServicioConsultaPrecios } from 'src/app/services/consultaprecios.service';
+import { ServicioClientes } from 'src/app/services/clientes.service';
 
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalRef,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-consultaprecios',
   templateUrl: './consultaprecios.component.html',
   styleUrls: ['./consultaprecios.component.css'],
-  providers:[ServicioConsultaPrecios]
+  providers:[ServicioConsultaPrecios,ServicioClientes]
 })
 export class ConsultapreciosComponent implements OnInit {
 
@@ -43,8 +55,12 @@ export class ConsultapreciosComponent implements OnInit {
    public sMensaje: string="";
    bBandera = false;
    fechaHoy: String;
+   
+  public bCargando: boolean = false;
+  public bCargandoClientes: boolean = false;
 
-   public bCargando: boolean = false;
+  closeResult = '';
+  public ModalActivo?: NgbModalRef;
 
 
   mobileQuery: MediaQueryList;
@@ -61,11 +77,20 @@ export class ConsultapreciosComponent implements OnInit {
        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
   );
 
+  public Buscar: FiltrosClientes;
+  public oCliente: Clientes; 
+  public oContenido : Contenido;
+  public oCondiciones : Condiciones;
+  public oDatosGenerales : DatosGenerales;
+  public oContacto : Contactos;
+
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _route: ActivatedRoute,
     private _router: Router,
-    private _servicioCPrecios: ServicioConsultaPrecios,) {
+    private _servicioCPrecios: ServicioConsultaPrecios,
+    private modalService: NgbModal,
+    private _servicioCClientes: ServicioClientes) {
 
     this.sCodigo = Number(sessionStorage.getItem('codigo'));
     this.sTipo = sessionStorage.getItem('tipo');
@@ -84,6 +109,13 @@ export class ConsultapreciosComponent implements OnInit {
     this.mobileQuery.addListener(this._mobileQueryListener);
 
    
+    this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+    this.oCliente={} as Clientes;
+    this.oContenido ={} as Contenido;
+    this.oCondiciones ={} as Condiciones;
+    this.oDatosGenerales ={} as DatosGenerales;
+    this.oContacto ={} as Contactos;
+    
   }
 
   ngOnInit(): void {
@@ -99,23 +131,29 @@ export class ConsultapreciosComponent implements OnInit {
 
     switch(this.sTipo) { 
       case 'C':{    
-        //Tipo cliente       
-
-         this.oBuscar.ClienteCodigo = this.sCodigo; 
-         this.oBuscar.ClienteFilial = this.sFilial;   
+        //Tipo cliente                  
+        this.oBuscar.ClienteCodigo = this.sCodigo; 
+        this.oBuscar.ClienteFilial = this.sFilial; 
          this.oBuscar.ParidadTipo = 'N';
          this.bCliente = true;    
          break; 
       } 
       case 'A': { 
          //statements; 
+         this.bCliente = false;    
          break; 
       } 
       default: { 
          //statements; 
+         this.bCliente = false;    
          break; 
       } 
    } 
+
+   this.Buscar.TipoUsuario = this.sTipo;
+   this.Buscar.Usuario = this.sCodigo;
+
+  
 
    let date: Date = new Date();
     let mes;
@@ -277,6 +315,114 @@ downloadAsPDF() {
 formatoMoneda(number){
   return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
 };
+
+ //Modal clientes
+ openClientes(Clientes: any) {
+  console.log("Entra modal clientes");
+  this.bCargandoClientes = true;
+  var result;
+
+  console.log("1");
+  try{
+    console.log("2");
+    result = this.BuscaClientes()
+
+
+    if(result){
+      this.ModalActivo = this.modalService.open(Clientes, {
+        ariaLabelledBy: 'Clientes',
+        size: 'xl',
+        scrollable: true
+        
+      });
+  
+      this.ModalActivo.result.then(
+        (result) => {},
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          console.log('reason ' + reason);
+          this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+        }
+      );
+    }
+
+
+    console.log("respuesta"+result);
+
+  }catch(err){
+    
+  }
+}
+
+private getDismissReason(reason: any): string {
+  if (reason === ModalDismissReasons.ESC) {
+    return 'by pressing ESC';
+  } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+    return 'by clicking on a backdrop';
+  } else {
+    return `with: ${reason}`;
+  }
+}
+
+    //Funcion para seleccionar cliente
+    obtenCliente(sCodigo: string, sFilial: string) {
+
+      this.oBuscar.ClienteCodigo = Number(sCodigo);
+      this.oBuscar.ClienteFilial = Number(sFilial);
+
+      this.ModalActivo.dismiss('Cross click');    
+    }
+
+
+    BuscaClientes():boolean{
+      console.log("antes");
+      this.Buscar.Pagina=1;
+      this.Buscar.Usuario= -1;
+    
+      console.log("Entra");
+  
+      this._servicioCClientes
+      .GetCliente(this.Buscar)
+      .subscribe(
+        (Response: Clientes) =>  {
+          
+  
+          this.oCliente = Response;  
+          console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
+          this.bCargandoClientes =false;
+  
+  
+          if(this.oCliente.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron datos del cliente";
+     
+            return false;
+          }
+     
+          this.oContenido = this.oCliente.Contenido[0];
+          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+          this.oContacto =this.oCliente.Contenido[0].Contactos;
+          return true;
+  
+       
+        },
+        (error:Clientes) => {
+  
+          this.oCliente = error;
+  
+          console.log("error");
+          console.log(this.oCliente);
+          this.bCargandoClientes =false;
+          return false;
+       
+        }
+        
+      );
+      return true;
+    }  
+
+  
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

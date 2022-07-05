@@ -14,6 +14,7 @@ import {
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
 
+
 //Modelos
 import {FiltrosRelacionPedidos} from 'src/app/models/relacionpedidos.filtros';
 import {RelacionPedidos, Pedido, TipoPedido, Contenido as ContenidoGen} from 'src/app/models/relacionpedidos';
@@ -21,18 +22,25 @@ import {FiltrosOficina} from 'src/app/models/oficina.filtros';
 import {Oficina} from 'src/app/models/oficina';
 import {FiltrosDetallePedidos} from 'src/app/models/detallepedido.filtros';
 import {DetallePedido, PedidoArticulo} from 'src/app/models/detallepedido';
+import {FiltrosClientes} from 'src/app/models/clientes.filtros';
+import { Clientes } from 'src/app/models/clientes';
+import { Contenido } from 'src/app/models/clientes';
+import { Condiciones } from 'src/app/models/clientes';
+import { DatosGenerales } from 'src/app/models/clientes';
+import { Contactos } from 'src/app/models/clientes';
 
 //Servicios
 import { ServicioRelacionPedido } from 'src/app/services/relacionpedidos.service';
 import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
-import { Contenido } from '../../models/oficina';
 import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
+import { ServicioClientes } from 'src/app/services/clientes.service';
+
 
 @Component({
   selector: 'app-relacionpedidos',
   templateUrl: './relacionpedidos.component.html',
   styleUrls: ['./relacionpedidos.component.css'],
-  providers:[ServicioRelacionPedido,ServicioOficinas,ServicioDetallePedido, DecimalPipe]
+  providers:[ServicioRelacionPedido,ServicioOficinas,ServicioDetallePedido, DecimalPipe, ServicioClientes]
 })
 export class RelacionpedidosComponent implements OnInit {
 
@@ -62,13 +70,25 @@ export class RelacionpedidosComponent implements OnInit {
 
   fechaHoy: String
   public bCargando: boolean = false;
+  public bCargandoClientes: boolean = false;
 
   closeResult = '';
   public ModalActivo?: NgbModalRef;
 
   mobileQuery: MediaQueryList;
 
+  public Buscar: FiltrosClientes;
+  public oCliente: Clientes; 
+  public oContenido : Contenido;
+  public oCondiciones : Condiciones;
+  public oDatosGenerales : DatosGenerales;
+  public oContacto : Contactos;
+
+  public bBanderaCliente: boolean;
+
    private _mobileQueryListener: () => void;
+
+   
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
@@ -78,7 +98,8 @@ export class RelacionpedidosComponent implements OnInit {
     private _servicioRelacionPed: ServicioRelacionPedido,
     private _servicioOficinas:ServicioOficinas,
     private _servicioCPedidosDet: ServicioDetallePedido,
-    private modalService: NgbModal) { 
+    private modalService: NgbModal,
+    private _servicioCClientes: ServicioClientes) { 
 
       this.sCodigo = Number(sessionStorage.getItem('codigo'));
       this.sTipo = sessionStorage.getItem('tipo');
@@ -104,7 +125,15 @@ export class RelacionpedidosComponent implements OnInit {
     this.bCliente = false;
     this.bBandera = false;
 
-    }
+    this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+    this.oCliente={} as Clientes;
+    this.oContenido ={} as Contenido;
+    this.oCondiciones ={} as Condiciones;
+    this.oDatosGenerales ={} as DatosGenerales;
+    this.oContacto ={} as Contactos;
+}
+
+    
 
     ngOnInit(): void {  
   
@@ -114,76 +143,93 @@ export class RelacionpedidosComponent implements OnInit {
         this._router.navigate(['/']);
       }
 
+      let date: Date = new Date
+      let mes;
+      let dia;
+      
+      //Valida mes 
+      if (date.getMonth().toString.length == 1){
+        mes = '0'+(date.getMonth()+1);
+      }
+       //Valida dia 
+       if (date.getDate().toString.length == 1){
+        dia = '0'+(date.getDate());
+      }
+
+      let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+dia;          
+      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString.length == 1 ? '0'+(date.getDate()-1) : date.getDate());          
+      this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());                  
+
+      console.log("--"+fechaActual);
+      console.log("--"+fechaAyer);
+
       switch(this.sTipo) { 
         case 'C':{    
-          //Tipo cliente
-
-          //Realizamos llamada al servicio de oficinas
-          this._servicioOficinas 
-          .Get(this.oBuscarOfi)
-          .subscribe(
-            (Response: Oficina) => {
-
-              this.oOficinasRes = Response;
-              //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );              
-
-              if(this.oOficinasRes.Codigo != 0){
-                this.bError= true;
-                this.sMensaje="No se encontraron oficinas";
-                return;
-              }
-
-              this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
-              this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
-              this.sMensaje="";
-
-            },
-            (error:Oficina) => {
-
-              this.oOficinasRes = error;
-
-              console.log("error");
-              console.log(this.oOficinasRes);
-            
-            }
-          );
-
-          let date: Date = new Date
-          let mes;
-          
-          //Valida mes 
-          if (date.getMonth().toString.length == 1){
-            mes = '0'+(date.getMonth()+1);
-          }
-
-          let fechaActual =  (date.getFullYear()+1) +'-'+ mes +'-'+date.getDate();          
-          let fechaAyer =  date.getFullYear()+'-'+ mes +'-'+(date.getDate()-1); 
-          this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());                  
- 
+          //Tipo cliente               
 
            this.oBuscar.ClienteDesde = this.sCodigo; 
            this.oBuscar.ClienteHasta = this.sCodigo;   
-           this.oBuscar.Status = 'A';
-           this.oBuscar.TipoPedido = 'T';
-           this.oBuscar.TipoOrigen = 'T';
-           this.oBuscar.SoloAtrasados = 'T';
-           this.oBuscar.FechaPedidoDesde = '2000-01-01';
-           this.oBuscar.FechaPedidoHasta = fechaAyer;
-           this.oBuscar.FechaCancelacDesde = '2000-01-01';
-           this.oBuscar.FechaCancelacHasta = fechaActual;
+         
            this.bCliente = true;    
 
            break; 
         } 
         case 'A': { 
-           //statements; 
+           //Agente; 
+           this.bCliente = false;  
            break; 
         } 
         default: { 
-           //statements; 
+           //Gerente; 
+           this.bCliente = false;  
            break; 
         } 
      } 
+
+    this.oBuscar.Status = 'A';
+    this.oBuscar.TipoPedido = 'T';
+    this.oBuscar.TipoOrigen = 'T';
+    this.oBuscar.SoloAtrasados = 'T';
+    this.oBuscar.FechaPedidoDesde = '2000-01-01';
+    this.oBuscar.FechaPedidoHasta = fechaAyer;
+    this.oBuscar.FechaCancelacDesde = '2000-01-01';
+    this.oBuscar.FechaCancelacHasta = fechaActual;
+    this.oBuscar.ClienteHasta = 999999;
+    this.oBuscar.FilialHasta = 999;
+
+    this.Buscar.TipoUsuario = this.sTipo;
+    this.Buscar.Usuario = this.sCodigo;
+
+     //Llenamos oficinas
+     this._servicioOficinas 
+     .Get(this.oBuscarOfi)
+     .subscribe(
+       (Response: Oficina) => {
+
+         this.oOficinasRes = Response;
+         //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );              
+
+         if(this.oOficinasRes.Codigo != 0){
+           this.bError= true;
+           this.sMensaje="No se encontraron oficinas";
+           return;
+         }
+
+
+
+         this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
+         this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
+        this.sMensaje="";
+
+       },
+       (error:Oficina) => {
+
+         this.oOficinasRes = error;
+         console.log("error");
+         console.log(this.oOficinasRes);
+       
+       }
+     );   
 
     }
 
@@ -706,11 +752,12 @@ consultaPedidoDetalle(folio: String){
   console.log("consultaPedido detalle : "+folio);
 
   //Inicializamos datos de encabezado requeridos para consultar detalle
-  this.oBuscaDetalle.TipoUsuario= this.oBuscar.TipoUsuario
-  this.oBuscaDetalle.ClienteCodigo= this.sCodigo
-  this.oBuscaDetalle.ClienteFilial= this.sFilial
-  this.oBuscaDetalle.PedidoFolio= Number(folio) 
-  this.oBuscaDetalle.PedidoLetra= 'C'
+  this.oBuscaDetalle.TipoUsuario= this.oBuscar.TipoUsuario;
+  this.oBuscaDetalle.ClienteCodigo= this.sCodigo;
+  this.oBuscaDetalle.ClienteFilial= this.sFilial;
+  this.oBuscaDetalle.PedidoFolio= Number(folio); 
+  this.oBuscaDetalle.PedidoLetra= 'C';
+  this.oBuscaDetalle.Usuario= this.sCodigo;
 
   console.log(this.oBuscaDetalle);
 
@@ -896,6 +943,108 @@ downloadAsPDF() {
 formatoMoneda(number){
   return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
 };
+
+  //Modal clientes
+openClientes(Clientes: any, cliente: boolean) {
+    console.log("Entra modal clientes");
+    this.bCargandoClientes = true;
+    this.bBanderaCliente = cliente;
+    var result;
+
+    try{
+      result = this.BuscaClientes()
+
+      if(result){
+        this.ModalActivo = this.modalService.open(Clientes, {
+          ariaLabelledBy: 'Clientes',
+          size: 'xl',
+          scrollable: true
+          
+        });
+    
+        this.ModalActivo.result.then(
+          (result) => {},
+          (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            console.log('reason ' + reason);
+            this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+          }
+        );
+      }
+
+      //this.bCargandoClientes = false;
+
+
+      console.log("respuesta"+result);
+
+    }catch(err){
+      
+    }
+  }
+
+  //Funcion para seleccionar cliente
+  obtenCliente(sCodigo: string, sFilial: string) {
+
+    if (this.bBanderaCliente) {//Si es true es cliente desde
+      this.oBuscar.ClienteDesde = Number(sCodigo);
+      this.oBuscar.FilialDesde = Number(sFilial);
+    }else{
+      this.oBuscar.ClienteHasta = Number(sCodigo);
+      this.oBuscar.FilialHasta = Number(sFilial);
+    }
+
+      
+
+      this.ModalActivo.dismiss('Cross click');    
+    }
+
+  BuscaClientes():boolean{
+    this.Buscar.Pagina=1;
+    this.Buscar.Usuario= -1;
+  
+    console.log("Entra");
+
+    this._servicioCClientes
+    .GetCliente(this.Buscar)
+    .subscribe(
+      (Response: Clientes) =>  {
+        
+
+        this.oCliente = Response;
+
+        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
+        this.bCargandoClientes =false;
+
+
+        if(this.oCliente.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron datos del cliente";
+   
+          return false;
+        }
+   
+        this.oContenido = this.oCliente.Contenido[0];
+        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+        this.oContacto =this.oCliente.Contenido[0].Contactos;
+        return true;
+
+     
+      },
+      (error:Clientes) => {
+
+        this.oCliente = error;
+
+        console.log("error");
+        console.log(this.oCliente);
+        this.bCargandoClientes =false;
+        return false;
+     
+      }
+      
+    );
+    return true;
+  } 
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

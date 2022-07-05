@@ -40,7 +40,7 @@ const appRoutes: Routes = [
     },
   
     {
-      path: 'ejecutivos',
+      path: 'asesores',
       component: SidenavComponent,
       children: [
         { path: 'inicio', component: EjecutivosComponent },

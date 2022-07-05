@@ -3,7 +3,7 @@ export class FiltrosEstadoCuenta {
     public TipoUsuario: String,
     public Usuario: number,
     public ClienteDesde: number | null,
-    public FiliadDesde: number,
+    public FilialDesde: number,
     public ClienteHasta: number | null,
     public FilialHasta: number,
     public CarteraDesde: string,

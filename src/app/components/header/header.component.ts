@@ -268,7 +268,7 @@ export class HeaderComponent implements OnInit {
 
               this.ModalActivo?.close();
               
-              this._router.navigate(['/distribuidores/inicio/']);
+              this._router.navigate(['/asesores/inicio/']);
             }
 
         this.bCargandoEmpleados = false;
