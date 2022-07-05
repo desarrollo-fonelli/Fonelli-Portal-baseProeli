@@ -13,32 +13,38 @@
 
                 <div class="form-group col-md-3">                    
                     <label class="CamposFonelli">Desde agente</label> 
-                    <input 
-                      type="text" 
-                      id="idDesAge"
-                      class="form-control"
+                    <select 
+                      class="form-select" 
                       name="idDesAge"
                       #nombre="ngModel"
-                      [(ngModel)]="oBuscar.AgenteDesde"
-                      disabled="{{ bCliente }}"
-                      required>
+                      [(ngModel)]="oBuscar.AgenteDesde"                            
+                      required
+                      >
+                      <ng-container *ngFor='let dato of oAgentesCon;' >
+                        <option value="{{dato.AgenteCodigo}}">
+                          {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                        </option>
+                      </ng-container>
+                    </select>              
                       
                   </div>
                 
 
                 <div class="form-group col-md-3"> 
                   <label class="CamposFonelli">Hasta agente</label>
- 
-                    <input
-                    type="text" 
-                    id="idFilPed"
-                    class="form-control"
+                  <select 
+                    class="form-select" 
                     name="idHasAge"
                     #nombre="ngModel"
-                    [(ngModel)]="oBuscar.AgenteHasta"
-                    disabled="{{ bCliente }}"
+                    [(ngModel)]="oBuscar.AgenteHasta"                            
                     required
-                  >
+                    >
+                  <ng-container *ngFor='let dato of oAgentesCon;' >
+                    <option value="{{dato.AgenteCodigo}}">
+                      {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                    </option>
+                  </ng-container>
+                </select>                  
                 </div>
 
                 <!-- <div class="form-group col-md-3" [hidden]="bCliente"> 

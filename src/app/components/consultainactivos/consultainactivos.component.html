@@ -5,7 +5,7 @@
  
          <div class="card">
            <div class="card-body">
-             <h2 class="card-title" >Clientes Inactivos con saldo al </h2>   
+             <h2 class="card-title" >Clientes Inactivos con saldo al {{fechaFron}}</h2>   
              <!-- General Form Elements -->
             <form> 
 
@@ -13,32 +13,38 @@
 
                 <div class="form-group col-md-3">                    
                     <label class="CamposFonelli">Desde agente</label> 
-                    <input 
-                      type="text" 
-                      id="idNumpPed"
-                      class="form-control"
-                      name="idNumpPed"
+                    <select 
+                      class="form-select" 
+                      name="idAgeDesde"
                       #nombre="ngModel"
-                      [(ngModel)]="oBuscar.ClienteCodigo"
-                      disabled="{{ bCliente }}"
-                      required>
+                      [(ngModel)]="oBuscar.AgenteDesde"                            
+                      required
+                      >
+                      <ng-container *ngFor='let dato of oAgentesCon;' >
+                        <option value="{{dato.AgenteCodigo}}">
+                          {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                        </option>
+                      </ng-container>
+                    </select>
                       
                   </div>
                 
 
                 <div class="form-group col-md-3"> 
                   <label class="CamposFonelli">Hasta agente</label>
- 
-                    <input
-                    type="text" 
-                    id="idFilPed"
-                    class="form-control"
-                    name="idFilPed"
+                  <select 
+                    class="form-select" 
+                    name="idHasAge"
                     #nombre="ngModel"
-                    [(ngModel)]="oBuscar.ClienteFilial"
-                    disabled="{{ bCliente }}"
+                    [(ngModel)]="oBuscar.AgenteHasta"                            
                     required
-                  >
+                    >
+                  <ng-container *ngFor='let dato of oAgentesCon;' >
+                    <option value="{{dato.AgenteCodigo}}">
+                      {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                    </option>
+                  </ng-container>
+              </select> 
                 </div>
 
                 <div class="form-group col-md-3" [hidden]="bCliente"> 
@@ -156,7 +162,7 @@
             <div class="row">
 
               <div >
-                <label>Numero de cliente:   <strong>{{oBuscar.ClienteCodigo}}  -  {{sNombre}}</strong></label>
+                <label>Numero de cliente:   <strong>{{oBuscar.AgenteDesde}}  -  {{sNombre}}</strong></label>
                 <br>
                 <label> Pedido: <strong>{{oBuscaDetalle.PedidoFolio}}</strong> </label>
               </div>
@@ -303,64 +309,4 @@
     </div>
 
 </ng-template> 
-
-
-  <!--Modal catalogo clientes-->
-  <ng-template #Clientes let-modal >
-    <div class="modal-header" >        
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>      
-
-    <div class="modal-body-tables" style="overflow-y: scroll;" >
-
-        <div class="container">
-            <div class="row">
-
-                  <div class="col-12" >                     
-                    <table  class="table table-striped">
-                      <thead>
-                      <tr class="EncTabla">
-                        <th>#</th>
-                        <th scope="col" ></th>
-                        <th scope="col" >NUM</th>                         
-                        <th scope="col" >FIL</th>
-                        <th scope="col" >RAZÓN SOCIAL</th>
-                        <th scope="col" >SUCURSAL/NOMBRE</th>
-                        <th scope="col" >S</th>
-                        <th scope="col" >CONTACTO1</th>
-                        <th scope="col" >CONTACTO2</th>                          
-                      </tr>
-                      </thead>
-                      <tbody>
-                        <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
-                        <tr *ngFor="let emp of oCliente.Contenido; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
-                          <th scope="row">{{ i + 1 }}</th>
-                          <td class="FilasFonelli" >                              
-                            <input type="checkbox" class="tableid" name="tableid" id="tableid" class="click">
-                          </td> 
-                          <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
-                          <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
-                          <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
-                        </tr>
-                      </tbody>
-                    </table>            
-                    
-                  </div>  
-            </div>
-            
-        </div>
-    </div>
-
-
-    <div class="modal-footer">
-      <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
-      
-    </div>
-
-</ng-template> 
-
 

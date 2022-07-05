@@ -103,7 +103,7 @@
                         >
                       </div>
                       <div class="form-group col-md-1" [hidden]="bCliente">
-                        <label class="CamposFonelli" style="color: white;">------</label>
+                        <label class="CamposFonelli" style="color: white;">----------</label>
                         <button  type="button" class="btnFonelli btn" (click)="openClientes(Clientes,true)" style="background-color:#24a4cc;"><i class="bi bi-search"></i></button>
                       </div>
 
@@ -169,15 +169,17 @@
                         
                         <div class="form-group col-md-1">
                           <label class="CamposFonelli">TCte</label>
-                          <select 
-                            class="form-select" 
-                            name="idLinDes"
+                          <input 
+                            type="text" 
+                            id="idFecDes"
+                            class="form-control"
+                            name="idFecDes"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.TipoOrigen"
                             required
                           >
                             <!-- <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasRes.Contenido">{{dato.LineaCodigo}} - {{dato.LineaDescripc}}</option>                           -->
-                          </select>
+                         
                         </div>
                      
                         
@@ -277,15 +279,15 @@
                         </div>
                         
                         <div class="form-group col-md-1">
-                          <select 
-                            class="form-select" 
-                            name="idLinDes"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.TipoOrigen"
-                            required
-                          >
-                            <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasCont">{{dato.LineaCodigo}} - {{dato.LineaDescripc}}</option>                          
-                          </select>
+                          <input 
+                          type="text" 
+                          id="idFecDes"
+                          class="form-control"
+                          name="idFecDes"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.TipoOrigen"
+                          required
+                        >
                         </div>
 
                   </div>

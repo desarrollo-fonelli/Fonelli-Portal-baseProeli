@@ -16,8 +16,13 @@ import { Contenido } from 'src/app/models/clientes';
 import { Condiciones } from 'src/app/models/clientes';
 import { DatosGenerales } from 'src/app/models/clientes';
 import { Contactos } from 'src/app/models/clientes';
+import { FiltrosLineas } from 'src/app/models/lineas.filtros';
+import { Lineas, Contenido as LineasProCon } from 'src/app/models/lineas';
 
 //Servicios
+import { ServicioLineas } from 'src/app/services/lineas.service';
+
+
 import { ServicioConsultaPrecios } from 'src/app/services/consultaprecios.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 
@@ -31,7 +36,7 @@ import {
   selector: 'app-consultaprecios',
   templateUrl: './consultaprecios.component.html',
   styleUrls: ['./consultaprecios.component.css'],
-  providers:[ServicioConsultaPrecios,ServicioClientes]
+  providers:[ServicioConsultaPrecios,ServicioClientes,ServicioLineas]
 })
 export class ConsultapreciosComponent implements OnInit {
 
@@ -85,12 +90,17 @@ export class ConsultapreciosComponent implements OnInit {
   public oContacto : Contactos;
 
   private _mobileQueryListener: () => void;
+  
+  public oBuscarLineasPro: FiltrosLineas;
+  public oLineas: Lineas; 
+  public oLineasProCon: LineasProCon[];
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _route: ActivatedRoute,
     private _router: Router,
     private _servicioCPrecios: ServicioConsultaPrecios,
     private modalService: NgbModal,
-    private _servicioCClientes: ServicioClientes) {
+    private _servicioCClientes: ServicioClientes,
+    private _servicioLineas: ServicioLineas) {
 
     this.sCodigo = Number(sessionStorage.getItem('codigo'));
     this.sTipo = sessionStorage.getItem('tipo');
@@ -165,6 +175,41 @@ export class ConsultapreciosComponent implements OnInit {
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();
   
+  //Consulta lineas de producto
+    this._servicioLineas
+      .Get(this.oBuscarLineasPro)
+      .subscribe(
+        (Response: Lineas) =>  {
+          
+  
+          this.oLineas = Response;  
+          console.log("Respuesta lineas: "+JSON.stringify(this.oLineas));
+
+  
+  
+          if(this.oLineas.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron lineas de producto";     
+            return false;
+          }
+     
+          this.oLineasProCon = this.oLineas.Contenido;
+          this.oBuscar.ArticuloLinea = this.oLineas.Contenido[0].LineaCodigo; 
+          
+          return true;
+  
+       
+        },
+        (error:Lineas) => {
+  
+          this.oLineas = error;  
+          console.log("error");
+          console.log(this.oLineas);
+          return false;
+       
+        }
+        
+      );
    
 
   }
@@ -322,9 +367,9 @@ formatoMoneda(number){
   this.bCargandoClientes = true;
   var result;
 
-  console.log("1");
+
   try{
-    console.log("2");
+
     result = this.BuscaClientes()
 
 
@@ -375,12 +420,13 @@ private getDismissReason(reason: any): string {
 
 
     BuscaClientes():boolean{
-      console.log("antes");
-      this.Buscar.Pagina=1;
-      this.Buscar.Usuario= -1;
+
+      //this.Buscar.Pagina=1;
+      //this.Buscar.Usuario= -1;
     
-      console.log("Entra");
+
   
+      console.log("Datos de busqueda clientes: "+JSON.stringify(this.Buscar));
       this._servicioCClientes
       .GetCliente(this.Buscar)
       .subscribe(

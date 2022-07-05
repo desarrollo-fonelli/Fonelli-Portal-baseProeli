@@ -1,4 +1,4 @@
-class FiltrosAgente {
+export class FiltrosAgente {
   constructor(
     public AgenteCodigo: number,
     public Password: string,

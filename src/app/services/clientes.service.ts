@@ -43,9 +43,10 @@ GetCliente(FiltrosClientes: any): Observable<any>{
 
     console.log(FiltrosClientes);
     
-                                  
+    console.log('1');
                                   this.sFiltros += 'TipoUsuario=' + FiltrosClientes.TipoUsuario;
                                   this.sFiltros +='&Usuario=' + FiltrosClientes.Usuario;
+    console.log('2');
     
 
     if(FiltrosClientes.ClienteCodigo)
@@ -58,9 +59,9 @@ GetCliente(FiltrosClientes: any): Observable<any>{
         this.sFiltros += '&ClienteFilial=' + FiltrosClientes.ClienteFilial;
     }
     
-    this.sFiltros = '&Pagina=' + FiltrosClientes.Pagina;
+    this.sFiltros += '&Pagina=' + FiltrosClientes.Pagina;
                               
-console.log(this.sFiltros);
+console.log("resumen filtros:"+this.sFiltros);
 
 
   return this._http.get(this.API_URL+this.API + 'catalogos/CatalogoClientes.php?'+this.sFiltros,{headers:headers});

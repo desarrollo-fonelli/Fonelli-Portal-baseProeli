@@ -24,6 +24,8 @@ import {
 //Modelos
 import { FiltroIndicadoresVenta } from 'src/app/models/indicadoresventa.filtros'
 import { IndicadoresVenta } from 'src/app/models/indicadoresventa'
+import { FiltrosAgente } from 'src/app/models/agentes.filtros';
+import { Agentes, Contenido as AgentesCon } from 'src/app/models/agentes';
 
 
 import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
@@ -40,6 +42,8 @@ import { Contactos } from 'src/app/models/clientes';
 
 //Servicios
 //import { ServicioConsultaVenta } from 'src/app/services/indicadoresventa.service';
+import { ServicioAgentes } from 'src/app/services/agentes.service';
+
 
 import { ServicioConsultaPedidos } from 'src/app/services/consultapedidos.service';
 import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
@@ -50,7 +54,7 @@ import { ServicioClientes } from 'src/app/services/clientes.service';
   selector: 'app-indicadoresventa',
   templateUrl: './indicadoresventa.component.html',
   styleUrls: ['./indicadoresventa.component.css'],
-  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes],
+  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes,ServicioAgentes],
 })
 export class IndicadoresventaComponent implements OnInit {
   @ViewChild('pdfTable') pdfTable: ElementRef;
@@ -102,6 +106,10 @@ export class IndicadoresventaComponent implements OnInit {
   public oDatosGenerales : DatosGenerales;
   public oContacto : Contactos;
 
+  public oBuscarAgentes: FiltrosAgente;
+  public oAgentes: Agentes; 
+  public oAgentesCon: AgentesCon[];
+
   
   private _mobileQueryListener: () => void;
 
@@ -113,7 +121,8 @@ export class IndicadoresventaComponent implements OnInit {
     private _servicioCPedidos: ServicioConsultaPedidos,
     private _servicioCPedidosDet: ServicioDetallePedido,
     private modalService: NgbModal,
-    private _servicioCClientes: ServicioClientes
+    private _servicioCClientes: ServicioClientes,
+    private _servicioAgentes: ServicioAgentes
     
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -193,9 +202,48 @@ export class IndicadoresventaComponent implements OnInit {
     
     this.oBuscar.FechaCorte = fechaAyer;
 
+    //Consulta agentes
+    this._servicioAgentes
+    .Get(this.oBuscarAgentes)
+    .subscribe(
+      (Response: Agentes) =>  {
+        
+
+        this.oAgentes = Response;
+
+        console.log("Respuesta agentes"+JSON.stringify(this.oAgentes));
+
+
+        if(this.oAgentes.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron agentes";   
+          return false;
+        }
+   
+        this.oAgentesCon = this.oAgentes.Contenido;
+        this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
+        this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo); 
+        return true;
+
+     
+      },
+      (error:Agentes) => {
+
+        this.oAgentes = error;
+
+        console.log("error");
+        console.log(this.oAgentes);
+
+        return false;
+     
+      }
+      
+    );
+
 
   }
 
+  
   //Funcion para consultar los pedidos
   consultaIndVenta() {
     this.bBandera = true;
@@ -293,7 +341,7 @@ export class IndicadoresventaComponent implements OnInit {
   //Funcion para actualizar los valores de la tabla de acuerdo a los registros a mostrar
   refreshCountries() {
     //this.countries = COUNTRIES
-    console.log('Inicio');
+
     console.log(this.pedido);
 
     this.pedido
@@ -302,7 +350,7 @@ export class IndicadoresventaComponent implements OnInit {
         (this.page - 1) * this.pageSize,
         (this.page - 1) * this.pageSize + this.pageSize
       );
-    console.log('TErmina');
+
   }
 
   //modal pedido detalle
@@ -479,10 +527,6 @@ export class IndicadoresventaComponent implements OnInit {
     }
 
   BuscaClientes():boolean{
-    this.Buscar.Pagina=1;
-    this.Buscar.Usuario= -1;
-  
-    console.log("Entra");
 
     this._servicioCClientes
     .GetCliente(this.Buscar)

@@ -808,11 +808,7 @@ downloadAsPDF() {
       this.ModalActivo.dismiss('Cross click');    
     }
     BuscaClientes():boolean{
-      this.Buscar.Pagina=1;
-      this.Buscar.Usuario= -1;
-    
-      console.log("Entra");
-  
+
       this._servicioCClientes
       .GetCliente(this.Buscar)
       .subscribe(

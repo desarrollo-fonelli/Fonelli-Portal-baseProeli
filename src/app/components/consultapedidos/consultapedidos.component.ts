@@ -193,7 +193,6 @@ export class ConsultapedidosComponent implements OnInit {
   //Funcion para consultar los pedidos
   consultaPedido() {
     this.bBandera = false;
-    console.log('consultaPedido');
     this.bCargando = true;
 
     //Inicializamos el tipo de usuario por el momento
@@ -469,10 +468,6 @@ export class ConsultapedidosComponent implements OnInit {
     }
 
   BuscaClientes():boolean{
-    this.Buscar.Pagina=1;
-    this.Buscar.Usuario= -1;
-  
-    console.log("Entra");
 
     this._servicioCClientes
     .GetCliente(this.Buscar)

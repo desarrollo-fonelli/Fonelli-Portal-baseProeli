@@ -22,6 +22,12 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 //Modelos
+import { FiltrosClientesInactivos } from 'src/app/models/clientesinactivos.filtros';
+import { ClienteInactivo } from 'src/app/models/clientesinactivos';
+import { FiltrosAgente } from 'src/app/models/agentes.filtros';
+import { Agentes, Contenido as AgentesCon } from 'src/app/models/agentes';
+
+
 import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
 import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
 import { ConsultaPedido, Pedido } from 'src/app/models/consultapedidos';
@@ -35,6 +41,9 @@ import { Contactos } from 'src/app/models/clientes';
 
 
 //Servicios
+import { ServicioAgentes } from 'src/app/services/agentes.service';
+
+
 import { ServicioConsultaPedidos } from 'src/app/services/consultapedidos.service';
 import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
@@ -44,7 +53,7 @@ import { ServicioClientes } from 'src/app/services/clientes.service';
   selector: 'app-consultainactivos',
   templateUrl: './consultainactivos.component.html',
   styleUrls: ['./consultainactivos.component.css'],
-  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes],
+  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes, ServicioAgentes],
 })
 export class ConsultainactivosComponent implements OnInit {
   @ViewChild('pdfTable') pdfTable: ElementRef;
@@ -58,8 +67,8 @@ export class ConsultainactivosComponent implements OnInit {
 
   public bCliente: boolean;
 
-  oBuscar: FiltrosConsultaPedidos;
-  oPedidoRes: ConsultaPedido;
+  oBuscar: FiltrosClientesInactivos;
+  oClientesInacRes: ClienteInactivo;
   public oBuscaDetalle: FiltrosDetallePedidos;
   oPedidoDetalleRes: DetallePedido;
 
@@ -72,6 +81,8 @@ export class ConsultainactivosComponent implements OnInit {
   bBanderaBtnPed = false;
 
   fechaHoy: String;
+  fechaFron: String;
+
 
   pedido: Pedido[];
   pedidoDet: PedidoArticulo[];
@@ -96,6 +107,11 @@ export class ConsultainactivosComponent implements OnInit {
   public oDatosGenerales : DatosGenerales;
   public oContacto : Contactos;
 
+  public oBuscarAgentes: FiltrosAgente;
+  public oAgentes: Agentes; 
+  public oAgentesCon: AgentesCon[];
+
+
   
   private _mobileQueryListener: () => void;
 
@@ -107,7 +123,8 @@ export class ConsultainactivosComponent implements OnInit {
     private _servicioCPedidos: ServicioConsultaPedidos,
     private _servicioCPedidosDet: ServicioDetallePedido,
     private modalService: NgbModal,
-    private _servicioCClientes: ServicioClientes
+    private _servicioCClientes: ServicioClientes,
+    private _servicioAgentes: ServicioAgentes
     
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -122,8 +139,8 @@ export class ConsultainactivosComponent implements OnInit {
     this.bCliente = false;
 
     //Inicializamos variables consulta pedidos
-    this.oBuscar = new FiltrosConsultaPedidos('', 0, 0, 0, '');
-    this.oPedidoRes = {} as ConsultaPedido;
+    this.oBuscar = new FiltrosClientesInactivos(0, 0, 0);
+    this.oClientesInacRes = {} as ClienteInactivo;
     this.pedido = [];
 
     //Inicializamos variables consulta detalle pedidos
@@ -154,23 +171,23 @@ export class ConsultainactivosComponent implements OnInit {
       case 'C':{    
         //Tipo cliente                  
         this.bCliente = true;
-        this.oBuscar.ClienteCodigo = this.sCodigo;
-        this.oBuscar.ClienteFilial = this.sFilial;
-        this.oBuscar.Status = 'A';
+        //this.oBuscar.ClienteCodigo = this.sCodigo;
+        //this.oBuscar.ClienteFilial = this.sFilial;
+        //this.oBuscar.Status = 'A';
          break; 
       } 
       case 'A': { 
          //Agente; 
-         this.oBuscar.Usuario = this.sCodigo;
+        // this.oBuscar.Usuario = this.sCodigo;
          this.bCliente = false;    
-         this.oBuscar.Status = 'A';         
+        // this.oBuscar.Status = 'A';         
          break; 
       } 
       default: { 
          //Gerente; 
-         this.oBuscar.Usuario = this.sCodigo;
+        //this.oBuscar.Usuario = this.sCodigo;
          this.bCliente = false; 
-         this.oBuscar.Status = 'A';   
+        // this.oBuscar.Status = 'A';   
          break; 
       } 
    } 
@@ -187,6 +204,46 @@ export class ConsultainactivosComponent implements OnInit {
     }
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();    
+    this.fechaFron = date.getDate() + '/' + mes + '/' + date.getFullYear();    
+    
+
+        //Consulta agentes
+        this._servicioAgentes
+        .Get(this.oBuscarAgentes)
+        .subscribe(
+          (Response: Agentes) =>  {
+            
+    
+            this.oAgentes = Response;
+    
+            console.log("Respuesta agentes"+JSON.stringify(this.oAgentes));
+    
+    
+            if(this.oAgentes.Codigo != 0){
+              this.bError= true;
+              this.sMensaje="No se encontraron agentes";   
+              return false;
+            }
+       
+            this.oAgentesCon = this.oAgentes.Contenido;
+            this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
+            this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo);
+            return true;
+    
+         
+          },
+          (error:Agentes) => {
+    
+            this.oAgentes = error;
+    
+            console.log("error");
+            console.log(this.oAgentes);
+    
+            return false;
+         
+          }
+          
+        );
 
 
   }
@@ -209,28 +266,24 @@ export class ConsultainactivosComponent implements OnInit {
     this.bCargando = true;
 
     //Inicializamos el tipo de usuario por el momento
-    this.oBuscar.TipoUsuario = this.sTipo;
-
-    console.log(this.oBuscar.ClienteCodigo);
-    console.log(this.oBuscar.ClienteFilial);
-    console.log(this.oBuscar.Status);
+    
 
     console.log(this.oBuscar);
 
     //Realizamos llamada al servicio de pedidos
     this._servicioCPedidos.Get(this.oBuscar).subscribe(
       (Response: ConsultaPedido) => {
-        this.oPedidoRes = Response;
-        this.pedido = this.oPedidoRes.Contenido.Pedidos;
+        //this.oPedidoRes = Response;
+        //this.pedido = this.oPedidoRes.Contenido.Pedidos;
 
         
-        if (this.oPedidoRes.Codigo != 0) {
+       /* if (this.oPedidoRes.Codigo != 0) {
           this.bError = true;
           this.sMensaje = 'No se encontraron de pedidos';
           this.bBandera = false;
           this.bCargando = false;
           return;
-        }
+        }*/
 
         this.sMensaje = '';
         this.bBandera = true;
@@ -239,58 +292,15 @@ export class ConsultainactivosComponent implements OnInit {
 
       },
       (error: ConsultaPedido) => {
-        this.oPedidoRes = error;
+        //this.oPedidoRes = error;
         this.sMensaje = 'No se encontraron de pedidos';
         console.log('error');
-        console.log(this.oPedidoRes);
+
         this.bCargando = false;
       }
     );
   }
 
-  //Funcion para consultar los pedidos detalle
-  consultaPedidoDetalle(folio: String) {
-    //console.log('consultaPedido detalle : ' + folio);
-
-    //Inicializamos datos de encabezado requeridos para consultar detalle
-    this.oBuscaDetalle.TipoUsuario = this.oBuscar.TipoUsuario;
-    this.oBuscaDetalle.ClienteCodigo = this.oBuscar.ClienteCodigo;
-    this.oBuscaDetalle.ClienteFilial = this.oBuscar.ClienteFilial;
-    this.oBuscaDetalle.PedidoFolio = Number(folio);
-    this.oBuscaDetalle.PedidoLetra = 'C';
-    this.oBuscaDetalle.Usuario = this.oBuscar.ClienteCodigo;
-
-    console.log(this.oBuscaDetalle);
-
-    //Realizamos llamada al servicio de pedidos
-    this._servicioCPedidosDet.Get(this.oBuscaDetalle).subscribe(
-      (Response: DetallePedido) => {
-        this.oPedidoDetalleRes = Response;
-        this.pedidoDet = this.oPedidoDetalleRes.Contenido.PedidoArticulos;
-
-        //console.log( this.collectionSize);
-        //console.log(this.oPedidoDetalleRes);
-        //console.log(this.pedidoDet);
-
-        if (this.oPedidoDetalleRes.Codigo != 0) {
-          this.bError = true;
-          this.sMensaje = 'No se encontro detalle de pedido';
-          this.bBanderaDet = false;
-          return;
-        }
-
-        this.bBanderaDet = true;
-        this.sMensaje = '';
-        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
-      },
-      (error: DetallePedido) => {
-        this.oPedidoDetalleRes = error;
-        this.sMensaje = 'No se encontro detalle de pedido';
-        //console.log('error');
-        console.log(this.oPedidoDetalleRes);
-      }
-    );
-  }
 
   //Funcion para actualizar los valores de la tabla de acuerdo a los registros a mostrar
   refreshCountries() {
@@ -311,7 +321,7 @@ export class ConsultainactivosComponent implements OnInit {
   openPedidoDetalle(PedidoDetalle: any, folio: string) {
     console.log(folio);
     //this.pedidoDet = [];
-    this.consultaPedidoDetalle(folio);
+   // this.consultaPedidoDetalle(folio);
 
     this.ModalActivo = this.modalService.open(PedidoDetalle, {
       ariaLabelledBy: 'PedidoDetalle',
@@ -367,7 +377,7 @@ export class ConsultainactivosComponent implements OnInit {
     var cadenaaux = pdfTable.innerHTML;
 
     let cadena =
-    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.sNombre+'</strong></p>' +    
+    '<br><p>Cliente: <strong>' +this.oBuscar.AgenteDesde +'-'+this.oBuscar.AgenteHasta+' '+this.sNombre+'</strong></p>' +    
     cadenaaux;
 
     console.log('cadena');
@@ -434,99 +444,6 @@ export class ConsultainactivosComponent implements OnInit {
   }
 
 
-  //Modal clientes
-  openClientes(Clientes: any) {
-    console.log("Entra modal clientes");
-    this.bCargandoClientes = true;
-    var result;
-
-    try{
-      result = this.BuscaClientes()
-
-      if(result){
-        this.ModalActivo = this.modalService.open(Clientes, {
-          ariaLabelledBy: 'Clientes',
-          size: 'xl',
-          scrollable: true
-          
-        });
-    
-        this.ModalActivo.result.then(
-          (result) => {},
-          (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            console.log('reason ' + reason);
-            this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
-          }
-        );
-      }
-
-      //this.bCargandoClientes = false;
-
-
-      console.log("respuesta"+result);
-
-    }catch(err){
-      
-    }
-  }
-
-  //Funcion para seleccionar cliente
-  obtenCliente(sCodigo: string, sFilial: string) {
-
-      this.oBuscar.ClienteCodigo = Number(sCodigo);
-      this.oBuscar.ClienteFilial = Number(sFilial);
-
-      this.ModalActivo.dismiss('Cross click');    
-    }
-
-  BuscaClientes():boolean{
-    this.Buscar.Pagina=1;
-    this.Buscar.Usuario= -1;
-  
-    console.log("Entra");
-
-    this._servicioCClientes
-    .GetCliente(this.Buscar)
-    .subscribe(
-      (Response: Clientes) =>  {
-        
-
-        this.oCliente = Response;
-
-        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
-        this.bCargandoClientes =false;
-
-
-        if(this.oCliente.Codigo != 0){
-          this.bError= true;
-          this.sMensaje="No se encontraron datos del cliente";
-   
-          return false;
-        }
-   
-        this.oContenido = this.oCliente.Contenido[0];
-        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-        this.oContacto =this.oCliente.Contenido[0].Contactos;
-        return true;
-
-     
-      },
-      (error:Clientes) => {
-
-        this.oCliente = error;
-
-        console.log("error");
-        console.log(this.oCliente);
-        this.bCargandoClientes =false;
-        return false;
-     
-      }
-      
-    );
-    return true;
-  }  
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
