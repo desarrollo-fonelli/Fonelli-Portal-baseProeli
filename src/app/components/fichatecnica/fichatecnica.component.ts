@@ -23,12 +23,9 @@ import {
 
 //Modelos
 import { FiltrosFichaTecnica } from 'src/app/models/fichatecnica.filtros';
-import { FichaTecnica } from 'src/app/models/fichatecnica';
+import { FichaTecnica,VentasAnioA as AnioAnterior, VentasAnioA as AnioActual, ResumenTipoCartera,PedidosActivos} from 'src/app/models/fichatecnica';
 
-import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
-import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
-import { ConsultaPedido, Pedido } from 'src/app/models/consultapedidos';
-import { DetallePedido, PedidoArticulo } from 'src/app/models/detallepedido';
+
 import {FiltrosClientes} from 'src/app/models/clientes.filtros';
 import { Clientes } from 'src/app/models/clientes';
 import { Contenido } from 'src/app/models/clientes';
@@ -38,8 +35,7 @@ import { Contactos } from 'src/app/models/clientes';
 
 
 //Servicios
-import { ServicioConsultaPedidos } from 'src/app/services/consultapedidos.service';
-import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
+import { ServicioFichaTecnica } from 'src/app/services/fichatecnica.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 
 
@@ -47,7 +43,7 @@ import { ServicioClientes } from 'src/app/services/clientes.service';
   selector: 'app-fichatecnica',
   templateUrl: './fichatecnica.component.html',
   styleUrls: ['./fichatecnica.component.css'],
-  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes],
+  providers: [DecimalPipe, ServicioClientes,ServicioFichaTecnica]
 })
 export class FichatecnicaComponent implements OnInit {
   @ViewChild('pdfTable') pdfTable: ElementRef;
@@ -62,9 +58,11 @@ export class FichatecnicaComponent implements OnInit {
   public bCliente: boolean;
 
   oBuscar: FiltrosFichaTecnica;
-  oPedidoRes: ConsultaPedido;
-  public oBuscaDetalle: FiltrosDetallePedidos;
-  oPedidoDetalleRes: DetallePedido;
+  oFichaTecnicaRes: FichaTecnica;
+  oAnioAnteriorRes: AnioAnterior[];
+  oAnioActualRes: AnioActual[];
+  oTipoCarteraRes: ResumenTipoCartera[];
+  oPedidosInactivosRes: PedidosActivos;
 
   public bError: boolean = false;
   public sMensaje: string = '';
@@ -75,9 +73,6 @@ export class FichatecnicaComponent implements OnInit {
   bBanderaBtnPed = false;
 
   fechaHoy: String;
-
-  pedido: Pedido[];
-  pedidoDet: PedidoArticulo[];
 
   public bCargando: boolean = false;
   public bCargandoClientes: boolean = false;
@@ -107,10 +102,9 @@ export class FichatecnicaComponent implements OnInit {
     media: MediaMatcher,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _servicioCPedidos: ServicioConsultaPedidos,
-    private _servicioCPedidosDet: ServicioDetallePedido,
     private modalService: NgbModal,
-    private _servicioCClientes: ServicioClientes
+    private _servicioCClientes: ServicioClientes,
+    private _servicioFichaTecnica: ServicioFichaTecnica
     
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -126,15 +120,8 @@ export class FichatecnicaComponent implements OnInit {
 
     //Inicializamos variables consulta pedidos
     this.oBuscar = new FiltrosFichaTecnica(0,'',0,0,0,'','','','');
-    this.oPedidoRes = {} as ConsultaPedido;
-    this.pedido = [];
+    this.oFichaTecnicaRes = {} as FichaTecnica;
 
-    //Inicializamos variables consulta detalle pedidos
-    this.oBuscaDetalle = new FiltrosDetallePedidos('', 0, '', 0, 0, 0);
-    this.oPedidoDetalleRes = {} as DetallePedido;
-    this.pedidoDet = [];
-
-    this.refreshCountries();
 
     this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
     this.oCliente={} as Clientes;
@@ -179,11 +166,11 @@ export class FichatecnicaComponent implements OnInit {
     let mes;
 
     //Valida mes
-    if (date.getMonth().toString.length == 1) {
+    if (date.getMonth().toString().length == 1) {
       mes = '0' + (date.getMonth() + 1);
     }
 
-    this.fechaHoy =  date.getFullYear() + '-' + mes + '-' +(date.getDate().toString.length == 1 ? '0'+(date.getDate()-1) : date.getDate());              
+    this.fechaHoy =  date.getFullYear() + '-' + mes + '-' +(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());              
 
     this.oBuscar.FechaDesdeAnterior = (date.getFullYear()-1)+'-01-01';
     this.oBuscar.FechaHastaAnterior = (date.getFullYear()-1)+'-12-31';
@@ -194,164 +181,69 @@ export class FichatecnicaComponent implements OnInit {
 
   }
 
-  //Funcion para consultar los pedidos
+  //Funcion para consultar ficha tecnica
   consultaFichaTecnica() {
-    this.bBandera = true;
-    return;
-
 
     this.bBandera = false;
-    console.log('consultaPedido');
+    console.log('consulta ficha tecnica');
     this.bCargando = true;
-
-    //Inicializamos el tipo de usuario por el momento
-    this.oBuscar.Cliente = this.sCodigo;
-
-   
+    this.oBuscar.Usuario= this.sCodigo;   
 
     console.log(this.oBuscar);
+    
 
-    //Realizamos llamada al servicio de pedidos
-    this._servicioCPedidos.Get(this.oBuscar).subscribe(
-      (Response: ConsultaPedido) => {
-        this.oPedidoRes = Response;
-        this.pedido = this.oPedidoRes.Contenido.Pedidos;
+    
+
+    //Realizamos llamada al servicio de ficha tecnica
+    this._servicioFichaTecnica.Get(this.oBuscar).subscribe(
+      (Response: FichaTecnica) => {
+        this.oFichaTecnicaRes = Response;        
 
         
-        if (this.oPedidoRes.Codigo != 0) {
+        if (this.oFichaTecnicaRes.Codigo != 0) {
           this.bError = true;
-          this.sMensaje = 'No se encontraron de pedidos';
+          this.sMensaje = 'No se encontraron datos de ficha tecnica con los datos enviados';
           this.bBandera = false;
           this.bCargando = false;
           return;
         }
 
         this.sMensaje = '';
-        this.bBandera = true;
-        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length; //Seteamos el tamaño de los datos obtenidos
+        this.bBandera = true;        
         this.bCargando = false;
+        this.oAnioAnteriorRes = this.oFichaTecnicaRes.Contenido.VentasAnioAnterior;
+        this.oAnioActualRes = this.oFichaTecnicaRes.Contenido.VentasAnioActual;
+        this.oTipoCarteraRes = this.oFichaTecnicaRes.Contenido.ResumenTipoCartera;
+        this.oPedidosInactivosRes = this.oFichaTecnicaRes.Contenido.PedidosActivos;
 
       },
-      (error: ConsultaPedido) => {
-        this.oPedidoRes = error;
-        this.sMensaje = 'No se encontraron de pedidos';
+      (error: FichaTecnica) => {
+        this.oFichaTecnicaRes = error;
+        this.sMensaje = 'No se encontraron datos de ficha tecnica con los datos enviados';
         console.log('error');
-        console.log(this.oPedidoRes);
+        console.log(this.oFichaTecnicaRes);
         this.bCargando = false;
       }
     );
   }
 
-  //Funcion para consultar los pedidos detalle
-  /*consultaPedidoDetalle(folio: String) {
-    //console.log('consultaPedido detalle : ' + folio);
 
-    //Inicializamos datos de encabezado requeridos para consultar detalle
-    this.oBuscaDetalle.TipoUsuario = this.oBuscar.TipoUsuario;
-    this.oBuscaDetalle.ClienteCodigo = this.oBuscar.ClienteCodigo;
-    this.oBuscaDetalle.ClienteFilial = this.oBuscar.ClienteFilial;
-    this.oBuscaDetalle.PedidoFolio = Number(folio);
-    this.oBuscaDetalle.PedidoLetra = 'C';
-    this.oBuscaDetalle.Usuario = this.oBuscar.ClienteCodigo;
 
-    console.log(this.oBuscaDetalle);
-
-    //Realizamos llamada al servicio de pedidos
-    this._servicioCPedidosDet.Get(this.oBuscaDetalle).subscribe(
-      (Response: DetallePedido) => {
-        this.oPedidoDetalleRes = Response;
-        this.pedidoDet = this.oPedidoDetalleRes.Contenido.PedidoArticulos;
-
-        //console.log( this.collectionSize);
-        //console.log(this.oPedidoDetalleRes);
-        //console.log(this.pedidoDet);
-
-        if (this.oPedidoDetalleRes.Codigo != 0) {
-          this.bError = true;
-          this.sMensaje = 'No se encontro detalle de pedido';
-          this.bBanderaDet = false;
-          return;
-        }
-
-        this.bBanderaDet = true;
-        this.sMensaje = '';
-        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
-      },
-      (error: DetallePedido) => {
-        this.oPedidoDetalleRes = error;
-        this.sMensaje = 'No se encontro detalle de pedido';
-        //console.log('error');
-        console.log(this.oPedidoDetalleRes);
-      }
-    );
-  }*/
-
-  //Funcion para actualizar los valores de la tabla de acuerdo a los registros a mostrar
-  refreshCountries() {
-    //this.countries = COUNTRIES
-    console.log('Inicio');
-    console.log(this.pedido);
-
-    this.pedido
-      .map((c, i) => ({ id: i + 1, ...c }))
-      .slice(
-        (this.page - 1) * this.pageSize,
-        (this.page - 1) * this.pageSize + this.pageSize
-      );
-    console.log('TErmina');
-  }
-
-  //modal pedido detalle
-  openPedidoDetalle(PedidoDetalle: any, folio: string) {
-    console.log(folio);
-    //this.pedidoDet = [];
-    //this.consultaPedidoDetalle(folio);
-
-    this.ModalActivo = this.modalService.open(PedidoDetalle, {
-      ariaLabelledBy: 'PedidoDetalle',
-      size: 'lg',
-      scrollable: true
-      
-    });
-
-    this.ModalActivo.result.then(
-      (result) => {},
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        console.log('reason ' + reason);
-        this.pedidoDet = [];
-      }
-    );
-  }
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
-      this.pedidoDet = [];
+   
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      this.pedidoDet = [];
+      
       return 'by clicking on a backdrop';
     } else {
       return `with: ${reason}`;
     }
   }
 
-  verDetalleProd() {
-    console.log('Entra ver detalle prod');
-    this.bBanderaDet = false;
-    this.bBanderaDetPro = true;
 
-    this.bBanderaBtnPed = true; //Buton pedido para ver detalle pedido
-    this.bBanderaBtnPro = false; //Buton produccion para ver detalle produccion
-  }
-  verDetallePed() {
-    console.log('Entra ver detalle prod');
-    this.bBanderaDet = true;
-    this.bBanderaDetPro = false;
-
-    this.bBanderaBtnPed = false; //Buton pedido para ver detalle pedido
-    this.bBanderaBtnPro = true; //Buton produccion para ver detalle produccion
-  }
+  
 
 
   downloadAsPDF() {

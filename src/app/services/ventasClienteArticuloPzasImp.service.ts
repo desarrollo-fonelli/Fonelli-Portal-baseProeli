@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment';
 
 
 @Injectable()
-export class ServicioVentasClienteArticulo{
+export class ServicioVentasClienteArticuloPzasImp{
     public API: string;
     public sFiltros: string;
     public API_URL: string;
@@ -35,9 +35,8 @@ Get(FiltrosVentasClienteArticulo: any): Observable<any>{
 
     
                                     console.log(FiltrosVentasClienteArticulo);
-
                                     this.sFiltros = '';
-    
+
                                     this.sFiltros = 'TipoUsuario=' + FiltrosVentasClienteArticulo.TipoUsuario;
             
                                     if(FiltrosVentasClienteArticulo.Usuario)
@@ -81,15 +80,10 @@ Get(FiltrosVentasClienteArticulo: any): Observable<any>{
                                         this.sFiltros += '&Pagina=' + FiltrosVentasClienteArticulo.Pagina;
                                     }
 
-
                                     console.log(this.sFiltros);
 
-
-                        return this._http.get(this.API_URL+this.API + 'reportes/VentasClienteArticulo.php?'+this.sFiltros,{headers:headers});
-
-
+                        return this._http.get(this.API_URL+this.API + 'reportes/VentasClienteArticuloPzasImpo.php?'+this.sFiltros,{headers:headers});
 
 }
-
 
 }

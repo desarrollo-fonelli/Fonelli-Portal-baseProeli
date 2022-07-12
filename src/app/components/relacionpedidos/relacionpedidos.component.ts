@@ -84,6 +84,14 @@ export class RelacionpedidosComponent implements OnInit {
   public oDatosGenerales : DatosGenerales;
   public oContacto : Contactos;
 
+  public sClienteDesdeCod: string;
+  public sClienteDesdeFil: string;
+  public sClienteDesdeNom: string;
+  
+  public sClienteHastaCod: string;
+  public sClienteHastaFil: string;
+  public sClienteHastaNom: string;
+
   public bBanderaCliente: boolean;
 
    private _mobileQueryListener: () => void;
@@ -148,16 +156,16 @@ export class RelacionpedidosComponent implements OnInit {
       let dia;
       
       //Valida mes 
-      if (date.getMonth().toString.length == 1){
+      if (date.getMonth().toString().length == 1){
         mes = '0'+(date.getMonth()+1);
       }
        //Valida dia 
-       if (date.getDate().toString.length == 1){
+       if (date.getDate().toString().length == 1){
         dia = '0'+(date.getDate());
       }
 
       let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+dia;          
-      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString.length == 1 ? '0'+(date.getDate()-1) : date.getDate());          
+      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());          
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());                  
 
       console.log("--"+fechaActual);
@@ -266,8 +274,8 @@ consultaRelPed(){
         this.sMensaje="";
         this.bBandera = true;
         this.bCargando = false;
-        //this.oContenido	= this.oRelacionPedRes.Contenido
-        //this.collectionSize = this.oRelacionPedRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
+        
+        
 
       },
       (error:RelacionPedidos) => {

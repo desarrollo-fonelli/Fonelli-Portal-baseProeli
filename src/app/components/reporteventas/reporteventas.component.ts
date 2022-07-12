@@ -11,11 +11,7 @@ import htmlToPdfmake from 'html-to-pdfmake';
 
 //Modelos
 import { FiltrosReporteVentas } from 'src/app/models/reporteventas.filtros';
-
-
-
-import {FiltrosVentaArticuloCliente} from 'src/app/models/ventasclientearticulo.filtros';
-import {VentasClienteArticulo, Articulo, Subcategorias, LineasProducto} from 'src/app/models/ventasclientearticulo';
+import { ReporteVentas } from 'src/app/models/reporteventas';
 import {FiltrosOficina} from 'src/app/models/oficina.filtros';
 import {Oficina, Contenido as OficinaCont} from 'src/app/models/oficina';
 import {FiltrosClientes} from 'src/app/models/clientes.filtros';
@@ -33,13 +29,15 @@ import { Categorias, Contenido as CategoriasCon } from 'src/app/models/categoria
 
 
 //Servicios
-import { ServicioVentasClienteArticulo } from 'src/app/services/ventasclientearticulo.service';
+import { ServicioReporteVentas } from 'src/app/services/reporteventas.service';
+
+
 import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
 import { Contenido } from '../../models/ventasclientearticulo';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 import { ServicioLineas } from 'src/app/services/lineas.service';
 import { ServicioCategorias } from 'src/app/services/categorias.service';
-import { ConsultaPedido } from '../../models/consultapedidos';
+
 
 
 
@@ -55,12 +53,12 @@ import {
   selector: 'app-reporteventas',
   templateUrl: './reporteventas.component.html',
   styleUrls: ['./reporteventas.component.css'],
-  providers:[ServicioVentasClienteArticulo,
-    ServicioOficinas,
+  providers:[ServicioOficinas,
     DecimalPipe,
     ServicioClientes,
     ServicioLineas,
-    ServicioCategorias
+    ServicioCategorias,
+    ServicioReporteVentas
   ]
 })
 export class ReporteventasComponent implements OnInit {
@@ -75,7 +73,7 @@ export class ReporteventasComponent implements OnInit {
   searchtext = '';
 
   public oBuscar: FiltrosReporteVentas;
-  oVentasCliRes: VentasClienteArticulo; 
+  oReporteVentasRes: ReporteVentas; 
   public oBuscarOfi: FiltrosOficina;
   oOficinasRes: Oficina; 
   oOficinaCont: OficinaCont[];
@@ -119,7 +117,7 @@ export class ReporteventasComponent implements OnInit {
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
     private _router: Router,
-    private _servicioVenClientes: ServicioVentasClienteArticulo,
+    private _servicioReporteVentas: ServicioReporteVentas,
     private _servicioOficinas:ServicioOficinas,
     private modalService: NgbModal,
     private _servicioCClientes: ServicioClientes,
@@ -136,8 +134,8 @@ export class ReporteventasComponent implements OnInit {
       this.sNombre = sessionStorage.getItem('nombre');
   
       //Inicializamos variables consulta pedidos
-      this.oBuscar = new FiltrosReporteVentas(0,0,0,0,0,0,'','','','','','','','','','','','',0)
-      this.oVentasCliRes={} as VentasClienteArticulo; 
+      this.oBuscar = new FiltrosReporteVentas('','',0,0,0,0,0,0,'','','','','','','','','','','','','','',0)
+      //this.oReporteVentasRes= {} as oReporteVentasRes; 
       this.oBuscarOfi =  new FiltrosOficina('',0)
       this.oOficinasRes = {} as Oficina;
 
@@ -172,8 +170,10 @@ export class ReporteventasComponent implements OnInit {
         mes = '0'+(date.getMonth()+1);
       }
 
-      let fechaDesde =  date.getFullYear() +'-01-01';          
-      let fechaHasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate()-1); 
+      let fecha1Desde =   (date.getFullYear()-1)+'-01-01';          
+      let fecha2Desde =   date.getFullYear()+'-01-01';
+      let fecha1Hasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0' + date.getDate() : date.getDate()); 
+      let fecha2Hasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1)); 
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
 
       switch(this.sTipo) { 
@@ -199,22 +199,18 @@ export class ReporteventasComponent implements OnInit {
       } 
 
 
-      /*this.oBuscar.TipoArticulo = 'T';   
-      this.oBuscar.TipoOrigen = 'T';   
-      this.oBuscar.OrdenReporte = 'C';   
-      this.oBuscar.Presentacion = 'R';   
-      this.oBuscar.FechaDesde = fechaDesde;
-      this.oBuscar.FechaHasta = fechaHasta;
-      this.oBuscar.LineaHasta = 'ZZ';
-      this.oBuscar.ClaveHasta = 'ZZZZZZZZZZZ';
-      this.oBuscar.CategoriaDesde = 'A';
-      this.oBuscar.CategoriaHasta = 'Z';
-      this.oBuscar.SubcategoriaDesde = '0';
-      this.oBuscar.SubcategoriaHasta = '9';*/
-
+      this.oBuscar.Tipo = '1';
+      this.oBuscar.Fecha1Desde = fecha1Desde;
+      this.oBuscar.Fecha2Desde = fecha2Desde;
+      this.oBuscar.Fecha1Hasta = fecha1Hasta;
+      this.oBuscar.Fecha2Hasta = fecha2Hasta;
+      this.oBuscar.OrdenReporte = 'C';
+      this.oBuscar.DesglosaCliente = 'S';
+      this.oBuscar.DesglosaCategoria = 'S';
+      this.oBuscar.TipoOrigen = 'T';
       this.oBuscar.ClienteHasta = 999999;
       this.oBuscar.FilialHasta = 999;
-     
+      this.oBuscar.TipoUsuario = this.sTipo;
 
       this.Buscar.TipoUsuario = this.sTipo;
       this.Buscar.Usuario = this.sCodigo;
@@ -300,7 +296,7 @@ export class ReporteventasComponent implements OnInit {
             (Response: Categorias) => {
     
               this.oCategoriasRes = Response;
-              //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
+              console.log("RESULTADO LLAMADA categorias: "+JSON.stringify(this.oCategoriasRes) );
               //console.log(this.pedido);
     
               if(this.oCategoriasRes.Codigo != 0){
@@ -310,8 +306,8 @@ export class ReporteventasComponent implements OnInit {
               }
               
               this.oCategoriasCon = this.oCategoriasRes.Contenido;
-              /*this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
-              this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; */
+              this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
+              this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
               this.sMensaje="";
     
             },
@@ -333,31 +329,32 @@ export class ReporteventasComponent implements OnInit {
     }
 
 
-    //Funcion para consultar las ventas cliente articulo 
-    consultaVentCArticulo(){
+    //Funcion para consultar reporte de ventas
+    consultaReporteVentas(){
       
     console.log(this.oBuscar);
     //this.oBuscar.TipoUsuario = this.sTipo
     this.oBuscar.Usuario = this.sCodigo
     this.bCargando = true;
 
+
      //Realizamos llamada al servicio de relacion de pedidos
-     this._servicioVenClientes
+     this._servicioReporteVentas
      .Get(this.oBuscar)
      .subscribe(
-       (Response: VentasClienteArticulo) => {
+       (Response: ReporteVentas) => {
  
-         this.oVentasCliRes = Response;
+         this.oReporteVentasRes = Response;
          //this.pedido = this.oRelacionPedRes.Contenido.Pedidos
                 
  
          //console.log( this.collectionSize);
-         console.log("RESULTADO LLAMADA  "+JSON.stringify(this.oVentasCliRes) );
+         console.log("RESULTADO LLAMADA  "+JSON.stringify(this.oReporteVentasRes) );
          //console.log(this.pedido);
  
-         if(this.oVentasCliRes.Codigo != 0){
+         if(this.oReporteVentasRes.Codigo != 0){
            this.bError= true;
-           this.sMensaje="No se encontraron datos de venta por artículo";
+           this.sMensaje="No se encontraron datos en reporte de ventas";
            this.bBandera = false;
            this.bCargando = false;
            return;
@@ -384,219 +381,19 @@ export class ReporteventasComponent implements OnInit {
          //this.collectionSize = this.oVentasCliRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
  
        },
-       (error:VentasClienteArticulo) => {
+       (error:ReporteVentas) => {
  
-         this.oVentasCliRes = error;
+         this.oReporteVentasRes = error;
  
          console.log("error");
-         console.log(this.oVentasCliRes);
-         this.sMensaje="No se encontraron datos de venta por artículo";
+         console.log(this.oReporteVentasRes);
+         this.sMensaje="No se encontraron datos en reporte de ventas";
          this.bCargando = false;
          this.bBandera = false;
        
        }
      );
   }
-
-  // #### Obten totales por lineas ####
-
-  getTotalPiezasArticulo(oArticulo: Articulo[]): number {   
-    let Total: number = 0;
-  
-    for(var art of oArticulo){ 
-        Total += art.Piezas;    
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-   }
-
-   getTotalPiezasPorArticulo(oArticulo: Articulo[]): number {   
-    let Total: number = 0;
-  
-    for(var art of oArticulo){ 
-        Total += art.PiezasPorcentaje;    
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-   }
-
-   getTotalGramosArticulo(oArticulo: Articulo[]): number {   
-    let Total: number = 0;
-  
-    for(var art of oArticulo){ 
-        Total += art.Gramos;    
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-   }
-
-   getTotalGramosPorArticulo(oArticulo: Articulo[]): number {   
-    let Total: number = 0;
-  
-    for(var art of oArticulo){ 
-        Total += art.GramosPorcentaje;    
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-   }
-
-   getTotalImpVenArticulo(oArticulo: Articulo[]): number {   
-    let Total: number = 0;
-  
-    for(var art of oArticulo){ 
-        Total += art.ImporteVenta;    
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-   }
-
-   // #### Obten totales por lineas ####
-
-  // #### Obten totales por SubCategoria ####
-  getTotalPiezasPorxSubCat(oLineaPro: LineasProducto[]): number {   
-    let Total: number = 0;  
-  
-      for(var linPro of oLineaPro){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.PiezasPorcentaje;       
-        }    
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }
-
-  getTotalPiezasxSubCat(oLineaPro: LineasProducto[]): number {   
-    let Total: number = 0;  
-  
-      for(var linPro of oLineaPro){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.Piezas;       
-        }    
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }
-
-  getTotalGramosxSubCat(oLineaPro: LineasProducto[]): number {
-    let Total: number = 0;
-  
-  
-    for(var linPro of oLineaPro){ 
-      for(var art of linPro.Articulos){ 
-        Total += art.Gramos;       
-      }    
-  }
-  Total = Number(Total.toFixed(2));
-  return Total; 
-}
-
-
-  getTotalGramosPorxSubCat(oLineaPro: LineasProducto[]): number {  
-    let Total: number = 0;
-  
-  
-      for(var linPro of oLineaPro){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.GramosPorcentaje;       
-        }    
-      }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  } 
-   
-   getTotalImpVenxSubCat(oLineaPro: LineasProducto[]): number {   
-    let Total: number = 0;
-  
-  
-    for(var linPro of oLineaPro){ 
-      for(var art of linPro.Articulos){ 
-        Total += art.ImporteVenta;       
-      }    
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  } 
-    
-   // #### Obten totales por SubCategoria ####
-
-  // #### Obten totales por Categoria ####
-  getTotalPiezasxCategoria(oSubCat: Subcategorias[]): number {   
-    let Total: number = 0;
-  
-    for(var subCat of oSubCat){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.Piezas;  
-        }        
-      }
-          
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }
-
-  getTotalPiezasPorxCategoria(oSubCat: Subcategorias[]): number {   
-    let Total: number = 0;
-  
-    for(var subCat of oSubCat){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.PiezasPorcentaje;  
-        }        
-      }
-          
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }
-
-
-  getTotalGramosxCategoria(oSubCat: Subcategorias[]): number {   
-    let Total: number = 0;
-  
-    for(var subCat of oSubCat){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.Gramos;  
-        }        
-      }
-          
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }
-
-
-  getTotalGramosPorxCategoria(oSubCat: Subcategorias[]): number {   
-    let Total: number = 0;
-  
-    for(var subCat of oSubCat){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.GramosPorcentaje;  
-        }        
-      }
-          
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }
-
-   getTotalImpVenxCategoria(oSubCat: Subcategorias[]): number {   
-    let Total: number = 0;
-  
-    for(var subCat of oSubCat){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.ImporteVenta;  
-        }        
-      }
-          
-    }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }    
-  // #### Obten totales por Categoria ####
 
   // #### Obten totales por Cliente ####
   getTotalPiezasxCliente(oContenido: Contenido[]): number {   
@@ -879,7 +676,7 @@ downloadAsPDF() {
   }
 
   cargaSubCat(sCategoria, bCategoria: boolean){
-    console.log(sCategoria); // Aquí iría tu lógica al momento de seleccionar algo  
+    console.log(sCategoria, bCategoria); // Aquí iría tu lógica al momento de seleccionar algo  
 
     if (bCategoria){//Es categoria desde
       this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria);

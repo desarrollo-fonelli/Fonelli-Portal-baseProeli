@@ -3,8 +3,9 @@ import {
   OnInit,
   ChangeDetectorRef,
   ElementRef,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
+
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DecimalPipe } from '@angular/common';
@@ -38,6 +39,8 @@ import { Contactos } from 'src/app/models/clientes';
 import { ServicioConsultaPedidos } from 'src/app/services/consultapedidos.service';
 import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
+
+
 
 @Component({
   selector: 'app-consultapedidos',

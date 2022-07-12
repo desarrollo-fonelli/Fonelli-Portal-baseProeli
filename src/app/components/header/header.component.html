@@ -173,19 +173,6 @@
                                     </div>    
 
                                     <div class="form-group">
-                                        <label for="usuario" class="CamposFonelli">Usuario</label><br/>
-                                            <input 
-                                                class="form-control" 
-                                                type ="text" 
-                                                name ="usuario" 
-                                                #codigo="ngModel" 
-                                                [(ngModel)]="ModeloLoginEjecutivo.codigo" 
-                                                required
-                                            />
-                                        <span *ngIf="codigo.touched && !codigo.valid" style="color:#e8b4c1"> El usuario es obligatorio</span> <br/>
-                                    </div>
-
-                                    <div class="form-group">
                                         <label for="puesto" class="CamposFonelli">Puesto</label><br/>
                                         <select 
                                             class="form-control" 
@@ -199,6 +186,21 @@
                                     <span *ngIf="puesto.touched && !puesto.valid" style="color:#e8b4c1"> El puesto es obligatorio</span> <br/>
                                     </div>
 
+                                    
+                                    <div class="form-group">
+                                        <label for="usuario" class="CamposFonelli">Usuario</label><br/>
+                                            <input 
+                                                class="form-control" 
+                                                type ="text" 
+                                                name ="usuario" 
+                                                #codigo="ngModel" 
+                                                [(ngModel)]="ModeloLoginEjecutivo.codigo" 
+                                                required
+                                            />
+                                        <span *ngIf="codigo.touched && !codigo.valid" style="color:#e8b4c1"> El usuario es obligatorio</span> <br/>
+                                    </div>
+
+                                    
                                     <div class="form-group">
                                         <label for="password"  class="CamposFonelli">Contraseña</label><br/>
                                         <input 

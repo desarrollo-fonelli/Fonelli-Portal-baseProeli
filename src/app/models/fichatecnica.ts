@@ -42,8 +42,15 @@ export interface ResumenTipoCartera {
 }
 
 export interface VentasAnioA {
-    FamiliaCodigo?:   string;
-    FamiliaDescripc?: string;
+    CategoriaCodigo?:   string;
+    CategoriaNombre?: string;
+    Subcategorias?: Subcategorias[];
+}
+
+
+export interface Subcategorias {
+    SubcategoriaCodigo?: string;
+    SubcategoriaNombre?: string;
     Piezas?:          number;
     Gramos?:          number;
     Importe?:         number;

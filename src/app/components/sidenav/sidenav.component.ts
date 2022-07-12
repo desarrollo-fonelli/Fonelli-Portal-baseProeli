@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
-import { MediaMatcher } from '@angular/cdk/layout';
+import { MediaMatcher, BreakpointObserver } from '@angular/cdk/layout';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-sidenav',
@@ -19,11 +20,13 @@ export class SidenavComponent implements OnInit {
 
   private _mobileQueryListener: () => void;
 
+
   constructor(
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
     private _route: ActivatedRoute,
-    private _router: Router
+    private _router: Router,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -63,6 +66,16 @@ export class SidenavComponent implements OnInit {
     } 
 
 
+  }
+
+  
+  toggle(nav: MatSidenav) {
+    const isSmallScreen = this.breakpointObserver.isMatched(
+      "(max-width: 599px)"
+    );
+    if (isSmallScreen) {
+      nav.toggle();
+    }
   }
 
   obtenMenu() {

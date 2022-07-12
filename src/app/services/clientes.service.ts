@@ -42,12 +42,12 @@ GetCliente(FiltrosClientes: any): Observable<any>{
                                   .set("Access-Control-Allow-Credentials", "true");
 
     console.log(FiltrosClientes);
+    this.sFiltros = '';
     
-    console.log('1');
+
                                   this.sFiltros += 'TipoUsuario=' + FiltrosClientes.TipoUsuario;
                                   this.sFiltros +='&Usuario=' + FiltrosClientes.Usuario;
-    console.log('2');
-    
+
 
     if(FiltrosClientes.ClienteCodigo)
     {
@@ -59,7 +59,7 @@ GetCliente(FiltrosClientes: any): Observable<any>{
         this.sFiltros += '&ClienteFilial=' + FiltrosClientes.ClienteFilial;
     }
     
-    this.sFiltros += '&Pagina=' + FiltrosClientes.Pagina;
+    //this.sFiltros += '&Pagina=' + FiltrosClientes.Pagina;
                               
 console.log("resumen filtros:"+this.sFiltros);
 

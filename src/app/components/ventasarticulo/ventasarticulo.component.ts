@@ -10,29 +10,24 @@ import htmlToPdfmake from 'html-to-pdfmake';
 
 
 //Modelos
-import { FiltrosVentaArticuloCliente} from 'src/app/models/ventasclientearticulo.filtros';
-import { VentasClienteArticulo, Articulo, Subcategorias, LineasProducto} from 'src/app/models/ventasclientearticulo';
+import { FiltrosVentasArticulo} from 'src/app/models/ventasarticulo.filtros';
+import { VentasArticulo, Articulo, LineasProducto,Subcategorias, Contenido} from 'src/app/models/ventasarticulo';
+import { VentasArticuloPzasImp } from 'src/app/models/ventasarticuloPzasImp';
+
+
+
 import { FiltrosOficina} from 'src/app/models/oficina.filtros';
 import { Oficina} from 'src/app/models/oficina';
-import { FiltrosClientes} from 'src/app/models/clientes.filtros';
-import { Clientes } from 'src/app/models/clientes';
-import { Contenido as ContenidoCli } from 'src/app/models/clientes';
-import { Condiciones } from 'src/app/models/clientes';
-import { DatosGenerales } from 'src/app/models/clientes';
-import { Contactos } from 'src/app/models/clientes';
 import { FiltrosLineas } from 'src/app/models/lineas.filtros';
 import { Lineas, Contenido as LineasCon } from 'src/app/models/lineas';
 import { FiltrosCategorias } from 'src/app/models/categorias.filtros';
 import { Categorias, Contenido as CategoriasCon } from 'src/app/models/categorias';
 
 
-
-
 //Servicios
-import { ServicioVentasClienteArticulo } from 'src/app/services/ventasclientearticulo.service';
+import { ServicioVentasArticulo } from 'src/app/services/ventasarticulo.service';
+import { ServicioVentasArticuloPzasImp } from 'src/app/services/ventasArticuloPzasImp.service';
 import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
-import { Contenido } from '../../models/ventasclientearticulo';
-import { ServicioClientes } from 'src/app/services/clientes.service';
 import { ServicioLineas } from 'src/app/services/lineas.service';
 import { ServicioCategorias } from 'src/app/services/categorias.service';
 
@@ -48,12 +43,12 @@ import {
   selector: 'app-ventasarticulo',
   templateUrl: './ventasarticulo.component.html',
   styleUrls: ['./ventasarticulo.component.css'],
-  providers:[ServicioVentasClienteArticulo,
-    ServicioOficinas,
-    DecimalPipe,
-    ServicioClientes,
+  providers:[ServicioOficinas,
+    DecimalPipe,  
     ServicioLineas,
-    ServicioCategorias
+    ServicioCategorias,
+    ServicioVentasArticulo,
+    ServicioVentasArticuloPzasImp
   ]
 })
 export class VentasarticuloComponent implements OnInit {
@@ -67,8 +62,9 @@ export class VentasarticuloComponent implements OnInit {
 
   searchtext = '';
 
-  public oBuscar: FiltrosVentaArticuloCliente;
-  oVentasCliRes: VentasClienteArticulo; 
+  public oBuscar: FiltrosVentasArticulo;
+  oVentasArticuloRes: VentasArticulo; 
+  oVentasArticuloPzasImpRes: VentasArticuloPzasImp; 
   public oBuscarOfi: FiltrosOficina;
   oOficinasRes: Oficina; 
 
@@ -90,6 +86,9 @@ export class VentasarticuloComponent implements OnInit {
   public bFiltrResumido: boolean;
   bBandera: boolean;
 
+  bBanderaPzIm: boolean;
+  bBanderaCat: boolean;
+
   fechaHoy: String
   public bCargando: boolean = false;
   public bCargandoClientes: boolean = false;
@@ -99,25 +98,19 @@ export class VentasarticuloComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
 
-  public Buscar: FiltrosClientes;
-  public oCliente: Clientes; 
-  public oContenido : ContenidoCli;
-  public oCondiciones : Condiciones;
-  public oDatosGenerales : DatosGenerales;
-  public oContacto : Contactos;
 
   public bBanderaCliente: boolean;
 
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
-    private _router: Router,
-    private _servicioVenClientes: ServicioVentasClienteArticulo,
+    private _router: Router,    
     private _servicioOficinas:ServicioOficinas,
-    private modalService: NgbModal,
-    private _servicioCClientes: ServicioClientes,
+    private modalService: NgbModal,    
     private _servicioLineas:ServicioLineas,
-    private _servicioCategorias:ServicioCategorias) { 
+    private _servicioCategorias:ServicioCategorias,
+    private _servicioVentasArticulo: ServicioVentasArticulo,
+    private _servicioVentasArticuloPzasImp: ServicioVentasArticuloPzasImp) { 
 
       this.mobileQuery = media.matchMedia('(max-width: 600px)');
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -129,23 +122,15 @@ export class VentasarticuloComponent implements OnInit {
       this.sNombre = sessionStorage.getItem('nombre');
   
       //Inicializamos variables consulta pedidos
-      this.oBuscar = new FiltrosVentaArticuloCliente('',0,'','','','',0,0,0,0,'','','','','','','','','','','','','','',0)
-      this.oVentasCliRes={} as VentasClienteArticulo; 
+      this.oBuscar = new FiltrosVentasArticulo('',0,'','','','','','','','','','','','','','','','',0)
+      this.oVentasArticuloRes={} as VentasArticulo; 
       this.oBuscarOfi =  new FiltrosOficina('',0)
       this.oOficinasRes = {} as Oficina;
-
 
       this.bCliente = false;
       this.bBandera = false;
       this.bFiltroOrden = false;
       this.bFiltrResumido = false;
-
-      this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
-	    this.oCliente={} as Clientes;
-	    this.oContenido ={} as ContenidoCli;
-	    this.oCondiciones ={} as Condiciones;
-	    this.oDatosGenerales ={} as DatosGenerales;
-	    this.oContacto ={} as Contactos;
 
     }
 
@@ -161,26 +146,17 @@ export class VentasarticuloComponent implements OnInit {
       let mes;
       
       //Valida mes 
-      if (date.getMonth().toString.length == 1){
+      if (date.getMonth().toString().length == 1){
         mes = '0'+(date.getMonth()+1);
       }
 
       let fechaDesde =  date.getFullYear() +'-01-01';          
-      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString.length == 1 ? '0'+(date.getDate()-1) : date.getDate());    
+      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());    
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
 
       switch(this.sTipo) { 
-        case 'C':{    
-          //Tipo cliente
-          console.log('1');                           
-
-           this.oBuscar.ClienteDesde = this.sCodigo; 
-           this.oBuscar.ClienteHasta = this.sCodigo;   
-           this.bCliente = true;    
-           break; 
-        } 
         case 'A': { 
-           //Agente; 
+           //Agente;            
            this.bCliente = false;    
            break; 
         } 
@@ -192,7 +168,7 @@ export class VentasarticuloComponent implements OnInit {
       } 
 
 
-      this.oBuscar.TipoArticulo = 'T';   
+      /*this.oBuscar.TipoArticulo = 'T';   
       this.oBuscar.TipoOrigen = 'T';   
       this.oBuscar.OrdenReporte = 'C';   
       this.oBuscar.Presentacion = 'R';   
@@ -205,11 +181,18 @@ export class VentasarticuloComponent implements OnInit {
       this.oBuscar.SubcategoriaDesde = '0';
       this.oBuscar.SubcategoriaHasta = '9';
       this.oBuscar.ClienteHasta = 999999;
-      this.oBuscar.FilialHasta = 999;
+      this.oBuscar.FilialHasta = 999;*/
       
-
-      this.Buscar.TipoUsuario = this.sTipo;
-      this.Buscar.Usuario = this.sCodigo;
+      this.oBuscar.TipoArticulo = 'T';
+      this.oBuscar.TipoOrigen = 'T';
+      this.oBuscar.OrdenReporte = 'C';
+      this.oBuscar.Presentacion = 'R';
+      this.oBuscar.FechaDesde = fechaDesde;
+      this.oBuscar.FechaHasta = fechaAyer;
+      this.oBuscar.LineaHasta = 'ZZ';
+      this.oBuscar.ClaveHasta = 'Z';
+      
+      this.oBuscar.Usuario = this.sCodigo;
 
       //Realizamos llamada al servicio de oficinas
       this._servicioOficinas 
@@ -310,36 +293,35 @@ export class VentasarticuloComponent implements OnInit {
             }
           );
 
-
-
-
       
     }
 
 
     //Funcion para consultar las ventas cliente articulo 
-    consultaVentCArticulo(){
+    consultaVentasArticulo(){
       
     console.log(this.oBuscar);
     this.oBuscar.TipoUsuario = this.sTipo
     this.oBuscar.Usuario = this.sCodigo
     this.bCargando = true;
 
-     //Realizamos llamada al servicio de relacion de pedidos
-     this._servicioVenClientes
+    if(this.oBuscar.OrdenReporte == 'C'){//Ventas por articulo CATEGORIA
+
+      //Realizamos llamada al servicio ventas articulo x CATEGORIA
+     this._servicioVentasArticulo
      .Get(this.oBuscar)
      .subscribe(
-       (Response: VentasClienteArticulo) => {
+       (Response: VentasArticulo) => {
  
-         this.oVentasCliRes = Response;
+         this.oVentasArticuloRes = Response;
          //this.pedido = this.oRelacionPedRes.Contenido.Pedidos
                 
  
          //console.log( this.collectionSize);
-         console.log("RESULTADO LLAMADA  "+JSON.stringify(this.oVentasCliRes) );
+         console.log("RESULTADO LLAMADA  "+JSON.stringify(this.oVentasArticuloRes) );
          //console.log(this.pedido);
  
-         if(this.oVentasCliRes.Codigo != 0){
+         if(this.oVentasArticuloRes.Codigo != 0){
            this.bError= true;
            this.sMensaje="No se encontraron datos de venta por artículo";
            this.bBandera = false;
@@ -363,23 +345,68 @@ export class VentasarticuloComponent implements OnInit {
 
          this.bCargando = false;
 
-         
-         //this.oContenido	= this.oVentasCliRes.Contenido
-         //this.collectionSize = this.oVentasCliRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
- 
+
        },
-       (error:VentasClienteArticulo) => {
+       (error:VentasArticulo) => {
  
-         this.oVentasCliRes = error;
+         this.oVentasArticuloRes = error;
  
          console.log("error");
-         console.log(this.oVentasCliRes);
+         console.log(this.oVentasArticuloRes);
          this.sMensaje="No se encontraron datos de venta por artículo";
          this.bCargando = false;
          this.bBandera = false;
        
        }
      );
+
+
+    }else{//Ventas por articulo PIEZAS e IMPORTE
+        
+    
+        //Realizamos llamada al servicio ventas cliente articulo por piezas o importe
+        this._servicioVentasArticuloPzasImp
+        .Get(this.oBuscar)
+        .subscribe(
+          (Response: VentasArticuloPzasImp) => {
+    
+            this.oVentasArticuloPzasImpRes = Response;
+            //this.pedido = this.oRelacionPedRes.Contenido.Pedidos                    
+    
+            //console.log( this.collectionSize);
+            console.log("RESULTADO LLAMADA por Pieza y importe "+JSON.stringify(this.oVentasArticuloPzasImpRes));
+            //console.log(this.pedido);
+    
+            if(this.oVentasArticuloPzasImpRes.Codigo != 0){
+              this.bError= true;
+              this.sMensaje="No se encontraron datos de venta por artículo piezas y importe";
+              this.bBanderaPzIm = false;
+              this.bCargando = false;
+              return;
+            }
+    
+            this.sMensaje="";
+            this.bBanderaPzIm = true;
+            this.bBandera = true;
+            this.bCargando = false;
+    
+          },
+          (error:VentasArticuloPzasImp) => {
+    
+            this.oVentasArticuloPzasImpRes = error;
+    
+            console.log("error");
+            console.log(this.oVentasArticuloPzasImpRes);
+            this.sMensaje="No se encontraron datos de venta por artículo piezas y importe";
+            this.bBanderaPzIm = false;
+            this.bBandera = false;
+          
+          }
+        );
+    }
+
+
+     
   }
 
   // #### Obten totales por lineas ####
@@ -586,15 +613,13 @@ export class VentasarticuloComponent implements OnInit {
   getTotalPiezasxCliente(oContenido: Contenido[]): number {   
   let Total: number = 0;
   
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
+  for(var oConte of oContenido){    
+    for(var subCat of oConte.Subcategorias){ 
       for(var linPro of subCat.LineasProducto){ 
         for(var art of linPro.Articulos){ 
           Total += art.Piezas;  
         }        
-      }
-    } 
+      }    
     }
   }
     Total = Number(Total.toFixed(2));
@@ -604,15 +629,14 @@ export class VentasarticuloComponent implements OnInit {
   getTotalPiezasPorxCliente(oContenido: Contenido[]): number {   
     let Total: number = 0;
     
-    for(var oConte of oContenido){ 
-      for(var oCat of oConte.Categorias){     
-      for(var subCat of oCat.Subcategorias){ 
+    for(var oConte of oContenido){  
+      for(var subCat of oConte.Subcategorias){ 
         for(var linPro of subCat.LineasProducto){ 
           for(var art of linPro.Articulos){ 
             Total += art.PiezasPorcentaje;  
           }        
         }
-      } 
+      
       }
     }
       Total = Number(Total.toFixed(2));
@@ -623,15 +647,14 @@ export class VentasarticuloComponent implements OnInit {
   let Total: number = 0;
 
   for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
+    for(var subCat of oConte.Subcategorias){ 
       for(var linPro of subCat.LineasProducto){ 
         for(var art of linPro.Articulos){ 
           Total += art.Gramos;  
         }        
       }
     } 
-    }
+    
   }
     Total = Number(Total.toFixed(2));
     return Total; 
@@ -641,16 +664,15 @@ export class VentasarticuloComponent implements OnInit {
   getTotalGramosPorxCliente(oContenido: Contenido[]): number {   
   let Total: number = 0;
 
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
+  for(var oConte of oContenido){    
+    for(var subCat of oConte.Subcategorias){ 
       for(var linPro of subCat.LineasProducto){ 
         for(var art of linPro.Articulos){ 
           Total += art.GramosPorcentaje;  
         }        
       }
     } 
-    }
+    
   }
     Total = Number(Total.toFixed(2));
     return Total; 
@@ -659,16 +681,15 @@ export class VentasarticuloComponent implements OnInit {
   getTotalImpVenxCliente(oContenido: Contenido[]): number {   
   let Total: number = 0;
 
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
+  for(var oConte of oContenido){   
+    for(var subCat of oConte.Subcategorias){ 
       for(var linPro of subCat.LineasProducto){ 
         for(var art of linPro.Articulos){ 
           Total += art.ImporteVenta;  
         }        
       }
     } 
-    }
+    
   }
   Total = Number(Total.toFixed(2));
     return Total; 
@@ -750,118 +771,9 @@ downloadAsPDF() {
   };
 
 
-    //Modal clientes
-    openClientes(Clientes: any, cliente: boolean) {
-      console.log("Entra modal clientes");
-      this.bCargandoClientes = true;
-      this.bBanderaCliente = cliente;
-      var result;
-  
-      try{
-        result = this.BuscaClientes()
-  
-        if(result){
-          this.ModalActivo = this.modalService.open(Clientes, {
-            ariaLabelledBy: 'Clientes',
-            size: 'xl',
-            scrollable: true
-            
-          });
-      
-          this.ModalActivo.result.then(
-            (result) => {},
-            (reason) => {
-              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-              console.log('reason ' + reason);
-              this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
-            }
-          );
-        }
-  
-        //this.bCargandoClientes = false;
-  
-  
-        console.log("respuesta"+result);
-  
-      }catch(err){
-        
-      }
-    }
   
 
-  //Funcion para seleccionar cliente
-  obtenCliente(sCodigo: string, sFilial: string) {
 
-    if (this.bBanderaCliente) {//Si es true es cliente desde
-      this.oBuscar.ClienteDesde = Number(sCodigo);
-      this.oBuscar.FilialDesde = Number(sFilial);
-    }else{
-      this.oBuscar.ClienteHasta = Number(sCodigo);
-      this.oBuscar.FilialHasta = Number(sFilial);
-    }
-
-      
-
-      this.ModalActivo.dismiss('Cross click');    
-    }
-    BuscaClientes():boolean{
-      this.Buscar.Pagina=1;
-      this.Buscar.Usuario= -1;
-    
-      console.log("Entra");
-  
-      this._servicioCClientes
-      .GetCliente(this.Buscar)
-      .subscribe(
-        (Response: Clientes) =>  {
-          
-  
-          this.oCliente = Response;
-  
-          console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
-          this.bCargandoClientes =false;
-  
-  
-          if(this.oCliente.Codigo != 0){
-            this.bError= true;
-            this.sMensaje="No se encontraron datos del cliente";
-     
-            return false;
-          }
-     
-          this.oContenido = this.oCliente.Contenido[0];
-          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-          this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-          this.oContacto =this.oCliente.Contenido[0].Contactos;
-          return true;
-  
-       
-        },
-        (error:Clientes) => {
-  
-          this.oCliente = error;
-  
-          console.log("error");
-          console.log(this.oCliente);
-          this.bCargandoClientes =false;
-          return false;
-       
-        }
-        
-      );
-      return true;
-    } 
-  
-  
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
   
   
   cargaSubCat(sCategoria, bCategoria: boolean){

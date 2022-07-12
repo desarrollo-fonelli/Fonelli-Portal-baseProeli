@@ -24,8 +24,7 @@ import { FiltrosLineas } from 'src/app/models/lineas.filtros';
 import { Lineas, Contenido as LineasCon } from 'src/app/models/lineas';
 import { FiltrosCategorias } from 'src/app/models/categorias.filtros';
 import { Categorias, Contenido as CategoriasCon } from 'src/app/models/categorias';
-
-
+import { VentasClienteArticuloPzasImp, Detalle, Subcategorias as SubCatPzsImp } from 'src/app/models/ventasclientearticuloPzasImp';
 
 
 //Servicios
@@ -35,8 +34,7 @@ import { Contenido } from '../../models/ventasclientearticulo';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 import { ServicioLineas } from 'src/app/services/lineas.service';
 import { ServicioCategorias } from 'src/app/services/categorias.service';
-
-
+import { ServicioVentasClienteArticuloPzasImp } from 'src/app/services/ventasClienteArticuloPzasImp.service';
 
 
 import {
@@ -55,7 +53,8 @@ import {
     DecimalPipe,
     ServicioClientes,
     ServicioLineas,
-    ServicioCategorias
+    ServicioCategorias,
+    ServicioVentasClienteArticuloPzasImp
   ]
 })
 export class VentasclientearticuloComponent implements OnInit {
@@ -71,6 +70,7 @@ export class VentasclientearticuloComponent implements OnInit {
 
   public oBuscar: FiltrosVentaArticuloCliente;
   oVentasCliRes: VentasClienteArticulo; 
+  oVentasCliArtPzasImpRes: VentasClienteArticuloPzasImp; 
   public oBuscarOfi: FiltrosOficina;
   oOficinasRes: Oficina; 
 
@@ -87,9 +87,9 @@ export class VentasclientearticuloComponent implements OnInit {
   public bError: boolean=false;
   public sMensaje: string="";
   public bCliente: boolean;
-  public bFiltroOrden: boolean;
-  public bFiltrResumido: boolean;
   bBandera: boolean;
+  bBanderaPzIm: boolean;
+  bBanderaCat: boolean;
 
   fechaHoy: String
   public bCargando: boolean = false;
@@ -109,6 +109,14 @@ export class VentasclientearticuloComponent implements OnInit {
 
   public bBanderaCliente: boolean;
 
+  public sClienteDesdeCod: string;
+  public sClienteDesdeFil: string;
+  public sClienteDesdeNom: string;
+  
+  public sClienteHastaCod: string;
+  public sClienteHastaFil: string;
+  public sClienteHastaNom: string;
+
   private _mobileQueryListener: () => void;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
@@ -118,7 +126,8 @@ export class VentasclientearticuloComponent implements OnInit {
     private modalService: NgbModal,
     private _servicioCClientes: ServicioClientes,
     private _servicioLineas:ServicioLineas,
-    private _servicioCategorias:ServicioCategorias) { 
+    private _servicioCategorias:ServicioCategorias,
+    private _servicioVenClientesPzasImp: ServicioVentasClienteArticuloPzasImp) { 
 
       this.mobileQuery = media.matchMedia('(max-width: 600px)');
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -132,14 +141,15 @@ export class VentasclientearticuloComponent implements OnInit {
       //Inicializamos variables consulta pedidos
       this.oBuscar = new FiltrosVentaArticuloCliente('',0,'','','','',0,0,0,0,'','','','','','','','','','','','','','',0)
       this.oVentasCliRes={} as VentasClienteArticulo; 
+      this.oVentasCliArtPzasImpRes={} as VentasClienteArticuloPzasImp; 
       this.oBuscarOfi =  new FiltrosOficina('',0)
       this.oOficinasRes = {} as Oficina;
 
 
       this.bCliente = false;
       this.bBandera = false;
-      this.bFiltroOrden = false;
-      this.bFiltrResumido = false;
+      this.bBanderaPzIm = false;
+      this.bBanderaCat = false;
 
       this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
 	    this.oCliente={} as Clientes;
@@ -147,6 +157,8 @@ export class VentasclientearticuloComponent implements OnInit {
 	    this.oCondiciones ={} as Condiciones;
 	    this.oDatosGenerales ={} as DatosGenerales;
 	    this.oContacto ={} as Contactos;
+
+
 
     }
 
@@ -162,12 +174,12 @@ export class VentasclientearticuloComponent implements OnInit {
       let mes;
       
       //Valida mes 
-      if (date.getMonth().toString.length == 1){
+      if (date.getMonth().toString().length == 1){
         mes = '0'+(date.getMonth()+1);
       }
 
       let fechaDesde =  date.getFullYear() +'-01-01';          
-      let fechaHasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString.length == 1 ? '0'+(date.getDate()-1) : date.getDate());          
+      let fechaHasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());          
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
 
       switch(this.sTipo) { 
@@ -207,6 +219,8 @@ export class VentasclientearticuloComponent implements OnInit {
       this.oBuscar.SubcategoriaHasta = '9';
       this.oBuscar.ClienteHasta = 999999;
       this.oBuscar.FilialHasta = 999;
+
+  
       
 
       this.Buscar.TipoUsuario = this.sTipo;
@@ -323,66 +337,116 @@ export class VentasclientearticuloComponent implements OnInit {
     //Funcion para consultar las ventas cliente articulo 
     consultaVentCArticulo(){
       
-    console.log(this.oBuscar);
-    this.oBuscar.TipoUsuario = this.sTipo
-    this.oBuscar.Usuario = this.sCodigo
-    this.bCargando = true;
 
-     //Realizamos llamada al servicio de relacion de pedidos
-     this._servicioVenClientes
-     .Get(this.oBuscar)
-     .subscribe(
-       (Response: VentasClienteArticulo) => {
- 
-         this.oVentasCliRes = Response;
-         //this.pedido = this.oRelacionPedRes.Contenido.Pedidos
-                
- 
-         //console.log( this.collectionSize);
-         console.log("RESULTADO LLAMADA  "+JSON.stringify(this.oVentasCliRes) );
-         //console.log(this.pedido);
- 
-         if(this.oVentasCliRes.Codigo != 0){
-           this.bError= true;
-           this.sMensaje="No se encontraron datos de venta por artículo";
-           this.bBandera = false;
-           this.bCargando = false;
-           return;
-         }
- 
-         this.sMensaje="";
-         this.bBandera = true;
-         if (this.oBuscar.OrdenReporte == 'C'){
-          this.bFiltroOrden = true;//Es categoria
-         }else{
-          this.bFiltroOrden = false;//Es pieza o importe
-         }
+      console.log(this.oBuscar);
+      this.oBuscar.TipoUsuario = this.sTipo
+      this.oBuscar.Usuario = this.sCodigo
+      this.bCargando = true;
 
-         if (this.oBuscar.Presentacion == 'R'){
-          this.bFiltrResumido = true;//Es resumido
-         }else{
-          this.bFiltrResumido = false;//Es detallado
-         }
+      
+      //Validacion para determinar que servicio se estara utilizando
+      if (this.oBuscar.OrdenReporte == 'C'){//Orden por categoria
+        this.bBanderaPzIm = false;
+        
+        //Realizamos llamada al servicio ventas cliente articulo por categoria
+        this._servicioVenClientes
+        .Get(this.oBuscar)
+        .subscribe(
+          (Response: VentasClienteArticulo) => {
+    
+            this.oVentasCliRes = Response;
+            //this.pedido = this.oRelacionPedRes.Contenido.Pedidos                    
+    
+            //console.log( this.collectionSize);
+            console.log("RESULTADO LLAMADA categorias: "+JSON.stringify(this.oVentasCliRes) );
+            //console.log(this.pedido);
+    
+            if(this.oVentasCliRes.Codigo != 0){
+              this.bError= true;
+              this.sMensaje="No se encontraron datos de venta por artículo";
+              this.bBandera = false;
+              this.bCargando = false;
+              return;
+            }
+    
+            this.sMensaje="";
+            this.bBandera = true;
+            this.bCargando = false;
+            this.bBanderaCat = true;
 
-         this.bCargando = false;
+            this.sClienteDesdeCod = this.oVentasCliRes.Contenido[0].ClienteCodigo;
+            this.sClienteDesdeFil = this.oVentasCliRes.Contenido[0].ClienteFilial;
+            this.sClienteDesdeNom = this.oVentasCliRes.Contenido[0].ClienteNombre;
 
-         
-         //this.oContenido	= this.oVentasCliRes.Contenido
-         //this.collectionSize = this.oVentasCliRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
- 
-       },
-       (error:VentasClienteArticulo) => {
- 
-         this.oVentasCliRes = error;
- 
-         console.log("error");
-         console.log(this.oVentasCliRes);
-         this.sMensaje="No se encontraron datos de venta por artículo";
-         this.bCargando = false;
-         this.bBandera = false;
-       
-       }
-     );
+            this.sClienteHastaCod = this.oVentasCliRes.Contenido[this.oVentasCliRes.Contenido.length-1].ClienteCodigo;
+            this.sClienteHastaFil = this.oVentasCliRes.Contenido[this.oVentasCliRes.Contenido.length-1].ClienteFilial;
+            this.sClienteHastaNom = this.oVentasCliRes.Contenido[this.oVentasCliRes.Contenido.length-1].ClienteNombre;            
+            
+    
+          },
+          (error:VentasClienteArticulo) => {
+    
+            this.oVentasCliRes = error;
+    
+            console.log("error");
+            console.log(this.oVentasCliRes);
+            this.sMensaje="No se encontraron datos de venta por artículo";
+            this.bCargando = false;
+            this.bBanderaCat = false;
+            this.bBandera = false;
+          
+          }
+        );
+        
+
+      }else{//Orden por pieza o importe
+        this.bBanderaCat = false;
+
+        
+        //Realizamos llamada al servicio ventas cliente articulo por piezas o importe
+        this._servicioVenClientesPzasImp
+        .Get(this.oBuscar)
+        .subscribe(
+          (Response: VentasClienteArticuloPzasImp) => {
+    
+            this.oVentasCliArtPzasImpRes = Response;
+            //this.pedido = this.oRelacionPedRes.Contenido.Pedidos                    
+    
+            //console.log( this.collectionSize);
+            console.log("RESULTADO LLAMADA por Pieza y importe "+JSON.stringify(this.oVentasCliArtPzasImpRes));
+            //console.log(this.pedido);
+    
+            if(this.oVentasCliArtPzasImpRes.Codigo != 0){
+              this.bError= true;
+              this.sMensaje="No se encontraron datos de venta por artículo piezas y importe";
+              this.bBanderaPzIm = false;
+              this.bCargando = false;
+              return;
+            }
+    
+            this.sMensaje="";
+            this.bBanderaPzIm = true;
+            this.bBandera = true;
+            this.bCargando = false;
+    
+          },
+          (error:VentasClienteArticuloPzasImp) => {
+    
+            this.oVentasCliArtPzasImpRes = error;
+    
+            console.log("error");
+            console.log(this.oVentasCliArtPzasImpRes);
+            this.sMensaje="No se encontraron datos de venta por artículo";
+            this.bBanderaPzIm = false;
+            this.bBandera = false;
+          
+          }
+        );
+
+      }
+
+    
+
   }
 
   // #### Obten totales por lineas ####
@@ -454,7 +518,9 @@ export class VentasclientearticuloComponent implements OnInit {
 
   getTotalPiezasxSubCat(oLineaPro: LineasProducto[]): number {   
     let Total: number = 0;  
+    var sPrueba: string;
   
+    sPrueba= 'Piezas';
       for(var linPro of oLineaPro){ 
         for(var art of linPro.Articulos){ 
           Total += art.Piezas;       
@@ -679,6 +745,135 @@ export class VentasclientearticuloComponent implements OnInit {
 
 // #### Obten totales por Cliente ####
 
+
+ // #### Obten totales por subcategoria piezas y importe ####
+ getTotalPiezasxSubCategoriaPzsImp(oDetalle: Detalle[]): number {   
+  let Total: number = 0;
+
+  for(var det of oDetalle){ 
+        Total += det.Piezas;          
+  }
+
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}
+
+getTotalPiezasPorxSubCategoriaPzsImp(oDetalle: Detalle[]): number {   
+  let Total: number = 0;
+
+  for(var det of oDetalle){ 
+    Total += det.PiezasPorcentaje;          
+  }
+
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}
+
+
+getTotalGramosxSubCategoriaPzsImp(oDetalle: Detalle[]): number {   
+  let Total: number = 0;
+
+  for(var det of oDetalle){ 
+    Total += det.Gramos;          
+  }
+
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}
+
+
+getTotalGramosPorxSubCategoriaPzsImp(oDetalle: Detalle[]): number {   
+  let Total: number = 0;
+
+  for(var det of oDetalle){ 
+    Total += det.GramosPorcentaje;          
+  }
+
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}
+
+ getTotalImpVenxSubCategoriaPzsImp(oDetalle: Detalle[]): number {   
+  let Total: number = 0;
+
+  for(var det of oDetalle){ 
+    Total += det.ImporteVenta;          
+  }
+
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}    
+// #### Obten totales por SubCategoria piezas y importe ####
+
+ // #### Obten totales por Categoria piezas e importe ####
+ getTotalPiezasxCategoriaPzsImp(oSubCatPzsImp: SubCatPzsImp[]): number {   
+  let Total: number = 0;
+
+  for(var subCat of oSubCatPzsImp){ 
+    for(var det of subCat.Detalle){ 
+        Total += det.Piezas;        
+    }
+        
+  }
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}
+
+getTotalPiezasPorxCategoriaPzsImp(oSubCatPzsImp: SubCatPzsImp[]): number {   
+  let Total: number = 0;
+
+  for(var subCat of oSubCatPzsImp){ 
+    for(var det of subCat.Detalle){ 
+        Total += det.PiezasPorcentaje;        
+    }
+  }
+
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}
+
+
+getTotalGramosxCategoriaPzsImp(oSubCatPzsImp: SubCatPzsImp[]): number {   
+  let Total: number = 0;
+
+  for(var subCat of oSubCatPzsImp){ 
+    for(var det of subCat.Detalle){ 
+        Total += det.Gramos;        
+    }
+  }
+
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}
+
+
+getTotalGramosPorxCategoriaPzsImp(oSubCatPzsImp: SubCatPzsImp[]): number {   
+  let Total: number = 0;
+
+  for(var subCat of oSubCatPzsImp){ 
+    for(var det of subCat.Detalle){ 
+        Total += det.GramosPorcentaje;        
+    }
+  }
+
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}
+
+ getTotalImpVenxCategoriaPzsImp(oSubCatPzsImp: SubCatPzsImp[]): number {   
+  let Total: number = 0;
+
+  for(var subCat of oSubCatPzsImp){ 
+    for(var det of subCat.Detalle){ 
+        Total += det.ImporteVenta;        
+    }
+  }
+
+  Total = Number(Total.toFixed(2));
+  return Total; 
+}   
+ // #### Obten totales por Categoria piezas e importe ####
+
 downloadAsPDF() {
 
   const pdfTable = this.pdfTable.nativeElement;
@@ -686,8 +881,9 @@ downloadAsPDF() {
 
   var cadenaaux = pdfTable.innerHTML;
 
+
   let cadena =
-      '<br><p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
+      '<br><p>Desde Cliente: <strong>' +this.sClienteDesdeCod +' - '+this.sClienteDesdeFil+' - '+this.sClienteDesdeNom+'<br></strong> Hasta cliente: <strong>' +this.sClienteHastaCod +' - '+this.sClienteHastaFil+' - '+this.sClienteHastaNom+'</strong></p>' +      
       cadenaaux;
 
   var html = htmlToPdfmake(cadena);
@@ -793,14 +989,16 @@ downloadAsPDF() {
   
 
   //Funcion para seleccionar cliente
-  obtenCliente(sCodigo: string, sFilial: string) {
+  obtenCliente(sCodigo: string, sFilial: string, sNombre:string) {
 
     if (this.bBanderaCliente) {//Si es true es cliente desde
       this.oBuscar.ClienteDesde = Number(sCodigo);
       this.oBuscar.FilialDesde = Number(sFilial);
+
     }else{
       this.oBuscar.ClienteHasta = Number(sCodigo);
       this.oBuscar.FilialHasta = Number(sFilial);
+
     }
 
       

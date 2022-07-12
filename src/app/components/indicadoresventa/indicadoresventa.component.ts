@@ -23,38 +23,22 @@ import {
 
 //Modelos
 import { FiltroIndicadoresVenta } from 'src/app/models/indicadoresventa.filtros'
-import { IndicadoresVenta } from 'src/app/models/indicadoresventa'
+import { IndicadoresVenta, ImporteVentas} from 'src/app/models/indicadoresventa'
 import { FiltrosAgente } from 'src/app/models/agentes.filtros';
 import { Agentes, Contenido as AgentesCon } from 'src/app/models/agentes';
 
 
-import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
-import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
-import { ConsultaPedido, Pedido } from 'src/app/models/consultapedidos';
-import { DetallePedido, PedidoArticulo } from 'src/app/models/detallepedido';
-import {FiltrosClientes} from 'src/app/models/clientes.filtros';
-import { Clientes } from 'src/app/models/clientes';
-import { Contenido } from 'src/app/models/clientes';
-import { Condiciones } from 'src/app/models/clientes';
-import { DatosGenerales } from 'src/app/models/clientes';
-import { Contactos } from 'src/app/models/clientes';
-
-
 //Servicios
-//import { ServicioConsultaVenta } from 'src/app/services/indicadoresventa.service';
+import { ServicioIndicadoresVenta } from 'src/app/services/indicadoresventa.service';
 import { ServicioAgentes } from 'src/app/services/agentes.service';
-
-
-import { ServicioConsultaPedidos } from 'src/app/services/consultapedidos.service';
-import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
-import { ServicioClientes } from 'src/app/services/clientes.service';
+import { concat } from 'rxjs';
 
 
 @Component({
   selector: 'app-indicadoresventa',
   templateUrl: './indicadoresventa.component.html',
   styleUrls: ['./indicadoresventa.component.css'],
-  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes,ServicioAgentes],
+  providers: [DecimalPipe,ServicioAgentes,ServicioIndicadoresVenta],
 })
 export class IndicadoresventaComponent implements OnInit {
   @ViewChild('pdfTable') pdfTable: ElementRef;
@@ -70,21 +54,16 @@ export class IndicadoresventaComponent implements OnInit {
 
   oBuscar: FiltroIndicadoresVenta;
   oIndVentaRes: IndicadoresVenta;
-  public oBuscaDetalle: FiltrosDetallePedidos;
-  oPedidoDetalleRes: DetallePedido;
+  oImporteVentasRes: ImporteVentas;
+
 
   public bError: boolean = false;
   public sMensaje: string = '';
-  bBandera = false;
-  bBanderaDet = false;
-  bBanderaDetPro = false;
-  bBanderaBtnPro = true;
-  bBanderaBtnPed = false;
+  bBandera = false; 
 
   fechaHoy: String;
 
-  pedido: Pedido[];
-  pedidoDet: PedidoArticulo[];
+
 
   public bCargando: boolean = false;
   public bCargandoClientes: boolean = false;
@@ -99,12 +78,7 @@ export class IndicadoresventaComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
 
-  public Buscar: FiltrosClientes;
-  public oCliente: Clientes; 
-  public oContenido : Contenido;
-  public oCondiciones : Condiciones;
-  public oDatosGenerales : DatosGenerales;
-  public oContacto : Contactos;
+
 
   public oBuscarAgentes: FiltrosAgente;
   public oAgentes: Agentes; 
@@ -118,11 +92,8 @@ export class IndicadoresventaComponent implements OnInit {
     media: MediaMatcher,
     private _route: ActivatedRoute,
     private _router: Router,
-    private _servicioCPedidos: ServicioConsultaPedidos,
-    private _servicioCPedidosDet: ServicioDetallePedido,
-    private modalService: NgbModal,
-    private _servicioCClientes: ServicioClientes,
-    private _servicioAgentes: ServicioAgentes
+    private _servicioAgentes: ServicioAgentes,
+    private _servicioIndicadoresVenta: ServicioIndicadoresVenta
     
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -140,21 +111,6 @@ export class IndicadoresventaComponent implements OnInit {
     this.oBuscar = new FiltroIndicadoresVenta(0, 0,'', 0);
     this.oIndVentaRes = {} as IndicadoresVenta;
 
-    this.pedido = [];
-
-    //Inicializamos variables consulta detalle pedidos
-    this.oBuscaDetalle = new FiltrosDetallePedidos('', 0, '', 0, 0, 0);
-    this.oPedidoDetalleRes = {} as DetallePedido;
-    this.pedidoDet = [];
-
-    this.refreshCountries();
-
-    this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
-    this.oCliente={} as Clientes;
-    this.oContenido ={} as Contenido;
-    this.oCondiciones ={} as Condiciones;
-    this.oDatosGenerales ={} as DatosGenerales;
-    this.oContacto ={} as Contactos;
 }
 
   ngOnInit(): void {
@@ -185,20 +141,18 @@ export class IndicadoresventaComponent implements OnInit {
       } 
    } 
 
-   this.Buscar.TipoUsuario = this.sTipo;
-   this.Buscar.Usuario = this.sCodigo;
 
     let date: Date = new Date();
     let mes;
 
 
     //Valida mes
-    if (date.getMonth().toString.length == 1) {
+    if (date.getMonth().toString().length == 1) {
       mes = '0' + (date.getMonth() + 1);
     }
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();  
-    let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString.length == 1 ? '0'+(date.getDate()-1) : date.getDate());   
+    let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());   
     
     this.oBuscar.FechaCorte = fechaAyer;
 
@@ -246,47 +200,35 @@ export class IndicadoresventaComponent implements OnInit {
   
   //Funcion para consultar los pedidos
   consultaIndVenta() {
-    this.bBandera = true;
-    return;
-
 
     this.bBandera = false;
-    console.log('consultaPedido');
+    console.log('consulta indicadores de venta');
     this.bCargando = true;
 
-    //Inicializamos el tipo de usuario por el momento
-   // this.oBuscar.TipoUsuario = this.sTipo;
-
-    /*console.log(this.oBuscar.ClienteCodigo);
-    console.log(this.oBuscar.ClienteFilial);
-    console.log(this.oBuscar.Status);*/
-
-    console.log(this.oBuscar);
+    console.log("Criterios de busqueda:"+this.oBuscar);
 
     //Realizamos llamada al servicio de indicador de ventas
-    this._servicioCPedidos.Get(this.oBuscar).subscribe(
-      (Response: IndicadoresVenta) => {
-        this.oIndVentaRes = Response;
-        //this.pedido = this.oIndVentaRes.Contenido.Pedidos;
-
+    this._servicioIndicadoresVenta.Get(this.oBuscar).subscribe(
+    (Response: IndicadoresVenta) => {
+        this.oIndVentaRes = Response
         
         if (this.oIndVentaRes.Codigo != 0) {
           this.bError = true;
-          this.sMensaje = 'No se encontraron de pedidos';
+          this.sMensaje = 'No se encontraron datos.';
           this.bBandera = false;
           this.bCargando = false;
           return;
         }
 
+       // this.oImporteVentasRes = this.oIndVentaRes.Contenido
         this.sMensaje = '';
-        this.bBandera = true;
-        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length; //Seteamos el tamaño de los datos obtenidos
+        this.bBandera = true;        
         this.bCargando = false;
 
       },
       (error: IndicadoresVenta) => {
         this.oIndVentaRes = error;
-        this.sMensaje = 'No se encontraron de pedidos';
+        this.sMensaje = 'No se encontraron datos';
         console.log('error');
         console.log(this.oIndVentaRes);
         this.bCargando = false;
@@ -294,118 +236,82 @@ export class IndicadoresventaComponent implements OnInit {
     );
   }
 
-  //Funcion para consultar los pedidos detalle
-  /*consultaPedidoDetalle(folio: String) {
-    //console.log('consultaPedido detalle : ' + folio);
+    // #### Obten totales por SubCategoria ####
+    getTotalImpVenta(indVen: IndicadoresVenta, sValor: string): number {   
+      let Total: number = 0;  
 
-    //Inicializamos datos de encabezado requeridos para consultar detalle
-    this.oBuscaDetalle.TipoUsuario = this.oBuscar.TipoUsuario;
-    this.oBuscaDetalle.ClienteCodigo = this.oBuscar.ClienteCodigo;
-    this.oBuscaDetalle.ClienteFilial = this.oBuscar.ClienteFilial;
-    this.oBuscaDetalle.PedidoFolio = Number(folio);
-    this.oBuscaDetalle.PedidoLetra = 'C';
-    this.oBuscaDetalle.Usuario = this.oBuscar.ClienteCodigo;
+      switch(sValor) {        
+        case 'VentaDiaria': { 
+ 		
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ImporteVentas.VentaDiaria;             
+             }
+               break; 
+             } 
+      case 'VentasAcumuladas': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ImporteVentas.VentasAcumuladas;             
+             }
+               break; 
+             } 
+      case 'LimiteInferior': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ImporteVentas.LimiteInferior;             
+             }
+               break; 
+             } 
+      case 'DiferenciaLimiteInferior': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ImporteVentas.DiferenciaLimiteInferior;             
+             }
+               break; 
+             } 
+      case 'Minimo': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ImporteVentas.Minimo;             
+             }
+               break; 
+             } 
+      case 'DiferenciaMinimo': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ImporteVentas.DiferenciaMinimo;             
+             }
+               break; 
+             } 
+      case 'Meta': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ImporteVentas.Meta;             
+             }
+               break; 
+             } 
+      case 'DiferenciaMeta': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ImporteVentas.DiferenciaMeta;             
+             }
+               break; 
+             } 
+      case 'ImportePedidos': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ImporteVentas.ImportePedidos;             
+             }
+               break; 
+             }  
+     }     
+  
 
-    console.log(this.oBuscaDetalle);
-
-    //Realizamos llamada al servicio de pedidos
-    this._servicioCPedidosDet.Get(this.oBuscaDetalle).subscribe(
-      (Response: DetallePedido) => {
-        this.oPedidoDetalleRes = Response;
-        this.pedidoDet = this.oPedidoDetalleRes.Contenido.PedidoArticulos;
-
-        //console.log( this.collectionSize);
-        //console.log(this.oPedidoDetalleRes);
-        //console.log(this.pedidoDet);
-
-        if (this.oPedidoDetalleRes.Codigo != 0) {
-          this.bError = true;
-          this.sMensaje = 'No se encontro detalle de pedido';
-          this.bBanderaDet = false;
-          return;
-        }
-
-        this.bBanderaDet = true;
-        this.sMensaje = '';
-        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
-      },
-      (error: DetallePedido) => {
-        this.oPedidoDetalleRes = error;
-        this.sMensaje = 'No se encontro detalle de pedido';
-        //console.log('error');
-        console.log(this.oPedidoDetalleRes);
-      }
-    );
-  }*/
-
-  //Funcion para actualizar los valores de la tabla de acuerdo a los registros a mostrar
-  refreshCountries() {
-    //this.countries = COUNTRIES
-
-    console.log(this.pedido);
-
-    this.pedido
-      .map((c, i) => ({ id: i + 1, ...c }))
-      .slice(
-        (this.page - 1) * this.pageSize,
-        (this.page - 1) * this.pageSize + this.pageSize
-      );
-
-  }
-
-  //modal pedido detalle
-  openPedidoDetalle(PedidoDetalle: any, folio: string) {
-    console.log(folio);
-    //this.pedidoDet = [];
-    //this.consultaPedidoDetalle(folio);
-
-    this.ModalActivo = this.modalService.open(PedidoDetalle, {
-      ariaLabelledBy: 'PedidoDetalle',
-      size: 'lg',
-      scrollable: true
-      
-    });
-
-    this.ModalActivo.result.then(
-      (result) => {},
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        console.log('reason ' + reason);
-        this.pedidoDet = [];
-      }
-    );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      this.pedidoDet = [];
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      this.pedidoDet = [];
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
+      Total = Number(Total.toFixed(2));
+      return Total; 
     }
-  }
 
-  verDetalleProd() {
-    console.log('Entra ver detalle prod');
-    this.bBanderaDet = false;
-    this.bBanderaDetPro = true;
-
-    this.bBanderaBtnPed = true; //Buton pedido para ver detalle pedido
-    this.bBanderaBtnPro = false; //Buton produccion para ver detalle produccion
-  }
-  verDetallePed() {
-    console.log('Entra ver detalle prod');
-    this.bBanderaDet = true;
-    this.bBanderaDetPro = false;
-
-    this.bBanderaBtnPed = false; //Buton pedido para ver detalle pedido
-    this.bBanderaBtnPro = true; //Buton produccion para ver detalle produccion
-  }
-
-
+  //Generacion de PDF
   downloadAsPDF() {
     const pdfTable = this.pdfTable.nativeElement;
     console.log(pdfTable);
@@ -480,95 +386,7 @@ export class IndicadoresventaComponent implements OnInit {
   }
 
 
-  //Modal clientes
-  openClientes(Clientes: any) {
-    console.log("Entra modal clientes");
-    this.bCargandoClientes = true;
-    var result;
 
-    try{
-      result = this.BuscaClientes()
-
-      if(result){
-        this.ModalActivo = this.modalService.open(Clientes, {
-          ariaLabelledBy: 'Clientes',
-          size: 'xl',
-          scrollable: true
-          
-        });
-    
-        this.ModalActivo.result.then(
-          (result) => {},
-          (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            console.log('reason ' + reason);
-            this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
-          }
-        );
-      }
-
-      //this.bCargandoClientes = false;
-
-
-      console.log("respuesta"+result);
-
-    }catch(err){
-      
-    }
-  }
-
-  //Funcion para seleccionar cliente
-  obtenCliente(sCodigo: string, sFilial: string) {
-
-      /*this.oBuscar.ClienteCodigo = Number(sCodigo);
-      this.oBuscar.ClienteFilial = Number(sFilial);*/
-
-      this.ModalActivo.dismiss('Cross click');    
-    }
-
-  BuscaClientes():boolean{
-
-    this._servicioCClientes
-    .GetCliente(this.Buscar)
-    .subscribe(
-      (Response: Clientes) =>  {
-        
-
-        this.oCliente = Response;
-
-        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
-        this.bCargandoClientes =false;
-
-
-        if(this.oCliente.Codigo != 0){
-          this.bError= true;
-          this.sMensaje="No se encontraron datos del cliente";
-   
-          return false;
-        }
-   
-        this.oContenido = this.oCliente.Contenido[0];
-        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-        this.oContacto =this.oCliente.Contenido[0].Contactos;
-        return true;
-
-     
-      },
-      (error:Clientes) => {
-
-        this.oCliente = error;
-
-        console.log("error");
-        console.log(this.oCliente);
-        this.bCargandoClientes =false;
-        return false;
-     
-      }
-      
-    );
-    return true;
-  }  
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

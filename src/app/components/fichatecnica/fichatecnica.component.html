@@ -200,15 +200,30 @@
             <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">VALOR AGREGADO</div></th>            
           </tr>
           </thead>
-          <tbody>
-            <tr *ngFor="let ped of pedido| searchconsultapedido: searchtext; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">              
-              <td class="FilasFonelli" style="text-align:left">{{ ped.PedidoLetra}}</td>
-              <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>                
-              <td class="FilasFonelli" >{{ ped.OficinaFonelliCodigo}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaPedido}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaCancelacion}}</td>
-            </tr>
+          <tbody>          
+
+            <ng-container *ngFor="let datos of oAnioAnteriorRes index as i">
+              <tr *ngFor="let datos of oAnioAnteriorRes index as i">              
+                <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
+                <td></td>                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+              <tr *ngFor="let subCat of datos.Subcategorias index as i">              
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
+                <td class="FilasFonelli"> <u>{{subCat.SubcategoriaNombre}}</u> </td>                
+                <td class="FilasFonelli" >{{ subCat.Piezas}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.Gramos}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.Importe}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.ValorAgregado}}</td>
+              </tr>
+
+            </ng-container>                        
+
+          
           </tbody>
         </table>
 
@@ -228,14 +243,28 @@
           </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let ped of pedido| searchconsultapedido: searchtext; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">              
-              <td class="FilasFonelli" style="text-align:left">{{ ped.PedidoLetra}}</td>
-              <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>                
-              <td class="FilasFonelli" >{{ ped.OficinaFonelliCodigo}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaPedido}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaCancelacion}}</td>
-            </tr>
+
+            <ng-container *ngFor="let datos of oAnioActualRes index as i">
+              <tr *ngFor="let datos of oAnioAnteriorRes index as i">              
+                <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
+                <td></td>                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+              <tr *ngFor="let subCat of datos.Subcategorias index as i">              
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
+                <td class="FilasFonelli"> <u>{{subCat.SubcategoriaNombre}}</u> </td>                
+                <td class="FilasFonelli" >{{ subCat.Piezas}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.Gramos}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.Importe}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.ValorAgregado}}</td>
+              </tr>
+
+            </ng-container>
+
           </tbody>
         </table>
 
@@ -253,11 +282,11 @@
           </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let ped of pedido| searchconsultapedido: searchtext; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">              
-              <td class="FilasFonelli" style="text-align:left">{{ ped.PedidoLetra}}</td>
-              <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>                
-              <td class="FilasFonelli" >{{ ped.OficinaFonelliCodigo}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
+            <tr *ngFor="let datos of oTipoCarteraRes index as i" >              
+              <td class="FilasFonelli" style="text-align:left">{{ datos.TipoCarteraCodigo}}</td>
+              <td class="FilasFonelli"> <u>{{datos.TipoCarteraDescripc}}</u> </td>                
+              <td class="FilasFonelli" >{{ datos.Saldo}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ datos.SaldoVencido}}</td>
             </tr>
           </tbody>
         </table>
@@ -276,12 +305,12 @@
           </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let ped of pedido| searchconsultapedido: searchtext; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">              
-              <td class="FilasFonelli" style="text-align:left">{{ ped.PedidoLetra}}</td>
-              <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>                
-              <td class="FilasFonelli" >{{ ped.OficinaFonelliCodigo}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
-            </tr>
+            <!-- <tr >       
+              <td class="FilasFonelli" style="text-align:left">{{ oPedidosInactivosRes.PedidosNumero}}</td>
+              <td class="FilasFonelli"> {{oPedidosInactivosRes.Piezas}}</td>                
+              <td class="FilasFonelli" >{{ oPedidosInactivosRes.Gramos}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ oPedidosInactivosRes.Importe}}</td>
+            </tr> -->
           </tbody>
         </table>
 
@@ -297,68 +326,78 @@
 </section>
 
 
-  <!--Modal catalogo clientes-->
-<ng-template #PedidoDetalle let-modal >
-</ng-template> 
 
 
+<!--Modal catalogo clientes-->
+<ng-template #Clientes let-modal >
+  <div class="modal-header" >        
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>      
 
+  <div class="modal-body-tables" style="overflow-y: scroll;" >
 
-  <!--Modal catalogo clientes-->
-  <ng-template #Clientes let-modal >
-    <div class="modal-header" >        
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>      
+    <div class="container">
+      <div class="row">
 
-    <div class="modal-body-tables" style="overflow-y: scroll;" >
-
-        <div class="container">
-            <div class="row">
-
-                  <div class="col-12" >                     
-                    <table  class="table table-striped">
-                      <thead>
-                      <tr class="EncTabla">
-                        <th>#</th>
-                        <th scope="col" ></th>
-                        <th scope="col" >NUM</th>                         
-                        <th scope="col" >FIL</th>
-                        <th scope="col" >RAZÓN SOCIAL</th>
-                        <th scope="col" >SUCURSAL/NOMBRE</th>
-                        <th scope="col" >S</th>
-                        <th scope="col" >CONTACTO1</th>
-                        <th scope="col" >CONTACTO2</th>                          
-                      </tr>
-                      </thead>
-                      <tbody>
-                        <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
-                        <tr *ngFor="let emp of oCliente.Contenido; index as i" (click)="obtenCliente(emp.ClienteCodigo)">
-                          <th scope="row">{{ i + 1 }}</th>
-                          <td class="FilasFonelli" >                              
-                            <input type="checkbox" class="tableid" name="tableid" id="tableid" class="click">
-                          </td> 
-                          <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
-                          <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
-                          <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
-                        </tr>
-                      </tbody>
-                    </table>            
-                    
-                  </div>  
-            </div>
-            
+        <div class="form-group col-md-1">              
+          <br>
+          <label class="CamposFonelli">Buscar:</label>
         </div>
+        <div class="form-group col-md-5">    
+          <br>          
+          <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="searchtext"
+              placeholder="Search"                 
+            />
+        </div>
+            
+
+        <div class="col-12" >                     
+          <table  class="table table-striped">
+            <thead>
+            <tr class="EncTabla">
+              <th>#</th>
+              <th scope="col" ></th>
+              <th scope="col" >NUM</th>                         
+              <th scope="col" >FIL</th>
+              <th scope="col" >RAZÓN SOCIAL</th>
+              <th scope="col" >SUCURSAL/NOMBRE</th>
+              <th scope="col" >S</th>
+              <th scope="col" >CONTACTO1</th>
+              <th scope="col" >CONTACTO2</th>                          
+            </tr>
+            </thead>
+            <tbody>
+              <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
+              <tr *ngFor="let emp of oCliente.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo)">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>                              
+                  <input  style="border-color: #24a4cc;" type="checkbox">
+                </td> 
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
+                <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
+              </tr>
+            </tbody>
+          </table>            
+          
+        </div>  
+      </div>
+        
     </div>
+  </div>
 
 
-    <div class="modal-footer">
-      <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
-      
-    </div>
+  <div class="modal-footer">
+    <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+    
+  </div>
 
 </ng-template> 
 

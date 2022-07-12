@@ -42,6 +42,7 @@ import { SearchEstadoCuentaPipe } from './pipes/estadocuenta.pipe';
 import { SearchConsultaPedidoPipe } from './pipes/consultapedidos.pipe';
 import { SearchRelacionPedidosPipe } from './pipes/relacionpedidos.pipe';
 import { SearchVentasClienteArticuloPipe } from './pipes/ventasclientearticulo.pipe';
+import { SearchConsultaClientePipe } from './pipes/consultaBusquedaCliente.pipe';
 import { PdfComponent } from './components/pdf/pdf.component';
 
 
@@ -75,7 +76,8 @@ import { PdfComponent } from './components/pdf/pdf.component';
     SearchConsultaPedidoPipe,
     SearchRelacionPedidosPipe,
     SearchVentasClienteArticuloPipe,
-    PdfComponent
+    PdfComponent,
+    SearchConsultaClientePipe
   ],
   imports: [
     BrowserModule,

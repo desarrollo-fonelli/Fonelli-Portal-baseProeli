@@ -54,6 +54,8 @@ Get(FiltrosRelPedido: any): Observable<any>{
 
 
                     console.log(FiltrosRelPedido);
+
+                    this.sFiltros = '';
     
                         this.sFiltros = 'TipoUsuario=' + FiltrosRelPedido.TipoUsuario;
 

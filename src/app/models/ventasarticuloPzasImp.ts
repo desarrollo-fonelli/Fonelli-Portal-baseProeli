@@ -1,4 +1,4 @@
-export interface VentasArticulo {
+export interface VentasArticuloPzasImp {
     Codigo?:     number;
     Mensaje?:    string;
     Contenido?:  Contenido[];

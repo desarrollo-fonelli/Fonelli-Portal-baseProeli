@@ -142,20 +142,37 @@
           </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let ped of pedido| searchconsultapedido: searchtext; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">
-              <th scope="row">{{ i + 1 }}</th>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.PedidoLetra}}</td>
-              <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>                
-              <td class="FilasFonelli" >{{ ped.OficinaFonelliCodigo}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaPedido}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaCancelacion}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadPedida}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadSurtida}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
+
+            <ng-container *ngFor="let impVen of oIndVentaRes.Contenido index as i">
+              <tr class="table-info">
+                <th scope="row">{{ i + 1 }}</th>
+                <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
+                <td class="FilasFonelli"> <u>{{impVen.AgenteNombre}}</u> </td>                
+                <td class="FilasFonelli" >{{ impVen.ImporteVentas.VentaDiaria}}</td>              
+                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.VentasAcumuladas}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.LimiteInferior}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.DiferenciaLimiteInferior}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.Minimo}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.DiferenciaMinimo}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.Meta}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.DiferenciaMeta}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.ImportePedidos}}</td>
+              </tr>
+            </ng-container>
+            <tr class="table-info">
+              <th scope="row"></th>
+              <td class="FilasFonelli" style="text-align:left">Totales</td>
+              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'VentaDiaria')}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'VentasAcumuladas')}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'LimiteInferior')}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'DiferenciaLimiteInferior')}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'Minimo')}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'DiferenciaMinimo')}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'Meta')}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'DiferenciaMeta')}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'ImportePedidos')}} </td>                
             </tr>
+            
           </tbody>
         </table>
 
@@ -167,6 +184,7 @@
             <tr class="EncTabla">
             <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>
             <th style="background-color: #24a4cc; color: white;" scope="col">AG</th>
+            <th style="background-color: #24a4cc; color: white;" scope="col">NOMBRE</th>
             <th style="background-color: #24a4cc; color: white; " scope="col">ACTUAL</th>
             <th style="background-color: #24a4cc; color: white; " scope="col">INFERIOR</th>
             <th style="background-color: #24a4cc; color: white;" scope="col">DIFERENCIA</th>
@@ -178,16 +196,18 @@
           </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let ped of pedido| searchconsultapedido: searchtext; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">
+            <tr *ngFor="let impVen of oIndVentaRes.Contenido index as i">
               <th scope="row">{{ i + 1 }}</th>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.PedidoLetra}}</td>
-              <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>                
-              <td class="FilasFonelli" >{{ ped.OficinaFonelliCodigo}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaPedido}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaCancelacion}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadPedida}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
+              <td class="FilasFonelli"> <u>{{impVen.AgenteNombre}}</u> </td>                
+              <td class="FilasFonelli" >{{ impVen.ClientesInactivos.InactivosActual}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesInactivos.LimiteInferior}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesInactivos.DiferenciaLimiteInferior}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesInactivos.Minimo}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesInactivos.DiferenciaMinimo}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.Meta}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaMeta}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.TotalClientes}}</td>
             </tr>
           </tbody>
         </table>
@@ -208,14 +228,14 @@
           </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let ped of pedido| searchconsultapedido: searchtext; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">
+            <tr *ngFor="let impVen of oIndVentaRes.Contenido index as i">
               <th scope="row">{{ i + 1 }}</th>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.PedidoLetra}}</td>
-              <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>                
-              <td class="FilasFonelli" >{{ ped.OficinaFonelliCodigo}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaPedido}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaCancelacion}}</td>              
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
+              <td class="FilasFonelli"> <u>{{impVen.AgenteNombre}}</u> </td>                
+              <td class="FilasFonelli" >{{ impVen.ClientesListas.ListasRango1}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango2}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango3}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango4}}</td>              
             </tr>
           </tbody>
         </table>
@@ -229,227 +249,5 @@
     <!-- </div>  -->
   
 </section>
-
-
-
-  <!--Modal pedidos detalle-->
-  <ng-template #PedidoDetalle let-modal >
-    <div class="modal-header" >        
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    
-
-    <div class="modal-body-tables" style="overflow-y: scroll;" >
-
-        <div class="container">
-            <div class="row">
-
-              <div >
-                <!-- <label>Numero de cliente:   <strong>{{oBuscar.ClienteCodigo}}  -  {{sNombre}}</strong></label> -->
-                <br>
-                <label> Pedido: <strong>{{oBuscaDetalle.PedidoFolio}}</strong> </label>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                    <button  *ngIf="bBanderaBtnPro" type="submit" (click)="verDetalleProd()" class="btnFonelli btn float-right">Detalle producción</button>
-                    <button  *ngIf="bBanderaBtnPed" type="submit" (click)="verDetallePed()" class="btnFonelli btn float-right">Detalle pedido</button>
-                </div>
-              </div> 
-              
-
-                  <div class="col-12" >                     
-                    <table *ngIf="bBanderaDet" class="table table-striped">
-                      <thead>
-                      <tr class="EncTabla">
-                        <th>#</th>
-                        <th scope="col" style="text-align:left">LN</th>
-                        <th scope="col" style="text-align:left">CLAVE</th>
-                        <th scope="col" style="text-align:left">S</th>
-                        <th scope="col" style="text-align:left">CAT</th>
-                        <th scope="col" style="text-align:left">SCAT</th>
-                        <th scope="col" style="text-align:center;"><div class="size">FECHA PED</div></th>
-                        <th scope="col" style="text-align:right">PEDIDO</th>
-                        <th scope="col" style="text-align:center"><div class="size">FEC SUR</div></th>
-                        <th scope="col" style="text-align:right">SURTIDO</th>
-                        <th scope="col" style="text-align:left">SERIE</th>
-                        <th scope="col" style="text-align:left">DOCTO</th>
-                        <th scope="col" style="text-align:center"><div class="size">FEC TER</div></th>
-                        <th scope="col" style="text-align:left">DESCRIPCIÓN</th>
-                        <th scope="col" style="text-align:right">CP4</th>
-                        <th scope="col" style="text-align:right">CP45</th>
-                        <th scope="col" style="text-align:right">CP5</th>
-                        <th scope="col" style="text-align:right">CP55</th>
-                        <th scope="col" style="text-align:right">CP6</th>
-                        <th scope="col" style="text-align:right">CP65</th>
-                        <th scope="col" style="text-align:right">CP7</th>
-                        <th scope="col" style="text-align:right">CP75</th>
-                        <th scope="col" style="text-align:right">CP8</th>
-                        <th scope="col" style="text-align:right">CP85</th>
-                        <th scope="col" style="text-align:right">CP9</th>
-                        <th scope="col" style="text-align:right">CP95</th>
-                        <th scope="col" style="text-align:right">CP10</th>
-                        <th scope="col" style="text-align:right">CP105</th>
-                        <th scope="col" style="text-align:right">CP11</th>
-                        <th scope="col" style="text-align:right">CP115</th>
-                        <th scope="col" style="text-align:right">CP12</th>
-                        <th scope="col" style="text-align:right">CP125</th>
-                        <th scope="col" style="text-align:right">CP13</th>
-                        <th scope="col" style="text-align:right">MEDX</th>
-                        <th scope="col" style="text-align:right">CANX</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let pedDet of pedidoDet; index as i">
-                          <th scope="row">{{ i + 1 }}</th>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloLinea}}</td>
-                          <td class="FilasFonelli" style="text-align:left"> <u>{{pedDet.ArticuloCodigo}}</u> </td>                
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.PedidoStatus}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloCategoria}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloSubcategoria}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaPedido}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadPedida}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaSurtido}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadSurtida}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FacturaSerie}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FacturaFolio}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaTerminacionArticulo}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloDescripc}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida4}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida4_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida5_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida6}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida6_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida7}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida7_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida8}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida8_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida9}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida9_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida10}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida10_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida11}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida11_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida12}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida12_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida13}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.MedidaEspecial}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedidaEspecial}}</td>            
-                        </tr>
-                      </tbody>
-                    </table>
-
-                    <table *ngIf="bBanderaDetPro"  class="table table-striped">
-                      <thead>
-                      <tr  class="EncTabla">
-                        <th scope="col" style="text-align:left">#</th>
-                        <th scope="col" style="text-align:left">LN</th>
-                        <th scope="col" style="text-align:left">CLAVE</th>
-                        <th scope="col" style="text-align:left">S</th>
-                        <th scope="col" style="text-align:left">CAT</th>
-                        <th scope="col" style="text-align:left">SCAT</th>
-                        <th scope="col" style="text-align:center"><div class="size">FECHA PED</div></th>
-                        <th scope="col" style="text-align:right">PEDIDO</th>
-                        <th scope="col" style="text-align:right">A PRODUCIR</th>
-                        <th scope="col" style="text-align:right">PRODUCIDO</th>
-                        <th scope="col" style="text-align:right">DIFEREN</th>
-                        <th scope="col" style="text-align:center"><div class="size">FEC PROD</div></th>                          
-                      </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let pedDet of pedidoDet; index as i">
-                          <th scope="row">{{ i + 1 }}</th>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloLinea}}</td>
-                          <td class="FilasFonelli" style="text-align:left"> <u>{{pedDet.ArticuloCodigo}}</u> </td>                
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.PedidoStatus}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloCategoria}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloSubcategoria}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaPedido}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadPedidoProduccion}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadProducida}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadSurtida}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.DiferenciaProducido}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaProduccionArticulo}}</td>                                       
-                        </tr>
-                      </tbody>
-                    </table>
-          
-                    
-                  </div>  
-            </div>
-            
-        </div>
-    </div>
-
-    <!-- <div *ngIf="alerLoginDistribuidor">
-      <p class="alert alert-danger" role="alert">{{respuestaLoginDistribuidor}}</p>
-    </div> -->
-
-    <div class="modal-footer">
-      <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
-      
-    </div>
-
-</ng-template> 
-
-
-  <!--Modal catalogo clientes-->
-  <ng-template #Clientes let-modal >
-    <div class="modal-header" >        
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>      
-
-    <div class="modal-body-tables" style="overflow-y: scroll;" >
-
-        <div class="container">
-            <div class="row">
-
-                  <div class="col-12" >                     
-                    <table  class="table table-striped">
-                      <thead>
-                      <tr class="EncTabla">
-                        <th>#</th>
-                        <th scope="col" ></th>
-                        <th scope="col" >NUM</th>                         
-                        <th scope="col" >FIL</th>
-                        <th scope="col" >RAZÓN SOCIAL</th>
-                        <th scope="col" >SUCURSAL/NOMBRE</th>
-                        <th scope="col" >S</th>
-                        <th scope="col" >CONTACTO1</th>
-                        <th scope="col" >CONTACTO2</th>                          
-                      </tr>
-                      </thead>
-                      <tbody>
-                        <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
-                        <tr *ngFor="let emp of oCliente.Contenido; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
-                          <th scope="row">{{ i + 1 }}</th>
-                          <td class="FilasFonelli" >                              
-                            <input type="checkbox" class="tableid" name="tableid" id="tableid" class="click">
-                          </td> 
-                          <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
-                          <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
-                          <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
-                        </tr>
-                      </tbody>
-                    </table>            
-                    
-                  </div>  
-            </div>
-            
-        </div>
-    </div>
-
-
-    <div class="modal-footer">
-      <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
-      
-    </div>
-
-</ng-template> 
 
 

@@ -206,41 +206,56 @@
             <div class="container">
               <div class="row">
 
-                    <div class="col-12" >                     
-                      <table  class="table table-striped">
-                        <thead>
-                        <tr class="EncTabla">
-                          <th>#</th>
-                          <th scope="col" ></th>
-                          <th scope="col" >NUM</th>                         
-                          <th scope="col" >FIL</th>
-                          <th scope="col" >RAZÓN SOCIAL</th>
-                          <th scope="col" >SUCURSAL/NOMBRE</th>
-                          <th scope="col" >S</th>
-                          <th scope="col" >CONTACTO1</th>
-                          <th scope="col" >CONTACTO2</th>                          
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
-                          <tr *ngFor="let emp of oCliente.Contenido; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
-                            <th scope="row">{{ i + 1 }}</th>
-                            <td class="form-check" >                              
-                              <input  style="border-color: #24a4cc;" type="checkbox">
-                            </td> 
-                            <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
-                            <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
-                            <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
-                            <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
-                            <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
-                            <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
-                            <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
-                          </tr>
-                        </tbody>
-                      </table>            
-                      
-                    </div>  
+                <div class="form-group col-md-1">              
+                  <br>
+                  <label class="CamposFonelli">Buscar:</label>
                 </div>
+                <div class="form-group col-md-5">    
+                  <br>          
+                  <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="searchtext"
+                      placeholder="Search"                 
+                    />
+                </div>
+                    
+
+                <div class="col-12" >                     
+                  <table  class="table table-striped">
+                    <thead>
+                    <tr class="EncTabla">
+                      <th>#</th>
+                      <th scope="col" ></th>
+                      <th scope="col" >NUM</th>                         
+                      <th scope="col" >FIL</th>
+                      <th scope="col" >RAZÓN SOCIAL</th>
+                      <th scope="col" >SUCURSAL/NOMBRE</th>
+                      <th scope="col" >S</th>
+                      <th scope="col" >CONTACTO1</th>
+                      <th scope="col" >CONTACTO2</th>                          
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
+                      <tr *ngFor="let emp of oCliente.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>                              
+                          <input  style="border-color: #24a4cc;" type="checkbox">
+                        </td> 
+                        <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
+                        <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
+                        <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                        <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                        <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                        <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                        <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
+                      </tr>
+                    </tbody>
+                  </table>            
+                  
+                </div>  
+              </div>
                 
             </div>
           </div>

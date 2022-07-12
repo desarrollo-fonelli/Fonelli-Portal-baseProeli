@@ -167,7 +167,7 @@ export class EstadocuentaComponent implements OnInit {
     let mes;
     
     //Valida mes 
-    if (date.getMonth().toString.length == 1){
+    if (date.getMonth().toString().length == 1){
       mes = '0'+(date.getMonth()+1);
     }
 
