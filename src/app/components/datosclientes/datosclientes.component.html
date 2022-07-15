@@ -417,7 +417,7 @@
                         <tbody>
                           <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
                           
-                          <tr *ngFor="let emp of oCliente.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                          <tr *ngFor="let emp of oClienteModal.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
                             <th scope="row">{{ i + 1 }}</th>
                             <td >                              
                               <input  style="border-color: #24a4cc;" type="checkbox">

@@ -37,6 +37,7 @@
                       #nombre="ngModel"
                       [(ngModel)]="oBuscar.ClienteFilial"
                       disabled="{{ bCliente }}"
+                      [disabled]="oBuscar.ClienteCodigo == 0"   
                       required
                     >
                   </div>
@@ -63,6 +64,7 @@
                           name="idListaPre"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.Lista"
+                          [disabled]="oBuscar.ClienteCodigo == 0"
                           required
                         >
                           <option value="1">Pedido</option>
@@ -72,7 +74,7 @@
                       </div>
                       <div class="form-group col-md-3" [hidden]="bCliente">
                         <label class="CamposFonelli" style="color:white;">-</label>
-                        <input type="text" class="form-control" id="" placeholder="" >
+                        <input type="text" class="form-control" id="" placeholder=""  [disabled]="oBuscar.ClienteCodigo != 0"  >
                       </div>
                   </div>
 

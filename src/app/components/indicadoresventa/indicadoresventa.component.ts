@@ -100,10 +100,10 @@ export class IndicadoresventaComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.sCodigo = Number(sessionStorage.getItem('codigo'));
-    this.sTipo = sessionStorage.getItem('tipo');
-    this.sFilial = Number(sessionStorage.getItem('filial'));
-    this.sNombre = sessionStorage.getItem('nombre');
+    this.sCodigo = Number(localStorage.getItem('codigo'));
+    this.sTipo = localStorage.getItem('tipo');
+    this.sFilial = Number(localStorage.getItem('filial'));
+    this.sNombre = localStorage.getItem('nombre');
 
     this.bCliente = false;
 
@@ -157,42 +157,68 @@ export class IndicadoresventaComponent implements OnInit {
     this.oBuscar.FechaCorte = fechaAyer;
 
     //Consulta agentes
-    this._servicioAgentes
-    .Get(this.oBuscarAgentes)
-    .subscribe(
-      (Response: Agentes) =>  {
-        
+    if (!localStorage.getItem('Agentes')){
 
-        this.oAgentes = Response;
-
-        console.log("Respuesta agentes"+JSON.stringify(this.oAgentes));
-
-
-        if(this.oAgentes.Codigo != 0){
-          this.bError= true;
-          this.sMensaje="No se encontraron agentes";   
+      this._servicioAgentes
+      .Get(this.oBuscarAgentes)
+      .subscribe(
+        (Response: Agentes) =>  {
+          
+  
+          this.oAgentes = Response;
+  
+          console.log("Respuesta agentes"+JSON.stringify(this.oAgentes));
+  
+  
+          if(this.oAgentes.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron agentes";   
+            return false;
+          }
+     
+          this.oAgentesCon = this.oAgentes.Contenido;
+  
+          if (this.sTipo == 'A'){
+            this.oBuscar.AgenteDesde = this.sCodigo;
+            this.oBuscar.AgenteHasta = this.sCodigo;
+          }else{
+            this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
+            this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo); 
+          }
+          
+          return true;
+  
+       
+        },
+        (error:Agentes) => {
+  
+          this.oAgentes = error;
+  
+          console.log("error");
+          console.log(this.oAgentes);
+  
           return false;
+       
         }
+        
+      );
+    
+    }else{//Ya tenemos agentes
+    //  console.log("Ya tenemos agentes");
+
+      this.oAgentesCon = JSON.parse(localStorage.getItem('Agentes'));
+  
+          if (this.sTipo == 'A'){
+            this.oBuscar.AgenteDesde = this.sCodigo;
+            this.oBuscar.AgenteHasta = this.sCodigo;
+          }else{
+            this.oBuscar.AgenteDesde = Number(this.oAgentesCon[0].AgenteCodigo); 
+            this.oBuscar.AgenteHasta = Number( this.oAgentesCon[ this.oAgentesCon?.length - 1].AgenteCodigo); 
+          }
+
+
+    }
    
-        this.oAgentesCon = this.oAgentes.Contenido;
-        this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
-        this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo); 
-        return true;
-
-     
-      },
-      (error:Agentes) => {
-
-        this.oAgentes = error;
-
-        console.log("error");
-        console.log(this.oAgentes);
-
-        return false;
-     
-      }
-      
-    );
 
 
   }
@@ -390,7 +416,7 @@ export class IndicadoresventaComponent implements OnInit {
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);
   }
 }

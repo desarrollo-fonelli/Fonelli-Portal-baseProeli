@@ -102,10 +102,10 @@ export class ConsultapreciosComponent implements OnInit {
     private _servicioCClientes: ServicioClientes,
     private _servicioLineas: ServicioLineas) {
 
-    this.sCodigo = Number(sessionStorage.getItem('codigo'));
-    this.sTipo = sessionStorage.getItem('tipo');
-    this.sFilial  = Number(sessionStorage.getItem('filial'));
-    this.sNombre = sessionStorage.getItem('nombre')
+    this.sCodigo = Number(localStorage.getItem('codigo'));
+    this.sTipo = localStorage.getItem('tipo');
+    this.sFilial  = Number(localStorage.getItem('filial'));
+    this.sNombre = localStorage.getItem('nombre')
 
     //Inicializamos variables consulta precios
     this.oBuscar = new FiltrosConsultaPrecios('',0,0,0,0,'','','')
@@ -176,40 +176,105 @@ export class ConsultapreciosComponent implements OnInit {
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();
   
   //Consulta lineas de producto
-    this._servicioLineas
-      .Get(this.oBuscarLineasPro)
-      .subscribe(
-        (Response: Lineas) =>  {
-          
-  
-          this.oLineas = Response;  
-          console.log("Respuesta lineas: "+JSON.stringify(this.oLineas));
 
-  
-  
-          if(this.oLineas.Codigo != 0){
-            this.bError= true;
-            this.sMensaje="No se encontraron lineas de producto";     
-            return false;
-          }
-     
-          this.oLineasProCon = this.oLineas.Contenido;
-          this.oBuscar.ArticuloLinea = this.oLineas.Contenido[0].LineaCodigo; 
-          
-          return true;
-  
-       
-        },
-        (error:Lineas) => {
-  
-          this.oLineas = error;  
-          console.log("error");
-          console.log(this.oLineas);
-          return false;
-       
-        }
+  if (!localStorage.getItem('Lineas')){
+
+    //console.log("Lineas no existen");
+
+    this._servicioLineas
+    .Get(this.oBuscarLineasPro)
+    .subscribe(
+      (Response: Lineas) =>  {
         
-      );
+
+        this.oLineas = Response;  
+        console.log("Respuesta lineas: "+JSON.stringify(this.oLineas));
+
+
+
+        if(this.oLineas.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron lineas de producto";     
+          return false;
+        }
+   
+        this.oLineasProCon = this.oLineas.Contenido;
+        this.oBuscar.ArticuloLinea = this.oLineas.Contenido[0].LineaCodigo; 
+        
+        return true;
+
+     
+      },
+      (error:Lineas) => {
+
+        this.oLineas = error;  
+        console.log("error");
+        console.log(this.oLineas);
+        return false;
+     
+      }
+      
+    );
+  }else{
+
+    //console.log("Lineas ya existen");
+
+    this.oLineas = JSON.parse(localStorage.getItem('Lineas'));  
+
+    this.oLineasProCon = this.oLineas.Contenido;
+    this.oBuscar.ArticuloLinea = this.oLineas.Contenido[0].LineaCodigo; 
+
+  }
+    
+
+
+    //Realizamos llamada al servicio de clientes 
+   if (!localStorage.getItem('Clientes')){
+
+    //console.log("no tenemos  Clientes");
+
+   this._servicioCClientes
+    .GetCliente(this.Buscar)
+    .subscribe(
+      (Response: Clientes) =>  {        
+
+        this.oCliente = Response;  
+        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));    
+        if(this.oCliente.Codigo != 0){     
+          return false;
+        }
+   
+       
+       this.oContenido= this.oCliente.Contenido[0];
+        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+        this.oContacto =this.oCliente.Contenido[0].Contactos;
+        return true;
+
+     
+      },
+      (error:Clientes) => {  
+        this.oCliente = error;
+        console.log(this.oCliente);
+        return false;
+     
+      }
+      
+    );
+    //console.log("Termina carga Clientes");
+
+   }else{
+   // console.log("Ya tenemos  Clientes");
+
+
+    this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+    this.oContenido = this.oCliente.Contenido[0];
+    this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+    this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+    this.oContacto =this.oCliente.Contenido[0].Contactos;
+
+   }
+
    
 
   }
@@ -370,10 +435,12 @@ formatoMoneda(number){
 
   try{
 
-    result = this.BuscaClientes()
+    //result = this.BuscaClientes()
+    result = true;
 
 
     if(result){
+      
       this.ModalActivo = this.modalService.open(Clientes, {
         ariaLabelledBy: 'Clientes',
         size: 'xl',
@@ -390,6 +457,8 @@ formatoMoneda(number){
         }
       );
     }
+
+    this.bCargandoClientes = false;
 
 
     console.log("respuesta"+result);
@@ -472,7 +541,7 @@ private getDismissReason(reason: any): string {
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);    
   }
 

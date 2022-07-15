@@ -11,6 +11,14 @@ import { Condiciones } from 'src/app/models/clientes';
 import { DatosGenerales } from 'src/app/models/clientes';
 import { Contactos } from 'src/app/models/clientes';
 
+//
+import {FiltrosClientes as FiltrosClientesModal } from 'src/app/models/clientes.filtros';
+import { Clientes as ClientesModal } from 'src/app/models/clientes';
+import { Contenido as ContenidoModal } from 'src/app/models/clientes';
+import { Condiciones as CondicionesModal } from 'src/app/models/clientes';
+import { DatosGenerales as DatosGeneralesModal } from 'src/app/models/clientes';
+import { Contactos as ContactosModal } from 'src/app/models/clientes';
+
 
 
 //Servicios
@@ -55,6 +63,14 @@ export class DatosclientesComponent implements OnInit {
   public oDatosGenerales : DatosGenerales;
   public oContacto : Contactos;
 
+  //Clientes modal
+  public BuscarModal: FiltrosClientesModal;
+  public oClienteModal: ClientesModal; 
+  public oContenidoModal : ContenidoModal;
+  public oCondicionesModal : CondicionesModal;
+  public oDatosGeneralesModal : DatosGeneralesModal;
+  public oContactoModal : ContactosModal;
+
   public bCargando: boolean = false;
   public bCargandoClientes: boolean = false;
 
@@ -90,10 +106,10 @@ export class DatosclientesComponent implements OnInit {
                 this._mobileQueryListener = () => changeDetectorRef.detectChanges();
                 this.mobileQuery.addListener(this._mobileQueryListener);
 
-                this.sCodigo = Number(sessionStorage.getItem('codigo'));
-                this.sTipo = sessionStorage.getItem('tipo');
-                this.sFilial  = Number(sessionStorage.getItem('filial'));
-                this.sNombre = sessionStorage.getItem('nombre');
+                this.sCodigo = Number(localStorage.getItem('codigo'));
+                this.sTipo = localStorage.getItem('tipo');
+                this.sFilial  = Number(localStorage.getItem('filial'));
+                this.sNombre = localStorage.getItem('nombre');
             
 
               }
@@ -131,6 +147,54 @@ export class DatosclientesComponent implements OnInit {
       } 
    } 
 
+   //Realizamos llamada al servicio de clientes 
+   if (!localStorage.getItem('Clientes')){
+
+    //console.log("no tenemos  Clientes");
+
+   this._servicioCClientes
+    .GetCliente(this.BuscarModal)
+    .subscribe(
+      (Response: ClientesModal) =>  {
+        
+
+        this.oClienteModal = Response;  
+        console.log("Respuesta cliente"+JSON.stringify(this.oClienteModal));    
+        if(this.oClienteModal.Codigo != 0){     
+          return false;
+        }
+   
+       
+       this.oContenidoModal= this.oClienteModal.Contenido[0];
+        this.oCondicionesModal = this.oClienteModal.Contenido[0].Condiciones;
+        this.oDatosGeneralesModal =this.oClienteModal.Contenido[0].DatosGenerales;
+        this.oContacto =this.oClienteModal.Contenido[0].Contactos;
+        return true;
+
+     
+      },
+      (error:ClientesModal) => {  
+        this.oClienteModal = error;
+        console.log(this.oClienteModal);
+        return false;
+     
+      }
+      
+    );
+    //console.log("Termina carga Clientes");
+
+   }else{
+    //console.log("Ya tenemos  Clientes");
+
+
+    this.oClienteModal = JSON.parse(localStorage.getItem('Clientes'));
+    this.oContenidoModal = this.oClienteModal.Contenido[0];
+    this.oCondicionesModal = this.oClienteModal.Contenido[0].Condiciones;
+    this.oDatosGeneralesModal =this.oClienteModal.Contenido[0].DatosGenerales;
+    this.oContactoModal =this.oClienteModal.Contenido[0].Contactos;
+
+   }
+
       
 
   }
@@ -147,6 +211,8 @@ console.log("ConsultaCliente");
     
 
   console.log(this.oBuscar);
+
+  
 
     this._servicioCClientes
     .GetCliente(this.oBuscar)
@@ -195,9 +261,11 @@ console.log("ConsultaCliente");
     var result;
 
     try{
-      result = this.BuscaClientes()
+      //result = this.BuscaClientes();
+      result = true;
 
       if(result){
+        this.bCargandoClientes = false;
         this.ModalActivo = this.modalService.open(Clientes, {
           ariaLabelledBy: 'Clientes',
           size: 'xl',
@@ -299,7 +367,7 @@ console.log("ConsultaCliente");
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);    
   }
 

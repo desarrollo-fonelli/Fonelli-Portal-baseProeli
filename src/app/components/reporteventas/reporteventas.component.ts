@@ -11,32 +11,26 @@ import htmlToPdfmake from 'html-to-pdfmake';
 
 //Modelos
 import { FiltrosReporteVentas } from 'src/app/models/reporteventas.filtros';
-import { ReporteVentas } from 'src/app/models/reporteventas';
-import {FiltrosOficina} from 'src/app/models/oficina.filtros';
-import {Oficina, Contenido as OficinaCont} from 'src/app/models/oficina';
+import { ReporteVentas, Cliente, Categorias as CliCategoriasCon, ClientesConVenta, TotalGeneralCategorias } from 'src/app/models/reporteventas';
 import {FiltrosClientes} from 'src/app/models/clientes.filtros';
 import { Clientes } from 'src/app/models/clientes';
 import { Contenido as ContenidoCli } from 'src/app/models/clientes';
 import { Condiciones } from 'src/app/models/clientes';
 import { DatosGenerales } from 'src/app/models/clientes';
 import { Contactos } from 'src/app/models/clientes';
-import { FiltrosLineas } from 'src/app/models/lineas.filtros';
-import { Lineas, Contenido as LineasCon } from 'src/app/models/lineas';
 import { FiltrosCategorias } from 'src/app/models/categorias.filtros';
 import { Categorias, Contenido as CategoriasCon } from 'src/app/models/categorias';
+import { FiltrosAgente } from 'src/app/models/agentes.filtros';
+import { Agentes, Contenido as AgentesCon } from 'src/app/models/agentes';
 
 
 
 
 //Servicios
 import { ServicioReporteVentas } from 'src/app/services/reporteventas.service';
-
-
-import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
-import { Contenido } from '../../models/ventasclientearticulo';
 import { ServicioClientes } from 'src/app/services/clientes.service';
-import { ServicioLineas } from 'src/app/services/lineas.service';
 import { ServicioCategorias } from 'src/app/services/categorias.service';
+import { ServicioAgentes } from 'src/app/services/agentes.service';
 
 
 
@@ -53,12 +47,12 @@ import {
   selector: 'app-reporteventas',
   templateUrl: './reporteventas.component.html',
   styleUrls: ['./reporteventas.component.css'],
-  providers:[ServicioOficinas,
+  providers:[
     DecimalPipe,
     ServicioClientes,
-    ServicioLineas,
     ServicioCategorias,
-    ServicioReporteVentas
+    ServicioReporteVentas,
+    ServicioAgentes
   ]
 })
 export class ReporteventasComponent implements OnInit {
@@ -74,13 +68,10 @@ export class ReporteventasComponent implements OnInit {
 
   public oBuscar: FiltrosReporteVentas;
   oReporteVentasRes: ReporteVentas; 
-  public oBuscarOfi: FiltrosOficina;
-  oOficinasRes: Oficina; 
-  oOficinaCont: OficinaCont[];
+  oClienteCont: Cliente[];
+  oClienteConVentaCont: ClientesConVenta;
+  oClienteGeneralCatCont: TotalGeneralCategorias[];
 
-  public oBuscarLineas: FiltrosLineas;
-  oLineasRes: Lineas; 
-  oLineasCont: LineasCon[];
   public oBuscarCategorias: FiltrosCategorias;
   oCategoriasRes: Categorias; 
   oCategoriasCon: CategoriasCon[];
@@ -111,6 +102,10 @@ export class ReporteventasComponent implements OnInit {
   public oDatosGenerales : DatosGenerales;
   public oContacto : Contactos;
 
+  public oBuscarAgentes: FiltrosAgente;
+  public oAgentes: Agentes; 
+  public oAgentesCon: AgentesCon[];
+
   public bBanderaCliente: boolean;
 
   private _mobileQueryListener: () => void;
@@ -118,26 +113,23 @@ export class ReporteventasComponent implements OnInit {
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
     private _router: Router,
     private _servicioReporteVentas: ServicioReporteVentas,
-    private _servicioOficinas:ServicioOficinas,
     private modalService: NgbModal,
     private _servicioCClientes: ServicioClientes,
-    private _servicioLineas:ServicioLineas,
-    private _servicioCategorias:ServicioCategorias) { 
+    private _servicioCategorias:ServicioCategorias,
+    private _servicioAgentes: ServicioAgentes) { 
 
       this.mobileQuery = media.matchMedia('(max-width: 600px)');
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
 
-      this.sCodigo = Number(sessionStorage.getItem('codigo'));
-      this.sTipo = sessionStorage.getItem('tipo');
-      this.sFilial  = Number(sessionStorage.getItem('filial'));
-      this.sNombre = sessionStorage.getItem('nombre');
+      this.sCodigo = Number(localStorage.getItem('codigo'));
+      this.sTipo = localStorage.getItem('tipo');
+      this.sFilial  = Number(localStorage.getItem('filial'));
+      this.sNombre = localStorage.getItem('nombre');
   
       //Inicializamos variables consulta pedidos
       this.oBuscar = new FiltrosReporteVentas('','',0,0,0,0,0,0,'','','','','','','','','','','','','','',0)
       //this.oReporteVentasRes= {} as oReporteVentasRes; 
-      this.oBuscarOfi =  new FiltrosOficina('',0)
-      this.oOficinasRes = {} as Oficina;
 
 
       this.bCliente = false;
@@ -188,18 +180,22 @@ export class ReporteventasComponent implements OnInit {
         } 
         case 'A': { 
            //Agente; 
+           this.oBuscar.AgenteCodigo = this.sCodigo; 
+           this.oBuscar.Tipo = "2";
            this.bCliente = false;    
            break; 
         } 
         default: { 
            //Gerente;
+           this.oBuscar.Tipo = "1";
+           this.oBuscar.AgenteCodigo = this.sCodigo;
            this.bCliente = false;     
            break; 
         } 
       } 
 
 
-      this.oBuscar.Tipo = '1';
+      
       this.oBuscar.Fecha1Desde = fecha1Desde;
       this.oBuscar.Fecha2Desde = fecha2Desde;
       this.oBuscar.Fecha1Hasta = fecha1Hasta;
@@ -212,91 +208,27 @@ export class ReporteventasComponent implements OnInit {
       this.oBuscar.FilialHasta = 999;
       this.oBuscar.TipoUsuario = this.sTipo;
 
+      /*this.oBuscar.TipoClienteDesde = 'GF';
+      this.oBuscar.TipoClienteHasta = 'PR';
+      this.oBuscar.ClienteHasta = 120;
+      this.oBuscar.ClienteDesde = 50;
+      this.oBuscar.SubcategoDesde = 'A';
+      this.oBuscar.SubcategoHasta = 'Z';*/
+
       this.Buscar.TipoUsuario = this.sTipo;
       this.Buscar.Usuario = this.sCodigo;
-
-    
-      //Realizamos llamada al servicio de oficinas
-      this._servicioOficinas 
-      .Get(this.oBuscarOfi)
-      .subscribe(
-        (Response: Oficina) => {
-
-          this.oOficinasRes = Response;
-          //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
-          //console.log(this.pedido);
-
-          if(this.oOficinasRes.Codigo != 0){
-            this.bError= true;
-            this.sMensaje="No se encontraron oficinas";
-            return;
-          }
-
-          this.oOficinaCont =  this.oOficinasRes.Contenido;
-          /*this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
-          this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; */
-          this.sMensaje="";
-
-        },
-        (error:Oficina) => {
-
-          this.oOficinasRes = error;
-          this.sMensaje="No se encontraron oficinas";
-          console.log("error");
-          console.log(this.oOficinasRes);
-          return;
-        
-        }
-      );
-
-      
-
-       //Realizamos llamada al servicio de lineas
-       this._servicioLineas 
-       .Get(this.oBuscarLineas)
-       .subscribe(
-         (Response: Lineas) => {
- 
-           this.oLineasRes = Response;
-           //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
-           //console.log(this.pedido);
- 
-           if(this.oLineasRes.Codigo != 0){
-             this.bError= true;
-             this.sMensaje="No se encontraron Lineas";
-             return;
-           }
- 
-           this.oLineasCont = this.oLineasRes.Contenido; 
-          /* this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
-           this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; */
-           this.sMensaje="";
- 
-         },
-         (error:Lineas) => {
- 
-           this.oLineasRes = error;
-           this.sMensaje="No se encontraron oficinas";
-           console.log("error");
-           console.log(this.oLineasRes);
-           return;
-         
-         }
-       );
-
-
-
        
+         //Realizamos llamada al servicio de categorias 
+         if (!localStorage.getItem('Categorias')){
 
-       
-          //Realizamos llamada al servicio de categorias 
+          //console.log("No tenemos categorias");
           this._servicioCategorias 
           .Get(this.oBuscarCategorias)
           .subscribe(
             (Response: Categorias) => {
     
               this.oCategoriasRes = Response;
-              console.log("RESULTADO LLAMADA categorias: "+JSON.stringify(this.oCategoriasRes) );
+              //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
               //console.log(this.pedido);
     
               if(this.oCategoriasRes.Codigo != 0){
@@ -304,7 +236,7 @@ export class ReporteventasComponent implements OnInit {
                 this.sMensaje="No se encontraron Categorias";
                 return;
               }
-              
+    
               this.oCategoriasCon = this.oCategoriasRes.Contenido;
               this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
               this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
@@ -322,6 +254,124 @@ export class ReporteventasComponent implements OnInit {
             }
           );
 
+        }else{
+          //console.log("Tenemos categorias");
+          
+          this.oCategoriasRes = JSON.parse(localStorage.getItem('Categorias'));
+          this.oCategoriasCon = this.oCategoriasRes.Contenido;
+          this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
+          this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
+        }
+
+
+      //Realizamos llamada al servicio de clientes 
+      if (!localStorage.getItem('Clientes')){
+
+       // console.log("no tenemos  Clientes");
+
+        this._servicioCClientes
+          .GetCliente(this.Buscar)
+          .subscribe(
+            (Response: Clientes) =>  {        
+
+              this.oCliente = Response;  
+              console.log("Respuesta cliente"+JSON.stringify(this.oCliente));    
+              if(this.oCliente.Codigo != 0){     
+                return false;
+              }
+        
+            
+            this.oContenido= this.oCliente.Contenido[0];
+              this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+              this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+              this.oContacto =this.oCliente.Contenido[0].Contactos;
+              return true;
+
+          
+            },
+            (error:Clientes) => {  
+              this.oCliente = error;
+              console.log(this.oCliente);
+              return false;
+          
+            }
+            
+          );
+         // console.log("Termina carga Clientes");
+
+        }else{
+         // console.log("Ya tenemos  Clientes");
+
+
+          this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+          this.oContenido = this.oCliente.Contenido[0];
+          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+          this.oContacto =this.oCliente.Contenido[0].Contactos;
+
+        }
+
+  //Consulta agentes
+  if (!localStorage.getItem('Agentes')){
+
+    this._servicioAgentes
+    .Get(this.oBuscarAgentes)
+    .subscribe(
+      (Response: Agentes) =>  {
+        
+
+        this.oAgentes = Response;
+
+        console.log("Respuesta agentes"+JSON.stringify(this.oAgentes));
+
+
+        if(this.oAgentes.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron agentes";   
+          return false;
+        }
+   
+        this.oAgentesCon = this.oAgentes.Contenido;        
+        if (this.sTipo =='A'){
+          this.oBuscar.AgenteCodigo = this.sCodigo; 
+        }else{
+          this.oBuscar.AgenteCodigo = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
+        }
+        
+        
+        return true;
+
+     
+      },
+      (error:Agentes) => {
+
+        this.oAgentes = error;
+
+        console.log("error");
+        console.log(this.oAgentes);
+
+        return false;
+     
+      }
+      
+    );
+  
+  }else{//Ya tenemos agentes
+  //  console.log("Ya tenemos agentes");
+
+    this.oAgentesCon = JSON.parse(localStorage.getItem('Agentes'));
+    if (this.sTipo =='A'){
+      this.oBuscar.AgenteCodigo = this.sCodigo; 
+    }else{
+      this.oBuscar.AgenteCodigo = Number(this.oAgentesCon[0].AgenteCodigo); 
+    }
+    
+
+
+
+
+  }
+
           
 
 
@@ -336,6 +386,9 @@ export class ReporteventasComponent implements OnInit {
     //this.oBuscar.TipoUsuario = this.sTipo
     this.oBuscar.Usuario = this.sCodigo
     this.bCargando = true;
+
+
+    
 
 
      //Realizamos llamada al servicio de relacion de pedidos
@@ -374,10 +427,11 @@ export class ReporteventasComponent implements OnInit {
           this.bFiltrResumido = false;//Es detallado
          }*/
 
-         this.bCargando = false;
-
+         this.bCargando = false;         
+         this.oClienteCont	= this.oReporteVentasRes.Contenido.Clientes
+         this.oClienteConVentaCont = this.oReporteVentasRes.Contenido.ClientesConVenta
+         this.oClienteGeneralCatCont = this.oReporteVentasRes.Contenido.TotalGeneralCategorias
          
-         //this.oContenido	= this.oVentasCliRes.Contenido
          //this.collectionSize = this.oVentasCliRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
  
        },
@@ -396,98 +450,252 @@ export class ReporteventasComponent implements OnInit {
   }
 
   // #### Obten totales por Cliente ####
-  getTotalPiezasxCliente(oContenido: Contenido[]): number {   
+  getTotalesxCliente(oCliCategoriasCon: CliCategoriasCon[], sValor: string): number {   
   let Total: number = 0;
-  
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.Piezas;  
-        }        
+
+  switch(sValor) {        
+    case 'Piezas1': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.Piezas1;  
+           }
       }
-    } 
+      break; 
     }
-  }
+    case 'Gramos1': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.Gramos1;  
+           }
+      }
+      break; 
+    }
+    case 'ImporteVenta1': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.ImporteVenta1;  
+           }
+      }
+      break; 
+    }
+    case 'PorcentajeImporte1': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.PorcentajeImporte1;  
+           }
+      }
+      break; 
+    }
+    case 'ValorAgregado1': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.ValorAgregado1;  
+           }
+      }
+      break; 
+    }
+    case 'PorcentajeValorAgregado1': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.PorcentajeValorAgregado1;  
+           }
+      }
+      break; 
+    }
+    case 'Piezas2': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.Piezas2;  
+           }
+      }
+      break; 
+    }
+    case 'Gramos2': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.Gramos2;  
+           }
+      }
+      break; 
+    }
+    case 'ImporteVenta2': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.ImporteVenta2;  
+           }
+      }
+      break; 
+    }
+    case 'PorcentajeImporte2': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.PorcentajeImporte2;  
+           }
+      }
+      break; 
+    }
+    case 'ValorAgregado2': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.ValorAgregado2;  
+           }
+      }
+      break; 
+    } 
+    case 'PorcentajeValorAgregado2': { 
+ 
+      for(var oCat of oCliCategoriasCon){ 
+        for(var oSubCat of oCat.Subcategorias){  
+              Total += oSubCat.PorcentajeValorAgregado2;  
+           }
+      }
+      break; 
+    } 
+ 
+ }    
+  
+  
     Total = Number(Total.toFixed(2));
     return Total; 
   }
+// #### Obten totales por Cliente ####
 
-  getTotalPiezasPorxCliente(oContenido: Contenido[]): number {   
+
+  // #### Obten totales por Cliente ####
+  getTotalesGeneralCateg(oTotGenCat: TotalGeneralCategorias[], sValor: string): number {   
     let Total: number = 0;
-    
-    for(var oConte of oContenido){ 
-      for(var oCat of oConte.Categorias){     
-      for(var subCat of oCat.Subcategorias){ 
-        for(var linPro of subCat.LineasProducto){ 
-          for(var art of linPro.Articulos){ 
-            Total += art.PiezasPorcentaje;  
-          }        
+  
+    switch(sValor) {        
+      case 'TotalPiezas1': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalPiezas1;  
+             }
         }
-      } 
+        break; 
       }
-    }
+      case 'TotalGramos1': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalGramos1;  
+             }
+        }
+        break; 
+      }
+      case 'TotalImporte1': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalImporte1;  
+             }
+        }
+        break; 
+      }
+      case 'TotalPorcentajeImporte1': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalPorcentajeImporte1;  
+             }
+        }
+        break; 
+      }
+      case 'TotalValorAgregado1': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalValorAgregado1;  
+             }
+        }
+        break; 
+      }
+      case 'TotalPorcentajeValorAgregado1': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalPorcentajeValorAgregado1;  
+             }
+        }
+        break; 
+      }
+      case 'TotalPiezas2': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalPiezas2;  
+             }
+        }
+        break; 
+      }
+      case 'TotalGramos2': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalGramos2;  
+             }
+        }
+        break; 
+      }
+      case 'TotalImporte2': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalImporte2;  
+             }
+        }
+        break; 
+      }
+      case 'TotalPorcentajeImporte2': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalPorcentajeImporte2;  
+             }
+        }
+        break; 
+      }
+      case 'TotalValorAgregado2': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalValorAgregado2;  
+             }
+        }
+        break; 
+      } 
+      case 'TotalPorcentajeValorAgregado2': { 
+   
+        for(var oCat of oTotGenCat){ 
+          for(var oSubCat of oCat.TotalGeneralSubcatego){  
+                Total += oSubCat.TotalPorcentajeValorAgregado2;  
+             }
+        }
+        break; 
+      } 
+   
+   }    
+    
+    
       Total = Number(Total.toFixed(2));
       return Total; 
     }
 
-  getTotalGramosxCliente(oContenido: Contenido[]): number {   
-  let Total: number = 0;
 
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.Gramos;  
-        }        
-      }
-    } 
-    }
-  }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }
-
-
-  getTotalGramosPorxCliente(oContenido: Contenido[]): number {   
-  let Total: number = 0;
-
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.GramosPorcentaje;  
-        }        
-      }
-    } 
-    }
-  }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }
-
-  getTotalImpVenxCliente(oContenido: Contenido[]): number {   
-  let Total: number = 0;
-
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.ImporteVenta;  
-        }        
-      }
-    } 
-    }
-  }
-  Total = Number(Total.toFixed(2));
-    return Total; 
-  }   
-
-// #### Obten totales por Cliente ####
+  // #### Obten totales por Cliente ####
+  
 
 downloadAsPDF() {
 
@@ -562,6 +770,10 @@ downloadAsPDF() {
     return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
 
+  formatoNumero(number){
+    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
+  };
+
 
 
 
@@ -574,7 +786,8 @@ downloadAsPDF() {
       var result;
   
       try{
-        result = this.BuscaClientes()
+        //result = this.BuscaClientes()
+        result = true;
   
         if(result){
           this.ModalActivo = this.modalService.open(Clientes, {
@@ -594,7 +807,7 @@ downloadAsPDF() {
           );
         }
   
-        //this.bCargandoClientes = false;
+        this.bCargandoClientes = false;
   
   
         console.log("respuesta"+result);
@@ -690,7 +903,7 @@ downloadAsPDF() {
   
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);    
   }
 

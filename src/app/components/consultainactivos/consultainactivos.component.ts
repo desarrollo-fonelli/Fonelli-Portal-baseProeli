@@ -28,20 +28,13 @@ import { FiltrosAgente } from 'src/app/models/agentes.filtros';
 import { Agentes, Contenido as AgentesCon } from 'src/app/models/agentes';
 
 
-import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
-import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
-import { ConsultaPedido, Pedido } from 'src/app/models/consultapedidos';
-import { DetallePedido, PedidoArticulo } from 'src/app/models/detallepedido';
-import {FiltrosClientes} from 'src/app/models/clientes.filtros';
-import { Clientes } from 'src/app/models/clientes';
-import { Contenido } from 'src/app/models/clientes';
-import { Condiciones } from 'src/app/models/clientes';
-import { DatosGenerales } from 'src/app/models/clientes';
-import { Contactos } from 'src/app/models/clientes';
+
 
 
 //Servicios
+import { ServicioConsultaInactivos } from 'src/app/services/consultainactivos.service';
 import { ServicioAgentes } from 'src/app/services/agentes.service';
+
 
 
 import { ServicioConsultaPedidos } from 'src/app/services/consultapedidos.service';
@@ -53,7 +46,7 @@ import { ServicioClientes } from 'src/app/services/clientes.service';
   selector: 'app-consultainactivos',
   templateUrl: './consultainactivos.component.html',
   styleUrls: ['./consultainactivos.component.css'],
-  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes, ServicioAgentes],
+  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes, ServicioAgentes, ServicioConsultaInactivos],
 })
 export class ConsultainactivosComponent implements OnInit {
   @ViewChild('pdfTable') pdfTable: ElementRef;
@@ -69,8 +62,7 @@ export class ConsultainactivosComponent implements OnInit {
 
   oBuscar: FiltrosClientesInactivos;
   oClientesInacRes: ClienteInactivo;
-  public oBuscaDetalle: FiltrosDetallePedidos;
-  oPedidoDetalleRes: DetallePedido;
+
 
   public bError: boolean = false;
   public sMensaje: string = '';
@@ -83,9 +75,6 @@ export class ConsultainactivosComponent implements OnInit {
   fechaHoy: String;
   fechaFron: String;
 
-
-  pedido: Pedido[];
-  pedidoDet: PedidoArticulo[];
 
   public bCargando: boolean = false;
   public bCargandoClientes: boolean = false;
@@ -100,12 +89,6 @@ export class ConsultainactivosComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
 
-  public Buscar: FiltrosClientes;
-  public oCliente: Clientes; 
-  public oContenido : Contenido;
-  public oCondiciones : Condiciones;
-  public oDatosGenerales : DatosGenerales;
-  public oContacto : Contactos;
 
   public oBuscarAgentes: FiltrosAgente;
   public oAgentes: Agentes; 
@@ -119,43 +102,28 @@ export class ConsultainactivosComponent implements OnInit {
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher,
     private _route: ActivatedRoute,
-    private _router: Router,
-    private _servicioCPedidos: ServicioConsultaPedidos,
-    private _servicioCPedidosDet: ServicioDetallePedido,
-    private modalService: NgbModal,
-    private _servicioCClientes: ServicioClientes,
-    private _servicioAgentes: ServicioAgentes
+    private _router: Router,        
+    private modalService: NgbModal,    
+    private _servicioAgentes: ServicioAgentes,
+    private _servicioConsultaInactivos: ServicioConsultaInactivos,
     
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.sCodigo = Number(sessionStorage.getItem('codigo'));
-    this.sTipo = sessionStorage.getItem('tipo');
-    this.sFilial = Number(sessionStorage.getItem('filial'));
-    this.sNombre = sessionStorage.getItem('nombre');
+    this.sCodigo = Number(localStorage.getItem('codigo'));
+    this.sTipo = localStorage.getItem('tipo');
+    this.sFilial = Number(localStorage.getItem('filial'));
+    this.sNombre = localStorage.getItem('nombre');
 
     this.bCliente = false;
 
     //Inicializamos variables consulta pedidos
     this.oBuscar = new FiltrosClientesInactivos(0, 0, 0);
     this.oClientesInacRes = {} as ClienteInactivo;
-    this.pedido = [];
 
-    //Inicializamos variables consulta detalle pedidos
-    this.oBuscaDetalle = new FiltrosDetallePedidos('', 0, '', 0, 0, 0);
-    this.oPedidoDetalleRes = {} as DetallePedido;
-    this.pedidoDet = [];
 
-    this.refreshCountries();
-
-    this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
-    this.oCliente={} as Clientes;
-    this.oContenido ={} as Contenido;
-    this.oCondiciones ={} as Condiciones;
-    this.oDatosGenerales ={} as DatosGenerales;
-    this.oContacto ={} as Contactos;
 }
 
   ngOnInit(): void {
@@ -167,18 +135,9 @@ export class ConsultainactivosComponent implements OnInit {
       this._router.navigate(['/']);
     }
 
-    switch(this.sTipo) { 
-      case 'C':{    
-        //Tipo cliente                  
-        this.bCliente = true;
-        //this.oBuscar.ClienteCodigo = this.sCodigo;
-        //this.oBuscar.ClienteFilial = this.sFilial;
-        //this.oBuscar.Status = 'A';
-         break; 
-      } 
+    switch(this.sTipo) {  
       case 'A': { 
-         //Agente; 
-        // this.oBuscar.Usuario = this.sCodigo;
+         //Agente;         
          this.bCliente = false;    
         // this.oBuscar.Status = 'A';         
          break; 
@@ -191,15 +150,11 @@ export class ConsultainactivosComponent implements OnInit {
          break; 
       } 
    } 
-
-   this.Buscar.TipoUsuario = this.sTipo;
-   this.Buscar.Usuario = this.sCodigo;
-
     let date: Date = new Date();
     let mes;
 
     //Valida mes
-    if (date.getMonth().toString.length == 1) {
+    if (date.getMonth().toString().length == 1) {
       mes = '0' + (date.getMonth() + 1);
     }
 
@@ -207,7 +162,9 @@ export class ConsultainactivosComponent implements OnInit {
     this.fechaFron = date.getDate() + '/' + mes + '/' + date.getFullYear();    
     
 
-        //Consulta agentes
+      //Consulta agentes
+      if (!localStorage.getItem('Agentes')){
+
         this._servicioAgentes
         .Get(this.oBuscarAgentes)
         .subscribe(
@@ -226,8 +183,15 @@ export class ConsultainactivosComponent implements OnInit {
             }
        
             this.oAgentesCon = this.oAgentes.Contenido;
-            this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
-            this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo);
+    
+            if (this.sTipo == 'A'){
+              this.oBuscar.AgenteDesde = this.sCodigo;
+              this.oBuscar.AgenteHasta = this.sCodigo;
+            }else{
+              this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
+              this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo); 
+            }
+            
             return true;
     
          
@@ -244,129 +208,67 @@ export class ConsultainactivosComponent implements OnInit {
           }
           
         );
+      
+      }else{//Ya tenemos agentes
+        //console.log("Ya tenemos agentes");
+  
+        this.oAgentesCon = JSON.parse(localStorage.getItem('Agentes'));
+    
+            if (this.sTipo == 'A'){
+              this.oBuscar.AgenteDesde = this.sCodigo;
+              this.oBuscar.AgenteHasta = this.sCodigo;
+            }else{
+              this.oBuscar.AgenteDesde = Number(this.oAgentesCon[0].AgenteCodigo); 
+              this.oBuscar.AgenteHasta = Number( this.oAgentesCon[ this.oAgentesCon?.length - 1].AgenteCodigo); 
+            }
+  
+  
+      }
+
+      
 
 
   }
 
   //Funcion para consultar los clientes inactivos con saldo
   consultaCliInacSal() {
-    console.log("dayoooooooos");
-    this.bBandera = true;
-    return;
-
-
-
-
-
-
-
 
     this.bBandera = false;
-    console.log('consultaPedido');
+    console.log('consulta inactivos');
     this.bCargando = true;
 
-    //Inicializamos el tipo de usuario por el momento
-    
-
+    //Inicializamos el tipo de usuario por el momento  
     console.log(this.oBuscar);
 
     //Realizamos llamada al servicio de pedidos
-    this._servicioCPedidos.Get(this.oBuscar).subscribe(
-      (Response: ConsultaPedido) => {
-        //this.oPedidoRes = Response;
+    this._servicioConsultaInactivos.Get(this.oBuscar).subscribe(
+      (Response: ClienteInactivo) => {
+        this.oClientesInacRes = Response;
         //this.pedido = this.oPedidoRes.Contenido.Pedidos;
 
+        console.log("respuesta clientes inactivos : "+this.oClientesInacRes);
         
-       /* if (this.oPedidoRes.Codigo != 0) {
+        if (this.oClientesInacRes.Codigo != 0) {
           this.bError = true;
-          this.sMensaje = 'No se encontraron de pedidos';
+          this.sMensaje = 'No se encontraron datos de clientes inactivos.';
           this.bBandera = false;
           this.bCargando = false;
           return;
-        }*/
+        }
 
         this.sMensaje = '';
         this.bBandera = true;
-        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length; //Seteamos el tamaño de los datos obtenidos
+        
         this.bCargando = false;
 
       },
-      (error: ConsultaPedido) => {
-        //this.oPedidoRes = error;
-        this.sMensaje = 'No se encontraron de pedidos';
+      (error: ClienteInactivo) => {
+        this.sMensaje = 'No se encontraron datos de clientes inactivos.';
         console.log('error');
 
         this.bCargando = false;
       }
     );
-  }
-
-
-  //Funcion para actualizar los valores de la tabla de acuerdo a los registros a mostrar
-  refreshCountries() {
-    //this.countries = COUNTRIES
-    console.log('Inicio');
-    console.log(this.pedido);
-
-    this.pedido
-      .map((c, i) => ({ id: i + 1, ...c }))
-      .slice(
-        (this.page - 1) * this.pageSize,
-        (this.page - 1) * this.pageSize + this.pageSize
-      );
-    console.log('TErmina');
-  }
-
-  //modal pedido detalle
-  openPedidoDetalle(PedidoDetalle: any, folio: string) {
-    console.log(folio);
-    //this.pedidoDet = [];
-   // this.consultaPedidoDetalle(folio);
-
-    this.ModalActivo = this.modalService.open(PedidoDetalle, {
-      ariaLabelledBy: 'PedidoDetalle',
-      size: 'lg',
-      scrollable: true
-      
-    });
-
-    this.ModalActivo.result.then(
-      (result) => {},
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        console.log('reason ' + reason);
-        this.pedidoDet = [];
-      }
-    );
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      this.pedidoDet = [];
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      this.pedidoDet = [];
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
-  verDetalleProd() {
-    console.log('Entra ver detalle prod');
-    this.bBanderaDet = false;
-    this.bBanderaDetPro = true;
-
-    this.bBanderaBtnPed = true; //Buton pedido para ver detalle pedido
-    this.bBanderaBtnPro = false; //Buton produccion para ver detalle produccion
-  }
-  verDetallePed() {
-    console.log('Entra ver detalle prod');
-    this.bBanderaDet = true;
-    this.bBanderaDetPro = false;
-
-    this.bBanderaBtnPed = false; //Buton pedido para ver detalle pedido
-    this.bBanderaBtnPro = true; //Buton produccion para ver detalle produccion
   }
 
 
@@ -447,7 +349,7 @@ export class ConsultainactivosComponent implements OnInit {
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);
   }
 }

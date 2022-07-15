@@ -32,8 +32,8 @@ Get(FiltrosConInactivos: any): Observable<any>{
 
 
     return this._http.get(this.API_URL+this.API + 'reportes/ConsultaInactivos.php?AgenteDesde='+ FiltrosConInactivos.AgenteDesde +
-                          '&AgenteHasta='+ FiltrosConInactivos.AgenteHasta +
-                          '&Pagina='+ FiltrosConInactivos.Pagina ,
+                          '&AgenteHasta='+ FiltrosConInactivos.AgenteHasta,
+                          //'&Pagina='+ FiltrosConInactivos.Pagina ,
                           {headers:headers});
 }
 

@@ -17,7 +17,8 @@
                       class="form-select" 
                       name="idDesAge"
                       #nombre="ngModel"
-                      [(ngModel)]="oBuscar.AgenteDesde"                            
+                      [(ngModel)]="oBuscar.AgenteDesde"    
+                      [disabled]="sTipo == 'A' "
                       required
                       >
                       <ng-container *ngFor='let dato of oAgentesCon;' >
@@ -36,7 +37,8 @@
                     class="form-select" 
                     name="idHasAge"
                     #nombre="ngModel"
-                    [(ngModel)]="oBuscar.AgenteHasta"                            
+                    [(ngModel)]="oBuscar.AgenteHasta"    
+                    [disabled]="sTipo == 'A' "                        
                     required
                     >
                   <ng-container *ngFor='let dato of oAgentesCon;' >

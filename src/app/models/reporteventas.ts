@@ -8,7 +8,7 @@ export interface ReporteVentas {
 export interface Contenido {
     Clientes?:            Cliente[];
     ClientesConVenta?:    ClientesConVenta;
-    TotalGeneralFamilia?: TotalGeneralFamilia[];
+    TotalGeneralCategorias?: TotalGeneralCategorias[];
 }
 
 export interface Cliente {
@@ -21,21 +21,27 @@ export interface Cliente {
     TipoParidad?:   string;
     TipoCliente?:   string;
     AgenteCodigo?:  string;
-    Familias?:      Familia[];
+    Categorias?:    Categorias[];
 }
 
-export interface Familia {
-    FamiliaCodigo?:            string;
-    FamiliaDescripc?:          string;
+export interface Categorias {
+    CategoriaCodigo?:   string;
+    CategoriaNombre?:   string;
+    Subcategorias?:     Subcategorias[];
+}
+
+export interface Subcategorias {
+    SubcategoriaCodigo?:       string;
+    SubcategoriaNombre?:       string;
     Piezas1?:                  number;
     Gramos1?:                  number;
-    Importe1?:                 number;
+    ImporteVenta1?:                 number;
     PorcentajeImporte1?:       number;
     ValorAgregado1?:           number;
     PorcentajeValorAgregado1?: number;
     Piezas2?:                  number;
     Gramos2?:                  number;
-    Importe2?:                 number;
+    ImporteVenta2?:                 number;
     PorcentajeImporte2?:       number;
     ValorAgregado2?:           number;
     PorcentajeValorAgregado2?: number;
@@ -50,9 +56,15 @@ export interface ClientesConVenta {
     ClientesTotales2?:  number;
 }
 
-export interface TotalGeneralFamilia {
-    FamiliaCodigo?:                 string;
-    FamiliaDescripc?:               string;
+export interface TotalGeneralCategorias {
+    CategoriaCodigo?:   string;
+    CategoriaNombre?:   string;
+    TotalGeneralSubcatego?:     TotalGeneralSubcatego[];
+}
+
+export interface TotalGeneralSubcatego {
+    SubcategoriaCodigo?:            string;
+    SubcategoriaNombre?:            string;
     TotalPiezas1?:                  number;
     TotalGramos1?:                  number;
     TotalImporte1?:                 number;

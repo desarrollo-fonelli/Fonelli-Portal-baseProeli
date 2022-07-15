@@ -116,10 +116,10 @@ export class ConsultapedidosComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.sCodigo = Number(sessionStorage.getItem('codigo'));
-    this.sTipo = sessionStorage.getItem('tipo');
-    this.sFilial = Number(sessionStorage.getItem('filial'));
-    this.sNombre = sessionStorage.getItem('nombre');
+    this.sCodigo = Number(localStorage.getItem('codigo'));
+    this.sTipo = localStorage.getItem('tipo');
+    this.sFilial = Number(localStorage.getItem('filial'));
+    this.sNombre = localStorage.getItem('nombre');
 
     this.bCliente = false;
 
@@ -189,6 +189,53 @@ export class ConsultapedidosComponent implements OnInit {
     }
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();    
+
+    //Realizamos llamada al servicio de clientes 
+   if (!localStorage.getItem('Clientes')){
+
+    ///console.log("no tenemos  Clientes");
+
+   this._servicioCClientes
+    .GetCliente(this.Buscar)
+    .subscribe(
+      (Response: Clientes) =>  {        
+
+        this.oCliente = Response;  
+        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));    
+        if(this.oCliente.Codigo != 0){     
+          return false;
+        }
+   
+       
+       this.oContenido= this.oCliente.Contenido[0];
+        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+        this.oContacto =this.oCliente.Contenido[0].Contactos;
+        return true;
+
+     
+      },
+      (error:Clientes) => {  
+        this.oCliente = error;
+        console.log(this.oCliente);
+        return false;
+     
+      }
+      
+    );
+    //console.log("Termina carga Clientes");
+
+   }else{
+    //console.log("Ya tenemos  Clientes");
+
+
+    this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+    this.oContenido = this.oCliente.Contenido[0];
+    this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+    this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+    this.oContacto =this.oCliente.Contenido[0].Contactos;
+
+   }
 
 
   }
@@ -431,7 +478,8 @@ export class ConsultapedidosComponent implements OnInit {
     var result;
 
     try{
-      result = this.BuscaClientes()
+      //result = this.BuscaClientes()
+      result = true;
 
       if(result){
         this.ModalActivo = this.modalService.open(Clientes, {
@@ -451,7 +499,7 @@ export class ConsultapedidosComponent implements OnInit {
         );
       }
 
-      //this.bCargandoClientes = false;
+      this.bCargandoClientes = false;
 
 
       console.log("respuesta"+result);
@@ -516,7 +564,7 @@ export class ConsultapedidosComponent implements OnInit {
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);
   }
 }

@@ -30,6 +30,7 @@ import { ServicioVentasArticuloPzasImp } from 'src/app/services/ventasArticuloPz
 import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
 import { ServicioLineas } from 'src/app/services/lineas.service';
 import { ServicioCategorias } from 'src/app/services/categorias.service';
+import { Contenido as AgentesCon } from 'src/app/models/agentes';
 
 
 import {
@@ -116,10 +117,10 @@ export class VentasarticuloComponent implements OnInit {
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
 
-      this.sCodigo = Number(sessionStorage.getItem('codigo'));
-      this.sTipo = sessionStorage.getItem('tipo');
-      this.sFilial  = Number(sessionStorage.getItem('filial'));
-      this.sNombre = sessionStorage.getItem('nombre');
+      this.sCodigo = Number(localStorage.getItem('codigo'));
+      this.sTipo = localStorage.getItem('tipo');
+      this.sFilial  = Number(localStorage.getItem('filial'));
+      this.sNombre = localStorage.getItem('nombre');
   
       //Inicializamos variables consulta pedidos
       this.oBuscar = new FiltrosVentasArticulo('',0,'','','','','','','','','','','','','','','','',0)
@@ -194,104 +195,145 @@ export class VentasarticuloComponent implements OnInit {
       
       this.oBuscar.Usuario = this.sCodigo;
 
-      //Realizamos llamada al servicio de oficinas
+      //Llenamos oficinas
+     if (!localStorage.getItem('Oficinas')){
+     // console.log("NO tenemos oficina");
+
       this._servicioOficinas 
       .Get(this.oBuscarOfi)
       .subscribe(
         (Response: Oficina) => {
-
+ 
           this.oOficinasRes = Response;
-          //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
-          //console.log(this.pedido);
-
+          //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );              
+ 
           if(this.oOficinasRes.Codigo != 0){
             this.bError= true;
             this.sMensaje="No se encontraron oficinas";
             return;
           }
-
+ 
+ 
           this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
           this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
-          this.sMensaje="";
-
+         this.sMensaje="";
+ 
         },
         (error:Oficina) => {
-
+ 
           this.oOficinasRes = error;
-          this.sMensaje="No se encontraron oficinas";
           console.log("error");
           console.log(this.oOficinasRes);
-          return;
         
         }
-      );
+      ); 
+     
+    }else{
+    //  console.log("Ya tenemos oficina");
 
-       //Realizamos llamada al servicio de lineas
-       this._servicioLineas 
-       .Get(this.oBuscarLineas)
-       .subscribe(
-         (Response: Lineas) => {
- 
-           this.oLineasRes = Response;
-           //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
-           //console.log(this.pedido);
- 
-           if(this.oLineasRes.Codigo != 0){
-             this.bError= true;
-             this.sMensaje="No se encontraron Lineas";
-             return;
-           }
-           
-           this.oLineasCon = this.oLineasRes.Contenido
-           this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
-           this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
-           this.sMensaje="";
- 
-         },
-         (error:Lineas) => {
- 
-           this.oLineasRes = error;
-           this.sMensaje="No se encontraron oficinas";
-           console.log("error");
-           console.log(this.oLineasRes);
-           return;
-         
-         }
-       );
+      this.oOficinasRes = JSON.parse(localStorage.getItem('Oficinas'));
+
+      this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
+      this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
+
+     }
+
+
+     //Consulta lineas de producto
+    if (!localStorage.getItem('Lineas')){
+
+      //  console.log("Lineas no existen");
+
+
+        //Realizamos llamada al servicio de lineas
+        this._servicioLineas 
+        .Get(this.oBuscarLineas)
+        .subscribe(
+          (Response: Lineas) => {
+  
+            this.oLineasRes = Response;
+            //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
+            //console.log(this.pedido);
+  
+            if(this.oLineasRes.Codigo != 0){
+              this.bError= true;
+              this.sMensaje="No se encontraron Lineas";
+              return;
+            }
+            
+            this.oLineasCon = this.oLineasRes.Contenido
+            this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
+            this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
+            this.sMensaje="";
+  
+          },
+          (error:Lineas) => {
+  
+            this.oLineasRes = error;
+            this.sMensaje="No se encontraron oficinas";
+            console.log("error");
+            console.log(this.oLineasRes);
+            return;
+          
+          }
+        );
+        }else{
+          //console.log("Lineas ya existen");
+
+          this.oLineasRes = JSON.parse(localStorage.getItem('Lineas'));
+          this.oLineasCon = this.oLineasRes.Contenido
+          this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
+          this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
+
+        }
 
        
           //Realizamos llamada al servicio de categorias 
-          this._servicioCategorias 
-          .Get(this.oBuscarCategorias)
-          .subscribe(
-            (Response: Categorias) => {
-    
-              this.oCategoriasRes = Response;
-              //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
-              //console.log(this.pedido);
-    
-              if(this.oCategoriasRes.Codigo != 0){
-                this.bError= true;
-                this.sMensaje="No se encontraron Categorias";
+          if (!localStorage.getItem('Categorias')){
+
+            //console.log("No tenemos categorias");
+            this._servicioCategorias 
+            .Get(this.oBuscarCategorias)
+            .subscribe(
+              (Response: Categorias) => {
+      
+                this.oCategoriasRes = Response;
+                //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
+                //console.log(this.pedido);
+      
+                if(this.oCategoriasRes.Codigo != 0){
+                  this.bError= true;
+                  this.sMensaje="No se encontraron Categorias";
+                  return;
+                }
+      
+                this.oCategoriasCon = this.oCategoriasRes.Contenido;
+                this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
+                this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
+                this.sMensaje="";
+      
+              },
+              (error:Categorias) => {
+      
+                this.oCategoriasRes = error;
+                this.sMensaje="No se encontraron categorias";
+                console.log("error");
+                console.log(this.oCategoriasRes);
                 return;
+              
               }
-    
-              this.oCategoriasCon = this.oCategoriasRes.Contenido;
-              this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
-              this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
-              this.sMensaje="";
-    
-            },
-            (error:Categorias) => {
-    
-              this.oCategoriasRes = error;
-              this.sMensaje="No se encontraron categorias";
-              console.log("error");
-              console.log(this.oCategoriasRes);
-              return;
+            );
+
+          }else{
+           // console.log("Tenemos categorias");
             
-            }
-          );
+            this.oCategoriasRes = JSON.parse(localStorage.getItem('Categorias'));
+            this.oCategoriasCon = this.oCategoriasRes.Contenido;
+            this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
+            this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
+          }
+
+          
 
       
     }
@@ -790,7 +832,7 @@ downloadAsPDF() {
   
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);    
   }
 
