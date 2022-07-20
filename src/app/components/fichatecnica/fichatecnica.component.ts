@@ -159,6 +159,8 @@ export class FichatecnicaComponent implements OnInit {
       } 
    } 
 
+   
+
    this.Buscar.TipoUsuario = this.sTipo;
    this.Buscar.Usuario = this.sCodigo;
 
@@ -237,7 +239,8 @@ export class FichatecnicaComponent implements OnInit {
     this.bBandera = false;
     console.log('consulta ficha tecnica');
     this.bCargando = true;
-    this.oBuscar.Usuario= this.sCodigo;   
+    this.oBuscar.Usuario= this.sCodigo;  
+    this.oBuscar.TipoUsuario = this.sTipo; 
 
     console.log(this.oBuscar);
     
