@@ -33,7 +33,7 @@ Get(FiltroIndicadoresVenta: any): Observable<any>{
 
 
 
-    return this._http.get(this.API_URL+this.API + 'reportes/EstadoCuenta.php?'+
+    return this._http.get(this.API_URL+this.API + 'reportes/IndicadoresVenta.php?'+
                         'AgenteDesde=' + FiltroIndicadoresVenta.AgenteDesde +                        
                         '&AgenteHasta=' + FiltroIndicadoresVenta.AgenteHasta +
                         '&FechaCorte=' + FiltroIndicadoresVenta.FechaCorte                         
