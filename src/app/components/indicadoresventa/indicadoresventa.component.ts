@@ -246,6 +246,8 @@ export class IndicadoresventaComponent implements OnInit {
           return;
         }
 
+        console.log("Respuesta : "+JSON.stringify(this.oIndVentaRes));
+
        // this.oImporteVentasRes = this.oIndVentaRes.Contenido
         this.sMensaje = '';
         this.bBandera = true;        
@@ -344,17 +346,18 @@ export class IndicadoresventaComponent implements OnInit {
 
     var cadenaaux = pdfTable.innerHTML;
 
-    /*let cadena =
-    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.sNombre+'</strong></p>' +    
-    cadenaaux;*/
+    let cadena =
+    '<br><p>Agente: <strong>' +this.oBuscar.AgenteDesde +'-'+this.oBuscar.AgenteHasta+' '+this.sNombre+'</strong></p>' +    
+    cadenaaux;
 
     console.log('cadena');
    // console.log(cadena);
 
-    //var html = htmlToPdfmake(cadena);
+    var html = htmlToPdfmake(cadena);
     //console.log(html);
     const documentDefinition = {
-      pageSize: 'A4',
+      pageSize: 'LEGAL',
+      pageOrientation: 'landscape',
       header: [
         {
           alignment: 'justify',
@@ -367,15 +370,15 @@ export class IndicadoresventaComponent implements OnInit {
               width: 110 
             },
             {
-              width: 380,
-              text: 'Consulta de pedidos',
+              width: 750,
+              text: 'Indicadores de venta',
               alignment: 'center',
               style: 'header',
               margin: [8,8],
               
             },
             {
-              width: 65,
+              width: 110,
               text: this.fechaHoy,
               alignment: 'right',
               margin: [2, 15],
@@ -394,7 +397,7 @@ export class IndicadoresventaComponent implements OnInit {
           fontSize: 12,
         },
       },
-      //content: html,
+      content: html,
       footer: function (currentPage, pageCount) {
         return [
           {
@@ -412,7 +415,9 @@ export class IndicadoresventaComponent implements OnInit {
   }
 
 
-
+  formatoMoneda(number){
+    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
+  };
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

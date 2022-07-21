@@ -188,19 +188,25 @@ export class VentasclientearticuloComponent implements OnInit {
           console.log('1');                           
 
            this.oBuscar.ClienteDesde = this.sCodigo; 
-           this.oBuscar.ClienteHasta = this.sCodigo;   
+           this.oBuscar.FilialDesde = this.sFilial;   
+           this.oBuscar.ClienteHasta = this.sCodigo; 
+           this.oBuscar.FilialHasta = this.sFilial;   
            this.bCliente = true;    
            break; 
         } 
         case 'A': { 
-           //Agente; 
-           this.bCliente = false;    
-           break; 
+          //Agente; 
+          this.oBuscar.ClienteHasta = 999999;
+          this.oBuscar.FilialHasta = 999;
+          this.bCliente = false;    
+          break; 
         } 
         default: { 
            //Gerente;
-           this.bCliente = false;     
-           break; 
+          this.oBuscar.ClienteHasta = 999999;
+          this.oBuscar.FilialHasta = 999;
+          this.bCliente = false;     
+          break; 
         } 
       } 
 
@@ -217,8 +223,7 @@ export class VentasclientearticuloComponent implements OnInit {
       this.oBuscar.CategoriaHasta = 'Z';
       this.oBuscar.SubcategoriaDesde = '0';
       this.oBuscar.SubcategoriaHasta = '9';
-      this.oBuscar.ClienteHasta = 999999;
-      this.oBuscar.FilialHasta = 999;
+      
 
   
       

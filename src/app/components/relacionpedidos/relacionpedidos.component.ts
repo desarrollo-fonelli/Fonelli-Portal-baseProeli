@@ -176,7 +176,9 @@ export class RelacionpedidosComponent implements OnInit {
           //Tipo cliente               
 
            this.oBuscar.ClienteDesde = this.sCodigo; 
-           this.oBuscar.ClienteHasta = this.sCodigo;   
+           this.oBuscar.FilialHasta = this.sFilial;   
+           this.oBuscar.ClienteHasta = this.sCodigo; 
+           this.oBuscar.FilialHasta = this.sFilial; 
          
            this.bCliente = true;    
 
@@ -185,10 +187,14 @@ export class RelacionpedidosComponent implements OnInit {
         case 'A': { 
            //Agente; 
            this.bCliente = false;  
+           this.oBuscar.ClienteHasta = 999999;
+           this.oBuscar.FilialHasta = 999;
            break; 
         } 
         default: { 
            //Gerente; 
+           this.oBuscar.ClienteHasta = 999999;
+           this.oBuscar.FilialHasta = 999;
            this.bCliente = false;  
            break; 
         } 
@@ -202,8 +208,7 @@ export class RelacionpedidosComponent implements OnInit {
     this.oBuscar.FechaPedidoHasta = fechaAyer;
     this.oBuscar.FechaCancelacDesde = '2000-01-01';
     this.oBuscar.FechaCancelacHasta = fechaActual;
-    this.oBuscar.ClienteHasta = 999999;
-    this.oBuscar.FilialHasta = 999;
+ 
 
     this.Buscar.TipoUsuario = this.sTipo;
     this.Buscar.Usuario = this.sCodigo;

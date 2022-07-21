@@ -304,6 +304,9 @@ export class SidenavComponent implements OnInit {
 
     //  console.log("Inicia carga Clientes");
 
+    this.Buscar.TipoUsuario = this.sTipo;
+    this.Buscar.Usuario = this.sCodigo;
+
      this._servicioCClientes
       .GetCliente(this.Buscar)
       .subscribe(

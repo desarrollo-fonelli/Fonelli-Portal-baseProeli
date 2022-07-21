@@ -149,30 +149,31 @@
               <tr class="table-info">
                 <th scope="row">{{ i + 1 }}</th>
                 <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
-                <td class="FilasFonelli"> <u>{{impVen.AgenteNombre}}</u> </td>                
-                <td class="FilasFonelli" >{{ impVen.ImporteVentas.VentaDiaria}}</td>              
-                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.VentasAcumuladas}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.LimiteInferior}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.DiferenciaLimiteInferior}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.Minimo}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.DiferenciaMinimo}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.Meta}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.DiferenciaMeta}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.ImportePedidos}}</td>
+                <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>                
+                <td class="FilasFonelli"  style="text-align:right" >{{ formatoMoneda(impVen.ImporteVentas.VentaDiaria)}}</td>              
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.VentasAcumuladas)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.LimiteInferior)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaLimiteInferior)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.Minimo)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaMinimo)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.Meta)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaMeta)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.ImportePedidos)}}</td>
               </tr>
             </ng-container>
             <tr class="table-info">
-              <th scope="row"></th>
+              <th ></th>
               <td class="FilasFonelli" style="text-align:left">Totales</td>
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'VentaDiaria')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'VentasAcumuladas')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'LimiteInferior')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'DiferenciaLimiteInferior')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'Minimo')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'DiferenciaMinimo')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'Meta')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'DiferenciaMeta')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'ImportePedidos')}} </td>                
+              <td ></td>
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentaDiaria'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentasAcumuladas'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'LimiteInferior'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaLimiteInferior'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'Minimo'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaMinimo'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'Meta'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaMeta'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'ImportePedidos'))}} </td>                
             </tr>
             
           </tbody>

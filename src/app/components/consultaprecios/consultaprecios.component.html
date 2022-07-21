@@ -37,7 +37,7 @@
                       #nombre="ngModel"
                       [(ngModel)]="oBuscar.ClienteFilial"
                       disabled="{{ bCliente }}"
-                      [disabled]="oBuscar.ClienteCodigo == 0"   
+                      [disabled]="oBuscar.ClienteCodigo == 0 || bCliente"   
                       required
                     >
                   </div>

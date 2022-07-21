@@ -334,6 +334,7 @@ export class VentasarticuloComponent implements OnInit {
           }
 
           
+          
 
       
     }
