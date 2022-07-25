@@ -1,0 +1,61 @@
+<mat-toolbar class="fixedElement">
+    <button class="btn btn-primary" style="background-color: #24a4cc; border: none;" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+    <div class="cat ">
+      <a href="#">
+        <img  src="../../../assets/images/principal/logo_fonelli.png"  >
+      </a>      
+    </div>
+    <!--<button (click)="EliminaSesion()" class="btn btn-primary btn-sm ml-auto">Cerrar Sesión</button>-->
+  
+    <div class="ms-auto">
+      <button class="boton_sesion" [matMenuTriggerFor]="menu">
+        <img src="../../../assets/images/principal/usuario.png"  alt="" style="height:30px ; width:30px;">
+      </button>
+      <mat-menu #menu="matMenu" class="profile-dropdown">    
+  
+        <span class="fs-16 text-center"  mat-menu-item>Adminstrador</span>
+    
+        <!-- <span class="fs-16" mat-menu-item><mat-icon>login</mat-icon>{{'Nombre: '}}<strong>{{ sNombre }}</strong> </span> -->
+        <span class="fs-16" mat-menu-item>{{'Usuario: '}}<strong>{{ sCodigo }}</strong> </span>
+        
+        
+        <div class="container float-left">
+          <div class="row">   
+            <button (click)="EliminaSesion()" class="btnLogout btn">Cerrar Sesión</button>
+          </div>  
+        </div>  
+          
+        
+      </mat-menu>
+    </div>
+  
+  </mat-toolbar>
+  
+  
+  <div class="main-container">
+    <mat-sidenav-container >
+      <!-- <mat-sidenav #snav class="mat-elevation-z10" [opened]="true" fixedTopGap="64" [mode]="mobileQuery.matches ? 'over' : 'side'" fixedInViewport="true" style="width:260px;"> -->
+      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+      [fixedInViewport]="mobileQuery.matches" fixedTopGap="64" 
+      [opened]="mobileQuery.matches ? 'false' : 'true'"
+      
+      style="width:260px;"
+      
+      >
+        <mat-nav-list nav-list (click)="toggle(snav)">
+          <a mat-list-item [routerLink]="['/panel/inicio']" routerLinkActive="active-list-item"> <span class="font_side">Inicio</span></a>
+          <a mat-list-item [routerLink]="['/panel/template/']" routerLinkActive="active-list-item"><span class="font_side">Diseño portal</span></a>
+
+        </mat-nav-list>
+  
+    
+      </mat-sidenav>
+    
+      <mat-sidenav-content  >
+        
+          <router-outlet></router-outlet>
+       
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+  

@@ -11,11 +11,10 @@
         </div>
     
         <div class="videoWrapper">
-            <video video loop muted autoplay playsinline oncanplay="this.play()" onloadedmetadata="this.muted = true" class="custom-video">
-                <source src="../../../assets/videos/intro/PaginaFonelli.mp4" type="video/mp4">
-    
-                Your browser does not support the video tag.
+            <video video loop muted autoplay playsinline oncanplay="this.play()" onloadedmetadata="this.muted = true" class="custom-video" src="{{oTemplate?.Video?.Url + oTemplate?.Video?.Video}}" type="video/mp4">
+       
             </video>
+          
         </div> 
     
         <div class="overlay"></div>

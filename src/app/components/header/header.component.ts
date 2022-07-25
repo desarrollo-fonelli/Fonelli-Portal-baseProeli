@@ -24,6 +24,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Contenido } from '../../models/agentes';
 
+import { TemplateLlamada, TemplatePortal } from 'src/app/models/template';
+
+//Servicios
+import { ServicioTemplate } from 'src/app/services/template.service';
+
 
 
 @Component({
@@ -65,6 +70,9 @@ export class HeaderComponent implements OnInit {
   public bCargandoContacto: boolean = false;
   public bCargandoEmpleados: boolean = false;
 
+  oTemplate: TemplatePortal; 
+  oTemplateLlamada: TemplateLlamada;
+
   constructor(
     private modalService: NgbModal,
     private _servicioContacto: ServicioContacto,
@@ -74,7 +82,8 @@ export class HeaderComponent implements OnInit {
     private _router: Router,
     private snackBar: MatSnackBar,
     changeDetectorRef: ChangeDetectorRef, 
-    media: MediaMatcher
+    media: MediaMatcher,
+    private _servicioTemplate: ServicioTemplate
     
 
   ) {
@@ -152,6 +161,34 @@ export class HeaderComponent implements OnInit {
     ngOnInit(): void {
 
       AOS.init();
+
+      this._servicioTemplate    
+      .Get()
+      .subscribe(
+        (Response: TemplateLlamada) => {
+  
+          console.log(Response);
+  
+          this.oTemplateLlamada = Response;       
+                 
+  
+          if(this.oTemplateLlamada.Codigo != 0){
+            return;
+          }
+  
+         this.oTemplate = this.oTemplateLlamada.Contenido;
+
+         console.log("Header");
+
+         console.log(this.oTemplate);
+    
+        },
+        (error:TemplateLlamada) => {
+  
+          console.log("Error 2");
+        
+        }
+      );
   
     }
 

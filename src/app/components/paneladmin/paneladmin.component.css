@@ -1,0 +1,13 @@
+.fixedElement {
+    position: fixed;
+    z-index: 10;
+    height: 60px;
+  }
+  .main-container {
+    padding-top: 60px;
+  }
+  
+  mat-sidenav {
+    position: fixed;
+    padding-top: 70px;
+  }

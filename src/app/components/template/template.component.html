@@ -1,0 +1,963 @@
+<div class="container float-left">
+    <div class="row">
+      <div class="col-lg-12">
+        <!--Actualización de video-->
+        <div class="card">
+          <div class="card-body">
+            <h4>Video</h4>
+  
+            <!-- General Form Elements -->
+  
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <video
+                  video
+                  loop
+                  muted
+                  autoplay
+                  controls
+                  playsinline
+                  oncanplay="this.play()"
+                  onloadedmetadata="this.muted = true"
+                  style="width: 200px; height: 200px"
+                  [src]="
+                    bVideo
+                      ? videoNuevo
+                      : oTemplate?.Video?.Url + oTemplate?.Video?.Video
+                  "
+                ></video>
+  
+                <input
+                  type="text"
+                  id="video"
+                  class="form-control"
+                  name="video"
+                  #nombre="ngModel"
+                  [(ngModel)]="oTemplate?.Video.Video"
+                  disabled="true"
+                />
+              </div>
+  
+              <div class="form-group col-md-3">
+                <button
+                  type="submit"
+                  class="btnFonelliAzul btn"
+                  (click)="fileInputVideo.click()"
+                >
+                  Seleccionar video
+                </button>
+  
+                <input
+                  for="VideoNN"
+                  class="custom-file-upload"
+                  type="file"
+                  accept=".mp4"
+                  #fileInputVideo
+                  (change)="SeleccionarVideo($event)"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-6">
+  
+                <div *ngIf="bErrorVideo">
+                  <p class="alert alert-danger" role="alert">{{sMensajeError}}</p>
+                </div>
+                <button type="submit" class="btnFonelli btn"  (click)="onActualizarVideo()">
+                  <span
+                    *ngIf="bCargandoVideo"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    style="color: #183e6f"
+                  >
+                  </span>
+                  Actualizar video
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <br />
+  
+        <!--Actialización de banner principal-->
+  
+        <div class="card">
+          <div class="card-body">
+            <h4>Banner principal</h4>
+  
+            <div class="form-group col-md-3">
+              <button
+                type="submit"
+                (click)="onAddBannerPrincipal()"
+                class="form-control btnFonelli"
+              >
+                Agregar banner
+              </button>
+            </div>
+  
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Titulo</th>
+                    <th>Link</th>
+                    <th>Imagen 1700x500</th>
+                    <th>Imagen movil 450x450</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of BannerPrincipal; let id = index">
+                    <td>{{ id + 1 }}</td>
+                    <td><input #nombre="ngModel" [(ngModel)]="row.Titulo" /></td>
+                    <td><input #Link="ngModel" [(ngModel)]="row.Link" /></td>
+                    <td>
+                      <img
+                        [src]="
+                          row.bImagen
+                            ? row.nuevaImagen
+                            : row.UrlImagen + row.Imagen
+                        "
+                        style="width: 200px; height: 200px"
+                      />
+                      <button
+                        type="submit"
+                        class="btnFonelliAzul btn"
+                        (click)="imageUploadBanner.click()"
+                      >
+                        Seleccionar imagen
+                      </button>
+  
+                      <input
+                        #imageUploadBanner
+                        type="file"
+                        accept=".png, .jpg, .jpeg"
+                        (change)="SeleccionarImagenBanner($event, id)"
+                      />
+                    </td>
+                    <td>
+                      <img
+                        [src]="
+                          row.bImagenMovil
+                            ? row.nuevaImagenMovil
+                            : row.UrlImagenMovil + row.ImagenMovil
+                        "
+                        style="width: 200px; height: 200px"
+                      />
+  
+                      <button
+                        type="submit"
+                        class="btnFonelliAzul btn"
+                        (click)="imageUploadBannerMovil.click()"
+                      >
+                        Seleccionar imagen
+                      </button>
+  
+                      <input
+                        #imageUploadBannerMovil
+                        type="file"
+                        accept=".png, .jpg, .jpeg"
+                        (change)="SeleccionarImagenBannerMovil($event, id)"
+                      />
+                    </td>
+                    <td>
+                      <button  class="btnFonelliRosa btn" (click)="onRemovBannerPrincipal(id)">
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div *ngIf="bErrorBanner">
+                  <p class="alert alert-danger" role="alert">{{sMensajeError}}</p>
+                </div>
+                <button type="submit" class="btnFonelli btn" (click)="onActualizarBanner()">
+                  <span
+                    *ngIf="bCargandoBanner"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    style="color: #183e6f"
+                  >
+                  </span>
+                  Actualizar banner
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <br />
+  
+        <!--Actialización de gif-->
+  
+        <div class="card">
+          <div class="card-body">
+            <h4>Gif</h4>
+  
+            <!-- General Form Elements -->
+  
+            <div class="form-row" style="margin: 20px">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Imagen 1 1322x880</label>
+  
+                <img
+                  [src]="
+                    bImagenGif1
+                      ? imagenGif1
+                      : oTemplate?.Gif?.Url + oTemplate?.Gif?.Imagen1
+                  "
+                  style="width: 200px; height: 200px"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <input
+                  type="text"
+                  id="gif1"
+                  class="form-control"
+                  name="gif1"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Gif.Imagen1"
+                  disabled="true"
+                />
+              </div>
+  
+              <div class="form-group col-md-3">
+                <button
+                  type="submit"
+                  class="btnFonelliAzul btn"
+                  (click)="fileInputGif1.click()"
+                >
+                  Seleccionar imagen
+                </button>
+                <input
+                  #fileInputGif1
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="SeleccionarImagenGif1($event)"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Texto superior 1</label>
+                <input
+                  type="text"
+                  id="gif1TS"
+                  class="form-control"
+                  name="gif1TS"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Gif.TextoSuperior1"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Texto inferior 1</label>
+                <input
+                  type="text"
+                  id="gif1TI"
+                  class="form-control"
+                  name="gif1TI"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Gif.TextoInferior1"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row" style="margin: 20px">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Imagen 2 1322x880</label>
+  
+                <img
+                  [src]="
+                    bImagenGif2
+                      ? imagenGif2
+                      : oTemplate?.Gif?.Url + oTemplate?.Gif?.Imagen2
+                  "
+                  style="width: 200px; height: 200px"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <input
+                  id="gif2"
+                  class="form-control"
+                  type="text"
+                  name="gif2"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Gif.Imagen2"
+                  disabled="true"
+                />
+              </div>
+  
+              <div class="form-group col-md-3">
+                <button
+                  type="submit"
+                  class="btnFonelliAzul btn"
+                  (click)="fileInputGif2.click()"
+                >
+                  Seleccionar imagen
+                </button>
+                <input
+                  #fileInputGif2
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="SeleccionarImagenGif2($event)"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Texto superior 2</label>
+                <input
+                  type="text"
+                  id="gif2TS"
+                  class="form-control"
+                  name="gif2TS"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Gif.TextoSuperior2"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Texto inferior 2</label>
+                <input
+                  type="text"
+                  id="gif2TI"
+                  class="form-control"
+                  name="gif2TS"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Gif.TextoInferior2"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row" style="margin: 20px">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Imagen 3 1322x880</label>
+  
+                <img
+                  [src]="
+                    bImagenGif3
+                      ? imagenGif3
+                      : oTemplate?.Gif?.Url + oTemplate?.Gif?.Imagen3
+                  "
+                  style="width: 200px; height: 200px"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <input
+                  type="text"
+                  id="gif3"
+                  class="form-control"
+                  name="gif3"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Gif.Imagen3"
+                  disabled="true"
+                />
+              </div>
+  
+              <div class="form-group col-md-3">
+                <button
+                  type="submit"
+                  class="btnFonelliAzul btn"
+                  (click)="fileInputGif3.click()"
+                >
+                  Seleccionar imagen
+                </button>
+  
+                <input
+                  #fileInputGif3
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="SeleccionarImagenGif3($event)"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Texto superior 3</label>
+                <input
+                  type="text"
+                  id="gif3TS"
+                  class="form-control"
+                  name="gif3TS"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Gif.TextoSuperior3"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Texto inferior 3</label>
+                <input
+                  type="text"
+                  id="gif3TI"
+                  class="form-control"
+                  name="gif3TI"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Gif.TextoInferior3"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div *ngIf="bErrorGif">
+                  <p class="alert alert-danger" role="alert">{{sMensajeError}}</p>
+                </div>
+                <button type="submit" class="btnFonelli btn" (click)="onActualizarGif()">
+                  <span
+                    *ngIf="bCargandoGif"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    style="color: #183e6f"
+                  >
+                  </span>
+                  Actualizar gif
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <br />
+  
+        <!--Actialización de nosotros-->
+  
+        <div class="card">
+          <div class="card-body">
+            <h4>Nosotros</h4>
+  
+            <!-- General Form Elements -->
+  
+            <div class="form-row" style="margin: 20px">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Imagen 1 400x400</label>
+  
+                <img
+                  [src]="
+                    bImagenNosotros1
+                      ? imagenNosotros1
+                      : oTemplate.Nosotros.Url + oTemplate.Nosotros.Imagen1
+                  "
+                  style="width: 200px; height: 200px"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <input
+                  type="text"
+                  id="nosotros1"
+                  class="form-control"
+                  name="nosotros1"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Nosotros.Imagen1"
+                  disabled="true"
+                />
+              </div>
+  
+              <div class="form-group col-md-3">
+                <button
+                  type="submit"
+                  class="btnFonelliAzul btn"
+                  (click)="fileInputNosotros1.click()"
+                >
+                  Seleccionar imagen
+                </button>
+                <input
+                  #fileInputNosotros1
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="SeleccionarImagenNosotros1($event)"
+                />
+              </div>
+            </div>
+            <div class="form-row" style="margin: 20px">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Imagen 2 400x400</label>
+  
+                <img
+                  [src]="
+                    bImagenNosotros2
+                      ? imagenNosotros2
+                      : oTemplate.Nosotros.Url + oTemplate.Nosotros.Imagen2
+                  "
+                  style="width: 200px; height: 200px"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <input
+                  type="text"
+                  id="nosotros2"
+                  class="form-control"
+                  name="nosotros2"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Nosotros.Imagen2"
+                  disabled="true"
+                />
+              </div>
+  
+              <div class="form-group col-md-3">
+                <button
+                  type="submit"
+                  class="btnFonelliAzul btn"
+                  (click)="fileInputNosotros2.click()"
+                >
+                  Seleccionar imagen
+                </button>
+                <input
+                  #fileInputNosotros2
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="SeleccionarImagenNosotros2($event)"
+                />
+              </div>
+            </div>
+            <div class="form-row" style="margin: 20px">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Imagen 3 400x400</label>
+  
+                <img
+                  [src]="
+                    bImagenNosotros3
+                      ? imagenNosotros3
+                      : oTemplate.Nosotros.Url + oTemplate.Nosotros.Imagen3
+                  "
+                  style="width: 200px; height: 200px"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <input
+                  type="text"
+                  id="nosotros3"
+                  class="form-control"
+                  name="nosotros3"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Nosotros.Imagen3"
+                  disabled="true"
+                />
+              </div>
+  
+              <div class="form-group col-md-3">
+                <button
+                  type="submit"
+                  class="btnFonelliAzul btn"
+                  (click)="fileInputNosotros3.click()"
+                >
+                  Seleccionar imagen
+                </button>
+                <input
+                  #fileInputNosotros3
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="SeleccionarImagenNosotros3($event)"
+                />
+              </div>
+            </div>
+            <div class="form-row" style="margin: 20px">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Imagen 4 400x400</label>
+  
+                <img
+                  [src]="
+                    bImagenNosotros4
+                      ? imagenNosotros4
+                      : oTemplate.Nosotros.Url + oTemplate.Nosotros.Imagen4
+                  "
+                  style="width: 200px; height: 200px"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <input
+                  type="text"
+                  id="nosotros4"
+                  class="form-control"
+                  name="nosotros4"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.Nosotros.Imagen4"
+                  disabled="true"
+                />
+              </div>
+  
+              <div class="form-group col-md-3">
+                <button
+                  type="submit"
+                  class="btnFonelliAzul btn"
+                  (click)="fileInputNosotros4.click()"
+                >
+                  Seleccionar imagen
+                </button>
+                <input
+                  #fileInputNosotros4
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="SeleccionarImagenNosotros4($event)"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row" style="margin: 20px">
+              <div class="form-group ">
+                <label class="CamposFonelli">Texto</label>
+                <textarea
+                  type="text"
+                  id="nosotrostext"
+                  class="form-control"
+                  name="nosotrostext"
+                  #gif1="ngModel"
+                  style = "height: 400px;"
+                  [(ngModel)]="oTemplate.Nosotros.Texto"
+                >
+                </textarea>
+  
+                <br>
+                <br>
+                <h6>Vista previa</h6>
+                <br>
+                <br>
+                <label [innerHTML]=" oTemplate.Nosotros.Texto"></label>
+              </div>
+              
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div *ngIf="bErrorNosotros">
+                  <p class="alert alert-danger" role="alert">{{sMensajeError}}</p>
+                </div>
+                <button type="submit" class="btnFonelli btn" (click)="onActualizarNosotros()">
+                  <span
+                    *ngIf="bCargandoNosotros"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    style="color: #183e6f"
+                  >
+                  </span>
+                  Actualizar imagenes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <br />
+  
+        <!--Actialización de imagen final-->
+  
+        <div class="card">
+          <div class="card-body">
+            <h4>Imagen final</h4>
+  
+            <!-- General Form Elements -->
+  
+            <div class="form-row" style="margin: 25px">
+              <div class="form-group col-md-3">
+                <label class="CamposFonelli">Imagen 1600x600</label>
+                <img
+                  [src]="
+                    bImagenFinal
+                      ? imagenFinal
+                      : oTemplate.ImagenFinal.Url + oTemplate.ImagenFinal.Imagen
+                  "
+                  style="width: 200px; height: 200px"
+                />
+              </div>
+              <div class="form-group col-md-3">
+                <input
+                  type="text"
+                  id="ifinal"
+                  class="form-control"
+                  name="ifinal"
+                  #gif1="ngModel"
+                  [(ngModel)]="oTemplate.ImagenFinal.Imagen"
+                  disabled="true"
+                />
+              </div>
+  
+              <div class="form-group col-md-3">
+                <button
+                  type="submit"
+                  class="btnFonelliAzul btn"
+                  (click)="fileInputFinal.click()"
+                >
+                  Seleccionar imagen
+                </button>
+                <input
+                  #fileInputFinal
+                  type="file"
+                  accept=".png, .jpg, .jpeg"
+                  (change)="SeleccionarImagenFinal($event)"
+                />
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div *ngIf="bErrorFinal">
+                  <p class="alert alert-danger" role="alert">{{sMensajeError}}</p>
+                </div>
+                <button type="submit" class="btnFonelli btn" (click)="onActualizarFinal()">
+                  <span
+                    *ngIf="bCargandoFinal"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    style="color: #183e6f"
+                  >
+                  </span>
+                  Actualizar imagen
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <br />
+  
+        <!--Actialización de banner distribuidores-->
+  
+        <div class="card">
+          <div class="card-body">
+            <h4>Banner distribuidores</h4>
+  
+            <!-- General Form Elements -->
+            <!-- General Form Elements -->
+            <div class="form-group col-md-3">
+              <button
+                type="submit"
+                (click)="onAddBannerDistribuidor()"
+                class="form-control btnFonelli"
+              >
+                Agregar banner
+              </button>
+            </div>
+  
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Titulo</th>
+                    <th>Link</th>
+                    <th>Imagen 800x600</th>
+                    <th>Imagen movil 450x450</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of BannerDistribuidor; let id = index">
+                    <td>{{ id + 1 }}</td>
+                    <td><input #nombre="ngModel" [(ngModel)]="row.Titulo" /></td>
+                    <td><input #Link="ngModel" [(ngModel)]="row.Link" /></td>
+                    <td>
+                      <img
+                        [src]="
+                          row.bImagen
+                            ? row.nuevaImagen
+                            : row.UrlImagen + row.Imagen
+                        "
+                        style="width: 200px; height: 200px"
+                      />
+                      <button
+                        type="submit"
+                        class="btnFonelliAzul btn"
+                        (click)="fileInputDistribuidor.click()"
+                      >
+                        Seleccionar imagen
+                      </button>
+                      <input
+                        #fileInputDistribuidor
+                        type="file"
+                        accept=".png, .jpg, .jpeg"
+                        (change)="SeleccionarImagenDistribuidores($event, id)"
+                      />
+                    </td>
+                    <td>
+                      <img
+                        [src]="
+                          row.bImagenMovil
+                            ? row.nuevaImagenMovil
+                            : row.UrlImagenMovil + row.ImagenMovil
+                        "
+                        style="width: 200px; height: 200px"
+                      />
+                      <button
+                        type="submit"
+                        class="btnFonelliAzul btn"
+                        (click)="fileInputDistribuidorMovil.click()"
+                      >
+                        Seleccionar imagen
+                      </button>
+                      <input
+                        #fileInputDistribuidorMovil
+                        type="file"
+                        accept=".png, .jpg, .jpeg"
+                        (change)="
+                          SeleccionarImagenDistribuidoresMovil($event, id)
+                        "
+                      />
+                    </td>
+                    <td>
+                      <button  class="btnFonelliRosa btn" (click)="onRemovBannerDistribuidor(id)">
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div *ngIf="bErrorDistribuidores">
+                  <p class="alert alert-danger" role="alert">{{sMensajeError}}</p>
+                </div>
+                <button type="submit" class="btnFonelli btn" (click)="onActualizarDistribuidores()">
+                  <span
+                    *ngIf="bCargandoDistribuidores"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    style="color: #183e6f"
+                  >
+                  </span>
+                  Actualizar banner
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <br />
+  
+        <!--Actialización de banner asesores-->
+  
+        <div class="card">
+          <div class="card-body">
+            <h4>Banner asesores</h4>
+  
+            <!-- General Form Elements -->
+            <!-- General Form Elements -->
+            <div class="form-group col-md-3">
+              <button
+                type="submit"
+                (click)="onAddBannerAsesor()"
+                class="form-control btnFonelli"
+              >
+                Agregar banner
+              </button>
+            </div>
+  
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Titulo</th>
+                    <th>Link</th>
+                    <th>Imagen 800x600</th>
+                    <th>Imagen movil 450x450</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let row of BannerAsesor; let id = index">
+                    <td>{{ id + 1 }}</td>
+                    <td><input #nombre="ngModel" [(ngModel)]="row.Titulo" /></td>
+                    <td><input #Link="ngModel" [(ngModel)]="row.Link" /></td>
+                    <td>
+                      <img
+                        [src]="
+                          row.bImagen
+                            ? row.nuevaImagen
+                            : row.UrlImagen + row.Imagen
+                        "
+                        style="width: 200px; height: 200px"
+                      />
+                      <button
+                        type="submit"
+                        class="btnFonelliAzul btn"
+                        (click)="fileInputAsesor.click()"
+                      >
+                        Seleccionar imagen
+                      </button>
+  
+                      <input
+                        #fileInputAsesor
+                        type="file"
+                        accept=".png, .jpg, .jpeg"
+                        (change)="SeleccionarImagenAsesor($event, id)"
+                      />
+                    </td>
+                    <td>
+                      <img
+                        [src]="
+                          row.bImagenMovil
+                            ? row.nuevaImagenMovil
+                            : row.UrlImagenMovil + row.ImagenMovil
+                        "
+                        style="width: 200px; height: 200px"
+                      />
+                      <button
+                        type="submit"
+                        class="btnFonelliAzul btn"
+                        (click)="fileInputAsesorMovil.click()"
+                      >
+                        Seleccionar imagen
+                      </button>
+                      <input
+                        #fileInputAsesorMovil
+                        type="file"
+                        accept=".png, .jpg, .jpeg"
+                        (change)="SeleccionarImagenAsesorMovil($event, id)"
+                      />
+                    </td>
+                    <td>
+                      <button class="btnFonelliRosa btn"  (click)="onRemovBannerAsesor(id)">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div *ngIf="bErrorAsesores">
+                  <p class="alert alert-danger" role="alert">{{sMensajeError}}</p>
+                </div>
+                <button type="submit" class="btnFonelli btn" (click)="onActualizarAsesores()">
+                  <span
+                    *ngIf="bCargandoAsesores"
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                    style="color: #183e6f"
+                  >
+                  </span>
+                  Actualizar banner
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

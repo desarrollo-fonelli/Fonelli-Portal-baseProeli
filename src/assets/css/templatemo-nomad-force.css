@@ -787,6 +787,19 @@ button.btnFonelli {
   color: #f9f9f9;
   font-family: Quicksand-SemiBold;
 }
+
+button.btnFonelliRosa {
+  background-color: #e8b4c1;
+  color: #f9f9f9;
+  font-family: Quicksand-SemiBold;
+}
+
+button.btnFonelliAzul {
+  background-color: #24a4cc;
+  color: #f9f9f9;
+  font-family: Quicksand-SemiBold;
+}
+
 label.CamposFonelli {
   color: #183e6f;
   font-family: Quicksand-SemiBold;

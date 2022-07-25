@@ -71,6 +71,12 @@
    font-size: large;
 }
 
+.fondo_mensaje_template {
+   background-color: #24a4cc;
+   color: white;
+   font-size: large;
+}
+
 .footer-list-item {
    list-style-type: none;
    display: inline-block;

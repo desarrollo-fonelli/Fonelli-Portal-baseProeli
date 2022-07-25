@@ -36,6 +36,9 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { NgbdTablePagination } from './components/tabla/table-pagination';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
+import { AdminComponent } from "./components/admin/admin.component";
+import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
+import { TemplateComponent } from "./components/template/template.component";
 
 //Pipes
 import { SearchEstadoCuentaPipe } from './pipes/estadocuenta.pipe';
@@ -44,6 +47,8 @@ import { SearchRelacionPedidosPipe } from './pipes/relacionpedidos.pipe';
 import { SearchVentasClienteArticuloPipe } from './pipes/ventasclientearticulo.pipe';
 import { SearchConsultaClientePipe } from './pipes/consultaBusquedaCliente.pipe';
 import { PdfComponent } from './components/pdf/pdf.component';
+import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
+
 
 
 
@@ -77,7 +82,11 @@ import { PdfComponent } from './components/pdf/pdf.component';
     SearchRelacionPedidosPipe,
     SearchVentasClienteArticuloPipe,
     PdfComponent,
-    SearchConsultaClientePipe
+    SearchConsultaClientePipe,
+    AdminComponent,
+    PaneladminComponent,
+    TemplateComponent,
+    InicioadminComponent
   ],
   imports: [
     BrowserModule,
