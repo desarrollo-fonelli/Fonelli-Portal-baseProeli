@@ -289,7 +289,8 @@ export class ConsultapreciosComponent implements OnInit {
   this.bCargando = true;
 
   //Inicializamos el tipo de usuario por el momento
-  this.oBuscar.TipoUsuario = this.sTipo
+  this.oBuscar.TipoUsuario = this.sTipo;
+  this.oBuscar.Usuario = this.sCodigo;
 
   console.log(this.oBuscar.ClienteCodigo);
   console.log(this.oBuscar.ClienteFilial); 

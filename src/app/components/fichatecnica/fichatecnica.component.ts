@@ -23,7 +23,7 @@ import {
 
 //Modelos
 import { FiltrosFichaTecnica } from 'src/app/models/fichatecnica.filtros';
-import { FichaTecnica,VentasAnioA as AnioAnterior, VentasAnioA as AnioActual, ResumenTipoCartera,PedidosActivos} from 'src/app/models/fichatecnica';
+import { FichaTecnica, VentasAnioA as AnioAnterior, VentasAnioA as AnioActual, ResumenCartera,PedidosActivos, Subcategorias ,VentasAnioA} from 'src/app/models/fichatecnica';
 
 
 import {FiltrosClientes} from 'src/app/models/clientes.filtros';
@@ -61,7 +61,7 @@ export class FichatecnicaComponent implements OnInit {
   oFichaTecnicaRes: FichaTecnica;
   oAnioAnteriorRes: AnioAnterior[];
   oAnioActualRes: AnioActual[];
-  oTipoCarteraRes: ResumenTipoCartera[];
+  oTipoCarteraRes: ResumenCartera[];
   oPedidosInactivosRes: PedidosActivos;
 
   public bError: boolean = false;
@@ -172,7 +172,7 @@ export class FichatecnicaComponent implements OnInit {
       mes = '0' + (date.getMonth() + 1);
     }
 
-    this.fechaHoy =  date.getFullYear() + '-' + mes + '-' +(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());              
+    this.fechaHoy =  date.getFullYear() + '-' + mes + '-' +(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);              
 
     this.oBuscar.FechaDesdeAnterior = (date.getFullYear()-1)+'-01-01';
     this.oBuscar.FechaHastaAnterior = (date.getFullYear()-1)+'-12-31';
@@ -250,7 +250,9 @@ export class FichatecnicaComponent implements OnInit {
     //Realizamos llamada al servicio de ficha tecnica
     this._servicioFichaTecnica.Get(this.oBuscar).subscribe(
       (Response: FichaTecnica) => {
-        this.oFichaTecnicaRes = Response;        
+        this.oFichaTecnicaRes = Response;     
+        
+        console.log("respuesta ficha tecnica"+JSON.stringify(this.oFichaTecnicaRes));
 
         
         if (this.oFichaTecnicaRes.Codigo != 0) {
@@ -266,8 +268,10 @@ export class FichatecnicaComponent implements OnInit {
         this.bCargando = false;
         this.oAnioAnteriorRes = this.oFichaTecnicaRes.Contenido.VentasAnioAnterior;
         this.oAnioActualRes = this.oFichaTecnicaRes.Contenido.VentasAnioActual;
-        this.oTipoCarteraRes = this.oFichaTecnicaRes.Contenido.ResumenTipoCartera;
+        this.oTipoCarteraRes = this.oFichaTecnicaRes.Contenido.ResumenCartera;
         this.oPedidosInactivosRes = this.oFichaTecnicaRes.Contenido.PedidosActivos;
+
+        
 
       },
       (error: FichaTecnica) => {
@@ -329,7 +333,7 @@ export class FichatecnicaComponent implements OnInit {
             },
             {
               width: 380,
-              text: 'Consulta de pedidos',
+              text: 'Ficha Tecnica',
               alignment: 'center',
               style: 'header',
               margin: [8,8],
@@ -463,6 +467,111 @@ export class FichatecnicaComponent implements OnInit {
     );
     return true;
   }  
+
+   // #### Obten totales categoria ####
+   getTotalCategoria(subCat: Subcategorias[], sValor: string): number {   
+    let Total: number = 0;  
+
+    switch(sValor) {        
+      case 'Piezas': { 
+   
+        for(var dato of subCat){
+            Total += dato.Piezas;           
+        }
+        break; 
+      } 
+      case 'Gramos': { 
+        
+        for(var dato of subCat){
+          Total += dato.Gramos;           
+        }
+        break; 
+      }  
+    case 'Importe': { 
+        
+      for(var dato of subCat){
+        Total += dato.Importe;           
+      }
+      break;
+          break; 
+    } 
+    case 'ValorAgregado': { 
+        
+      for(var dato of subCat){
+        Total += dato.ValorAgregado;           
+      }
+      break;
+         
+    } 
+
+   }     
+
+
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+  // #### Obten totales categoria venta año anterior ####
+
+    // #### Obten totales generall ####
+    getTotalGeneral(venAnioAnt: VentasAnioA[], sValor: string): number {   
+      let Total: number = 0;  
+
+      switch(sValor) {        
+        case 'Piezas': { 
+ 		
+          for(var dato of venAnioAnt){
+            for(var datDet of dato.Subcategorias){
+              Total += datDet.Piezas;             
+            }
+             
+          }
+               break; 
+             } 
+      case 'Gramos': { 
+          
+        for(var dato of venAnioAnt){
+          for(var datDet of dato.Subcategorias){
+            Total += datDet.Gramos;             
+          }
+           
+        }
+            break; 
+          } 
+      case 'Importe': { 
+          
+        for(var dato of venAnioAnt){
+          for(var datDet of dato.Subcategorias){
+            Total += datDet.Importe;             
+          }
+           
+        }
+            break; 
+          } 
+      case 'ValorAgregado': { 
+          
+        for(var dato of venAnioAnt){
+          for(var datDet of dato.Subcategorias){
+            Total += datDet.ValorAgregado;             
+          }
+           
+        }
+            break; 
+          } 
+  
+     }     
+  
+
+      Total = Number(Total.toFixed(2));
+      return Total; 
+    }
+    // #### Obten totales categoria venta año anterior ####
+
+
+    formatoMoneda(number){
+      return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
+    };
+  
+
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

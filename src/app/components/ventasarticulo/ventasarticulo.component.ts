@@ -152,7 +152,7 @@ export class VentasarticuloComponent implements OnInit {
       }
 
       let fechaDesde =  date.getFullYear() +'-01-01';          
-      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());    
+      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);    
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
 
       switch(this.sTipo) { 
@@ -811,6 +811,10 @@ downloadAsPDF() {
   
   formatoMoneda(number){
     return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
+  };
+
+  formatoNumero(number){
+    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
 
 

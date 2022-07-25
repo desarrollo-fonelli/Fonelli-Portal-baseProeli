@@ -106,7 +106,9 @@
         <!-- <div class="container" >      -->
 
         <br>
+        <h6 class="CamposFonelli" style="text-align: center;" >IMPORTE DE VENTA EN VALOR AGREGADO</h6>   
         <div class="form-row">
+          
           <div class="form-group col-md-1">              
             <label class="CamposFonelli">Pedido:</label>
           </div>
@@ -125,6 +127,8 @@
               </div> 
         </div>
 
+
+    
     <div id="pdfTable" #pdfTable>
         <table  class="table table-hover table-striped">
           <thead>
@@ -151,7 +155,7 @@
                 <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
                 <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>                
                 <td class="FilasFonelli"  style="text-align:right" >{{ formatoMoneda(impVen.ImporteVentas.VentaDiaria)}}</td>              
-                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.VentasAcumuladas)}}</td>
+                <td class="FilasFonelli" style="text-align:right; font-weight: bold;">{{ formatoMoneda(impVen.ImporteVentas.VentasAcumuladas)}}</td>
                 <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.LimiteInferior)}}</td>
                 <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaLimiteInferior)}}</td>
                 <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.Minimo)}}</td>
@@ -162,9 +166,9 @@
               </tr>
             </ng-container>
             <tr class="table-info">
-              <th ></th>
-              <td class="FilasFonelli" style="text-align:left">Totales</td>
+              <th ></th>              
               <td ></td>
+              <td class="FilasFonelli" style="text-align:center">Totales</td>
               <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentaDiaria'))}} </td>                
               <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentasAcumuladas'))}} </td>                
               <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'LimiteInferior'))}} </td>                
@@ -181,7 +185,7 @@
 
         <br>
         <br>
-
+        <h6 class="CamposFonelli" style="text-align: center;" >CLIENTES INACTIVOS</h6>   
         <table  class="table table-hover table-striped">
           <thead>
             <tr class="EncTabla">
@@ -202,7 +206,7 @@
             <tr *ngFor="let impVen of oIndVentaRes.Contenido index as i">
               <th scope="row">{{ i + 1 }}</th>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
-              <td class="FilasFonelli"> <u>{{impVen.AgenteNombre}}</u> </td>                
+              <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>                
               <td class="FilasFonelli" >{{ impVen.ClientesInactivos.InactivosActual}}</td>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesInactivos.LimiteInferior}}</td>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesInactivos.DiferenciaLimiteInferior}}</td>
@@ -217,7 +221,7 @@
 
         <br>
         <br>
-
+        <h6 class="CamposFonelli" style="text-align: center;" >CLIENTES POR LISTAS</h6>   
         <table  class="table table-hover table-striped">
           <thead>
             <tr class="EncTabla">
@@ -234,7 +238,7 @@
             <tr *ngFor="let impVen of oIndVentaRes.Contenido index as i">
               <th scope="row">{{ i + 1 }}</th>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
-              <td class="FilasFonelli"> <u>{{impVen.AgenteNombre}}</u> </td>                
+              <td class="FilasFonelli"> {{impVen.AgenteNombre}}</td>                
               <td class="FilasFonelli" >{{ impVen.ClientesListas.ListasRango1}}</td>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango2}}</td>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango3}}</td>

@@ -298,7 +298,8 @@ export class EstadocuentaComponent implements OnInit {
 consultaEstadoCuenta(){
     console.log(this.oBuscar);
 
-    this.oBuscar.TipoUsuario = "C" 
+    this.oBuscar.TipoUsuario = this.sTipo;
+    this.oBuscar.Usuario = this.sCodigo;
     console.log(this.oBuscar);
 
     this.bCargando = true;

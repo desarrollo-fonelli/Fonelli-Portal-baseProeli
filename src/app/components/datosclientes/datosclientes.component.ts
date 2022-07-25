@@ -202,15 +202,15 @@ export class DatosclientesComponent implements OnInit {
 
     consultaCliente(){
 console.log("ConsultaCliente");
+console.log("-------------"+JSON.stringify(this.oClienteModal));
 
 
 
     this.oBuscar.Pagina=1;
     this.oBuscar.Usuario= -1;
     this.bCargando = true;
-    
 
-  console.log(this.oBuscar);
+
 
   
 
@@ -305,6 +305,8 @@ console.log("ConsultaCliente");
 
   BuscaClientes():boolean{
 
+    
+
     this._servicioCClientes
     .GetCliente(this.Buscar)
     .subscribe(
@@ -363,6 +365,22 @@ console.log("ConsultaCliente");
 
   onSubmitBusqueda(form:any){
     
+  }
+
+  obtenNombreCliente(cliente: number): string {   
+    let nombre: string = '';  
+  
+      for(var cliCon of this.oClienteModal.Contenido){ 
+        if (cliCon.ClienteCodigo == String(cliente)){
+          nombre = cliCon.RazonSocial;
+          break
+        }
+
+              
+         
+    }
+   
+    return nombre; 
   }
 
   //Funcion para cerrar sesion y redireccionar al home

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Configuracion } from "src/app/models/configuraciones";
 import { environment } from '../../environments/environment';
+import { Usuario } from '../models/usuario';
 
 
 
@@ -34,6 +35,7 @@ Get(FiltrosConPrecios: any): Observable<any>{
 
     return this._http.get(this.API_URL+this.API + 'reportes/ConsultaPrecios.php?'+
                           'TipoUsuario=' + FiltrosConPrecios.TipoUsuario +
+                          '&Usuario=' + FiltrosConPrecios.Usuario +
                           '&ClienteCodigo=' + FiltrosConPrecios.ClienteCodigo +
                           '&ClienteFilial=' + FiltrosConPrecios.ClienteFilial +
                           '&Lista=' + FiltrosConPrecios.Lista +

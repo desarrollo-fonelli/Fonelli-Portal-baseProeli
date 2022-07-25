@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Configuracion } from "src/app/models/configuraciones";
 import { TipoCliente } from '../models/tipocliente';
 import { environment } from '../../environments/environment';
+import { Usuario } from '../models/usuario';
 
 
 
@@ -36,6 +37,7 @@ Get(FiltrosEstadoCuenta: any): Observable<any>{
 
     return this._http.get(this.API_URL+this.API + 'reportes/EstadoCuenta.php?'+
                         'TipoUsuario=' + FiltrosEstadoCuenta.TipoUsuario +                        
+                        '&Usuario=' + FiltrosEstadoCuenta.Usuario +
                         '&ClienteDesde=' + FiltrosEstadoCuenta.ClienteDesde +
                         '&FilialDesde=' + FiltrosEstadoCuenta.FilialDesde +
                         '&ClienteHasta=' + FiltrosEstadoCuenta.ClienteHasta +

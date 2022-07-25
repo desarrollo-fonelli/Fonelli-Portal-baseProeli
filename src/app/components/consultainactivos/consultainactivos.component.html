@@ -94,8 +94,21 @@
         </div>
 
     <div id="pdfTable" #pdfTable>
-        <table  class="table table-hover table-striped">
+        <table  class="table table-hover table-responsive ">
           <thead>
+            <tr class="EncTabla">                 
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col" colspan="3" style="text-align:center; color: #24a4cc;">SALDO TOTAL</th>  
+              <th class="table-success" scope="col" colspan="3" style="text-align:center; color: #24a4cc;">SALDO VENCIDO</th>
+              <th class="table-info" scope="col"></th>
+              <th class="table-info" scope="col"></th>
+            </tr>
             <tr class="EncTabla">
             <th style="background-color: #24a4cc; color: white;" scope="col" >CLIENTE</th>
             <th style="background-color: #24a4cc; color: white;" scope="col">FIL</th>
@@ -106,12 +119,10 @@
             <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">PLAZO</th>
             <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>
             <th style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>
-            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADPC_MN</th>
-            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADPC_ORO</th>
+            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            
             <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>
             <th style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>
-            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADPC_MN</th>
-            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADPC_ORO</th>
+            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            
             <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DÍAS</th>
             <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PED</th>
           </tr>
@@ -119,11 +130,9 @@
           <tbody>
             <ng-container *ngFor="let con of oClientesInacRes.Contenido;">
               <tr class="table-info">
-                <td class="FilasFonelli">{{'Agente ' +con.AgenteCodigo + ' : ' + con.AgenteNombre }}</td>   
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="FilasFonelli">Agente</td>   
+                <td>{{con.AgenteCodigo}}</td>
+                <td>{{con.AgenteNombre}}</td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -147,15 +156,27 @@
                 <td class="FilasFonelli" style="text-align:left">{{ cli.Lista1}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ cli.Lista2}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ cli.Plazo}}</td>
-                <!-- <td class="FilasFonelli" style="text-align:right">{{ cli.CantidadPedida}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ cli.CantidadSurtida}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ cli.DiferenciaPedidosSurtido}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ cli.DiferenciaPedidosSurtido}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ cli.DiferenciaPedidosSurtido}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ cli.DiferenciaPedidosSurtido}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ cli.DiferenciaPedidosSurtido}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ cli.DiferenciaPedidosSurtido}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ cli.DiferenciaPedidosSurtido}}</td> -->
+                
+                <ng-container *ngFor="let salCartera of cli.SaldosCarteraCliente;">
+                  <td class="FilasFonelli" style="text-align:right">{{ salCartera.TipoCarteraCodigo == '1' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                  <td class="FilasFonelli" style="text-align:right">{{ salCartera.TipoCarteraCodigo == '2' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                  <td class="FilasFonelli" style="text-align:right">{{ salCartera.TipoCarteraCodigo == '6' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                </ng-container>
+
+                <ng-container *ngFor="let salVen of cli.VencidosSaldosCartera;">
+                  <td class="FilasFonelli" style="text-align:right">{{ salVen.TipoCarteraCodigo == '1' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
+                  <td class="FilasFonelli" style="text-align:right">{{ salVen.TipoCarteraCodigo == '2' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
+                  <td class="FilasFonelli" style="text-align:right">{{ salVen.TipoCarteraCodigo == '6' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td> 
+                </ng-container>
+
+                <!-- <td class="FilasFonelli" style="text-align:right" *ngFor="let salCartera of cli.SaldosCarteraCliente;">{{ salCartera.TipoCarteraCodigo == '1' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                <td class="FilasFonelli" style="text-align:right" *ngFor="let salCartera of cli.SaldosCarteraCliente;">{{ salCartera.TipoCarteraCodigo == '2' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                <td class="FilasFonelli" style="text-align:right" *ngFor="let salCartera of cli.SaldosCarteraCliente;">{{ salCartera.TipoCarteraCodigo == '3' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td> -->
+                
+                <!-- <td class="FilasFonelli" style="text-align:right" *ngFor="let salVen of cli.VencidosCarteraCliente;">{{ salVen.TipoCarteraCodigo == '6' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
+                <td class="FilasFonelli" style="text-align:right" *ngFor="let salVen of cli.VencidosCarteraCliente;">{{ salVen.TipoCarteraCodigo == '7' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
+                <td class="FilasFonelli" style="text-align:right" *ngFor="let salVen of cli.VencidosCarteraCliente;">{{ salVen.TipoCarteraCodigo == '8' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td> -->
+                
               </tr>
 
             </ng-container>

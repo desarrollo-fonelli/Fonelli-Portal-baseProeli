@@ -164,8 +164,8 @@ export class RelacionpedidosComponent implements OnInit {
         dia = '0'+(date.getDate());
       }
 
-      let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);                  
-      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-2) : date.getDate()-2);          
+      let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()) : date.getDate());                  
+      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());                  
 
       console.log("--"+fechaActual);
@@ -962,7 +962,7 @@ downloadAsPDF() {
   var html = htmlToPdfmake(cadena);
   console.log(html);
   const documentDefinition = { 
-    pageSize: 'LEGAL',
+    pageSize: 'TABLOID',
     pageOrientation: 'landscape',
     header: [
 
@@ -976,14 +976,14 @@ downloadAsPDF() {
         width: 110 
       },
     {
-      width:750,
+      width:900,
       text: 'Relación de pedidos',
       alignment: 'center',
       style: 'header',
       margin: [8,8]    
     },
     {
-      width: 110,
+      width: 170,
       text: this.fechaHoy, 
       alignment: 'right',
       margin: [2, 15]

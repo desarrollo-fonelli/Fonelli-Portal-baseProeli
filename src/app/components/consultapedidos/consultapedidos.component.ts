@@ -562,6 +562,19 @@ export class ConsultapedidosComponent implements OnInit {
     return true;
   }  
 
+  obtenNombreCliente(cliente: number): string {   
+    let nombre: string = '';  
+  
+      for(var cliCon of this.oCliente.Contenido){ 
+        if (cliCon.ClienteCodigo == String(cliente)){
+          nombre = cliCon.RazonSocial;
+          break;
+        }             
+         
+    }
+    return nombre;
+  }
+
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
     localStorage.clear();

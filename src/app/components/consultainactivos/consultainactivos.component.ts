@@ -246,7 +246,7 @@ export class ConsultainactivosComponent implements OnInit {
         this.oClientesInacRes = Response;
         //this.pedido = this.oPedidoRes.Contenido.Pedidos;
 
-        console.log("respuesta clientes inactivos : "+this.oClientesInacRes);
+        console.log("respuesta clientes inactivos : "+JSON.stringify(this.oClientesInacRes));
         
         if (this.oClientesInacRes.Codigo != 0) {
           this.bError = true;
