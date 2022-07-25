@@ -44,30 +44,30 @@ Get(FiltrosVentasArticulo: any): Observable<any>{
                                     this.sFiltros += '&Usuario=' + FiltrosVentasArticulo.Usuario;
                                     }
                                 
-                                    this.sFiltros = '&OficinaDesde=' + FiltrosVentasArticulo.OficinaDesde;
-                                    this.sFiltros = '&OficinaHasta=' + FiltrosVentasArticulo.OficinaHasta;
-                                    this.sFiltros = '&FechaDesde=' + FiltrosVentasArticulo.FechaDesde;
-                                    this.sFiltros = '&FechaHasta=' + FiltrosVentasArticulo.FechaHasta;
-                                    this.sFiltros = '&LineaDesde=' + FiltrosVentasArticulo.LineaDesde;
-                                    this.sFiltros = '&LineaHasta=' + FiltrosVentasArticulo.LineaHasta;
-                                    this.sFiltros = '&ClaveDesde=' + FiltrosVentasArticulo.ClaveDesde;
-                                    this.sFiltros = '&ClaveHasta=' + FiltrosVentasArticulo.ClaveHasta;
-                                    this.sFiltros = '&CategoriaDesde=' + FiltrosVentasArticulo.CategoriaDesde;
-                                    this.sFiltros = '&SubcategoDesde=' + FiltrosVentasArticulo.SubcategoDesde;
-                                    this.sFiltros = '&CategoriaHasta=' + FiltrosVentasArticulo.CategoriaHasta;
-                                    this.sFiltros = '&SubcategoHasta=' + FiltrosVentasArticulo.SubcategoHasta;
+                                    this.sFiltros += '&OficinaDesde=' + FiltrosVentasArticulo.OficinaDesde;
+                                    this.sFiltros += '&OficinaHasta=' + FiltrosVentasArticulo.OficinaHasta;
+                                    this.sFiltros += '&FechaDesde=' + FiltrosVentasArticulo.FechaDesde;
+                                    this.sFiltros += '&FechaHasta=' + FiltrosVentasArticulo.FechaHasta;
+                                    this.sFiltros += '&LineaDesde=' + FiltrosVentasArticulo.LineaDesde;
+                                    this.sFiltros += '&LineaHasta=' + FiltrosVentasArticulo.LineaHasta;
+                                    this.sFiltros += '&ClaveDesde=' + FiltrosVentasArticulo.ClaveDesde;
+                                    this.sFiltros += '&ClaveHasta=' + FiltrosVentasArticulo.ClaveHasta;
+                                    this.sFiltros += '&CategoriaDesde=' + FiltrosVentasArticulo.CategoriaDesde;
+                                    this.sFiltros += '&SubcategoDesde=' + FiltrosVentasArticulo.SubcategoDesde;
+                                    this.sFiltros += '&CategoriaHasta=' + FiltrosVentasArticulo.CategoriaHasta;
+                                    this.sFiltros += '&SubcategoHasta=' + FiltrosVentasArticulo.SubcategoHasta;
                                 
-                                    if(FiltrosVentasArticulo.TipoArticulo)
+                                    if(FiltrosVentasArticulo.TipoArticulo != 'T')
                                     {
                                     this.sFiltros += '&TipoArticulo=' + FiltrosVentasArticulo.TipoArticulo;
                                     }
-                                    if(FiltrosVentasArticulo.TipoOrigen)
+                                    if(FiltrosVentasArticulo.TipoOrigen!= 'T')
                                     {
                                     this.sFiltros += '&TipoOrigen=' + FiltrosVentasArticulo.TipoOrigen;
                                     }
                                 
-                                    this.sFiltros = '&OrdenReporte=' + FiltrosVentasArticulo.OrdenReporte;
-                                    this.sFiltros = '&Presentacion=' + FiltrosVentasArticulo.Presentacion;
+                                    this.sFiltros += '&OrdenReporte=' + FiltrosVentasArticulo.OrdenReporte;
+                                    this.sFiltros += '&Presentacion=' + FiltrosVentasArticulo.Presentacion;
                                 
                                 
                                 

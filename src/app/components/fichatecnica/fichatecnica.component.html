@@ -188,7 +188,7 @@
 
     <div id="pdfTable" #pdfTable>
 
-      <label class="CamposFonelli">Ventas año anterior desde -fecha- hasta -fecha-</label>
+      <h6 style="text-align: center; color:#24a4cc; ">Ventas año anterior desde {{oBuscar.FechaDesdeAnterior}} hasta {{oBuscar.FechaHastaAnterior}}</h6>
         <table  class="table table-hover table-striped">
           <thead>
             <tr class="EncTabla">            
@@ -203,7 +203,7 @@
           <tbody>          
 
             <ng-container *ngFor="let datos of oAnioAnteriorRes index as i">
-              <tr *ngFor="let datos of oAnioAnteriorRes index as i">              
+              <tr>              
                 <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
                 <td></td>                
                 <td></td>
@@ -214,14 +214,31 @@
 
               <tr *ngFor="let subCat of datos.Subcategorias index as i">              
                 <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
-                <td class="FilasFonelli"> <u>{{subCat.SubcategoriaNombre}}</u> </td>                
-                <td class="FilasFonelli" >{{ subCat.Piezas}}</td>
+                <td class="FilasFonelli"> {{subCat.SubcategoriaNombre}} </td>                
+                <td class="FilasFonelli"> {{ subCat.Piezas}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ subCat.Gramos}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.Importe}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.ValorAgregado}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.Importe)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.ValorAgregado)}}</td>
               </tr>
 
-            </ng-container>                        
+              <tr>              
+                <td></td>
+                <td class="FilasFonelli"> Total Categoria</td>                
+                <td class="FilasFonBold"> {{getTotalCategoria(datos.Subcategorias,'Piezas')}}</td>
+                <td class="FilasFonBold" style="text-align:left">{{ getTotalCategoria(datos.Subcategorias,'Gramos')}}</td>
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'Importe'))}}</td>
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'ValorAgregado'))}}</td>
+              </tr> 
+
+            </ng-container>   
+            <tr>              
+              <td></td>
+              <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
+              <td class="FilasFonBold" style="color:#183e6f;"> {{getTotalGeneral(oAnioAnteriorRes,'Piezas')}}</td>
+              <td class="FilasFonBold" style="color:#183e6f;">{{ getTotalGeneral(oAnioAnteriorRes,'Gramos')}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'Importe'))}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'ValorAgregado'))}}</td>
+            </tr>                     
 
           
           </tbody>
@@ -230,7 +247,7 @@
         <br>
         <br>
 
-        <label class="CamposFonelli">Ventas año actual desde -fecha- hasta -fecha-</label>
+        <h6 style="text-align: center; color:#24a4cc; ">Ventas año actual desde {{oBuscar.FechaDesdeActual}} hasta {{oBuscar.FechaHastaActual}}</h6>        
         <table  class="table table-hover table-striped">
           <thead>
             <tr class="EncTabla">            
@@ -245,7 +262,7 @@
           <tbody>
 
             <ng-container *ngFor="let datos of oAnioActualRes index as i">
-              <tr *ngFor="let datos of oAnioAnteriorRes index as i">              
+              <tr>              
                 <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
                 <td></td>                
                 <td></td>
@@ -259,11 +276,29 @@
                 <td class="FilasFonelli"> <u>{{subCat.SubcategoriaNombre}}</u> </td>                
                 <td class="FilasFonelli" >{{ subCat.Piezas}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ subCat.Gramos}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.Importe}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.ValorAgregado}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ subCat.Importe}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ subCat.ValorAgregado}}</td>
               </tr>
+              <tr>              
+                <td></td>
+                <td class="FilasFonelli"> Total Categoria</td>                
+                <td class="FilasFonBold" style="font-weight: bold;"> {{getTotalCategoria(datos.Subcategorias,'Piezas')}}</td>
+                <td class="FilasFonBold" style="font-weight: bold;">{{ getTotalCategoria(datos.Subcategorias,'Gramos')}}</td>
+                <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'Importe'))}}</td>
+                <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'ValorAgregado'))}}</td>
+              </tr> 
+
 
             </ng-container>
+
+            <tr>              
+              <td></td>
+              <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
+              <td class="FilasFonBold" style="color:#183e6f;"> {{getTotalGeneral(oAnioAnteriorRes,'Piezas')}}</td>
+              <td class="FilasFonBold" style="color:#183e6f;">{{ getTotalGeneral(oAnioAnteriorRes,'Gramos')}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'Importe'))}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'ValorAgregado'))}}</td>
+            </tr>   
 
           </tbody>
         </table>
@@ -284,9 +319,9 @@
           <tbody>
             <tr *ngFor="let datos of oTipoCarteraRes index as i" >              
               <td class="FilasFonelli" style="text-align:left">{{ datos.TipoCarteraCodigo}}</td>
-              <td class="FilasFonelli"> <u>{{datos.TipoCarteraDescripc}}</u> </td>                
-              <td class="FilasFonelli" >{{ datos.Saldo}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ datos.SaldoVencido}}</td>
+              <td class="FilasFonelli"> {{datos.TipoCarteraDescripc}}</td>                
+              <td class="FilasFonelli"> {{ formatoMoneda(datos.TipoCarteraSaldo)}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ formatoMoneda(datos.TipoCarteraSaldoVencido)}}</td>
             </tr>
           </tbody>
         </table>
@@ -305,12 +340,12 @@
           </tr>
           </thead>
           <tbody>
-            <!-- <tr >       
+             <tr >       
               <td class="FilasFonelli" style="text-align:left">{{ oPedidosInactivosRes.PedidosNumero}}</td>
               <td class="FilasFonelli"> {{oPedidosInactivosRes.Piezas}}</td>                
               <td class="FilasFonelli" >{{ oPedidosInactivosRes.Gramos}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ oPedidosInactivosRes.Importe}}</td>
-            </tr> -->
+              <td class="FilasFonelli" style="text-align:left">{{ formatoMoneda(oPedidosInactivosRes.Importe)}}</td>
+            </tr> 
           </tbody>
         </table>
 

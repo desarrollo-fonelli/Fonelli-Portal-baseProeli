@@ -115,10 +115,10 @@ export class HeaderComponent implements OnInit {
     //modal distribuidor
     openDistribuidor(LoginDistribuidor: any) {
 
-      let sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-      let sTipo :string | null = sessionStorage.getItem('tipo');
-      let sFilial :number | null = Number(sessionStorage.getItem('filial'));
-      let sNombre :string | null = sessionStorage.getItem('nombre');
+      let sCodigo :number | null = Number(localStorage.getItem('codigo'));
+      let sTipo :string | null = localStorage.getItem('tipo');
+      let sFilial :number | null = Number(localStorage.getItem('filial'));
+      let sNombre :string | null = localStorage.getItem('nombre');
 
 
       if(sTipo=='C')
@@ -263,6 +263,33 @@ export class HeaderComponent implements OnInit {
 
   //Modal ejecutivo
   openEjecutivo(LoginEjecutivos: any) {
+
+    let sCodigo :number | null = Number(localStorage.getItem('codigo'));
+    let sTipo :string | null = localStorage.getItem('tipo');
+    let sFilial :number | null = Number(localStorage.getItem('filial'));
+    let sNombre :string | null = localStorage.getItem('nombre');
+
+
+    if(sTipo =='A' || sTipo =='G')
+    {
+      console.log(1);
+      this._router.navigate(['/asesores/inicio/']);
+      return;
+     
+    }
+    else if(sTipo =='C')
+    {
+      console.log(2);
+        this.snackBar.openFromComponent(mensajesesionasesores, {
+        horizontalPosition: "center",
+        verticalPosition: "top",
+        duration: 2500,
+        panelClass: ['fondo_mensaje_sesion'],
+      });
+      return;
+    }
+
+
     this.ModalActivo = this.modalService.open(LoginEjecutivos, {
       ariaLabelledBy: 'LoginEjecutivos',
     });
@@ -385,21 +412,21 @@ export class HeaderComponent implements OnInit {
 
   saveData(codigo: string,filial:string,nombre: string, tipo:string) {
 
-    sessionStorage.setItem('codigo', codigo);
-    sessionStorage.setItem('filial', filial);
-    sessionStorage.setItem('nombre', nombre);
-    sessionStorage.setItem('tipo', tipo);
+    localStorage.setItem('codigo', codigo);
+    localStorage.setItem('filial', filial);
+    localStorage.setItem('nombre', nombre);
+    localStorage.setItem('tipo', tipo);
     
   }
 
   getData() {
-    return sessionStorage.getItem('idMenu');
+    return localStorage.getItem('idMenu');
   }
   removeData() {
-    sessionStorage.removeItem('location');
+    localStorage.removeItem('location');
   }
   deleteData() {
-    sessionStorage.clear();
+    localStorage.clear();
   }
 
 
@@ -420,9 +447,26 @@ export class HeaderComponent implements OnInit {
   ],
 })
 
-
-
 export class mensajesesion {}
+
+
+@Component({
+  selector: 'mensaje-sesion-component',
+  template: `<span class="mensaje-sesion-style">
+  Para iniciar sesión como asesor primero cierre la sesión de distribuidor
+</span>
+`,
+  styles: [
+    `
+    .mensaje-sesion-style {
+      color: white;
+    }
+  `,
+  ],
+})
+
+
+export class mensajesesionasesores {}
 
 @Component({
   selector: 'mensaje-contacto-component',

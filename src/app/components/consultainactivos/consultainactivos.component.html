@@ -17,7 +17,8 @@
                       class="form-select" 
                       name="idAgeDesde"
                       #nombre="ngModel"
-                      [(ngModel)]="oBuscar.AgenteDesde"                            
+                      [(ngModel)]="oBuscar.AgenteDesde"      
+                      [disabled]="sTipo == 'A' "                      
                       required
                       >
                       <ng-container *ngFor='let dato of oAgentesCon;' >
@@ -36,7 +37,8 @@
                     class="form-select" 
                     name="idHasAge"
                     #nombre="ngModel"
-                    [(ngModel)]="oBuscar.AgenteHasta"                            
+                    [(ngModel)]="oBuscar.AgenteHasta"      
+                    [disabled]="sTipo == 'A' "                                            
                     required
                     >
                   <ng-container *ngFor='let dato of oAgentesCon;' >
@@ -92,8 +94,21 @@
         </div>
 
     <div id="pdfTable" #pdfTable>
-        <table  class="table table-hover table-striped">
+        <table  class="table table-hover table-responsive ">
           <thead>
+            <tr class="EncTabla">                 
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col" colspan="3" style="text-align:center; color: #24a4cc;">SALDO TOTAL</th>  
+              <th class="table-success" scope="col" colspan="3" style="text-align:center; color: #24a4cc;">SALDO VENCIDO</th>
+              <th class="table-info" scope="col"></th>
+              <th class="table-info" scope="col"></th>
+            </tr>
             <tr class="EncTabla">
             <th style="background-color: #24a4cc; color: white;" scope="col" >CLIENTE</th>
             <th style="background-color: #24a4cc; color: white;" scope="col">FIL</th>
@@ -104,36 +119,69 @@
             <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">PLAZO</th>
             <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>
             <th style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>
-            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADPC_MN</th>
-            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADPC_ORO</th>
+            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            
             <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>
             <th style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>
-            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADPC_MN</th>
-            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADPC_ORO</th>
+            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            
             <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DÍAS</th>
             <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PED</th>
           </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let ped of pedido| searchconsultapedido: searchtext; index as i" (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)">
-              <th scope="row">{{ i + 1 }}</th>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.PedidoLetra}}</td>
-              <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>                
-              <td class="FilasFonelli" >{{ ped.OficinaFonelliCodigo}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaPedido}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaCancelacion}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ ped.FechaSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadPedida}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadSurtida}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
-            </tr>
+            <ng-container *ngFor="let con of oClientesInacRes.Contenido;">
+              <tr class="table-info">
+                <td class="FilasFonelli">Agente</td>   
+                <td>{{con.AgenteCodigo}}</td>
+                <td>{{con.AgenteNombre}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+              <tr *ngFor="let cli of con.Clientes;" >
+     
+                <td class="FilasFonelli" style="text-align:left">{{ cli.ClienteCodigo}}</td>
+                <td class="FilasFonelli"> {{cli.ClienteFilial}} </td>                
+                <td class="FilasFonelli" >{{ cli.ClienteNombre}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.ClienteSucursal}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.Lista1}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.Lista2}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.Plazo}}</td>
+                
+                <ng-container *ngFor="let salCartera of cli.SaldosCarteraCliente;">
+                  <td class="FilasFonelli" style="text-align:right">{{ salCartera.TipoCarteraCodigo == '1' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                  <td class="FilasFonelli" style="text-align:right">{{ salCartera.TipoCarteraCodigo == '2' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                  <td class="FilasFonelli" style="text-align:right">{{ salCartera.TipoCarteraCodigo == '6' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                </ng-container>
+
+                <ng-container *ngFor="let salVen of cli.VencidosSaldosCartera;">
+                  <td class="FilasFonelli" style="text-align:right">{{ salVen.TipoCarteraCodigo == '1' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
+                  <td class="FilasFonelli" style="text-align:right">{{ salVen.TipoCarteraCodigo == '2' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
+                  <td class="FilasFonelli" style="text-align:right">{{ salVen.TipoCarteraCodigo == '6' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td> 
+                </ng-container>
+
+                <!-- <td class="FilasFonelli" style="text-align:right" *ngFor="let salCartera of cli.SaldosCarteraCliente;">{{ salCartera.TipoCarteraCodigo == '1' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                <td class="FilasFonelli" style="text-align:right" *ngFor="let salCartera of cli.SaldosCarteraCliente;">{{ salCartera.TipoCarteraCodigo == '2' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
+                <td class="FilasFonelli" style="text-align:right" *ngFor="let salCartera of cli.SaldosCarteraCliente;">{{ salCartera.TipoCarteraCodigo == '3' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td> -->
+                
+                <!-- <td class="FilasFonelli" style="text-align:right" *ngFor="let salVen of cli.VencidosCarteraCliente;">{{ salVen.TipoCarteraCodigo == '6' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
+                <td class="FilasFonelli" style="text-align:right" *ngFor="let salVen of cli.VencidosCarteraCliente;">{{ salVen.TipoCarteraCodigo == '7' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
+                <td class="FilasFonelli" style="text-align:right" *ngFor="let salVen of cli.VencidosCarteraCliente;">{{ salVen.TipoCarteraCodigo == '8' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td> -->
+                
+              </tr>
+
+            </ng-container>
+            
+            
           </tbody>
         </table>
 
@@ -149,164 +197,4 @@
 
 
 
-  <!--Modal pedidos detalle-->
-  <ng-template #PedidoDetalle let-modal >
-    <div class="modal-header" >        
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-    </div>
-    
-
-    <div class="modal-body-tables" style="overflow-y: scroll;" >
-
-        <div class="container">
-            <div class="row">
-
-              <div >
-                <label>Numero de cliente:   <strong>{{oBuscar.AgenteDesde}}  -  {{sNombre}}</strong></label>
-                <br>
-                <label> Pedido: <strong>{{oBuscaDetalle.PedidoFolio}}</strong> </label>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group col-md-12">
-                    <button  *ngIf="bBanderaBtnPro" type="submit" (click)="verDetalleProd()" class="btnFonelli btn float-right">Detalle producción</button>
-                    <button  *ngIf="bBanderaBtnPed" type="submit" (click)="verDetallePed()" class="btnFonelli btn float-right">Detalle pedido</button>
-                </div>
-              </div> 
-              
-
-                  <div class="col-12" >                     
-                    <table *ngIf="bBanderaDet" class="table table-striped">
-                      <thead>
-                      <tr class="EncTabla">
-                        <th>#</th>
-                        <th scope="col" style="text-align:left">LN</th>
-                        <th scope="col" style="text-align:left">CLAVE</th>
-                        <th scope="col" style="text-align:left">S</th>
-                        <th scope="col" style="text-align:left">CAT</th>
-                        <th scope="col" style="text-align:left">SCAT</th>
-                        <th scope="col" style="text-align:center;"><div class="size">FECHA PED</div></th>
-                        <th scope="col" style="text-align:right">PEDIDO</th>
-                        <th scope="col" style="text-align:center"><div class="size">FEC SUR</div></th>
-                        <th scope="col" style="text-align:right">SURTIDO</th>
-                        <th scope="col" style="text-align:left">SERIE</th>
-                        <th scope="col" style="text-align:left">DOCTO</th>
-                        <th scope="col" style="text-align:center"><div class="size">FEC TER</div></th>
-                        <th scope="col" style="text-align:left">DESCRIPCIÓN</th>
-                        <th scope="col" style="text-align:right">CP4</th>
-                        <th scope="col" style="text-align:right">CP45</th>
-                        <th scope="col" style="text-align:right">CP5</th>
-                        <th scope="col" style="text-align:right">CP55</th>
-                        <th scope="col" style="text-align:right">CP6</th>
-                        <th scope="col" style="text-align:right">CP65</th>
-                        <th scope="col" style="text-align:right">CP7</th>
-                        <th scope="col" style="text-align:right">CP75</th>
-                        <th scope="col" style="text-align:right">CP8</th>
-                        <th scope="col" style="text-align:right">CP85</th>
-                        <th scope="col" style="text-align:right">CP9</th>
-                        <th scope="col" style="text-align:right">CP95</th>
-                        <th scope="col" style="text-align:right">CP10</th>
-                        <th scope="col" style="text-align:right">CP105</th>
-                        <th scope="col" style="text-align:right">CP11</th>
-                        <th scope="col" style="text-align:right">CP115</th>
-                        <th scope="col" style="text-align:right">CP12</th>
-                        <th scope="col" style="text-align:right">CP125</th>
-                        <th scope="col" style="text-align:right">CP13</th>
-                        <th scope="col" style="text-align:right">MEDX</th>
-                        <th scope="col" style="text-align:right">CANX</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let pedDet of pedidoDet; index as i">
-                          <th scope="row">{{ i + 1 }}</th>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloLinea}}</td>
-                          <td class="FilasFonelli" style="text-align:left"> <u>{{pedDet.ArticuloCodigo}}</u> </td>                
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.PedidoStatus}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloCategoria}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloSubcategoria}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaPedido}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadPedida}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaSurtido}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadSurtida}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FacturaSerie}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FacturaFolio}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaTerminacionArticulo}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloDescripc}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida4}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida4_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida5_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida6}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida6_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida7}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida7_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida8}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida8_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida9}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida9_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida10}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida10_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida11}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida11_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida12}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida12_5}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedida13}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.MedidaEspecial}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedidaEspecial}}</td>            
-                        </tr>
-                      </tbody>
-                    </table>
-
-                    <table *ngIf="bBanderaDetPro"  class="table table-striped">
-                      <thead>
-                      <tr  class="EncTabla">
-                        <th scope="col" style="text-align:left">#</th>
-                        <th scope="col" style="text-align:left">LN</th>
-                        <th scope="col" style="text-align:left">CLAVE</th>
-                        <th scope="col" style="text-align:left">S</th>
-                        <th scope="col" style="text-align:left">CAT</th>
-                        <th scope="col" style="text-align:left">SCAT</th>
-                        <th scope="col" style="text-align:center"><div class="size">FECHA PED</div></th>
-                        <th scope="col" style="text-align:right">PEDIDO</th>
-                        <th scope="col" style="text-align:right">A PRODUCIR</th>
-                        <th scope="col" style="text-align:right">PRODUCIDO</th>
-                        <th scope="col" style="text-align:right">DIFEREN</th>
-                        <th scope="col" style="text-align:center"><div class="size">FEC PROD</div></th>                          
-                      </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let pedDet of pedidoDet; index as i">
-                          <th scope="row">{{ i + 1 }}</th>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloLinea}}</td>
-                          <td class="FilasFonelli" style="text-align:left"> <u>{{pedDet.ArticuloCodigo}}</u> </td>                
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.PedidoStatus}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloCategoria}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.ArticuloSubcategoria}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaPedido}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadPedidoProduccion}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadProducida}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadSurtida}}</td>
-                          <td class="FilasFonelli" style="text-align:right">{{ pedDet.DiferenciaProducido}}</td>
-                          <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaProduccionArticulo}}</td>                                       
-                        </tr>
-                      </tbody>
-                    </table>
-          
-                    
-                  </div>  
-            </div>
-            
-        </div>
-    </div>
-
-    <!-- <div *ngIf="alerLoginDistribuidor">
-      <p class="alert alert-danger" role="alert">{{respuestaLoginDistribuidor}}</p>
-    </div> -->
-
-    <div class="modal-footer">
-      <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
-      
-    </div>
-
-</ng-template> 
 

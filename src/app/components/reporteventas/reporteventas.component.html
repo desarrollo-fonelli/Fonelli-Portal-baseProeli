@@ -9,7 +9,7 @@
                 <h2 class="card-title">Reporte de ventas</h2>
                 <div class="row">
                      
-                  <div class="form-group col-md-3">                   
+                  <div class="form-group col-md-3" [hidden]="sTipo=='A' ">                   
                     <div class="form-check" >                        
                       <input 
                           class="form-check-input" 
@@ -24,7 +24,7 @@
                    
                   </div>
 
-                  <div class="form-group col-md-3" >
+                  <div class="form-group col-md-3" [hidden]="sTipo=='A' ">
                       <div class="form-check">
                         <input 
                           class="form-check-input" 
@@ -45,17 +45,23 @@
                       <!-- </div>                      -->
                     </div> 
                     
-                    <div class="form-group col-md-3" disabled="oBuscar.Tipo = '1'" >
+                    <div class="form-group col-md-3">
                       <!-- <div class="form-check"> -->
-                        <input 
-                        type="text" 
-                        id="idAgente"
-                        class="form-control"
-                        name="idAgente"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.AgenteCodigo"
-                        required
-                      >
+                        <select 
+                          class="form-select" 
+                          name="idAgente"
+                          #nombre="ngModel"
+                          [(ngModel)]="oBuscar.AgenteCodigo"    
+                          [disabled]="sTipo=='A' || oBuscar.Tipo == '1'"                    
+                          required
+                          >
+                        <ng-container *ngFor='let dato of oAgentesCon;' >
+                          <option value="{{dato.AgenteCodigo}}">
+                            {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                          </option>
+                        </ng-container>
+                      </select> 
+                        
                     </div> 
                   
                 </div>
@@ -163,12 +169,12 @@
                     <div class="form-group col-md-3">
                       <label class="CamposFonelli">SubCategoria</label>
                       <select 
-                      class="form-select" 
-                      name="idSucaDes"
-                      #nombre="ngModel"
-                      [(ngModel)]="oBuscar.SubcategoDesde"                          
-                      required
-                    >
+                        class="form-select" 
+                        name="idSucaDes"
+                        #nombre="ngModel"
+                        [(ngModel)]="oBuscar.SubcategoDesde"                          
+                        required0
+                      >
                       <ng-container *ngFor='let dato of oSubCatDesde;' >
                         <option value="{{dato.CategoriaCodigo}}">
                           {{dato.CategoriaCodigo}} - {{dato.CategoriaDescripc}}
@@ -379,7 +385,7 @@
                           <input 
                             class="form-check-input" 
                             type="radio" 
-                            name="OrdPor"
+                            name="DesCat"
                             value="S"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.DesglosaCategoria"                            
@@ -390,7 +396,7 @@
                           <input 
                             class="form-check-input" 
                             type="radio" 
-                            name="OrdPor"
+                            name="DesCat"
                             value="N"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.DesglosaCategoria"                            
@@ -481,56 +487,126 @@
 
         <!-- <div *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable> -->
         <div  id="pdfTable" #pdfTable>
-            <table class="table table-hover table-striped  ">
+            <table class="table table-hover table-striped  "> 
+            <!-- <table class="table table-bordered" > -->
               <thead>
-                <!-- <tr *ngIf="bFiltrResumido" class="EncTabla"> -->
-<!--                 
-                <tr>
-                  <th></th>
-                  <th></th>                  
-                  <th colspan="3">1er Periodo</th>                  
-                  <th></th>                  
-                  <th></th>                                    
-                  <th colspan="3" >2do Periodo</th>                  
-                  <th></th>                  
-                  <th></th> 
-                </tr> -->
-                <tr  class="EncTabla">
+                <tr class="EncTabla">                 
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-warning" scope="col" colspan="6" style="text-align:center;"> 1er Periodo</th>  
+                  <th class="table-info" scope="col" colspan="6" style="text-align:center;">2do Periodo</th>
+                </tr>
+
+                <tr class="EncTabla">                 
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-warning" scope="col" colspan="3" style="text-align:center;"> desde {{oBuscar.Fecha1Desde}}</th>  
+                  <th class="table-warning" scope="col" colspan="3" style="text-align:center;">hasta {{oBuscar.Fecha1Hasta}} </th>
+                  <th class="table-info" scope="col" colspan="3" style="text-align:center;"> desde {{oBuscar.Fecha2Desde}}</th>  
+                  <th class="table-info" scope="col" colspan="3" style="text-align:center;">hasta {{oBuscar.Fecha2Hasta}} </th>
+                </tr>
+
+                <tr  class="EncTabla">                 
                   <th style="background-color: #24a4cc; color: white;">NUM FIL</th>
                   <th style="background-color: #24a4cc; color: white;">RAZON SOCIAL</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
                   <th style="background-color: #24a4cc; color: white;">S</th>
                   <th style="background-color: #24a4cc; color: white; text-align: right;">TL1</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">TL2</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">TP</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">TC</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">AG</th>              
+                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TL2</th>
+                  <th style="background-color: #24a4cc; color: white;">TP</th>
+                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TC</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">AG</th>    
+                  <th></th>
+                  <th></th>
+                  <th></th>          
                 </tr>
-                <!-- <tr *ngIf="!bFiltrResumido" class="EncTabla">
-                  <th style="background-color: #24a4cc; color: white;">CÓDIGO</th>
-                  <th style="background-color: #24a4cc; color: white;">DESCRIPCIÓN</th>
-                  <th style="background-color: #24a4cc; color: white;">TIPO</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT/TH</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
-                </tr> -->
+                
               </thead>
               <tbody>
-                <ng-container *ngFor="let repVen of oReporteVentasRes.Contenido | searchventasclientearticulo: searchtext">
-                  <tr class="table-info">                    
-                    <td class="FilasFonelli">{{repVen.ClienteCodigo + ' ' + repVen.ClienteNombre }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td *ngIf="!bCliente"></td>
-                    <td></td> 
-                    <td *ngIf="!bCliente"></td>
-                    <td></td>                 
-                  </tr>
+                
+                <ng-container *ngFor="let cli of oClienteCont">                  
+                    <tr  class="EncTabla">
+                      <td colspan="8" class="FilasFonelli">{{cli.ClienteCodigo + ' ' + cli.ClienteFilial +' '+ cli.ClienteNombre }}</td>
+                      
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td> 
+                      <td></td>
+                      <td></td>
+                    </tr>
+
+               
+                    <tr class="EncTabla">                 
+                      <th style="background-color: #24a4cc; color: white;">Cat</th>
+                      <th style="background-color: #24a4cc; color: white;">Descripcion categoria</th>
+                      <th style="background-color: #24a4cc; color: white;">Piezas</th>
+                      <th style="background-color: #24a4cc; color: white; ">Gramos</th>
+                      <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>
+                      <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>
+                      <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>
+                      <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>              
+                      <th style="background-color: #24a4cc; color: white;">Piezas</th>
+                      <th style="background-color: #24a4cc; color: white;;">Gramos</th>
+                      <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>
+                      <th style="background-color: #24a4cc; color: white;">%S/Tot</th>
+                      <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>
+                      <th style="background-color: #24a4cc; color: white;">%S/Tot</th>     
+                    </tr>       
+                    
+                    <ng-container *ngFor="let cat of cli.Categorias">
+                      <ng-container *ngFor="let subCat of cat.Subcategorias">
+
+                        <tr>  
+                          <td class="FilasFonelli">{{cat.CategoriaCodigo + '' +subCat.SubcategoriaCodigo}}</td>
+                          <td class="FilasFonelli">{{cat.CategoriaNombre+ ' - ' +subCat.SubcategoriaNombre}}</td>
+                          <td class="FilasFonelli table-warning" style="text-align: right;">{{subCat.Piezas1}}</td>
+                          <td class="FilasFonelli table-warning" style="text-align: right;">{{formatoNumero(subCat.Gramos1)}}</td>
+                          <td class="FilasFonelli table-warning" style="text-align: right;">{{formatoMoneda(subCat.ImporteVenta1)}}</td>
+                          <td class="FilasFonelli table-warning" style="text-align: right;">{{formatoNumero(subCat.PorcentajeImporte1)}}</td>
+                          <td class="FilasFonelli table-warning" style="text-align: right;">{{formatoMoneda(subCat.ValorAgregado1)}}</td>
+                          <td class="FilasFonelli table-warning" style="text-align: right;">{{subCat.PorcentajeValorAgregado1}}</td>
+                          <td class="FilasFonelli table-info" style="text-align: right;">{{subCat.Piezas2}}</td>
+                          <td class="FilasFonelli table-info" style="text-align: right;">{{formatoMoneda(subCat.Gramos2)}}</td>
+                          <td class="FilasFonelli table-info" style="text-align: right;">{{formatoMoneda(subCat.ImporteVenta2)}}</td>
+                          <td class="FilasFonelli table-info" style="text-align: right;">{{formatoNumero(subCat.PorcentajeImporte2)}}</td>
+                          <td class="FilasFonelli table-info" style="text-align: right;">{{formatoMoneda(subCat.ValorAgregado2)}}</td>
+                          <td class="FilasFonelli table-info" style="text-align: right;">{{subCat.PorcentajeValorAgregado2}}</td>
+                          
+                        </tr> 
+                   
+                      </ng-container>
+                    </ng-container>
+
+                    <tr>  
+                      <td class="FilasFonelli"></td>
+                      <td class="FilasFonBold">Total cliente</td>
+                      <td class="FilasFonBold table-warning" style="text-align: right;">{{getTotalesxCliente(cli.Categorias,'Piezas1')}}</td>
+                      <td class="FilasFonBold table-warning" style="text-align: right;">{{formatoNumero(getTotalesxCliente(cli.Categorias,'Gramos1'))}}</td>
+                      <td class="FilasFonBold table-warning" style="text-align: right;">{{formatoMoneda(getTotalesxCliente(cli.Categorias,'ImporteVenta1'))}}</td>
+                      <td class="FilasFonBold table-warning" style="text-align: right;"></td>
+                      <td class="FilasFonBold table-warning" style="text-align: right;">{{formatoMoneda(getTotalesxCliente(cli.Categorias,'ValorAgregado1'))}}</td>
+                      <td class="FilasFonBold table-warning" style="text-align: right;"></td>
+                      <td class="FilasFonBold table-info" style="text-align: right;">{{getTotalesxCliente(cli.Categorias,'Piezas2')}}</td>
+                      <td class="FilasFonBold table-info" style="text-align: right;">{{formatoNumero(getTotalesxCliente(cli.Categorias,'Gramos2'))}}</td>
+                      <td class="FilasFonBold table-info" style="text-align: right;">{{formatoMoneda(getTotalesxCliente(cli.Categorias,'ImporteVenta2'))}}</td>
+                      <td class="FilasFonBold table-info" style="text-align: right;"></td>
+                      <td class="FilasFonBold table-info" style="text-align: right;">{{formatoMoneda(getTotalesxCliente(cli.Categorias,'ValorAgregado2'))}}</td>
+                      <td class="FilasFonBold table-info" style="text-align: right;"></td>
+                      
+                    </tr> 
+                                                      
+ 
 
                 </ng-container>
-                            
+                  
+                 
+
+                  
+
+                
 
     
               </tbody>               
@@ -541,8 +617,8 @@
         <br>
         <br>
 
-          <label>Clientes con venta</label> 
-          <table class="table table-hover table-striped  ">
+          <h2 class="card-title">Clientes con venta</h2> 
+          <table class="table table-md">
             <thead>
               <tr class="EncTabla">
                 <th style="background-color: #24a4cc; color: white;"></th>
@@ -550,37 +626,115 @@
                 <th style="background-color: #24a4cc; color: white;">2do Periodo</th>                              
               </tr>
             </thead>
-            <tbody>                       
+            <tbody> 
+              <ng-container>  
+   
 
-  
+                <tr>  
+                  <td class="FilasFonBold" style="text-align: right;">Cliente con venta</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesConVenta1}}</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesConVenta2}}</td>                  
+                </tr>
+                <tr>  
+                  <td class="FilasFonBold" style="text-align: right;">Cliente sin venta</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesSinVenta1}}</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesSinVenta2}}</td>                  
+                </tr>
+                <tr>  
+                  <td class="FilasFonBold" style="text-align: right;">Cliente totales</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesTotales1}}</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesTotales2}}</td>                  
+                </tr>
+              </ng-container>
           </tbody>               
         </table>
 
         <br>
         <br>
 
-          <label>Total General</label> 
+          <h2 class="card-title">Total General</h2> 
           <table class="table table-hover table-striped  ">
             <thead>
-              <tr class="EncTabla">
-                <th style="background-color: #24a4cc; color: white;">CAT</th>
-                <th style="background-color: #24a4cc; color: white;">DESCRIPCIÓN CATEGORIA</th>
-                <th style="background-color: #24a4cc; color: white;">PIEZAS</th>                              
-                <th style="background-color: #24a4cc; color: white;">GRAMOS</th>                              
-                <th style="background-color: #24a4cc; color: white;">IMPORTE</th>                              
-                <th style="background-color: #24a4cc; color: white;">%S/TOT</th>                              
-                <th style="background-color: #24a4cc; color: white;">VAL AGREG</th>                              
-                <th style="background-color: #24a4cc; color: white;">%S/TOT</th>                              
-                <th style="background-color: #24a4cc; color: white;">PIEZAS</th>                              
-                <th style="background-color: #24a4cc; color: white;">GRAMOS</th>                              
-                <th style="background-color: #24a4cc; color: white;">IMPORTE</th>                              
-                <th style="background-color: #24a4cc; color: white;">%S/TOT</th>                              
-                <th style="background-color: #24a4cc; color: white;">VAL AGREG</th>                              
-                <th style="background-color: #24a4cc; color: white;">%S/TOT</th>                              
-              </tr>
-            </thead>
-            <tbody>                       
 
+              <tr class="EncTabla">                 
+                <th class="table-success" scope="col"></th>
+                <th class="table-success" scope="col"></th>
+                <th class="table-warning" scope="col" colspan="6" style="text-align:center;"> 1er Periodo</th>  
+                <th class="table-info" scope="col" colspan="6" style="text-align:center;">2do Periodo</th>
+              </tr>
+
+              <tr class="EncTabla">                 
+                <th class="table-success" scope="col"></th>
+                <th class="table-success" scope="col"></th>
+                <th class="table-warning" scope="col" colspan="3" style="text-align:center;"> desde {{oBuscar.Fecha1Desde}}</th>  
+                <th class="table-warning" scope="col" colspan="3" style="text-align:center;">hasta {{oBuscar.Fecha1Hasta}} </th>
+                <th class="table-info" scope="col" colspan="3" style="text-align:center;"> desde {{oBuscar.Fecha2Desde}}</th>  
+                <th class="table-info" scope="col" colspan="3" style="text-align:center;">hasta {{oBuscar.Fecha2Hasta}} </th>
+              </tr>
+
+              <tr class="EncTabla">                 
+                <th style="background-color: #24a4cc; color: white;">Cat</th>
+                <th style="background-color: #24a4cc; color: white;">Descripcion categoria</th>
+                <th style="background-color: #24a4cc; color: white;">Piezas</th>
+                <th style="background-color: #24a4cc; color: white; ">Gramos</th>
+                <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>
+                <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>
+                <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>
+                <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>              
+                <th style="background-color: #24a4cc; color: white;">Piezas</th>
+                <th style="background-color: #24a4cc; color: white;;">Gramos</th>
+                <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>
+                <th style="background-color: #24a4cc; color: white;">%S/Tot</th>
+                <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>
+                <th style="background-color: #24a4cc; color: white;">%S/Tot</th>     
+              </tr>   
+
+             
+            </thead>
+            <tbody>
+
+              
+              <ng-container *ngFor="let cat of oClienteGeneralCatCont">
+
+                <tr *ngFor="let subCat of cat.TotalGeneralSubcatego">  
+                  <td class="FilasFonelli">{{cat.CategoriaCodigo + '' +subCat.SubcategoriaCodigo}}</td>
+                  <td class="FilasFonelli">{{cat.CategoriaNombre+ ' - ' +subCat.SubcategoriaNombre}}</td>
+                  <td class="FilasFonelli table-warning" style="text-align: right;">{{subCat.TotalPiezas1}}</td>
+                  <td class="FilasFonelli table-warning" style="text-align: right;">{{formatoNumero(subCat.TotalGramos1)}}</td>
+                  <td class="FilasFonelli table-warning" style="text-align: right;">{{formatoMoneda(subCat.TotalImporte1)}}</td>
+                  <td class="FilasFonelli table-warning" style="text-align: right;">{{subCat.TotalPorcentajeImporte1}}</td>
+                  <td class="FilasFonelli table-warning" style="text-align: right;">{{formatoMoneda(subCat.TotalValorAgregado1)}}</td>
+                  <td class="FilasFonelli table-warning" style="text-align: right;">{{subCat.TotalPorcentajeValorAgregado1}}</td>
+                  <td class="FilasFonelli table-info" style="text-align: right;">{{subCat.TotalPiezas2}}</td>
+                  <td class="FilasFonelli table-info" style="text-align: right;">{{formatoNumero(subCat.TotalGramos2)}}</td>
+                  <td class="FilasFonelli table-info" style="text-align: right;">{{formatoMoneda(subCat.TotalImporte2)}}</td>
+                  <td class="FilasFonelli table-info" style="text-align: right;">{{subCat.TotalPorcentajeImporte2}}</td>
+                  <td class="FilasFonelli table-info" style="text-align: right;">{{formatoMoneda(subCat.TotalValorAgregado2)}}</td>
+                  <td class="FilasFonelli table-info" style="text-align: right;">{{subCat.TotalPorcentajeValorAgregado2}}</td>
+                  
+                </tr>
+                
+
+
+              </ng-container>
+
+              <tr>  
+                <td class="FilasFonelli"></td>
+                <td class="FilasFonBold"></td>
+                <td class="FilasFonBold table-warning" style="text-align: right;">{{getTotalesGeneralCateg(oClienteGeneralCatCont,'TotalPiezas1')}}</td>
+                <td class="FilasFonBold table-warning" style="text-align: right;">{{formatoNumero(getTotalesGeneralCateg(oClienteGeneralCatCont,'TotalGramos1'))}}</td>
+                <td class="FilasFonBold table-warning" style="text-align: right;">{{formatoMoneda(getTotalesGeneralCateg(oClienteGeneralCatCont,'TotalImporte1'))}}</td>
+                <td class="FilasFonBold table-warning" style="text-align: right;"></td>
+                <td class="FilasFonBold table-warning" style="text-align: right;">{{formatoMoneda(getTotalesGeneralCateg(oClienteGeneralCatCont,'TotalValorAgregado1'))}}</td>
+                <td class="FilasFonBold table-warning" style="text-align: right;"></td>
+                <td class="FilasFonBold table-info" style="text-align: right;">{{getTotalesGeneralCateg(oClienteGeneralCatCont,'TotalPiezas2')}}</td>
+                <td class="FilasFonBold table-info" style="text-align: right;">{{formatoNumero(getTotalesGeneralCateg(oClienteGeneralCatCont,'TotalGramos2'))}}</td>
+                <td class="FilasFonBold table-info" style="text-align: right;">{{formatoMoneda(getTotalesGeneralCateg(oClienteGeneralCatCont,'TotalImporte2'))}}</td>
+                <td class="FilasFonBold table-info" style="text-align: right;"></td>
+                <td class="FilasFonBold table-info" style="text-align: right;">{{formatoMoneda(getTotalesGeneralCateg(oClienteGeneralCatCont,'TotalValorAgregado2'))}}</td>
+                <td class="FilasFonBold table-info" style="text-align: right;"></td>
+                
+              </tr>
   
           </tbody>               
         </table>

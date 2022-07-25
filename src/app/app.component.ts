@@ -58,9 +58,9 @@ export class AppComponent {
     //Control de inactividad 
     this.bnIdle.startWatching(1800).subscribe((res) => {
       if(res) {
-        if (sessionStorage.getItem('codigo') != null){
+        if (localStorage.getItem('codigo') != null){
           console.log("hay datos");
-          sessionStorage.clear();
+          localStorage.clear();
           this._router.navigate(['/']);
         }
         
@@ -71,10 +71,10 @@ export class AppComponent {
     /*this.MenuHomeAux = this.obtenMenu();
 
     if (this.MenuHomeAux == '2'){
-      sessionStorage.setItem('idMenu', '2');
+      localStorage.setItem('idMenu', '2');
       console.log("Entra 2");
     }else{
-      sessionStorage.setItem('idMenu', '1');
+      localStorage.setItem('idMenu', '1');
       console.log("Entra 1");
     }
     

@@ -133,10 +133,10 @@ export class VentasclientearticuloComponent implements OnInit {
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
 
-      this.sCodigo = Number(sessionStorage.getItem('codigo'));
-      this.sTipo = sessionStorage.getItem('tipo');
-      this.sFilial  = Number(sessionStorage.getItem('filial'));
-      this.sNombre = sessionStorage.getItem('nombre');
+      this.sCodigo = Number(localStorage.getItem('codigo'));
+      this.sTipo = localStorage.getItem('tipo');
+      this.sFilial  = Number(localStorage.getItem('filial'));
+      this.sNombre = localStorage.getItem('nombre');
   
       //Inicializamos variables consulta pedidos
       this.oBuscar = new FiltrosVentaArticuloCliente('',0,'','','','',0,0,0,0,'','','','','','','','','','','','','','',0)
@@ -179,7 +179,7 @@ export class VentasclientearticuloComponent implements OnInit {
       }
 
       let fechaDesde =  date.getFullYear() +'-01-01';          
-      let fechaHasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());          
+      let fechaHasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
 
       switch(this.sTipo) { 
@@ -188,19 +188,25 @@ export class VentasclientearticuloComponent implements OnInit {
           console.log('1');                           
 
            this.oBuscar.ClienteDesde = this.sCodigo; 
-           this.oBuscar.ClienteHasta = this.sCodigo;   
+           this.oBuscar.FilialDesde = this.sFilial;   
+           this.oBuscar.ClienteHasta = this.sCodigo; 
+           this.oBuscar.FilialHasta = this.sFilial;   
            this.bCliente = true;    
            break; 
         } 
         case 'A': { 
-           //Agente; 
-           this.bCliente = false;    
-           break; 
+          //Agente; 
+          this.oBuscar.ClienteHasta = 999999;
+          this.oBuscar.FilialHasta = 999;
+          this.bCliente = false;    
+          break; 
         } 
         default: { 
            //Gerente;
-           this.bCliente = false;     
-           break; 
+          this.oBuscar.ClienteHasta = 999999;
+          this.oBuscar.FilialHasta = 999;
+          this.bCliente = false;     
+          break; 
         } 
       } 
 
@@ -217,8 +223,7 @@ export class VentasclientearticuloComponent implements OnInit {
       this.oBuscar.CategoriaHasta = 'Z';
       this.oBuscar.SubcategoriaDesde = '0';
       this.oBuscar.SubcategoriaHasta = '9';
-      this.oBuscar.ClienteHasta = 999999;
-      this.oBuscar.FilialHasta = 999;
+      
 
   
       
@@ -226,106 +231,191 @@ export class VentasclientearticuloComponent implements OnInit {
       this.Buscar.TipoUsuario = this.sTipo;
       this.Buscar.Usuario = this.sCodigo;
 
-      //Realizamos llamada al servicio de oficinas
+       //Llenamos oficinas
+     if (!localStorage.getItem('Oficinas')){
+     // console.log("NO tenemos oficina");
+
       this._servicioOficinas 
       .Get(this.oBuscarOfi)
       .subscribe(
         (Response: Oficina) => {
-
+ 
           this.oOficinasRes = Response;
-          //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
-          //console.log(this.pedido);
-
+          //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );              
+ 
           if(this.oOficinasRes.Codigo != 0){
             this.bError= true;
             this.sMensaje="No se encontraron oficinas";
             return;
           }
-
+ 
+ 
           this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
           this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
-          this.sMensaje="";
-
+         this.sMensaje="";
+ 
         },
         (error:Oficina) => {
-
+ 
           this.oOficinasRes = error;
-          this.sMensaje="No se encontraron oficinas";
           console.log("error");
           console.log(this.oOficinasRes);
-          return;
         
         }
-      );
+      ); 
+     
+    }else{
+     // console.log("Ya tenemos oficina");
 
-       //Realizamos llamada al servicio de lineas
-       this._servicioLineas 
-       .Get(this.oBuscarLineas)
-       .subscribe(
-         (Response: Lineas) => {
- 
-           this.oLineasRes = Response;
-           //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
-           //console.log(this.pedido);
- 
-           if(this.oLineasRes.Codigo != 0){
-             this.bError= true;
-             this.sMensaje="No se encontraron Lineas";
-             return;
-           }
- 
-           this.oLineasCon = this.oLineasRes.Contenido
-           this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
-           this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
-           this.sMensaje="";
- 
-         },
-         (error:Lineas) => {
- 
-           this.oLineasRes = error;
-           this.sMensaje="No se encontraron oficinas";
-           console.log("error");
-           console.log(this.oLineasRes);
-           return;
-         
-         }
-       );
+      this.oOficinasRes = JSON.parse(localStorage.getItem('Oficinas'));
+
+      this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
+      this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
+
+     }
+
+
+     //Consulta lineas de producto
+    if (!localStorage.getItem('Lineas')){
+
+       // console.log("Lineas no existen");
+
+
+        //Realizamos llamada al servicio de lineas
+        this._servicioLineas 
+        .Get(this.oBuscarLineas)
+        .subscribe(
+          (Response: Lineas) => {
+  
+            this.oLineasRes = Response;
+            //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
+            //console.log(this.pedido);
+  
+            if(this.oLineasRes.Codigo != 0){
+              this.bError= true;
+              this.sMensaje="No se encontraron Lineas";
+              return;
+            }
+            
+            this.oLineasCon = this.oLineasRes.Contenido
+            this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
+            this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
+            this.sMensaje="";
+  
+          },
+          (error:Lineas) => {
+  
+            this.oLineasRes = error;
+            this.sMensaje="No se encontraron oficinas";
+            console.log("error");
+            console.log(this.oLineasRes);
+            return;
+          
+          }
+        );
+        }else{
+         // console.log("Lineas ya existen");
+
+          this.oLineasRes = JSON.parse(localStorage.getItem('Lineas'));
+          this.oLineasCon = this.oLineasRes.Contenido
+          this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
+          this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
+
+        }
 
        
           //Realizamos llamada al servicio de categorias 
-          this._servicioCategorias 
-          .Get(this.oBuscarCategorias)
-          .subscribe(
-            (Response: Categorias) => {
-    
-              this.oCategoriasRes = Response;
-              //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
-              //console.log(this.pedido);
-    
-              if(this.oCategoriasRes.Codigo != 0){
-                this.bError= true;
-                this.sMensaje="No se encontraron Categorias";
+          if (!localStorage.getItem('Categorias')){
+
+            //console.log("No tenemos categorias");
+            this._servicioCategorias 
+            .Get(this.oBuscarCategorias)
+            .subscribe(
+              (Response: Categorias) => {
+      
+                this.oCategoriasRes = Response;
+                //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
+                //console.log(this.pedido);
+      
+                if(this.oCategoriasRes.Codigo != 0){
+                  this.bError= true;
+                  this.sMensaje="No se encontraron Categorias";
+                  return;
+                }
+      
+                this.oCategoriasCon = this.oCategoriasRes.Contenido;
+                this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
+                this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
+                this.sMensaje="";
+      
+              },
+              (error:Categorias) => {
+      
+                this.oCategoriasRes = error;
+                this.sMensaje="No se encontraron categorias";
+                console.log("error");
+                console.log(this.oCategoriasRes);
                 return;
+              
               }
-    
-              this.oCategoriasCon = this.oCategoriasRes.Contenido;
-              this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
-              this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
-              this.sMensaje="";
+            );
 
-
-    
-            },
-            (error:Categorias) => {
-    
-              this.oCategoriasRes = error;
-              this.sMensaje="No se encontraron categorias";
-              console.log("error");
-              console.log(this.oCategoriasRes);
-              return;
+          }else{
+           // console.log("Tenemos categorias");
             
-            }
-          );
+            this.oCategoriasRes = JSON.parse(localStorage.getItem('Categorias'));
+            this.oCategoriasCon = this.oCategoriasRes.Contenido;
+            this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
+            this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
+          }
+
+
+        //Realizamos llamada al servicio de clientes 
+        if (!localStorage.getItem('Clientes')){
+
+        //  console.log("no tenemos  Clientes");
+
+          this._servicioCClientes
+            .GetCliente(this.Buscar)
+            .subscribe(
+              (Response: Clientes) =>  {        
+
+                this.oCliente = Response;  
+                console.log("Respuesta cliente"+JSON.stringify(this.oCliente));    
+                if(this.oCliente.Codigo != 0){     
+                  return false;
+                }
+          
+              
+              this.oContenido= this.oCliente.Contenido[0];
+                this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+                this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+                this.oContacto =this.oCliente.Contenido[0].Contactos;
+                return true;
+
+            
+              },
+              (error:Clientes) => {  
+                this.oCliente = error;
+                console.log(this.oCliente);
+                return false;
+            
+              }
+              
+            );
+            //console.log("Termina carga Clientes");
+
+          }else{
+           // console.log("Ya tenemos  Clientes");
+
+
+            this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+            this.oContenido = this.oCliente.Contenido[0];
+            this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+            this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+            this.oContacto =this.oCliente.Contenido[0].Contactos;
+
+          }
 
 
 
@@ -957,7 +1047,8 @@ downloadAsPDF() {
       var result;
   
       try{
-        result = this.BuscaClientes()
+        //result = this.BuscaClientes()
+        result = true;
   
         if(result){
           this.ModalActivo = this.modalService.open(Clientes, {
@@ -977,7 +1068,7 @@ downloadAsPDF() {
           );
         }
   
-        //this.bCargandoClientes = false;
+        this.bCargandoClientes = false;
   
   
         console.log("respuesta"+result);
@@ -1074,7 +1165,7 @@ downloadAsPDF() {
   
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);    
   }
 

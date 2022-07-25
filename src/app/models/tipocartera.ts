@@ -6,8 +6,8 @@ export interface TipoCartera {
 }
 
 export interface Contenido {
-    TipoCodigo?:   string;
-    TipoDescripc?: string;
+    CarteraCodigo?:   string;
+    CarteraDescripc?: string;
 }
 
 export interface Paginacion {

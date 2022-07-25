@@ -17,7 +17,8 @@
                       class="form-select" 
                       name="idDesAge"
                       #nombre="ngModel"
-                      [(ngModel)]="oBuscar.AgenteDesde"                            
+                      [(ngModel)]="oBuscar.AgenteDesde"    
+                      [disabled]="sTipo == 'A' "
                       required
                       >
                       <ng-container *ngFor='let dato of oAgentesCon;' >
@@ -36,7 +37,8 @@
                     class="form-select" 
                     name="idHasAge"
                     #nombre="ngModel"
-                    [(ngModel)]="oBuscar.AgenteHasta"                            
+                    [(ngModel)]="oBuscar.AgenteHasta"    
+                    [disabled]="sTipo == 'A' "                        
                     required
                     >
                   <ng-container *ngFor='let dato of oAgentesCon;' >
@@ -104,7 +106,9 @@
         <!-- <div class="container" >      -->
 
         <br>
+        <h6 class="CamposFonelli" style="text-align: center;" >IMPORTE DE VENTA EN VALOR AGREGADO</h6>   
         <div class="form-row">
+          
           <div class="form-group col-md-1">              
             <label class="CamposFonelli">Pedido:</label>
           </div>
@@ -123,6 +127,8 @@
               </div> 
         </div>
 
+
+    
     <div id="pdfTable" #pdfTable>
         <table  class="table table-hover table-striped">
           <thead>
@@ -147,30 +153,31 @@
               <tr class="table-info">
                 <th scope="row">{{ i + 1 }}</th>
                 <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
-                <td class="FilasFonelli"> <u>{{impVen.AgenteNombre}}</u> </td>                
-                <td class="FilasFonelli" >{{ impVen.ImporteVentas.VentaDiaria}}</td>              
-                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.VentasAcumuladas}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.LimiteInferior}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.DiferenciaLimiteInferior}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.Minimo}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.DiferenciaMinimo}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.Meta}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.DiferenciaMeta}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ impVen.ImporteVentas.ImportePedidos}}</td>
+                <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>                
+                <td class="FilasFonelli"  style="text-align:right" >{{ formatoMoneda(impVen.ImporteVentas.VentaDiaria)}}</td>              
+                <td class="FilasFonelli" style="text-align:right; font-weight: bold;">{{ formatoMoneda(impVen.ImporteVentas.VentasAcumuladas)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.LimiteInferior)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaLimiteInferior)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.Minimo)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaMinimo)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.Meta)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaMeta)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.ImportePedidos)}}</td>
               </tr>
             </ng-container>
             <tr class="table-info">
-              <th scope="row"></th>
-              <td class="FilasFonelli" style="text-align:left">Totales</td>
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'VentaDiaria')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'VentasAcumuladas')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'LimiteInferior')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'DiferenciaLimiteInferior')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'Minimo')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'DiferenciaMinimo')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'Meta')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'DiferenciaMeta')}} </td>                
-              <td class="FilasFonelli" style="text-align:right">{{ getTotalImpVenta(oIndVentaRes,'ImportePedidos')}} </td>                
+              <th ></th>              
+              <td ></td>
+              <td class="FilasFonelli" style="text-align:center">Totales</td>
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentaDiaria'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentasAcumuladas'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'LimiteInferior'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaLimiteInferior'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'Minimo'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaMinimo'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'Meta'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaMeta'))}} </td>                
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'ImportePedidos'))}} </td>                
             </tr>
             
           </tbody>
@@ -178,7 +185,7 @@
 
         <br>
         <br>
-
+        <h6 class="CamposFonelli" style="text-align: center;" >CLIENTES INACTIVOS</h6>   
         <table  class="table table-hover table-striped">
           <thead>
             <tr class="EncTabla">
@@ -199,7 +206,7 @@
             <tr *ngFor="let impVen of oIndVentaRes.Contenido index as i">
               <th scope="row">{{ i + 1 }}</th>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
-              <td class="FilasFonelli"> <u>{{impVen.AgenteNombre}}</u> </td>                
+              <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>                
               <td class="FilasFonelli" >{{ impVen.ClientesInactivos.InactivosActual}}</td>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesInactivos.LimiteInferior}}</td>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesInactivos.DiferenciaLimiteInferior}}</td>
@@ -214,7 +221,7 @@
 
         <br>
         <br>
-
+        <h6 class="CamposFonelli" style="text-align: center;" >CLIENTES POR LISTAS</h6>   
         <table  class="table table-hover table-striped">
           <thead>
             <tr class="EncTabla">
@@ -231,7 +238,7 @@
             <tr *ngFor="let impVen of oIndVentaRes.Contenido index as i">
               <th scope="row">{{ i + 1 }}</th>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
-              <td class="FilasFonelli"> <u>{{impVen.AgenteNombre}}</u> </td>                
+              <td class="FilasFonelli"> {{impVen.AgenteNombre}}</td>                
               <td class="FilasFonelli" >{{ impVen.ClientesListas.ListasRango1}}</td>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango2}}</td>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango3}}</td>

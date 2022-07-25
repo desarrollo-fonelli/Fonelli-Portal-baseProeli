@@ -109,10 +109,10 @@ export class RelacionpedidosComponent implements OnInit {
     private modalService: NgbModal,
     private _servicioCClientes: ServicioClientes) { 
 
-      this.sCodigo = Number(sessionStorage.getItem('codigo'));
-      this.sTipo = sessionStorage.getItem('tipo');
-      this.sFilial  = Number(sessionStorage.getItem('filial'));
-      this.sNombre = sessionStorage.getItem('nombre');
+      this.sCodigo = Number(localStorage.getItem('codigo'));
+      this.sTipo = localStorage.getItem('tipo');
+      this.sFilial  = Number(localStorage.getItem('filial'));
+      this.sNombre = localStorage.getItem('nombre');
 
     //Inicializamos variables consulta pedidos
     this.oBuscar = new FiltrosRelacionPedidos('',0,'','',0,0,0,0,'','','','','','','','',0)
@@ -164,8 +164,8 @@ export class RelacionpedidosComponent implements OnInit {
         dia = '0'+(date.getDate());
       }
 
-      let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+dia;          
-      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());          
+      let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()) : date.getDate());                  
+      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());                  
 
       console.log("--"+fechaActual);
@@ -176,7 +176,9 @@ export class RelacionpedidosComponent implements OnInit {
           //Tipo cliente               
 
            this.oBuscar.ClienteDesde = this.sCodigo; 
-           this.oBuscar.ClienteHasta = this.sCodigo;   
+           this.oBuscar.FilialHasta = this.sFilial;   
+           this.oBuscar.ClienteHasta = this.sCodigo; 
+           this.oBuscar.FilialHasta = this.sFilial; 
          
            this.bCliente = true;    
 
@@ -185,10 +187,14 @@ export class RelacionpedidosComponent implements OnInit {
         case 'A': { 
            //Agente; 
            this.bCliente = false;  
+           this.oBuscar.ClienteHasta = 999999;
+           this.oBuscar.FilialHasta = 999;
            break; 
         } 
         default: { 
            //Gerente; 
+           this.oBuscar.ClienteHasta = 999999;
+           this.oBuscar.FilialHasta = 999;
            this.bCliente = false;  
            break; 
         } 
@@ -202,44 +208,107 @@ export class RelacionpedidosComponent implements OnInit {
     this.oBuscar.FechaPedidoHasta = fechaAyer;
     this.oBuscar.FechaCancelacDesde = '2000-01-01';
     this.oBuscar.FechaCancelacHasta = fechaActual;
-    this.oBuscar.ClienteHasta = 999999;
-    this.oBuscar.FilialHasta = 999;
+ 
 
     this.Buscar.TipoUsuario = this.sTipo;
     this.Buscar.Usuario = this.sCodigo;
 
      //Llenamos oficinas
-     this._servicioOficinas 
-     .Get(this.oBuscarOfi)
-     .subscribe(
-       (Response: Oficina) => {
+     if (!localStorage.getItem('Oficinas')){
+     // console.log("NO tenemos oficina");
 
-         this.oOficinasRes = Response;
-         //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );              
+      this._servicioOficinas 
+      .Get(this.oBuscarOfi)
+      .subscribe(
+        (Response: Oficina) => {
+ 
+          this.oOficinasRes = Response;
+          //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );              
+ 
+          if(this.oOficinasRes.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron oficinas";
+            return;
+          }
+ 
+ 
+          this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
+          this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
+         this.sMensaje="";
+ 
+        },
+        (error:Oficina) => {
+ 
+          this.oOficinasRes = error;
+          console.log("error");
+          console.log(this.oOficinasRes);
+        
+        }
+      ); 
+     
+    }else{
+      //console.log("Ya tenemos oficina");
 
-         if(this.oOficinasRes.Codigo != 0){
-           this.bError= true;
-           this.sMensaje="No se encontraron oficinas";
-           return;
-         }
+      this.oOficinasRes = JSON.parse(localStorage.getItem('Oficinas'));
 
+      this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
+      this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
 
-
-         this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
-         this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
-        this.sMensaje="";
-
-       },
-       (error:Oficina) => {
-
-         this.oOficinasRes = error;
-         console.log("error");
-         console.log(this.oOficinasRes);
+     }
        
-       }
-     );   
+
+  //Realizamos llamada al servicio de clientes 
+   if (!localStorage.getItem('Clientes')){
+
+   // console.log("no tenemos  Clientes");
+
+    this._servicioCClientes
+      .GetCliente(this.Buscar)
+      .subscribe(
+        (Response: Clientes) =>  {        
+
+          this.oCliente = Response;  
+          console.log("Respuesta cliente"+JSON.stringify(this.oCliente));    
+          if(this.oCliente.Codigo != 0){     
+            return false;
+          }
+    
+        
+        this.oContenido= this.oCliente.Contenido[0];
+          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+          this.oContacto =this.oCliente.Contenido[0].Contactos;
+          return true;
+
+      
+        },
+        (error:Clientes) => {  
+          this.oCliente = error;
+          console.log(this.oCliente);
+          return false;
+      
+        }
+        
+      );
+     // console.log("Termina carga Clientes");
+
+    }else{
+     // console.log("Ya tenemos  Clientes");
+
+
+      this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+      this.oContenido = this.oCliente.Contenido[0];
+      this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+      this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+      this.oContacto =this.oCliente.Contenido[0].Contactos;
 
     }
+
+    }
+
+
+
+
 
 //Funcion para consultar la relacion de pedidos
 consultaRelPed(){
@@ -893,7 +962,7 @@ downloadAsPDF() {
   var html = htmlToPdfmake(cadena);
   console.log(html);
   const documentDefinition = { 
-    pageSize: 'LEGAL',
+    pageSize: 'TABLOID',
     pageOrientation: 'landscape',
     header: [
 
@@ -907,14 +976,14 @@ downloadAsPDF() {
         width: 110 
       },
     {
-      width:750,
+      width:900,
       text: 'Relación de pedidos',
       alignment: 'center',
       style: 'header',
       margin: [8,8]    
     },
     {
-      width: 110,
+      width: 170,
       text: this.fechaHoy, 
       alignment: 'right',
       margin: [2, 15]
@@ -960,7 +1029,8 @@ openClientes(Clientes: any, cliente: boolean) {
     var result;
 
     try{
-      result = this.BuscaClientes()
+      //result = this.BuscaClientes()
+      result = true;
 
       if(result){
         this.ModalActivo = this.modalService.open(Clientes, {
@@ -980,7 +1050,7 @@ openClientes(Clientes: any, cliente: boolean) {
         );
       }
 
-      //this.bCargandoClientes = false;
+      this.bCargandoClientes = false;
 
 
       console.log("respuesta"+result);
@@ -1052,7 +1122,7 @@ openClientes(Clientes: any, cliente: boolean) {
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);    
   }
 

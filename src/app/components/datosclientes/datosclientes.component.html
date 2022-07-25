@@ -64,11 +64,11 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-body">
-                <h2 style="text-align: center; font-size:xx-large;" >Número {{sCodigo}} {{sNombre}}</h2>
+                <h2 style="text-align: center; font-size:xx-large;" >Número {{oBuscar.ClienteCodigo}} {{obtenNombreCliente(oBuscar.ClienteCodigo)}}</h2>
 
                 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
                   <li [ngbNavItem]="1">
-                    <a ngbNavLink>Datos Generales</a>
+                    <a ngbNavLink style="color:#24a4cc">Datos Generales</a>
                     <ng-template ngbNavContent>
 
                       <div class="container">
@@ -201,7 +201,7 @@
                     </ng-template>
                   </li>
                   <li *ngIf="!bCliente" [ngbNavItem]="2">
-                    <a class="CamposFonelli" ngbNavLink>Condiciones</a>
+                    <a style="color:#24a4cc" ngbNavLink>Condiciones</a>
                     <ng-template ngbNavContent>
                       <div class="container">
                         <div class="row">  
@@ -211,7 +211,7 @@
                               <label class="CamposGeneral">Oficina de atención:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{ oCondiciones.OficinaAtencionNombre }}}</label>
+                              <label>{{ oCondiciones.OficinaAtencionNombre }}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -277,7 +277,7 @@
                     </ng-template>
                   </li>
                   <li [ngbNavItem]="3">
-                    <a class="CamposFonelli" ngbNavLink>Contactos</a>
+                    <a style="color:#24a4cc" ngbNavLink>Contactos</a>
                     <ng-template ngbNavContent>
                       <div class="container">
                         <div class="row">  
@@ -366,9 +366,7 @@
 
    
               
-      <div *ngIf="!bCliente">
-        <h4>Expediente</h4>
-      </div>
+    
    </div>
 </section>
 
@@ -417,7 +415,7 @@
                         <tbody>
                           <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
                           
-                          <tr *ngFor="let emp of oCliente.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                          <tr *ngFor="let emp of oClienteModal.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
                             <th scope="row">{{ i + 1 }}</th>
                             <td >                              
                               <input  style="border-color: #24a4cc;" type="checkbox">

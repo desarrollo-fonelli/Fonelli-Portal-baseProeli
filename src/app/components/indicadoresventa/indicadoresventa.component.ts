@@ -100,10 +100,10 @@ export class IndicadoresventaComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.sCodigo = Number(sessionStorage.getItem('codigo'));
-    this.sTipo = sessionStorage.getItem('tipo');
-    this.sFilial = Number(sessionStorage.getItem('filial'));
-    this.sNombre = sessionStorage.getItem('nombre');
+    this.sCodigo = Number(localStorage.getItem('codigo'));
+    this.sTipo = localStorage.getItem('tipo');
+    this.sFilial = Number(localStorage.getItem('filial'));
+    this.sNombre = localStorage.getItem('nombre');
 
     this.bCliente = false;
 
@@ -152,47 +152,73 @@ export class IndicadoresventaComponent implements OnInit {
     }
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();  
-    let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());   
+    let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);   
     
     this.oBuscar.FechaCorte = fechaAyer;
 
     //Consulta agentes
-    this._servicioAgentes
-    .Get(this.oBuscarAgentes)
-    .subscribe(
-      (Response: Agentes) =>  {
-        
+    if (!localStorage.getItem('Agentes')){
 
-        this.oAgentes = Response;
-
-        console.log("Respuesta agentes"+JSON.stringify(this.oAgentes));
-
-
-        if(this.oAgentes.Codigo != 0){
-          this.bError= true;
-          this.sMensaje="No se encontraron agentes";   
+      this._servicioAgentes
+      .Get(this.oBuscarAgentes)
+      .subscribe(
+        (Response: Agentes) =>  {
+          
+  
+          this.oAgentes = Response;
+  
+          console.log("Respuesta agentes"+JSON.stringify(this.oAgentes));
+  
+  
+          if(this.oAgentes.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron agentes";   
+            return false;
+          }
+     
+          this.oAgentesCon = this.oAgentes.Contenido;
+  
+          if (this.sTipo == 'A'){
+            this.oBuscar.AgenteDesde = this.sCodigo;
+            this.oBuscar.AgenteHasta = this.sCodigo;
+          }else{
+            this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
+            this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo); 
+          }
+          
+          return true;
+  
+       
+        },
+        (error:Agentes) => {
+  
+          this.oAgentes = error;
+  
+          console.log("error");
+          console.log(this.oAgentes);
+  
           return false;
+       
         }
+        
+      );
+    
+    }else{//Ya tenemos agentes
+    //  console.log("Ya tenemos agentes");
+
+      this.oAgentesCon = JSON.parse(localStorage.getItem('Agentes'));
+  
+          if (this.sTipo == 'A'){
+            this.oBuscar.AgenteDesde = this.sCodigo;
+            this.oBuscar.AgenteHasta = this.sCodigo;
+          }else{
+            this.oBuscar.AgenteDesde = Number(this.oAgentesCon[0].AgenteCodigo); 
+            this.oBuscar.AgenteHasta = Number( this.oAgentesCon[ this.oAgentesCon?.length - 1].AgenteCodigo); 
+          }
+
+
+    }
    
-        this.oAgentesCon = this.oAgentes.Contenido;
-        this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
-        this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo); 
-        return true;
-
-     
-      },
-      (error:Agentes) => {
-
-        this.oAgentes = error;
-
-        console.log("error");
-        console.log(this.oAgentes);
-
-        return false;
-     
-      }
-      
-    );
 
 
   }
@@ -219,6 +245,8 @@ export class IndicadoresventaComponent implements OnInit {
           this.bCargando = false;
           return;
         }
+
+        console.log("Respuesta : "+JSON.stringify(this.oIndVentaRes));
 
        // this.oImporteVentasRes = this.oIndVentaRes.Contenido
         this.sMensaje = '';
@@ -318,17 +346,18 @@ export class IndicadoresventaComponent implements OnInit {
 
     var cadenaaux = pdfTable.innerHTML;
 
-    /*let cadena =
-    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.sNombre+'</strong></p>' +    
-    cadenaaux;*/
+    let cadena =
+    '<br><p>Agente: <strong>' +this.oBuscar.AgenteDesde +'-'+this.oBuscar.AgenteHasta+' '+this.sNombre+'</strong></p>' +    
+    cadenaaux;
 
     console.log('cadena');
    // console.log(cadena);
 
-    //var html = htmlToPdfmake(cadena);
+    var html = htmlToPdfmake(cadena);
     //console.log(html);
     const documentDefinition = {
-      pageSize: 'A4',
+      pageSize: 'LEGAL',
+      pageOrientation: 'landscape',
       header: [
         {
           alignment: 'justify',
@@ -341,15 +370,15 @@ export class IndicadoresventaComponent implements OnInit {
               width: 110 
             },
             {
-              width: 380,
-              text: 'Consulta de pedidos',
+              width: 750,
+              text: 'Indicadores de venta',
               alignment: 'center',
               style: 'header',
               margin: [8,8],
               
             },
             {
-              width: 65,
+              width: 110,
               text: this.fechaHoy,
               alignment: 'right',
               margin: [2, 15],
@@ -368,7 +397,7 @@ export class IndicadoresventaComponent implements OnInit {
           fontSize: 12,
         },
       },
-      //content: html,
+      content: html,
       footer: function (currentPage, pageCount) {
         return [
           {
@@ -386,11 +415,13 @@ export class IndicadoresventaComponent implements OnInit {
   }
 
 
-
+  formatoMoneda(number){
+    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
+  };
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);
   }
 }

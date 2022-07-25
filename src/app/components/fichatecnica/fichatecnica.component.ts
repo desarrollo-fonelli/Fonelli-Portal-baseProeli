@@ -23,7 +23,7 @@ import {
 
 //Modelos
 import { FiltrosFichaTecnica } from 'src/app/models/fichatecnica.filtros';
-import { FichaTecnica,VentasAnioA as AnioAnterior, VentasAnioA as AnioActual, ResumenTipoCartera,PedidosActivos} from 'src/app/models/fichatecnica';
+import { FichaTecnica, VentasAnioA as AnioAnterior, VentasAnioA as AnioActual, ResumenCartera,PedidosActivos, Subcategorias ,VentasAnioA} from 'src/app/models/fichatecnica';
 
 
 import {FiltrosClientes} from 'src/app/models/clientes.filtros';
@@ -61,7 +61,7 @@ export class FichatecnicaComponent implements OnInit {
   oFichaTecnicaRes: FichaTecnica;
   oAnioAnteriorRes: AnioAnterior[];
   oAnioActualRes: AnioActual[];
-  oTipoCarteraRes: ResumenTipoCartera[];
+  oTipoCarteraRes: ResumenCartera[];
   oPedidosInactivosRes: PedidosActivos;
 
   public bError: boolean = false;
@@ -111,10 +111,10 @@ export class FichatecnicaComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.sCodigo = Number(sessionStorage.getItem('codigo'));
-    this.sTipo = sessionStorage.getItem('tipo');
-    this.sFilial = Number(sessionStorage.getItem('filial'));
-    this.sNombre = sessionStorage.getItem('nombre');
+    this.sCodigo = Number(localStorage.getItem('codigo'));
+    this.sTipo = localStorage.getItem('tipo');
+    this.sFilial = Number(localStorage.getItem('filial'));
+    this.sNombre = localStorage.getItem('nombre');
 
     this.bCliente = false;
 
@@ -159,6 +159,8 @@ export class FichatecnicaComponent implements OnInit {
       } 
    } 
 
+   
+
    this.Buscar.TipoUsuario = this.sTipo;
    this.Buscar.Usuario = this.sCodigo;
 
@@ -170,13 +172,63 @@ export class FichatecnicaComponent implements OnInit {
       mes = '0' + (date.getMonth() + 1);
     }
 
-    this.fechaHoy =  date.getFullYear() + '-' + mes + '-' +(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate());              
+    this.fechaHoy =  date.getFullYear() + '-' + mes + '-' +(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);              
 
     this.oBuscar.FechaDesdeAnterior = (date.getFullYear()-1)+'-01-01';
     this.oBuscar.FechaHastaAnterior = (date.getFullYear()-1)+'-12-31';
 
     this.oBuscar.FechaDesdeActual = date.getFullYear()+'-01-01';
     this.oBuscar.FechaHastaActual = this.fechaHoy;
+
+    
+     //Realizamos llamada al servicio de clientes 
+   if (!localStorage.getItem('Clientes')){
+
+    //console.log("no tenemos  Clientes");
+
+    this._servicioCClientes
+      .GetCliente(this.Buscar)
+      .subscribe(
+        (Response: Clientes) =>  {        
+
+          this.oCliente = Response;  
+          console.log("Respuesta cliente"+JSON.stringify(this.oCliente));    
+          if(this.oCliente.Codigo != 0){     
+            return false;
+          }
+    
+        
+        this.oContenido= this.oCliente.Contenido[0];
+          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+          this.oContacto =this.oCliente.Contenido[0].Contactos;
+          return true;
+
+      
+        },
+        (error:Clientes) => {  
+          this.oCliente = error;
+          console.log(this.oCliente);
+          return false;
+      
+        }
+        
+      );
+      //console.log("Termina carga Clientes");
+
+    }else{
+     // console.log("Ya tenemos  Clientes");
+
+
+      this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+      this.oContenido = this.oCliente.Contenido[0];
+      this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+      this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+      this.oContacto =this.oCliente.Contenido[0].Contactos;
+
+    }
+
+    
 
 
   }
@@ -187,7 +239,8 @@ export class FichatecnicaComponent implements OnInit {
     this.bBandera = false;
     console.log('consulta ficha tecnica');
     this.bCargando = true;
-    this.oBuscar.Usuario= this.sCodigo;   
+    this.oBuscar.Usuario= this.sCodigo;  
+    this.oBuscar.TipoUsuario = this.sTipo; 
 
     console.log(this.oBuscar);
     
@@ -197,7 +250,9 @@ export class FichatecnicaComponent implements OnInit {
     //Realizamos llamada al servicio de ficha tecnica
     this._servicioFichaTecnica.Get(this.oBuscar).subscribe(
       (Response: FichaTecnica) => {
-        this.oFichaTecnicaRes = Response;        
+        this.oFichaTecnicaRes = Response;     
+        
+        console.log("respuesta ficha tecnica"+JSON.stringify(this.oFichaTecnicaRes));
 
         
         if (this.oFichaTecnicaRes.Codigo != 0) {
@@ -213,8 +268,10 @@ export class FichatecnicaComponent implements OnInit {
         this.bCargando = false;
         this.oAnioAnteriorRes = this.oFichaTecnicaRes.Contenido.VentasAnioAnterior;
         this.oAnioActualRes = this.oFichaTecnicaRes.Contenido.VentasAnioActual;
-        this.oTipoCarteraRes = this.oFichaTecnicaRes.Contenido.ResumenTipoCartera;
+        this.oTipoCarteraRes = this.oFichaTecnicaRes.Contenido.ResumenCartera;
         this.oPedidosInactivosRes = this.oFichaTecnicaRes.Contenido.PedidosActivos;
+
+        
 
       },
       (error: FichaTecnica) => {
@@ -276,7 +333,7 @@ export class FichatecnicaComponent implements OnInit {
             },
             {
               width: 380,
-              text: 'Consulta de pedidos',
+              text: 'Ficha Tecnica',
               alignment: 'center',
               style: 'header',
               margin: [8,8],
@@ -327,7 +384,8 @@ export class FichatecnicaComponent implements OnInit {
     var result;
 
     try{
-      result = this.BuscaClientes()
+      //result = this.BuscaClientes()
+      result = true;
 
       if(result){
         this.ModalActivo = this.modalService.open(Clientes, {
@@ -347,7 +405,7 @@ export class FichatecnicaComponent implements OnInit {
         );
       }
 
-      //this.bCargandoClientes = false;
+      this.bCargandoClientes = false;
 
 
       console.log("respuesta"+result);
@@ -410,9 +468,114 @@ export class FichatecnicaComponent implements OnInit {
     return true;
   }  
 
+   // #### Obten totales categoria ####
+   getTotalCategoria(subCat: Subcategorias[], sValor: string): number {   
+    let Total: number = 0;  
+
+    switch(sValor) {        
+      case 'Piezas': { 
+   
+        for(var dato of subCat){
+            Total += dato.Piezas;           
+        }
+        break; 
+      } 
+      case 'Gramos': { 
+        
+        for(var dato of subCat){
+          Total += dato.Gramos;           
+        }
+        break; 
+      }  
+    case 'Importe': { 
+        
+      for(var dato of subCat){
+        Total += dato.Importe;           
+      }
+      break;
+          break; 
+    } 
+    case 'ValorAgregado': { 
+        
+      for(var dato of subCat){
+        Total += dato.ValorAgregado;           
+      }
+      break;
+         
+    } 
+
+   }     
+
+
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+  // #### Obten totales categoria venta año anterior ####
+
+    // #### Obten totales generall ####
+    getTotalGeneral(venAnioAnt: VentasAnioA[], sValor: string): number {   
+      let Total: number = 0;  
+
+      switch(sValor) {        
+        case 'Piezas': { 
+ 		
+          for(var dato of venAnioAnt){
+            for(var datDet of dato.Subcategorias){
+              Total += datDet.Piezas;             
+            }
+             
+          }
+               break; 
+             } 
+      case 'Gramos': { 
+          
+        for(var dato of venAnioAnt){
+          for(var datDet of dato.Subcategorias){
+            Total += datDet.Gramos;             
+          }
+           
+        }
+            break; 
+          } 
+      case 'Importe': { 
+          
+        for(var dato of venAnioAnt){
+          for(var datDet of dato.Subcategorias){
+            Total += datDet.Importe;             
+          }
+           
+        }
+            break; 
+          } 
+      case 'ValorAgregado': { 
+          
+        for(var dato of venAnioAnt){
+          for(var datDet of dato.Subcategorias){
+            Total += datDet.ValorAgregado;             
+          }
+           
+        }
+            break; 
+          } 
+  
+     }     
+  
+
+      Total = Number(Total.toFixed(2));
+      return Total; 
+    }
+    // #### Obten totales categoria venta año anterior ####
+
+
+    formatoMoneda(number){
+      return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
+    };
+  
+
+
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);
   }
 }

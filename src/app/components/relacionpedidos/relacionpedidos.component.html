@@ -384,7 +384,7 @@
           </div>
 
       <div id="pdfTable" #pdfTable>
-        <table class="table table-hover table-striped"   >
+        <table class="table table-hover table-striped table-responsive"   >
           <thead >
             <tr class="EncTabla" >
               <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;" >TP</th><!--Pedido codigo -->
@@ -427,8 +427,8 @@
                 </tr> -->
                 <tr *ngFor="let pedido of tipoPed.Pedidos;" (click)="openPedidoDetalle(PedidoDetalle,pedido.PedidoFolio)">
                   <!-- <td>{{idx1 + '-' + idx2 + '-' + idx3 }}</td> -->
-                  <td *ngIf="!bCliente" class="FilasFonelli text-left">{{pedido.PedidoLetra}}</td>
                   <td *ngIf="!bCliente" class="FilasFonelli text-left">{{tipoPed.TipoPedidoCodigo}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonelli text-left">{{pedido.PedidoLetra}}</td>                  
                   <td class="FilasFonelli text-left"><u>{{pedido.PedidoFolio}}</u></td>
                   <td class="FilasFonelli text-left">{{pedido.ClienteCodigo}}</td>
                   <td class="FilasFonelli text-left">{{pedido.ClienteFilial}}</td>

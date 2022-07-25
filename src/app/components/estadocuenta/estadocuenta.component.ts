@@ -18,11 +18,14 @@ import { Contenido } from 'src/app/models/clientes';
 import { Condiciones } from 'src/app/models/clientes';
 import { DatosGenerales } from 'src/app/models/clientes';
 import { Contactos } from 'src/app/models/clientes';
+import { FiltrosTipoCartera } from 'src/app/models/tipocartera.filtros';
+import { TipoCartera, Contenido as TipoCarteraCon } from 'src/app/models/tipocartera';
 
 
 //Servicios
 import { ServicioEstadoCuenta } from 'src/app/services/estadocuenta.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
+import { ServicioTiposCartera } from 'src/app/services/tiposcartera.service';
 
 import {
   NgbModal,
@@ -36,7 +39,8 @@ import {
   templateUrl: './estadocuenta.component.html',
   styleUrls: ['./estadocuenta.component.css'],
   providers:[ServicioEstadoCuenta,
-    DecimalPipe,ServicioClientes]
+    DecimalPipe,ServicioClientes,
+    ServicioTiposCartera]
 })
 export class EstadocuentaComponent implements OnInit {
 
@@ -90,6 +94,10 @@ export class EstadocuentaComponent implements OnInit {
   public oDatosGenerales : DatosGenerales;
   public oContacto : Contactos;
 
+  public oBuscaCartera: FiltrosTipoCartera;
+  public oCarteras: TipoCartera; 
+  public oCarterasCon: TipoCarteraCon[]; 
+
   public bBanderaCliente: boolean;
 
   private _mobileQueryListener: () => void;
@@ -98,17 +106,18 @@ export class EstadocuentaComponent implements OnInit {
     private _router: Router,
     private _servicioEdoCuenta: ServicioEstadoCuenta,
     private modalService: NgbModal,
-    private _servicioCClientes: ServicioClientes) { 
+    private _servicioCClientes: ServicioClientes,
+    private _servicioCartera: ServicioTiposCartera) { 
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
 
-    this.sCodigo = Number(sessionStorage.getItem('codigo'));
-    this.sTipo = sessionStorage.getItem('tipo');
-    this.sFilial  = Number(sessionStorage.getItem('filial'));
-    this.sNombre = sessionStorage.getItem('nombre');
+    this.sCodigo = Number(localStorage.getItem('codigo'));
+    this.sTipo = localStorage.getItem('tipo');
+    this.sFilial  = Number(localStorage.getItem('filial'));
+    this.sNombre = localStorage.getItem('nombre');
 
     this.bCliente = false;
     this.bBandera = false;
@@ -181,6 +190,104 @@ export class EstadocuentaComponent implements OnInit {
 
     //this.oCliente = this.json.Contenido.Clientes;
 
+    
+
+    //Consulta carteras
+    if (!localStorage.getItem('Carteras')){
+     // console.log("No tenemos carteras");
+      this._servicioCartera
+      .Get(this.oBuscaCartera)
+      .subscribe(
+        (Response: TipoCartera) =>  {
+          
+  
+          this.oCarteras = Response;  
+          console.log("Respuesta lineas: "+JSON.stringify(this.oCarteras));
+
+  
+  
+          if(this.oCarteras.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron carteras";     
+            return false;
+          }
+     
+          this.oCarterasCon = this.oCarteras.Contenido;
+          this.oBuscar.CarteraDesde = this.oCarterasCon[0].CarteraCodigo;
+          this.oBuscar.CarteraHasta = this.oCarterasCon[this.oCarterasCon.length -1].CarteraCodigo;
+          return true;
+  
+       
+        },
+        (error:TipoCartera) => {
+  
+          this.oCarteras = error;  
+          console.log("error");
+          this.sMensaje="No se encontraron carteras";   
+          console.log(this.oCarteras);
+          return false;
+       
+        }
+        
+      );
+    }else{
+      //console.log("YA tenemos carteras");
+
+      this.oCarterasCon = JSON.parse(localStorage.getItem('Carteras'));
+      this.oBuscar.CarteraDesde = this.oCarterasCon[0].CarteraCodigo;
+      this.oBuscar.CarteraHasta = this.oCarterasCon[this.oCarterasCon.length -1].CarteraCodigo;
+
+
+    }
+    
+
+    //Realizamos llamada al servicio de clientes 
+   if (!localStorage.getItem('Clientes')){
+
+    //console.log("no tenemos  Clientes");
+
+    this._servicioCClientes
+      .GetCliente(this.Buscar)
+      .subscribe(
+        (Response: Clientes) =>  {        
+
+          this.oClientes = Response;  
+          console.log("Respuesta cliente"+JSON.stringify(this.oClientes));    
+          if(this.oClientes.Codigo != 0){     
+            return false;
+          }
+    
+        
+        this.oContenido= this.oClientes.Contenido[0];
+          this.oCondiciones = this.oClientes.Contenido[0].Condiciones;
+          this.oDatosGenerales =this.oClientes.Contenido[0].DatosGenerales;
+          this.oContacto =this.oClientes.Contenido[0].Contactos;
+          return true;
+
+      
+        },
+        (error:Clientes) => {  
+          this.oClientes = error;
+          console.log(this.oCliente);
+          return false;
+      
+        }
+        
+      );
+      //console.log("Termina carga Clientes");
+
+    }else{
+      //console.log("Ya tenemos  Clientes");
+
+
+      this.oClientes = JSON.parse(localStorage.getItem('Clientes'));
+      /*this.oContenido = this.oClientes.Contenido[0];
+      this.oCondiciones = this.oClientes.Contenido[0].Condiciones;
+      this.oDatosGenerales =this.oClientes.Contenido[0].DatosGenerales;
+      this.oContacto =this.oClientes.Contenido[0].Contactos;*/
+
+    }
+
     }
 
     shouldRun = true;
@@ -191,7 +298,8 @@ export class EstadocuentaComponent implements OnInit {
 consultaEstadoCuenta(){
     console.log(this.oBuscar);
 
-    this.oBuscar.TipoUsuario = "C" 
+    this.oBuscar.TipoUsuario = this.sTipo;
+    this.oBuscar.Usuario = this.sCodigo;
     console.log(this.oBuscar);
 
     this.bCargando = true;
@@ -385,7 +493,9 @@ consultaEstadoCuenta(){
     var result;
 
     try{
-      result = this.BuscaClientes()
+      //result = this.BuscaClientes()
+      result = true;
+      
 
       if(result){
         this.ModalActivo = this.modalService.open(Clientes, {
@@ -405,7 +515,7 @@ consultaEstadoCuenta(){
         );
       }
 
-      //this.bCargandoClientes = false;
+      this.bCargandoClientes = false;
 
 
       console.log("respuesta"+result);
@@ -487,7 +597,7 @@ consultaEstadoCuenta(){
   
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);    
   }
 

@@ -36,10 +36,10 @@ export class EjecutivosComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    const sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-    const sTipo :string | null = sessionStorage.getItem('tipo');
-    const sFilial :number | null = Number(sessionStorage.getItem('filial'));
-    const sNombre :string | null = sessionStorage.getItem('nombre');
+    const sCodigo :number | null = Number(localStorage.getItem('codigo'));
+    const sTipo :string | null = localStorage.getItem('tipo');
+    const sFilial :number | null = Number(localStorage.getItem('filial'));
+    const sNombre :string | null = localStorage.getItem('nombre');
 
 
     //Se agrega validacion control de sesion distribuidores
