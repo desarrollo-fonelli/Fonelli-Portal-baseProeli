@@ -1,6 +1,6 @@
 {
     "/med_fonelli_apiportal/*":{
-        "target":"http://localhost:8080/",
+        "target":"http://localhost:81/",
         "secure":false,
         "logLevel":"debug"
     }

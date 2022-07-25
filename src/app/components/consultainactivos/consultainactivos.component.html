@@ -74,7 +74,7 @@
         <!-- <div class="container" >      -->
 
         <br>
-        <div class="form-row ">
+        <div class="form-row  ">
           <div class="form-group col-md-1">              
             <label class="CamposFonelli">Pedido:</label>
           </div>
@@ -94,7 +94,7 @@
         </div>
 
     <div id="pdfTable" #pdfTable>
-        <table  class="table table-hover table-responsive ">
+        <table  class="table table-hover table-striped ">
           <thead>
             <tr class="EncTabla">                 
               <th class="table-warning" scope="col"></th>
@@ -106,8 +106,8 @@
               <th class="table-warning" scope="col"></th>
               <th class="table-warning" scope="col" colspan="3" style="text-align:center; color: #24a4cc;">SALDO TOTAL</th>  
               <th class="table-success" scope="col" colspan="3" style="text-align:center; color: #24a4cc;">SALDO VENCIDO</th>
-              <th class="table-info" scope="col"></th>
-              <th class="table-info" scope="col"></th>
+              <th colspan="2" style="text-align:center; background-color:#24a4cc;"></th>
+
             </tr>
             <tr class="EncTabla">
             <th style="background-color: #24a4cc; color: white;" scope="col" >CLIENTE</th>
@@ -155,31 +155,66 @@
                 <td class="FilasFonelli" style="text-align:left">{{ cli.ClienteSucursal}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ cli.Lista1}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ cli.Lista2}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ cli.Plazo}}</td>
-                
-                <ng-container *ngFor="let salCartera of cli.SaldosCarteraCliente;">
-                  <td class="FilasFonelli" style="text-align:right">{{ salCartera.TipoCarteraCodigo == '1' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
-                  <td class="FilasFonelli" style="text-align:right">{{ salCartera.TipoCarteraCodigo == '2' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
-                  <td class="FilasFonelli" style="text-align:right">{{ salCartera.TipoCarteraCodigo == '6' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
-                </ng-container>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.Plazo}}</td>               
+    
+                  <td class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'1'))}}</td>
+                  <td class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'2'))}}</td>
+                  <td class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'6'))}}</td>
 
-                <ng-container *ngFor="let salVen of cli.VencidosSaldosCartera;">
-                  <td class="FilasFonelli" style="text-align:right">{{ salVen.TipoCarteraCodigo == '1' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
-                  <td class="FilasFonelli" style="text-align:right">{{ salVen.TipoCarteraCodigo == '2' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
-                  <td class="FilasFonelli" style="text-align:right">{{ salVen.TipoCarteraCodigo == '6' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td> 
-                </ng-container>
-
-                <!-- <td class="FilasFonelli" style="text-align:right" *ngFor="let salCartera of cli.SaldosCarteraCliente;">{{ salCartera.TipoCarteraCodigo == '1' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
-                <td class="FilasFonelli" style="text-align:right" *ngFor="let salCartera of cli.SaldosCarteraCliente;">{{ salCartera.TipoCarteraCodigo == '2' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td>
-                <td class="FilasFonelli" style="text-align:right" *ngFor="let salCartera of cli.SaldosCarteraCliente;">{{ salCartera.TipoCarteraCodigo == '3' ? salCartera.TotalAgenteSaldoTipoCartera : ''}}</td> -->
+                  <td class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'1'))}}</td>
+                  <td class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'2'))}}</td>
+                  <td class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'6'))}}</td> 
+       
+                <td class="FilasFonelli" style="text-align:right">{{ cli.DiasAtraso}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.PedidosActivos}}</td>
                 
-                <!-- <td class="FilasFonelli" style="text-align:right" *ngFor="let salVen of cli.VencidosCarteraCliente;">{{ salVen.TipoCarteraCodigo == '6' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
-                <td class="FilasFonelli" style="text-align:right" *ngFor="let salVen of cli.VencidosCarteraCliente;">{{ salVen.TipoCarteraCodigo == '7' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td>
-                <td class="FilasFonelli" style="text-align:right" *ngFor="let salVen of cli.VencidosCarteraCliente;">{{ salVen.TipoCarteraCodigo == '8' ? salVen.TotalAgenteVencidoTipoCartera : ''}}</td> -->
+              </tr>
+
+              <tr>     
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="FilasFonBold" style="text-align:right">Total agente</td>               
+    
+                  <td class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'1'))}}</td>
+                  <td class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'2'))}}</td>
+                  <td class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'6'))}}</td>
+
+                  <td class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'1'))}}</td>
+                  <td class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'2'))}}</td>
+                  <td class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'6'))}}</td> 
+       
+                <td></td>
+                <td></td>
                 
               </tr>
 
             </ng-container>
+
+            <tr>     
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="FilasFonBold" style="text-align:right">Total general</td>               
+  
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'1'))}}</td>
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'2'))}}</td>
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'6'))}}</td>
+
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'1'))}}</td>
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'2'))}}</td>
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'6'))}}</td> 
+     
+              <td></td>
+              <td></td>
+              
+            </tr>
             
             
           </tbody>

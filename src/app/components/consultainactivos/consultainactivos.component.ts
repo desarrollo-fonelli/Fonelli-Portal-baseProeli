@@ -23,7 +23,7 @@ import {
 
 //Modelos
 import { FiltrosClientesInactivos } from 'src/app/models/clientesinactivos.filtros';
-import { ClienteInactivo } from 'src/app/models/clientesinactivos';
+import { ClienteInactivo, SaldosCarteraCliente, VencidosSaldosCartera, Cliente, Contenido} from 'src/app/models/clientesinactivos';
 import { FiltrosAgente } from 'src/app/models/agentes.filtros';
 import { Agentes, Contenido as AgentesCon } from 'src/app/models/agentes';
 
@@ -233,6 +233,8 @@ export class ConsultainactivosComponent implements OnInit {
   //Funcion para consultar los clientes inactivos con saldo
   consultaCliInacSal() {
 
+    
+
     this.bBandera = false;
     console.log('consulta inactivos');
     this.bCargando = true;
@@ -288,7 +290,8 @@ export class ConsultainactivosComponent implements OnInit {
     var html = htmlToPdfmake(cadena);
     console.log(html);
     const documentDefinition = {
-      pageSize: 'A4',
+      pageSize: 'TABLOID',
+      pageOrientation: 'landscape',
       header: [
         {
           alignment: 'justify',
@@ -301,15 +304,15 @@ export class ConsultainactivosComponent implements OnInit {
               width: 110 
             },
             {
-              width: 380,
-              text: 'Consulta de pedidos',
+              width: 900,
+              text: 'Clientes inactivos',
               alignment: 'center',
               style: 'header',
               margin: [8,8],
               
             },
             {
-              width: 65,
+              width: 170,
               text: this.fechaHoy,
               alignment: 'right',
               margin: [2, 15],
@@ -344,6 +347,100 @@ export class ConsultainactivosComponent implements OnInit {
     };
     pdfMake.createPdf(documentDefinition).open();
   }
+
+
+  getSaldosCartera(saldos: SaldosCarteraCliente[], idCartera: string): number {
+    let Total: number = 0;
+
+    for(var sal of saldos){
+      if(sal.TipoCarteraCodigo == idCartera){
+        Total = Number(sal.TotalAgenteSaldoTipoCartera.toFixed(2));
+        
+      }
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getVencidosCartera(vencidos: VencidosSaldosCartera[], idCartera): number {
+    let Total: number = 0;
+
+    for(var ven of vencidos){
+      if(ven.TipoCarteraCodigo == idCartera){
+        Total = Number(ven.TotalAgenteVencidoTipoCartera.toFixed(2));
+        
+      }
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getTotalesAgenteSaldos(clientes: Cliente[], idCartera: string): number {
+    let Total: number = 0;
+
+    for(var cli of clientes){
+      for(var sal of cli.SaldosCarteraCliente){
+        if(sal.TipoCarteraCodigo == idCartera){        
+          Total = Total + Number(sal.TotalAgenteSaldoTipoCartera.toFixed(2));
+        }        
+      }      
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getTotalesAgenteVencidos(clientes: Cliente[], idCartera: string): number {
+    let Total: number = 0;
+
+    for(var cli of clientes){
+      for(var sal of cli.VencidosSaldosCartera){
+        if(sal.TipoCarteraCodigo == idCartera){        
+          Total = Total + Number(sal.TotalAgenteVencidoTipoCartera.toFixed(2));
+        }        
+      }      
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getTotalesGeneralSaldos(contenido: Contenido[], idCartera: string): number {
+    let Total: number = 0;
+
+    for(var con of contenido){
+      for(var cli of con.Clientes){
+        for(var sal of cli.SaldosCarteraCliente){
+          if(sal.TipoCarteraCodigo == idCartera){        
+            Total = Total + Number(sal.TotalAgenteSaldoTipoCartera.toFixed(2));
+          }  
+        }
+                
+      }      
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+  getTotalesGeneralVencidos(contenido: Contenido[], idCartera: string): number {
+    let Total: number = 0;
+
+    for(var con of contenido){
+      for(var cli of con.Clientes){
+        for(var sal of cli.VencidosSaldosCartera){
+          if(sal.TipoCarteraCodigo == idCartera){        
+            Total = Total + Number(sal.TotalAgenteVencidoTipoCartera.toFixed(2));
+          }  
+        }
+                
+      }      
+    }
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  }
+
+
+  formatoMoneda(number){
+    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
+  };
 
 
 
