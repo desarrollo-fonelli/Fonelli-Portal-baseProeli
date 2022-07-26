@@ -99,22 +99,22 @@
             </div>
   
             <div class="table-responsive">
-              <table class="table">
+              <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Titulo</th>
-                    <th>Link</th>
-                    <th>Imagen 1700x500</th>
-                    <th>Imagen movil 450x450</th>
-                    <th>Eliminar</th>
+                    <th style="background-color: #24a4cc; color: white;">#</th>
+                    <th style="background-color: #24a4cc; color: white;">Titulo</th>
+                    <th style="background-color: #24a4cc; color: white;">Link</th>
+                    <th style="background-color: #24a4cc; color: white;">Imagen 1700x500</th>
+                    <th style="background-color: #24a4cc; color: white;">Imagen movil 450x450</th>
+                    <th style="background-color: #24a4cc; color: white;">Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of BannerPrincipal; let id = index">
                     <td>{{ id + 1 }}</td>
-                    <td><input #nombre="ngModel" [(ngModel)]="row.Titulo" /></td>
-                    <td><input #Link="ngModel" [(ngModel)]="row.Link" /></td>
+                    <td><input class="form-control" #nombre="ngModel" [(ngModel)]="row.Titulo" /></td>
+                    <td><input class="form-control" #Link="ngModel" [(ngModel)]="row.Link" /></td>
                     <td>
                       <img
                         [src]="
@@ -204,11 +204,47 @@
             <h4>Gif</h4>
   
             <!-- General Form Elements -->
+
+            <!-- <form class="table-responsive">
+              
+
+                <div class="form-group col-md-3"> 
+                  <label class="CamposFonelli">Imagen 1 - 1322x880</label>  
+                  <label class="CamposFonelli">Texto superior 1</label>
+                    <input
+                    type="text"
+                    id="gif1TS"
+                    class="form-control"
+                    name="gif1TS"
+                    #gif1="ngModel"
+                    [(ngModel)]="oTemplate.Gif.TextoSuperior1"
+                  />   
+                  
+                  <label class="CamposFonelli">Texto inferior 1</label>
+                  <input
+                    type="text"
+                    id="gif1TI"
+                    class="form-control"
+                    name="gif1TI"
+                    #gif1="ngModel"
+                    [(ngModel)]="oTemplate.Gif.TextoInferior1"
+                  /> 
+
+                  
+
+                  
+                </div>
+
+                
+
+                
+
+            
+            </form> -->
   
             <div class="form-row" style="margin: 20px">
               <div class="form-group col-md-3">
-                <label class="CamposFonelli">Imagen 1 1322x880</label>
-  
+                <label class="CamposFonelli">Imagen 1 - 1322x880</label>  
                 <img
                   [src]="
                     bImagenGif1
@@ -750,22 +786,22 @@
             </div>
   
             <div class="table-responsive">
-              <table class="table">
+              <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Titulo</th>
-                    <th>Link</th>
-                    <th>Imagen 800x600</th>
-                    <th>Imagen movil 450x450</th>
-                    <th>Eliminar</th>
+                    <th style="background-color: #24a4cc; color: white;">#</th>
+                    <th style="background-color: #24a4cc; color: white;">Titulo</th>
+                    <th style="background-color: #24a4cc; color: white;">Link</th>
+                    <th style="background-color: #24a4cc; color: white;">Imagen 800x600</th>
+                    <th style="background-color: #24a4cc; color: white;">Imagen movil 450x450</th>
+                    <th style="background-color: #24a4cc; color: white;">Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of BannerDistribuidor; let id = index">
                     <td>{{ id + 1 }}</td>
-                    <td><input #nombre="ngModel" [(ngModel)]="row.Titulo" /></td>
-                    <td><input #Link="ngModel" [(ngModel)]="row.Link" /></td>
+                    <td><input class="form-control" #nombre="ngModel" [(ngModel)]="row.Titulo" /></td>
+                    <td><input class="form-control" #Link="ngModel" [(ngModel)]="row.Link" /></td>
                     <td>
                       <img
                         [src]="
@@ -866,22 +902,22 @@
             </div>
   
             <div class="table-responsive">
-              <table class="table">
+              <table class="table table-hover">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Titulo</th>
-                    <th>Link</th>
-                    <th>Imagen 800x600</th>
-                    <th>Imagen movil 450x450</th>
-                    <th>Eliminar</th>
+                    <th style="background-color: #24a4cc; color: white;">#</th>
+                    <th style="background-color: #24a4cc; color: white;">Titulo</th>
+                    <th style="background-color: #24a4cc; color: white;">Link</th>
+                    <th style="background-color: #24a4cc; color: white;">Imagen 800x600</th>
+                    <th style="background-color: #24a4cc; color: white;">Imagen movil 450x450</th>
+                    <th style="background-color: #24a4cc; color: white;">Eliminar</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let row of BannerAsesor; let id = index">
                     <td>{{ id + 1 }}</td>
-                    <td><input #nombre="ngModel" [(ngModel)]="row.Titulo" /></td>
-                    <td><input #Link="ngModel" [(ngModel)]="row.Link" /></td>
+                    <td><input class="form-control" #nombre="ngModel" [(ngModel)]="row.Titulo" /></td>
+                    <td><input class="form-control" #Link="ngModel" [(ngModel)]="row.Link" /></td>
                     <td>
                       <img
                         [src]="

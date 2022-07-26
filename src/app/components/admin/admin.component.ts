@@ -37,10 +37,10 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let sCodigo :string | null = sessionStorage.getItem('codigo');
-    let sTipo :string | null = sessionStorage.getItem('tipo');
-    let sFilial :number | null = Number(sessionStorage.getItem('filial'));
-    let sNombre :string | null = sessionStorage.getItem('nombre');
+    let sCodigo :string | null = localStorage.getItem('codigo');
+    let sTipo :string | null = localStorage.getItem('tipo');
+    let sFilial :number | null = Number(localStorage.getItem('filial'));
+    let sNombre :string | null = localStorage.getItem('nombre');
 
 
     if(sTipo=='M')
@@ -55,51 +55,63 @@ export class AdminComponent implements OnInit {
         this.snackBar.openFromComponent(mensajesesion, {
         horizontalPosition: "center",
         verticalPosition: "top",
-        duration: 2500,
+        duration: 5500,
         panelClass: ['fondo_mensaje_sesion'],
       });
+      this._router.navigate(['/']);
       return;
     }
 
   }
 
 
-  onInicioSesion()
-  {
+  onInicioSesion(){
+
+    let sCodigo :number | null = Number(localStorage.getItem('codigo'));
+    let sTipo :string | null = localStorage.getItem('tipo');
+
+
+    if(sTipo =='M')
+    {
+      console.log(1);
+      this._router.navigate(['/panel/inicio']);
+      return;
+     
+    }
+    else if(sTipo =='A' || sTipo =='G' || sTipo =='C')
+    {
+      console.log(2);
+        this.snackBar.openFromComponent(mensajesesion, {
+        horizontalPosition: "center",
+        verticalPosition: "top",
+        duration: 2500,
+        panelClass: ['fondo_mensaje_sesion'],
+      });
+      return;
+    }
 
     console.log(this.ModeloLoginAdmin);
 
     this.bCargandoInicio = true;
-
-    console.log(crypto.SHA256(this.ModeloLoginAdmin.password).toString() );
-
-    /*this._servicioLoginAdmin.Login(this.ModeloLoginAdmin).subscribe(
+    
+    this._servicioLoginAdmin
+      .Login(this.ModeloLoginAdmin)
+      .subscribe(
       (Response) => {
     
-        console.log('Respuesta login empleados: ' + JSON.stringify(Response));
-
-       
+        console.log('Respuesta login empleados: ' + JSON.stringify(Response));       
       
             if (Response.Codigo == 1) {
               this.alerLoginAdmin = true;
               this.respuestaLoginAdmin ="Datos incorrectos!";
-
-
-            }else{
-              */
+            }else{              
               console.log("Login correcto");
-          
-           
-             this.saveData(this.ModeloLoginAdmin.usuario,'M');  
-                      
-
-              
-              
+              this.saveData(this.ModeloLoginAdmin.usuario,'M');             
               this._router.navigate(['/panel/inicio']);
-           // }
+            }
 
         this.bCargandoInicio = false;
-    /*  },
+      },
       (error) => {
         this.alerLoginAdmin = true;
         this.respuestaLoginAdmin= error.error[Object.keys(error.error)[1]]
@@ -107,15 +119,15 @@ export class AdminComponent implements OnInit {
         : error.message;
         this.bCargandoInicio = false;
       }
-    );*/
+    );
 
   }
 
 
   saveData(usuario: string, tipo:string) {
 
-    sessionStorage.setItem('codigo', usuario);
-    sessionStorage.setItem('tipo', tipo);
+    localStorage.setItem('codigo', usuario);
+    localStorage.setItem('tipo', tipo);
     
   }
 

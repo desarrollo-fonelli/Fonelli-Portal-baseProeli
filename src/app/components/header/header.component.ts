@@ -128,7 +128,7 @@ export class HeaderComponent implements OnInit {
         return;
        
       }
-      else if(sTipo =='A' || sTipo =='G')
+      else if(sTipo =='A' || sTipo =='G' || sTipo =='M')
       {
           this.snackBar.openFromComponent(mensajesesion, {
           horizontalPosition: "center",
@@ -277,7 +277,7 @@ export class HeaderComponent implements OnInit {
       return;
      
     }
-    else if(sTipo =='C')
+    else if(sTipo =='C' || sTipo =='M')
     {
       console.log(2);
         this.snackBar.openFromComponent(mensajesesionasesores, {
@@ -435,7 +435,7 @@ export class HeaderComponent implements OnInit {
 @Component({
   selector: 'mensaje-sesion-component',
   template: `<span class="mensaje-sesion-style">
-  Para iniciar sesión como distribuidor primero cierre la sesión de asesor
+  Para iniciar sesión como distribuidor primero cierre la sesión activa
 </span>
 `,
   styles: [
@@ -453,7 +453,7 @@ export class mensajesesion {}
 @Component({
   selector: 'mensaje-sesion-component',
   template: `<span class="mensaje-sesion-style">
-  Para iniciar sesión como asesor primero cierre la sesión de distribuidor
+  Para iniciar sesión como asesor primero cierre la sesión activa
 </span>
 `,
   styles: [
