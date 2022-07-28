@@ -27,7 +27,7 @@ import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
 import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
 import { ConsultaPedido, Pedido } from 'src/app/models/consultapedidos';
 import { DetallePedido, PedidoArticulo } from 'src/app/models/detallepedido';
-import {FiltrosClientes} from 'src/app/models/clientes.filtros';
+import { FiltrosClientes} from 'src/app/models/clientes.filtros';
 import { Clientes } from 'src/app/models/clientes';
 import { Contenido } from 'src/app/models/clientes';
 import { Condiciones } from 'src/app/models/clientes';
@@ -352,7 +352,7 @@ export class ConsultapedidosComponent implements OnInit {
 
     this.ModalActivo = this.modalService.open(PedidoDetalle, {
       ariaLabelledBy: 'PedidoDetalle',
-      size: 'lg',
+      size: 'xl',
       scrollable: true
       
     });
@@ -574,6 +574,51 @@ export class ConsultapedidosComponent implements OnInit {
     }
     return nombre;
   }
+
+  getTotalPedido(oDetallePed: PedidoArticulo[], idCol: string): number {   
+    let Total: number = 0;
+
+    switch(idCol) {        
+      case 'CantidadPedida': { 
+   
+        for(var detPed of oDetallePed){ 
+          Total += detPed.CantidadPedida;    
+        }
+        break; 
+      } 
+      case 'CantidadPedidoProduccion': { 
+   
+        for(var detPed of oDetallePed){ 
+          Total += detPed.CantidadPedidoProduccion;    
+        }
+        break; 
+      } 
+      case 'CantidadProducida': { 
+   
+        for(var detPed of oDetallePed){ 
+          Total += detPed.CantidadProducida;    
+        }
+        break; 
+      } 
+      case 'CantidadSurtida': { 
+   
+        for(var detPed of oDetallePed){ 
+          Total += detPed.CantidadSurtida;    
+        }
+        break; 
+      } 
+      case 'DiferenciaProducido': { 
+   
+        for(var detPed of oDetallePed){ 
+          Total += detPed.DiferenciaProducido;    
+        }
+        break; 
+      } 
+    }   
+   
+    Total = Number(Total.toFixed(2));
+    return Total; 
+   }
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

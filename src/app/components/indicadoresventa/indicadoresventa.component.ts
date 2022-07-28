@@ -338,6 +338,77 @@ export class IndicadoresventaComponent implements OnInit {
       Total = Number(Total.toFixed(2));
       return Total; 
     }
+     // #### Obten totales por SubCategoria ####
+
+
+     // #### Obten totales clientes inactivos ####
+     getTotalesCientesInactivos(indVen: IndicadoresVenta, sValor: string): number {   
+      let Total: number = 0;  
+
+      switch(sValor) {        
+        case 'InactivosActual': { 
+ 		
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ClientesInactivos.InactivosActual;             
+             }
+               break; 
+             } 
+      case 'LimiteInferior': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ClientesInactivos.LimiteInferior;             
+             }
+               break; 
+             } 
+      case 'DiferenciaLimiteInferior': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ClientesInactivos.DiferenciaLimiteInferior;             
+             }
+               break; 
+             } 
+      case 'Minimo': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ClientesInactivos.Minimo;             
+             }
+               break; 
+             } 
+      case 'DiferenciaMinimo': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ClientesInactivos.DiferenciaMinimo;             
+             }
+               break; 
+             } 
+      case 'Meta': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ClientesInactivos.Meta;             
+             }
+               break; 
+             } 
+      case 'DiferenciaMeta': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ClientesInactivos.DiferenciaMeta;             
+             }
+               break; 
+             } 
+      case 'TotalClientes': { 
+          
+          for(var detCon of indVen.Contenido){
+               Total += detCon.ClientesInactivos.TotalClientes;             
+             }
+               break; 
+             } 
+  
+     }     
+  
+
+      Total = Number(Total.toFixed(2));
+      return Total; 
+    }
 
   //Generacion de PDF
   downloadAsPDF() {

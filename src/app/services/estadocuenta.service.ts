@@ -12,6 +12,7 @@ import { Usuario } from '../models/usuario';
 export class ServicioEstadoCuenta{
     public API: string;
     public API_URL: string;
+    public sFiltros: string;
 
 constructor(
     public _http:HttpClient
@@ -19,6 +20,7 @@ constructor(
 
     this.API = Configuracion.API;
     this.API_URL = environment.API_URL;
+    this.sFiltros = '';
 
 }
 
@@ -33,19 +35,27 @@ Get(FiltrosEstadoCuenta: any): Observable<any>{
                                     . set("Access-Control-Allow-Methods", "GET")
                                     .set("Access-Control-Allow-Credentials", "true");
 
+                                    this.sFiltros='';
+                        
+                        //Obligatorios
+                        this.sFiltros += 'TipoUsuario=' + FiltrosEstadoCuenta.TipoUsuario;
+
+                        if(FiltrosEstadoCuenta.Usuario)
+                        {
+                            this.sFiltros += '&Usuario=' + FiltrosEstadoCuenta.Usuario;
+                        }
+
+                        //Obligatorios
+                        this.sFiltros += '&ClienteDesde=' + FiltrosEstadoCuenta.ClienteDesde;
+                        this.sFiltros += '&FilialDesde=' + FiltrosEstadoCuenta.FilialDesde;
+                        this.sFiltros += '&ClienteHasta=' + FiltrosEstadoCuenta.ClienteHasta;
+                        this.sFiltros += '&FilialHasta=' + FiltrosEstadoCuenta.FilialHasta;
+                        this.sFiltros += '&CarteraDesde=' + FiltrosEstadoCuenta.CarteraDesde;
+                        this.sFiltros += '&CarteraHasta=' + FiltrosEstadoCuenta.CarteraHasta;
+
+                        return this._http.get(this.API_URL+this.API + 'reportes/EstadoCuenta.php?'+this.sFiltros,{headers:headers});
 
 
-    return this._http.get(this.API_URL+this.API + 'reportes/EstadoCuenta.php?'+
-                        'TipoUsuario=' + FiltrosEstadoCuenta.TipoUsuario +                        
-                        '&Usuario=' + FiltrosEstadoCuenta.Usuario +
-                        '&ClienteDesde=' + FiltrosEstadoCuenta.ClienteDesde +
-                        '&FilialDesde=' + FiltrosEstadoCuenta.FilialDesde +
-                        '&ClienteHasta=' + FiltrosEstadoCuenta.ClienteHasta +
-                        '&FilialHasta=' + FiltrosEstadoCuenta.FilialHasta +
-                        '&CarteraDesde=' + FiltrosEstadoCuenta.CarteraDesde +
-                        '&CarteraHasta=' + FiltrosEstadoCuenta.CarteraHasta 
-                        //'&Pagina=' + FiltrosEstadoCuenta.Pagina
-                          ,{headers:headers});
 }
 
 

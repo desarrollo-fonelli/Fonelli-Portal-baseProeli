@@ -143,6 +143,24 @@
                     </div>
 
                     <div class="form-group col-md-3">
+                      <label class="CamposFonelli">Desde subCategoria</label>
+                      <select 
+                      class="form-select" 
+                      name="idSucaDes"
+                      #nombre="ngModel"
+                      [(ngModel)]="oBuscar.SubcategoDesde"                          
+                      required
+                    >
+                      <ng-container *ngFor='let dato of oSubCatDesde;' >
+                        <option value="{{dato.Subcategoria}}">
+                          {{dato.CategoriaCodigo+dato.Subcategoria}} - {{dato.CategoriaDescripc}}
+                        </option>
+                      </ng-container>
+
+                    </select>
+                  </div>
+
+                    <div class="form-group col-md-3">
                       <label class="CamposFonelli">Hasta categoria</label>
                       <select 
                         class="form-select" 
@@ -161,24 +179,7 @@
                       </select>
                      
                     </div>
-
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Desde subCategoria</label>
-                      <select 
-                      class="form-select" 
-                      name="idSucaDes"
-                      #nombre="ngModel"
-                      [(ngModel)]="oBuscar.SubcategoDesde"                          
-                      required
-                    >
-                      <ng-container *ngFor='let dato of oSubCatDesde;' >
-                        <option value="{{dato.CategoriaCodigo}}">
-                          {{dato.CategoriaCodigo}} - {{dato.CategoriaDescripc}}
-                        </option>
-                      </ng-container>
-
-                    </select>
-                  </div>
+                   
 
                   <div class="form-group col-md-3">
                     <label class="CamposFonelli">Hasta subCategoria</label>
@@ -190,8 +191,8 @@
                       required
                     >
                       <ng-container *ngFor='let dato of oSubCatHasta;' >
-                        <option value="{{dato.CategoriaCodigo}}">
-                          {{dato.CategoriaCodigo}} - {{dato.CategoriaDescripc}}
+                        <option value="{{dato.Subcategoria}}">
+                          {{dato.CategoriaCodigo+dato.Subcategoria}} - {{dato.CategoriaDescripc}}
                         </option>
                       </ng-container>
                                               
@@ -459,7 +460,7 @@
 
                         </ng-container> 
 
-                        <tr *ngIf="oBuscar.Presentacion == 'D'">  
+                        <tr *ngIf="!bFiltrResumido" >  
                           <td class="FilasFonelli"></td>
                           <td class="FilasFonelli"></td>
                           <td class="FilasFonelli" style="text-align: right;">Total Línea</td>
@@ -470,7 +471,7 @@
                           <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
                         </tr> 
 
-                        <tr *ngIf="oBuscar.Presentacion == 'R'">  
+                        <tr *ngIf="bFiltrResumido">  
                           <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
                           <td class="FilasFonelli">{{linPro.LineaDescripc}}</td>
                           <td class="FilasFonelli">{{linPro.ColeccionDescripc}}</td>
@@ -502,7 +503,7 @@
                       <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
                       <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasxCategoria(venArt.Subcategorias))}}</td>
                       <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasPorxCategoria(venArt.Subcategorias))}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(formatoNumero(getTotalGramosxCategoria(venArt.Subcategorias)))}}</td>
+                      <td class="FilasFonBold" style="text-align: right;"></td>
                       <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(formatoNumero(getTotalGramosPorxCategoria(venArt.Subcategorias)))}}</td>
                       <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxCategoria(venArt.Subcategorias))}}</td>
                     </tr>  
@@ -517,7 +518,7 @@
                   <td class="FilasFonelli" style="text-align: right;">Total Cliente</td>
                   <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasxCliente(oVentasArticuloRes.Contenido))}}</td>
                   <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasPorxCliente(oVentasArticuloRes.Contenido))}}</td>
-                  <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(formatoNumero(getTotalGramosxCliente(oVentasArticuloRes.Contenido)))}}</td>
+                  <td class="FilasFonBold" style="text-align: right;"></td>
                   <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(formatoNumero(getTotalGramosPorxCliente(oVentasArticuloRes.Contenido)))}}</td>
                   <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxCliente(oVentasArticuloRes.Contenido))}}</td>
                 </tr> 
@@ -637,9 +638,10 @@
                     <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
                     <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasxCategoria(cat.Subcategorias))}}</td>
                     <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasPorxCategoria(cat.Subcategorias))}}</td>
-                    <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosxCategoria(cat.Subcategorias))}}</td>
+                    <td class="FilasFonBold" style="text-align: right;"></td>
                     <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosPorxCategoria(cat.Subcategorias))}}</td>
-                    <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxCategoria(cat.Subcategorias))}}</td>
+                    <td class=
+                    "FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxCategoria(cat.Subcategorias))}}</td>
                   </tr>                    
 
                 </ng-container>
@@ -653,10 +655,10 @@
                 <td></td>
                 <td></td>
                 <td></td>      
-                <td class="FilasFonelli" style="text-align: right;">Total Cliente</td>
+                <td class="FilasFonelli" style="text-align: right;">Total General</td>
                 <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasxCliente(oVentasArticuloPzasImpRes.Contenido))}}</td>
                 <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasPorxCliente(oVentasArticuloPzasImpRes.Contenido))}}</td>
-                <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosxCliente(oVentasArticuloPzasImpRes.Contenido))}}</td>
+                <td class="FilasFonBold" style="text-align: right;"></td>
                 <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosPorxCliente(oVentasArticuloPzasImpRes.Contenido))}}</td>
                 <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxCliente(oVentasArticuloPzasImpRes.Contenido))}}</td>
               </tr> 

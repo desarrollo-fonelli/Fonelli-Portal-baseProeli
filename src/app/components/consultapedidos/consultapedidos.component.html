@@ -216,7 +216,7 @@
                         <tr class="EncTabla">
                           <th>#</th>
                           <th scope="col" style="text-align:left">LN</th>
-                          <th scope="col" style="text-align:left">CLAVE</th>
+                          <th scope="col" style="text-align:left"><div class="size">CLAVE</div></th>
                           <th scope="col" style="text-align:left">S</th>
                           <th scope="col" style="text-align:left">CAT</th>
                           <th scope="col" style="text-align:left">SCAT</th>
@@ -289,6 +289,16 @@
                             <td class="FilasFonelli" style="text-align:right">{{ pedDet.MedidaEspecial}}</td>
                             <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadMedidaEspecial}}</td>            
                           </tr>
+                          <tr>
+                            <th></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                                                      
+                            <td class="FilasFonelli" style="text-align:right; color: #183e6f;">Totales</td>
+                            <td class="FilasFonelli" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadPedida')}}</td>                            
+                          </tr>
                         </tbody>
                       </table>
 
@@ -297,7 +307,7 @@
                         <tr  class="EncTabla">
                           <th scope="col" style="text-align:left">#</th>
                           <th scope="col" style="text-align:left">LN</th>
-                          <th scope="col" style="text-align:left">CLAVE</th>
+                          <th scope="col" style="text-align:left"><div class="size">CLAVE</div></th>
                           <th scope="col" style="text-align:left">S</th>
                           <th scope="col" style="text-align:left">CAT</th>
                           <th scope="col" style="text-align:left">SCAT</th>
@@ -323,6 +333,19 @@
                             <td class="FilasFonelli" style="text-align:right">{{ pedDet.CantidadSurtida}}</td>
                             <td class="FilasFonelli" style="text-align:right">{{ pedDet.DiferenciaProducido}}</td>
                             <td class="FilasFonelli" style="text-align:left">{{ pedDet.FechaProduccionArticulo}}</td>                                       
+                          </tr>
+                          <tr>
+                            <th></th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>                                                      
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">Totales</td>
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadPedidoProduccion')}}</td>                            
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadProducida')}}</td>                            
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadSurtida')}}</td>                            
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'DiferenciaProducido')}}</td>                            
                           </tr>
                         </tbody>
                       </table>

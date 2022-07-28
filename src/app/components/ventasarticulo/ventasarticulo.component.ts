@@ -40,6 +40,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 
+
 @Component({
   selector: 'app-ventasarticulo',
   templateUrl: './ventasarticulo.component.html',
@@ -310,6 +311,13 @@ export class VentasarticuloComponent implements OnInit {
                 this.oCategoriasCon = this.oCategoriasRes.Contenido;
                 this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
                 this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
+
+                this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');          
+                this.oBuscar.SubcategoDesde = this.oSubCatDesde[0].Subcategoria;
+      
+                this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');     
+                this.oBuscar.SubcategoHasta = this.oSubCatHasta[this.oSubCatHasta.length - 1].Subcategoria;
+
                 this.sMensaje="";
       
               },
@@ -331,6 +339,13 @@ export class VentasarticuloComponent implements OnInit {
             this.oCategoriasCon = this.oCategoriasRes.Contenido;
             this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
             this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
+
+            this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');          
+            this.oBuscar.SubcategoDesde = this.oSubCatDesde[0].Subcategoria;
+   
+            this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');     
+            this.oBuscar.SubcategoHasta = this.oSubCatHasta[this.oSubCatHasta.length - 1].Subcategoria;
+     
           }
 
           
@@ -347,6 +362,7 @@ export class VentasarticuloComponent implements OnInit {
     this.oBuscar.TipoUsuario = this.sTipo
     this.oBuscar.Usuario = this.sCodigo
     this.bCargando = true;
+    this.bBandera = false;
 
     if(this.oBuscar.OrdenReporte == 'C'){//Ventas por articulo CATEGORIA
 
@@ -827,9 +843,9 @@ downloadAsPDF() {
     console.log(sCategoria); // Aquí iría tu lógica al momento de seleccionar algo  
 
     if (bCategoria){//Es categoria desde
-      this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria);
+      this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria && x.Subcategoria !='') ;
     }else{//Es categoria hasta
-      this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria);
+      this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria && x.Subcategoria !='');
     }      
     console.log("Resultado del segundo = "+JSON.stringify(bCategoria ? this.oSubCatDesde : this.oSubCatHasta));
   }

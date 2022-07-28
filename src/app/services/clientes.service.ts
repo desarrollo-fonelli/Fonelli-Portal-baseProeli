@@ -42,11 +42,19 @@ GetCliente(FiltrosClientes: any): Observable<any>{
                                   .set("Access-Control-Allow-Credentials", "true");
 
     console.log(FiltrosClientes);
-    this.sFiltros = '';
-    
+    this.sFiltros = '';   
 
-                                  this.sFiltros += 'TipoUsuario=' + FiltrosClientes.TipoUsuario;
-                                  this.sFiltros +='&Usuario=' + FiltrosClientes.Usuario;
+
+
+    if(FiltrosClientes.TipoUsuario)
+    {
+        this.sFiltros += 'TipoUsuario=' + FiltrosClientes.TipoUsuario;
+    }
+    
+    if(FiltrosClientes.Usuario)
+    {
+        this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario;
+    }
 
 
     if(FiltrosClientes.ClienteCodigo)

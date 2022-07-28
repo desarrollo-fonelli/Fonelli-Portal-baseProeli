@@ -46,6 +46,10 @@
                   
 
                 </div>
+
+                <div *ngIf="sMensaje">
+                  <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+                </div>
                 
 
                 <button type="submit" (click)="consultaCliente()" class="btnFonelli btn">

@@ -176,8 +176,8 @@
                         required0
                       >
                       <ng-container *ngFor='let dato of oSubCatDesde;' >
-                        <option value="{{dato.CategoriaCodigo}}">
-                          {{dato.CategoriaCodigo}} - {{dato.CategoriaDescripc}}
+                        <option value="{{dato.Subcategoria}}">
+                          {{dato.CategoriaCodigo+dato.Subcategoria}} - {{dato.CategoriaDescripc}}
                         </option>
                       </ng-container>
 
@@ -213,8 +213,8 @@
                       required
                     >
                       <ng-container *ngFor='let dato of oSubCatHasta;' >
-                        <option value="{{dato.CategoriaCodigo}}">
-                          {{dato.CategoriaCodigo}} - {{dato.CategoriaDescripc}}
+                        <option value="{{dato.Subcategoria}}">
+                          {{dato.CategoriaCodigo+dato.Subcategoria}} - {{dato.CategoriaDescripc}}
                         </option>
                       </ng-container>
                                               

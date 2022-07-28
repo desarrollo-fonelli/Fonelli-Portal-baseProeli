@@ -111,7 +111,7 @@ export class DatosclientesComponent implements OnInit {
                 this.sFilial  = Number(localStorage.getItem('filial'));
                 this.sNombre = localStorage.getItem('nombre');
             
-
+               
               }
 
   ngOnInit(): void {
@@ -137,15 +137,19 @@ export class DatosclientesComponent implements OnInit {
       } 
       case 'A': { 
          //Agente; 
-         this.bCliente=false;    
+         this.bCliente=false;  
+         this.oBuscar.Usuario = this.sCodigo;  
          break; 
       } 
       default: { 
          //Gerente; 
          this.bCliente=false;
+         this.oBuscar.Usuario = this.sCodigo;
          break; 
       } 
    } 
+
+   this.oBuscar.TipoUsuario= this.sTipo;
 
    //Realizamos llamada al servicio de clientes 
    if (!localStorage.getItem('Clientes')){
@@ -206,8 +210,7 @@ console.log("-------------"+JSON.stringify(this.oClienteModal));
 
 
 
-    this.oBuscar.Pagina=1;
-    this.oBuscar.Usuario= -1;
+
     this.bCargando = true;
 
 

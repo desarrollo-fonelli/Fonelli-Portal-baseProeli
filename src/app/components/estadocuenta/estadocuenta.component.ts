@@ -155,19 +155,36 @@ export class EstadocuentaComponent implements OnInit {
 
       switch(this.sTipo) { 
         case 'C':{    
+          console.log("Entra a log");
           //Tipo cliente
            this.oBuscar.ClienteDesde = this.sCodigo; 
            this.oBuscar.ClienteHasta = this.sCodigo;   
-           this.oBuscar.CarteraHasta= 'Z';   
+           this.oBuscar.FilialDesde = this.sFilial; 
+           this.oBuscar.FilialHasta = this.sFilial;   
+           //this.oBuscar.CarteraHasta= 'Z';   
            this.bCliente = true;    
            break; 
         } 
         case 'A': { 
            //statements; 
+            this.Buscar.Usuario = this.sCodigo;
+            this.oBuscar.ClienteHasta = 999999;
+            this.oBuscar.FilialHasta = 999;
+
+            //Criterios para busqueda de clientes
+            this.Buscar.TipoUsuario = this.sTipo;    
+            this.Buscar.Usuario = this.sCodigo;   
            break; 
         } 
         default: { 
            //statements; 
+           this.Buscar.Usuario = this.sCodigo;
+           this.oBuscar.ClienteHasta = 999999;
+           this.oBuscar.FilialHasta = 999;
+
+           //Criterios para busqueda de clientes
+           this.Buscar.TipoUsuario = this.sTipo;    
+           this.Buscar.Usuario = this.sCodigo;  
            break; 
         } 
       } 
@@ -182,14 +199,8 @@ export class EstadocuentaComponent implements OnInit {
 
     this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());  
     
-    this.Buscar.TipoUsuario = this.sTipo;
-    this.Buscar.Usuario = this.sCodigo;
-    this.oBuscar.ClienteHasta = 999999;
-    this.oBuscar.FilialHasta = 999;
-    // this.oCliente = this.json.Contenido.Clientes;
-
-    //this.oCliente = this.json.Contenido.Clientes;
-
+    this.oBuscar.TipoUsuario = this.sTipo;
+     
     
 
     //Consulta carteras
@@ -298,9 +309,6 @@ export class EstadocuentaComponent implements OnInit {
 consultaEstadoCuenta(){
     console.log(this.oBuscar);
 
-    this.oBuscar.TipoUsuario = this.sTipo;
-    this.oBuscar.Usuario = this.sCodigo;
-    console.log(this.oBuscar);
 
     this.bCargando = true;
 

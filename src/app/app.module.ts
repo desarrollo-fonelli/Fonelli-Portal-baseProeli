@@ -46,6 +46,7 @@ import { SearchConsultaPedidoPipe } from './pipes/consultapedidos.pipe';
 import { SearchRelacionPedidosPipe } from './pipes/relacionpedidos.pipe';
 import { SearchVentasClienteArticuloPipe } from './pipes/ventasclientearticulo.pipe';
 import { SearchConsultaClientePipe } from './pipes/consultaBusquedaCliente.pipe';
+import { SearchConsultaClientesInacPipe } from './pipes/consultaClientesInactivos.pipe';
 import { PdfComponent } from './components/pdf/pdf.component';
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
 
@@ -86,7 +87,8 @@ import { InicioadminComponent } from './components/inicioadmin/inicioadmin.compo
     AdminComponent,
     PaneladminComponent,
     TemplateComponent,
-    InicioadminComponent
+    InicioadminComponent,
+    SearchConsultaClientesInacPipe
   ],
   imports: [
     BrowserModule,

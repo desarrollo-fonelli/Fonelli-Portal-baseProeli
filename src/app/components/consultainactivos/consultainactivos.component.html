@@ -76,7 +76,7 @@
         <br>
         <div class="form-row  ">
           <div class="form-group col-md-1">              
-            <label class="CamposFonelli">Pedido:</label>
+            <label class="CamposFonelli">Buscar:</label>
           </div>
           <div class="form-group col-md-5">              
             <input
@@ -93,7 +93,7 @@
               </div> 
         </div>
 
-    <div id="pdfTable" #pdfTable>
+    <div class="anyClass" id="pdfTable" #pdfTable>
         <table  class="table table-hover table-striped ">
           <thead>
             <tr class="EncTabla">                 
@@ -147,7 +147,7 @@
                 <td></td>
               </tr>
 
-              <tr *ngFor="let cli of con.Clientes;" >
+              <tr *ngFor="let cli of con.Clientes | searchconsultaCliInac: searchtext; index as i" >
      
                 <td class="FilasFonelli" style="text-align:left">{{ cli.ClienteCodigo}}</td>
                 <td class="FilasFonelli"> {{cli.ClienteFilial}} </td>                

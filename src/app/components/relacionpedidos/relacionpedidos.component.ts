@@ -64,6 +64,7 @@ export class RelacionpedidosComponent implements OnInit {
 
   public bError: boolean=false;
   public sMensaje: string="";
+  public sMensajeModal: string="";
   public bCliente: boolean;
   bBandera: boolean;
   bBanderaDet = false;
@@ -189,12 +190,14 @@ export class RelacionpedidosComponent implements OnInit {
            this.bCliente = false;  
            this.oBuscar.ClienteHasta = 999999;
            this.oBuscar.FilialHasta = 999;
+           this.oBuscar.Usuario = this.sCodigo;
            break; 
         } 
         default: { 
            //Gerente; 
            this.oBuscar.ClienteHasta = 999999;
            this.oBuscar.FilialHasta = 999;
+           this.oBuscar.Usuario = this.sCodigo;
            this.bCliente = false;  
            break; 
         } 
@@ -208,7 +211,7 @@ export class RelacionpedidosComponent implements OnInit {
     this.oBuscar.FechaPedidoHasta = fechaAyer;
     this.oBuscar.FechaCancelacDesde = '2000-01-01';
     this.oBuscar.FechaCancelacHasta = fechaActual;
- 
+    this.oBuscar.TipoUsuario = this.sTipo;
 
     this.Buscar.TipoUsuario = this.sTipo;
     this.Buscar.Usuario = this.sCodigo;
@@ -313,7 +316,7 @@ export class RelacionpedidosComponent implements OnInit {
 //Funcion para consultar la relacion de pedidos
 consultaRelPed(){
 
-  this.oBuscar.TipoUsuario = this.sTipo? this.sTipo : 'C';
+  //this.oBuscar.TipoUsuario = this.sTipo? this.sTipo : 'C';
   console.log(this.oBuscar);
   this.bCargando = true;
 
@@ -797,7 +800,7 @@ getTotalPedidos(Pedido: Pedido[]): number {
   
   this.ModalActivo = this.modalService.open(PedidoDetalle, {
     ariaLabelledBy: 'PedidoDetalle',
-    size: 'lg',
+    size: 'xl',
     scrollable: true
   });
 
@@ -830,13 +833,13 @@ consultaPedidoDetalle(folio: String){
 
   //Inicializamos datos de encabezado requeridos para consultar detalle
   this.oBuscaDetalle.TipoUsuario= this.oBuscar.TipoUsuario;
-  this.oBuscaDetalle.ClienteCodigo= this.sCodigo;
+  this.oBuscaDetalle.ClienteCodigo= this.oBuscar.ClienteDesde;
   this.oBuscaDetalle.ClienteFilial= this.sFilial;
   this.oBuscaDetalle.PedidoFolio= Number(folio); 
   this.oBuscaDetalle.PedidoLetra= 'C';
   this.oBuscaDetalle.Usuario= this.sCodigo;
 
-  console.log(this.oBuscaDetalle);
+  console.log("----------"+this.oBuscaDetalle);
 
   //Realizamos llamada al servicio de pedidos
   this._servicioCPedidosDet    
@@ -845,6 +848,16 @@ consultaPedidoDetalle(folio: String){
     (Response: DetallePedido) => {
 
       this.oPedidoDetalleRes = Response;
+      
+      if(this.oPedidoDetalleRes.Codigo != 0){
+        console.log(1);
+        this.bError= true;
+        this.sMensajeModal="No se encontro detalle de pedido";        
+        this.bBanderaDet = false;  
+        return;
+      }
+
+      
       this.pedidoDet = this.oPedidoDetalleRes.Contenido.PedidoArticulos
              
 
@@ -853,13 +866,9 @@ consultaPedidoDetalle(folio: String){
       console.log("Detalle pedido : " +JSON.stringify(this.pedidoDet)); 
    
 
-      if(this.oPedidoDetalleRes.Codigo != 0){
-        this.bError= true;
-        this.sMensaje="No se encontro detalle de pedido";        
-        this.bBanderaDet = false;  
-        return;
-      }
+      
 
+      
       this.bBanderaDet = true;
       this.sMensaje="";
       //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos

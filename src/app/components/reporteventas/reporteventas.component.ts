@@ -207,6 +207,8 @@ export class ReporteventasComponent implements OnInit {
       this.oBuscar.ClienteHasta = 999999;
       this.oBuscar.FilialHasta = 999;
       this.oBuscar.TipoUsuario = this.sTipo;
+      this.oBuscar.TipoClienteDesde = 'AA';
+      this.oBuscar.TipoClienteHasta = 'ZZ';
 
       /*this.oBuscar.TipoClienteDesde = 'GF';
       this.oBuscar.TipoClienteHasta = 'PR';
@@ -240,6 +242,11 @@ export class ReporteventasComponent implements OnInit {
               this.oCategoriasCon = this.oCategoriasRes.Contenido;
               this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
               this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
+              this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');          
+              this.oBuscar.SubcategoDesde = this.oSubCatDesde[0].Subcategoria;
+      
+              this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');     
+              this.oBuscar.SubcategoHasta = this.oSubCatHasta[this.oSubCatHasta.length - 1].Subcategoria;
               this.sMensaje="";
     
             },
@@ -261,6 +268,12 @@ export class ReporteventasComponent implements OnInit {
           this.oCategoriasCon = this.oCategoriasRes.Contenido;
           this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
           this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
+          
+          this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');          
+          this.oBuscar.SubcategoDesde = this.oSubCatDesde[0].Subcategoria;
+      
+          this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');     
+          this.oBuscar.SubcategoHasta = this.oSubCatHasta[this.oSubCatHasta.length - 1].Subcategoria;
         }
 
 
@@ -892,9 +905,9 @@ downloadAsPDF() {
     console.log(sCategoria, bCategoria); // Aquí iría tu lógica al momento de seleccionar algo  
 
     if (bCategoria){//Es categoria desde
-      this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria);
+      this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria && x.Subcategoria !='');
     }else{//Es categoria hasta
-      this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria);
+      this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria && x.Subcategoria !='');
     }      
     console.log("Resultado del segundo = "+JSON.stringify(bCategoria ? this.oSubCatDesde : this.oSubCatHasta));
   }

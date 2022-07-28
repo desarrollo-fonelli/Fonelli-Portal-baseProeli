@@ -854,3 +854,8 @@ h2.TituloFonelli {
 .size{
   width:100px;
 }
+
+.anyClass {
+  height:350px;
+  overflow-y: scroll;
+}
