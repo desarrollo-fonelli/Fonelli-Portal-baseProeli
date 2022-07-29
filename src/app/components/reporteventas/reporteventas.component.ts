@@ -43,6 +43,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 
 
+
 @Component({
   selector: 'app-reporteventas',
   templateUrl: './reporteventas.component.html',
@@ -577,12 +578,14 @@ export class ReporteventasComponent implements OnInit {
     } 
  
  }    
-  
-  
+
     Total = Number(Total.toFixed(2));
     return Total; 
   }
-// #### Obten totales por Cliente ####
+  // #### Obten totales por Cliente ####
+
+   
+
 
 
   // #### Obten totales por Cliente ####
@@ -700,10 +703,10 @@ export class ReporteventasComponent implements OnInit {
       } 
    
    }    
-    
-    
-      Total = Number(Total.toFixed(2));
-      return Total; 
+  
+
+    Total = Number(Total.toFixed(2));
+    return Total; 
     }
 
 

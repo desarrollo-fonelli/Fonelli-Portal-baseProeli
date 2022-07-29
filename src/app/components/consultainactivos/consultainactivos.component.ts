@@ -265,6 +265,9 @@ export class ConsultainactivosComponent implements OnInit {
     this.bBanCtaDocORO_VEN = false;
     this.bBanCtaDocDLLS_VEN = false;
 
+    this.sColSaldo = '1';
+    this.sColVencido = '1';
+
     this.bBandera = false;
     console.log('consulta inactivos');
     this.bCargando = true;
@@ -295,62 +298,67 @@ export class ConsultainactivosComponent implements OnInit {
             for(var saldos of cli.SaldosCarteraCliente ){
               if(saldos.TipoCarteraCodigo == '1' && !this.bBanCtaCorrMN_SAL){
                 this.bBanCtaCorrMN_SAL = true;
-                this.sColSaldo = '0';
+                Number(this.sColSaldo) < 0 ? this.sColSaldo = '0' : this.sColSaldo = this.sColSaldo;
               }
               if(saldos.TipoCarteraCodigo == '2' && !this.bBanCtaCorrORO_SAL){
                 this.bBanCtaCorrORO_SAL = true;
-                this.sColSaldo = '1';
+                Number(this.sColSaldo) < 1 ? this.sColSaldo = '1' : this.sColSaldo = this.sColSaldo; 
               }
               if(saldos.TipoCarteraCodigo == '3' && !this.bBanCtaCorrDLLS_SAL){
                 this.bBanCtaCorrDLLS_SAL = true;
-                this.sColSaldo = '2';
+                Number(this.sColSaldo) < 2 ? this.sColSaldo = '2' : this.sColSaldo = this.sColSaldo; 
               }
               if(saldos.TipoCarteraCodigo == '6' && !this.bBanCtaDocMN_SAL){
                 this.bBanCtaDocMN_SAL = true;
-                this.sColSaldo = '3';
+                Number(this.sColSaldo) < 3 ? this.sColSaldo = '3' : this.sColSaldo = this.sColSaldo; 
+                
               }
               if(saldos.TipoCarteraCodigo == '7' && !this.bBanCtaDocORO_SAL){
                 this.bBanCtaDocORO_SAL = true;
-                this.sColSaldo = '4';
+                Number(this.sColSaldo) < 4 ? this.sColSaldo = '4' : this.sColSaldo = this.sColSaldo; 
               }
               if(saldos.TipoCarteraCodigo == '8' && !this.bBanCtaDocDLLS_SAL){
                 this.bBanCtaDocDLLS_SAL = true;
-                this.sColSaldo = '5';
+                Number(this.sColSaldo) < 5 ? this.sColSaldo = '5' : this.sColSaldo = this.sColSaldo; 
               }
+            
             
             }
             //Recorre saldos vencidos
             for(var vencidos of cli.VencidosSaldosCartera ){
-              if(vencidos.TipoCarteraCodigo == '1' && !this.bBanCtaCorrMN_VEN){
+              if(vencidos.TipoCarteraCodigo == '1' && !this.bBanCtaCorrMN_VEN){                
                 this.bBanCtaCorrMN_VEN = true;
-                this.sColVencido = '0';
+                Number(this.sColVencido) < 0 ? this.sColVencido = '0' : this.sColVencido = this.sColVencido;
+                
               }
               if(vencidos.TipoCarteraCodigo == '2' && !this.bBanCtaCorrORO_VEN){
                 this.bBanCtaCorrORO_VEN = true;
-                this.sColVencido = '1';
+                Number(this.sColVencido) < 1 ? this.sColVencido = '1' : this.sColVencido = this.sColVencido;
               }
               if(vencidos.TipoCarteraCodigo == '3' && !this.bBanCtaCorrDLLS_VEN){
                 this.bBanCtaCorrDLLS_VEN = true;
-                this.sColVencido = '2';
+                Number(this.sColVencido) < 2 ? this.sColVencido = '2' : this.sColVencido = this.sColVencido;
               }
-              if(vencidos.TipoCarteraCodigo == '6' && !this.bBanCtaDocMN_VEN){
+              if(vencidos.TipoCarteraCodigo == '6' && !this.bBanCtaDocMN_VEN){                
                 this.bBanCtaDocMN_VEN = true;
-                this.sColVencido = '3';
+                Number(this.sColVencido) < 3 ? this.sColVencido = '3' : this.sColVencido = this.sColVencido;
+                
               }
               if(vencidos.TipoCarteraCodigo == '7' && !this.bBanCtaDocORO_VEN){
                 this.bBanCtaDocORO_VEN = true;
-                this.sColVencido = '4';
+                Number(this.sColVencido) < 4 ? this.sColVencido = '4' : this.sColVencido = this.sColVencido;
               }
               if(vencidos.TipoCarteraCodigo == '8' && !this.bBanCtaDocDLLS_VEN){
                 this.bBanCtaDocDLLS_VEN = true;
-                this.sColVencido = '5';
+                Number(this.sColVencido) < 5 ? this.sColVencido = '5' : this.sColVencido = this.sColVencido;
               }
             
             }            
           }
         }
-
-
+        
+        console.log("General"+this.sColSaldo);
+        console.log("General"+this.sColVencido);
 
         this.sMensaje = '';
         this.bBandera = true;        

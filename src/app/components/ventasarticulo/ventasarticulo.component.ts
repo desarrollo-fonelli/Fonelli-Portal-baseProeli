@@ -831,9 +831,17 @@ downloadAsPDF() {
   };
 
   formatoNumero(number){
-    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
+    let valor: string;
+    number = Math.round(number);
+     valor = Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
+     return valor;
   };
 
+  /*formatoNumero(number){
+
+    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
+     
+  };*/
 
   
 

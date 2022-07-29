@@ -149,6 +149,15 @@
 
       <br>
       <div class="form-row">
+
+        <div class="form-group col-md-12">
+          <label style="text-align: center; color:#183e6f;">{{oPreciosRes.Contenido.TipoCalculoDescripc}}</label> 
+          <br>
+          <label style="text-align: center; color:#183e6f;">{{oPreciosRes.Contenido.TipoCosteoDescripc +' '+oPreciosRes.Contenido.TipoCosteoCodigo}}</label> 
+          <br>
+          <label style="text-align: center; color:#183e6f;">{{'Valor agregado '+oPreciosRes.Contenido.ValorAgregado}}</label> 
+
+        </div>
         
             <div class="form-group col-md-12">
               <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
