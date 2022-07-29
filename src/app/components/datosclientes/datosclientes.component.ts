@@ -204,55 +204,49 @@ export class DatosclientesComponent implements OnInit {
   }
 
 
-    consultaCliente(){
-console.log("ConsultaCliente");
-console.log("-------------"+JSON.stringify(this.oClienteModal));
-
-
-
-
-    this.bCargando = true;
-
-
-
+  consultaCliente(){
+    
+      this.bMostrarDatos=false;
+      this.sMensaje="";
+      this.bCargando = true;
   
 
-    this._servicioCClientes
-    .GetCliente(this.oBuscar)
-    .subscribe(
-      (Response: Clientes) => {
+      this._servicioCClientes
+      .GetCliente(this.oBuscar)
+      .subscribe(
+        (Response: Clientes) => {
 
-        this.oCliente = Response;
+          this.oCliente = Response;
 
-        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
+          console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
 
 
-        if(this.oCliente.Codigo != 0){
+          if(this.oCliente.Codigo != 0){
 
-          this.bError= true;
-          this.sMensaje="No se encontraron datos del cliente";
+            this.bError= true;
+            this.sMensaje="No se encontraron datos del cliente";
+            this.bCargando = false;
+            return;
+          }
+    
+          this.oContenido = this.oCliente.Contenido[0];
+          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+          this.oContacto =this.oCliente.Contenido[0].Contactos;
+          this.bMostrarDatos=true;
           this.bCargando = false;
-          return;
+      
+        },
+        (error:Clientes) => {
+
+          this.oCliente = error;
+
+          console.log("error");
+          console.log(this.oCliente);
+          this.bCargando = false;
+      
         }
-   
-        this.oContenido = this.oCliente.Contenido[0];
-        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-        this.oContacto =this.oCliente.Contenido[0].Contactos;
-        this.bMostrarDatos=true;
-        this.bCargando = false;
-     
-      },
-      (error:Clientes) => {
-
-        this.oCliente = error;
-
-        console.log("error");
-        console.log(this.oCliente);
-        this.bCargando = false;
-     
-      }
-    );
+      );
 
   }
 
@@ -370,12 +364,19 @@ console.log("-------------"+JSON.stringify(this.oClienteModal));
     
   }
 
-  obtenNombreCliente(cliente: number): string {   
+  obtenNombreCliente(cliente: number, sFilial: number): string {   
     let nombre: string = '';  
   
       for(var cliCon of this.oClienteModal.Contenido){ 
-        if (cliCon.ClienteCodigo == String(cliente)){
-          nombre = cliCon.RazonSocial;
+        if (cliCon.ClienteCodigo == String(cliente) && cliCon.ClienteFilial == String(sFilial)){
+
+          if (cliCon.ClienteFilial != '0'){
+            nombre = "Número "+cliente+' - '+cliCon.ClienteFilial+' '+ cliCon.RazonSocial;
+          }else{
+            nombre = "Número "+cliente+' '+ cliCon.RazonSocial;
+          }
+
+          
           break
         }
 

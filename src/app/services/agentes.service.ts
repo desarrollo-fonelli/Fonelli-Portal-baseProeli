@@ -10,6 +10,7 @@ import { environment } from '../../environments/environment';
 export class ServicioAgentes{
     public API: string;
     public API_URL: string;
+    public sFiltros: string;
 
 constructor(
     public _http:HttpClient
@@ -17,6 +18,8 @@ constructor(
 
     this.API = Configuracion.API;
     this.API_URL = environment.API_URL;
+    this.sFiltros = '';
+
 
 }
 
@@ -28,7 +31,19 @@ Get(FiltrosClientes: any): Observable<any>{
                                     . set("Access-Control-Allow-Methods", "GET")
                                     .set("Access-Control-Allow-Credentials", "true");
 
-    return this._http.get(this.API_URL+this.API + 'catalogos/ListaAgentes.php',{headers:headers});
+    this.sFiltros = '';
+
+    console.log(1);
+    console.log(FiltrosClientes.Status);
+    
+
+    if(FiltrosClientes.Status){
+    this.sFiltros += 'Status=' + FiltrosClientes.Status;    
+    }
+
+    return this._http.get(this.API_URL+this.API + 'catalogos/ListaAgentes.php?'+this.sFiltros,{headers:headers});
+
+    
 }
 
 

@@ -292,10 +292,7 @@ export class ConsultapreciosComponent implements OnInit {
   this.oBuscar.TipoUsuario = this.sTipo;
   this.oBuscar.Usuario = this.sCodigo;
 
-  console.log(this.oBuscar.ClienteCodigo);
-  console.log(this.oBuscar.ClienteFilial); 
 
-  console.log(this.oBuscar);
 
   //Realizamos llamada al servicio de pedidos
   this._servicioCPrecios     

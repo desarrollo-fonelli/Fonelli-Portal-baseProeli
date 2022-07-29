@@ -215,8 +215,8 @@
               <tr *ngFor="let subCat of datos.Subcategorias index as i">              
                 <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
                 <td class="FilasFonelli"> {{subCat.SubcategoriaNombre}} </td>                
-                <td class="FilasFonelli"> {{ subCat.Piezas}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.Gramos}}</td>
+                <td class="FilasFonelli"> {{ formatoNumero(subCat.Piezas)}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ formatoNumero(subCat.Gramos)}}</td>
                 <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.Importe)}}</td>
                 <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.ValorAgregado)}}</td>
               </tr>
@@ -224,8 +224,8 @@
               <tr>              
                 <td></td>
                 <td class="FilasFonelli"> Total Categoria</td>                
-                <td class="FilasFonBold"> {{getTotalCategoria(datos.Subcategorias,'Piezas')}}</td>
-                <td class="FilasFonBold" style="text-align:left">{{ getTotalCategoria(datos.Subcategorias,'Gramos')}}</td>
+                <td class="FilasFonBold"> {{formatoNumero(getTotalCategoria(datos.Subcategorias,'Piezas'))}}</td>
+                <td class="FilasFonBold" style="text-align:left">{{ formatoNumero(getTotalCategoria(datos.Subcategorias,'Gramos'))}}</td>
                 <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'Importe'))}}</td>
                 <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'ValorAgregado'))}}</td>
               </tr> 
@@ -234,8 +234,8 @@
             <tr>              
               <td></td>
               <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
-              <td class="FilasFonBold" style="color:#183e6f;"> {{getTotalGeneral(oAnioAnteriorRes,'Piezas')}}</td>
-              <td class="FilasFonBold" style="color:#183e6f;">{{ getTotalGeneral(oAnioAnteriorRes,'Gramos')}}</td>
+              <td class="FilasFonBold" style="color:#183e6f;"> {{formatoNumero(getTotalGeneral(oAnioAnteriorRes,'Piezas'))}}</td>
+              <td class="FilasFonBold" style="color:#183e6f;">{{ formatoNumero(getTotalGeneral(oAnioAnteriorRes,'Gramos'))}}</td>
               <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'Importe'))}}</td>
               <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'ValorAgregado'))}}</td>
             </tr>                     
@@ -274,16 +274,16 @@
               <tr *ngFor="let subCat of datos.Subcategorias index as i">              
                 <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
                 <td class="FilasFonelli"> <u>{{subCat.SubcategoriaNombre}}</u> </td>                
-                <td class="FilasFonelli" >{{ subCat.Piezas}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.Gramos}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ subCat.Importe}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ subCat.ValorAgregado}}</td>
+                <td class="FilasFonelli" >{{ formatoNumero(subCat.Piezas)}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ formatoNumero(subCat.Gramos)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.Importe)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.ValorAgregado)}}</td>
               </tr>
               <tr>              
                 <td></td>
                 <td class="FilasFonelli"> Total Categoria</td>                
-                <td class="FilasFonBold" style="font-weight: bold;"> {{getTotalCategoria(datos.Subcategorias,'Piezas')}}</td>
-                <td class="FilasFonBold" style="font-weight: bold;">{{ getTotalCategoria(datos.Subcategorias,'Gramos')}}</td>
+                <td class="FilasFonBold" style="font-weight: bold;"> {{formatoNumero(getTotalCategoria(datos.Subcategorias,'Piezas'))}}</td>
+                <td class="FilasFonBold" style="font-weight: bold;">{{ formatoNumero(getTotalCategoria(datos.Subcategorias,'Gramos'))}}</td>
                 <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'Importe'))}}</td>
                 <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'ValorAgregado'))}}</td>
               </tr> 
@@ -294,10 +294,10 @@
             <tr>              
               <td></td>
               <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
-              <td class="FilasFonBold" style="color:#183e6f;"> {{getTotalGeneral(oAnioAnteriorRes,'Piezas')}}</td>
-              <td class="FilasFonBold" style="color:#183e6f;">{{ getTotalGeneral(oAnioAnteriorRes,'Gramos')}}</td>
-              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'Importe'))}}</td>
-              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'ValorAgregado'))}}</td>
+              <td class="FilasFonBold" style="color:#183e6f;"> {{formatoNumero(getTotalGeneral(oAnioActualRes,'Piezas'))}}</td>
+              <td class="FilasFonBold" style="color:#183e6f;">{{ formatoNumero(getTotalGeneral(oAnioActualRes,'Gramos'))}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioActualRes,'Importe'))}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioActualRes,'ValorAgregado'))}}</td>
             </tr>   
 
           </tbody>

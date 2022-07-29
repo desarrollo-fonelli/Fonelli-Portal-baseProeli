@@ -94,7 +94,24 @@ export class ConsultainactivosComponent implements OnInit {
   public oAgentes: Agentes; 
   public oAgentesCon: AgentesCon[];
 
+  //Banderas para constrol de columnas
+  bBanCtaCorrMN_SAL = false;
+  bBanCtaCorrORO_SAL = false;
+  bBanCtaCorrDLLS_SAL = false;
+  bBanCtaDocMN_SAL = false;
+  bBanCtaDocORO_SAL = false;
+  bBanCtaDocDLLS_SAL = false;
 
+  bBanCtaCorrMN_VEN = false;
+  bBanCtaCorrORO_VEN = false;
+  bBanCtaCorrDLLS_VEN = false;
+  bBanCtaDocMN_VEN = false;
+  bBanCtaDocORO_VEN = false;
+  bBanCtaDocDLLS_VEN = false;
+
+  //valores de columnas
+  sColSaldo: string;
+  sColVencido: string;
   
   private _mobileQueryListener: () => void;
 
@@ -233,7 +250,20 @@ export class ConsultainactivosComponent implements OnInit {
   //Funcion para consultar los clientes inactivos con saldo
   consultaCliInacSal() {
 
-    
+    //Seteamos valores iniciales de columnas
+    this.bBanCtaCorrMN_SAL = false;
+    this.bBanCtaCorrORO_SAL = false;
+    this.bBanCtaCorrDLLS_SAL = false;
+    this.bBanCtaDocMN_SAL = false;
+    this.bBanCtaDocORO_SAL = false;
+    this.bBanCtaDocDLLS_SAL = false;
+  
+    this.bBanCtaCorrMN_VEN = false;
+    this.bBanCtaCorrORO_VEN = false;
+    this.bBanCtaCorrDLLS_VEN = false;
+    this.bBanCtaDocMN_VEN = false;
+    this.bBanCtaDocORO_VEN = false;
+    this.bBanCtaDocDLLS_VEN = false;
 
     this.bBandera = false;
     console.log('consulta inactivos');
@@ -257,10 +287,73 @@ export class ConsultainactivosComponent implements OnInit {
           this.bCargando = false;
           return;
         }
+        //Gestion de columnas
+
+        for(var cliCon of this.oClientesInacRes.Contenido){
+          for(var cli of cliCon.Clientes ){
+            //Recorre saldos
+            for(var saldos of cli.SaldosCarteraCliente ){
+              if(saldos.TipoCarteraCodigo == '1' && !this.bBanCtaCorrMN_SAL){
+                this.bBanCtaCorrMN_SAL = true;
+                this.sColSaldo = '0';
+              }
+              if(saldos.TipoCarteraCodigo == '2' && !this.bBanCtaCorrORO_SAL){
+                this.bBanCtaCorrORO_SAL = true;
+                this.sColSaldo = '1';
+              }
+              if(saldos.TipoCarteraCodigo == '3' && !this.bBanCtaCorrDLLS_SAL){
+                this.bBanCtaCorrDLLS_SAL = true;
+                this.sColSaldo = '2';
+              }
+              if(saldos.TipoCarteraCodigo == '6' && !this.bBanCtaDocMN_SAL){
+                this.bBanCtaDocMN_SAL = true;
+                this.sColSaldo = '3';
+              }
+              if(saldos.TipoCarteraCodigo == '7' && !this.bBanCtaDocORO_SAL){
+                this.bBanCtaDocORO_SAL = true;
+                this.sColSaldo = '4';
+              }
+              if(saldos.TipoCarteraCodigo == '8' && !this.bBanCtaDocDLLS_SAL){
+                this.bBanCtaDocDLLS_SAL = true;
+                this.sColSaldo = '5';
+              }
+            
+            }
+            //Recorre saldos vencidos
+            for(var vencidos of cli.VencidosSaldosCartera ){
+              if(vencidos.TipoCarteraCodigo == '1' && !this.bBanCtaCorrMN_VEN){
+                this.bBanCtaCorrMN_VEN = true;
+                this.sColVencido = '0';
+              }
+              if(vencidos.TipoCarteraCodigo == '2' && !this.bBanCtaCorrORO_VEN){
+                this.bBanCtaCorrORO_VEN = true;
+                this.sColVencido = '1';
+              }
+              if(vencidos.TipoCarteraCodigo == '3' && !this.bBanCtaCorrDLLS_VEN){
+                this.bBanCtaCorrDLLS_VEN = true;
+                this.sColVencido = '2';
+              }
+              if(vencidos.TipoCarteraCodigo == '6' && !this.bBanCtaDocMN_VEN){
+                this.bBanCtaDocMN_VEN = true;
+                this.sColVencido = '3';
+              }
+              if(vencidos.TipoCarteraCodigo == '7' && !this.bBanCtaDocORO_VEN){
+                this.bBanCtaDocORO_VEN = true;
+                this.sColVencido = '4';
+              }
+              if(vencidos.TipoCarteraCodigo == '8' && !this.bBanCtaDocDLLS_VEN){
+                this.bBanCtaDocDLLS_VEN = true;
+                this.sColVencido = '5';
+              }
+            
+            }            
+          }
+        }
+
+
 
         this.sMensaje = '';
-        this.bBandera = true;
-        
+        this.bBandera = true;        
         this.bCargando = false;
 
       },

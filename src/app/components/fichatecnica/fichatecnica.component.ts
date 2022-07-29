@@ -570,6 +570,10 @@ export class FichatecnicaComponent implements OnInit {
     formatoMoneda(number){
       return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
     };
+
+    formatoNumero(number){
+      return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
+    };
   
 
 

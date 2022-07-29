@@ -109,6 +109,9 @@ export class SidenavComponent implements OnInit {
     this.bCliente = false;
     this.sCuenta = '';
 
+    this.oBuscarAgentes =  new FiltrosAgente(0,'','A',0)
+    this.oAgentes = {} as Agentes;
+
     this.oBuscarOfi =  new FiltrosOficina('',0)
     this.oOficinasRes = {} as Oficina;
 
@@ -157,6 +160,11 @@ export class SidenavComponent implements OnInit {
    if (!localStorage.getItem('Agentes')){
     console.log("Inicia carga agentes");
 
+
+console.log(1);
+    this.oBuscarAgentes.Status = "A";
+    console.log(2);
+    
     this._servicioAgentes
     .Get(this.oBuscarAgentes)
     .subscribe(

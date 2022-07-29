@@ -105,6 +105,9 @@ export class IndicadoresventaComponent implements OnInit {
     this.sFilial = Number(localStorage.getItem('filial'));
     this.sNombre = localStorage.getItem('nombre');
 
+    this.oBuscarAgentes =  new FiltrosAgente(0,'','A',0)
+    this.oAgentes = {} as Agentes;
+
     this.bCliente = false;
 
     //Inicializamos variables consulta pedidos
@@ -159,6 +162,7 @@ export class IndicadoresventaComponent implements OnInit {
     //Consulta agentes
     if (!localStorage.getItem('Agentes')){
 
+      this.oBuscarAgentes.Status = "A";
       this._servicioAgentes
       .Get(this.oBuscarAgentes)
       .subscribe(

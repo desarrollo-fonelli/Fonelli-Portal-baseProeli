@@ -269,10 +269,10 @@ export class ReporteventasComponent implements OnInit {
           this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
           this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
           
-          this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');          
+          this.oSubCatDesde = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasCon[0].CategoriaCodigo && x.Subcategoria !='');          
           this.oBuscar.SubcategoDesde = this.oSubCatDesde[0].Subcategoria;
-      
-          this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasRes.Contenido[0].CategoriaCodigo && x.Subcategoria !='');     
+   
+          this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == this.oCategoriasCon[this.oCategoriasCon.length - 1].CategoriaCodigo && x.Subcategoria !='');     
           this.oBuscar.SubcategoHasta = this.oSubCatHasta[this.oSubCatHasta.length - 1].Subcategoria;
         }
 
