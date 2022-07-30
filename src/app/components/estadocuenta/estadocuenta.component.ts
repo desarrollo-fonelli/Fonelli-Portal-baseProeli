@@ -167,18 +167,18 @@ export class EstadocuentaComponent implements OnInit {
         } 
         case 'A': { 
            //statements; 
-            this.Buscar.Usuario = this.sCodigo;
+            this.oBuscar.Usuario = this.sCodigo;
             this.oBuscar.ClienteHasta = 999999;
             this.oBuscar.FilialHasta = 999;
 
             //Criterios para busqueda de clientes
-            this.Buscar.TipoUsuario = this.sTipo;    
+            this.oBuscar.TipoUsuario = this.sTipo;    
             this.Buscar.Usuario = this.sCodigo;   
            break; 
         } 
         default: { 
            //statements; 
-           this.Buscar.Usuario = this.sCodigo;
+           this.oBuscar.Usuario = this.sCodigo;
            this.oBuscar.ClienteHasta = 999999;
            this.oBuscar.FilialHasta = 999;
 

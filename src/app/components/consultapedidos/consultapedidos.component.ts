@@ -575,6 +575,31 @@ export class ConsultapedidosComponent implements OnInit {
     return nombre;
   }
 
+  getTotal(oPedido: Pedido[], idCol: string): number {   
+    let Total: number = 0;
+
+    switch(idCol) {        
+      case 'CantidadPedida': { 
+   
+        for(var detPed of oPedido){ 
+          Total += detPed.CantidadPedida;    
+        }
+        break; 
+      } 
+      case 'DiferenciaPedidosSurtido': { 
+   
+        for(var detPed of oPedido){ 
+          Total += detPed.DiferenciaPedidosSurtido;    
+        }
+        break; 
+      } 
+    
+    }   
+   
+    Total = Number(Total.toFixed(2));
+    return Total; 
+   }
+
   getTotalPedido(oDetallePed: PedidoArticulo[], idCol: string): number {   
     let Total: number = 0;
 

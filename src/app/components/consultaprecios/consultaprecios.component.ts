@@ -32,6 +32,7 @@ import {
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
 
+
 @Component({
   selector: 'app-consultaprecios',
   templateUrl: './consultaprecios.component.html',
@@ -423,6 +424,11 @@ downloadAsPDF() {
 formatoMoneda(number){
   return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
 };
+formatoNunmero(number){
+  let valor: string;
+   valor = Intl.NumberFormat('en-US', { maximumFractionDigits: 2}).format(number);
+   return Number(valor).toFixed(2);
+};
 
  //Modal clientes
  openClientes(Clientes: any) {
@@ -534,6 +540,7 @@ private getDismissReason(reason: any): string {
       );
       return true;
     }  
+
 
   
 

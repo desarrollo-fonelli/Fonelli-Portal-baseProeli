@@ -169,6 +169,19 @@
                 <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadSurtida}}</td>
                 <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
               </tr>
+              <tr>
+                <th ></th>
+                <td ></td>
+                <td ></td>
+                <td ></td>
+                <td ></td>
+                <td ></td>
+                <td ></td>                
+                <td class="FilasFonelli" style="text-align:left">Total General</td>
+                <td class="FilasFonelli" style="text-align:right">{{ getTotal(pedido,'CantidadPedida')}}</td>
+                <td ></td>
+                <td class="FilasFonelli" style="text-align:right">{{ getTotal(pedido,'DiferenciaPedidosSurtido')}}</td>
+              </tr>
             </tbody>
           </table>
 

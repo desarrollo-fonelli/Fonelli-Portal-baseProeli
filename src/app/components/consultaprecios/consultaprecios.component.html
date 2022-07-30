@@ -150,7 +150,7 @@
       <br>
       <div class="form-row">
 
-        <div class="form-group col-md-12">
+        <div *ngIf="!bCliente" class="form-group col-md-12" >
           <label style="text-align: center; color:#183e6f;">{{oPreciosRes.Contenido.TipoCalculoDescripc}}</label> 
           <br>
           <label style="text-align: center; color:#183e6f;">{{oPreciosRes.Contenido.TipoCosteoDescripc +' '+oPreciosRes.Contenido.TipoCosteoCodigo}}</label> 
@@ -159,6 +159,7 @@
 
         </div>
         
+        <h6 style="text-align: center; color:#24a4cc;">{{oPreciosRes.Contenido.ArticuloDescripc}}</h6> 
             <div class="form-group col-md-12">
               <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
                 Imprimir PDF      
@@ -186,8 +187,8 @@
             <td class="FilasFonelli" >{{comp.ComponenteLinea}}</td>                
             <td class="FilasFonelli" >{{ comp.ComponenteCodigo}}</td>
             <td class="FilasFonelli" >{{ comp.ComponenteDescripc}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ comp.PiezasNormal}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ comp.GramosEquivalente}}</td>            
+            <td class="FilasFonelli" style="text-align:right">{{ formatoNunmero(comp.PiezasNormal)}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ formatoNunmero(comp.GramosEquivalente)}}</td>            
           </tr>
         </tbody>          
       </table>
