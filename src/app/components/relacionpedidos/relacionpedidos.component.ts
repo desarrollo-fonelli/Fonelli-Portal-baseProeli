@@ -165,8 +165,21 @@ export class RelacionpedidosComponent implements OnInit {
         dia = '0'+(date.getDate());
       }
 
-      let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()) : date.getDate());                  
-      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
+      let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()) : date.getDate());          
+      let fechaAyer: string;
+      //validacion dia anterior inicio de mes
+      if(date.getDate() == 1){//es inicio de mes
+        if(mes == '01'){
+          mes = '12';
+          fechaAyer = (date.getFullYear()-1) +'-'+ mes +'-'+'30';          
+        }else{
+          mes = mes-1;
+          fechaAyer = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
+        }        
+      }else{
+        fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
+      }
+      
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());                  
 
       console.log("--"+fechaActual);
@@ -406,8 +419,8 @@ getTotalPedidos(Pedido: Pedido[]): number {
   return total;
  }
 
- getTotalDifCantidadPro(Pedido: Pedido[]): number {
-  let total = Pedido.map(item => item.DiferenciaCantidadProducido).reduce((total,actual) => total + actual,0);
+ getTotalDifCantidadSurt(Pedido: Pedido[]): number {
+  let total = Pedido.map(item => item.DiferenciaCantidadSurtido).reduce((total,actual) => total + actual,0);
   total = Number(total.toFixed(2));
   return total;
  }
@@ -521,12 +534,12 @@ getTotalPedidos(Pedido: Pedido[]): number {
   return Total; 
  }
 
- getTotalDifCantidadProOficina(TipoPedido: TipoPedido[]): number {   
+ getTotalDifCantidadSurtOficina(TipoPedido: TipoPedido[]): number {   
   let Total: number = 0;
 
   for(var tiPe of TipoPedido){
     for(var val of tiPe.Pedidos){
-      Total += val.DiferenciaCantidadProducido;
+      Total += val.DiferenciaCantidadSurtido;
     }    
   }
   Total = Number(Total.toFixed(2));
@@ -700,13 +713,13 @@ getTotalPedidos(Pedido: Pedido[]): number {
   return Total; 
  }
 
- getTotalDifCantidadProGranTotal(RelacionPed: ContenidoGen[]): number {    
+ getTotalDifCantidadSurtGranTotal(RelacionPed: ContenidoGen[]): number {    
   let Total: number = 0;
 
   for(var tiPe of RelacionPed){
     for(var tipPed of tiPe.TipoPedido){
       for(var ped of tipPed.Pedidos){
-        Total += ped.DiferenciaCantidadProducido
+        Total += ped.DiferenciaCantidadSurtido
       }
       
     }    
@@ -1029,6 +1042,12 @@ downloadAsPDF() {
 formatoMoneda(number){
   return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
 };
+
+reemplaza(valor: string, valorAReemplazar: string){
+  let res: string;
+  res = valor.replace(valorAReemplazar,'');
+  return res;     
+}; 
 
   //Modal clientes
 openClientes(Clientes: any, cliente: boolean) {

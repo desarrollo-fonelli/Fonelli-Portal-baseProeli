@@ -166,6 +166,72 @@
       <div *ngIf="bBandera" class="table-responsive container">  
         <!-- <div class="container" >      -->
 
+          <h6 style="text-align: center; font-size:xx-large;">{{ obtenNombreCliente(oBuscar.Cliente) }}</h6>          
+          <h6 style="text-align: center; font-size:xx-large;">Desde filial {{oBuscar.FilialDesde}} hasta filial {{oBuscar.FilialHasta}} </h6>
+
+          <div class="form-row">
+            <div class="col-md-2">              
+              <label >No. Lista 1</label>
+            </div>
+            <div class="col-md-6">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.Lista1Codigo+' '+oFichaTecnicaRes.Contenido.Lista1Descripc}}</label>              
+            </div>
+            <div class="col-md-2">              
+              <label class="float-left">Fecha Alta</label>
+            </div>
+            <div class="col-md-2">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.FechaAlta}}</label>              
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-2">              
+              <label>No. Lista 2</label>
+            </div>
+            <div class="col-md-6">              
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.Lista2Codigo+' '+oFichaTecnicaRes.Contenido.Lista2Descripc}}</label>              
+            </div>
+            <div class="col-md-2">              
+              <label class="float-left">Status</label>
+            </div>
+            <div class="col-md-2">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.ClienteStatus}}</label>              
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-2">              
+              <label>Limite de crédito</label>
+            </div>
+            <div class="col-md-6">
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.LimiteCredito}}</label>
+            </div>
+            <div class="col-md-2">              
+              <label class="float-left">TipoCte</label>
+            </div>
+            <div class="col-md-2">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.TipoClienteCodigo+' '+oFichaTecnicaRes.Contenido.TipoClienteDescripc}}</label>              
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-2">              
+              <label>Plazo Pago</label>
+            </div>
+            <div class="col-md-6">            
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.LimiteCredito}}</label>
+            </div>
+            <div class="col-md-2">              
+              <label class="float-left">Tipo paridad</label>
+            </div>
+            <div class="col-md-2">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.TipoParidadCodigo+' '+oFichaTecnicaRes.Contenido.TipoParidadDescripc}}</label>              
+            </div>
+          </div>
+            
+                
+          
+
         <br>
         <div class="form-row">
           <div class="form-group col-md-1">              

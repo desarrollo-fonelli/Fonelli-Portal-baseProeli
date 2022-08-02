@@ -166,7 +166,21 @@ export class ReporteventasComponent implements OnInit {
       let fecha1Desde =   (date.getFullYear()-1)+'-01-01';          
       let fecha2Desde =   date.getFullYear()+'-01-01';
       let fecha1Hasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0' + date.getDate() : date.getDate()); 
-      let fecha2Hasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1)); 
+      //let fecha2Hasta =  date.getFullYear() +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1)); 
+      let fecha2Hasta: string;
+      //validacion dia anterior inicio de mes
+      if(date.getDate() == 1){//es inicio de mes
+        if(mes == '01'){
+          mes = '12';
+          fecha2Hasta = (date.getFullYear()-1) +'-'+ mes +'-'+'30';          
+        }else{
+          mes = mes-1;
+          fecha2Hasta = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
+        }        
+      }else{
+        fecha2Hasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
+      }
+
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
 
       switch(this.sTipo) { 

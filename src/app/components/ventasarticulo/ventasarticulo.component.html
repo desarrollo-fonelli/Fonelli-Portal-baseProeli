@@ -451,10 +451,10 @@
                             <td class="FilasFonelli">{{art.ArticuloCodigo}}</td>
                             <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
                             <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
-                            <td class="FilasFonelli" style="text-align: right;">{{formatoNumero(art.Piezas)}}</td>
-                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{formatoNumero(art.PiezasPorcentaje)}}</td>
-                            <td class="FilasFonelli" style="text-align: right;">{{formatoNumero(art.Gramos)}}</td>
-                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{formatoNumero(art.GramosPorcentaje)}}</td>
+                            <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(art.Piezas),'$')}}</td>
+                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(art.PiezasPorcentaje),'$')}}</td>
+                            <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(art.Gramos),'$')}}</td>
+                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(art.GramosPorcentaje),'$')}}</td>
                             <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(art.ImporteVenta)}}</td>
                           </tr> 
 
@@ -464,10 +464,10 @@
                           <td class="FilasFonelli"></td>
                           <td class="FilasFonelli"></td>
                           <td class="FilasFonelli" style="text-align: right;">Total Línea</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalPiezasArticulo(linPro.Articulos))}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalPiezasPorArticulo(linPro.Articulos))}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalGramosArticulo(linPro.Articulos))}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalGramosPorArticulo(linPro.Articulos))}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasArticulo(linPro.Articulos)),'$')}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(getTotalPiezasPorArticulo(linPro.Articulos)),'$')}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosArticulo(linPro.Articulos)),'$')}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(getTotalGramosPorArticulo(linPro.Articulos)),'$')}}</td>
                           <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
                         </tr> 
 
@@ -475,10 +475,10 @@
                           <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
                           <td class="FilasFonelli">{{linPro.LineaDescripc}}</td>
                           <td class="FilasFonelli">{{linPro.ColeccionDescripc}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalPiezasArticulo(linPro.Articulos))}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalPiezasPorArticulo(linPro.Articulos))}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalGramosArticulo(linPro.Articulos))}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalGramosPorArticulo(linPro.Articulos))}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasArticulo(linPro.Articulos)),'$')}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorArticulo(linPro.Articulos)),'$')}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosArticulo(linPro.Articulos)),'$')}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorArticulo(linPro.Articulos)),'$')}}</td>
                           <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
                         </tr>
 
@@ -488,10 +488,10 @@
                       <td></td>
                       <td></td>      
                       <td class="FilasFonelli" style="text-align: right;">Total SubCategoria</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasxSubCat(subCat.LineasProducto))}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasPorxSubCat(subCat.LineasProducto))}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosxSubCat(subCat.LineasProducto))}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosPorxSubCat(subCat.LineasProducto))}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasxSubCat(subCat.LineasProducto)),'$')}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorxSubCat(subCat.LineasProducto)),'$')}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosxSubCat(subCat.LineasProducto)),'$')}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorxSubCat(subCat.LineasProducto)),'$')}}</td>
                       <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxSubCat(subCat.LineasProducto))}}</td>
                     </tr>
 
@@ -501,9 +501,9 @@
                       <td></td>
                       <td></td>      
                       <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasxCategoria(venArt.Subcategorias))}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasxCategoria(venArt.Subcategorias)),'$')}}</td>
                       <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosxCategoria(venArt.Subcategorias))}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosxCategoria(venArt.Subcategorias)),'$')}}</td>
                       <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
                       <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxCategoria(venArt.Subcategorias))}}</td>
                     </tr>  
@@ -516,9 +516,9 @@
                   <td></td>
                   <td></td>      
                   <td class="FilasFonBold" style="text-align: right; color: #183e6f;">Total General</td>
-                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{formatoNumero(getTotalPiezasxCliente(oVentasArticuloRes.Contenido))}}</td>
+                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{reemplaza(formatoMoneda(getTotalPiezasxCliente(oVentasArticuloRes.Contenido)),'$')}}</td>
                   <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f; "></td>
-                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{formatoNumero(getTotalGramosxCliente(oVentasArticuloRes.Contenido))}}</td>
+                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{reemplaza(formatoMoneda(getTotalGramosxCliente(oVentasArticuloRes.Contenido)),'$')}}</td>
                   <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>
                   <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{formatoMoneda(getTotalImpVenxCliente(oVentasArticuloRes.Contenido))}}</td>
                 </tr> 
@@ -602,10 +602,10 @@
                         <td class="FilasFonelli">{{cat.CategoriaCodigo}}</td>
                         <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
                         <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
-                        <td class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalPiezasArticulo(linPro.Articulos))}}</td>
-                        <td *ngIf="!bCliente"class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalPiezasPorArticulo(linPro.Articulos))}}</td>
-                        <td class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalGramosArticulo(linPro.Articulos))}}</td>
-                        <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{formatoNumero(getTotalGramosPorArticulo(linPro.Articulos))}}</td>
+                        <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasArticulo(linPro.Articulos)),'$')}}</td>
+                        <td *ngIf="!bCliente"class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorArticulo(linPro.Articulos)),'$')}}</td>
+                        <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosArticulo(linPro.Articulos)),'$')}}</td>
+                        <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorArticulo(linPro.Articulos)),'$')}}</td>
                         <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
                       </tr> 
 
@@ -619,10 +619,10 @@
                       <td></td>      
                       <td></td>      
                       <td class="FilasFonelli" style="text-align: right;">Total SubCategoria</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasxSubCat(subCat.LineasProducto))}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasPorxSubCat(subCat.LineasProducto))}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosxSubCat(subCat.LineasProducto))}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosPorxSubCat(subCat.LineasProducto))}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasxSubCat(subCat.LineasProducto)),'$')}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorxSubCat(subCat.LineasProducto)),'$')}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosxSubCat(subCat.LineasProducto)),'$')}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorxSubCat(subCat.LineasProducto)),'$')}}</td>
                       <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxSubCat(subCat.LineasProducto))}}</td>
                     </tr>  
 
@@ -636,9 +636,9 @@
                     <td></td>
                     <td></td>      
                     <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
-                    <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalPiezasxCategoria(cat.Subcategorias))}}</td>
+                    <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasxCategoria(cat.Subcategorias)),'$')}}</td>
                     <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                    <td class="FilasFonBold" style="text-align: right;">{{formatoNumero(getTotalGramosxCategoria(cat.Subcategorias))}}</td>
+                    <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosxCategoria(cat.Subcategorias)),'$')}}</td>
                     <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
                     <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxCategoria(cat.Subcategorias))}}</td>
                   </tr>                    
@@ -655,9 +655,9 @@
                 <td></td>
                 <td></td>      
                 <td class="FilasFonBold" style="text-align: right; color: #183e6f;">Total General</td>
-                <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{formatoNumero(getTotalPiezasxCliente(oVentasArticuloPzasImpRes.Contenido))}}</td>
+                <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{reemplaza(formatoMoneda(getTotalPiezasxCliente(oVentasArticuloPzasImpRes.Contenido)),'$')}}</td>
                 <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>
-                <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{formatoNumero(getTotalGramosxCliente(oVentasArticuloPzasImpRes.Contenido))}}</td>
+                <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{reemplaza(formatoMoneda(getTotalGramosxCliente(oVentasArticuloPzasImpRes.Contenido)),'$')}}</td>
                 <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>
                 <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{formatoMoneda(getTotalImpVenxCliente(oVentasArticuloPzasImpRes.Contenido))}}</td>
               </tr> 

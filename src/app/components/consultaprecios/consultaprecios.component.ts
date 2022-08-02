@@ -424,7 +424,9 @@ downloadAsPDF() {
 formatoMoneda(number){
   return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
 };
-formatoNunmero(number){
+formatoNumero(number){
+  console.log("recibidmos-"+number);
+  console.log(number);
   let valor: string;
    valor = Intl.NumberFormat('en-US', { maximumFractionDigits: 2}).format(number);
    return Number(valor).toFixed(2);

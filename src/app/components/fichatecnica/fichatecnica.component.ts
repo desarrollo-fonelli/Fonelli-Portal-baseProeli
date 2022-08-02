@@ -574,6 +574,29 @@ export class FichatecnicaComponent implements OnInit {
     formatoNumero(number){
       return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
     };
+
+    obtenNombreCliente(cliente: number): string {   
+      let nombre: string = '';  
+    
+        for(var cliCon of this.oCliente.Contenido){ 
+          if (cliCon.ClienteCodigo == String(cliente)){
+  
+            if (cliCon.ClienteFilial != '0'){
+              nombre = "Cliente "+cliente+' - '+cliCon.ClienteFilial+' '+ cliCon.RazonSocial;
+            }else{
+              nombre = "Cliente "+cliente+' '+ cliCon.RazonSocial;
+            }
+  
+            
+            break
+          }
+  
+                
+           
+      }
+     
+      return nombre; 
+    }
   
 
 

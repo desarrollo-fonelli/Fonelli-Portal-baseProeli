@@ -179,7 +179,20 @@ export class VentasclientearticuloComponent implements OnInit {
       }
 
       let fechaDesde =  date.getFullYear() +'-01-01';          
-      let fechaHasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
+      //let fechaHasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
+      let fechaHasta: string;
+      //validacion dia anterior inicio de mes
+      if(date.getDate() == 1){//es inicio de mes
+        if(mes == '01'){
+          mes = '12';
+          fechaHasta = (date.getFullYear()-1) +'-'+ mes +'-'+'30';          
+        }else{
+          mes = mes-1;
+          fechaHasta = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
+        }        
+      }else{
+        fechaHasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
+      }
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
 
       switch(this.sTipo) { 

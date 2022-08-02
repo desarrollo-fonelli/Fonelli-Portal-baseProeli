@@ -153,7 +153,20 @@ export class VentasarticuloComponent implements OnInit {
       }
 
       let fechaDesde =  date.getFullYear() +'-01-01';          
-      let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);    
+      let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()) : date.getDate());          
+      let fechaAyer: string;
+      //validacion dia anterior inicio de mes
+      if(date.getDate() == 1){//es inicio de mes
+        if(mes == '01'){
+          mes = '12';
+          fechaAyer = (date.getFullYear()-1) +'-'+ mes +'-'+'30';          
+        }else{
+          mes = mes-1;
+          fechaAyer = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
+        }        
+      }else{
+        fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
+      }
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
 
       switch(this.sTipo) { 
@@ -827,6 +840,13 @@ downloadAsPDF() {
 
   
   formatoMoneda(number){
+
+    number = Number(Math.round(number)).toFixed(2);
+    console.log("importante"+number);
+    if (number == 99){
+      number = 100;
+    }
+
     return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
 
@@ -834,16 +854,18 @@ downloadAsPDF() {
     let valor: string;
     number = Math.round(number);
      valor = Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
-     return valor;
+     return Number(valor).toFixed(2);
+     //return Number(valor).toFixed(2);
+     return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
 
-  /*formatoNumero(number){
 
-    return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
-     
-  };*/
 
-  
+  reemplaza(valor: string, valorAReemplazar: string){
+    let res: string;
+    res = valor.replace(valorAReemplazar,'');
+    return res;     
+  }; 
 
 
   
