@@ -598,11 +598,8 @@ export class ReporteventasComponent implements OnInit {
   }
   // #### Obten totales por Cliente ####
 
-   
-
-
-
-  // #### Obten totales por Cliente ####
+  
+  // #### Obten totales general categoria ####
   getTotalesGeneralCateg(oTotGenCat: TotalGeneralCategorias[], sValor: string): number {   
     let Total: number = 0;
   
@@ -722,9 +719,152 @@ export class ReporteventasComponent implements OnInit {
     Total = Number(Total.toFixed(2));
     return Total; 
     }
-
+  // #### Obten totales general categoria ####
 
   // #### Obten totales por Cliente ####
+   getTotalesGeneral(oClientes: Cliente[], sValor: string): number {   
+    let Total: number = 0;
+  
+    switch(sValor) {        
+      case 'Piezas1': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.Piezas1;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'Gramos1': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.Gramos1;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'ImporteVenta1': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.ImporteVenta1;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'PorcentajeImporte1': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.PorcentajeImporte1;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'ValorAgregado1': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.ValorAgregado1;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'PorcentajeValorAgregado1': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.PorcentajeValorAgregado1;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'Piezas2': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.Piezas2;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'Gramos2': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.Gramos2;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'ImporteVenta2': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.ImporteVenta2;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'PorcentajeImporte2': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.PorcentajeImporte2;  
+              }
+          }
+        }
+        break; 
+      }
+      case 'ValorAgregado2': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.ValorAgregado2;  
+              }
+          }
+        }
+        break; 
+      } 
+      case 'PorcentajeValorAgregado2': { 
+   
+        for(var oCli of oClientes){ 
+          for(var oCat of oCli.Categorias){ 
+            for(var oSubCat of oCat.Subcategorias){  
+                  Total += oSubCat.PorcentajeValorAgregado2;  
+              }
+          }
+        }
+        break; 
+      } 
+   
+   }    
+  
+      Total = Number(Total.toFixed(2));
+      return Total; 
+    }
+    // #### Obten totales por Cliente ####
   
 
 downloadAsPDF() {

@@ -841,7 +841,7 @@ downloadAsPDF() {
   
   formatoMoneda(number){
 
-    number = Number(Math.round(number)).toFixed(2);
+    number = Number((number).toFixed(2));
     console.log("importante"+number);
     if (number == 99){
       number = 100;

@@ -856,9 +856,27 @@ h2.TituloFonelli {
 }
 
 .anyClass {
-  height:600px;
+  height:250px;
   overflow-y: scroll;
 }
 
 
+
+table {
+  display: block;
+  overflow-x: auto;
+}
+
+.table .sticky {
+  position: sticky;
+  left: 0;
+}
+
+.table tbody tr .sticky {
+  background: white;
+}
+
+.table tbody tr:nth-child(2n) .sticky {
+  background: #f2f2f2;
+}
 

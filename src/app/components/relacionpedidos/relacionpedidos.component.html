@@ -362,7 +362,7 @@
 
       </div>
 
-       <div *ngIf="bBandera" class="table-responsive ">
+       <div *ngIf="bBandera" class="container">
         <br>
           <div class="form-row">
             <div class="form-group col-md-1">              
@@ -383,13 +383,15 @@
                 </div> 
           </div>
 
-      <!-- <div class="anyClass" id="pdfTable" #pdfTable> -->
-        <div id="pdfTable" #pdfTable>
-        <table class="table table-hover table-striped "  >
+      
+
+       <div  id="pdfTable" #pdfTable  > 
+        <!-- <div id="pdfTable" #pdfTable> -->
+        <table class="table table-hover table-striped" >
           <thead >
-            <!-- <tr class="EncTabla" style="position:absolute;"> -->
-            <tr class="EncTabla" >
-              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;" >TP</th><!--Pedido codigo -->
+           <tr class="EncTabla" > 
+            <!-- <tr class="EncTabla" > -->
+              <th class="sticky" *ngIf="!bCliente" style="background-color: #24a4cc; color: white;" >TP</th><!--Pedido codigo -->
               <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">L</th><!-- Pedido letra -->
               <th style="background-color: #24a4cc; color: white;">PEDIDO</th><!--Pedido folio -->
               <th style="background-color: #24a4cc; color: white;">CLTE</th><!--Cliente codigo -->
@@ -417,7 +419,7 @@
             <ng-container *ngFor="let relPed of oRelacionPedRes.Contenido | searchrelacionpedidos: searchtext ">
               <tr class="table-info">
                 <!-- <td *ngIf="!bCliente" ? colspan="14" :colspan="18">{{relPed.OficinaFonelliNombre}}</td> -->
-                <td colspan="4">{{relPed.OficinaFonelliNombre}}</td> 
+                <td class="sticky" colspan="4">{{relPed.OficinaFonelliNombre}}</td> 
                 <!-- <td *ngIf="!bCliente"></td> 
                 <td ></td> 
                 <td ></td> --> 
@@ -449,9 +451,9 @@
                   <td>{{cartera.TipoCarteraDescripc}}</td>
                   <td></td>
                 </tr> -->
-                <tr *ngFor="let pedido of tipoPed.Pedidos;" (click)="openPedidoDetalle(PedidoDetalle,pedido.PedidoFolio)">
+                <tr *ngFor="let pedido of tipoPed.Pedidos;" (click)="openPedidoDetalle(PedidoDetalle,pedido.PedidoFolio)" >
                   <!-- <td>{{idx1 + '-' + idx2 + '-' + idx3 }}</td> -->
-                  <td *ngIf="!bCliente" class="FilasFonelli text-left">{{tipoPed.TipoPedidoCodigo}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonelli text-left sticky">{{tipoPed.TipoPedidoCodigo}}</td>
                   <td *ngIf="!bCliente" class="FilasFonelli text-left">{{pedido.PedidoLetra}}</td>                  
                   <td class="FilasFonelli text-left"><u>{{pedido.PedidoFolio}}</u></td>
                   <td class="FilasFonelli text-left">{{pedido.ClienteCodigo}}</td>
