@@ -70,7 +70,7 @@
     </div>  
 
      
-      <div *ngIf="bBandera" class="table-responsive anyClass">  
+      <div *ngIf="bBandera" class="container" >  
         <!-- <div class="container" >      -->
 
         <br>
@@ -94,7 +94,7 @@
         </div>
 
     <div  id="pdfTable" #pdfTable>
-        <table  class="table table-hover table-striped ">
+        <table  class="table table-hover table-striped" style="display:block;   overflow-x: auto;" [style.height.px]="sHeight">
           <thead>
             <tr class="EncTabla">                 
               <th class="table-warning" scope="col"></th>

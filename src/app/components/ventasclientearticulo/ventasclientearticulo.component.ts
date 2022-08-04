@@ -119,6 +119,9 @@ export class VentasclientearticuloComponent implements OnInit {
 
   private _mobileQueryListener: () => void;
 
+  sWidth: number;
+  sHeight: number;
+
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
     private _router: Router,
     private _servicioVenClientes: ServicioVentasClienteArticulo,
@@ -163,6 +166,9 @@ export class VentasclientearticuloComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+      this.sWidth = screen.width;
+      this.sHeight = (screen.height/2);
   
       //Se agrega validacion control de sesion distribuidores
       if(!this.sCodigo) {

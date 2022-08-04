@@ -113,6 +113,9 @@ export class ConsultainactivosComponent implements OnInit {
   sColSaldo: string;
   sColVencido: string;
   
+  sWidth: number;
+  sHeight: number;
+  
   private _mobileQueryListener: () => void;
 
   constructor(
@@ -146,6 +149,8 @@ export class ConsultainactivosComponent implements OnInit {
   ngOnInit(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
 
+    this.sWidth = screen.width;
+    this.sHeight = (screen.height/2);
     //Se agrega validacion control de sesion distribuidores
     if (!this.sCodigo) {
       console.log('ingresa VALIDACION');

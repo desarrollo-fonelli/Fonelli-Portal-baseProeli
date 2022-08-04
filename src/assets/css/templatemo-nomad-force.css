@@ -856,27 +856,30 @@ h2.TituloFonelli {
 }
 
 .anyClass {
-  height:250px;
+  /* height:768px;
+  width: 1366px;  */
+  height:384px;
+  width: 1366px; 
   overflow-y: scroll;
 }
 
 
 
-table {
+table_Fija {
   display: block;
   overflow-x: auto;
 }
 
-.table .sticky {
+.table_Fija .sticky {
   position: sticky;
   left: 0;
 }
 
-.table tbody tr .sticky {
+.table_Fija tbody tr .sticky {
   background: white;
 }
 
-.table tbody tr:nth-child(2n) .sticky {
+.table_Fija tbody tr:nth-child(2n) .sticky {
   background: #f2f2f2;
 }
 

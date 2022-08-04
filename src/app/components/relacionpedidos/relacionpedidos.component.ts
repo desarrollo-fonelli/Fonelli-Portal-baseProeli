@@ -97,7 +97,9 @@ export class RelacionpedidosComponent implements OnInit {
 
    private _mobileQueryListener: () => void;
 
-   
+  
+  sWidth: number;
+  sHeight: number;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
@@ -146,6 +148,13 @@ export class RelacionpedidosComponent implements OnInit {
 
     ngOnInit(): void {  
   
+      console.log("La resolución de tu pantalla es: " + screen.width + " x " + screen.height);
+
+      this.sWidth = screen.width;
+      this.sHeight = (screen.height/2);
+
+      
+
       //Se agrega validacion control de sesion distribuidores
       if(!this.sCodigo) {
         console.log('ingresa VALIDACION');
