@@ -391,9 +391,9 @@
           <thead >
            <tr class="EncTabla" > 
             <!-- <tr class="EncTabla" > -->
-              <th class="sticky" *ngIf="!bCliente" style="background-color: #24a4cc; color: white;" >TP</th><!--Pedido codigo -->
-              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">L</th><!-- Pedido letra -->
-              <th style="background-color: #24a4cc; color: white;">PEDIDO</th><!--Pedido folio -->
+              <th class="sticky" style="background-color: #24a4cc; color: white;">PEDIDO</th><!--Pedido folio -->
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;" >TP</th><!--Pedido codigo -->
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">L</th><!-- Pedido letra -->              
               <th style="background-color: #24a4cc; color: white;">CLTE</th><!--Cliente codigo -->
               <th style="background-color: #24a4cc; color: white;">FIL</th><!--Cliente filial -->
               <th style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA PEDIDO</div></th><!--Fecha pedido -->
@@ -453,9 +453,9 @@
                 </tr> -->
                 <tr *ngFor="let pedido of tipoPed.Pedidos;" (click)="openPedidoDetalle(PedidoDetalle,pedido.PedidoFolio)" >
                   <!-- <td>{{idx1 + '-' + idx2 + '-' + idx3 }}</td> -->
-                  <td *ngIf="!bCliente" class="FilasFonelli text-left sticky">{{tipoPed.TipoPedidoCodigo}}</td>
-                  <td *ngIf="!bCliente" class="FilasFonelli text-left">{{pedido.PedidoLetra}}</td>                  
-                  <td class="FilasFonelli text-left"><u>{{pedido.PedidoFolio}}</u></td>
+                  <td class="FilasFonelli text-left sticky"><u>{{pedido.PedidoFolio}}</u></td>
+                  <td *ngIf="!bCliente" class="FilasFonelli text-left">{{tipoPed.TipoPedidoCodigo}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonelli text-left">{{pedido.PedidoLetra}}</td>                                    
                   <td class="FilasFonelli text-left">{{pedido.ClienteCodigo}}</td>
                   <td class="FilasFonelli text-left">{{pedido.ClienteFilial}}</td>
                   <td class="FilasFonelli">{{pedido.FechaPedido}}</td>
