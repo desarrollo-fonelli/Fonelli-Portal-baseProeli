@@ -99,7 +99,7 @@
                               <label class="CamposGeneral"><strong>Tipo cliente:</strong></label>
                             </div>
                             <div class="col-sm-4">                     
-                              <label>{{oDatosGenerales.TipoClienteDescripc}}</label>
+                              <label>{{oDatosGenerales.TipoClienteCodigo+' '+oDatosGenerales.TipoClienteDescripc}}</label>
                             </div>     
                           </div>
                           <div  class="form-row" >
@@ -163,7 +163,7 @@
                               <label class="CamposGeneral"><strong>Estado:</strong></label>
                             </div>
                             <div class="col-sm-4">                     
-                              <label>{{oDatosGenerales.CiudadPoblacion}}</label>
+                              <label>{{oDatosGenerales.EntidadNombre}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -215,7 +215,7 @@
                               <label class="CamposGeneral">Oficina de atención:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{ oCondiciones.OficinaAtencionNombre }}</label>
+                              <label>{{oCondiciones.OficinaAtencionCodigo+' '+oCondiciones.OficinaAtencionNombre }}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -223,7 +223,7 @@
                               <label class="CamposGeneral">Agente:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oDatosGenerales.AgenteNombre}}</label>
+                              <label>{{oDatosGenerales.AgenteCodigo+' '+oDatosGenerales.AgenteNombre}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -231,7 +231,7 @@
                               <label class="CamposGeneral" >N°. de Lista 1:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oCondiciones.TipoListaPreciosDescripc}}</label>
+                              <label>{{oCondiciones.TipoListaPrecios+' '+oCondiciones.TipoListaPreciosDescripc}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -239,7 +239,7 @@
                               <label  class="CamposGeneral">N° de Lista 2:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oCondiciones.TipoListaPrecios2Descripc}}</label>
+                              <label>{{oCondiciones.TipoListaPrecios2+' '+oCondiciones.TipoListaPrecios2Descripc}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -247,7 +247,7 @@
                               <label class="CamposGeneral">Tipo de paridad:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oCondiciones.ParidadCodigo}}</label>
+                              <label>{{oCondiciones.ParidadCodigo+' '+oCondiciones.ParidadDescripc}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -255,7 +255,7 @@
                               <label class="CamposGeneral">Límite de crédito:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oCondiciones.LimiteCredito}}</label>
+                              <label>{{formatoNumero(oCondiciones.LimiteCredito)}}</label>
                             </div>     
                           </div>
                           <div class="form-row">

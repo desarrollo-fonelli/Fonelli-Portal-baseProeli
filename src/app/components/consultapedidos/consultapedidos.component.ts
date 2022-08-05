@@ -295,7 +295,7 @@ export class ConsultapedidosComponent implements OnInit {
     this.oBuscaDetalle.ClienteFilial = this.oBuscar.ClienteFilial;
     this.oBuscaDetalle.PedidoFolio = Number(folio);
     this.oBuscaDetalle.PedidoLetra = 'C';
-    this.oBuscaDetalle.Usuario = this.oBuscar.ClienteCodigo;
+    this.oBuscaDetalle.Usuario = this.oBuscar.Usuario;
 
     console.log(this.oBuscaDetalle);
 

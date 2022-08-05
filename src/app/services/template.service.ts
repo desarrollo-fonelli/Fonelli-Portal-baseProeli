@@ -37,8 +37,8 @@ console.log("Llamada");
 
 Update(Datos: FormData): Observable<any>{
 
-     //return this._http.post(this.API_URL+this.API + 'catalogos/template.php',Datos);
-     return this._http.post('http://localhost:8080/med_fonelli_apiportal/catalogos/template.php',Datos);
+     return this._http.post(this.API_URL+this.API + 'catalogos/template.php',Datos);
+     //return this._http.post('http://localhost:8080/med_fonelli_apiportal/catalogos/template.php',Datos);
 }
 
 

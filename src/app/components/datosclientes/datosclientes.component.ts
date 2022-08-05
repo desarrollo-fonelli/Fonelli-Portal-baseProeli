@@ -387,6 +387,16 @@ export class DatosclientesComponent implements OnInit {
     return nombre; 
   }
 
+  
+  formatoNumero(number){
+    let valor: string;    
+    number = Number(number);
+     valor = Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);     
+     return valor
+  }; 
+
+
+
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
     localStorage.clear();

@@ -23,6 +23,7 @@ import { AdminComponent } from "./components/admin/admin.component";
 import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
 import { TemplateComponent } from "./components/template/template.component";
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
+import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
         },
         { path: 'reporteventas', component: ReporteventasComponent },
         { path: 'consultainactivos', component: ConsultainactivosComponent },
+        { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
       ],
     },
     

@@ -39,6 +39,7 @@ import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 import { AdminComponent } from "./components/admin/admin.component";
 import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
 import { TemplateComponent } from "./components/template/template.component";
+import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
 
 //Pipes
 import { SearchEstadoCuentaPipe } from './pipes/estadocuenta.pipe';
@@ -88,7 +89,8 @@ import { InicioadminComponent } from './components/inicioadmin/inicioadmin.compo
     PaneladminComponent,
     TemplateComponent,
     InicioadminComponent,
-    SearchConsultaClientesInacPipe
+    SearchConsultaClientesInacPipe,
+    CatalogointeractivoComponent
   ],
   imports: [
     BrowserModule,

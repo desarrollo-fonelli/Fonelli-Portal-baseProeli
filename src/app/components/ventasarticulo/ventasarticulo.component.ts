@@ -850,14 +850,6 @@ downloadAsPDF() {
     return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
 
-  formatoNumero(number){
-    let valor: string;
-    number = Math.round(number);
-     valor = Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
-     return Number(valor).toFixed(2);
-     //return Number(valor).toFixed(2);
-     return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
-  };
 
 
 
