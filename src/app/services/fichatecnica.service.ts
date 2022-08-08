@@ -33,13 +33,15 @@ Get(FiltrosFichaTecnica: any): Observable<any>{
 
 
     return this._http.get(this.API_URL+this.API_URL+this.API + 'reportes/FichaTecnica.php?'+
-                        'Cliente=' + FiltrosFichaTecnica.Cliente +
+                        'TipoUsuario=' + FiltrosFichaTecnica.TipoUsuario +   
+                        '&Usuario=' + FiltrosFichaTecnica.Usuario +  
+                        '&ClienteCodigo=' + FiltrosFichaTecnica.Cliente +
                         '&FilialDesde=' + FiltrosFichaTecnica.FilialDesde +
                         '&FilialHasta=' + FiltrosFichaTecnica.FilialHasta +
-                        '&FechaDesdeAnterior=' + FiltrosFichaTecnica.FechaDesdeAnterior +
-                        '&FechaHastaAnterio=' + FiltrosFichaTecnica.FechaHastaAnterior +
-                        '&FechaDesdeActual=' + FiltrosFichaTecnica.FechaDesdeActual +
-                        '&FechaHastaActual=' + FiltrosFichaTecnica.FechaHastaActual 
+                        '&Fecha1Desde=' + FiltrosFichaTecnica.FechaDesdeAnterior +
+                        '&Fecha1Hasta=' + FiltrosFichaTecnica.FechaHastaAnterior +
+                        '&Fecha2Desde=' + FiltrosFichaTecnica.FechaDesdeActual +
+                        '&Fecha2Hasta=' + FiltrosFichaTecnica.FechaHastaActual 
                           ,{headers:headers});
 }
 

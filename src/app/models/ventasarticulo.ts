@@ -6,8 +6,15 @@ export interface VentasArticulo {
 }
 
 export interface Contenido {
-    FamiliaCodigo?:  string;
-    LineasProducto?: LineasProducto[];
+    CategoriaCodigo?:  string;
+    CategoriaNombre?:  string;
+    Subcategorias?: Subcategorias[];
+}
+
+export interface Subcategorias {
+    SubcategoriaCodigo?:    string;
+    SubcategoriaNombre?:    string;
+    LineasProducto?:        LineasProducto[];
 }
 
 export interface LineasProducto {

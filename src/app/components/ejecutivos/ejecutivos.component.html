@@ -1,1 +1,14 @@
-<h1>ejecutivos works!</h1>
+<ngb-carousel >
+  <ng-template ngbSlide *ngFor="let banner of oTemplate.BannerAsesores;">
+    <div class="picsum-img-wrapper">
+      <a [href]="banner?.Link? banner?.Link : 'javascript:void(0);' " [title]="banner?.Titulo? banner?.Titulo : '' ">
+      <img [src]="mobileQuery.matches ? banner.UrlImagenMovil + banner.ImagenMovil : banner.UrlImagen + banner.Imagen"    >
+      </a>
+    </div>
+    <!--<div class="carousel-caption">
+      <h3>10 seconds between slides...</h3>
+      <p>This carousel uses customized default values.</p>
+    </div>-->
+  </ng-template>
+
+</ngb-carousel>

@@ -65,6 +65,11 @@ Get(FiltrosConPedidos: any): Observable<any>{
                               this.sFiltros += '&Status=' + FiltrosConPedidos.Status;
                           }
 
+                          if(FiltrosConPedidos.TipoUsuario == 'A' || FiltrosConPedidos.TipoUsuario == 'G')
+                          {
+                              this.sFiltros += '&Usuario=' + FiltrosConPedidos.Usuario;
+                          }
+
                      
 
     return this._http.get(this.API_URL+this.API + 'reportes/ConsultaPedidos.php?'+this.sFiltros,{headers:headers});

@@ -10,6 +10,7 @@ import { environment } from '../../environments/environment';
 export class ServicioVentasArticulo{
     public API: string;
     public API_URL: string;
+    public sFiltros: string;
 
 constructor(
     public _http:HttpClient
@@ -17,6 +18,7 @@ constructor(
 
     this.API = Configuracion.API;
     this.API_URL = environment.API_URL;
+    this.sFiltros = '';
 
 }
 
@@ -32,23 +34,47 @@ Get(FiltrosVentasArticulo: any): Observable<any>{
 
 
 
-    return this._http.get(this.API_URL+this.API + 'reportes/VentasArticulo.php?'+
-                        'OficinaDesde=' + FiltrosVentasArticulo.OficinaDesde +
-                        '&OficinaHasta=' + FiltrosVentasArticulo.OficinaHasta +
-                        '&FechaDesde=' + FiltrosVentasArticulo.FechaDesde +
-                        '&FechaHasta=' + FiltrosVentasArticulo.FechaHasta +
-                        '&LineaDesde=' + FiltrosVentasArticulo.LineaDesde +
-                        '&LineaHasta=' + FiltrosVentasArticulo.LineaHasta +
-                        '&ClaveDesde=' + FiltrosVentasArticulo.ClaveDesde +
-                        '&ClaveHasta=' + FiltrosVentasArticulo.ClaveHasta +
-                        '&FamiliaDesde=' + FiltrosVentasArticulo.FamiliaDesde +
-                        '&FamiliaHasta=' + FiltrosVentasArticulo.FamiliaHasta +
-                        '&TipoArticulo=' + FiltrosVentasArticulo.TipoArticulo +
-                        '&TipoOrigen=' + FiltrosVentasArticulo.TipoOrigen +
-                        '&Orden=' + FiltrosVentasArticulo.Orden +
-                        '&Presentacion=' + FiltrosVentasArticulo.Presentacion +
-                        '&Pagina=' + FiltrosVentasArticulo.Pagina
-                          ,{headers:headers});
+                                    
+    console.log(FiltrosVentasArticulo);
+
+    this.sFiltros = '';
+
+    this.sFiltros += 'TipoUsuario=' + FiltrosVentasArticulo.TipoUsuario;
+            
+    if(FiltrosVentasArticulo.Usuario)
+    {
+    //this.sFiltros += '&Usuario=' + FiltrosVentasArticulo.Usuario;
+    }
+
+    this.sFiltros += '&OficinaDesde=' + FiltrosVentasArticulo.OficinaDesde;
+    this.sFiltros += '&OficinaHasta=' + FiltrosVentasArticulo.OficinaHasta;
+    this.sFiltros += '&FechaDesde=' + FiltrosVentasArticulo.FechaDesde;
+    this.sFiltros += '&FechaHasta=' + FiltrosVentasArticulo.FechaHasta;
+    this.sFiltros += '&LineaDesde=' + FiltrosVentasArticulo.LineaDesde;
+    this.sFiltros += '&LineaHasta=' + FiltrosVentasArticulo.LineaHasta;
+    this.sFiltros += '&ClaveDesde=' + FiltrosVentasArticulo.ClaveDesde;
+    this.sFiltros += '&ClaveHasta=' + FiltrosVentasArticulo.ClaveHasta;
+    this.sFiltros += '&CategoriaDesde=' + FiltrosVentasArticulo.CategoriaDesde;
+    this.sFiltros += '&SubcategoDesde=' + FiltrosVentasArticulo.SubcategoDesde;
+    this.sFiltros += '&CategoriaHasta=' + FiltrosVentasArticulo.CategoriaHasta;
+    this.sFiltros += '&SubcategoHasta=' + FiltrosVentasArticulo.SubcategoHasta;
+
+    if(FiltrosVentasArticulo.TipoArticulo !='T')
+    {
+    this.sFiltros += '&TipoArticulo=' + FiltrosVentasArticulo.TipoArticulo;
+    }
+    if(FiltrosVentasArticulo.TipoOrigen != 'T')
+    {
+    this.sFiltros += '&TipoOrigen=' + FiltrosVentasArticulo.TipoOrigen;
+    }
+
+    this.sFiltros += '&OrdenReporte=' + FiltrosVentasArticulo.OrdenReporte;
+    this.sFiltros += '&Presentacion=' + FiltrosVentasArticulo.Presentacion;
+
+
+
+    return this._http.get(this.API_URL+this.API + 'reportes/VentasArticulo.php?'+this.sFiltros,{headers:headers});
+
 }
 
 

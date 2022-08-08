@@ -19,6 +19,11 @@ import { VentasclientearticuloComponent } from "./components/ventasclientearticu
 import { ReporteventasComponent } from "./components/reporteventas/reporteventas.component";
 import { ConsultainactivosComponent } from "./components/consultainactivos/consultainactivos.component";
 import {SidenavComponent} from "./components/sidenav/sidenav.component";
+import { AdminComponent } from "./components/admin/admin.component";
+import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
+import { TemplateComponent } from "./components/template/template.component";
+import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
+import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -40,7 +45,7 @@ const appRoutes: Routes = [
     },
   
     {
-      path: 'ejecutivos',
+      path: 'asesores',
       component: SidenavComponent,
       children: [
         { path: 'inicio', component: EjecutivosComponent },
@@ -58,9 +63,21 @@ const appRoutes: Routes = [
         },
         { path: 'reporteventas', component: ReporteventasComponent },
         { path: 'consultainactivos', component: ConsultainactivosComponent },
+        { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
       ],
     },
-    { path: '**', component: ErrorComponent },
+    
+
+    { path: 'admin', component: AdminComponent },
+    {
+      path: 'panel',
+      component: PaneladminComponent,
+      children: [  { path: 'inicio', component: InicioadminComponent },
+      { path: 'template', component: TemplateComponent }]
+  
+    },
+    { path: '**', component: ErrorComponent }
+
   ];
 
 

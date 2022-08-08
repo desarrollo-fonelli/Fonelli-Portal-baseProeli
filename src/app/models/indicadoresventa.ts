@@ -19,7 +19,7 @@ export interface ClientesInactivos {
     DiferenciaLimiteInferior?: number;
     Minimo?:                   number;
     DiferenciaMinimo?:         number;
-    Meta?:                     number | string;
+    Meta?:                     number;
     DiferenciaMeta?:           number;
     TotalClientes?:            number;
 }

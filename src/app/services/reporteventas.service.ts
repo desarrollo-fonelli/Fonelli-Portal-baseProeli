@@ -10,6 +10,7 @@ import { environment } from '../../environments/environment';
 export class ServicioReporteVentas{
     public API: string;
     public API_URL: string;
+    public sFiltros: string;
 
 constructor(
     public _http:HttpClient
@@ -17,6 +18,7 @@ constructor(
 
     this.API = Configuracion.API;
     this.API_URL = environment.API_URL;
+    this.sFiltros = '';
 
 }
 
@@ -31,27 +33,46 @@ Get(FiltrosReporteVentas: any): Observable<any>{
                                     .set("Access-Control-Allow-Credentials", "true");
 
 
+    this.sFiltros = '';
+    console.log("-------");
 
-    return this._http.get(this.API_URL+this.API + 'reportes/ReporteVentas.php?'+
-                        'AgenteCodigo=' + FiltrosReporteVentas.AgenteCodigo +
-                        '&ClienteDesde=' + FiltrosReporteVentas.ClienteDesde +
-                        '&FilialDesde=' + FiltrosReporteVentas.FilialDesde +
-                        '&ClienteHasta=' + FiltrosReporteVentas.ClienteHasta +
-                        '&FilialHasta=' + FiltrosReporteVentas.FilialHasta +
-                        '&FamiliaDesde=' + FiltrosReporteVentas.FamiliaDesde +
-                        '&FamiliaHasta=' + FiltrosReporteVentas.FamiliaHasta +
-                        '&Fecha1Desde=' + FiltrosReporteVentas.Fecha1Desde +
-                        '&Fecha1Hasta=' + FiltrosReporteVentas.Fecha1Hasta +
-                        '&Fecha2Desde=' + FiltrosReporteVentas.Fecha2Desde +
-                        '&Fecha2Hasta=' + FiltrosReporteVentas.Fecha2Hasta +
-                        '&TipoClienteDesde=' + FiltrosReporteVentas.TipoClienteDesde +
-                        '&TipoClienteHasta=' + FiltrosReporteVentas.TipoClienteHasta +
-                        '&Orden=' + FiltrosReporteVentas.Orden +
-                        '&DesglosaCliente=' + FiltrosReporteVentas.DesglosaCliente +
-                        '&DesglosaFamilia=' + FiltrosReporteVentas.DesglosaFamilia +
-                        '&TipoOrigen=' + FiltrosReporteVentas.TipoOrigen +
-                        '&Pagina=' + FiltrosReporteVentas.Pagina 
-                          ,{headers:headers});
+    this.sFiltros += 'TipoUsuario=' + FiltrosReporteVentas.TipoUsuario;
+            
+    if(FiltrosReporteVentas.Usuario)
+    {
+    this.sFiltros += '&Usuario=' + FiltrosReporteVentas.Usuario;
+    }
+
+    if(FiltrosReporteVentas.AgenteCodigo)
+    {
+    this.sFiltros += '&AgenteCodigo=' + FiltrosReporteVentas.AgenteCodigo;
+    }
+
+
+    this.sFiltros += '&ClienteDesde=' + FiltrosReporteVentas.ClienteDesde;
+    this.sFiltros += '&FilialDesde=' + FiltrosReporteVentas.FilialDesde;
+    this.sFiltros += '&ClienteHasta=' + FiltrosReporteVentas.ClienteHasta;
+    this.sFiltros += '&FilialHasta=' + FiltrosReporteVentas.FilialHasta;
+    this.sFiltros += '&CategoriaDesde=' + FiltrosReporteVentas.CategoriaDesde;
+    this.sFiltros += '&SubcategoDesde=' + FiltrosReporteVentas.SubcategoDesde;
+    this.sFiltros += '&CategoriaHasta=' + FiltrosReporteVentas.CategoriaHasta;
+    this.sFiltros += '&SubcategoHasta=' + FiltrosReporteVentas.SubcategoHasta;
+    this.sFiltros += '&Fecha1Desde=' + FiltrosReporteVentas.Fecha1Desde;
+    this.sFiltros += '&Fecha1Hasta=' + FiltrosReporteVentas.Fecha1Hasta;
+    this.sFiltros += '&Fecha2Desde=' + FiltrosReporteVentas.Fecha2Desde;
+    this.sFiltros += '&Fecha2Hasta=' + FiltrosReporteVentas.Fecha2Hasta;
+    this.sFiltros += '&TipoClienteDesde=' + FiltrosReporteVentas.TipoClienteDesde;
+    this.sFiltros += '&TipoClienteHasta=' + FiltrosReporteVentas.TipoClienteHasta;
+    this.sFiltros += '&OrdenReporte=' + FiltrosReporteVentas.OrdenReporte;
+    this.sFiltros += '&DesglosaCliente=' + FiltrosReporteVentas.DesglosaCliente;
+    this.sFiltros += '&DesglosaCategoria=' + FiltrosReporteVentas.DesglosaCategoria;
+
+     if(FiltrosReporteVentas.TipoOrigen  != 'T')
+    {
+        this.sFiltros += '&TipoOrigen=' + FiltrosReporteVentas.TipoOrigen;
+    }
+
+    return this._http.get(this.API_URL+this.API + 'reportes/ReporteVentas.php?'+this.sFiltros,{headers:headers});
 }
 
 

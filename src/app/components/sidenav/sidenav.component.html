@@ -38,10 +38,11 @@
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
     [fixedInViewport]="mobileQuery.matches" fixedTopGap="64" 
     [opened]="mobileQuery.matches ? 'false' : 'true'"
+    
     style="width:260px;"
     
     >
-      <mat-nav-list *ngIf="bCliente" nav-list>
+      <mat-nav-list *ngIf="bCliente" nav-list (click)="toggle(snav)">
         <a mat-list-item [routerLink]="['/distribuidores/inicio/']" routerLinkActive="active-list-item"> <span class="font_side">Inicio</span></a>
         <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']" routerLinkActive="active-list-item"><span class="font_side">Datos generales de clientes</span></a>
         <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de precios</span></a>
@@ -51,19 +52,20 @@
         <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
       </mat-nav-list>
 
-      <mat-nav-list *ngIf="!bCliente" nav-list>
-        <a mat-list-item [routerLink]="['/ejecutivos/inicio/']" routerLinkActive="active-list-item"> <span class="font_side">Inicio</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/indicadoresventa/']" routerLinkActive="active-list-item"><span class="font_side">Indicadores de venta</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/consultaprecios/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de precios</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/consultapedidos/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de pedidos</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/relacionpedidos/']" routerLinkActive="active-list-item"><span class="font_side">Relación de pedidos</span></a> 
-        <a mat-list-item [routerLink]="['/ejecutivos/estadocuenta/']" routerLinkActive="active-list-item"><span class="font_side">Estado de cuenta</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/fichatecnica/']" routerLinkActive="active-list-item"><span class="font_side">Ficha técnica</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/ventasarticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/ventasclientearticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas por Cliente u Artículo</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/reporteventas/']" routerLinkActive="active-list-item"><span class="font_side">Reporte de ventas</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/consultainactivos/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de inactivos</span></a>
-        <a mat-list-item [routerLink]="['/ejecutivos/ventasclientearticulo/']" routerLinkActive="active-list-item"><span class="font_side">Catalogo de Joyeria </span></a>
+      <mat-nav-list *ngIf="!bCliente" nav-list (click)="toggle(snav)" > 
+        <a mat-list-item [routerLink]="['/asesores/inicio/']" routerLinkActive="active-list-item"> <span class="font_side">Inicio</span></a>
+        <a mat-list-item [routerLink]="['/asesores/indicadoresventa/']" routerLinkActive="active-list-item" ><span class="font_side">Indicadores de venta</span></a>
+        <a mat-list-item [routerLink]="['/asesores/datoscliente/']" routerLinkActive="active-list-item"><span class="font_side">Datos generales de clientes</span></a>        
+        <a mat-list-item [routerLink]="['/asesores/consultaprecios/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de precios</span></a>
+        <a mat-list-item [routerLink]="['/asesores/consultapedidos/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de pedidos</span></a>
+        <a mat-list-item [routerLink]="['/asesores/relacionpedidos/']" routerLinkActive="active-list-item"><span class="font_side">Relación de pedidos</span></a> 
+        <a mat-list-item [routerLink]="['/asesores/estadocuenta/']" routerLinkActive="active-list-item"><span class="font_side">Estado de cuenta</span></a>
+        <a mat-list-item [routerLink]="['/asesores/fichatecnica/']" routerLinkActive="active-list-item"><span class="font_side">Ficha técnica</span></a>
+        <a mat-list-item [routerLink]="['/asesores/ventasarticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
+        <a mat-list-item [routerLink]="['/asesores/ventasclientearticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas por cliente y artículo</span></a>
+        <a mat-list-item [routerLink]="['/asesores/reporteventas/']" routerLinkActive="active-list-item"><span class="font_side">Reporte de ventas</span></a>
+        <a mat-list-item [routerLink]="['/asesores/consultainactivos/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de inactivos</span></a>
+        <a mat-list-item href="http://www.catalogofonelli.com.mx/?route=product/category&path=70" target="_blank"><span class="font_side_ic">Catálogo interactivo </span></a>
       </mat-nav-list>
     </mat-sidenav>
   

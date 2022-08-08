@@ -1,1 +1,273 @@
-<p>indicadoresventa works!</p>
+<section >
+  <div class="container float-left">
+  <div class="row">
+     <div class="col-lg-12">
+
+       <div class="card">
+         <div class="card-body">
+           <h2 class="card-title" >Indicadores de venta</h2>   
+           <!-- General Form Elements -->
+          <form> 
+
+            <div class="form-row">
+
+              <div class="form-group col-md-3">                    
+                  <label class="CamposFonelli">Desde agente</label> 
+                  <select 
+                    class="form-select" 
+                    name="idDesAge"
+                    #nombre="ngModel"
+                    [(ngModel)]="oBuscar.AgenteDesde"    
+                    [disabled]="sTipo == 'A' "
+                    required
+                    >
+                    <ng-container *ngFor='let dato of oAgentesCon;' >
+                      <option value="{{dato.AgenteCodigo}}">
+                        {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                      </option>
+                    </ng-container>
+                  </select>              
+                    
+                </div>
+              
+
+              <div class="form-group col-md-3"> 
+                <label class="CamposFonelli">Hasta agente</label>
+                <select 
+                  class="form-select" 
+                  name="idHasAge"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.AgenteHasta"    
+                  [disabled]="sTipo == 'A' "                        
+                  required
+                  >
+                <ng-container *ngFor='let dato of oAgentesCon;' >
+                  <option value="{{dato.AgenteCodigo}}">
+                    {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                  </option>
+                </ng-container>
+              </select>                  
+              </div>
+
+              <!-- <div class="form-group col-md-3" [hidden]="bCliente"> 
+                <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+                <button  type="button" class="btnFonelli btn" (click)="openClientes(Clientes)" style="background-color:#24a4cc;"><i class="bi bi-search"></i></button>
+              </div>  -->
+              
+            </div> 
+
+            <div class="form-row">                
+
+              <div class="form-group col-md-3"> 
+                <label class="CamposFonelli">Venta del día</label> 
+                  <input
+                  type="date" 
+                  id="idVenDia"
+                  class="form-control"
+                  name="idFilPed"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.FechaCorte"
+                  disabled="{{ bCliente }}"
+                  required
+                >
+              </div>
+
+              <!-- <div class="form-group col-md-3" [hidden]="bCliente"> 
+                <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+                <button  type="button" class="btnFonelli btn" (click)="openClientes(Clientes)" style="background-color:#24a4cc;"><i class="bi bi-search"></i></button>
+              </div>  -->
+              
+            </div> 
+
+
+
+
+           
+                
+                <div *ngIf="sMensaje">
+                  <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+                </div>
+                 
+              <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <button type="submit" (click)="consultaIndVenta()" class=" btnFonelli btn"><span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span> BUSCAR</button>                          
+                  </div>
+              </div>  
+              
+           </form><!-- End General Form Elements -->
+         </div>             
+       </div>
+     </div>
+   </div> 
+  </div>  
+
+   
+    <div *ngIf="bBandera" class="table-responsive container">  
+      <!-- <div class="container" >      -->
+
+      <br>
+      <h6 class="CamposFonelli" style="text-align: center;" >IMPORTE DE VENTA EN VALOR AGREGADO</h6>   
+      <div class="form-row">
+        
+        <div class="form-group col-md-1">              
+          <label class="CamposFonelli">Pedido:</label>
+        </div>
+        <div class="form-group col-md-5">              
+          <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="searchtext"
+              placeholder="Search"                 
+            />
+          </div>
+            <div class="form-group col-md-6">
+              <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+                Imprimir PDF      
+              </button> 
+            </div> 
+      </div>
+
+
+  
+  <div id="pdfTable" #pdfTable>
+      <table  class="table table-hover table-striped">
+        <thead>
+          <tr class="EncTabla">
+          <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">AG</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">DIARIA</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">ACUMULADA</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">INFERIOR</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">DIFERENCIA</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">MINIMO</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFERENCIA</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;">META</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFERENCIA</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">IMPORTE PEDIDOS VA</th>
+        </tr>
+        </thead>
+        <tbody>
+
+          <ng-container *ngFor="let impVen of oIndVentaRes.Contenido index as i">
+            <tr class="table-info">
+              <th scope="row">{{ i + 1 }}</th>
+              <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
+              <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>                
+              <td class="FilasFonelli"  style="text-align:right" >{{ formatoMoneda(impVen.ImporteVentas.VentaDiaria)}}</td>              
+              <td class="FilasFonelli" style="text-align:right; font-weight: bold;">{{ formatoMoneda(impVen.ImporteVentas.VentasAcumuladas)}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.LimiteInferior)}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaLimiteInferior)}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.Minimo)}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaMinimo)}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.Meta)}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaMeta)}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.ImportePedidos)}}</td>
+            </tr>
+          </ng-container>
+          <tr class="table-info">
+            <th ></th>              
+            <td ></td>
+            <td class="FilasFonBold" style="text-align:center; color:#183e6f;">Totales</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentaDiaria'))}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentasAcumuladas'))}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'LimiteInferior'))}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaLimiteInferior'))}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'Minimo'))}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaMinimo'))}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'Meta'))}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaMeta'))}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'ImportePedidos'))}} </td>                
+          </tr>
+          
+        </tbody>
+      </table>
+
+      <br>
+      <br>
+      <h6 class="CamposFonelli" style="text-align: center;" >CLIENTES INACTIVOS</h6>   
+      <table  class="table table-hover table-striped">
+        <thead>
+          <tr class="EncTabla">
+          <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">AG</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">NOMBRE</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">ACTUAL</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">INFERIOR</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">DIFERENCIA</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">MINIMO</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">DIFERENCIA</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">META</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFERENCIA</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;">TOTAL CLTES</th>            
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let impVen of oIndVentaRes.Contenido index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.AgenteCodigo}}</td>
+            <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>                
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.InactivosActual}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.LimiteInferior}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaLimiteInferior}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.Minimo}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaMinimo}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.Meta}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaMeta}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.TotalClientes}}</td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td></td>
+            <td class="FilasFonBold" style="color:#183e6f;"> Totales</td>                              
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'InactivosActual'))}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'LimiteInferior'))}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'DiferenciaLimiteInferior'))}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'Minimo'))}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'DiferenciaMinimo'))}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'Meta'))}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'DiferenciaMeta'))}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'TotalClientes'))}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br>
+      <br>
+      <h6 class="CamposFonelli" style="text-align: center;" >CLIENTES POR LISTAS</h6>   
+      <table  class="table table-hover table-striped">
+        <thead>
+          <tr class="EncTabla">
+          <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">AG</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">RANGO1</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">RANGO2</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">RANGO3</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">RANGO4</th>         
+        </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let impVen of oIndVentaRes.Contenido index as i">
+            <th scope="row">{{ i + 1 }}</th>
+            <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
+            <td class="FilasFonelli"> {{impVen.AgenteNombre}}</td>                
+            <td class="FilasFonelli" >{{ impVen.ClientesListas.ListasRango1}}</td>
+            <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango2}}</td>
+            <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango3}}</td>
+            <td class="FilasFonelli" style="text-align:left">{{ impVen.ClientesListas.ListasRango4}}</td>              
+          </tr>
+        </tbody>
+      </table>
+
+
+   
+
+  </div> 
+
+  </div> 
+  <!-- </div>  -->
+
+</section>
+

@@ -10,16 +10,34 @@ import htmlToPdfmake from 'html-to-pdfmake';
 //Modelos
 import {FiltrosConsultaPrecios} from 'src/app/models/consultaprecios.filtros';
 import {ConsultaPrecios, Componente} from 'src/app/models/consultaprecios';
+import {FiltrosClientes} from 'src/app/models/clientes.filtros';
+import { Clientes } from 'src/app/models/clientes';
+import { Contenido } from 'src/app/models/clientes';
+import { Condiciones } from 'src/app/models/clientes';
+import { DatosGenerales } from 'src/app/models/clientes';
+import { Contactos } from 'src/app/models/clientes';
+import { FiltrosLineas } from 'src/app/models/lineas.filtros';
+import { Lineas, Contenido as LineasProCon } from 'src/app/models/lineas';
 
 //Servicios
+import { ServicioLineas } from 'src/app/services/lineas.service';
+
+
 import { ServicioConsultaPrecios } from 'src/app/services/consultaprecios.service';
+import { ServicioClientes } from 'src/app/services/clientes.service';
+
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalRef,
+} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
   selector: 'app-consultaprecios',
   templateUrl: './consultaprecios.component.html',
   styleUrls: ['./consultaprecios.component.css'],
-  providers:[ServicioConsultaPrecios]
+  providers:[ServicioConsultaPrecios,ServicioClientes,ServicioLineas]
 })
 export class ConsultapreciosComponent implements OnInit {
 
@@ -43,8 +61,12 @@ export class ConsultapreciosComponent implements OnInit {
    public sMensaje: string="";
    bBandera = false;
    fechaHoy: String;
+   
+  public bCargando: boolean = false;
+  public bCargandoClientes: boolean = false;
 
-   public bCargando: boolean = false;
+  closeResult = '';
+  public ModalActivo?: NgbModalRef;
 
 
   mobileQuery: MediaQueryList;
@@ -61,16 +83,30 @@ export class ConsultapreciosComponent implements OnInit {
        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
   );
 
+  public Buscar: FiltrosClientes;
+  public oCliente: Clientes; 
+  public oContenido : Contenido;
+  public oCondiciones : Condiciones;
+  public oDatosGenerales : DatosGenerales;
+  public oContacto : Contactos;
+
   private _mobileQueryListener: () => void;
+  
+  public oBuscarLineasPro: FiltrosLineas;
+  public oLineas: Lineas; 
+  public oLineasProCon: LineasProCon[];
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private _route: ActivatedRoute,
     private _router: Router,
-    private _servicioCPrecios: ServicioConsultaPrecios,) {
+    private _servicioCPrecios: ServicioConsultaPrecios,
+    private modalService: NgbModal,
+    private _servicioCClientes: ServicioClientes,
+    private _servicioLineas: ServicioLineas) {
 
-    this.sCodigo = Number(sessionStorage.getItem('codigo'));
-    this.sTipo = sessionStorage.getItem('tipo');
-    this.sFilial  = Number(sessionStorage.getItem('filial'));
-    this.sNombre = sessionStorage.getItem('nombre')
+    this.sCodigo = Number(localStorage.getItem('codigo'));
+    this.sTipo = localStorage.getItem('tipo');
+    this.sFilial  = Number(localStorage.getItem('filial'));
+    this.sNombre = localStorage.getItem('nombre')
 
     //Inicializamos variables consulta precios
     this.oBuscar = new FiltrosConsultaPrecios('',0,0,0,0,'','','')
@@ -84,6 +120,13 @@ export class ConsultapreciosComponent implements OnInit {
     this.mobileQuery.addListener(this._mobileQueryListener);
 
    
+    this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+    this.oCliente={} as Clientes;
+    this.oContenido ={} as Contenido;
+    this.oCondiciones ={} as Condiciones;
+    this.oDatosGenerales ={} as DatosGenerales;
+    this.oContacto ={} as Contactos;
+    
   }
 
   ngOnInit(): void {
@@ -99,34 +142,140 @@ export class ConsultapreciosComponent implements OnInit {
 
     switch(this.sTipo) { 
       case 'C':{    
-        //Tipo cliente       
-
-         this.oBuscar.ClienteCodigo = this.sCodigo; 
-         this.oBuscar.ClienteFilial = this.sFilial;   
+        //Tipo cliente                  
+        this.oBuscar.ClienteCodigo = this.sCodigo; 
+        this.oBuscar.ClienteFilial = this.sFilial; 
          this.oBuscar.ParidadTipo = 'N';
          this.bCliente = true;    
          break; 
       } 
       case 'A': { 
          //statements; 
+         this.bCliente = false;    
          break; 
       } 
       default: { 
          //statements; 
+         this.bCliente = false;    
          break; 
       } 
    } 
+
+   this.Buscar.TipoUsuario = this.sTipo;
+   this.Buscar.Usuario = this.sCodigo;
+
+  
 
    let date: Date = new Date();
     let mes;
 
     //Valida mes
-    if (date.getMonth().toString.length == 1) {
+    if (date.getMonth().toString().length == 1) {
       mes = '0' + (date.getMonth() + 1);
     }
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();
   
+  //Consulta lineas de producto
+
+  if (!localStorage.getItem('Lineas')){
+
+    //console.log("Lineas no existen");
+
+    this._servicioLineas
+    .Get(this.oBuscarLineasPro)
+    .subscribe(
+      (Response: Lineas) =>  {
+        
+
+        this.oLineas = Response;  
+        console.log("Respuesta lineas: "+JSON.stringify(this.oLineas));
+
+
+
+        if(this.oLineas.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron lineas de producto";     
+          return false;
+        }
+   
+        this.oLineasProCon = this.oLineas.Contenido;
+        this.oBuscar.ArticuloLinea = this.oLineas.Contenido[0].LineaCodigo; 
+        
+        return true;
+
+     
+      },
+      (error:Lineas) => {
+
+        this.oLineas = error;  
+        console.log("error");
+        console.log(this.oLineas);
+        return false;
+     
+      }
+      
+    );
+  }else{
+
+    //console.log("Lineas ya existen");
+
+    this.oLineas = JSON.parse(localStorage.getItem('Lineas'));  
+
+    this.oLineasProCon = this.oLineas.Contenido;
+    this.oBuscar.ArticuloLinea = this.oLineas.Contenido[0].LineaCodigo; 
+
+  }
+    
+
+
+    //Realizamos llamada al servicio de clientes 
+   if (!localStorage.getItem('Clientes')){
+
+    //console.log("no tenemos  Clientes");
+
+   this._servicioCClientes
+    .GetCliente(this.Buscar)
+    .subscribe(
+      (Response: Clientes) =>  {        
+
+        this.oCliente = Response;  
+        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));    
+        if(this.oCliente.Codigo != 0){     
+          return false;
+        }
+   
+       
+       this.oContenido= this.oCliente.Contenido[0];
+        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+        this.oContacto =this.oCliente.Contenido[0].Contactos;
+        return true;
+
+     
+      },
+      (error:Clientes) => {  
+        this.oCliente = error;
+        console.log(this.oCliente);
+        return false;
+     
+      }
+      
+    );
+    //console.log("Termina carga Clientes");
+
+   }else{
+   // console.log("Ya tenemos  Clientes");
+
+
+    this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+    this.oContenido = this.oCliente.Contenido[0];
+    this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+    this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+    this.oContacto =this.oCliente.Contenido[0].Contactos;
+
+   }
+
    
 
   }
@@ -141,12 +290,10 @@ export class ConsultapreciosComponent implements OnInit {
   this.bCargando = true;
 
   //Inicializamos el tipo de usuario por el momento
-  this.oBuscar.TipoUsuario = this.sTipo
+  this.oBuscar.TipoUsuario = this.sTipo;
+  this.oBuscar.Usuario = this.sCodigo;
 
-  console.log(this.oBuscar.ClienteCodigo);
-  console.log(this.oBuscar.ClienteFilial); 
 
-  console.log(this.oBuscar);
 
   //Realizamos llamada al servicio de pedidos
   this._servicioCPrecios     
@@ -277,10 +424,131 @@ downloadAsPDF() {
 formatoMoneda(number){
   return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
 };
+formatoNumero(number){
+  console.log("recibidmos-"+number);
+  console.log(number);
+  let valor: string;
+   valor = Intl.NumberFormat('en-US', { maximumFractionDigits: 2}).format(number);
+   return Number(valor).toFixed(2);
+};
+
+ //Modal clientes
+ openClientes(Clientes: any) {
+  console.log("Entra modal clientes");
+  this.bCargandoClientes = true;
+  var result;
+
+
+  try{
+
+    //result = this.BuscaClientes()
+    result = true;
+
+
+    if(result){
+      
+      this.ModalActivo = this.modalService.open(Clientes, {
+        ariaLabelledBy: 'Clientes',
+        size: 'xl',
+        scrollable: true
+        
+      });
+  
+      this.ModalActivo.result.then(
+        (result) => {},
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          console.log('reason ' + reason);
+          this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+        }
+      );
+    }
+
+    this.bCargandoClientes = false;
+
+
+    console.log("respuesta"+result);
+
+  }catch(err){
+    
+  }
+}
+
+private getDismissReason(reason: any): string {
+  if (reason === ModalDismissReasons.ESC) {
+    return 'by pressing ESC';
+  } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+    return 'by clicking on a backdrop';
+  } else {
+    return `with: ${reason}`;
+  }
+}
+
+    //Funcion para seleccionar cliente
+    obtenCliente(sCodigo: string, sFilial: string) {
+
+      this.oBuscar.ClienteCodigo = Number(sCodigo);
+      this.oBuscar.ClienteFilial = Number(sFilial);
+
+      this.ModalActivo.dismiss('Cross click');    
+    }
+
+
+    BuscaClientes():boolean{
+
+      //this.Buscar.Pagina=1;
+      //this.Buscar.Usuario= -1;
+    
+
+  
+      console.log("Datos de busqueda clientes: "+JSON.stringify(this.Buscar));
+      this._servicioCClientes
+      .GetCliente(this.Buscar)
+      .subscribe(
+        (Response: Clientes) =>  {
+          
+  
+          this.oCliente = Response;  
+          console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
+          this.bCargandoClientes =false;
+  
+  
+          if(this.oCliente.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron datos del cliente";
+     
+            return false;
+          }
+     
+          this.oContenido = this.oCliente.Contenido[0];
+          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+          this.oContacto =this.oCliente.Contenido[0].Contactos;
+          return true;
+  
+       
+        },
+        (error:Clientes) => {
+  
+          this.oCliente = error;
+  
+          console.log("error");
+          console.log(this.oCliente);
+          this.bCargandoClientes =false;
+          return false;
+       
+        }
+        
+      );
+      return true;
+    }  
+
+
+  
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    sessionStorage.clear();
+    localStorage.clear();
     this._router.navigate(['/']);    
   }
 

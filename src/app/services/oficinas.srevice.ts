@@ -33,6 +33,8 @@ Get(FiltrosOficinas: any): Observable<any>{
 
 
                                     console.log(FiltrosOficinas);
+
+                                    this.sFiltros = '';
   
             
                                     if(FiltrosOficinas.OficinaCodigo)

@@ -1,1 +1,265 @@
-<p>consultainactivos works!</p>
+<section >
+    <div class="container float-left">
+    <div class="row">
+       <div class="col-lg-12">
+ 
+         <div class="card">
+           <div class="card-body">
+             <h2 class="card-title" >Clientes Inactivos con saldo al {{fechaFron}}</h2>   
+             <!-- General Form Elements -->
+            <form> 
+
+              <div class="form-row">
+
+                <div class="form-group col-md-3">                    
+                    <label class="CamposFonelli">Desde agente</label> 
+                    <select 
+                      class="form-select" 
+                      name="idAgeDesde"
+                      #nombre="ngModel"
+                      [(ngModel)]="oBuscar.AgenteDesde"      
+                      [disabled]="sTipo == 'A' "                      
+                      required
+                      >
+                      <ng-container *ngFor='let dato of oAgentesCon;' >
+                        <option value="{{dato.AgenteCodigo}}">
+                          {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                        </option>
+                      </ng-container>
+                    </select>
+                      
+                  </div>
+                
+
+                <div class="form-group col-md-3"> 
+                  <label class="CamposFonelli">Hasta agente</label>
+                  <select 
+                    class="form-select" 
+                    name="idHasAge"
+                    #nombre="ngModel"
+                    [(ngModel)]="oBuscar.AgenteHasta"      
+                    [disabled]="sTipo == 'A' "                                            
+                    required
+                    >
+                  <ng-container *ngFor='let dato of oAgentesCon;' >
+                    <option value="{{dato.AgenteCodigo}}">
+                      {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                    </option>
+                  </ng-container>
+              </select> 
+                </div>
+
+                <div class="form-group col-md-3" [hidden]="bCliente"> 
+                  <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+                  <button type="submit" (click)="consultaCliInacSal()" class=" btnFonelli btn"><span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span> BUSCAR</button>                          
+                </div> 
+                
+              </div> 
+              
+                <div *ngIf="sMensaje">
+                  <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+                </div>
+                  
+             
+                
+             </form><!-- End General Form Elements -->
+           </div>             
+         </div>
+       </div>
+     </div> 
+    </div>  
+
+     
+      <div *ngIf="bBandera" class="container" >  
+        <!-- <div class="container" >      -->
+
+        <br>
+        <div class="form-row  ">
+          <div class="form-group col-md-1">              
+            <label class="CamposFonelli">Buscar:</label>
+          </div>
+          <div class="form-group col-md-5">              
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="searchtext"
+                placeholder="Search"                 
+              />
+            </div>
+              <div class="form-group col-md-6">
+                <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+                  Imprimir PDF      
+                </button> 
+              </div> 
+        </div>
+
+    <div  id="pdfTable" #pdfTable>
+        <table  class="table table-hover table-striped" style="display:block;   overflow-x: auto;" [style.height.px]="sHeight">
+          <thead>
+            <tr class="EncTabla">                 
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col"></th>
+              <th class="table-warning" scope="col" [attr.colspan]="sColSaldo" style="text-align:center; color: #24a4cc;">SALDO TOTAL</th>  
+              <th class="table-success" scope="col" [attr.colspan]="sColVencido" style="text-align:center; color: #24a4cc;">SALDO VENCIDO</th>
+              <th colspan="2" style="text-align:center; background-color:#24a4cc;"></th>
+
+            </tr>
+            <tr class="EncTabla">
+            <th style="background-color: #24a4cc; color: white;" scope="col" >CLIENTE</th>
+            <th style="background-color: #24a4cc; color: white;" scope="col">FIL</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">SUCURSAL</th>
+            <th style="background-color: #24a4cc; color: white;" scope="col">L1</th>
+            <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">L2</th>
+            <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">PLAZO</th>
+            <th *ngIf="bBanCtaCorrMN_SAL" style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>
+            <th *ngIf="bBanCtaCorrORO_SAL" style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>
+            <th *ngIf="bBanCtaCorrDLLS_SAL"style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_DLLS</th>
+            <th *ngIf="bBanCtaDocMN_SAL" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            
+            <th *ngIf="bBanCtaDocORO_SAL" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_ORO</th>            
+            <th *ngIf="bBanCtaDocDLLS_SAL" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_DLLS</th>            
+            <th *ngIf="bBanCtaCorrMN_VEN" style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>
+            <th *ngIf="bBanCtaCorrORO_VEN" style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>
+            <th *ngIf="bBanCtaCorrDLLS_VEN" style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_DLLS</th>
+            <th *ngIf="bBanCtaDocMN_VEN" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            
+            <th *ngIf="bBanCtaDocORO_VEN" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_ORO</th>            
+            <th *ngIf="bBanCtaDocDLLS_VEN" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_DLLS</th>            
+            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DÍAS</th>
+            <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PED</th>
+          </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let con of oClientesInacRes.Contenido;">
+              <tr class="table-info">
+                <td class="FilasFonelli">Agente</td>   
+                <td>{{con.AgenteCodigo}}</td>
+                <td>{{con.AgenteNombre}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td *ngIf="bBanCtaCorrMN_SAL"></td>
+                <td *ngIf="bBanCtaCorrORO_SAL"></td>
+                <td *ngIf="bBanCtaCorrDLLS_SAL"></td>
+                <td *ngIf="bBanCtaDocMN_SAL"></td>            
+                <td *ngIf="bBanCtaDocORO_SAL"></td>            
+                <td *ngIf="bBanCtaDocDLLS_SAL"></td>            
+                <td *ngIf="bBanCtaCorrMN_VEN"></td>
+                <td *ngIf="bBanCtaCorrORO_VEN"></td>
+                <td *ngIf="bBanCtaCorrDLLS_VEN"></td>
+                <td *ngIf="bBanCtaDocMN_VEN"></td>            
+                <td *ngIf="bBanCtaDocORO_VEN"></td>            
+                <td *ngIf="bBanCtaDocDLLS_VEN"></td> 
+                <td></td>
+                <td></td>
+              </tr>
+
+              <tr *ngFor="let cli of con.Clientes | searchconsultaCliInac: searchtext; index as i" >
+     
+                <td class="FilasFonelli" style="text-align:left">{{ cli.ClienteCodigo}}</td>
+                <td class="FilasFonelli"> {{cli.ClienteFilial}} </td>                
+                <td class="FilasFonelli" >{{ cli.ClienteNombre}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.ClienteSucursal}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.Lista1}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.Lista2}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.Plazo}}</td>               
+    
+                <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'1'))}}</td>
+                <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'2'))}}</td>
+                <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'3'))}}</td>
+                <td *ngIf="bBanCtaDocMN_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'6'))}}</td>
+                <td *ngIf="bBanCtaDocORO_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'7'))}}</td>
+                <td *ngIf="bBanCtaDocDLLS_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'8'))}}</td>
+
+                <td *ngIf="bBanCtaCorrMN_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'1'))}}</td>
+                <td *ngIf="bBanCtaCorrORO_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'2'))}}</td>
+                <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'3'))}}</td>
+                <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'6'))}}</td> 
+                <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'7'))}}</td> 
+                <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'8'))}}</td> 
+       
+                <td class="FilasFonelli" style="text-align:right">{{ cli.DiasAtraso}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ cli.PedidosActivos}}</td>
+                
+              </tr>
+
+              <tr>     
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="FilasFonBold" style="text-align:right">Total agente</td>               
+    
+                <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'1'))}}</td>
+                <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'2'))}}</td>
+                <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'3'))}}</td>
+                <td *ngIf="bBanCtaDocMN_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'6'))}}</td>
+                <td *ngIf="bBanCtaDocORO_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'7'))}}</td>
+                <td *ngIf="bBanCtaDocDLLS_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'8'))}}</td>
+
+                <td *ngIf="bBanCtaCorrMN_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'1'))}}</td>
+                <td *ngIf="bBanCtaCorrORO_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'2'))}}</td>
+                <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'3'))}}</td>
+                <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'6'))}}</td> 
+                <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'7'))}}</td> 
+                <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'8'))}}</td> 
+       
+                <td></td>
+                <td></td>
+                
+              </tr>
+
+            </ng-container>
+
+            <tr>     
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="FilasFonBold" style="text-align:right">Total general</td>               
+  
+              <td *ngIf="bBanCtaCorrMN_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'1'))}}</td>
+              <td *ngIf="bBanCtaCorrORO_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'2'))}}</td>
+              <td *ngIf="bBanCtaCorrDLLS_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'3'))}}</td>
+              <td *ngIf="bBanCtaDocMN_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'6'))}}</td>
+              <td *ngIf="bBanCtaDocORO_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'7'))}}</td>
+              <td *ngIf="bBanCtaDocDLLS_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'8'))}}</td>
+
+              <td *ngIf="bBanCtaCorrMN_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'1'))}}</td>
+              <td *ngIf="bBanCtaCorrORO_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'2'))}}</td>
+              <td *ngIf="bBanCtaCorrDLLS_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'3'))}}</td>
+              <td *ngIf="bBanCtaDocMN_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'6'))}}</td> 
+              <td *ngIf="bBanCtaDocORO_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'7'))}}</td> 
+              <td *ngIf="bBanCtaDocDLLS_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'8'))}}</td> 
+     
+              <td></td>
+              <td></td>
+              
+            </tr>
+            
+            
+          </tbody>
+        </table>
+
+
+     
+
+    </div> 
+
+    </div> 
+    <!-- </div>  -->
+  
+</section>
+
+
+
+

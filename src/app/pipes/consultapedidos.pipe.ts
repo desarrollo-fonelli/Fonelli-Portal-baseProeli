@@ -22,3 +22,4 @@ export class SearchConsultaPedidoPipe implements PipeTransform {
     return Pedidos;
   }
 }
+

@@ -9,50 +9,54 @@
 
               <!-- General Form Elements -->
               <form>
-                  <div class="form-row">
-                      <div class="form-group col-md-3">
-                        <label class="CamposFonelli">Numero</label>
-                        <input 
-                          type="text" 
-                          id="idNumpPre"
-                          class="form-control"
-                          name="idNumpPre"
-                          #nombre="ngModel"
-                          [(ngModel)]="oBuscar.ClienteCodigo"
-                          disabled="{{ bCliente }}"
-                          required
-                        >
-                      </div>
-                      <div class="form-group col-md-3">
-                        <label class="CamposFonelli">Filial</label>
-                        
-                        <input
-                          type="text" 
-                          id="idFilPre"
-                          class="form-control"
-                          name="idFilPre"
-                          #nombre="ngModel"
-                          [(ngModel)]="oBuscar.ClienteFilial"
-                          disabled="{{ bCliente }}"
-                          required
-                        >
-                        
-                      </div>
-                      <div class="form-group col-md-3">
-                        <label class="CamposFonelli">-</label>
-                          <button 
-                            type="submit"
-                             class="form-control btnFonelli"
-                             [hidden]="bCliente"
-                             >CATALOGO DE CLIENTES
-                          </button>
-                      </div>
+                <div class="form-row">
 
+                  <div class="form-group col-md-3">                    
+                      <label class="CamposFonelli">Numero</label> 
+                      <input 
+                        type="text" 
+                        id="idNumpPre"
+                        class="form-control"
+                        name="idNumpPre"
+                        #nombre="ngModel"
+                        [(ngModel)]="oBuscar.ClienteCodigo"
+                        disabled="{{ bCliente }}"
+                        required>
+                        
+                    </div>
+                  
 
-                      
+                  <div class="form-group col-md-3"> 
+                    <label class="CamposFonelli">Filial</label>
+   
+                      <input
+                      type="text" 
+                      id="idFilPre"
+                      class="form-control"
+                      name="idFilPre"
+                      #nombre="ngModel"
+                      [(ngModel)]="oBuscar.ClienteFilial"
+                      disabled="{{ bCliente }}"
+                      [disabled]="oBuscar.ClienteCodigo == 0 || bCliente"   
+                      required
+                    >
                   </div>
 
+                  <div class="form-group col-md-3" [hidden]="bCliente"> 
+                    <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+                    <button  type="button" class="btnFonelli btn" style="background-color:#24a4cc;" (click)="openClientes(Clientes)"><i class="bi bi-search"></i></button>
+                  </div> 
+
+                </div> 
+  
+                    
+                  
+
+              
+               
+
                   <div class="form-row">
+                    
                       <div class="form-group col-md-3">
                         <label class="CamposFonelli">No de lista</label>
                         <select 
@@ -60,6 +64,7 @@
                           name="idListaPre"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.Lista"
+                          [disabled]="oBuscar.ClienteCodigo == 0"
                           required
                         >
                           <option value="1">Pedido</option>
@@ -68,8 +73,8 @@
                         </select>
                       </div>
                       <div class="form-group col-md-3" [hidden]="bCliente">
-                        <label class="CamposFonelli">-</label>
-                        <input type="text" class="form-control" id="" placeholder="" >
+                        <label class="CamposFonelli" style="color:white;">-</label>
+                        <input type="text" class="form-control" id="" placeholder=""  [disabled]="oBuscar.ClienteCodigo != 0"  >
                       </div>
                   </div>
 
@@ -83,8 +88,8 @@
                           [(ngModel)]="oBuscar.ParidadTipo"
                           required
                         >
-                          <option value="Normal">Normal</option>
-                          <option value="Especial">Especial</option>
+                          <option value="N">Normal</option>
+                          <option value="E">Especial</option>
                           
                         </select>
                       </div>
@@ -94,15 +99,19 @@
                   <div class="form-row">
                       <div class="form-group col-md-3">
                         <label class="CamposFonelli">Linea</label>
-                        <input
-                          type="text" 
-                          id="idLineaPre"
-                          class="form-control"
+                        <select 
+                          class="form-select" 
                           name="idLineaPre"
                           #nombre="ngModel"
-                          [(ngModel)]="oBuscar.ArticuloLinea"
+                          [(ngModel)]="oBuscar.ArticuloLinea"                            
                           required
-                        >
+                          >
+                        <ng-container *ngFor='let dato of oLineasProCon;' >
+                          <option value="{{dato.LineaCodigo}}">
+                            {{dato.LineaCodigo}} - {{dato.LineaDescripc}}
+                          </option>
+                        </ng-container>
+                      </select>                        
                       </div>
                       <div class="form-group col-md-3">
                         <label class="CamposFonelli">Clave</label>
@@ -140,15 +149,27 @@
 
       <br>
       <div class="form-row">
-        
-            <div class="form-group col-md-12">
-              <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
-                Imprimir PDF      
-              </button> 
-            </div> 
-      </div>
 
-  <div id="pdfTable" #pdfTable>
+        <div *ngIf="!bCliente" class="col-md-6" >
+          <label style="text-align: center; color:#183e6f;">{{oPreciosRes.Contenido.TipoCalculoDescripc}}</label> 
+          <br>
+          <label style="text-align: center; color:#183e6f;">{{oPreciosRes.Contenido.TipoCosteoDescripc +' '+oPreciosRes.Contenido.TipoCosteoCodigo}}</label> 
+          <br>
+          <label style="text-align: center; color:#183e6f;">{{'Valor agregado '+oPreciosRes.Contenido.ValorAgregado}}</label> 
+
+        </div>       
+        
+            
+      </div>
+      <h6 style="text-align: center; font-size:xx-large;">{{oPreciosRes.Contenido.ArticuloDescripc}}</h6> 
+  
+  <div id="pdfTable" #pdfTable >
+    <div class="form-group col-md-12">
+      <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+        Imprimir PDF      
+      </button> 
+    </div> 
+
       <table  class="table table-hover table-striped">
         <thead>
           <tr class="EncTabla">
@@ -168,8 +189,8 @@
             <td class="FilasFonelli" >{{comp.ComponenteLinea}}</td>                
             <td class="FilasFonelli" >{{ comp.ComponenteCodigo}}</td>
             <td class="FilasFonelli" >{{ comp.ComponenteDescripc}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ comp.PiezasNormal}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ comp.GramosEquivalente}}</td>            
+            <td class="FilasFonelli" style="text-align:right">{{ formatoNumero(comp.PiezasNormal)}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ formatoNumero(comp.GramosEquivalente)}}</td>            
           </tr>
         </tbody>          
       </table>
@@ -186,6 +207,80 @@
 
   </div> 
     </section>
+
+
+        <!--Modal catalogo clientes-->
+        <ng-template #Clientes let-modal >
+          <div class="modal-header" >        
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+          </div>      
+      
+          <div class="modal-body-tables" style="overflow-y: scroll;" >
+      
+            <div class="container">
+              <div class="row">
+
+                <div class="form-group col-md-1">              
+                  <br>
+                  <label class="CamposFonelli">Buscar:</label>
+                </div>
+                <div class="form-group col-md-5">    
+                  <br>          
+                  <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="searchtext"
+                      placeholder="Search"                 
+                    />
+                </div>
+                    
+
+                <div class="col-12" >                     
+                  <table  class="table table-striped">
+                    <thead>
+                    <tr class="EncTabla">
+                      <th>#</th>
+                      <th scope="col" ></th>
+                      <th scope="col" >NUM</th>                         
+                      <th scope="col" >FIL</th>
+                      <th scope="col" >RAZÓN SOCIAL</th>
+                      <th scope="col" >SUCURSAL/NOMBRE</th>
+                      <th scope="col" >S</th>
+                      <th scope="col" >CONTACTO1</th>
+                      <th scope="col" >CONTACTO2</th>                          
+                    </tr>
+                    </thead>
+                    <tbody>
+                      <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
+                      <tr *ngFor="let emp of oCliente.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>                              
+                          <input  style="border-color: #24a4cc;" type="checkbox">
+                        </td> 
+                        <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
+                        <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
+                        <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                        <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                        <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                        <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                        <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
+                      </tr>
+                    </tbody>
+                  </table>            
+                  
+                </div>  
+              </div>
+                
+            </div>
+          </div>
+      
+    
+          <div class="modal-footer">
+            <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+            
+          </div>
+      
+        </ng-template> 
 
     
 

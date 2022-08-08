@@ -3,7 +3,7 @@
       <section >
         <div class="container float-left">
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-12">
   
             <div class="card">
               <div class="card-body">
@@ -34,12 +34,16 @@
                             class="form-control"
                             name="idDesFil"
                             #nombre="ngModel"
-                            [(ngModel)]="oBuscar.FiliadDesde"
+                            [(ngModel)]="oBuscar.FilialDesde"
                             disabled="{{ bCliente }}"
                             required
                           >
                         </div>
-  
+
+                        <div class="form-group col-md-3" [hidden]="bCliente"> 
+                          <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+                          <button  type="button" class="btnFonelli btn" (click)="openClientes(Clientes,true)" style="background-color:#24a4cc;"><i class="bi bi-search"></i></button>
+                        </div> 
                         
                     </div>
   
@@ -70,6 +74,11 @@
                             required
                           >
                         </div>
+                        <div class="form-group col-md-3" [hidden]="bCliente"> 
+                          <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+                          <button  type="button" class="btnFonelli btn" (click)="openClientes(Clientes,false)" style="background-color:#24a4cc;"><i class="bi bi-search"></i></button>
+                        </div> 
+
                     </div>
   
                   
@@ -77,27 +86,29 @@
                     <div class="form-row">
                         <div class="form-group col-md-3" [hidden]="bCliente">
                           <label >Desde cartera</label>
-                          <input 
-                            type="text" 
-                            id="idDesCar"
-                            class="form-control"
+                          <select 
+                            class="form-select" 
                             name="idDesCar"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.CarteraDesde"
                             required
                           >
+                            <option value="{{dato.CarteraCodigo}}" *ngFor="let dato of oCarterasCon">{{dato.CarteraCodigo}} - {{dato.CarteraDescripc}}</option>                          
+                          </select>
+                          
                         </div>
                         <div class="form-group col-md-3" [hidden]="bCliente">
                           <label >Hasta cartera</label>
-                          <input 
-                            type="text" 
-                            id="idHasCar"
-                            class="form-control"
+                          <select 
+                            class="form-select" 
                             name="idHasCar"
                             #nombre="ngModel"
                             [(ngModel)]="oBuscar.CarteraHasta"
                             required
                           >
+                            <option value="{{dato.CarteraCodigo}}" *ngFor="let dato of oCarterasCon">{{dato.CarteraCodigo}} - {{dato.CarteraDescripc}}</option>                          
+                          </select>
+                          
                         </div>
                     </div>
   
@@ -105,13 +116,14 @@
                     <div *ngIf="sMensaje">
                       <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
                     </div>
+                    
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <button type="submit" (click)="consultaEstadoCuenta()" class="btnFonelli btn"> <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span> BUSCAR</button>
                         </div>
-                        <div class="form-group col-md-3" [hidden]="bCliente">
+                        <!-- <div class="form-group col-md-3" [hidden]="bCliente">
                           <button type="submit"  class="btnFonelli btn">CATALOGO DE CLIENTES</button>
-                      </div>
+                      </div> -->
                     </div>  
                     
                                  
@@ -221,7 +233,7 @@
             <div class="container">
               <div class="row">
 
-                <div *ngIf="!bCliente" class="col-12 col-lg-2">
+                <div *ngIf="bCliente"  class="col-12 col-lg-2">
                   <table class="table table-sm  table-responsive">
                     <thead>
                       <tr>
@@ -241,7 +253,7 @@
                 </div>
 
 
-                <div *ngIf="!bCliente"  class="col-12 col-lg-2">
+                <div *ngIf="bCliente"  class="col-12 col-lg-2">
                   <table class="table table-sm  ">
                     <thead>
                       <tr>
@@ -307,4 +319,79 @@
 </section>
   
   
+
+    <!--Modal catalogo clientes-->
+  <ng-template #Clientes let-modal >
+    <div class="modal-header" >        
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>      
+
+    <div class="modal-body-tables" style="overflow-y: scroll;" >
+
+      <div class="container">
+        <div class="row">
+
+          <div class="form-group col-md-1">              
+            <br>
+            <label class="CamposFonelli">Buscar:</label>
+          </div>
+          <div class="form-group col-md-5">    
+            <br>          
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="searchtext"
+                placeholder="Search"                 
+              />
+          </div>
+              
+
+          <div class="col-12" >                     
+            <table  class="table table-striped">
+              <thead>
+              <tr class="EncTabla">
+                <th>#</th>
+                <th scope="col" ></th>
+                <th scope="col" >NUM</th>                         
+                <th scope="col" >FIL</th>
+                <th scope="col" >RAZÓN SOCIAL</th>
+                <th scope="col" >SUCURSAL/NOMBRE</th>
+                <th scope="col" >S</th>
+                <th scope="col" >CONTACTO1</th>
+                <th scope="col" >CONTACTO2</th>                          
+              </tr>
+              </thead>
+              <tbody>
+                <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
+                <tr *ngFor="let emp of oClientes.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>                              
+                    <input  style="border-color: #24a4cc;" type="checkbox">
+                  </td> 
+                  <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
+                  <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
+                  <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                  <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                  <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                  <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                  <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
+                </tr>
+              </tbody>
+            </table>            
+            
+          </div>  
+        </div>
+          
+      </div>
+    </div>
+
+
+    <div class="modal-footer">
+      <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+      
+    </div>
+
+  </ng-template> 
+
+
    

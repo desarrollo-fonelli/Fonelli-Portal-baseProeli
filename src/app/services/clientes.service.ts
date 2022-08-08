@@ -42,8 +42,20 @@ GetCliente(FiltrosClientes: any): Observable<any>{
                                   .set("Access-Control-Allow-Credentials", "true");
 
     console.log(FiltrosClientes);
+    this.sFiltros = '';   
+
+
+
+    if(FiltrosClientes.TipoUsuario)
+    {
+        this.sFiltros += 'TipoUsuario=' + FiltrosClientes.TipoUsuario;
+    }
     
-                                  this.sFiltros = 'Pagina=' + FiltrosClientes.Pagina;
+    if(FiltrosClientes.Usuario)
+    {
+        this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario;
+    }
+
 
     if(FiltrosClientes.ClienteCodigo)
     {
@@ -54,16 +66,10 @@ GetCliente(FiltrosClientes: any): Observable<any>{
     {
         this.sFiltros += '&ClienteFilial=' + FiltrosClientes.ClienteFilial;
     }
-
-
-
-    if(FiltrosClientes.Usuario != -1)
-    {
-        this.sFiltros +='&Usuario=' + FiltrosClientes.Usuario;
-    }
-
+    
+    //this.sFiltros += '&Pagina=' + FiltrosClientes.Pagina;
                               
-console.log(this.sFiltros);
+console.log("resumen filtros:"+this.sFiltros);
 
 
   return this._http.get(this.API_URL+this.API + 'catalogos/CatalogoClientes.php?'+this.sFiltros,{headers:headers});

@@ -22,7 +22,7 @@ export interface Cliente {
     DiasAtraso?:             number;
     PedidosActivos?:         string;
     SaldosCarteraCliente?:   SaldosCarteraCliente[];
-    VencidosCarteraCliente?: VencidosCarteraCliente[];
+    VencidosSaldosCartera?: VencidosSaldosCartera[];
 }
 
 export interface SaldosCarteraCliente {
@@ -31,7 +31,7 @@ export interface SaldosCarteraCliente {
     TotalAgenteSaldoTipoCartera?: number;
 }
 
-export interface VencidosCarteraCliente {
+export interface VencidosSaldosCartera {
     TipoCarteraCodigo?:             string;
     TipoCarteraDescripc?:           string;
     TotalAgenteVencidoTipoCartera?: number;

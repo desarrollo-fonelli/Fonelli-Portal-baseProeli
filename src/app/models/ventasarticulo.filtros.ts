@@ -1,5 +1,6 @@
-class FiltrosVentasArticulo {
+export class FiltrosVentasArticulo {
   constructor(
+    public TipoUsuario: string,
     public Usuario: number,
     public OficinaDesde: string,
     public OficinaHasta: string,
@@ -9,11 +10,13 @@ class FiltrosVentasArticulo {
     public LineaHasta: string,
     public ClaveDesde: string,
     public ClaveHasta: string,
-    public FamiliaDesde: string,
-    public FamiliaHasta: string,
+    public CategoriaDesde: string,
+    public SubcategoDesde: string,
+    public CategoriaHasta: string,
+    public SubcategoHasta: string,
     public TipoArticulo: string,
     public TipoOrigen: string,
-    public Orden: string,
+    public OrdenReporte: string,
     public Presentacion: string,
     public Pagina: number
   ) {}

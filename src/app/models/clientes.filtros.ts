@@ -3,7 +3,9 @@ export class FiltrosClientes {
     public Usuario: number,
     public ClienteCodigo: number,
     public ClienteFilial: number,
-    public Pagina: number  
+    public TipoUsuario: string,
+    public Pagina: number 
+    
   ){}
 }
 

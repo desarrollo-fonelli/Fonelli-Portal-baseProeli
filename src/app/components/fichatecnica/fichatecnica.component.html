@@ -1,1 +1,505 @@
-<p>fichatecnica works!</p>
+<section >
+    <div class="container float-left">
+    <div class="row">
+       <div class="col-lg-12">
+ 
+         <div class="card">
+           <div class="card-body">
+             <h2 class="card-title" >Ficha Técnica</h2>   
+             <!-- General Form Elements -->
+            <form> 
+
+              <div class="form-row">
+
+                <div class="form-group col-md-3">                    
+                    <label class="CamposFonelli">Número</label> 
+                    <input 
+                      type="text" 
+                      id="idNumFT"
+                      class="form-control"
+                      name="idNumFT"
+                      #nombre="ngModel"
+                      [(ngModel)]="oBuscar.Cliente"
+                      disabled="{{ bCliente }}"
+                      required>
+                      
+                  </div>               
+
+
+                <div class="form-group col-md-3" [hidden]="bCliente"> 
+                  <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+                  <button  type="button" class="btnFonelli btn" (click)="openClientes(Clientes)" style="background-color:#24a4cc;"><i class="bi bi-search"></i></button>
+                </div> 
+                
+              </div> 
+
+              <div class="form-row">
+              
+                <div class="form-group col-md-3"> 
+                  <label class="CamposFonelli">Desde Filial</label>
+
+                    <input
+                    type="text" 
+                    id="idDesFil"
+                    class="form-control"
+                    name="idDesFil"
+                    #nombre="ngModel"
+                    [(ngModel)]="oBuscar.FilialDesde"
+                    disabled="{{ bCliente }}"
+                    required
+                  >
+                </div>
+
+                <div class="form-group col-md-3"> 
+                  <label class="CamposFonelli">Hasta Filial</label>
+
+                    <input
+                    type="text" 
+                    id="idHasFil"
+                    class="form-control"
+                    name="idHasFil"
+                    #nombre="ngModel"
+                    [(ngModel)]="oBuscar.FilialHasta"
+                    disabled="{{ bCliente }}"
+                    required
+                  >
+                </div>
+            </div> 
+
+
+
+
+              <label class="CamposFonelli">Ventas año anterior:</label> 
+              <div class="form-row">
+                
+                <div class="form-group col-md-3">                    
+                    <label class="CamposFonelli">Desde fecha</label> 
+                    <input 
+                      type="date" 
+                      id="idFeDeAn"
+                      class="form-control"
+                      name="idFeDeAn"
+                      #nombre="ngModel"
+                      [(ngModel)]="oBuscar.FechaDesdeAnterior"
+                      disabled="{{ bCliente }}"
+                      required>
+                      
+                  </div>
+                
+
+                <div class="form-group col-md-3"> 
+                  <label class="CamposFonelli">Hasta fecha</label>
+ 
+                    <input
+                    type="date" 
+                    id="idFeHaAn"
+                    class="form-control"
+                    name="idFeHaAn"
+                    #nombre="ngModel"
+                    [(ngModel)]="oBuscar.FechaHastaAnterior"
+                    disabled="{{ bCliente }}"
+                    required
+                  >
+                </div>                
+                
+              </div> 
+
+              
+              <label class="CamposFonelli">Ventas año actual:</label> 
+              <div class="form-row">
+                
+                <div class="form-group col-md-3">                    
+                    <label class="CamposFonelli">Desde fecha</label> 
+                    <input 
+                      type="date" 
+                      id="idFeDeAa"
+                      class="form-control"
+                      name="idFeDeAa"
+                      #nombre="ngModel"
+                      [(ngModel)]="oBuscar.FechaDesdeActual"
+                      disabled="{{ bCliente }}"
+                      required>
+                      
+                  </div>
+                
+
+                <div class="form-group col-md-3"> 
+                  <label class="CamposFonelli">Hasta fecha</label>
+ 
+                    <input
+                    type="date" 
+                    id="idFeHaAa"
+                    class="form-control"
+                    name="idFeHaAa"
+                    #nombre="ngModel"
+                    [(ngModel)]="oBuscar.FechaHastaActual"
+                    disabled="{{ bCliente }}"
+                    required
+                  >
+                </div>
+                
+                
+              </div> 
+
+
+               
+             
+                  
+                  <div *ngIf="sMensaje">
+                    <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+                  </div>
+                   
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <button type="submit" (click)="consultaFichaTecnica()" class=" btnFonelli btn"><span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span> BUSCAR</button>                          
+                    </div>
+                </div>  
+                
+             </form><!-- End General Form Elements -->
+           </div>             
+         </div>
+       </div>
+     </div> 
+    </div>  
+
+     
+      <div *ngIf="bBandera" class="table-responsive container">  
+        <!-- <div class="container" >      -->
+
+          <h6 style="text-align: center; font-size:xx-large;">{{ obtenNombreCliente(oBuscar.Cliente) }}</h6>          
+          <h6 style="text-align: center; font-size:xx-large;">Desde filial {{oBuscar.FilialDesde}} hasta filial {{oBuscar.FilialHasta}} </h6>
+
+          <div class="form-row">
+            <div class="col-md-2">              
+              <label >No. Lista 1</label>
+            </div>
+            <div class="col-md-6">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.Lista1Codigo+' '+oFichaTecnicaRes.Contenido.Lista1Descripc}}</label>              
+            </div>
+            <div class="col-md-2">              
+              <label class="float-left">Fecha Alta</label>
+            </div>
+            <div class="col-md-2">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.FechaAlta}}</label>              
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-2">              
+              <label>No. Lista 2</label>
+            </div>
+            <div class="col-md-6">              
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.Lista2Codigo+' '+oFichaTecnicaRes.Contenido.Lista2Descripc}}</label>              
+            </div>
+            <div class="col-md-2">              
+              <label class="float-left">Status</label>
+            </div>
+            <div class="col-md-2">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.ClienteStatus}}</label>              
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-2">              
+              <label>Limite de crédito</label>
+            </div>
+            <div class="col-md-6">
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.LimiteCredito}}</label>
+            </div>
+            <div class="col-md-2">              
+              <label class="float-left">TipoCte</label>
+            </div>
+            <div class="col-md-2">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.TipoClienteCodigo+' '+oFichaTecnicaRes.Contenido.TipoClienteDescripc}}</label>              
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-2">              
+              <label>Plazo Pago</label>
+            </div>
+            <div class="col-md-6">            
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.PlazoPago}}</label>
+            </div>
+            <div class="col-md-2">              
+              <label class="float-left">Tipo paridad</label>
+            </div>
+            <div class="col-md-2">   
+              <label class="float-left">{{oFichaTecnicaRes.Contenido.TipoParidadCodigo+' '+oFichaTecnicaRes.Contenido.TipoParidadDescripc}}</label>              
+            </div>
+          </div>
+            
+                
+          
+
+        <br>
+        <div class="form-row">
+          <div class="form-group col-md-1">              
+            <label class="CamposFonelli">Pedido:</label>
+          </div>
+          <div class="form-group col-md-5">              
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="searchtext"
+                placeholder="Search"                 
+              />
+            </div>
+              <div class="form-group col-md-6">
+                <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+                  Imprimir PDF      
+                </button> 
+              </div> 
+        </div>
+
+    <div id="pdfTable" #pdfTable >
+
+      <h6 style="text-align: center; color:#24a4cc; ">Ventas año anterior desde {{oBuscar.FechaDesdeAnterior}} hasta {{oBuscar.FechaHastaAnterior}}</h6>
+        <table  class="table table-hover table-striped">
+          <thead>
+            <tr class="EncTabla">            
+            <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
+            <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>
+            <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">IMPORTE</div></th>
+            <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">VALOR AGREGADO</div></th>            
+          </tr>
+          </thead>
+          <tbody>          
+
+            <ng-container *ngFor="let datos of oAnioAnteriorRes index as i">
+              <tr>              
+                <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
+                <td></td>                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+              <tr *ngFor="let subCat of datos.Subcategorias index as i">              
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
+                <td class="FilasFonelli"> {{subCat.SubcategoriaNombre}} </td>                
+                <td class="FilasFonelli"> {{ formatoNumero(subCat.Piezas)}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ formatoNumero(subCat.Gramos)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.Importe)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.ValorAgregado)}}</td>
+              </tr>
+
+              <tr>              
+                <td></td>
+                <td class="FilasFonelli"> Total Categoria</td>                
+                <td class="FilasFonBold"> {{formatoNumero(getTotalCategoria(datos.Subcategorias,'Piezas'))}}</td>
+                <td class="FilasFonBold" style="text-align:left">{{ formatoNumero(getTotalCategoria(datos.Subcategorias,'Gramos'))}}</td>
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'Importe'))}}</td>
+                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'ValorAgregado'))}}</td>
+              </tr> 
+
+            </ng-container>   
+            <tr>              
+              <td></td>
+              <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
+              <td class="FilasFonBold" style="color:#183e6f;"> {{formatoNumero(getTotalGeneral(oAnioAnteriorRes,'Piezas'))}}</td>
+              <td class="FilasFonBold" style="color:#183e6f;">{{ formatoNumero(getTotalGeneral(oAnioAnteriorRes,'Gramos'))}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'Importe'))}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'ValorAgregado'))}}</td>
+            </tr>                     
+
+          
+          </tbody>
+        </table>
+
+        <br>
+        <br>
+
+        <h6 style="text-align: center; color:#24a4cc; ">Ventas año actual desde {{oBuscar.FechaDesdeActual}} hasta {{oBuscar.FechaHastaActual}}</h6>        
+        <table  class="table table-hover table-striped">
+          <thead>
+            <tr class="EncTabla">            
+            <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
+            <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>
+            <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">IMPORTE</div></th>
+            <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">VALOR AGREGADO</div></th>            
+          </tr>
+          </thead>
+          <tbody>
+
+            <ng-container *ngFor="let datos of oAnioActualRes index as i">
+              <tr>              
+                <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
+                <td></td>                
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+
+              <tr *ngFor="let subCat of datos.Subcategorias index as i">              
+                <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
+                <td class="FilasFonelli"> <u>{{subCat.SubcategoriaNombre}}</u> </td>                
+                <td class="FilasFonelli" >{{ formatoNumero(subCat.Piezas)}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{ formatoNumero(subCat.Gramos)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.Importe)}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(subCat.ValorAgregado)}}</td>
+              </tr>
+              <tr>              
+                <td></td>
+                <td class="FilasFonelli"> Total Categoria</td>                
+                <td class="FilasFonBold" style="font-weight: bold;"> {{formatoNumero(getTotalCategoria(datos.Subcategorias,'Piezas'))}}</td>
+                <td class="FilasFonBold" style="font-weight: bold;">{{ formatoNumero(getTotalCategoria(datos.Subcategorias,'Gramos'))}}</td>
+                <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'Importe'))}}</td>
+                <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'ValorAgregado'))}}</td>
+              </tr> 
+
+
+            </ng-container>
+
+            <tr>              
+              <td></td>
+              <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
+              <td class="FilasFonBold" style="color:#183e6f;"> {{formatoNumero(getTotalGeneral(oAnioActualRes,'Piezas'))}}</td>
+              <td class="FilasFonBold" style="color:#183e6f;">{{ formatoNumero(getTotalGeneral(oAnioActualRes,'Gramos'))}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioActualRes,'Importe'))}}</td>
+              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioActualRes,'ValorAgregado'))}}</td>
+            </tr>   
+
+          </tbody>
+        </table>
+
+         <br>
+        <br>
+
+        <label class="CamposFonelli">Resumen de Cartera</label>
+        <table  class="table table-hover table-striped">
+          <thead>
+            <tr class="EncTabla">            
+            <th style="background-color: #24a4cc; color: white;" scope="col">CARTERA</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">DESCRIPCIÓN</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">SALDO</th>
+            <th style="background-color: #24a4cc; color: white;" scope="col">SALDO VENCIDO</th>            
+          </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let datos of oTipoCarteraRes index as i" >              
+              <td class="FilasFonelli" style="text-align:left">{{ datos.TipoCarteraCodigo}}</td>
+              <td class="FilasFonelli"> {{datos.TipoCarteraDescripc}}</td>                
+              <td class="FilasFonelli"> {{ formatoMoneda(datos.TipoCarteraSaldo)}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ formatoMoneda(datos.TipoCarteraSaldoVencido)}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <br>
+        <br>
+
+        <label class="CamposFonelli">Pedidos activos</label>
+        <table  class="table table-hover table-striped">
+          <thead>
+            <tr class="EncTabla">            
+            <th style="background-color: #24a4cc; color: white;" scope="col">PEDIDOS</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
+            <th style="background-color: #24a4cc; color: white; " scope="col">GRAMOS</th>
+            <th style="background-color: #24a4cc; color: white;" scope="col">IMPORTE</th>            
+          </tr>
+          </thead>
+          <tbody>
+             <tr >       
+              <td class="FilasFonelli" style="text-align:left">{{ oPedidosInactivosRes.PedidosNumero}}</td>
+              <td class="FilasFonelli"> {{oPedidosInactivosRes.Piezas}}</td>                
+              <td class="FilasFonelli" >{{ oPedidosInactivosRes.Gramos}}</td>
+              <td class="FilasFonelli" style="text-align:left">{{ formatoMoneda(oPedidosInactivosRes.Importe)}}</td>
+            </tr> 
+          </tbody>
+        </table>
+
+      
+
+     
+
+    </div> 
+
+    </div> 
+    <!-- </div>  -->
+  
+</section>
+
+
+
+
+<!--Modal catalogo clientes-->
+<ng-template #Clientes let-modal >
+  <div class="modal-header" >        
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>      
+
+  <div class="modal-body-tables" style="overflow-y: scroll;" >
+
+    <div class="container">
+      <div class="row">
+
+        <div class="form-group col-md-1">              
+          <br>
+          <label class="CamposFonelli">Buscar:</label>
+        </div>
+        <div class="form-group col-md-5">    
+          <br>          
+          <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="searchtext"
+              placeholder="Search"                 
+            />
+        </div>
+            
+
+        <div class="col-12" >                     
+          <table  class="table table-striped">
+            <thead>
+            <tr class="EncTabla">
+              <th>#</th>
+              <th scope="col" ></th>
+              <th scope="col" >NUM</th>                         
+              <th scope="col" >FIL</th>
+              <th scope="col" >RAZÓN SOCIAL</th>
+              <th scope="col" >SUCURSAL/NOMBRE</th>
+              <th scope="col" >S</th>
+              <th scope="col" >CONTACTO1</th>
+              <th scope="col" >CONTACTO2</th>                          
+            </tr>
+            </thead>
+            <tbody>
+              <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
+              <tr *ngFor="let emp of oCliente.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo)">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>                              
+                  <input  style="border-color: #24a4cc;" type="checkbox">
+                </td> 
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
+                <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
+              </tr>
+            </tbody>
+          </table>            
+          
+        </div>  
+      </div>
+        
+    </div>
+  </div>
+
+
+  <div class="modal-footer">
+    <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+    
+  </div>
+
+</ng-template> 
+
+

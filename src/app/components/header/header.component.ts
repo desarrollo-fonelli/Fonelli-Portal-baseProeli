@@ -24,6 +24,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Contenido } from '../../models/agentes';
 
+import { TemplateLlamada, TemplatePortal } from 'src/app/models/template';
+
+//Servicios
+import { ServicioTemplate } from 'src/app/services/template.service';
+
 
 
 @Component({
@@ -65,6 +70,9 @@ export class HeaderComponent implements OnInit {
   public bCargandoContacto: boolean = false;
   public bCargandoEmpleados: boolean = false;
 
+  oTemplate: TemplatePortal; 
+  oTemplateLlamada: TemplateLlamada;
+
   constructor(
     private modalService: NgbModal,
     private _servicioContacto: ServicioContacto,
@@ -74,7 +82,8 @@ export class HeaderComponent implements OnInit {
     private _router: Router,
     private snackBar: MatSnackBar,
     changeDetectorRef: ChangeDetectorRef, 
-    media: MediaMatcher
+    media: MediaMatcher,
+    private _servicioTemplate: ServicioTemplate
     
 
   ) {
@@ -106,10 +115,10 @@ export class HeaderComponent implements OnInit {
     //modal distribuidor
     openDistribuidor(LoginDistribuidor: any) {
 
-      let sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-      let sTipo :string | null = sessionStorage.getItem('tipo');
-      let sFilial :number | null = Number(sessionStorage.getItem('filial'));
-      let sNombre :string | null = sessionStorage.getItem('nombre');
+      let sCodigo :number | null = Number(localStorage.getItem('codigo'));
+      let sTipo :string | null = localStorage.getItem('tipo');
+      let sFilial :number | null = Number(localStorage.getItem('filial'));
+      let sNombre :string | null = localStorage.getItem('nombre');
 
 
       if(sTipo=='C')
@@ -119,7 +128,7 @@ export class HeaderComponent implements OnInit {
         return;
        
       }
-      else if(sTipo =='A' || sTipo =='G')
+      else if(sTipo =='A' || sTipo =='G' || sTipo =='M')
       {
           this.snackBar.openFromComponent(mensajesesion, {
           horizontalPosition: "center",
@@ -152,6 +161,34 @@ export class HeaderComponent implements OnInit {
     ngOnInit(): void {
 
       AOS.init();
+
+      this._servicioTemplate    
+      .Get()
+      .subscribe(
+        (Response: TemplateLlamada) => {
+  
+          console.log(Response);
+  
+          this.oTemplateLlamada = Response;       
+                 
+  
+          if(this.oTemplateLlamada.Codigo != 0){
+            return;
+          }
+  
+         this.oTemplate = this.oTemplateLlamada.Contenido;
+
+         console.log("Header");
+
+         console.log(this.oTemplate);
+    
+        },
+        (error:TemplateLlamada) => {
+  
+          console.log("Error 2");
+        
+        }
+      );
   
     }
 
@@ -226,6 +263,33 @@ export class HeaderComponent implements OnInit {
 
   //Modal ejecutivo
   openEjecutivo(LoginEjecutivos: any) {
+
+    let sCodigo :number | null = Number(localStorage.getItem('codigo'));
+    let sTipo :string | null = localStorage.getItem('tipo');
+    let sFilial :number | null = Number(localStorage.getItem('filial'));
+    let sNombre :string | null = localStorage.getItem('nombre');
+
+
+    if(sTipo =='A' || sTipo =='G')
+    {
+      console.log(1);
+      this._router.navigate(['/asesores/inicio/']);
+      return;
+     
+    }
+    else if(sTipo =='C' || sTipo =='M')
+    {
+      console.log(2);
+        this.snackBar.openFromComponent(mensajesesionasesores, {
+        horizontalPosition: "center",
+        verticalPosition: "top",
+        duration: 2500,
+        panelClass: ['fondo_mensaje_sesion'],
+      });
+      return;
+    }
+
+
     this.ModalActivo = this.modalService.open(LoginEjecutivos, {
       ariaLabelledBy: 'LoginEjecutivos',
     });
@@ -268,7 +332,7 @@ export class HeaderComponent implements OnInit {
 
               this.ModalActivo?.close();
               
-              this._router.navigate(['/distribuidores/inicio/']);
+              this._router.navigate(['/asesores/inicio/']);
             }
 
         this.bCargandoEmpleados = false;
@@ -348,21 +412,21 @@ export class HeaderComponent implements OnInit {
 
   saveData(codigo: string,filial:string,nombre: string, tipo:string) {
 
-    sessionStorage.setItem('codigo', codigo);
-    sessionStorage.setItem('filial', filial);
-    sessionStorage.setItem('nombre', nombre);
-    sessionStorage.setItem('tipo', tipo);
+    localStorage.setItem('codigo', codigo);
+    localStorage.setItem('filial', filial);
+    localStorage.setItem('nombre', nombre);
+    localStorage.setItem('tipo', tipo);
     
   }
 
   getData() {
-    return sessionStorage.getItem('idMenu');
+    return localStorage.getItem('idMenu');
   }
   removeData() {
-    sessionStorage.removeItem('location');
+    localStorage.removeItem('location');
   }
   deleteData() {
-    sessionStorage.clear();
+    localStorage.clear();
   }
 
 
@@ -371,7 +435,25 @@ export class HeaderComponent implements OnInit {
 @Component({
   selector: 'mensaje-sesion-component',
   template: `<span class="mensaje-sesion-style">
-  Para iniciar sesión como distribuidor primero cierre la sesión de asesor
+  Para iniciar sesión como distribuidor primero cierre la sesión activa
+</span>
+`,
+  styles: [
+    `
+    .mensaje-sesion-style {
+      color: white;
+    }
+  `,
+  ],
+})
+
+export class mensajesesion {}
+
+
+@Component({
+  selector: 'mensaje-sesion-component',
+  template: `<span class="mensaje-sesion-style">
+  Para iniciar sesión como asesor primero cierre la sesión activa
 </span>
 `,
   styles: [
@@ -384,8 +466,7 @@ export class HeaderComponent implements OnInit {
 })
 
 
-
-export class mensajesesion {}
+export class mensajesesionasesores {}
 
 @Component({
   selector: 'mensaje-contacto-component',

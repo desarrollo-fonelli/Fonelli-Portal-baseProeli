@@ -35,6 +35,8 @@ Get(FiltrosVentasClienteArticulo: any): Observable<any>{
 
     
                                     console.log(FiltrosVentasClienteArticulo);
+
+                                    this.sFiltros = '';
     
                                     this.sFiltros = 'TipoUsuario=' + FiltrosVentasClienteArticulo.TipoUsuario;
             

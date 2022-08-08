@@ -1,0 +1,60 @@
+<section class="ftco-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-12 col-lg-10">
+        <div class="wrap d-md-flex">
+          <div
+            class="img"
+            style="
+              background-image: url(../../../assets/images/fondo/diamante_destello.jpg);
+            "
+          ></div>
+          <div class="login-wrap p-4 p-md-5">
+            <div class="d-flex">
+              <div class="w-100">
+                <h3 class="mb-4">Login admin</h3>
+              </div>
+            </div>
+            <form #formAdmin="ngForm"  action="#" class="signin-form">
+              <div class="form-group mb-3">
+                <label class="label" for="name" style="color: #183e6f;">Usuario</label>
+                <input 
+                  type="text"
+                  class="form-control"
+                  #usuario="ngModel"
+                  [(ngModel)]="ModeloLoginAdmin.usuario"
+                  required />
+              </div>
+              <div class="form-group mb-3">
+                <label class="label" for="password" style="color: #183e6f;">Contraseña</label>
+                <input 
+                  type="password" 
+                  class="form-control"
+                  #pass="ngModel" 
+                  [(ngModel)]="ModeloLoginAdmin.password"
+                  required />
+              </div>
+
+              <div *ngIf="alerLoginAdmin">
+                <p class="alert alert-danger" role="alert">{{respuestaLoginAdmin}}</p>
+              </div>
+              <div class="form-group">
+                <button
+                  type="submit"
+                  [disabled]="!formAdmin.form.valid"  (click)="onInicioSesion()"
+                  class="form-control btn btn-primary rounded submit px-3"
+                  style="background-color: #24a4cc"
+                >
+                
+
+                <span *ngIf="bCargandoInicio" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#e8b4c1"></span>
+                  Iniciar sesión
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

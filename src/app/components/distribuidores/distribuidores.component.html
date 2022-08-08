@@ -1,40 +1,14 @@
 <ngb-carousel >
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="mobileQuery.matches ? '../../../assets/images/banner_distribuidor/movil/1.png' : '../../../assets/images/banner_distribuidor/desk/1.png'" alt="Random first slide"  >
-      </div>
-      <!--<div class="carousel-caption">
-        <h3>10 seconds between slides...</h3>
-        <p>This carousel uses customized default values.</p>
-      </div>-->
-    </ng-template>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="mobileQuery.matches ? '../../../assets/images/banner_distribuidor/movil/2.png' : '../../../assets/images/banner_distribuidor/desk/2.png'" alt="Random first slide"  >
-      </div>
-      <!--<div class="carousel-caption">
-        <h3>No mouse events...</h3>
-        <p>This carousel doesn't pause or resume on mouse events</p>
-      </div>-->
-    </ng-template>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="mobileQuery.matches ? '../../../assets/images/banner_distribuidor/movil/3.png' : '../../../assets/images/banner_distribuidor/desk/3.png'" alt="Random first slide"  >
-      </div>
-      <!--<div class="carousel-caption">
-        <h3>No keyboard...</h3>
-        <p>This carousel uses customized default values.</p>
-      </div>-->
-    </ng-template>
-    <!--<ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img src="../../../assets/images/banner_distribuidor/img_4.jpg" alt="Random fourth slide">
-      </div>
-      <div class="carousel-caption">
-        <h3>And no wrap after last slide.</h3>
-        <p>This carousel uses customized default values.</p>
-      </div>
-    </ng-template>-->
-  </ngb-carousel>
-  
-  
+  <ng-template ngbSlide *ngFor="let banner of oTemplate.BannerDistribuidores;">
+    <div class="picsum-img-wrapper">
+      <a [href]="banner?.Link? banner?.Link : 'javascript:void(0);' " [title]="banner?.Titulo? banner?.Titulo : '' ">
+      <img [src]="mobileQuery.matches ? banner.UrlImagenMovil + banner.ImagenMovil : banner.UrlImagen + banner.Imagen"    >
+      </a>
+    </div>
+    <!--<div class="carousel-caption">
+      <h3>10 seconds between slides...</h3>
+      <p>This carousel uses customized default values.</p>
+    </div>-->
+  </ng-template>
+
+</ngb-carousel>

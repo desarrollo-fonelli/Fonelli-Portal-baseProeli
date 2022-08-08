@@ -36,13 +36,21 @@ import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { NgbdTablePagination } from './components/tabla/table-pagination';
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
+import { AdminComponent } from "./components/admin/admin.component";
+import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
+import { TemplateComponent } from "./components/template/template.component";
+import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
 
 //Pipes
 import { SearchEstadoCuentaPipe } from './pipes/estadocuenta.pipe';
 import { SearchConsultaPedidoPipe } from './pipes/consultapedidos.pipe';
 import { SearchRelacionPedidosPipe } from './pipes/relacionpedidos.pipe';
 import { SearchVentasClienteArticuloPipe } from './pipes/ventasclientearticulo.pipe';
+import { SearchConsultaClientePipe } from './pipes/consultaBusquedaCliente.pipe';
+import { SearchConsultaClientesInacPipe } from './pipes/consultaClientesInactivos.pipe';
 import { PdfComponent } from './components/pdf/pdf.component';
+import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
+
 
 
 
@@ -75,7 +83,14 @@ import { PdfComponent } from './components/pdf/pdf.component';
     SearchConsultaPedidoPipe,
     SearchRelacionPedidosPipe,
     SearchVentasClienteArticuloPipe,
-    PdfComponent
+    PdfComponent,
+    SearchConsultaClientePipe,
+    AdminComponent,
+    PaneladminComponent,
+    TemplateComponent,
+    InicioadminComponent,
+    SearchConsultaClientesInacPipe,
+    CatalogointeractivoComponent
   ],
   imports: [
     BrowserModule,

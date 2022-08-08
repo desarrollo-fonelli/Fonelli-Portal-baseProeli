@@ -787,6 +787,19 @@ button.btnFonelli {
   color: #f9f9f9;
   font-family: Quicksand-SemiBold;
 }
+
+button.btnFonelliRosa {
+  background-color: #e8b4c1;
+  color: #f9f9f9;
+  font-family: Quicksand-SemiBold;
+}
+
+button.btnFonelliAzul {
+  background-color: #24a4cc;
+  color: #f9f9f9;
+  font-family: Quicksand-SemiBold;
+}
+
 label.CamposFonelli {
   color: #183e6f;
   font-family: Quicksand-SemiBold;
@@ -841,3 +854,32 @@ h2.TituloFonelli {
 .size{
   width:100px;
 }
+
+.anyClass {
+  /* height:768px;
+  width: 1366px;  */
+  height:384px;
+  width: 1366px; 
+  overflow-y: scroll;
+}
+
+
+
+table_Fija {
+  display: block;
+  overflow-x: auto;
+}
+
+.table_Fija .sticky {
+  position: sticky;
+  left: 0;
+}
+
+.table_Fija tbody tr .sticky {
+  background: white;
+}
+
+.table_Fija tbody tr:nth-child(2n) .sticky {
+  background: #f2f2f2;
+}
+

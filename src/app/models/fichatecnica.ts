@@ -23,7 +23,7 @@ export interface Contenido {
     TipoParidadDescripc?: string;
     VentasAnioAnterior?:  VentasAnioA[];
     VentasAnioActual?:    VentasAnioA[];
-    ResumenTipoCartera?:  ResumenTipoCartera[];
+    ResumenCartera?:  ResumenCartera[];
     PedidosActivos?:      PedidosActivos;
 }
 
@@ -34,16 +34,23 @@ export interface PedidosActivos {
     Importe?:       number;
 }
 
-export interface ResumenTipoCartera {
+export interface ResumenCartera {
     TipoCarteraCodigo?:   string;
     TipoCarteraDescripc?: string;
-    Saldo?:               number;
-    SaldoVencido?:        number;
+    TipoCarteraSaldo?:               number;
+    TipoCarteraSaldoVencido?:        number;
 }
 
 export interface VentasAnioA {
-    FamiliaCodigo?:   string;
-    FamiliaDescripc?: string;
+    CategoriaCodigo?:   string;
+    CategoriaNombre?: string;
+    Subcategorias?: Subcategorias[];
+}
+
+
+export interface Subcategorias {
+    SubcategoriaCodigo?: string;
+    SubcategoriaNombre?: string;
     Piezas?:          number;
     Gramos?:          number;
     Importe?:         number;

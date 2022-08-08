@@ -18,7 +18,7 @@
                         class="form-control"
                         name="cliente"
                         #nombre="ngModel"
-                        [(ngModel)]="Buscar.ClienteCodigo"
+                        [(ngModel)]="oBuscar.ClienteCodigo"
                         disabled="{{ bCliente }}"
                         required
                       />
@@ -32,13 +32,23 @@
                         class="form-control"
                         name="filial"
                         #nombre="ngModel"
-                        [(ngModel)]="Buscar.ClienteFilial"
+                        [(ngModel)]="oBuscar.ClienteFilial"
                         disabled="{{ bCliente }}"
                         required
                       />
                     </div>
                   </div>
 
+                  <div class="form-group col-md-3" [hidden]="bCliente"> 
+                    <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+                    <button  type="button" class="btnFonelli btn" (click)="openClientes(Clientes)" style="background-color:#24a4cc;"><i class="bi bi-search"></i></button>
+                  </div> 
+                  
+
+                </div>
+
+                <div *ngIf="sMensaje">
+                  <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
                 </div>
                 
 
@@ -58,11 +68,11 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-body">
-                <h2 style="text-align: center; font-size:xx-large;" >Número {{sCodigo}} {{sNombre}}</h2>
+                <h2 style="text-align: center; font-size:xx-large;" >{{obtenNombreCliente(oBuscar.ClienteCodigo,oBuscar.ClienteFilial)}}</h2>
 
                 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
                   <li [ngbNavItem]="1">
-                    <a ngbNavLink>Datos Generales</a>
+                    <a ngbNavLink style="color:#24a4cc">Datos Generales</a>
                     <ng-template ngbNavContent>
 
                       <div class="container">
@@ -89,10 +99,10 @@
                               <label class="CamposGeneral"><strong>Tipo cliente:</strong></label>
                             </div>
                             <div class="col-sm-4">                     
-                              <label>{{oDatosGenerales.TipoClienteDescripc}}</label>
+                              <label>{{oDatosGenerales.TipoClienteCodigo+' '+oDatosGenerales.TipoClienteDescripc}}</label>
                             </div>     
                           </div>
-                          <div *ngIf="bCliente" class="form-row" >
+                          <div  class="form-row" >
                             <div class="col-sm-4">
                               <label class="CamposGeneral"><strong>Pago referenciado BANAMEX:</strong></label>
                             </div>
@@ -153,7 +163,7 @@
                               <label class="CamposGeneral"><strong>Estado:</strong></label>
                             </div>
                             <div class="col-sm-4">                     
-                              <label>{{oDatosGenerales.CiudadPoblacion}}</label>
+                              <label>{{oDatosGenerales.EntidadNombre}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -161,7 +171,7 @@
                               <label class="CamposGeneral"><strong>C.P.:</strong></label>
                             </div>
                             <div class="col-sm-4">                     
-                              <label>{{oDatosGenerales.CiudadPoblacion}}</label>
+                              <label>{{oDatosGenerales.CodigoPostal}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -186,7 +196,7 @@
                               <label class="CamposGeneral"><strong>Telefono:</strong></label>
                             </div> 	
                             <div class="col-sm-4">                     
-                              <label>{{oDatosGenerales.Telefono}}</label>
+                              <label>{{oDatosGenerales.Lada +' '+ oDatosGenerales.Telefono}}</label>
                             </div>     
                           </div> 
                         </div>
@@ -195,7 +205,7 @@
                     </ng-template>
                   </li>
                   <li *ngIf="!bCliente" [ngbNavItem]="2">
-                    <a class="CamposFonelli" ngbNavLink>Condiciones</a>
+                    <a style="color:#24a4cc" ngbNavLink>Condiciones</a>
                     <ng-template ngbNavContent>
                       <div class="container">
                         <div class="row">  
@@ -205,7 +215,7 @@
                               <label class="CamposGeneral">Oficina de atención:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{ oCondiciones.OficinaAtencionNombre }}}</label>
+                              <label>{{oCondiciones.OficinaAtencionCodigo+' '+oCondiciones.OficinaAtencionNombre }}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -213,7 +223,7 @@
                               <label class="CamposGeneral">Agente:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oDatosGenerales.AgenteNombre}}</label>
+                              <label>{{oDatosGenerales.AgenteCodigo+' '+oDatosGenerales.AgenteNombre}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -221,7 +231,7 @@
                               <label class="CamposGeneral" >N°. de Lista 1:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oCondiciones.TipoListaPreciosDescripc}}</label>
+                              <label>{{oCondiciones.TipoListaPrecios+' '+oCondiciones.TipoListaPreciosDescripc}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -229,7 +239,7 @@
                               <label  class="CamposGeneral">N° de Lista 2:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oCondiciones.TipoListaPrecios2Descripc}}</label>
+                              <label>{{oCondiciones.TipoListaPrecios2+' '+oCondiciones.TipoListaPrecios2Descripc}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -237,7 +247,7 @@
                               <label class="CamposGeneral">Tipo de paridad:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oCondiciones.ParidadCodigo}}</label>
+                              <label>{{oCondiciones.ParidadCodigo+' '+oCondiciones.ParidadDescripc}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -245,7 +255,7 @@
                               <label class="CamposGeneral">Límite de crédito:</label>
                             </div>
                             <div class="col-sm-3">                     
-                              <label>{{oCondiciones.LimiteCredito}}</label>
+                              <label>{{formatoNumero(oCondiciones.LimiteCredito)}}</label>
                             </div>     
                           </div>
                           <div class="form-row">
@@ -271,7 +281,7 @@
                     </ng-template>
                   </li>
                   <li [ngbNavItem]="3">
-                    <a class="CamposFonelli" ngbNavLink>Contactos</a>
+                    <a style="color:#24a4cc" ngbNavLink>Contactos</a>
                     <ng-template ngbNavContent>
                       <div class="container">
                         <div class="row">  
@@ -360,8 +370,82 @@
 
    
               
-      <div *ngIf="!bCliente">
-        <h4>Expediente</h4>
-      </div>
+    
    </div>
 </section>
+
+
+    <!--Modal catalogo clientes-->
+    <ng-template #Clientes let-modal >
+      <div class="modal-header" >        
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>      
+  
+      <div class="modal-body-tables" style="overflow-y: scroll;" >
+  
+          <div class="container">
+              <div class="row">                
+                
+                  <div class="form-group col-md-1">              
+                    <br>
+                    <label class="CamposFonelli">Buscar:</label>
+                  </div>
+                  <div class="form-group col-md-5">    
+                    <br>          
+                    <input
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="searchtext"
+                        placeholder="Search"                 
+                      />
+                    </div>
+                      
+              
+                    <div class="col-12" >                     
+                      <table  class="table table-striped">
+                        <thead>
+                        <tr class="EncTabla">
+                          <th>#</th>
+                          <th scope="col" ></th>
+                          <th scope="col" >NUM</th>                         
+                          <th scope="col" >FIL</th>
+                          <th scope="col" >RAZÓN SOCIAL</th>
+                          <th scope="col" >SUCURSAL/NOMBRE</th>
+                          <th scope="col" >S</th>
+                          <th scope="col" >CONTACTO1</th>
+                          <th scope="col" >CONTACTO2</th>                          
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span   class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span></td>
+                          
+                          <tr *ngFor="let emp of oClienteModal.Contenido |searchconsultaCliente: searchtext; index as i" (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                            <th scope="row">{{ i + 1 }}</th>
+                            <td >                              
+                              <input  style="border-color: #24a4cc;" type="checkbox">
+                            </td> 
+                            <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>                           
+                            <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>                
+                            <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                            <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                            <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                            <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                            <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>                                  
+                          </tr>
+                        </tbody>
+                      </table>            
+                      
+                    </div>  
+              </div>
+              
+          </div>
+      </div>
+  
+
+      <div class="modal-footer">
+        <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+        
+      </div>
+  
+  </ng-template> 
+  

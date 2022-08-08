@@ -3,47 +3,22 @@
 
   <div class="fondo_fonelli">
   
-  <ngb-carousel >
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="mobileQuery.matches ? '../assets/images/banner_principal/movil/BN2M.png' : '../assets/images/banner_principal/desk/BN2.png'"  style="width: 100%;" >
-      </div>
-      <!-- <div class="carousel-caption">
-        <h3>10 seconds between slides...</h3>
-        <p>This carousel uses customized default values.</p>
-      </div> -->
-    </ng-template>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="mobileQuery.matches ? '../assets/images/banner_principal/movil/BN3M.png' : '../assets/images/banner_principal/desk/BN3.png'"  style="width: 100%;" >
-      </div>
-      <!-- <div class="carousel-caption">
-        <h3>No mouse events...</h3>
-        <p>This carousel doesn't pause or resume on mouse events</p>
-      </div> -->
-    </ng-template>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="mobileQuery.matches ? '../assets/images/banner_principal/movil/BN4M.png' : '../assets/images/banner_principal/desk/BN4.png'"  style="width: 100%;">
-      </div>
-      <!-- <div class="carousel-caption">
-        <h3>No keyboard...</h3>
-        <p>This carousel uses customized default values.</p>
-      </div> -->
-    </ng-template>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
-        <img [src]="mobileQuery.matches ? '../assets/images/banner_principal/movil/BN5M.png' : '../assets/images/banner_principal/desk/BN5.png'"  style="width: 100%;">
-   
-
-      </div>
-     
-      <!-- <div class="carousel-caption">
-        <h3>And no wrap after last slide.</h3>
-        <p>This carousel uses customized default values.</p>
-      </div> -->
-    </ng-template>
-  </ngb-carousel>
+    <ngb-carousel >
+ 
+      <ng-template ngbSlide  *ngFor="let banner of oTemplate.BannerPrincipal;">
+        <div class="picsum-img-wrapper">
+          <!--<img [src]="mobileQuery.matches ? '{{banner.UrlImagenMovil + banner.ImagenMovil}}' : '../assets/images/banner_principal/desk/BN3.png'"  style="width: 100%;" >-->
+        <a [href]="banner?.Link? banner?.Link : 'javascript:void(0);' " [title]="banner?.Titulo? banner?.Titulo : '' ">
+          <img [src]="mobileQuery.matches ? banner?.UrlImagenMovil + banner?.ImagenMovil : banner?.UrlImagen + banner?.Imagen"  style="width: 100%;"  >
+        </a>
+        </div>
+        <!-- <div class="carousel-caption">
+          <h3>10 seconds between slides...</h3>
+          <p>This carousel uses customized default values.</p>
+        </div> -->
+      </ng-template>
+  
+    </ngb-carousel>
   
 
   
@@ -57,7 +32,7 @@
                 <p class="font1">Mas de 8000</p>
                   <div class="news-thumb">
                       <a class="news-image-hover news-image-hover-warning">
-                          <img src="../../../assets/images/puntos/Joyas.gif" class="img-fluid large-news-image news-image" alt="">
+                        <img src="{{oTemplate?.Gif?.Url + oTemplate?.Gif?.Imagen1}}" class="img-fluid large-news-image news-image" alt="">
                       </a>  
                       <p class="font1">Diseños diferentes.</p>                                                               
                   </div> 
@@ -69,7 +44,7 @@
                 <p class="font1">600 distribuidores</p>
                   <div class="news-thumb" >
                       <a  class="news-image-hover news-image-hover-warning">
-                          <img src="../../../assets/images/puntos/Alcance.gif" class="img-fluid large-news-image news-image" alt="">
+                        <img src="{{oTemplate?.Gif?.Url + oTemplate?.Gif?.Imagen2}}" class="img-fluid large-news-image news-image" alt="">
                       </a>                                                               
                       <p class="font1">en todo el país</p>                                                               
                   </div>  
@@ -80,7 +55,7 @@
                   <div class="news-thumb" >
                       
                       <a class="news-image-hover news-image-hover-warning">
-                          <img src="../../../assets/images/puntos/Puntos.gif" class="img-fluid large-news-image news-image" alt="">
+                        <img src="{{oTemplate?.Gif?.Url + oTemplate?.Gif?.Imagen3}}" class="img-fluid large-news-image news-image" alt="">
                       </a>                                            
                       <p class="font1">2000 puntos de venta</p>                                                                                
                   </div> 
@@ -98,19 +73,31 @@
               </div>
   
               <div class="col-lg-6 col-12 mt-3 mb-lg-5">
-                  <p class="me-4 font_nosotros"  data-aos-delay="300" data-aos="fade-up">Desde su fundación en 1985 hasta el dia de hoy hemos tenido una sola pasión, y es el satisfacer a nuestros clientes fabricando piezas buscando la perfección hasta el más mínimo detalle para poder <strong>convertir metales preciosos en obas de arte que plasmen la historia detras de cada pieza.</strong> 
-                      <br><br> Cada uno de nuestros colaboradores con más de 20 años laborando con nosotros son parte esencial de este proceso, y aque <strong> gracias a ellos surge la magia de poder materializar una historia, una emoción, un sentimiento y un anhelo.</strong> La magia empieza desde realizar un boceto del diseño de la joya hasta llevarla al área de lavado para dejarla perfecta y brillante.                    
-                      <br><br>Todo lo que hacemos, lo hacemos con <strong> pasión y delicadeza para poder entregar una joya impecable.</strong>
-                      <br><br>Nuestros modelos no solo son para bodas, también <strong> se realizan diseños pensados para cada ocasión.</strong> ya sea como un regalo de cumpleaños, dia de las madres, aniversarios, día del padre, graduaciones, inclusive como un auto regalo.
-                  </p>
+<<<<<<< HEAD
+                <p class="me-4 font_nosotros"  data-aos-delay="300" data-aos="fade-up" [innerHTML]=" oTemplate?.Nosotros?.Texto"> </p>
+             </div>
+=======
+                  <p class="me-4 font_nosotros"  data-aos-delay="300" data-aos="fade-up">
+                      Desde el nacimiento de Fonelli en 1985 nuestra pasión ha sido <strong>convertir metales preciosos en obras de arte que plasmen la historia detrás de cada pieza.</strong>
+                      <br><br>
+                      Para con ello satisfacer a nuestros clientes fabricando piezas buscando la perfección hasta el más mínimo detalle.
+                      <br><br>
+                      Cada uno de nuestros colaboradores son parte esencial de este proceso, ya que <strong>gracias a ellos surge la magia de poder materializar una historia, una emoción, un sentimiento y un anhelo.</strong> La magia empieza desde la creación de un boceto para diseñar una joya, pasando por distintos procesos hasta que llega al área de lavado para dejarla perfecta y brillante.
+                      <br><br>
+                      Todo lo que hacemos, lo hacemos con <strong>pasión y delicadeza para poder entregar una joya impecable.</strong>
+                      <br><br>
+                      Nuestras joyas se crean para cada <strong>una de las historias importantes en tu vida;</strong> ya sea como un regalo de cumpleaños, día de las madres, aniversarios, día del padre, boda, graduaciones, inclusive como un auto regalo.
+                      Gracias por hacernos parte de tus historias.
+                   </p>
               </div>
+>>>>>>> 96dca9a1f4fe4becea9180c2016da41ba36df688
   
               <div class="col-lg-6 col-12 mt-lg-3 mb-lg-5">
                   <!-- <img src="../../../assets/images/principal/trabajos.png" class="img-fluid news-image" alt=""> -->
                   <div class="images_main" >
                       <div [class]="mobileQuery.matches ? '' : 'images_left'"  >
                         <div class="container_1">
-                          <img src="../../../assets/images/Nosotros/f1.png"  alt="Avatar" class="rounded" style="width:100%">
+                          <img src="{{ oTemplate?.Nosotros?.Url + oTemplate?.Nosotros?.Imagen1}}"  alt="Avatar" class="rounded" style="width:100%">
                           <div class="middle">
                             <!-- <div class="text"><img src="images/search-icon.png"></div> -->
                             
@@ -118,20 +105,20 @@
                         </div>
                         <br>
                         <div class="container_1">
-                          <img src="../../../assets/images/Nosotros/2.png" alt="Avatar" class="rounded" style="width:100%">
+                          <img src="{{ oTemplate?.Nosotros?.Url + oTemplate?.Nosotros?.Imagen2}}" alt="Avatar" class="rounded" style="width:100%">
             
                         </div>
                       </div>
                       <div [class]="mobileQuery.matches ? '' : 'images_right'"  >
                         <div class="container_1">
-                          <img src="../../../assets/images/Nosotros/3.png" alt="Avatar" class="rounded" style="width:100%">
+                          <img src="{{ oTemplate?.Nosotros?.Url + oTemplate?.Nosotros?.Imagen3}}" alt="Avatar" class="rounded" style="width:100%">
                           <div class="middle">
                             <br>
                          
                           </div>
                         </div>
                         <div class="container_1">
-                          <img src="../../../assets/images/Nosotros/5.png" alt="Avatar" class="rounded" style="width:100%">
+                          <img src="{{ oTemplate?.Nosotros?.Url + oTemplate?.Nosotros?.Imagen4}}" alt="Avatar" class="rounded" style="width:100%">
                           <div class="middle">
                             <br>
                        
@@ -151,8 +138,8 @@
   
   
   <div style="width: 100%">
-      <img src="../../../assets/images/fin_pagina/Final.png" class="img-fluid news-image" style="width: 100%">   
-  </div>
+    <img src="{{ oTemplate?.ImagenFinal?.Url +  oTemplate?.ImagenFinal?.Imagen}}" class="img-fluid news-image" style="width: 100%">   
+</div>
   
   <!-- <div style="width: 100%"><iframe width="100%" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=600&amp;hl=es&amp;q=5%20de%20febrero%20No.%20442%20Planta%20Baja,%20interior%20A,%20Algar%C3%ADn,%2006880%20Ciudad%20de%20M%C3%A9xico,%20CDMX+(Fonelli)&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.gps.ie/car-satnav-gps/">Car Navigation Systems</a></iframe></div>  -->
 

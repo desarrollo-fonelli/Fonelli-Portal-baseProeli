@@ -11,15 +11,16 @@
         </div>
     
         <div class="videoWrapper">
-            <video video loop muted autoplay playsinline oncanplay="this.play()" onloadedmetadata="this.muted = true" class="custom-video">
-                <source src="../../../assets/videos/intro/PaginaFonelli.mp4" type="video/mp4">
-    
-                Your browser does not support the video tag.
+            <video video loop muted autoplay playsinline oncanplay="this.play()" onloadedmetadata="this.muted = true" class="custom-video" src="{{oTemplate?.Video?.Url + oTemplate?.Video?.Video}}" type="video/mp4">
+       
             </video>
+          
         </div> 
     
         <div class="overlay"></div>
     </section>  
+
+
 
     <nav class="navbar navbar-expand-lg bg-light shadow-lg">
         <div class="container-fluid">
@@ -57,8 +58,8 @@
 
                     <li class="nav-item">
                         <!--<a class="nav-link" href="#news">News & Events</a>-->
-                        <!-- <a class="nav-link" href ="#" (click)="openEjecutivo(LoginEjecutivos)">Asesores comerciales</a> -->
-                        <a class="nav-link" href="javascript:void(0);"(click)="openEjecutivo(LoginEjecutivos)">Asesores comerciales</a>
+                         <a class="nav-link" href ="http://www.fonelli.devandtest.net/login.php" >Asesores comerciales</a>
+                        <!--<a class="nav-link" href="javascript:void(0);"(click)="openEjecutivo(LoginEjecutivos)">Asesores comerciales</a>-->
                     </li>
 
                     <li class="nav-item">
@@ -173,19 +174,6 @@
                                     </div>    
 
                                     <div class="form-group">
-                                        <label for="usuario" class="CamposFonelli">Usuario</label><br/>
-                                            <input 
-                                                class="form-control" 
-                                                type ="text" 
-                                                name ="usuario" 
-                                                #codigo="ngModel" 
-                                                [(ngModel)]="ModeloLoginEjecutivo.codigo" 
-                                                required
-                                            />
-                                        <span *ngIf="codigo.touched && !codigo.valid" style="color:#e8b4c1"> El usuario es obligatorio</span> <br/>
-                                    </div>
-
-                                    <div class="form-group">
                                         <label for="puesto" class="CamposFonelli">Puesto</label><br/>
                                         <select 
                                             class="form-control" 
@@ -199,6 +187,21 @@
                                     <span *ngIf="puesto.touched && !puesto.valid" style="color:#e8b4c1"> El puesto es obligatorio</span> <br/>
                                     </div>
 
+                                    
+                                    <div class="form-group">
+                                        <label for="usuario" class="CamposFonelli">Usuario</label><br/>
+                                            <input 
+                                                class="form-control" 
+                                                type ="text" 
+                                                name ="usuario" 
+                                                #codigo="ngModel" 
+                                                [(ngModel)]="ModeloLoginEjecutivo.codigo" 
+                                                required
+                                            />
+                                        <span *ngIf="codigo.touched && !codigo.valid" style="color:#e8b4c1"> El usuario es obligatorio</span> <br/>
+                                    </div>
+
+                                    
                                     <div class="form-group">
                                         <label for="password"  class="CamposFonelli">Contraseña</label><br/>
                                         <input 
