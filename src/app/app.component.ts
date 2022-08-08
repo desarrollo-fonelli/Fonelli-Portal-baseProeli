@@ -14,14 +14,16 @@ import { LoginEjecutivo } from './models/loginEjecutivo';
 
 
 
+
 //Servicios
 import { ServicioContacto } from './services/contacto.service';
 import { ServicioLoginDistribuidor } from './services/loginDistribuidor.service';
 import { ServicioLoginEjecutivo } from './services/loginEjecutivo.service';
 
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params ,NavigationEnd} from '@angular/router';
 import { BnNgIdleService } from 'bn-ng-idle'; // import it to your component
 
+declare const gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -49,7 +51,7 @@ export class AppComponent {
   public mensaje_contacto_guardado: boolean = false;
 
   constructor(
-    private modalService: NgbModal,private bnIdle: BnNgIdleService,private _router: Router
+    private modalService: NgbModal,private bnIdle: BnNgIdleService,public _router: Router
 
     
   
@@ -65,6 +67,12 @@ export class AppComponent {
         }
         
       }
+    })
+
+    this._router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        gtag('config', 'G-CT2Y958BMW', { 'page_path': event.urlAfterRedirects });
+      }      
     })
  
 
