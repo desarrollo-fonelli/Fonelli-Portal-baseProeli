@@ -153,14 +153,14 @@ a:hover {
   height: 100%;
 }
 
-.overlay {
+/* .overlay {
   background: linear-gradient(to top, #000, transparent 90%);
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-}
+} */
 
 /*---------------------------------------
   CUSTOM LINK               
