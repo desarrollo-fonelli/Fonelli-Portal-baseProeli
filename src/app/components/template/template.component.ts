@@ -933,7 +933,7 @@ export class TemplateComponent implements OnInit {
     reader.onload = (_event) => {
       this.oTemplate.BannerDistribuidores[rowIndex].bImagen = true;
       this.oTemplate.BannerDistribuidores[rowIndex].nuevaImagen = reader.result;
-      this.oTemplate.BannerDistribuidores[rowIndex].ImagenMovil =
+      this.oTemplate.BannerDistribuidores[rowIndex].Imagen =
         this.oTemplate.BannerDistribuidores[rowIndex].fileBanner[0].name;
     };
   }
