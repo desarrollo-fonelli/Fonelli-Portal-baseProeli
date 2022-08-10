@@ -172,7 +172,8 @@ export class FichatecnicaComponent implements OnInit {
       mes = '0' + (date.getMonth() + 1);
     }
 
-    this.fechaHoy =  date.getFullYear() + '-' + mes + '-' +(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);              
+    
+    this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                                 
 
     this.oBuscar.FechaDesdeAnterior = (date.getFullYear()-1)+'-01-01';
     this.oBuscar.FechaHastaAnterior = (date.getFullYear()-1)+'-12-31';

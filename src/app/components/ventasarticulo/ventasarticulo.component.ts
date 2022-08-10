@@ -165,7 +165,7 @@ export class VentasarticuloComponent implements OnInit {
           fechaAyer = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
         }        
       }else{
-        fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
+        fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                  
       }
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
 

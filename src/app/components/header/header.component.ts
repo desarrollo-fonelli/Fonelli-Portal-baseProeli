@@ -367,6 +367,21 @@ export class HeaderComponent implements OnInit {
   }
 
   addContacto() {
+    //Expresion regular 
+    var emailRegex;
+    this.mensaje_contacto_guardado = true;
+    this.contacto_guardado = "";
+
+    emailRegex=/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    
+    
+    if (emailRegex.test(this.ModeloContacto.Email) == false){//True es valido 
+      this.mensaje_contacto_guardado = true;
+      this.contacto_guardado = "Correo invalido";
+      return;
+    }
+
+    
 
     this.bCargandoContacto = true;
 

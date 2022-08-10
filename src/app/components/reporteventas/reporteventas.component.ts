@@ -178,7 +178,8 @@ export class ReporteventasComponent implements OnInit {
           fecha2Hasta = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
         }        
       }else{
-        fecha2Hasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);          
+        
+        fecha2Hasta = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                      
       }
 
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());   
