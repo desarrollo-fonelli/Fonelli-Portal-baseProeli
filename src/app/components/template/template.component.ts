@@ -834,9 +834,20 @@ export class TemplateComponent implements OnInit {
 
     var myFormData = new FormData();
 
+ 
     var DatosNuevos = {
-      BannerDistribuidores: this.oTemplate.BannerDistribuidores,
+      BannerDistribuidores: this.oTemplate.BannerDistribuidores.map(elem => ({
+        Titulo: elem.Titulo,
+        Link: elem.Link,
+        UrlImagen: elem.UrlImagen,
+        Imagen: elem.Imagen,
+        UrlImagenMovil: elem.UrlImagenMovil,
+        ImagenMovil: elem.ImagenMovil,
+        Orden: elem.Orden
+      }))
+    
     };
+
 
     myFormData.append('DatosForm', JSON.stringify(DatosNuevos));
 
@@ -996,8 +1007,18 @@ export class TemplateComponent implements OnInit {
 
     var myFormData = new FormData();
 
+
     var DatosNuevos = {
-      BannerAsesores: this.oTemplate.BannerAsesores,
+      BannerAsesores: this.oTemplate.BannerAsesores.map(elem => ({
+        Titulo: elem.Titulo,
+        Link: elem.Link,
+        UrlImagen: elem.UrlImagen,
+        Imagen: elem.Imagen,
+        UrlImagenMovil: elem.UrlImagenMovil,
+        ImagenMovil: elem.ImagenMovil,
+        Orden: elem.Orden
+      }))
+    
     };
 
     myFormData.append('DatosForm', JSON.stringify(DatosNuevos));
