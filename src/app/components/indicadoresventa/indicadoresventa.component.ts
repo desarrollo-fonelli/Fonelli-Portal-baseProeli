@@ -155,7 +155,8 @@ export class IndicadoresventaComponent implements OnInit {
     }
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();  
-    let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1);   
+    
+    let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                                       
     
     this.oBuscar.FechaCorte = fechaAyer;
 
