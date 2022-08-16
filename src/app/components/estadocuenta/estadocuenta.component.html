@@ -233,75 +233,9 @@
             <div class="container">
               <div class="row">
 
-                <div *ngIf="bCliente"  class="col-12 col-lg-2">
-                  <table class="table table-sm  table-responsive">
-                    <thead>
-                      <tr>
-                        <th style="background-color: #24a4cc; color: white;" colspan="2">CLIENTES</th>
-                      
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngFor="let cliente of oResumenStatusCliente ">
-                        <tr>
-                          <td>{{cliente.StatusClienteDescripc}}</td>
-                          <td  class="FilasFonelli" style="text-align:right;">{{cliente.StatusClienteNumero}}</td>
-                        </tr>              
-                    </ng-container>              
-                    </tbody>               
-                  </table>
-                </div>
+               
 
-
-                <div *ngIf="bCliente"  class="col-12 col-lg-2">
-                  <table class="table table-sm  ">
-                    <thead>
-                      <tr>
-                        <th style="background-color: #24a4cc; color: white;">TC</th>
-                        <th style="background-color: #24a4cc; color: white;">TOTAL</th>                  
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngFor="let resCliente of oResumenTipoCliente ">
-                        <tr>
-                          <td>{{resCliente.TipoClienteCodigo}}</td>
-                          <td class="FilasFonelli text-right">{{resCliente.TipoClienteTotal}}</td>
-                        </tr>              
-                    </ng-container>              
-                    </tbody>               
-                  </table>
-                </div>
-
-                <br>
-                <br>
-                <h2>Resumen Tipos de Cartera</h2>
-                <!-- Tablas resumen status cliente y resumen tipo cliente  -->
-                <div *ngIf="bBandera" >
-                  <table class="table table-sm  ">
-                    <thead>
-                      <tr>
-                        <th style="background-color: #24a4cc; color: white;">CART</th>
-                        <th style="background-color: #24a4cc; color: white;">DESCRIPCION</th>                  
-                        <th style="background-color: #24a4cc; color: white; text-align: right;" >CARGOS</th>                  
-                        <th style="background-color: #24a4cc; color: white; text-align: right;">ABONOS</th>                  
-                        <th style="background-color: #24a4cc; color: white; text-align: right;">SALDO</th>                  
-                        <th style="background-color: #24a4cc; color: white; text-align: right;">SALDO VENCIDO</th>                  
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <ng-container *ngFor="let resCartera of oResumenTipoCartera ">
-                        <tr>
-                          <td>{{resCartera.TipoCarteraCodigo}}</td>
-                          <td>{{resCartera.TipoCarteraDescripc}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraCargos)}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraAbonos)}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraSaldo)}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraSaldoVencido)}}</td>
-                        </tr>              
-                    </ng-container>              
-                    </tbody>               
-                  </table>
-                </div>           
+                    
 
                 
                 

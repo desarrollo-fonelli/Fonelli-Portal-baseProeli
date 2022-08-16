@@ -487,7 +487,7 @@
 
         <!-- <div *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable> -->
         <div  id="pdfTable" #pdfTable>
-          <table *ngIf="oBuscar.DesglosaCategoria == 'S' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped  "> 
+          <table *ngIf="oBuscar.DesglosaCategoria == 'S' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped" style="display:block;   overflow-x: auto;" [style.height.px]="sHeight"> 
             <!-- <table class="table table-bordered" > -->
               <thead>
                 <tr class="EncTabla">                 
@@ -600,7 +600,7 @@
               </tbody>               
           </table>
 
-          <table *ngIf="oBuscar.DesglosaCategoria == 'N' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped  "> 
+          <table *ngIf="oBuscar.DesglosaCategoria == 'N' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped" style="display:block;   overflow-x: auto;" [style.height.px]="sHeight"> 
               <!-- <table class="table table-bordered" > -->
                 <thead>
                   <tr class="EncTabla">                 
@@ -806,7 +806,7 @@
         <br>
 
           <h2 class="card-title">Total General</h2> 
-        <table class="table table-hover table-striped  ">
+        <table class="table table-hover table-striped " style="display:block;   overflow-x: auto;" [style.height.px]="sHeight">
             <thead>
 
               <tr class="EncTabla">                 
