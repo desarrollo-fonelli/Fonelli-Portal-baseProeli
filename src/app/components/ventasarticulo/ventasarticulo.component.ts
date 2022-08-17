@@ -773,7 +773,7 @@ export class VentasarticuloComponent implements OnInit {
 downloadAsPDF() {
 
   const pdfTable = this.pdfTable.nativeElement;
-  console.log(pdfTable);
+
 
   var cadenaaux = pdfTable.innerHTML;
 

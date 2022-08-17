@@ -412,6 +412,7 @@ export class ConsultapedidosComponent implements OnInit {
 
     var html = htmlToPdfmake(cadena);
     console.log(html);
+    html[2].table.headerRows= 1;
     const documentDefinition = {
       pageSize: 'A4',
       header: [

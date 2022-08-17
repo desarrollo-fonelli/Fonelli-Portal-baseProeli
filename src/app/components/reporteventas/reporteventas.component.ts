@@ -890,8 +890,10 @@ downloadAsPDF() {
 
   var html = htmlToPdfmake(cadena);
   console.log(html);
+  
   const documentDefinition = { 
     pageOrientation: 'landscape', 
+    pageSize: 'LEGAL',
     header: [
       {
         alignment: 'justify',
@@ -901,11 +903,11 @@ downloadAsPDF() {
             image: 'logo', 
             margin: [25,13],
             heigth: 40, 
-            width: 110 
+            width: 180 
           },
           {
-            width: 600,
-            text: 'Ventas por artículo',
+            width: 650,
+            text: 'Reporte de ventas',
             alignment: 'center',
             style: 'header',
             margin: [8,8]   

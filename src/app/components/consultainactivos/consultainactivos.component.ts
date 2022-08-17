@@ -396,47 +396,7 @@ export class ConsultainactivosComponent implements OnInit {
     var html = htmlToPdfmake(cadena);
     console.log(html);
     const documentDefinition = {
-      pageSize: 'TABLOID',
-      pageOrientation: 'landscape',
-      header: [
-        {
-          alignment: 'justify',
-          heigth: 200,
-          columns: [
-            { 
-              image: 'logo', 
-              margin: [25,13],
-              heigth: 40, 
-              width: 110 
-            },
-            {
-              width: 900,
-              text: 'Clientes inactivos',
-              alignment: 'center',
-              style: 'header',
-              margin: [8,8],
-              
-            },
-            {
-              width: 170,
-              text: this.fechaHoy,
-              alignment: 'right',
-              margin: [2, 15],
-            },
-          ],
-        },
-      ],
-
-      styles: {
-        header: {
-          fontSize: 22,
-          bold: true,
-          color: '#24a4cc',
-        },
-        numeracion: {
-          fontSize: 12,
-        },
-      },
+    
       content: html,
       footer: function (currentPage, pageCount) {
         return [

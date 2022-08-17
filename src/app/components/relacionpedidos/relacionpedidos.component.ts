@@ -983,7 +983,7 @@ getTotalPedidosDetalle(Pedido: PedidoArticulo[]): number {
 downloadAsPDF() {
 
   const pdfTable = this.pdfTable.nativeElement;
-  console.log(pdfTable);
+
 
   var cadenaaux = pdfTable.innerHTML;
 
@@ -992,9 +992,14 @@ downloadAsPDF() {
       cadenaaux;
 
   var html = htmlToPdfmake(cadena);
-  console.log(html);
+
+  html[2].table.headerRows= 1;
+  console.log( html[2].table);
   const documentDefinition = { 
-    pageSize: 'TABLOID',
+pageSize: {
+      width: 1500,
+      height: 820
+    },
     pageOrientation: 'landscape',
     header: [
 
@@ -1005,10 +1010,10 @@ downloadAsPDF() {
         image: 'logo', 
         margin: [25,13],
         heigth: 40, 
-        width: 110 
+        width: 160 
       },
     {
-      width:900,
+      width:1120,
       text: 'Relación de pedidos',
       alignment: 'center',
       style: 'header',

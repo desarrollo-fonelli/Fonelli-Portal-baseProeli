@@ -1005,6 +1005,16 @@ downloadAsPDF() {
 
   var cadenaaux = pdfTable.innerHTML;
 
+  var titulo;
+
+  if(this.bCliente)
+  {
+    titulo = "Ventas por artículo"
+  }
+  else{
+    titulo = "Ventas por cliente y artículo"
+  }
+
 
   let cadena =
       '<br><p>Desde Cliente: <strong>' +this.sClienteDesdeCod +' - '+this.sClienteDesdeFil+' - '+this.sClienteDesdeNom+'<br></strong> Hasta cliente: <strong>' +this.sClienteHastaCod +' - '+this.sClienteHastaFil+' - '+this.sClienteHastaNom+'</strong></p>' +      
@@ -1012,6 +1022,7 @@ downloadAsPDF() {
 
   var html = htmlToPdfmake(cadena);
   console.log(html);
+  html[2].table.headerRows= 1;
   const documentDefinition = { 
     pageOrientation: 'landscape', 
     header: [
@@ -1027,7 +1038,7 @@ downloadAsPDF() {
           },
           {
             width: 600,
-            text: 'Ventas por artículo',
+            text: titulo,
             alignment: 'center',
             style: 'header',
             margin: [8,8]   

@@ -431,6 +431,7 @@ consultaEstadoCuenta(){
 
     var html = htmlToPdfmake(cadena);
     console.log(html);
+    html[2].table.headerRows= 1;
     const documentDefinition = { 
       pageOrientation: 'landscape', 
       header: [
