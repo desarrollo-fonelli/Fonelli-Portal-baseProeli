@@ -388,13 +388,14 @@ export class ConsultainactivosComponent implements OnInit {
     var cadenaaux = pdfTable.innerHTML;
 
     let cadena =
-    '<br><p>Cliente: <strong>' +this.oBuscar.AgenteDesde +'-'+this.oBuscar.AgenteHasta+' '+this.sNombre+'</strong></p>' +    
-    cadenaaux;
+      '<br><p>Agende desde: <strong>' +this.oBuscar.AgenteDesde +' - '+ this.obtenNombreAgente(this.oBuscar.AgenteDesde)+'<br></strong> Agente Hasta: <strong>' +this.oBuscar.AgenteHasta +' - '+this.obtenNombreAgente(this.oBuscar.AgenteHasta)+'</strong></p>' +      
+      cadenaaux;
 
     console.log('cadena');
     console.log(cadena);
 
     var html = htmlToPdfmake(cadena);
+    html[2].table.headerRows= 2;
     console.log(html);
     const documentDefinition = {
     
@@ -552,6 +553,20 @@ export class ConsultainactivosComponent implements OnInit {
   formatoMoneda(number){
     return new Intl.NumberFormat('en-US', {currency: 'USD', maximumFractionDigits: 2}).format(number);
   };
+
+  obtenNombreAgente(agente: number): string {   
+    let nombre: string = '';  
+  
+      for(var ageCon of this.oAgentesCon){ 
+        if (ageCon.AgenteCodigo == String(agente)){
+          nombre = ageCon.AgenteNombre;
+          break;
+        }             
+         
+    }
+    return nombre;
+  }
+  
 
 
 
