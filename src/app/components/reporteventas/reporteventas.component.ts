@@ -22,6 +22,8 @@ import { FiltrosCategorias } from 'src/app/models/categorias.filtros';
 import { Categorias, Contenido as CategoriasCon } from 'src/app/models/categorias';
 import { FiltrosAgente } from 'src/app/models/agentes.filtros';
 import { Agentes, Contenido as AgentesCon } from 'src/app/models/agentes';
+import { FiltrosTipoCliente } from 'src/app/models/tipocliente.filtros';
+import { TipoCliente, Contenido as TiposClienteCon } from 'src/app/models/tipocliente';
 
 
 
@@ -31,6 +33,7 @@ import { ServicioReporteVentas } from 'src/app/services/reporteventas.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 import { ServicioCategorias } from 'src/app/services/categorias.service';
 import { ServicioAgentes } from 'src/app/services/agentes.service';
+import { ServicioTiposCliente } from 'src/app/services/tiposclientes.service';
 
 
 
@@ -114,13 +117,19 @@ export class ReporteventasComponent implements OnInit {
   sWidth: number;
   sHeight: number;
 
+  //Datos tipo cliente
+  public oBuscaTipoCliente: FiltrosTipoCliente;
+  public oTipoCliente: TipoCliente; 
+  public oTiposClienteCon: TiposClienteCon[];
+
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,private _route: ActivatedRoute,
     private _router: Router,
     private _servicioReporteVentas: ServicioReporteVentas,
     private modalService: NgbModal,
     private _servicioCClientes: ServicioClientes,
     private _servicioCategorias:ServicioCategorias,
-    private _servicioAgentes: ServicioAgentes) { 
+    private _servicioAgentes: ServicioAgentes,
+    private _servicioTiposCliente: ServicioTiposCliente) { 
 
       this.mobileQuery = media.matchMedia('(max-width: 600px)');
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -410,11 +419,53 @@ export class ReporteventasComponent implements OnInit {
 
   }
 
+
+  //Consulta Tipos cliente
+  if (!localStorage.getItem('TiposCliente')){
+    console.log("Inicia carga Tipos cliente");
+
+    this._servicioTiposCliente
+    .Get(this.oBuscaTipoCliente)
+    .subscribe(
+      (Response: TipoCliente) =>  {          
+
+        this.oTipoCliente = Response;  
+        console.log("Respuesta TiposCliente: "+JSON.stringify(this.oTipoCliente));
+
+        if(this.oTipoCliente.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron tipos de cliente";   
+          return false;
+        }
+
+        this.oTiposClienteCon = this.oTipoCliente.Contenido;           
+        return true;
+
+      },
+      (error:TipoCliente) => {
+
+        this.oTipoCliente = error;             
+        console.log(this.oTipoCliente);
+        return false;
+    
+      }
+      
+    );
+   // console.log("Termina carga oTipoCliente");
+ }else{//Ya tenemos clientes
+
+    this.oTiposClienteCon = JSON.parse(localStorage.getItem('TiposCliente'));    
+
+    this.oBuscar.TipoClienteDesde = this.oTiposClienteCon[0].TipoCodigo
+    this.oBuscar.TipoClienteHasta = this.oTiposClienteCon[this.oTiposClienteCon.length -1 ].TipoCodigo    
+
+  }
+
           
 
 
       
-    }
+}
 
 
     //Funcion para consultar reporte de ventas
@@ -885,8 +936,9 @@ downloadAsPDF() {
   var cadenaaux = pdfTable.innerHTML;
 
   let cadena =
-      '<br><p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
-      cadenaaux;
+  '<br><p>Desde Cliente: <strong>' +this.oBuscar.ClienteDesde +' - '+this.oBuscar.FilialDesde+' - '+ this.obtenNombreCliente(this.oBuscar.ClienteDesde)+'<br></strong> Hasta cliente: <strong>' +this.oBuscar.ClienteHasta +' - '+this.oBuscar.FilialHasta+' - '+this.obtenNombreCliente(this.oBuscar.ClienteHasta)+'</strong></p>' +      
+  cadenaaux;
+
 
   var html = htmlToPdfmake(cadena);
   console.log(html);
@@ -1079,6 +1131,29 @@ downloadAsPDF() {
       this.oSubCatHasta = this.oCategoriasCon.filter(x => x.CategoriaCodigo == sCategoria && x.Subcategoria !='');
     }      
     console.log("Resultado del segundo = "+JSON.stringify(bCategoria ? this.oSubCatDesde : this.oSubCatHasta));
+  }
+
+  obtenNombreCliente(cliente: number): string {   
+    let nombre: string = '';  
+  
+      for(var cliCon of this.oCliente.Contenido){ 
+        if (cliCon.ClienteCodigo == String(cliente)){
+
+          if (cliCon.ClienteFilial != '0'){
+            nombre = "Cliente "+cliente+' - '+cliCon.ClienteFilial+' '+ cliCon.RazonSocial;
+          }else{
+            nombre = "Cliente "+cliente+' '+ cliCon.RazonSocial;
+          }
+
+          
+          break
+        }
+
+              
+         
+    }
+   
+    return nombre; 
   }
   
   

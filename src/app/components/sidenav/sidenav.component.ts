@@ -20,6 +20,8 @@ import { FiltrosCategorias } from 'src/app/models/categorias.filtros';
 import { Categorias, Contenido as CategoriasCon } from 'src/app/models/categorias';
 import { FiltrosTipoCartera } from 'src/app/models/tipocartera.filtros';
 import { TipoCartera, Contenido as TipoCarteraCon } from 'src/app/models/tipocartera';
+import { FiltrosTipoCliente } from 'src/app/models/tipocliente.filtros';
+import { TipoCliente, Contenido as TiposClienteCon } from 'src/app/models/tipocliente';
 
 //Servicios
 import { ServicioAgentes } from 'src/app/services/agentes.service';
@@ -28,6 +30,7 @@ import { ServicioClientes } from 'src/app/services/clientes.service';
 import { ServicioLineas } from 'src/app/services/lineas.service';
 import { ServicioCategorias } from 'src/app/services/categorias.service';
 import { ServicioTiposCartera } from 'src/app/services/tiposcartera.service';
+import { ServicioTiposCliente } from 'src/app/services/tiposclientes.service';
 
 @Component({
   selector: 'app-sidenav',
@@ -38,7 +41,8 @@ import { ServicioTiposCartera } from 'src/app/services/tiposcartera.service';
   ServicioClientes,
   ServicioLineas,
   ServicioCategorias,
-  ServicioTiposCartera
+  ServicioTiposCartera,
+  ServicioTiposCliente
 ],
 })
 export class SidenavComponent implements OnInit {
@@ -85,8 +89,10 @@ export class SidenavComponent implements OnInit {
   public oCarteras: TipoCartera; 
   public oCarterasCon: TipoCarteraCon[]; 
 
-
-
+  //Datos tipo cliente
+  public oBuscaTipoCliente: FiltrosTipoCliente;
+  public oTipoCliente: TipoCliente; 
+  public oTiposClienteCon: TiposClienteCon;
 
 
   constructor(
@@ -100,7 +106,8 @@ export class SidenavComponent implements OnInit {
     private _servicioCClientes: ServicioClientes,
     private _servicioLineas:ServicioLineas,
     private _servicioCategorias:ServicioCategorias,
-    private _servicioCartera: ServicioTiposCartera
+    private _servicioCartera: ServicioTiposCartera,
+    private _servicioTiposCliente: ServicioTiposCliente
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -386,6 +393,39 @@ console.log(1);
        // console.log("Termina carga carteras");
      }
       
+
+     //Consulta Tipos cliente
+     if (!localStorage.getItem('TiposCliente')){
+      console.log("Inicia carga Tipos cliente");
+
+      this._servicioTiposCliente
+      .Get(this.oBuscaTipoCliente)
+      .subscribe(
+        (Response: TipoCliente) =>  {          
+
+          this.oTipoCliente = Response;  
+          console.log("Respuesta TiposCliente: "+JSON.stringify(this.oTipoCliente));
+
+          if(this.oTipoCliente.Codigo != 0){
+            return false;
+          }
+
+          localStorage.setItem('TiposCliente', JSON.stringify(this.oTipoCliente.Contenido));          
+          return true;
+
+        },
+        (error:TipoCliente) => {
+
+          this.oTipoCliente = error;             
+          console.log(this.oTipoCliente);
+          return false;
+      
+        }
+        
+      );
+     // console.log("Termina carga oTipoCliente");
+   }
+    
      
 
   }

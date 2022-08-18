@@ -426,8 +426,8 @@ consultaEstadoCuenta(){
     var cadenaaux = pdfTable.innerHTML;
 
     let cadena =
-        '<br><p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
-        cadenaaux;
+      '<br><p>Desde Cliente: <strong>' +this.oBuscar.ClienteDesde +' - '+this.oBuscar.FilialDesde+' - '+ this.obtenNombreCliente(this.oBuscar.ClienteDesde)+'<br></strong> Hasta cliente: <strong>' +this.oBuscar.ClienteHasta +' - '+this.oBuscar.FilialHasta+' - '+this.obtenNombreCliente(this.oBuscar.ClienteHasta)+'</strong></p>' +      
+      cadenaaux;
 
     var html = htmlToPdfmake(cadena);
     console.log(html);
@@ -602,6 +602,19 @@ consultaEstadoCuenta(){
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  obtenNombreCliente(cliente: number): string {   
+    let nombre: string = '';  
+  
+      for(var cliCon of this.oClientes.Contenido){ 
+        if (cliCon.ClienteCodigo == String(cliente)){
+          nombre = cliCon.RazonSocial;
+          break;
+        }             
+         
+    }
+    return nombre;
   }
   
   //Funcion para cerrar sesion y redireccionar al home

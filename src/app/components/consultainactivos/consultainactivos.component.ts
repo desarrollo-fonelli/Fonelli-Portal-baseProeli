@@ -303,28 +303,28 @@ export class ConsultainactivosComponent implements OnInit {
             for(var saldos of cli.SaldosCarteraCliente ){
               if(saldos.TipoCarteraCodigo == '1' && !this.bBanCtaCorrMN_SAL){
                 this.bBanCtaCorrMN_SAL = true;
-                Number(this.sColSaldo) < 0 ? this.sColSaldo = '0' : this.sColSaldo = this.sColSaldo;
+                Number(this.sColSaldo) < 0 ? this.sColSaldo = '1' : this.sColSaldo = this.sColSaldo;
               }
               if(saldos.TipoCarteraCodigo == '2' && !this.bBanCtaCorrORO_SAL){
                 this.bBanCtaCorrORO_SAL = true;
-                Number(this.sColSaldo) < 1 ? this.sColSaldo = '1' : this.sColSaldo = this.sColSaldo; 
+                Number(this.sColSaldo) < 1 ? this.sColSaldo = '2' : this.sColSaldo = this.sColSaldo; 
               }
               if(saldos.TipoCarteraCodigo == '3' && !this.bBanCtaCorrDLLS_SAL){
                 this.bBanCtaCorrDLLS_SAL = true;
-                Number(this.sColSaldo) < 2 ? this.sColSaldo = '2' : this.sColSaldo = this.sColSaldo; 
+                Number(this.sColSaldo) < 2 ? this.sColSaldo = '3' : this.sColSaldo = this.sColSaldo; 
               }
               if(saldos.TipoCarteraCodigo == '6' && !this.bBanCtaDocMN_SAL){
                 this.bBanCtaDocMN_SAL = true;
-                Number(this.sColSaldo) < 3 ? this.sColSaldo = '3' : this.sColSaldo = this.sColSaldo; 
+                Number(this.sColSaldo) < 3 ? this.sColSaldo = '4' : this.sColSaldo = this.sColSaldo; 
                 
               }
               if(saldos.TipoCarteraCodigo == '7' && !this.bBanCtaDocORO_SAL){
                 this.bBanCtaDocORO_SAL = true;
-                Number(this.sColSaldo) < 4 ? this.sColSaldo = '4' : this.sColSaldo = this.sColSaldo; 
+                Number(this.sColSaldo) < 4 ? this.sColSaldo = '5' : this.sColSaldo = this.sColSaldo; 
               }
               if(saldos.TipoCarteraCodigo == '8' && !this.bBanCtaDocDLLS_SAL){
                 this.bBanCtaDocDLLS_SAL = true;
-                Number(this.sColSaldo) < 5 ? this.sColSaldo = '5' : this.sColSaldo = this.sColSaldo; 
+                Number(this.sColSaldo) < 5 ? this.sColSaldo = '6' : this.sColSaldo = this.sColSaldo; 
               }
             
             
@@ -333,29 +333,29 @@ export class ConsultainactivosComponent implements OnInit {
             for(var vencidos of cli.VencidosSaldosCartera ){
               if(vencidos.TipoCarteraCodigo == '1' && !this.bBanCtaCorrMN_VEN){                
                 this.bBanCtaCorrMN_VEN = true;
-                Number(this.sColVencido) < 0 ? this.sColVencido = '0' : this.sColVencido = this.sColVencido;
+                Number(this.sColVencido) < 0 ? this.sColVencido = '1' : this.sColVencido = this.sColVencido;
                 
               }
               if(vencidos.TipoCarteraCodigo == '2' && !this.bBanCtaCorrORO_VEN){
                 this.bBanCtaCorrORO_VEN = true;
-                Number(this.sColVencido) < 1 ? this.sColVencido = '1' : this.sColVencido = this.sColVencido;
+                Number(this.sColVencido) < 1 ? this.sColVencido = '2' : this.sColVencido = this.sColVencido;
               }
               if(vencidos.TipoCarteraCodigo == '3' && !this.bBanCtaCorrDLLS_VEN){
                 this.bBanCtaCorrDLLS_VEN = true;
-                Number(this.sColVencido) < 2 ? this.sColVencido = '2' : this.sColVencido = this.sColVencido;
+                Number(this.sColVencido) < 2 ? this.sColVencido = '3' : this.sColVencido = this.sColVencido;
               }
               if(vencidos.TipoCarteraCodigo == '6' && !this.bBanCtaDocMN_VEN){                
                 this.bBanCtaDocMN_VEN = true;
-                Number(this.sColVencido) < 3 ? this.sColVencido = '3' : this.sColVencido = this.sColVencido;
+                Number(this.sColVencido) < 3 ? this.sColVencido = '4' : this.sColVencido = this.sColVencido;
                 
               }
               if(vencidos.TipoCarteraCodigo == '7' && !this.bBanCtaDocORO_VEN){
                 this.bBanCtaDocORO_VEN = true;
-                Number(this.sColVencido) < 4 ? this.sColVencido = '4' : this.sColVencido = this.sColVencido;
+                Number(this.sColVencido) < 4 ? this.sColVencido = '5' : this.sColVencido = this.sColVencido;
               }
               if(vencidos.TipoCarteraCodigo == '8' && !this.bBanCtaDocDLLS_VEN){
                 this.bBanCtaDocDLLS_VEN = true;
-                Number(this.sColVencido) < 5 ? this.sColVencido = '5' : this.sColVencido = this.sColVencido;
+                Number(this.sColVencido) < 5 ? this.sColVencido = '6' : this.sColVencido = this.sColVencido;
               }
             
             }            
@@ -364,6 +364,7 @@ export class ConsultainactivosComponent implements OnInit {
         
         console.log("General"+this.sColSaldo);
         console.log("General"+this.sColVencido);
+
 
         this.sMensaje = '';
         this.bBandera = true;        
@@ -397,6 +398,50 @@ export class ConsultainactivosComponent implements OnInit {
     console.log(html);
     const documentDefinition = {
     
+      pageSize: {
+        width: 1500,
+        height: 820
+      },
+      pageOrientation: 'landscape',
+      header: [
+  
+      {
+      alignment: 'justify',
+      columns: [
+        { 
+          image: 'logo', 
+          margin: [25,13],
+          heigth: 40, 
+          width: 160 
+        },
+      {
+        width:1120,
+        text: 'Consulta de inactivos',
+        alignment: 'center',
+        style: 'header',
+        margin: [8,8]    
+      },
+      {
+        width: 170,
+        text: this.fechaHoy, 
+        alignment: 'right',
+        margin: [2, 15]
+      }
+      ]
+      }
+      ],
+      
+      styles: {
+      header: {
+      fontSize: 22,
+      bold: true,
+      color: '#24a4cc'
+      },
+      numeracion: {
+      fontSize: 12
+      
+      },
+      },
       content: html,
       footer: function (currentPage, pageCount) {
         return [

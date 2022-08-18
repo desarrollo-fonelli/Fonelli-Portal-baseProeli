@@ -404,7 +404,7 @@ export class ConsultapedidosComponent implements OnInit {
     var cadenaaux = pdfTable.innerHTML;
 
     let cadena =
-    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.sNombre+'</strong></p>' +    
+    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.obtenNombreCliente(this.oBuscar.ClienteCodigo)+'</strong></p>' +    
     cadenaaux;
 
     console.log('cadena');

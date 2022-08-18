@@ -987,8 +987,9 @@ downloadAsPDF() {
 
   var cadenaaux = pdfTable.innerHTML;
 
+ 
   let cadena =
-      '<br><p>Cliente: <strong>' +this.sCodigo +'-'+this.sFilial+' '+this.sNombre+'</strong></p>' +      
+      '<br><p>Desde Cliente: <strong>' +this.oBuscar.ClienteDesde +' - '+this.oBuscar.FilialDesde+' - '+ this.obtenNombreCliente(this.oBuscar.ClienteDesde)+'<br></strong> Hasta cliente: <strong>' +this.oBuscar.ClienteHasta +' - '+this.oBuscar.FilialHasta+' - '+this.obtenNombreCliente(this.oBuscar.ClienteHasta)+'</strong></p>' +      
       cadenaaux;
 
   var html = htmlToPdfmake(cadena);
@@ -1162,6 +1163,19 @@ openClientes(Clientes: any, cliente: boolean) {
     );
     return true;
   } 
+
+  obtenNombreCliente(cliente: number): string {   
+    let nombre: string = '';  
+  
+      for(var cliCon of this.oCliente.Contenido){ 
+        if (cliCon.ClienteCodigo == String(cliente)){
+          nombre = cliCon.RazonSocial;
+          break;
+        }             
+         
+    }
+    return nombre;
+  }
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
