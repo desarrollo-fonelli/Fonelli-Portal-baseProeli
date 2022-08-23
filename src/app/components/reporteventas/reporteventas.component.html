@@ -500,8 +500,8 @@
             </div>
 
         <!-- <div *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable> -->
-        <div  id="pdfTable" #pdfTable>
-          <table *ngIf="oBuscar.DesglosaCategoria == 'S' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped" style="display:block;   overflow-x: auto;" [style.height.px]="sHeight"> 
+        <div  class="contenedor-tabla"  id="pdfTable" #pdfTable>
+          <table *ngIf="oBuscar.DesglosaCategoria == 'S' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped"> 
             <!-- <table class="table table-bordered" > -->
               <thead>
                 <tr class="EncTabla">                 
@@ -614,7 +614,7 @@
               </tbody>               
           </table>
 
-          <table *ngIf="oBuscar.DesglosaCategoria == 'N' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped" style="display:block;   overflow-x: auto;" [style.height.px]="sHeight"> 
+          <table *ngIf="oBuscar.DesglosaCategoria == 'N' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped"> 
               <!-- <table class="table table-bordered" > -->
                 <thead>
                   <tr class="EncTabla">                 

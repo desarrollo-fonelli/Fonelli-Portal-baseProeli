@@ -450,7 +450,7 @@
         </div>
       </div>
 
-    <div *ngIf="bBandera" >
+    <div *ngIf="bBandera" class="table-responsive" >
             <br>
             <div class="form-row">
               <!-- <div class="form-group col-md-1">              
@@ -471,7 +471,7 @@
                   </div> 
             </div>
 
-        <div *ngIf="bBanderaCat"  id="pdfTable" #pdfTable>
+        <div class="contenedor-tabla table-responsive" *ngIf="bBanderaCat"  id="pdfTable" #pdfTable>
             <table class="table table-hover table-striped  ">
               <thead>
                 <tr *ngIf="oBuscar.Presentacion == 'R'" class="EncTabla">
@@ -630,7 +630,7 @@
             </table>
         </div> 
 
-        <div *ngIf="bBanderaPzIm" id="pdfTable" #pdfTable> <!--Piezas o importe-->
+        <div class="contenedor-tabla table-responsive" *ngIf="bBanderaPzIm" id="pdfTable" #pdfTable> <!--Piezas o importe-->
           <table class="table table-hover table-striped  ">
             <thead>
               <tr class="EncTabla">

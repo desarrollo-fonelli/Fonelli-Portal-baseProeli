@@ -69,6 +69,7 @@ export class RelacionpedidosComponent implements OnInit {
   bBandera: boolean;
   bBanderaDet = false;
 
+
   fechaHoy: String
   public bCargando: boolean = false;
   public bCargandoClientes: boolean = false;
@@ -982,6 +983,9 @@ getTotalPedidosDetalle(Pedido: PedidoArticulo[]): number {
  //###### TOTALES DETALLE PEDIDO ####
 downloadAsPDF() {
 
+  console.log("Activa tabla para imprimir");
+
+
   const pdfTable = this.pdfTable.nativeElement;
 
 
@@ -1052,6 +1056,7 @@ pageSize: {
   pdfMake.createPdf(documentDefinition).open();
 
   
+  console.log("Desactiva tabla para imprimir");
 
 }
 

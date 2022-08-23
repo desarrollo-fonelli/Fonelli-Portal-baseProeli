@@ -58,6 +58,9 @@ export class ConsultapedidosComponent implements OnInit {
   sFilial: number | null;
   sNombre: string | null;
 
+  sWidth: number;
+  sHeight: number;
+
   public bCliente: boolean;
 
   oBuscar: FiltrosConsultaPedidos;
@@ -144,6 +147,9 @@ export class ConsultapedidosComponent implements OnInit {
 }
 
   ngOnInit(): void {
+
+ 
+
     this.mobileQuery.removeListener(this._mobileQueryListener);
 
     //Se agrega validacion control de sesion distribuidores

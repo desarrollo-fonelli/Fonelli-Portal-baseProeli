@@ -384,7 +384,7 @@
                   </div> 
             </div>
 
-        <div *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable>
+        <div class="contenedor-tabla table-responsive" *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable>
             <table class="table table-hover table-striped  ">
               <thead>
                 <tr *ngIf="bFiltrResumido" class="EncTabla">
@@ -528,7 +528,7 @@
             </table>
         </div> 
 
-        <div *ngIf="!bFiltroOrden" id="pdfTable" #pdfTable> <!--Piezas o importe-->
+        <div class="contenedor-tabla table-responsive" *ngIf="!bFiltroOrden" id="pdfTable" #pdfTable> <!--Piezas o importe-->
           <table class="table table-hover table-striped  ">
             <thead>
               <tr class="EncTabla">
