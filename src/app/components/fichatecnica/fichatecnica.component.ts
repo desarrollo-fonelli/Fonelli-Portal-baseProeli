@@ -318,7 +318,9 @@ export class FichatecnicaComponent implements OnInit {
     console.log(cadena);
 
     var html = htmlToPdfmake(cadena);
-    console.log(html);
+    html[3].table.headerRows= 1;
+    // console.log( html[2].table);
+  
     const documentDefinition = {
       pageSize: 'A4',
       header: [

@@ -1056,7 +1056,7 @@ pageSize: {
   pdfMake.createPdf(documentDefinition).open();
 
   
-  console.log("Desactiva tabla para imprimir");
+  
 
 }
 
