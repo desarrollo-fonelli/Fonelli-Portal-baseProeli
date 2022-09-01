@@ -520,8 +520,79 @@ export class ReporteventasComponent implements OnInit {
          this.oClienteCont	= this.oReporteVentasRes.Contenido.Clientes
          this.oClienteConVentaCont = this.oReporteVentasRes.Contenido.ClientesConVenta
          this.oClienteGeneralCatCont = this.oReporteVentasRes.Contenido.TotalGeneralCategorias
-         
-         //this.collectionSize = this.oVentasCliRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
+
+         for(var cli of this.oClienteCont){
+          for(var cat of cli.Categorias){
+            for(var subCat of cat.Subcategorias){
+
+                //lineas
+                subCat.Piezas1Aux = this.formatoNumero(subCat.Piezas1);
+                subCat.Gramos1Aux = this.formatoNumero(subCat.Gramos1);
+                subCat.ImporteVenta1Aux = this.formatoMoneda(subCat.ImporteVenta1);
+                subCat.PorcentajeImporte1Aux = this.formatoNumero(subCat.PorcentajeImporte1);
+                subCat.ValorAgregado1Aux = this.formatoMoneda(subCat.ValorAgregado1);
+                subCat.PorcentajeValorAgregado1Aux = this.formatoMoneda(subCat.PorcentajeValorAgregado1);
+                
+                subCat.Piezas2Aux = this.formatoNumero(subCat.Piezas2);
+                subCat.Gramos2Aux = this.formatoMoneda(subCat.Gramos2);
+                subCat.ImporteVenta2Aux = this.formatoMoneda(subCat.ImporteVenta2);
+                subCat.PorcentajeImporte2Aux = this.formatoNumero(subCat.PorcentajeImporte2);
+                subCat.ValorAgregado2Aux = this.formatoMoneda(subCat.ValorAgregado2);     
+                subCat.PorcentajeValorAgregado2Aux = this.formatoMoneda(subCat.PorcentajeValorAgregado2);     
+                
+            }
+          }
+          //Totales Cliente
+          cli.TotalesClientexPiezas1 = this.formatoNumero(this.getTotalesxCliente(cli.Categorias,'Piezas1'))
+          cli.TotalesClientexGramos1 = this.formatoNumero(this.getTotalesxCliente(cli.Categorias,'Gramos1'))
+          cli.TotalesClientexImporteVenta1 = this.formatoMoneda(this.getTotalesxCliente(cli.Categorias,'ImporteVenta1'))
+          cli.TotalesClientexPorcentajeImporte1 = this.formatoMoneda(this.getTotalesxCliente(cli.Categorias,'PorcentajeImporte1'))          
+          cli.TotalesClientexValorAgregado1 = this.formatoMoneda(this.getTotalesxCliente(cli.Categorias,'ValorAgregado1'))
+          cli.TotalesClientexPorcentajeValorAgregado1 = this.formatoMoneda(this.getTotalesxCliente(cli.Categorias,'PorcentajeValorAgregado1'))
+          cli.TotalesClientexPiezas2 = this.formatoNumero(this.getTotalesxCliente(cli.Categorias,'Piezas2'))
+          cli.TotalesClientexGramos2 = this.formatoNumero(this.getTotalesxCliente(cli.Categorias,'Gramos2'))
+          cli.TotalesClientexImporteVenta2 = this.formatoMoneda(this.getTotalesxCliente(cli.Categorias,'ImporteVenta2'))
+          cli.TotalesClientexPorcentajeImporte2 = this.formatoMoneda(this.getTotalesxCliente(cli.Categorias,'PorcentajeImporte2'))
+          cli.TotalesClientexValorAgregado2 = this.formatoMoneda(this.getTotalesxCliente(cli.Categorias,'ValorAgregado2'))       
+          cli.TotalesClientexPorcentajeValorAgregado2 = this.formatoMoneda(this.getTotalesxCliente(cli.Categorias,'PorcentajeValorAgregado2'))       
+          
+
+        }
+
+        this.oReporteVentasRes.Contenido.TotalGeneralxPiezas1 = this.formatoNumero(this.getTotalesGeneral(this.oClienteCont,'Piezas1'))
+        this.oReporteVentasRes.Contenido.TotalGeneralxGramos1 = this.formatoNumero(this.getTotalesGeneral(this.oClienteCont,'Gramos1'))
+        this.oReporteVentasRes.Contenido.TotalGeneralxImporteVenta1 = this.formatoMoneda(this.getTotalesGeneral(this.oClienteCont,'ImporteVenta1'))
+        this.oReporteVentasRes.Contenido.TotalGeneralxValorAgregado1 = this.formatoMoneda(this.getTotalesGeneral(this.oClienteCont,'ValorAgregado1')) 
+        this.oReporteVentasRes.Contenido.TotalGeneralxPiezas2 = this.formatoNumero(this.getTotalesGeneral(this.oClienteCont,'Piezas2')) 
+        this.oReporteVentasRes.Contenido.TotalGeneralxGramos2 = this.formatoNumero(this.getTotalesGeneral(this.oClienteCont,'Gramos2')) 
+        this.oReporteVentasRes.Contenido.TotalGeneralxImporteVenta2 = this.formatoMoneda(this.getTotalesGeneral(this.oClienteCont,'ImporteVenta2')) 
+        this.oReporteVentasRes.Contenido.TotalGeneralxValorAgregado2 = this.formatoMoneda(this.getTotalesGeneral(this.oClienteCont,'ValorAgregado2')) 
+
+       
+
+        //Totales General
+        for(var cliGen of this.oClienteGeneralCatCont){
+            for(var totSubCat of cliGen.TotalGeneralSubcatego){
+
+               //lineas
+              totSubCat.TotalPiezas1Aux = this.formatoNumero(totSubCat.TotalPiezas1);
+              totSubCat.TotalGramos1Aux = this.formatoNumero(totSubCat.TotalGramos1);
+              totSubCat.TotalImporte1Aux = this.formatoMoneda(totSubCat.TotalImporte1);
+              totSubCat.TotalPorcentajeImporte1Aux = this.formatoNumero(totSubCat.TotalPorcentajeImporte1);
+              totSubCat.TotalValorAgregado1Aux = this.formatoMoneda(totSubCat.TotalValorAgregado1);
+              totSubCat.TotalPorcentajeValorAgregado1Aux = this.formatoMoneda(totSubCat.TotalPorcentajeValorAgregado1);
+                
+              totSubCat.TotalPiezas2Aux = this.formatoNumero(totSubCat.TotalPiezas2);
+              totSubCat.TotalGramos2Aux = this.formatoMoneda(totSubCat.TotalGramos2);
+              totSubCat.TotalImporte2Aux = this.formatoMoneda(totSubCat.TotalImporte2);
+              totSubCat.TotalPorcentajeImporte2Aux = this.formatoNumero(totSubCat.TotalPorcentajeImporte2);
+              totSubCat.TotalValorAgregado2Aux = this.formatoMoneda(totSubCat.TotalValorAgregado2);     
+              totSubCat.TotalPorcentajeValorAgregado2Aux = this.formatoMoneda(totSubCat.TotalPorcentajeValorAgregado2);     
+
+            }   
+        }
+
+        
  
        },
        (error:ReporteVentas) => {

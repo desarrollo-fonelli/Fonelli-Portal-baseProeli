@@ -8,6 +8,11 @@ export interface Contenido {
     PedidoLetra?:     string;
     PedidoFolio?:     string;
     PedidoArticulos: PedidoArticulo[];
+    CantidadPedida: number;
+    CantidadPedidoProduccion: number;
+    CantidadProducida: number;
+    CantidadSurtida: number;
+    DiferenciaProducido: number;
 }
 
 export interface PedidoArticulo {

@@ -3,28 +3,40 @@ export interface VentasArticuloPzasImp {
     Mensaje?:    string;
     Contenido?:  Contenido[];
     Paginacion?: Paginacion;
+
+    TotalPiezasGeneral: number;
+    TotalGramosGeneral: string;
+    TotalImpVenGeneral: string;
 }
 
 export interface Contenido {
     CategoriaCodigo?:  string;
     CategoriaNombre?:  string;
     Subcategorias?: Subcategorias[];
+
+    TotalPiezasxCategoria: number;
+    TotalGramosxCategoria: string;
+    TotalImpVenxCategoria: string;
 }
 
 export interface Subcategorias {
     SubcategoriaCodigo?:    string;
     SubcategoriaNombre?:    string;
-    LineasProducto?:        LineasProducto[];
+    Detalle?:        Detalle[];
+
+
+
+    TotalPiezasxSubCat:    number;
+    TotalPiezasPorxSubCat:    string;
+    TotalGramosxSubCat:    string;
+    TotalGramosPorxSubCat:    string;
+    TotalImpVenxSubCat:    string;
+
+    
 }
 
-export interface LineasProducto {
+export interface Detalle {
     LineaCodigo?:       string;
-    LineaDescripc?:     string;
-    ColeccionDescripc?: string;
-    Articulos?:         Articulo[];
-}
-
-export interface Articulo {
     ArticuloCodigo?:   string;
     ArticuloDescripc?: string;
     ArticuloTipo?:     string;
@@ -33,7 +45,14 @@ export interface Articulo {
     Gramos?:           number;
     GramosPorcentaje?: number;
     ImporteVenta?:     number;
+
+    PiezasAux:            string;
+    PiezasPorcentajeAux?: string;
+    GramosAux?:           string;
+    GramosPorcentajeAux?: string;
+    ImporteVentaAux?:     string;   
 }
+
 
 export interface Paginacion {
     NumFilas?:     number;

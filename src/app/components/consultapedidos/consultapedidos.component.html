@@ -178,9 +178,9 @@
                 <td ></td>
                 <td ></td>                
                 <td class="FilasFonelli" style="text-align:left">Total General</td>
-                <td class="FilasFonelli" style="text-align:right">{{ getTotal(pedido,'CantidadPedida')}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ oPedidoRes.Contenido.CantidadPedida}}</td>
                 <td ></td>
-                <td class="FilasFonelli" style="text-align:right">{{ getTotal(pedido,'DiferenciaPedidosSurtido')}}</td>
+                <td class="FilasFonelli" style="text-align:right">{{ oPedidoRes.Contenido.DiferenciaPedidosSurtido}}</td>
               </tr>
             </tbody>
           </table>
@@ -310,7 +310,8 @@
                             <td></td>
                             <td></td>                                                      
                             <td class="FilasFonelli" style="text-align:right; color: #183e6f;">Totales</td>
-                            <td class="FilasFonelli" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadPedida')}}</td>                            
+                            <td class="FilasFonelli" style="text-align:right; color: #183e6f;">{{oPedidoDetalleRes.Contenido.CantidadPedida }}</td>                            
+                            <!-- <td class="FilasFonelli" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadPedida')}}</td>                             -->
                           </tr>
                         </tbody>
                       </table>
@@ -355,10 +356,15 @@
                             <td></td>
                             <td></td>                                                      
                             <td class="FilasFonBold" style="text-align:right; color: #183e6f;">Totales</td>
-                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadPedidoProduccion')}}</td>                            
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ oPedidoDetalleRes.Contenido.CantidadPedidoProduccion}}</td>                            
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ oPedidoDetalleRes.Contenido.CantidadProducida}}</td>                            
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ oPedidoDetalleRes.Contenido.CantidadSurtida}}</td>                            
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ oPedidoDetalleRes.Contenido.DiferenciaProducido}}</td>    
+
+                            <!-- <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadPedidoProduccion')}}</td>                            
                             <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadProducida')}}</td>                            
                             <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadSurtida')}}</td>                            
-                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'DiferenciaProducido')}}</td>                            
+                            <td class="FilasFonBold" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'DiferenciaProducido')}}</td>                             -->
                           </tr>
                         </tbody>
                       </table>

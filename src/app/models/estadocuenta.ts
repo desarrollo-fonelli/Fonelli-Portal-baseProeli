@@ -24,6 +24,11 @@ export interface TipoCartera {
     TipoCarteraCodigo:   string;
     TipoCarteraDescripc: string;
     Movimientos:         Movimiento[];
+
+    TotalCargos: string;
+    TotalAbonos: string;
+    TotalSaldo: string;
+    TotalVencido: string;
 }
 
 export interface Movimiento {
@@ -39,6 +44,11 @@ export interface Movimiento {
     SaldoVencido:         number;
     Documento2Serie:      string;
     Referencia:           string;
+
+    CargosAux:               string;
+    AbonosAux:               string;
+    SaldoAux:                string;
+    SaldoVencidoAux:         string;
 }
 
 export interface ResumenStatusCliente {
@@ -53,6 +63,11 @@ export interface ResumenTipoCartera {
     TipoCarteraAbonos:       number;
     TipoCarteraSaldo:        number;
     TipoCarteraSaldoVencido: number;
+
+    TipoCarteraCargosAux: string;
+    TipoCarteraAbonosAux: string;
+    TipoCarteraSaldoAux: string;
+    TipoCarteraSaldoVencidoAux: string;
 }
 
 export interface ResumenTipoCliente {

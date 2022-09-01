@@ -25,6 +25,16 @@ export interface Contenido {
     VentasAnioActual?:    VentasAnioA[];
     ResumenCartera?:  ResumenCartera[];
     PedidosActivos?:      PedidosActivos;
+
+    TotalGenAnioAntPiezas: string;
+    TotalGenAnioAntGramos: string;
+    TotalGenAnioAntImporte: string;
+    TotalGenAnioAntValorAgregado: string;
+
+    TotalGenAnioActPiezas: string;
+    TotalGenAnioActGramos: string;
+    TotalGenAnioActImporte: string;
+    TotalGenAnioActValorAgregado: string;
 }
 
 export interface PedidosActivos {
@@ -39,12 +49,25 @@ export interface ResumenCartera {
     TipoCarteraDescripc?: string;
     TipoCarteraSaldo?:               number;
     TipoCarteraSaldoVencido?:        number;
+
+    TipoCarteraSaldoAux:               string;
+    TipoCarteraSaldoVencidoAux:        string;
 }
 
 export interface VentasAnioA {
     CategoriaCodigo?:   string;
     CategoriaNombre?: string;
     Subcategorias?: Subcategorias[];
+
+    TotalCatPiezasAnioAnt: string;
+    TotalCatGramosAnioAnt: string;
+    TotalCatImporteAnioAnt: string;
+    TotalCatValorAgregadoAnioAnt: string;
+
+    TotalCatPiezasAnioAct: string;
+    TotalCatGramosAnioAct: string;
+    TotalCatImporteAnioAct: string;
+    TotalCatValorAgregadoAnioAct: string;
 }
 
 
@@ -55,4 +78,14 @@ export interface Subcategorias {
     Gramos?:          number;
     Importe?:         number;
     ValorAgregado?:   number;
+
+    PiezasAnioAntAux?:          string;
+    GramosAnioAntAux?:          string;
+    ImporteAnioAntAux?:         string;
+    ValorAgregadoAnioAntAux?:   string;
+
+    PiezasAnioActAux?:          string;
+    GramosAnioActAux?:          string;
+    ImporteAnioActAux?:         string;
+    ValorAgregadoAnioActAux?:   string;
 }

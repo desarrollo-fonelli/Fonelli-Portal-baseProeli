@@ -11,7 +11,7 @@ import htmlToPdfmake from 'html-to-pdfmake';
 
 //Modelos
 import {FiltrosVentaArticuloCliente} from 'src/app/models/ventasclientearticulo.filtros';
-import {VentasClienteArticulo, Articulo, Subcategorias, LineasProducto} from 'src/app/models/ventasclientearticulo';
+import {VentasClienteArticulo, Articulo, Categorias as CategoCon, Subcategorias, LineasProducto, Contenido} from 'src/app/models/ventasclientearticulo';
 import {FiltrosOficina} from 'src/app/models/oficina.filtros';
 import {Oficina} from 'src/app/models/oficina';
 import {FiltrosClientes} from 'src/app/models/clientes.filtros';
@@ -24,13 +24,12 @@ import { FiltrosLineas } from 'src/app/models/lineas.filtros';
 import { Lineas, Contenido as LineasCon } from 'src/app/models/lineas';
 import { FiltrosCategorias } from 'src/app/models/categorias.filtros';
 import { Categorias, Contenido as CategoriasCon } from 'src/app/models/categorias';
-import { VentasClienteArticuloPzasImp, Detalle, Subcategorias as SubCatPzsImp } from 'src/app/models/ventasclientearticuloPzasImp';
+import { VentasClienteArticuloPzasImp, Detalle, Subcategorias as SubCatPzsImp, Contenido as ContenidoPI } from 'src/app/models/ventasclientearticuloPzasImp';
 
 
 //Servicios
 import { ServicioVentasClienteArticulo } from 'src/app/services/ventasclientearticulo.service';
 import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
-import { Contenido } from '../../models/ventasclientearticulo';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 import { ServicioLineas } from 'src/app/services/lineas.service';
 import { ServicioCategorias } from 'src/app/services/categorias.service';
@@ -466,7 +465,6 @@ export class VentasclientearticuloComponent implements OnInit {
       this.oBuscar.TipoUsuario = this.sTipo
       this.oBuscar.Usuario = this.sCodigo
       this.bCargando = true;
-
       
       //Validacion para determinar que servicio se estara utilizando
       if (this.oBuscar.OrdenReporte == 'C'){//Orden por categoria
@@ -504,9 +502,52 @@ export class VentasclientearticuloComponent implements OnInit {
 
             this.sClienteHastaCod = this.oVentasCliRes.Contenido[this.oVentasCliRes.Contenido.length-1].ClienteCodigo;
             this.sClienteHastaFil = this.oVentasCliRes.Contenido[this.oVentasCliRes.Contenido.length-1].ClienteFilial;
-            this.sClienteHastaNom = this.oVentasCliRes.Contenido[this.oVentasCliRes.Contenido.length-1].ClienteNombre;            
+            this.sClienteHastaNom = this.oVentasCliRes.Contenido[this.oVentasCliRes.Contenido.length-1].ClienteNombre;    
             
-    
+            
+            for(var venCli of this.oVentasCliRes.Contenido){
+              for(var cat of venCli.Categorias){
+                for(var subCat of cat.Subcategorias){
+                  for(var linPro of subCat.LineasProducto){
+                    for(var art of linPro.Articulos){
+
+                      //lineas
+                      art.PiezasPorcentajeAux = this.reemplaza(this.formatoMoneda(art.PiezasPorcentaje),'$');
+                      art.GramosAux = this.reemplaza(this.formatoMoneda(art.Gramos),'$');
+                      art.GramosPorcentajeAux = this.reemplaza(this.formatoMoneda(art.GramosPorcentaje),'$');
+                      art.ImporteVentaAux = this.reemplaza(this.formatoMoneda(art.ImporteVenta),'$');
+                    }
+                    //Totales lineas
+                    linPro.TotalPiezasArticulo = this.getTotalPiezasArticulo(linPro.Articulos)
+                    linPro.TotalPiezasPorArticulo = this.reemplaza(this.formatoMoneda(this.getTotalPiezasPorArticulo(linPro.Articulos)),'$')
+                    linPro.TotalGramosArticulo = this.reemplaza(this.formatoMoneda(this.getTotalGramosArticulo(linPro.Articulos)),'$')
+                    linPro.TotalGramosPorArticulo = this.reemplaza(this.formatoMoneda(this.getTotalGramosPorArticulo(linPro.Articulos)),'$')
+                    linPro.TotalImpVenArticulo = this.formatoMoneda(this.getTotalImpVenArticulo(linPro.Articulos))
+                  }
+                  //Totales SubCategorias
+                  subCat.TotalPiezasxSubCat = this.getTotalPiezasxSubCat(subCat.LineasProducto)
+                  subCat.TotalPiezasPorxSubCat = this.reemplaza(this.formatoMoneda(this.getTotalPiezasPorxSubCat(subCat.LineasProducto)),'$')
+                  subCat.TotalGramosxSubCat = this.reemplaza(this.formatoMoneda(this.getTotalGramosxSubCat(subCat.LineasProducto)),'$')
+                  subCat.TotalGramosPorxSubCat = this.reemplaza(this.formatoMoneda(this.getTotalGramosPorxSubCat(subCat.LineasProducto)),'$')
+                  subCat.TotalImpVenxSubCat = this.formatoMoneda(this.getTotalImpVenxSubCat(subCat.LineasProducto))
+                }
+                //Totales Categoria
+                cat.TotalPiezasxCategoria = this.getTotalPiezasxCategoria(cat.Subcategorias)
+                cat.TotalGramosxCategoria = this.reemplaza(this.formatoMoneda(this.getTotalGramosxCategoria(cat.Subcategorias)),'$')          
+                cat.TotalImpVenxCategoria = this.formatoMoneda(this.getTotalImpVenxCategoria(cat.Subcategorias))
+              }
+              //Totales cliente
+            venCli.TotalPiezasxCliente = this.getTotalPiezasxCliente(venCli.Categorias) 
+            venCli.TotalGramosxCliente = this.reemplaza(this.formatoMoneda(this.getTotalGramosxCliente(venCli.Categorias)),'$') 
+            venCli.TotalImpVenxCliente = this.formatoMoneda(this.getTotalImpVenxCliente(venCli.Categorias))      
+                 
+           }
+
+            //Totales generales
+          this.oVentasCliRes.TotalPiezasGeneral = this.getTotalPiezasGeneral(this.oVentasCliRes.Contenido) 
+          this.oVentasCliRes.TotalGramosGeneral = this.reemplaza(this.formatoMoneda(this.getTotalGramosGeneral(this.oVentasCliRes.Contenido)),'$') 
+          this.oVentasCliRes.TotalImpVenGeneral = this.formatoMoneda(this.getTotalImpVenGeneral(this.oVentasCliRes.Contenido)) 
+
           },
           (error:VentasClienteArticulo) => {
     
@@ -547,6 +588,39 @@ export class VentasclientearticuloComponent implements OnInit {
               this.bCargando = false;
               return;
             }
+
+            for(var venArt of this.oVentasCliArtPzasImpRes.Contenido){
+              for(var subCat of venArt.Subcategorias){
+                for(var artDet of subCat.Detalle){
+                 
+                    //Lineas
+                    artDet.PiezasAux = this.reemplaza(this.formatoMoneda(artDet.Piezas),'$');
+                    artDet.PiezasPorcentajeAux = this.reemplaza(this.formatoMoneda(artDet.PiezasPorcentaje),'$');
+                    artDet.GramosAux = this.reemplaza(this.formatoMoneda(artDet.Gramos),'$');
+                    artDet.GramosPorcentajeAux = this.reemplaza(this.formatoMoneda(artDet.GramosPorcentaje),'$');
+                    artDet.ImporteVentaAux = this.reemplaza(this.formatoMoneda(artDet.ImporteVenta),'$');
+                  
+               
+                }
+                   //Totales SubCategoria
+                   subCat.TotalPiezasxSubCat = this.getTotalPiezasxSubCategoriaPzsImp(subCat.Detalle)
+                   subCat.TotalPiezasPorxSubCat = this.reemplaza(this.formatoMoneda(this.getTotalPiezasPorxSubCategoriaPzsImp(subCat.Detalle)),'$')
+                   subCat.TotalGramosxSubCat = this.reemplaza(this.formatoMoneda(this.getTotalGramosxSubCategoriaPzsImp(subCat.Detalle)),'$')
+                   subCat.TotalGramosPorxSubCat = this.reemplaza(this.formatoMoneda(this.getTotalGramosPorxSubCategoriaPzsImp(subCat.Detalle)),'$')
+                   subCat.TotalImpVenxSubCat = this.formatoMoneda(this.getTotalImpVenxSubCategoriaPzsImp(subCat.Detalle))
+ 
+              }
+
+              //Totales Categoria
+              venArt.TotalPiezasxCategoria = this.getTotalPiezasxCategoriaPzsImp(venArt.Subcategorias)
+              venArt.TotalGramosxCategoria = this.reemplaza(this.formatoMoneda(this.getTotalGramosxCategoriaPzsImp(venArt.Subcategorias)),'$')          
+              venArt.TotalImpVenxCategoria = this.formatoMoneda(this.getTotalImpVenxCategoriaPzsImp(venArt.Subcategorias))
+            }
+
+            //Totales generales
+            this.oVentasCliArtPzasImpRes.TotalPiezasGeneral = this.getTotalGenPiezasGeneralPI(this.oVentasCliArtPzasImpRes.Contenido) 
+            this.oVentasCliArtPzasImpRes.TotalGramosGeneral = this.reemplaza(this.formatoMoneda(this.getTotalGenGramosGeneralPI(this.oVentasCliArtPzasImpRes.Contenido)),'$') 
+            this.oVentasCliArtPzasImpRes.TotalImpVenGeneral = this.formatoMoneda(this.getTotalGenImpVenGeneralPI(this.oVentasCliArtPzasImpRes.Contenido))    
     
             this.sMensaje="";
             this.bBanderaPzIm = true;
@@ -667,7 +741,6 @@ export class VentasclientearticuloComponent implements OnInit {
   return Total; 
 }
 
-
   getTotalGramosPorxSubCat(oLineaPro: LineasProducto[]): number {  
     let Total: number = 0;
   
@@ -681,7 +754,7 @@ export class VentasclientearticuloComponent implements OnInit {
     return Total; 
   } 
    
-   getTotalImpVenxSubCat(oLineaPro: LineasProducto[]): number {   
+  getTotalImpVenxSubCat(oLineaPro: LineasProducto[]): number {   
     let Total: number = 0;
   
   
@@ -752,9 +825,9 @@ export class VentasclientearticuloComponent implements OnInit {
         for(var art of linPro.Articulos){ 
           Total += art.GramosPorcentaje;  
         }        
-      }
-          
+      }          
     }
+
     Total = Number(Total.toFixed(2));
     return Total; 
   }
@@ -767,34 +840,71 @@ export class VentasclientearticuloComponent implements OnInit {
         for(var art of linPro.Articulos){ 
           Total += art.ImporteVenta;  
         }        
-      }
-          
+      }          
     }
+
     Total = Number(Total.toFixed(2));
     return Total; 
   }    
   // #### Obten totales por Categoria ####
 
   // #### Obten totales por Cliente ####
-  getTotalPiezasxCliente(oContenido: Contenido[]): number {   
-  let Total: number = 0;
-  
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.Piezas;  
-        }        
-      }
-    } 
+  getTotalPiezasxCliente(oCategorias: CategoCon[]): number {   
+  let Total: number = 0;  
+
+    for(var oCat of oCategorias){     
+      for(var subCat of oCat.Subcategorias){ 
+        for(var linPro of subCat.LineasProducto){ 
+          for(var art of linPro.Articulos){ 
+            Total += art.Piezas;  
+          }        
+        }
+      }     
     }
-  }
+
+    Total = Number(Total.toFixed(2));
+    return Total; 
+  } 
+
+  getTotalGramosxCliente(oCategorias: CategoCon[]): number {   
+  let Total: number = 0;
+
+    for(var oCat of oCategorias){     
+      for(var subCat of oCat.Subcategorias){ 
+        for(var linPro of subCat.LineasProducto){ 
+          for(var art of linPro.Articulos){ 
+            Total += art.Gramos;  
+          }        
+        }
+      }     
+    }
+
     Total = Number(Total.toFixed(2));
     return Total; 
   }
 
-  getTotalPiezasPorxCliente(oContenido: Contenido[]): number {   
+  getTotalImpVenxCliente(oCategorias: CategoCon[]): number {   
+  let Total: number = 0;
+
+
+    for(var oCat of oCategorias){     
+      for(var subCat of oCat.Subcategorias){ 
+        for(var linPro of subCat.LineasProducto){ 
+          for(var art of linPro.Articulos){ 
+            Total += art.ImporteVenta;  
+          }        
+        }
+      } 
+    }
+  
+  Total = Number(Total.toFixed(2));
+    return Total; 
+  }  
+  
+  
+  
+  // #### Obten totales general ####
+  getTotalPiezasGeneral(oContenido: Contenido[]): number {   
     let Total: number = 0;
     
     for(var oConte of oContenido){ 
@@ -802,7 +912,25 @@ export class VentasclientearticuloComponent implements OnInit {
       for(var subCat of oCat.Subcategorias){ 
         for(var linPro of subCat.LineasProducto){ 
           for(var art of linPro.Articulos){ 
-            Total += art.PiezasPorcentaje;  
+            Total += art.Piezas;  
+          }        
+        }
+      } 
+      }
+    }
+      Total = Number(Total.toFixed(2));
+      return Total; 
+    } 
+
+  getTotalGramosGeneral(oContenido: Contenido[]): number {   
+    let Total: number = 0;
+  
+    for(var oConte of oContenido){ 
+      for(var oCat of oConte.Categorias){     
+      for(var subCat of oCat.Subcategorias){ 
+        for(var linPro of subCat.LineasProducto){ 
+          for(var art of linPro.Articulos){ 
+            Total += art.Gramos;  
           }        
         }
       } 
@@ -812,62 +940,25 @@ export class VentasclientearticuloComponent implements OnInit {
       return Total; 
     }
 
-  getTotalGramosxCliente(oContenido: Contenido[]): number {   
-  let Total: number = 0;
-
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.Gramos;  
-        }        
+  getTotalImpVenGeneral(oContenido: Contenido[]): number {   
+    let Total: number = 0;
+  
+    for(var oConte of oContenido){ 
+      for(var oCat of oConte.Categorias){     
+      for(var subCat of oCat.Subcategorias){ 
+        for(var linPro of subCat.LineasProducto){ 
+          for(var art of linPro.Articulos){ 
+            Total += art.ImporteVenta;  
+          }        
+        }
+      } 
       }
-    } 
     }
-  }
     Total = Number(Total.toFixed(2));
-    return Total; 
-  }
+      return Total; 
+    }  
 
-
-  getTotalGramosPorxCliente(oContenido: Contenido[]): number {   
-  let Total: number = 0;
-
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.GramosPorcentaje;  
-        }        
-      }
-    } 
-    }
-  }
-    Total = Number(Total.toFixed(2));
-    return Total; 
-  }
-
-  getTotalImpVenxCliente(oContenido: Contenido[]): number {   
-  let Total: number = 0;
-
-  for(var oConte of oContenido){ 
-    for(var oCat of oConte.Categorias){     
-    for(var subCat of oCat.Subcategorias){ 
-      for(var linPro of subCat.LineasProducto){ 
-        for(var art of linPro.Articulos){ 
-          Total += art.ImporteVenta;  
-        }        
-      }
-    } 
-    }
-  }
-  Total = Number(Total.toFixed(2));
-    return Total; 
-  }   
-
-// #### Obten totales por Cliente ####
+// #### Obten totales general ####
 
 
  // #### Obten totales por subcategoria piezas y importe ####
@@ -943,40 +1034,12 @@ getTotalGramosPorxSubCategoriaPzsImp(oDetalle: Detalle[]): number {
   return Total; 
 }
 
-getTotalPiezasPorxCategoriaPzsImp(oSubCatPzsImp: SubCatPzsImp[]): number {   
-  let Total: number = 0;
-
-  for(var subCat of oSubCatPzsImp){ 
-    for(var det of subCat.Detalle){ 
-        Total += det.PiezasPorcentaje;        
-    }
-  }
-
-  Total = Number(Total.toFixed(2));
-  return Total; 
-}
-
-
 getTotalGramosxCategoriaPzsImp(oSubCatPzsImp: SubCatPzsImp[]): number {   
   let Total: number = 0;
 
   for(var subCat of oSubCatPzsImp){ 
     for(var det of subCat.Detalle){ 
         Total += det.Gramos;        
-    }
-  }
-
-  Total = Number(Total.toFixed(2));
-  return Total; 
-}
-
-
-getTotalGramosPorxCategoriaPzsImp(oSubCatPzsImp: SubCatPzsImp[]): number {   
-  let Total: number = 0;
-
-  for(var subCat of oSubCatPzsImp){ 
-    for(var det of subCat.Detalle){ 
-        Total += det.GramosPorcentaje;        
     }
   }
 
@@ -997,6 +1060,52 @@ getTotalGramosPorxCategoriaPzsImp(oSubCatPzsImp: SubCatPzsImp[]): number {
   return Total; 
 }   
  // #### Obten totales por Categoria piezas e importe ####
+
+    // #### Obten totales generales piezas o importe####
+    getTotalGenPiezasGeneralPI(oCateg: ContenidoPI[]): number {   
+      let Total: number = 0;
+    
+      for(var cat of oCateg){ 
+        for(var subCat of cat.Subcategorias){ 
+          for(var art of subCat.Detalle){ 
+            Total += art.Piezas;  
+          }        
+        }
+            
+      }
+      Total = Number(Total.toFixed(2));
+      return Total; 
+    }
+    getTotalGenGramosGeneralPI(oCateg: ContenidoPI[]): number {   
+      let Total: number = 0;
+    
+      for(var cat of oCateg){ 
+        for(var subCat of cat.Subcategorias){ 
+          for(var art of subCat.Detalle){  
+            Total += art.Gramos;  
+          }        
+        }
+            
+      }
+      Total = Number(Total.toFixed(2));
+      return Total; 
+    }
+     getTotalGenImpVenGeneralPI(oCateg: ContenidoPI[]): number {   
+      let Total: number = 0;
+    
+      for(var cat of oCateg){ 
+        for(var subCat of cat.Subcategorias){ 
+          for(var art of subCat.Detalle){ 
+            Total += art.ImporteVenta;  
+          }        
+        }
+            
+      }
+      Total = Number(Total.toFixed(2));
+      return Total; 
+    }    
+    // #### Obten totales generales por Categoria ####
+  
 
 downloadAsPDF() {
 

@@ -367,6 +367,69 @@ consultaRelPed(){
           return;
         }
 
+        for(var ContRelPed of this.oRelacionPedRes.Contenido){
+          for(var tiPe of ContRelPed.TipoPedido){
+            for(var pedido of tiPe.Pedidos){
+        
+              pedido.CantidadPedidaAux = this.reemplaza(this.formatoMoneda(pedido.CantidadPedida),'$');
+              pedido.CantidadPedidaImporteAux = this.formatoMoneda(pedido.CantidadPedidaImporte);
+              pedido.CantidadPedidaValorAgregadoAux = this.formatoMoneda(pedido.CantidadPedidaValorAgregado);
+              pedido.CantidadSurtidaAux = this.reemplaza(this.formatoMoneda(pedido.CantidadSurtida),'$');
+              pedido.CantidadSurtidaImporteAux = this.formatoMoneda(pedido.CantidadSurtidaImporte);
+              pedido.CantidadSurtidaValorAgregadoAux = this.formatoMoneda(pedido.CantidadSurtidaValorAgregado);
+              pedido.DiferenciaCantidadSurtidoAux = this.reemplaza(this.formatoMoneda(pedido.DiferenciaCantidadSurtido),'$');
+              pedido.DiferenciaImporteSurtidoAux = this.formatoMoneda(pedido.DiferenciaImporteSurtido);
+              pedido.DiferenciaValorAgregadoAux = this.formatoMoneda(pedido.DiferenciaValorAgregado);
+              
+            }            
+            
+            tiPe.TotalPedidos = this.getTotalPedidos(tiPe.Pedidos)
+            tiPe.TotalCanPed = this.reemplaza(this.formatoMoneda(this.getTotalCanPed(tiPe.Pedidos)),'$')
+            tiPe.TotlImportes = this.formatoMoneda(this.getTotalImportes(tiPe.Pedidos))
+            tiPe.TotalCPValorAgregado = this.formatoMoneda(this.getTotalCPValorAgregado(tiPe.Pedidos))
+            tiPe.TotalCanSurtida = this.reemplaza(this.formatoMoneda(this.getTotalCanSurtida(tiPe.Pedidos)),'$')
+            tiPe.TotalCanSurtidaImporte = this.formatoMoneda(this.getTotalCanSurtidaImporte(tiPe.Pedidos))
+            tiPe.TotalCSValorImporte = this.formatoMoneda(this.getTotalCSValorImporte(tiPe.Pedidos))
+            tiPe.TotalDifCantidadSurt = this.reemplaza(this.formatoMoneda(this.getTotalDifCantidadSurt(tiPe.Pedidos)),'$')
+            tiPe.TotalDifImporteSurtido = this.formatoMoneda(this.getTotalDifImporteSurtido(tiPe.Pedidos))
+            tiPe.TotalDifValorAgregado = this.formatoMoneda(this.getTotalDifValorAgregado(tiPe.Pedidos))
+            tiPe.TotalCantPedidaProd = this.getTotalCantPedidaProd(tiPe.Pedidos)
+            tiPe.TotalCantidadProd = this.getTotalCantidadProd(tiPe.Pedidos)
+            tiPe.TotalDifCantidadProd = this.getTotalDifCantidadProd(tiPe.Pedidos)   
+          }
+          
+          
+          ContRelPed.TotalPedidosOficina = this.getTotalPedidosOficina(ContRelPed.TipoPedido)   
+          ContRelPed.TotalCanPedOficina = this.reemplaza(this.formatoMoneda(this.getTotalCanPedOficina(ContRelPed.TipoPedido)),'$')   
+          ContRelPed.TotalImportesOficina = this.formatoMoneda(this.getTotalImportesOficina(ContRelPed.TipoPedido))
+          ContRelPed.TotalCPValorAgregadoOficina = this.formatoMoneda(this.getTotalCPValorAgregadoOficina(ContRelPed.TipoPedido))   
+          ContRelPed.TotalCanSurtidaOficina = this.reemplaza(this.formatoMoneda(this.getTotalCanSurtidaOficina(ContRelPed.TipoPedido)),'$')      
+          ContRelPed.TotalCanSurtidaImporteOficina = this.formatoMoneda(this.getTotalCanSurtidaImporteOficina(ContRelPed.TipoPedido))   
+          ContRelPed.TotalCSValorImporteOficina = this.formatoMoneda(this.getTotalCSValorImporteOficina(ContRelPed.TipoPedido))
+          ContRelPed.TotalDifCantidadSurtOficina = this.reemplaza(this.formatoMoneda(this.getTotalDifCantidadSurtOficina(ContRelPed.TipoPedido)),'$')
+          ContRelPed.TotalDifImporteSurtidoOficina = this.formatoMoneda(this.getTotalDifImporteSurtidoOficina(ContRelPed.TipoPedido))   
+          ContRelPed.TotalDifValorAgregadoOficina = this.formatoMoneda(this.getTotalDifValorAgregadoOficina(ContRelPed.TipoPedido))   
+          ContRelPed.TotalCantPedidoProdOficina = this.getTotalCantPedidoProdOficina(ContRelPed.TipoPedido)   
+          ContRelPed.TotalCantidadProducidaOficina = this.getTotalCantidadProducidaOficina(ContRelPed.TipoPedido)   
+          ContRelPed.TotalDifCantidadProdOficina = this.getTotalDifCantidadProdOficina(ContRelPed.TipoPedido) 
+        }
+
+        //Totales generales
+        this.oRelacionPedRes.TotalPedidosGranTotal = this.getTotalPedidosGranTotal(this.oRelacionPedRes.Contenido) 
+        this.oRelacionPedRes.TotalCanPedGranTotal = this.reemplaza(this.formatoMoneda(this.getTotalCanPedGranTotal(this.oRelacionPedRes.Contenido)),'$') 
+        this.oRelacionPedRes.TotalImportesGranTotal = this.formatoMoneda(this.getTotalImportesGranTotal(this.oRelacionPedRes.Contenido))
+        this.oRelacionPedRes.TotalCPValorAgregadoGranTotal = this.formatoMoneda(this.getTotalCPValorAgregadoGranTotal(this.oRelacionPedRes.Contenido) )
+        this.oRelacionPedRes.TotalCanSurtidaGranTotal = this.reemplaza(this.formatoMoneda(this.getTotalCanSurtidaGranTotal(this.oRelacionPedRes.Contenido)),'$') 
+        this.oRelacionPedRes.TotalCanSurtidaImporteGranTotal = this.formatoMoneda(this.getTotalCanSurtidaImporteGranTotal(this.oRelacionPedRes.Contenido))
+        this.oRelacionPedRes.TotalCSValorImporteGranTotal = this.formatoMoneda(this.getTotalCSValorImporteGranTotal(this.oRelacionPedRes.Contenido))
+        this.oRelacionPedRes.TotalDifCantidadSurtGranTotal = this.reemplaza(this.formatoMoneda(this.getTotalDifCantidadSurtGranTotal(this.oRelacionPedRes.Contenido)),'$')  
+        this.oRelacionPedRes.TotalDifImporteSurtidoGranTotal =  this.formatoMoneda(this.getTotalDifImporteSurtidoGranTotal(this.oRelacionPedRes.Contenido))
+        this.oRelacionPedRes.TotalDifValorAgregadoGranTotal =  this.formatoMoneda(this.getTotalDifValorAgregadoGranTotal(this.oRelacionPedRes.Contenido)) 
+        this.oRelacionPedRes.TotalCantPedProdGranTotal = this.getTotalCantPedProdGranTotal(this.oRelacionPedRes.Contenido) 
+        this.oRelacionPedRes.TotalCantidadProdGranTotal = this.getTotalCantidadProdGranTotal(this.oRelacionPedRes.Contenido) 
+        this.oRelacionPedRes.TotalDifCantidadProdGranTotal = this.getTotalDifCantidadProdGranTotal(this.oRelacionPedRes.Contenido) 
+
+        
         this.sMensaje="";
         this.bBandera = true;
         this.bCargando = false;

@@ -171,9 +171,21 @@ export class FichatecnicaComponent implements OnInit {
     if (date.getMonth().toString().length == 1) {
       mes = '0' + (date.getMonth() + 1);
     }
-
     
-    this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                                 
+      //validacion dia anterior inicio de mes
+      if(date.getDate() == 1){//es inicio de mes
+        if(mes == '01'){
+          mes = '12';
+          this.fechaHoy = (date.getFullYear()-1) +'-'+ mes +'-'+'30';          
+        }else{
+          mes = mes-1;
+          this.fechaHoy = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
+        }        
+      }else{
+        
+        this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                                       
+      }
+
 
     this.oBuscar.FechaDesdeAnterior = (date.getFullYear()-1)+'-01-01';
     this.oBuscar.FechaHastaAnterior = (date.getFullYear()-1)+'-12-31';
@@ -272,7 +284,56 @@ export class FichatecnicaComponent implements OnInit {
         this.oTipoCarteraRes = this.oFichaTecnicaRes.Contenido.ResumenCartera;
         this.oPedidosInactivosRes = this.oFichaTecnicaRes.Contenido.PedidosActivos;
 
+        //Calculo ventas año anterior
+        for(var AnioAnt of this.oAnioAnteriorRes){
+          for(var subCat of AnioAnt.Subcategorias){
+            subCat.PiezasAnioAntAux = this.formatoNumero(subCat.Piezas);
+            subCat.GramosAnioAntAux = this.formatoNumero(subCat.Gramos);
+            subCat.ImporteAnioAntAux = this.formatoMoneda(subCat.Importe);
+            subCat.ValorAgregadoAnioAntAux = this.formatoMoneda(subCat.ValorAgregado); 
+                   
+          }
+          AnioAnt.TotalCatPiezasAnioAnt = this.formatoNumero(this.getTotalCategoria(AnioAnt.Subcategorias,'Piezas'));
+          AnioAnt.TotalCatGramosAnioAnt= this.formatoNumero(this.getTotalCategoria(AnioAnt.Subcategorias,'Gramos'));
+          AnioAnt.TotalCatImporteAnioAnt = this.formatoMoneda(this.getTotalCategoria(AnioAnt.Subcategorias,'Importe'));
+          AnioAnt.TotalCatValorAgregadoAnioAnt = this.formatoMoneda(this.getTotalCategoria(AnioAnt.Subcategorias,'ValorAgregado'));          
+        }
+
+         //Totales generales
+        this.oFichaTecnicaRes.Contenido.TotalGenAnioAntPiezas = this.formatoNumero(this.getTotalGeneral(this.oAnioAnteriorRes,'Piezas'));
+        this.oFichaTecnicaRes.Contenido.TotalGenAnioAntGramos = this.formatoNumero(this.getTotalGeneral(this.oAnioAnteriorRes,'Gramos'));
+        this.oFichaTecnicaRes.Contenido.TotalGenAnioAntImporte = this.formatoMoneda(this.getTotalGeneral(this.oAnioAnteriorRes,'Importe'));
+        this.oFichaTecnicaRes.Contenido.TotalGenAnioAntValorAgregado = this.formatoMoneda(this.getTotalGeneral(this.oAnioAnteriorRes,'ValorAgregado'));     
+
+
+        //Calculo ventas año actual
+        for(var AnioAct of this.oAnioActualRes){
+          for(var subCat of AnioAct.Subcategorias){
+            subCat.PiezasAnioActAux = this.formatoNumero(subCat.Piezas);
+            subCat.GramosAnioActAux = this.formatoNumero(subCat.Gramos);
+            subCat.ImporteAnioActAux = this.formatoMoneda(subCat.Importe);
+            subCat.ValorAgregadoAnioActAux = this.formatoMoneda(subCat.ValorAgregado);         
+          }
+          AnioAct.TotalCatPiezasAnioAct = this.formatoNumero(this.getTotalCategoria(AnioAct.Subcategorias,'Piezas'));
+          AnioAct.TotalCatGramosAnioAct = this.formatoNumero(this.getTotalCategoria(AnioAct.Subcategorias,'Gramos'));
+          AnioAct.TotalCatImporteAnioAct = this.formatoMoneda(this.getTotalCategoria(AnioAct.Subcategorias,'Importe'));
+          AnioAct.TotalCatValorAgregadoAnioAct = this.formatoMoneda(this.getTotalCategoria(AnioAct.Subcategorias,'ValorAgregado'));          
+        }
+
+         //Totales generales
+        this.oFichaTecnicaRes.Contenido.TotalGenAnioActPiezas = this.formatoNumero(this.getTotalGeneral(this.oAnioActualRes,'Piezas'));
+        this.oFichaTecnicaRes.Contenido.TotalGenAnioActGramos = this.formatoNumero(this.getTotalGeneral(this.oAnioActualRes,'Gramos'));
+        this.oFichaTecnicaRes.Contenido.TotalGenAnioActImporte = this.formatoMoneda(this.getTotalGeneral(this.oAnioActualRes,'Importe'));
+        this.oFichaTecnicaRes.Contenido.TotalGenAnioActValorAgregado = this.formatoMoneda(this.getTotalGeneral(this.oAnioActualRes,'ValorAgregado'));     
+         
+
+         //Resumen cartera
+         for(var cart of this.oTipoCarteraRes){
+          cart.TipoCarteraSaldoAux = this.formatoMoneda(cart.TipoCarteraSaldo);
+          cart.TipoCarteraSaldoVencidoAux = this.formatoMoneda(cart.TipoCarteraSaldo);
+         }
         
+
 
       },
       (error: FichaTecnica) => {

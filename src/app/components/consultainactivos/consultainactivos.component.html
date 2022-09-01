@@ -169,7 +169,21 @@
                 <td class="FilasFonelli" style="text-align:left">{{ cli.Lista2}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ cli.Plazo}}</td>               
     
-                <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'1'))}}</td>
+                <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ cli.CtaCorrMN_SAL}}</td>
+                <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ cli.CtaCorrORO_SAL}}</td>
+                <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ cli.CtaCorrDLLS_SAL}}</td>
+                <td *ngIf="bBanCtaDocMN_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ cli.CtaDocMN_SAL}}</td>
+                <td *ngIf="bBanCtaDocORO_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ cli.CtaDocORO_SAL}}</td>
+                <td *ngIf="bBanCtaDocDLLS_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ cli.CtaDocDLLS_SAL}}</td>
+
+                <td *ngIf="bBanCtaCorrMN_VEN" class="table-success FilasFonelli" style="text-align:right">{{ cli.CtaCorrMN_VEN}}</td>
+                <td *ngIf="bBanCtaCorrORO_VEN" class="table-success FilasFonelli" style="text-align:right">{{ cli.CtaCorrORO_VEN}}</td>
+                <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">{{ cli.CtaCorrDLLS_VEN}}</td>
+                <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonelli" style="text-align:right">{{ cli.CtaDocMN_VEN}}</td> 
+                <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonelli" style="text-align:right">{{ cli.CtaDocORO_VEN}}</td> 
+                <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">{{ cli.CtaDocDLLS_VEN}}</td> 
+
+                <!-- <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'1'))}}</td>
                 <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'2'))}}</td>
                 <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'3'))}}</td>
                 <td *ngIf="bBanCtaDocMN_SAL" class="table-warning FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'6'))}}</td>
@@ -181,7 +195,7 @@
                 <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'3'))}}</td>
                 <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'6'))}}</td> 
                 <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'7'))}}</td> 
-                <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'8'))}}</td> 
+                <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">{{ formatoMoneda(getSaldosCartera(cli.SaldosCarteraCliente,'8'))}}</td>  -->
        
                 <td class="FilasFonelli" style="text-align:right">{{ cli.DiasAtraso}}</td>
                 <td class="FilasFonelli" style="text-align:left">{{ cli.PedidosActivos}}</td>
@@ -197,6 +211,20 @@
                 <td></td>
                 <td class="FilasFonBold" style="text-align:right">Total agente</td>               
     
+                <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ con.CtaCorrMN_SAL}}</td>
+                <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ con.CtaCorrORO_SAL}}</td>
+                <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ con.CtaCorrDLLS_SAL}}</td>
+                <td *ngIf="bBanCtaDocMN_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ con.CtaDocMN_SAL}}</td>
+                <td *ngIf="bBanCtaDocORO_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ con.CtaDocORO_SAL}}</td>
+                <td *ngIf="bBanCtaDocDLLS_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ con.CtaDocDLLS_SAL}}</td>
+
+                <td *ngIf="bBanCtaCorrMN_VEN" class="table-success FilasFonBold" style="text-align:right">{{ con.CtaCorrMN_VEN}}</td>
+                <td *ngIf="bBanCtaCorrORO_VEN" class="table-success FilasFonBold" style="text-align:right">{{ con.CtaCorrORO_VEN}}</td>
+                <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">{{ con.CtaCorrDLLS_VEN}}</td>
+                <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonBold" style="text-align:right">{{ con.CtaDocMN_VEN}}</td> 
+                <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonBold" style="text-align:right">{{ con.CtaDocORO_VEN}}</td> 
+                <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">{{ con.CtaDocDLLS_VEN}}</td> 
+<!--     
                 <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'1'))}}</td>
                 <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'2'))}}</td>
                 <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteSaldos(con.Clientes,'3'))}}</td>
@@ -209,7 +237,7 @@
                 <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'3'))}}</td>
                 <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'6'))}}</td> 
                 <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'7'))}}</td> 
-                <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'8'))}}</td> 
+                <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesAgenteVencidos(con.Clientes,'8'))}}</td>  -->
        
                 <td></td>
                 <td></td>
@@ -227,7 +255,21 @@
               <td></td>
               <td class="FilasFonBold" style="text-align:right">Total general</td>               
   
-              <td *ngIf="bBanCtaCorrMN_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'1'))}}</td>
+              <td *ngIf="bBanCtaCorrMN_SAL" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaCorrMN_SAL }}</td>
+              <td *ngIf="bBanCtaCorrORO_SAL" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaCorrORO_SAL }}</td>
+              <td *ngIf="bBanCtaCorrDLLS_SAL" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaCorrDLLS_SAL }}</td>
+              <td *ngIf="bBanCtaDocMN_SAL" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaDocMN_SAL }}</td>
+              <td *ngIf="bBanCtaDocORO_SAL" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaDocORO_SAL }}</td>
+              <td *ngIf="bBanCtaDocDLLS_SAL" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaDocDLLS_SAL }}</td>
+
+              <td *ngIf="bBanCtaCorrMN_VEN" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaCorrMN_VEN }}</td>
+              <td *ngIf="bBanCtaCorrORO_VEN" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaCorrORO_VEN }}</td>
+              <td *ngIf="bBanCtaCorrDLLS_VEN" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaCorrDLLS_VEN }}</td>
+              <td *ngIf="bBanCtaDocMN_VEN" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaDocMN_VEN }}</td> 
+              <td *ngIf="bBanCtaDocORO_VEN" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaDocORO_VEN }}</td> 
+              <td *ngIf="bBanCtaDocDLLS_VEN" class="FilasFonBold" style="text-align:right">{{ this.oClientesInacRes.CtaDocDLLS_VEN }}</td> 
+
+              <!-- <td *ngIf="bBanCtaCorrMN_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'1'))}}</td>
               <td *ngIf="bBanCtaCorrORO_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'2'))}}</td>
               <td *ngIf="bBanCtaCorrDLLS_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'3'))}}</td>
               <td *ngIf="bBanCtaDocMN_SAL" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralSaldos(oClientesInacRes.Contenido,'6'))}}</td>
@@ -239,7 +281,7 @@
               <td *ngIf="bBanCtaCorrDLLS_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'3'))}}</td>
               <td *ngIf="bBanCtaDocMN_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'6'))}}</td> 
               <td *ngIf="bBanCtaDocORO_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'7'))}}</td> 
-              <td *ngIf="bBanCtaDocDLLS_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'8'))}}</td> 
+              <td *ngIf="bBanCtaDocDLLS_VEN" class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalesGeneralVencidos(oClientesInacRes.Contenido,'8'))}}</td>  -->
      
               <td></td>
               <td></td>

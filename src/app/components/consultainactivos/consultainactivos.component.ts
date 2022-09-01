@@ -366,6 +366,56 @@ export class ConsultainactivosComponent implements OnInit {
         console.log("General"+this.sColVencido);
 
 
+        //Control para eventos
+        for(var cliCon of this.oClientesInacRes.Contenido){
+          for(var cli of cliCon.Clientes ){
+           //Totales cartera cliente
+           cli.CtaCorrMN_SAL = this.formatoMoneda(this.getSaldosCartera(cli.SaldosCarteraCliente,'1'));
+           cli.CtaCorrORO_SAL = this.formatoMoneda(this.getSaldosCartera(cli.SaldosCarteraCliente,'2'));
+           cli.CtaCorrDLLS_SAL = this.formatoMoneda(this.getSaldosCartera(cli.SaldosCarteraCliente,'3'));
+           cli.CtaDocMN_SAL = this.formatoMoneda(this.getSaldosCartera(cli.SaldosCarteraCliente,'6'));
+           cli.CtaDocORO_SAL = this.formatoMoneda(this.getSaldosCartera(cli.SaldosCarteraCliente,'7'));
+           cli.CtaDocDLLS_SAL = this.formatoMoneda(this.getSaldosCartera(cli.SaldosCarteraCliente,'8'));
+           cli.CtaCorrMN_VEN = this.formatoMoneda(this.getVencidosCartera(cli.VencidosSaldosCartera,'1'));
+           cli.CtaCorrORO_VEN = this.formatoMoneda(this.getVencidosCartera(cli.VencidosSaldosCartera,'2'));
+           cli.CtaCorrDLLS_VEN = this.formatoMoneda(this.getVencidosCartera(cli.VencidosSaldosCartera,'3'));
+           cli.CtaDocMN_VEN = this.formatoMoneda(this.getVencidosCartera(cli.VencidosSaldosCartera,'6'));
+           cli.CtaDocORO_VEN = this.formatoMoneda(this.getVencidosCartera(cli.VencidosSaldosCartera,'7'));
+           cli.CtaDocDLLS_VEN = this.formatoMoneda(this.getVencidosCartera(cli.VencidosSaldosCartera,'8'));
+           
+          
+          }
+          //Totales agente
+          cliCon.CtaCorrMN_SAL = this.formatoMoneda(this.getTotalesAgenteSaldos(cliCon.Clientes,'1'));
+          cliCon.CtaCorrORO_SAL = this.formatoMoneda(this.getTotalesAgenteSaldos(cliCon.Clientes,'2'));
+          cliCon.CtaCorrDLLS_SAL = this.formatoMoneda(this.getTotalesAgenteSaldos(cliCon.Clientes,'3'));
+          cliCon.CtaDocMN_SAL = this.formatoMoneda(this.getTotalesAgenteSaldos(cliCon.Clientes,'6'));
+          cliCon.CtaDocORO_SAL = this.formatoMoneda(this.getTotalesAgenteSaldos(cliCon.Clientes,'7'));
+          cliCon.CtaDocDLLS_SAL = this.formatoMoneda(this.getTotalesAgenteSaldos(cliCon.Clientes,'8'));
+          cliCon.CtaCorrMN_VEN = this.formatoMoneda(this.getTotalesAgenteVencidos(cliCon.Clientes,'1'));
+          cliCon.CtaCorrORO_VEN = this.formatoMoneda(this.getTotalesAgenteVencidos(cliCon.Clientes,'2'));
+          cliCon.CtaCorrDLLS_VEN = this.formatoMoneda(this.getTotalesAgenteVencidos(cliCon.Clientes,'3'));
+          cliCon.CtaDocMN_VEN = this.formatoMoneda(this.getTotalesAgenteVencidos(cliCon.Clientes,'6'));
+          cliCon.CtaDocORO_VEN = this.formatoMoneda(this.getTotalesAgenteVencidos(cliCon.Clientes,'7'));
+          cliCon.CtaDocDLLS_VEN = this.formatoMoneda(this.getTotalesAgenteVencidos(cliCon.Clientes,'8'));
+        }
+
+        //Totales general
+        this.oClientesInacRes.CtaCorrMN_SAL = this.formatoMoneda(this.getTotalesGeneralSaldos(this.oClientesInacRes.Contenido,'1'));
+        this.oClientesInacRes.CtaCorrORO_SAL = this.formatoMoneda(this.getTotalesGeneralSaldos(this.oClientesInacRes.Contenido,'2'));
+        this.oClientesInacRes.CtaCorrDLLS_SAL = this.formatoMoneda(this.getTotalesGeneralSaldos(this.oClientesInacRes.Contenido,'3'));
+        this.oClientesInacRes.CtaDocMN_SAL = this.formatoMoneda(this.getTotalesGeneralSaldos(this.oClientesInacRes.Contenido,'6'));
+        this.oClientesInacRes.CtaDocORO_SAL = this.formatoMoneda(this.getTotalesGeneralSaldos(this.oClientesInacRes.Contenido,'7'));
+        this.oClientesInacRes.CtaDocDLLS_SAL = this.formatoMoneda(this.getTotalesGeneralSaldos(this.oClientesInacRes.Contenido,'8'));
+        this.oClientesInacRes.CtaCorrMN_VEN = this.formatoMoneda(this.getTotalesGeneralVencidos(this.oClientesInacRes.Contenido,'1'));
+        this.oClientesInacRes.CtaCorrORO_VEN = this.formatoMoneda(this.getTotalesGeneralVencidos(this.oClientesInacRes.Contenido,'2'));
+        this.oClientesInacRes.CtaCorrDLLS_VEN = this.formatoMoneda(this.getTotalesGeneralVencidos(this.oClientesInacRes.Contenido,'3'));
+        this.oClientesInacRes.CtaDocMN_VEN = this.formatoMoneda(this.getTotalesGeneralVencidos(this.oClientesInacRes.Contenido,'6'));
+        this.oClientesInacRes.CtaDocORO_VEN = this.formatoMoneda(this.getTotalesGeneralVencidos(this.oClientesInacRes.Contenido,'7'));
+        this.oClientesInacRes.CtaDocDLLS_VEN = this.formatoMoneda(this.getTotalesGeneralVencidos(this.oClientesInacRes.Contenido,'8'));
+
+        
+
         this.sMensaje = '';
         this.bBandera = true;        
         this.bCargando = false;
