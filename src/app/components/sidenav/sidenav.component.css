@@ -5,9 +5,17 @@
 }
 .main-container {
   padding-top: 60px;
+  overflow: initial;
 }
 
 mat-sidenav {
   position: fixed;
   padding-top: 70px;
 }
+
+mat-sidenav-container, mat-sidenav-content
+{
+  overflow: initial;
+
+}
+ 

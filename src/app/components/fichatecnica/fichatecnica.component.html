@@ -1,7 +1,22 @@
+<div class="container">
+  <p>
+    <button
+      type="button"
+      class="btnFonelliAzul btn"
+      (click)="collapse.toggle()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+    >
+      Filtros
+    </button>
+  </p>
+</div>
 <section >
     <div class="container float-left">
     <div class="row">
        <div class="col-lg-12">
+
+        <div #collapse="ngbCollapse" class="container" [(ngbCollapse)]="isCollapsed">
  
          <div class="card">
            <div class="card-body">
@@ -158,12 +173,15 @@
              </form><!-- End General Form Elements -->
            </div>             
          </div>
+</div>
+
+
        </div>
      </div> 
     </div>  
 
      
-      <div *ngIf="bBandera" class="table-responsive container">  
+      <div *ngIf="bBandera" class="container">  
         <!-- <div class="container" >      -->
 
           <h6 style="text-align: center; font-size:xx-large;">{{ obtenNombreCliente(oBuscar.Cliente) }}</h6>          
@@ -252,10 +270,10 @@
               </div> 
         </div>
 
-    <div class="contenedor-tabla table-responsive" id="pdfTable" #pdfTable >
+    <div id="pdfTable" #pdfTable >
 
       <h6 style="text-align: center; color:#24a4cc; ">Ventas año anterior desde {{oBuscar.FechaDesdeAnterior}} hasta {{oBuscar.FechaHastaAnterior}}</h6>
-        <table  class="table table-hover table-striped">
+        <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">
           <thead>
             <tr class="EncTabla">            
             <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
@@ -314,7 +332,7 @@
         <br>
 
         <h6 style="text-align: center; color:#24a4cc; ">Ventas año actual desde {{oBuscar.FechaDesdeActual}} hasta {{oBuscar.FechaHastaActual}}</h6>        
-        <table  class="table table-hover table-striped">
+        <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">
           <thead>
             <tr class="EncTabla">            
             <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
@@ -373,7 +391,7 @@
         <br>
 
         <label class="CamposFonelli">Resumen de Cartera</label>
-        <table  class="table table-hover table-striped">
+        <table  class="table table-hover table-striped" >
           <thead>
             <tr class="EncTabla">            
             <th style="background-color: #24a4cc; color: white;" scope="col">CARTERA</th>
@@ -396,7 +414,7 @@
         <br>
 
         <label class="CamposFonelli">Pedidos activos</label>
-        <table  class="table table-hover table-striped">
+        <table  class="table table-hover table-striped" >
           <thead>
             <tr class="EncTabla">            
             <th style="background-color: #24a4cc; color: white;" scope="col">PEDIDOS</th>

@@ -24,9 +24,14 @@ import { PaneladminComponent } from "./components/paneladmin/paneladmin.componen
 import { TemplateComponent } from "./components/template/template.component";
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
 import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
+import { EncabezadoComponent } from "./components/encabezado/encabezado.component";
+
+
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
+    { path: 'tabla', component: EncabezadoComponent },
+
     {
       path: 'distribuidores',
       component: SidenavComponent,
@@ -64,6 +69,7 @@ const appRoutes: Routes = [
         { path: 'reporteventas', component: ReporteventasComponent },
         { path: 'consultainactivos', component: ConsultainactivosComponent },
         { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
+        { path: 'tabla', component: EncabezadoComponent }
       ],
     },
     

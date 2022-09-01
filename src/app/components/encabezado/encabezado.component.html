@@ -1,0 +1,142 @@
+<div id="movDiv" #movDiv   >
+
+  <div class="container">
+  <p>
+  <button type="button" class="btnFonelliAzul btn" 
+    aria-controls="collapseExample">
+  Filtros
+  </button>
+</p>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h2 class="card-title" >Consulta de Pedidos</h2>   
+    <!-- General Form Elements -->
+   <form> 
+
+     <div class="form-row">
+
+       <div class="form-group col-md-3">                    
+           <label class="CamposFonelli">Numero</label> 
+           <input 
+             type="text" 
+             id="idNumpPed"
+             class="form-control"
+             name="idNumpPed"
+   
+             required>
+             
+         </div>
+       
+
+       <div class="form-group col-md-3"> 
+         <label class="CamposFonelli">Filial</label>
+
+           <input
+           type="text" 
+           id="idFilPed"
+           class="form-control"
+           name="idFilPed"
+ 
+           required
+         >
+       </div>
+
+       <div class="form-group col-md-3" > 
+         <label class="CamposFonelli col-md-12" style="color:white;">-</label>
+         <button  type="button" class="btnFonelli btn" style="background-color:#24a4cc;"><i class="bi bi-search"></i></button>
+       </div> 
+       
+     </div> 
+
+
+       <div class="row">
+          
+           <div class=" form-group col-md-3">
+             <div class="form-check">
+               <input 
+                 class="form-check-input"
+                 type="radio"
+                 name="gridRadios"
+                 id="idAct"
+                 value="A"
+    
+               >
+               <label class="form-check-label CamposFonelli" for="gridRadios1"> Activos </label>
+             </div>
+             <div class="form-check">
+               <input 
+                 class="form-check-input"
+                 type="radio"
+                 name="gridRadios"
+                 id="idIna"
+                 value="I"
+
+               >
+               <label class="form-check-label CamposFonelli" for="gridRadios2"> Inactivos</label>
+             </div>
+             <div class="form-check ">
+               <input 
+                 class="form-check-input"
+                 type="radio"
+                 name="gridRadios"
+                 id="idTod"
+                 value="T"
+
+               >
+               <label class="form-check-label CamposFonelli" for="gridRadios3"> Todos </label>
+             </div>
+           </div>
+         </div>
+
+    
+
+          
+       <div class="form-row">
+           <div class="form-group col-md-6">
+               <button type="submit"  class=" btnFonelli btn"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span> BUSCAR</button>                          
+           </div>
+       </div>  
+       
+    </form><!-- End General Form Elements -->
+  </div>
+</div>
+</div>
+<h1>Angular Datatables Step by Step Example - ItSolutionStuff.com</h1>
+<div class="container">
+  <table datatable [dtOptions]="dtOptions" class="row-border hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Body</th>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Body</th>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Body</th>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Body</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let post of posts">
+        <td>{{ post.id }}</td>
+        <td>{{ post.title }}</td>
+        <td>{{ post.body }}</td>
+        <td>{{ post.id }}</td>
+        <td>{{ post.title }}</td>
+        <td>{{ post.body }}</td>
+        <td>{{ post.id }}</td>
+        <td>{{ post.title }}</td>
+        <td>{{ post.body }}</td>
+        <td>{{ post.id }}</td>
+        <td>{{ post.title }}</td>
+        <td>{{ post.id }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

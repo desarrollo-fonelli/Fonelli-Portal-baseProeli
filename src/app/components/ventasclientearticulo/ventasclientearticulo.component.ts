@@ -74,6 +74,8 @@ export class VentasclientearticuloComponent implements OnInit {
   public oBuscarOfi: FiltrosOficina;
   oOficinasRes: Oficina; 
 
+  dtOptions: any = {};
+
   public oBuscarLineas: FiltrosLineas;
   oLineasRes: Lineas; 
   oLineasCon: LineasCon[];
@@ -90,6 +92,8 @@ export class VentasclientearticuloComponent implements OnInit {
   bBandera: boolean;
   bBanderaPzIm: boolean;
   bBanderaCat: boolean;
+
+  public isCollapsed = false;
 
   fechaHoy: String
   public bCargando: boolean = false;
@@ -166,6 +170,47 @@ export class VentasclientearticuloComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        fixedHeader: { 
+          header: true, 
+          footer: false 
+          },
+        order:[],
+        ordering:false,
+        dom: 'Bfrltip"',
+        buttons: [
+          {
+            extend: 'excelHtml5',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+            title: 'Consulta de pedidos',
+            className: "btnFonelliRosa btn"
+            
+          },
+          {
+            extend: 'pdfHtml5',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
+            className: "btnFonelliRosa btn",
+            title: 'Consulta de pedidos',
+            messageTop: 'Consulta pedidos 2'/*,
+            customize: function (win) {
+              $(win.document.body).find('th').addClass('display').css('text-align', 'center');
+              $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
+              $(win.document.body).find('table').addClass('display').css('font-size', '16px');
+              $(win.document.body).find('table').addClass('display').css('text-align', 'center');
+              $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
+              $(this).css('background-color', '#D0D0D0');});
+                          $(win.document.body).find('h1').css('text-align', 'center');
+            }*/
+            
+          }
+        ]
+     
+        
+      };
 
       this.sWidth = screen.width;
       this.sHeight = (screen.height/2);
@@ -506,6 +551,7 @@ export class VentasclientearticuloComponent implements OnInit {
             this.sClienteHastaFil = this.oVentasCliRes.Contenido[this.oVentasCliRes.Contenido.length-1].ClienteFilial;
             this.sClienteHastaNom = this.oVentasCliRes.Contenido[this.oVentasCliRes.Contenido.length-1].ClienteNombre;            
             
+            this.isCollapsed = true;
     
           },
           (error:VentasClienteArticulo) => {
@@ -552,6 +598,7 @@ export class VentasclientearticuloComponent implements OnInit {
             this.bBanderaPzIm = true;
             this.bBandera = true;
             this.bCargando = false;
+            this.isCollapsed = true;
     
           },
           (error:VentasClienteArticuloPzasImp) => {

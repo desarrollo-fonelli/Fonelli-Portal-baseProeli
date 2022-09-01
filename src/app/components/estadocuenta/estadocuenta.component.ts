@@ -1,5 +1,5 @@
 import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
-import { Router,ActivatedRoute,Params } from '@angular/router';
+import { Router,ActivatedRoute,Params, OutletContext } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { DecimalPipe } from '@angular/common';
 import { FormControl } from '@angular/forms';
@@ -53,6 +53,8 @@ export class EstadocuentaComponent implements OnInit {
 
   searchtext = '';
 
+  dtOptions: any = {};
+
   public oBuscar: FiltrosEstadoCuenta;
   oEdoCuentaRes: EstadoCuenta; 
   oCliente : Cliente[];
@@ -65,6 +67,7 @@ export class EstadocuentaComponent implements OnInit {
   public sMensaje: string="";
   public bCliente: boolean;
   bBandera: boolean;
+  public isCollapsed = false;
 
   fechaHoy: String
   public bCargando: boolean = false;
@@ -146,6 +149,43 @@ export class EstadocuentaComponent implements OnInit {
     ngOnInit(): void {
       this.mobileQuery.removeListener(this._mobileQueryListener);
 
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        pageLength: 5,
+        processing: true,
+        order:[],
+        ordering:false,
+        dom: 'Bfrltip"',
+        buttons: [
+          {
+            extend: 'excelHtml5',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+            title: 'Consulta de pedidos',
+            className: "btnFonelliRosa btn"
+            
+          },
+          {
+            extend: 'pdfHtml5',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
+            className: "btnFonelliRosa btn",
+            title: 'Consulta de pedidos',
+            messageTop: 'Consulta pedidos 2'/*,
+            customize: function (win) {
+              $(win.document.body).find('th').addClass('display').css('text-align', 'center');
+              $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
+              $(win.document.body).find('table').addClass('display').css('font-size', '16px');
+              $(win.document.body).find('table').addClass('display').css('text-align', 'center');
+              $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
+              $(this).css('background-color', '#D0D0D0');});
+                          $(win.document.body).find('h1').css('text-align', 'center');
+            }*/
+            
+          }
+        ]
+     
+        
+      };
+    
   
       //Se agrega validacion control de sesion distribuidores
       if(!this.sCodigo) {
@@ -344,6 +384,8 @@ consultaEstadoCuenta(){
         this.sMensaje="";
         this.bBandera = true;
         this.bCargando = false;
+
+        this.isCollapsed = true;
       
         //this.collectionSize = this.oEdoCuentaRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
 
@@ -424,6 +466,8 @@ consultaEstadoCuenta(){
     console.log(pdfTable);
 
     var cadenaaux = pdfTable.innerHTML;
+
+    cadenaaux = this.TablaEstadoCuenta();
 
     let cadena =
       '<br><p>Desde Cliente: <strong>' +this.oBuscar.ClienteDesde +' - '+this.oBuscar.FilialDesde+' - '+ this.obtenNombreCliente(this.oBuscar.ClienteDesde)+'<br></strong> Hasta cliente: <strong>' +this.oBuscar.ClienteHasta +' - '+this.oBuscar.FilialHasta+' - '+this.obtenNombreCliente(this.oBuscar.ClienteHasta)+'</strong></p>' +      
@@ -621,6 +665,104 @@ consultaEstadoCuenta(){
   EliminaSesion() {
     localStorage.clear();
     this._router.navigate(['/']);    
+  }
+
+  TablaEstadoCuenta(): string
+  {
+
+    var tabla = "";
+
+   tabla =  '<table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions" >' + '\n' +
+            '<thead>' + '\n' +
+              '<tr class="EncTabla">' + '\n' +
+                '<th style="background-color: #24a4cc; color: white;">OF</th><!--Codigo oficina -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white;">C</th><!--Codigo tipo cartera -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white;">S</th><!--Documento serie -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white;">DOCTO</th><!--Documento folio -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA EXP</div></th><!--Fecha expedicion -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA VENG</div></th><!--Fecha vencimiento -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white; text-align:right;">CARGOS</th><!--Cargos -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white; text-align:right;">ABONOS</th><!--Abonos -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white; text-align:right;">SALDO</th><!--Saldo -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white; text-align:right;">DIAS</th><!--Dias vencimiento -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white; text-align:right;">VENCIDO</th><!--Saldo vencido -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white;">S</th><!--Documento2 Serie -->' + '\n' +
+                '<th style="background-color: #24a4cc; color: white;">REFCIA</th><!--Referencia -->' + '\n' +
+              '</tr>' + '\n' +
+            '</thead>' + '\n' +
+            '<tbody>' + '\n' 
+
+        
+
+
+            this.oCliente.forEach(function(cliente){
+tabla = tabla +   '<tr class="table-info">' + '\n' +
+              '<td  class="FilasFonelli" colspan="13">'+cliente.ClienteCodigo+" "+cliente.ClienteFilial+ ") " +cliente.ClienteNombre+ "-" +cliente.Sucursal + '</td>' + '\n' +
+            '</tr>' + '\n';
+
+              cliente.TipoCartera.forEach(function(cartera){
+
+            
+
+                cartera.Movimientos.forEach(function(movimiento){
+
+            
+                  tabla = tabla +   '<tr >' + '\n' +
+                  '<td class="FilasFonelli">'+ movimiento.OficinaFonelliCodigo +'</td>' + '\n' +
+                  '<td class="FilasFonelli">'+ cartera.TipoCarteraCodigo +'</td>' + '\n' +
+                  '<td class="FilasFonelli">'+ movimiento.DocumentoSerie +'</td>' + '\n' +
+                  '<td class="FilasFonelli">'+ movimiento.DocumentoFolio +'</td>' + '\n' +
+                  '<td class="FilasFonelli">'+ movimiento.FechaExpedicion +'</td>' + '\n' +
+                  '<td class="FilasFonelli">'+ movimiento.FechaVencimiento +'</td>' + '\n' +
+                  '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.Cargos +'</td>' + '\n' +
+                  '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.Abonos +'</td>' + '\n' +
+                  '<td class="FilasFonelli" style="text-align:right;"> '+ movimiento.Saldo +'</td>' + '\n' +
+                  '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.DiasVencimiento +'</td>' + '\n' +
+                  '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.SaldoVencido +'</td>' + '\n' +
+                  '<td class="FilasFonelli">'+ movimiento.Documento2Serie +'</td>' + '\n' +
+                  '<td class="FilasFonelli">'+ movimiento.Referencia +'</td>'        + '\n' +   
+                '</tr>' + '\n' ;
+
+
+              
+                });
+
+              
+              });
+
+
+            });
+
+            /*  '<ng-container *ngFor="let cliente of oCliente | searchestadocuenta: searchtext">' + '\n' +
+         
+              '<ng-container *ngFor="let cartera of cliente.TipoCartera;">' + '\n' +
+         
+                '<tr>' + '\n' +
+                  '<td></td>' + '\n' +
+                  '<td class="FilasFonelli">{{cartera.TipoCarteraCodigo}}</td>' + '\n' +
+                  '<td></td>' + '\n' +
+                  '<td></td>' + '\n' +
+                  '<td></td>' + '\n' +
+                  '<td  class="FilasFonelli" style="text-align:right;">{{cartera.TipoCarteraDescripc}}</td>' + '\n' +
+                  '<td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalCargos(cartera.Movimientos))}}</td>' + '\n' +
+                  '<td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalAbonos(cartera.Movimientos))}}</td>' + '\n' +
+                  '<td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalSaldo(cartera.Movimientos))}}</td>' + '\n' +
+                  '<td></td>' + '\n' +
+                  '<td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalVencido(cartera.Movimientos))}}</td>' + '\n' +
+                  '<td></td>' + '\n' +
+                  '<td></td>' + '\n' +
+                '</tr>' + '\n' +
+              '</ng-container>' + '\n' +
+             
+            '</ng-container>'      + '\n' +  */       
+            '</tbody>'      + '\n' +          
+          '</table>';
+
+
+
+          return tabla;
+
+
   }
 
 

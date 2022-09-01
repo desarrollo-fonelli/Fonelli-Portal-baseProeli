@@ -11,3 +11,14 @@ thead tr:first-child Th {
         top: 300px;
         background: white;
     }
+
+
+   /* app-encabezado {
+        font-size: 1.2em;
+        font-weight: 700;
+        position: fixed;
+        top: 64px;
+        z-index: 10;
+        width: 100%;
+        background: #fafafa;
+    }*/

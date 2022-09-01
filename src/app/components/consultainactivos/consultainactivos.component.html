@@ -1,5 +1,19 @@
-<section >
-    <div class="container float-left">
+<div class="container row">
+  <p>
+    <button
+      type="button"
+      class="btnFonelliAzul btn"
+      (click)="collapse.toggle()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+    >
+      Filtros
+    </button>
+  </p>
+</div>
+
+<div #collapse="ngbCollapse" class="container row" [(ngbCollapse)]="isCollapsed">
+  <div class="container float-left">
     <div class="row">
        <div class="col-lg-12">
  
@@ -69,23 +83,15 @@
      </div> 
     </div>  
 
-     
-      <div *ngIf="bBandera" class="table-responsive" >  
+</div>
+    
+
+      <div *ngIf="bBandera"  >  
         <!-- <div class="container" >      -->
 
         <br>
-        <div class="form-row  ">
-          <div class="form-group col-md-1">              
-            <label class="CamposFonelli">Buscar:</label>
-          </div>
-          <div class="form-group col-md-5">              
-            <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="searchtext"
-                placeholder="Search"                 
-              />
-            </div>
+        <div class="row  ">
+         
               <div class="form-group col-md-6">
                 <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
                   Imprimir PDF      
@@ -93,8 +99,8 @@
               </div> 
         </div>
 
-    <div class="contenedor-tabla"  id="pdfTable" #pdfTable>
-        <table  class="table table-hover table-striped" >
+    <div class="container"  id="pdfTable" #pdfTable>
+        <table  class="row-border hover" datatable [dtOptions]="dtOptions" >
           <thead>
             <tr class="EncTabla">                 
               <th class="table-warning" scope="col"></th>
@@ -258,7 +264,7 @@
     </div> 
     <!-- </div>  -->
   
-</section>
+
 
 
 

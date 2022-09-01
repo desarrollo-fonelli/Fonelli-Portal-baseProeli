@@ -57,6 +57,8 @@ export class FichatecnicaComponent implements OnInit {
 
   public bCliente: boolean;
 
+  dtOptions: any = {};
+
   oBuscar: FiltrosFichaTecnica;
   oFichaTecnicaRes: FichaTecnica;
   oAnioAnteriorRes: AnioAnterior[];
@@ -71,6 +73,7 @@ export class FichatecnicaComponent implements OnInit {
   bBanderaDetPro = false;
   bBanderaBtnPro = true;
   bBanderaBtnPed = false;
+  public isCollapsed = false;
 
   fechaHoy: String;
 
@@ -133,6 +136,47 @@ export class FichatecnicaComponent implements OnInit {
 
   ngOnInit(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      fixedHeader: { 
+        header: true, 
+        footer: false 
+        },
+      order:[],
+      ordering:false,
+      dom: 'Bfrltip"',
+      buttons: [
+        {
+          extend: 'excelHtml5',
+          text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+          title: 'Consulta de pedidos',
+          className: "btnFonelliRosa btn"
+          
+        },
+        {
+          extend: 'pdfHtml5',
+          text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
+          className: "btnFonelliRosa btn",
+          title: 'Consulta de pedidos',
+          messageTop: 'Consulta pedidos 2'/*,
+          customize: function (win) {
+            $(win.document.body).find('th').addClass('display').css('text-align', 'center');
+            $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
+            $(win.document.body).find('table').addClass('display').css('font-size', '16px');
+            $(win.document.body).find('table').addClass('display').css('text-align', 'center');
+            $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
+            $(this).css('background-color', '#D0D0D0');});
+                        $(win.document.body).find('h1').css('text-align', 'center');
+          }*/
+          
+        }
+      ]
+   
+      
+    };
 
     //Se agrega validacion control de sesion distribuidores
     if (!this.sCodigo) {
@@ -271,6 +315,8 @@ export class FichatecnicaComponent implements OnInit {
         this.oAnioActualRes = this.oFichaTecnicaRes.Contenido.VentasAnioActual;
         this.oTipoCarteraRes = this.oFichaTecnicaRes.Contenido.ResumenCartera;
         this.oPedidosInactivosRes = this.oFichaTecnicaRes.Contenido.PedidosActivos;
+
+        this. isCollapsed = true;
 
         
 

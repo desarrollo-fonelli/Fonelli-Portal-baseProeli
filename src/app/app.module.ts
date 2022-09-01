@@ -8,7 +8,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-
+import { DataTablesModule } from 'angular-datatables';
 
 
 import { AppComponent } from './app.component';
@@ -33,7 +33,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
-import { NgbdTablePagination } from './components/tabla/table-pagination';
+
 import { MatSnackBarModule} from '@angular/material/snack-bar';
 import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 import { AdminComponent } from "./components/admin/admin.component";
@@ -50,6 +50,8 @@ import { SearchConsultaClientePipe } from './pipes/consultaBusquedaCliente.pipe'
 import { SearchConsultaClientesInacPipe } from './pipes/consultaClientesInactivos.pipe';
 import { PdfComponent } from './components/pdf/pdf.component';
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
+import { EncabezadoComponent } from './components/encabezado/encabezado.component';
+
 
 
 
@@ -78,7 +80,7 @@ import { InicioadminComponent } from './components/inicioadmin/inicioadmin.compo
     HeaderComponent,
     FooterComponent,
     SidenavComponent,
-    NgbdTablePagination,
+
     SearchEstadoCuentaPipe ,
     SearchConsultaPedidoPipe,
     SearchRelacionPedidosPipe,
@@ -90,7 +92,8 @@ import { InicioadminComponent } from './components/inicioadmin/inicioadmin.compo
     TemplateComponent,
     InicioadminComponent,
     SearchConsultaClientesInacPipe,
-    CatalogointeractivoComponent
+    CatalogointeractivoComponent,
+    EncabezadoComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +107,8 @@ import { InicioadminComponent } from './components/inicioadmin/inicioadmin.compo
     MatToolbarModule,
     MatIconModule,
     MatSnackBarModule,
-    MatMenuModule 
+    MatMenuModule ,
+    DataTablesModule 
   ],
   providers: [
     appRoutingProviders,

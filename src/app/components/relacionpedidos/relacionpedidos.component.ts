@@ -52,6 +52,8 @@ export class RelacionpedidosComponent implements OnInit {
   sNombre :string | null;
   searchtext = '';
 
+  dtOptions: any = {};
+
   public oBuscar: FiltrosRelacionPedidos;
   oRelacionPedRes: RelacionPedidos; 
   public oBuscarOfi: FiltrosOficina;
@@ -59,6 +61,8 @@ export class RelacionpedidosComponent implements OnInit {
   public oBuscaDetalle: FiltrosDetallePedidos;
   oPedidoDetalleRes: DetallePedido; 
   //oContenido: ContenidoRelPed; 
+
+  public isCollapsed = false;
 
   pedidoDet: PedidoArticulo[];
 
@@ -154,7 +158,42 @@ export class RelacionpedidosComponent implements OnInit {
       this.sWidth = screen.width;
       this.sHeight = (screen.height/2);
 
-      
+      this.dtOptions = {
+        pagingType: 'full_numbers',
+        pageLength: 5,
+        processing: true,
+        order:[],
+        ordering:false,
+        dom: 'Bfrltip"',
+        buttons: [
+          {
+            extend: 'excelHtml5',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+            title: 'Consulta de pedidos',
+            className: "btnFonelliRosa btn"
+            
+          },
+          {
+            extend: 'pdfHtml5',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
+            className: "btnFonelliRosa btn",
+            title: 'Consulta de pedidos',
+            messageTop: 'Consulta pedidos 2'/*,
+            customize: function (win) {
+              $(win.document.body).find('th').addClass('display').css('text-align', 'center');
+              $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
+              $(win.document.body).find('table').addClass('display').css('font-size', '16px');
+              $(win.document.body).find('table').addClass('display').css('text-align', 'center');
+              $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
+              $(this).css('background-color', '#D0D0D0');});
+                          $(win.document.body).find('h1').css('text-align', 'center');
+            }*/
+            
+          }
+        ]
+     
+        
+      };
 
       //Se agrega validacion control de sesion distribuidores
       if(!this.sCodigo) {
@@ -371,6 +410,7 @@ consultaRelPed(){
         this.bBandera = true;
         this.bCargando = false;
         
+        this.isCollapsed = true;
         
 
       },
@@ -998,7 +1038,7 @@ downloadAsPDF() {
 
   var html = htmlToPdfmake(cadena);
 
-  html[2].table.headerRows= 1;
+  //html[2].table.headerRows= 1;
   console.log( html[2].table);
   const documentDefinition = { 
 pageSize: {
