@@ -973,6 +973,7 @@ downloadAsPDF() {
       cadenaaux;
 
   var html = htmlToPdfmake(cadena);
+  html[2].table.headerRows=1;
   console.log(html);
   const documentDefinition = { 
     pageOrientation: 'landscape', 
