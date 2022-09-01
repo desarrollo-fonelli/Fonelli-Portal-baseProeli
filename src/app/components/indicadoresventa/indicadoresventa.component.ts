@@ -156,8 +156,21 @@ export class IndicadoresventaComponent implements OnInit {
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();  
     
-    let fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                                       
-    
+    let fechaAyer: string;
+      //validacion dia anterior inicio de mes
+      if(date.getDate() == 1){//es inicio de mes
+        if(mes == '01'){
+          mes = '12';
+          fechaAyer = (date.getFullYear()-1) +'-'+ mes +'-'+'30';          
+        }else{
+          mes = mes-1;
+          fechaAyer = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
+        }        
+      }else{
+        
+        fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                                       
+      }
+      
     this.oBuscar.FechaCorte = fechaAyer;
 
     //Consulta agentes
@@ -257,6 +270,51 @@ export class IndicadoresventaComponent implements OnInit {
         this.sMensaje = '';
         this.bBandera = true;        
         this.bCargando = false;
+
+        for(var ven of this.oIndVentaRes.Contenido){
+           //lineas
+           ven.ImporteVentas.VentaDiariaAux = this.formatoMoneda(ven.ImporteVentas.VentaDiaria);
+           ven.ImporteVentas.VentasAcumuladasAux = this.formatoMoneda(ven.ImporteVentas.VentasAcumuladas);
+           ven.ImporteVentas.LimiteInferiorAux = this.formatoMoneda(ven.ImporteVentas.LimiteInferior);
+           ven.ImporteVentas.DiferenciaLimiteInferiorAux = this.formatoMoneda(ven.ImporteVentas.DiferenciaLimiteInferior);
+           ven.ImporteVentas.MinimoAux = this.formatoMoneda(ven.ImporteVentas.Minimo);
+           ven.ImporteVentas.DiferenciaMinimoAux = this.formatoMoneda(ven.ImporteVentas.DiferenciaMinimo);
+           ven.ImporteVentas.MetaAux = this.formatoMoneda(ven.ImporteVentas.Meta);
+           ven.ImporteVentas.DiferenciaMetaAux = this.formatoMoneda(ven.ImporteVentas.DiferenciaMeta);
+           ven.ImporteVentas.ImportePedidosAux = this.formatoMoneda(ven.ImporteVentas.ImportePedidos);
+
+           ven.ClientesInactivos.InactivosActualAux = this.formatoMoneda(ven.ClientesInactivos.InactivosActual);
+           ven.ClientesInactivos.LimiteInferiorAux = this.formatoMoneda(ven.ClientesInactivos.LimiteInferior);
+           ven.ClientesInactivos.DiferenciaLimiteInferiorAux = this.formatoMoneda(ven.ClientesInactivos.DiferenciaLimiteInferior);
+           ven.ClientesInactivos.MinimoAux = this.formatoMoneda(ven.ClientesInactivos.Minimo);
+           ven.ClientesInactivos.DiferenciaMinimoAux = this.formatoMoneda(ven.ClientesInactivos.DiferenciaMinimo);
+           ven.ClientesInactivos.MetaAux = this.formatoMoneda(ven.ClientesInactivos.Meta);
+           ven.ClientesInactivos.DiferenciaMetaAux = this.formatoMoneda(ven.ClientesInactivos.DiferenciaMeta);
+           ven.ClientesInactivos.TotalClientesAux = this.formatoMoneda(ven.ClientesInactivos.TotalClientes);
+
+        }
+
+        //Totales generales
+        this.oIndVentaRes.TotalVentaDiaria = this.formatoMoneda(this.getTotalImpVenta(this.oIndVentaRes,'VentaDiaria'));
+        this.oIndVentaRes.TotalVentasAcumuladas = this.formatoMoneda(this.getTotalImpVenta(this.oIndVentaRes,'VentasAcumuladas'));
+        this.oIndVentaRes.TotalLimiteInferior = this.formatoMoneda(this.getTotalImpVenta(this.oIndVentaRes,'LimiteInferior'));
+        this.oIndVentaRes.TotalDiferenciaLimiteInferior = this.formatoMoneda(this.getTotalImpVenta(this.oIndVentaRes,'DiferenciaLimiteInferior'));
+        this.oIndVentaRes.TotalMinimo = this.formatoMoneda(this.getTotalImpVenta(this.oIndVentaRes,'Minimo'));
+        this.oIndVentaRes.TotalDiferenciaMinimo = this.formatoMoneda(this.getTotalImpVenta(this.oIndVentaRes,'DiferenciaMinimo'));
+        this.oIndVentaRes.TotalMeta = this.formatoMoneda(this.getTotalImpVenta(this.oIndVentaRes,'Meta'));
+        this.oIndVentaRes.TotalDiferenciaMeta = this.formatoMoneda(this.getTotalImpVenta(this.oIndVentaRes,'DiferenciaMeta'));
+        this.oIndVentaRes.TotalImportePedidos = this.formatoMoneda(this.getTotalImpVenta(this.oIndVentaRes,'ImportePedidos'));
+
+        this.oIndVentaRes.TotalCliInaInactivosActual = this.formatoMoneda(this.getTotalesCientesInactivos(this.oIndVentaRes,'InactivosActual'));
+        this.oIndVentaRes.TotalCliInaLimiteInferior = this.formatoMoneda(this.getTotalesCientesInactivos(this.oIndVentaRes,'LimiteInferior'));
+        this.oIndVentaRes.TotalCliInaDiferenciaLimiteInferior = this.formatoMoneda(this.getTotalesCientesInactivos(this.oIndVentaRes,'DiferenciaLimiteInferior'));
+        this.oIndVentaRes.TotalCliInaMinimo = this.formatoMoneda(this.getTotalesCientesInactivos(this.oIndVentaRes,'Minimo'));
+        this.oIndVentaRes.TotalCliInaDiferenciaMinimo = this.formatoMoneda(this.getTotalesCientesInactivos(this.oIndVentaRes,'DiferenciaMinimo'));
+        this.oIndVentaRes.TotalCliInaMeta = this.formatoMoneda(this.getTotalesCientesInactivos(this.oIndVentaRes,'Meta'));
+        this.oIndVentaRes.TotalCliInaDiferenciaMeta = this.formatoMoneda(this.getTotalesCientesInactivos(this.oIndVentaRes,'DiferenciaMeta'));
+        this.oIndVentaRes.TotalCliInaTotalClientes = this.formatoMoneda(this.getTotalesCientesInactivos(this.oIndVentaRes,'TotalClientes'));
+        
+        
 
       },
       (error: IndicadoresVenta) => {

@@ -377,6 +377,8 @@ consultaEstadoCuenta(){
           return;
         }
 
+        
+
         this.oCliente = this.oEdoCuentaRes.Contenido.Clientes;
         this.oResumenStatusCliente = this.oEdoCuentaRes.Contenido.ResumenStatusCliente;
         this.oResumenTipoCartera = this.oEdoCuentaRes.Contenido.ResumenTipoCartera;
@@ -385,9 +387,43 @@ consultaEstadoCuenta(){
         this.bBandera = true;
         this.bCargando = false;
 
+        for(var cli of this.oCliente){
+
+          for(var tiCa of cli.TipoCartera){
+
+            for(var mov of tiCa.Movimientos){
+
+              //Datos principales movimientos
+              mov.CargosAux = this.formatoMoneda(mov.Cargos);
+              mov.AbonosAux = this.formatoMoneda(mov.Abonos);
+              mov.SaldoAux = this.formatoMoneda(mov.Saldo);
+              mov.SaldoVencidoAux = this.formatoMoneda(mov.SaldoVencido)              
+            }
+
+            //Datos tipo de cartera
+            tiCa.TotalCargos = this.formatoMoneda(this.getTotalCargos(tiCa.Movimientos));
+            tiCa.TotalAbonos = this.formatoMoneda(this.getTotalAbonos(tiCa.Movimientos));
+            tiCa.TotalSaldo = this.formatoMoneda(this.getTotalSaldo(tiCa.Movimientos));
+            tiCa.TotalVencido = this.formatoMoneda(this.getTotalVencido(tiCa.Movimientos));
+           
+          }
+        }
+
+        for(var resTipCar of this.oResumenTipoCartera){    
+
+              
+               //Datos principales tipo cartera
+               resTipCar.TipoCarteraCargosAux = this.formatoMoneda(resTipCar.TipoCarteraCargos);
+               resTipCar.TipoCarteraAbonosAux = this.formatoMoneda(resTipCar.TipoCarteraAbonos);
+               resTipCar.TipoCarteraSaldoAux = this.formatoMoneda(resTipCar.TipoCarteraSaldo);
+               resTipCar.TipoCarteraSaldoVencidoAux = this.formatoMoneda(resTipCar.TipoCarteraSaldoVencido) 
+         
+           
+        }
+  
+
         this.isCollapsed = true;
-      
-        //this.collectionSize = this.oEdoCuentaRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
+
 
       },
       (error:EstadoCuenta) => {

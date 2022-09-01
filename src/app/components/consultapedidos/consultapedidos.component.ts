@@ -319,6 +319,9 @@ export class ConsultapedidosComponent implements OnInit {
           return;
         }
 
+        this.oPedidoRes.Contenido.CantidadPedida = this.getTotal(this.pedido,'CantidadPedida');
+        this.oPedidoRes.Contenido.DiferenciaPedidosSurtido = this.getTotal(this.pedido,'DiferenciaPedidosSurtido');
+
         this.sMensaje = '';
         this.bBandera = true;
         //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length; //Seteamos el tamaño de los datos obtenidos
@@ -366,6 +369,15 @@ export class ConsultapedidosComponent implements OnInit {
           this.bBanderaDet = false;
           return;
         }
+
+        //Se calculan totales pedido
+        this.oPedidoDetalleRes.Contenido.CantidadPedida = this.getTotalPedido(this.pedidoDet,'CantidadPedida');
+
+        this.oPedidoDetalleRes.Contenido.CantidadPedidoProduccion = this.getTotalPedido(this.pedidoDet,'CantidadPedidoProduccion');
+        this.oPedidoDetalleRes.Contenido.CantidadProducida = this.getTotalPedido(this.pedidoDet,'CantidadProducida');
+        this.oPedidoDetalleRes.Contenido.CantidadSurtida = this.getTotalPedido(this.pedidoDet,'CantidadSurtida');
+        this.oPedidoDetalleRes.Contenido.DiferenciaProducido = this.getTotalPedido(this.pedidoDet,'DiferenciaProducido');
+        
 
         this.bBanderaDet = true;
         this.sMensaje = '';
@@ -628,6 +640,7 @@ export class ConsultapedidosComponent implements OnInit {
   }
 
   getTotal(oPedido: Pedido[], idCol: string): number {   
+    console.log("Entra total-------")
     let Total: number = 0;
 
     switch(idCol) {        
@@ -652,7 +665,8 @@ export class ConsultapedidosComponent implements OnInit {
     return Total; 
    }
 
-  getTotalPedido(oDetallePed: PedidoArticulo[], idCol: string): number {   
+  getTotalPedido(oDetallePed: PedidoArticulo[], idCol: string): number {  
+    console.log("Entra ---------") ;
     let Total: number = 0;
 
     switch(idCol) {        

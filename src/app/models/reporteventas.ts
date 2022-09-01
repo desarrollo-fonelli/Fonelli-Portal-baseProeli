@@ -9,6 +9,15 @@ export interface Contenido {
     Clientes?:            Cliente[];
     ClientesConVenta?:    ClientesConVenta;
     TotalGeneralCategorias?: TotalGeneralCategorias[];
+
+    TotalGeneralxPiezas1: string;
+    TotalGeneralxGramos1: string;
+    TotalGeneralxImporteVenta1: string;
+    TotalGeneralxValorAgregado1: string;
+    TotalGeneralxPiezas2: string;
+    TotalGeneralxGramos2: string;
+    TotalGeneralxImporteVenta2: string;
+    TotalGeneralxValorAgregado2: string;
 }
 
 export interface Cliente {
@@ -22,6 +31,19 @@ export interface Cliente {
     TipoCliente?:   string;
     AgenteCodigo?:  string;
     Categorias?:    Categorias[];
+
+    TotalesClientexPiezas1: string;
+    TotalesClientexGramos1: string;
+    TotalesClientexImporteVenta1: string;
+    TotalesClientexPorcentajeImporte1: string;
+    TotalesClientexValorAgregado1: string;
+    TotalesClientexPorcentajeValorAgregado1: string;
+    TotalesClientexPiezas2: string;
+    TotalesClientexGramos2: string;
+    TotalesClientexImporteVenta2: string;
+    TotalesClientexPorcentajeImporte2: string;
+    TotalesClientexValorAgregado2: string;
+    TotalesClientexPorcentajeValorAgregado2: string;
 }
 
 export interface Categorias {
@@ -45,6 +67,20 @@ export interface Subcategorias {
     PorcentajeImporte2?:       number;
     ValorAgregado2?:           number;
     PorcentajeValorAgregado2?: number;
+
+    Piezas1Aux: string;
+    Gramos1Aux: string;
+    ImporteVenta1Aux: string;
+    PorcentajeImporte1Aux: string;
+    ValorAgregado1Aux: string;
+    PorcentajeValorAgregado1Aux: string;
+
+    Piezas2Aux: string;
+    Gramos2Aux: string;
+    ImporteVenta2Aux: string;
+    PorcentajeImporte2Aux: string;
+    ValorAgregado2Aux: string;
+    PorcentajeValorAgregado2Aux: string;
 }
 
 export interface ClientesConVenta {
@@ -77,6 +113,19 @@ export interface TotalGeneralSubcatego {
     TotalPorcentajeImporte2?:       number;
     TotalValorAgregado2?:           number;
     TotalPorcentajeValorAgregado2?: number;
+
+    TotalPiezas1Aux: string;
+    TotalGramos1Aux: string;
+    TotalImporte1Aux: string;
+    TotalPorcentajeImporte1Aux: string;
+    TotalValorAgregado1Aux: string;
+    TotalPorcentajeValorAgregado1Aux: string;
+    TotalPiezas2Aux: string;
+    TotalGramos2Aux: string;
+    TotalImporte2Aux: string;
+    TotalPorcentajeImporte2Aux: string;
+    TotalValorAgregado2Aux: string;
+    TotalPorcentajeValorAgregado2Aux: string;
 }
 
 export interface Paginacion {

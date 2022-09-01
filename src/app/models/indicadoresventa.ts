@@ -3,6 +3,25 @@ export interface IndicadoresVenta {
     Mensaje?:    string;
     Contenido?:  Contenido[];
     Paginacion?: Paginacion;
+
+    TotalVentaDiaria: string;
+    TotalVentasAcumuladas: string;
+    TotalLimiteInferior: string;
+    TotalDiferenciaLimiteInferior: string;
+    TotalMinimo: string;
+    TotalDiferenciaMinimo: string;
+    TotalMeta: string;
+    TotalDiferenciaMeta: string;
+    TotalImportePedidos: string;
+
+    TotalCliInaInactivosActual: string;
+    TotalCliInaLimiteInferior: string;
+    TotalCliInaDiferenciaLimiteInferior: string;
+    TotalCliInaMinimo: string;
+    TotalCliInaDiferenciaMinimo: string;
+    TotalCliInaMeta: string;
+    TotalCliInaDiferenciaMeta: string;
+    TotalCliInaTotalClientes: string;
 }
 
 export interface Contenido {
@@ -22,6 +41,15 @@ export interface ClientesInactivos {
     Meta?:                     number;
     DiferenciaMeta?:           number;
     TotalClientes?:            number;
+
+    InactivosActualAux: string;
+    LimiteInferiorAux: string;
+    DiferenciaLimiteInferiorAux: string;
+    MinimoAux: string;
+    DiferenciaMinimoAux: string;
+    MetaAux: string;
+    DiferenciaMetaAux: string;
+    TotalClientesAux: string;
 }
 
 export interface ClientesListas {
@@ -41,6 +69,16 @@ export interface ImporteVentas {
     Meta?:                     number;
     DiferenciaMeta?:           number;
     ImportePedidos?:           number;
+
+    VentaDiariaAux: string;
+    VentasAcumuladasAux: string;
+    LimiteInferiorAux: string;
+    DiferenciaLimiteInferiorAux: string;
+    MinimoAux: string;
+    DiferenciaMinimoAux: string;
+    MetaAux: string;
+    DiferenciaMetaAux: string;
+    ImportePedidosAux: string;    
 }
 
 export interface Paginacion {

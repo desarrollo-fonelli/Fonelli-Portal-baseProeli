@@ -154,30 +154,30 @@
               <th scope="row">{{ i + 1 }}</th>
               <td class="FilasFonelli" style="text-align:left">{{ impVen.AgenteCodigo}}</td>
               <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>                
-              <td class="FilasFonelli"  style="text-align:right" >{{ formatoMoneda(impVen.ImporteVentas.VentaDiaria)}}</td>              
-              <td class="FilasFonelli" style="text-align:right; font-weight: bold;">{{ formatoMoneda(impVen.ImporteVentas.VentasAcumuladas)}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.LimiteInferior)}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaLimiteInferior)}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.Minimo)}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaMinimo)}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.Meta)}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.DiferenciaMeta)}}</td>
-              <td class="FilasFonelli" style="text-align:right">{{ formatoMoneda(impVen.ImporteVentas.ImportePedidos)}}</td>
+              <td class="FilasFonelli"  style="text-align:right" >{{ impVen.ImporteVentas.VentaDiariaAux}}</td>              
+              <td class="FilasFonelli" style="text-align:right; font-weight: bold;">{{ impVen.ImporteVentas.VentasAcumuladasAux}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.LimiteInferiorAux}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.DiferenciaLimiteInferiorAux}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.MinimoAux}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.DiferenciaMinimoAux}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.MetaAux}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.DiferenciaMetaAux}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.ImportePedidosAux}}</td>
             </tr>
           </ng-container>
           <tr class="table-info">
             <th ></th>              
             <td ></td>
             <td class="FilasFonBold" style="text-align:center; color:#183e6f;">Totales</td>
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentaDiaria'))}} </td>                
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'VentasAcumuladas'))}} </td>                
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'LimiteInferior'))}} </td>                
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaLimiteInferior'))}} </td>                
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'Minimo'))}} </td>                
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaMinimo'))}} </td>                
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'Meta'))}} </td>                
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'DiferenciaMeta'))}} </td>                
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalImpVenta(oIndVentaRes,'ImportePedidos'))}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalVentaDiaria}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalVentasAcumuladas}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalLimiteInferior}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalDiferenciaLimiteInferior}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalMinimo}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalDiferenciaMinimo}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalMeta}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalDiferenciaMeta}} </td>                
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalImportePedidos}} </td>                
           </tr>
           
         </tbody>
@@ -207,28 +207,28 @@
             <th scope="row">{{ i + 1 }}</th>
             <td class="FilasFonelli" style="text-align:right">{{ impVen.AgenteCodigo}}</td>
             <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>                
-            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.InactivosActual}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.LimiteInferior}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaLimiteInferior}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.Minimo}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaMinimo}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.Meta}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaMeta}}</td>
-            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.TotalClientes}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.InactivosActualAux}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.LimiteInferiorAux}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaLimiteInferiorAux}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.MinimoAux}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaMinimoAux}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.MetaAux}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.DiferenciaMetaAux}}</td>
+            <td class="FilasFonelli" style="text-align:right">{{ impVen.ClientesInactivos.TotalClientesAux}}</td>
           </tr>
 
           <tr>
             <td></td>
             <td></td>
             <td class="FilasFonBold" style="color:#183e6f;"> Totales</td>                              
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'InactivosActual'))}}</td>
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'LimiteInferior'))}}</td>
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'DiferenciaLimiteInferior'))}}</td>
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'Minimo'))}}</td>
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'DiferenciaMinimo'))}}</td>
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'Meta'))}}</td>
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'DiferenciaMeta'))}}</td>
-            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalesCientesInactivos(oIndVentaRes,'TotalClientes'))}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalCliInaInactivosActual}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalCliInaLimiteInferior}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalCliInaDiferenciaLimiteInferior}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalCliInaMinimo}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalCliInaDiferenciaMinimo}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalCliInaMeta}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalCliInaDiferenciaMeta}}</td>
+            <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oIndVentaRes.TotalCliInaTotalClientes}}</td>
           </tr>
         </tbody>
       </table>

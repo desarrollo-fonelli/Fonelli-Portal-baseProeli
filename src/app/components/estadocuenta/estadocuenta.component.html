@@ -217,11 +217,11 @@
                   <td class="FilasFonelli">{{movimento.DocumentoFolio}}</td>
                   <td class="FilasFonelli">{{movimento.FechaExpedicion}}</td>
                   <td class="FilasFonelli">{{movimento.FechaVencimiento}}</td>
-                  <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(movimento.Cargos)}}</td>
-                  <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(movimento.Abonos)}}</td>
-                  <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(movimento.Saldo)}}</td>
+                  <td class="FilasFonelli" style="text-align:right;">{{movimento.CargosAux}}</td>
+                  <td class="FilasFonelli" style="text-align:right;">{{movimento.AbonosAux}}</td>
+                  <td class="FilasFonelli" style="text-align:right;">{{movimento.SaldoAux}}</td>
                   <td class="FilasFonelli" style="text-align:right;">{{movimento.DiasVencimiento}}</td>
-                  <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(movimento.SaldoVencido)}}</td>
+                  <td class="FilasFonelli" style="text-align:right;">{{movimento.SaldoVencidoAux}}</td>
                   <td class="FilasFonelli">{{movimento.Documento2Serie}}</td>
                   <td class="FilasFonelli">{{movimento.Referencia}}</td>                
                 </tr>
@@ -232,11 +232,11 @@
                   <td></td>
                   <td></td>
                   <td  class="FilasFonelli" style="text-align:right;">{{cartera.TipoCarteraDescripc}}</td>
-                  <td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalCargos(cartera.Movimientos))}}</td>
-                  <td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalAbonos(cartera.Movimientos))}}</td>
-                  <td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalSaldo(cartera.Movimientos))}}</td>
+                  <td  class="FilasFonelli" style="text-align:right;">{{cartera.TotalCargos}}</td>
+                  <td  class="FilasFonelli" style="text-align:right;">{{cartera.TotalAbonos}}</td>
+                  <td  class="FilasFonelli" style="text-align:right;">{{cartera.TotalSaldo}}</td>
                   <td></td>
-                  <td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalVencido(cartera.Movimientos))}}</td>
+                  <td  class="FilasFonelli" style="text-align:right;">{{cartera.TotalVencido}}</td>
                   <td></td>
                   <td></td>
                 </tr>
@@ -280,10 +280,10 @@
                         <tr>
                           <td>{{resCartera.TipoCarteraCodigo}}</td>
                           <td>{{resCartera.TipoCarteraDescripc}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraCargos)}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraAbonos)}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraSaldo)}}</td>
-                          <td class="FilasFonelli" style="text-align:right;">{{formatoMoneda(resCartera.TipoCarteraSaldoVencido)}}</td>
+                          <td class="FilasFonelli" style="text-align:right;">{{resCartera.TipoCarteraCargosAux}}</td>
+                          <td class="FilasFonelli" style="text-align:right;">{{resCartera.TipoCarteraAbonosAux}}</td>
+                          <td class="FilasFonelli" style="text-align:right;">{{resCartera.TipoCarteraSaldoAux}}</td>
+                          <td class="FilasFonelli" style="text-align:right;">{{resCartera.TipoCarteraSaldoVencidoAux}}</td>
                         </tr>              
                     </ng-container>              
                     </tbody>               
