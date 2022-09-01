@@ -452,75 +452,102 @@
                             <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
                             <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
                             <td class="FilasFonelli" style="text-align: right;">{{art.Piezas}}</td>
-                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(art.PiezasPorcentaje),'$')}}</td>
+                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.PiezasPorcentajeAux}}</td>
+                            <td class="FilasFonelli" style="text-align: right;">{{art.GramosAux}}</td>
+                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.GramosPorcentajeAux}}</td>
+                            <td class="FilasFonelli" style="text-align: right;">{{art.ImporteVentaAux}}</td>
+
+                            <!-- <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(art.PiezasPorcentaje),'$')}}</td>
                             <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(art.Gramos),'$')}}</td>
                             <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(art.GramosPorcentaje),'$')}}</td>
-                            <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(art.ImporteVenta)}}</td>
+                            <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(art.ImporteVenta)}}</td> -->
                           </tr> 
 
                         </ng-container> 
 
+                        <!-- DETALLADO  -->
                         <tr *ngIf="!bFiltrResumido" >  
                           <td class="FilasFonelli"></td>
                           <td class="FilasFonelli"></td>
                           <td class="FilasFonelli" style="text-align: right;">Total Línea</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasArticulo}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasPorArticulo}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosArticulo}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosPorArticulo}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalImpVenArticulo}}</td>
+
+                          <!-- <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
                           <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(getTotalPiezasPorArticulo(linPro.Articulos)),'$')}}</td>
                           <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosArticulo(linPro.Articulos)),'$')}}</td>
                           <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(getTotalGramosPorArticulo(linPro.Articulos)),'$')}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td> -->
                         </tr> 
 
+                        <!-- RESUMIDO  -->
                         <tr *ngIf="bFiltrResumido">  
                           <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
                           <td class="FilasFonelli">{{linPro.LineaDescripc}}</td>
                           <td class="FilasFonelli">{{linPro.ColeccionDescripc}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasArticulo}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasPorArticulo}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosArticulo}}</td>
+                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosPorArticulo}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalImpVenArticulo}}</td>
+
+                          <!-- <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
                           <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorArticulo(linPro.Articulos)),'$')}}</td>
                           <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosArticulo(linPro.Articulos)),'$')}}</td>
                           <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorArticulo(linPro.Articulos)),'$')}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
+                          <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td> -->
                         </tr>
 
                     </ng-container>
 
+                    <!-- TOTAL SUBCATEGORIA-->
                     <tr>  
+                       
+
                       <td></td>
                       <td></td>      
                       <td class="FilasFonelli" style="text-align: right;">Total SubCategoria</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{getTotalPiezasxSubCat(subCat.LineasProducto)}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasxSubCat}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasPorxSubCat}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosxSubCat}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosPorxSubCat}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalImpVenxSubCat}}</td>
+
+                      <!-- <td class="FilasFonBold" style="text-align: right;">{{getTotalPiezasxSubCat(subCat.LineasProducto)}}</td>
                       <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorxSubCat(subCat.LineasProducto)),'$')}}</td>
                       <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosxSubCat(subCat.LineasProducto)),'$')}}</td>
                       <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorxSubCat(subCat.LineasProducto)),'$')}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxSubCat(subCat.LineasProducto))}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxSubCat(subCat.LineasProducto))}}</td> -->
                     </tr>
 
                   </ng-container>
-
+                     <!-- TOTAL CATEGORIA-->
                     <tr>  
                       <td></td>
                       <td></td>      
                       <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{getTotalPiezasxCategoria(venArt.Subcategorias)}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalPiezasxCategoria}}</td>
                       <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                      <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosxCategoria(venArt.Subcategorias)),'$')}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalGramosxCategoria}}</td>
                       <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxCategoria(venArt.Subcategorias))}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalImpVenxCategoria}}</td>
                     </tr>  
                      
                   </ng-container>
     
                 <!-- TOTAL CLIENTE-->
-
                 <tr>  
                   <td></td>
                   <td></td>      
                   <td class="FilasFonBold" style="text-align: right; color: #183e6f;">Total General</td>
-                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{getTotalPiezasxCliente(oVentasArticuloRes.Contenido)}}</td>
+                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{oVentasArticuloRes.TotalPiezasxCliente}}</td>
                   <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f; "></td>
-                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{reemplaza(formatoMoneda(getTotalGramosxCliente(oVentasArticuloRes.Contenido)),'$')}}</td>
+                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{oVentasArticuloRes.TotalGramosxCliente}}</td>
                   <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>
-                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{formatoMoneda(getTotalImpVenxCliente(oVentasArticuloRes.Contenido))}}</td>
+                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{oVentasArticuloRes.TotalImpVenxCliente}}</td>
                 </tr> 
                          
     
@@ -532,7 +559,7 @@
           <table class="table table-hover table-striped  ">
             <thead>
               <tr class="EncTabla">
-                <th style="background-color: #24a4cc; color: white;">NUM</th>                
+                <!-- <th style="background-color: #24a4cc; color: white;">NUM</th>                 -->
                 <th style="background-color: #24a4cc; color: white;">LN</th>                
                 <th style="background-color: #24a4cc; color: white;">CÓDIGO</th>              
                 <th style="background-color: #24a4cc; color: white;">F</th>              
@@ -561,11 +588,9 @@
                   <td></td>                 
                   <td></td>                 
                 </tr> -->
-                <ng-container *ngFor="let cat of venArt.Categorias;">              
+                            
                   <tr class="table-warning" >
-                    <td class="FilasFonelli">{{'CATEGORIA '+' ' +cat.CategoriaCodigo + ': ' + cat.CategoriaNombre }}</td>   
-                    <td></td>
-                    <td></td>
+                    <td class="FilasFonelli">{{'CATEGORIA '+' ' +venArt.CategoriaCodigo + ': ' + venArt.CategoriaNombre }}</td>                  
                     <td></td>
                     <td></td>
                     <td></td> 
@@ -577,91 +602,84 @@
                     <td></td>                    
                   </tr> 
 
-                  <ng-container *ngFor="let subCat of cat.Subcategorias;">
-                      <tr>  
-                      <td class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>                
+                  <ng-container *ngFor="let subCat of venArt.Subcategorias;">
+                    <tr>  
+                      <td class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>
                       <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td> 
-                  <td></td>
-                  <td></td>
-                  <td *ngIf="!bCliente"></td>
-                  <td></td>
-                  <td *ngIf="!bCliente"></td>
-                  <td></td> 
+                      <td></td>
+                      <td></td> 
+                      <td></td>
+                      <td></td>
+                      <td *ngIf="!bCliente"></td>
+                      <td></td>
+                      <td *ngIf="!bCliente"></td>
+                      <td></td> 
                     </tr>  
 
-                    <ng-container *ngFor="let linPro of subCat.LineasProducto;">
-                      <tr *ngFor="let art of linPro.Articulos;">  
-                        <td class="FilasFonelli">{{venArt.ClienteCodigo}}</td>
-                        <td class="FilasFonelli">{{venArt.ClienteFilial}}</td>
-                        <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
-                        <td class="FilasFonelli"><div class="size">{{art.ArticuloCodigo}}</div></td>
-                        <td class="FilasFonelli">{{cat.CategoriaCodigo}}</td>
-                        <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
-                        <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
-                        <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
-                        <td *ngIf="!bCliente"class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorArticulo(linPro.Articulos)),'$')}}</td>
-                        <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosArticulo(linPro.Articulos)),'$')}}</td>
-                        <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorArticulo(linPro.Articulos)),'$')}}</td>
-                        <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td>
-                      </tr> 
+                    
+                    <tr *ngFor="let art of subCat.Detalle;">                  
+                      <td class="FilasFonelli">{{art.LineaCodigo}}</td>
+                      <td class="FilasFonelli"><div class="size">{{art.ArticuloCodigo}}</div></td>
+                      <td class="FilasFonelli">{{venArt.CategoriaCodigo}}</td>
+                      <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
+                      <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
+                      <td class="FilasFonelli" style="text-align: right;">{{art.PiezasAux}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.PiezasPorcentajeAux}}</td>
+                      <td class="FilasFonelli" style="text-align: right;">{{art.GramosAux}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.GramosPorcentajeAux}}</td>
+                      <td class="FilasFonelli" style="text-align: right;">{{art.ImporteVentaAux}}</td>                      
+                    </tr>                     
 
-                    </ng-container>
-
-                    <tr>  
-                      <td></td>
-                      <td></td>      
+                    <tr>      
                       <td></td>      
                       <td></td>      
                       <td></td>      
                       <td></td>      
                       <td class="FilasFonelli" style="text-align: right;">Total SubCategoria</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{getTotalPiezasxSubCat(subCat.LineasProducto)}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorxSubCat(subCat.LineasProducto)),'$')}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosxSubCat(subCat.LineasProducto)),'$')}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorxSubCat(subCat.LineasProducto)),'$')}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxSubCat(subCat.LineasProducto))}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasxSubCat}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasPorxSubCat}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosxSubCat}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosPorxSubCat}}</td>
+                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalImpVenxSubCat}}</td>                    
+                      
                     </tr>  
 
                   </ng-container>
 
-                  <tr>  
-                    <td></td>
-                    <td></td>
+                  <tr>                      
                     <td></td>
                     <td></td>
                     <td></td>
                     <td></td>      
                     <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
-                    <td class="FilasFonBold" style="text-align: right;">{{getTotalPiezasxCategoria(cat.Subcategorias)}}</td>
+                    <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalPiezasxCategoria}}</td>
                     <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                    <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosxCategoria(cat.Subcategorias)),'$')}}</td>
+                    <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalGramosxCategoria}}</td>
                     <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                    <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxCategoria(cat.Subcategorias))}}</td>
+                    <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalImpVenxCategoria}}</td>
+
+                    
                   </tr>                    
 
-                </ng-container>
+              
   
               <!-- TOTAL CLIENTE-->
 
-              <tr>  
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>      
-                <td class="FilasFonBold" style="text-align: right; color: #183e6f;">Total General</td>
-                <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{getTotalPiezasxCliente(oVentasArticuloPzasImpRes.Contenido)}}</td>
-                <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>
-                <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{reemplaza(formatoMoneda(getTotalGramosxCliente(oVentasArticuloPzasImpRes.Contenido)),'$')}}</td>
-                <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>
-                <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{formatoMoneda(getTotalImpVenxCliente(oVentasArticuloPzasImpRes.Contenido))}}</td>
-              </tr> 
-            </ng-container>               
+              
+            </ng-container> 
+            
+            <tr>  
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>      
+              <td class="FilasFonelli" style="text-align: right;">Total General</td>
+              <td class="FilasFonBold" style="text-align: right;">{{oVentasArticuloPzasImpRes.TotalPiezasGeneral}}</td>
+              <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
+              <td class="FilasFonBold" style="text-align: right;">{{oVentasArticuloPzasImpRes.TotalGramosGeneral}}</td>
+              <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
+              <td class="FilasFonBold" style="text-align: right;">{{this.oVentasArticuloPzasImpRes.TotalImpVenGeneral}}</td>
+            </tr> 
 
   
           </tbody>               
