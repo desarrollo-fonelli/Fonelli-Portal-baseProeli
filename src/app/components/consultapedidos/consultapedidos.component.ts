@@ -167,26 +167,25 @@ export class ConsultapedidosComponent implements OnInit {
           extend: 'excelHtml5',
           text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
           title: 'Consulta de pedidos',
-          className: "btnFonelliRosa btn"
-          
+          className: "btnFonelliRosa btn"          
         },
-        {
-          extend: 'pdfHtml5',
-          text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
-          className: "btnFonelliRosa btn",
-          title: 'Consulta de pedidos',
-          messageTop: 'Consulta pedidos 2'/*,
-          customize: function (win) {
-            $(win.document.body).find('th').addClass('display').css('text-align', 'center');
-            $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
-            $(win.document.body).find('table').addClass('display').css('font-size', '16px');
-            $(win.document.body).find('table').addClass('display').css('text-align', 'center');
-            $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
-            $(this).css('background-color', '#D0D0D0');});
-                        $(win.document.body).find('h1').css('text-align', 'center');
-          }*/
+        // {
+        //   extend: 'pdfHtml5',
+        //   text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
+        //   className: "btnFonelliRosa btn",
+        //   title: 'Consulta de pedidos',
+        //   messageTop: 'Consulta pedidos 2'/*,
+        //   customize: function (win) {
+        //     $(win.document.body).find('th').addClass('display').css('text-align', 'center');
+        //     $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
+        //     $(win.document.body).find('table').addClass('display').css('font-size', '16px');
+        //     $(win.document.body).find('table').addClass('display').css('text-align', 'center');
+        //     $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
+        //     $(this).css('background-color', '#D0D0D0');});
+        //                 $(win.document.body).find('h1').css('text-align', 'center');
+        //   }*/
           
-        }
+        // }
       ]
    
       
@@ -461,10 +460,13 @@ export class ConsultapedidosComponent implements OnInit {
 
 
   downloadAsPDF() {
+
     const pdfTable = this.pdfTable.nativeElement;
     console.log(pdfTable);
 
     var cadenaaux = pdfTable.innerHTML;
+
+    cadenaaux = this.TablaPedidos();
 
     let cadena =
     '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.obtenNombreCliente(this.oBuscar.ClienteCodigo)+'</strong></p>' +    
@@ -709,6 +711,71 @@ export class ConsultapedidosComponent implements OnInit {
    
     Total = Number(Total.toFixed(2));
     return Total; 
+   }
+
+   TablaPedidos(): string
+   {
+ 
+     var tabla = "";
+     var con=1;
+
+     tabla =' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions"  >' + '\n'+
+              ' <thead>' + '\n'+
+                ' <tr class="EncTabla">' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white;" scope="col">L</th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white; " scope="col">PEDIDO</th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white; " scope="col">OF</th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white;" scope="col">S</th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA PED</div></th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA CANCOP</div></th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA SURT</div></th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;">PEDIDO</th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">SURTIDO</th>' + '\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFCIA</th>' + '\n'+
+                ' </tr>' + '\n'+
+              ' </thead>' + '\n'+
+              ' <tbody>' + '\n'
+
+              this.pedido.forEach(function(ped){
+                 
+                tabla = tabla +   '<tr >' + '\n' +
+                
+                  '<th scope="row"> '+con+' </th>'+'\n'+
+                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.PedidoLetra+'</td>' +'\n'+
+                  ' <td class="FilasFonelli"> '+ped.PedidoFolio+' </td>                ' +'\n'+
+                  ' <td class="FilasFonelli">'+ ped.OficinaFonelliCodigo+'</td>' +'\n'+
+                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.Status+'</td>' +'\n'+
+                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.FechaPedido+'</td>' +'\n'+
+                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.FechaCancelacion+'</td>' +'\n'+
+                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.FechaSurtido+'</td>' +'\n'+
+                  ' <td class="FilasFonelli" style="text-align:right">'+ ped.CantidadPedida+'</td>' +'\n'+
+                  ' <td class="FilasFonelli" style="text-align:right">'+ ped.CantidadSurtida+'</td>' +'\n'+
+                  ' <td class="FilasFonelli" style="text-align:right">'+ ped.DiferenciaPedidosSurtido+'</td>' +'\n'+
+                '</tr>'+'\n';
+
+                con +=1;
+              });
+
+              tabla = tabla +  '<tr>'+'\n'+
+              '<th ></th>'+'\n'+
+              ' <td ></td>'+'\n'+
+              ' <td ></td>'+'\n'+
+              ' <td ></td>'+'\n'+
+              ' <td ></td>'+'\n'+
+              ' <td ></td>'+'\n'+
+              ' <td ></td>'+'\n'+
+              ' <td class="FilasFonelli" style="text-align:left">Total General</td>'+'\n'+
+              ' <td class="FilasFonelli" style="text-align:right"> '+this.oPedidoRes.Contenido.CantidadPedida+'</td>'+'\n'+
+              ' <td ></td>'+'\n'+
+              ' <td class="FilasFonelli" style="text-align:right"> '+this.oPedidoRes.Contenido.DiferenciaPedidosSurtido+'</td>'+'\n'+
+            '</tr>'+'\n'+
+          '</tbody>'+'\n'+
+        '</table>';
+ 
+        return tabla;
+ 
+ 
    }
 
   //Funcion para cerrar sesion y redireccionar al home

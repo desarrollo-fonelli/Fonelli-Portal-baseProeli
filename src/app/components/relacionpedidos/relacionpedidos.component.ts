@@ -160,7 +160,7 @@ export class RelacionpedidosComponent implements OnInit {
 
       this.dtOptions = {
         pagingType: 'full_numbers',
-        pageLength: 5,
+        pageLength: 10,
         processing: true,
         order:[],
         ordering:false,
@@ -172,24 +172,8 @@ export class RelacionpedidosComponent implements OnInit {
             title: 'Consulta de pedidos',
             className: "btnFonelliRosa btn"
             
-          },
-          {
-            extend: 'pdfHtml5',
-            text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
-            className: "btnFonelliRosa btn",
-            title: 'Consulta de pedidos',
-            messageTop: 'Consulta pedidos 2'/*,
-            customize: function (win) {
-              $(win.document.body).find('th').addClass('display').css('text-align', 'center');
-              $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
-              $(win.document.body).find('table').addClass('display').css('font-size', '16px');
-              $(win.document.body).find('table').addClass('display').css('text-align', 'center');
-              $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
-              $(this).css('background-color', '#D0D0D0');});
-                          $(win.document.body).find('h1').css('text-align', 'center');
-            }*/
-            
           }
+         
         ]
      
         
@@ -1094,6 +1078,8 @@ downloadAsPDF() {
 
   var cadenaaux = pdfTable.innerHTML;
 
+  cadenaaux = this.TablaRelacionPedidos();
+
  
   let cadena =
       '<br><p>Desde Cliente: <strong>' +this.oBuscar.ClienteDesde +' - '+this.oBuscar.FilialDesde+' - '+ this.obtenNombreCliente(this.oBuscar.ClienteDesde)+'<br></strong> Hasta cliente: <strong>' +this.oBuscar.ClienteHasta +' - '+this.oBuscar.FilialHasta+' - '+this.obtenNombreCliente(this.oBuscar.ClienteHasta)+'</strong></p>' +      
@@ -1101,7 +1087,7 @@ downloadAsPDF() {
 
   var html = htmlToPdfmake(cadena);
 
-  //html[2].table.headerRows= 1;
+  html[2].table.headerRows= 1;
   console.log( html[2].table);
   const documentDefinition = { 
 pageSize: {
@@ -1284,6 +1270,188 @@ openClientes(Clientes: any, cliente: boolean) {
     }
     return nombre;
   }
+
+  TablaRelacionPedidos(): string
+  {
+
+    var tabla = "";
+
+   tabla =  '<table class="table table-hover table-striped" datatable [dtOptions]="dtOptions"  >  '+'\n'+      
+              '<thead >'+'\n'+
+                '<tr class="EncTabla" > '+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">PEDIDO</th><!--Pedido folio -->'+'\n'+
+                  ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;" >TP</th><!--Pedido codigo -->'+'\n'+
+                  ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">L</th><!-- Pedido letra -->              '+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CLTE</th><!--Cliente codigo -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">FIL</th><!--Cliente filial -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA PEDIDO</div></th><!--Fecha pedido -->'+'\n'+
+                  ' <th *ngIf="!bCliente"  style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA APROD</div></th><!--Fecha pedido produccion -->'+'\n'+
+                  ' <th  style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA CANCOP</div></th><!--Fecha cancelacion -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">S</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:center;" >DIAS ATRAS</th><!--Dias atraso -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:center;">CANT PEDID</th><!--Cantidad perdida -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;">IMPORTE</th><!-- Cantidad perdida importe -->'+'\n'+
+                  ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align:right;">VALOR AGREGADO</th><!---->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:center;">CANT SURTID</th><!--Cantidad surtida -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;">IMPORTE</th><!--Cantidad surtida importe -->'+'\n'+
+                  ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align:right;">VALOR AGREGADO</th><!-- -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;">DIFER</th><!--Diferencia cantidad producto -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;">IMPORTE</th><!--Diferencia importe surtido -->'+'\n'+
+                  ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align:right;">VALOR AGREGADO</th><!--Valor agregado -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;">PEDIDO A PROD</th><!--Pedido a prod -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;">CANT PROD</th><!--Cantidad a prod -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:right;">DIFER</th><!--Cantidad a prod -->'+'\n'+
+                '</tr>'+'\n'+
+              '</thead>'+'\n'+
+              '<tbody>'+'\n';
+
+
+              this.oRelacionPedRes.Contenido.forEach(function(relPed){
+                tabla = tabla +   '<tr class="table-info">' + '\n' +                
+                ' <td class="sticky" colspan="4">'+relPed.OficinaFonelliNombre+'</td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td *ngIf="!bCliente"></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td *ngIf="!bCliente"></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td *ngIf="!bCliente"></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td *ngIf="!bCliente"></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                ' <td ></td> '+'\n'+
+                '</tr>' +'\n';
+
+                relPed.TipoPedido.forEach(function(tipoPed){
+
+                  tipoPed.Pedidos.forEach(function(pedido){
+
+                    tabla = tabla +   '<tr >' + '\n' +
+                      ' <td class="FilasFonelli text-left sticky"><u>'+pedido.PedidoFolio+'</u></td>'+'\n'+
+                      ' <td *ngIf="!bCliente" class="FilasFonelli text-left">'+tipoPed.TipoPedidoCodigo+'</td>'+'\n'+
+                      ' <td *ngIf="!bCliente" class="FilasFonelli text-left">'+pedido.PedidoLetra+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+pedido.ClienteCodigo+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+pedido.ClienteFilial+'</td>'+'\n'+
+                      ' <td class="FilasFonelli">'+pedido.FechaPedido+'</td>'+'\n'+
+                      ' <td *ngIf="!bCliente" class="FilasFonelli text-left">'+pedido.FechaPedidoProduccion+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+pedido.FechaCancelacion+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+pedido.PedidoStatus+'</td>'+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.DiasAtraso+'</td>'+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.CantidadPedidaAux+'</td>'+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.CantidadPedidaImporteAux+'</td>'+'\n'+
+                      ' <td *ngIf="!bCliente" class="FilasFonelli" style="text-align:right;">'+pedido.CantidadPedidaValorAgregadoAux+'</td>                '+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.CantidadSurtidaAux+'</td>                '+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.CantidadSurtidaImporteAux+'</td>                '+'\n'+
+                      ' <td *ngIf="!bCliente" class="FilasFonelli" style="text-align:right;">'+pedido.CantidadSurtidaValorAgregadoAux+'</td>                '+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.DiferenciaCantidadSurtidoAux+'</td>                '+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.DiferenciaImporteSurtidoAux+'</td>                '+'\n'+
+                      ' <td *ngIf="!bCliente" class="FilasFonelli" style="text-align:right;">'+pedido.DiferenciaValorAgregadoAux+'</td>                '+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.CantidadPedidaProduccion+'</td>                '+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.CantidadProducida+'</td>                '+'\n'+
+                      ' <td class="FilasFonelli" style="text-align:right;">'+pedido.DiferenciaCantidadProducido+'</td>                '+'\n'+
+                    '</tr>'+'\n';
+                  });
+
+                  //TOTAL PEDIDOS
+                  tabla = tabla +   '<tr >' + '\n' +
+                    '<td *ngIf="!bCliente"></td>'+'\n'+
+                    '<td *ngIf="!bCliente"></td>'+'\n'+
+                    '<td class="FilasFonBold">Total</td>'+'\n'+
+                    '<td class="FilasFonBold">'+tipoPed.TotalPedidos+'</td>'+'\n'+
+                    '<td></td>'+'\n'+
+                    '<td class="FilasFonBold">Pedidos</td>'+'\n'+
+                    '<td *ngIf="!bCliente"></td>'+'\n'+
+                    '<td class="FilasFonBold">'+tipoPed.TipoPedido+'</td>'+'\n'+
+                    '<td></td>'+'\n'+
+                    '<td></td>   '+'\n'+
+                    '<td class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalCanPed+'</td>'+'\n'+
+                    '<td class="FilasFonBold" style="text-align:right;">'+tipoPed.TotlImportes+'</td>                  '+'\n'+
+                    '<td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalCPValorAgregado+'</td>'+'\n'+
+                    '<td class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalCanSurtida+'</td>'+'\n'+
+                    '<td class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalCanSurtidaImporte+'</td>'+'\n'+
+                    '<td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalCSValorImporte+'</td>'+'\n'+
+                    '<td class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalDifCantidadSurt+'</td>'+'\n'+
+                    '<td class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalDifImporteSurtido+'</td>'+'\n'+
+                    '<td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalDifValorAgregado+'</td>'+'\n'+
+                    '<td class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalCantPedidaProd+'</td>'+'\n'+
+                    '<td class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalCantidadProd+'</td>'+'\n'+
+                    '<td class="FilasFonBold" style="text-align:right;">'+tipoPed.TotalDifCantidadProd+'</td>                  '+'\n'+
+                  '</tr>'+'\n';
+                });
+
+                //TOTAL OFICINA
+                tabla = tabla +   '<tr >' + '\n' +
+                  '<td *ngIf="!bCliente"></td>'+'\n'+
+                  '<td *ngIf="!bCliente"></td>'+'\n'+
+                  '<td class="FilasFonBold">Total</td>'+'\n'+
+                  '<td class="FilasFonBold">'+relPed.TotalPedidosOficina+'</td>'+'\n'+
+                  '<td></td>'+'\n'+
+                  '<td class="FilasFonBold">Pedidos</td>'+'\n'+
+                  '<td *ngIf="!bCliente"></td>'+'\n'+
+                  '<td class="FilasFonBold">OFICINA</td>'+'\n'+
+                  '<td></td>'+'\n'+
+                  '<td></td> '+'\n'+
+                  '<td class="FilasFonBold" style="text-align:right;">'+relPed.TotalCanPedOficina+'</td>'+'\n'+
+                  '<td class="FilasFonBold" style="text-align:right;">'+relPed.TotalImportesOficina+'</td>'+'\n'+
+                  '<td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">'+relPed.TotalCPValorAgregadoOficina+'</td>'+'\n'+
+                  '<td class="FilasFonBold" style="text-align:right;">'+relPed.TotalCanSurtidaOficina+'</td>'+'\n'+
+                  '<td class="FilasFonBold" style="text-align:right;">'+relPed.TotalCanSurtidaImporteOficina+'</td>'+'\n'+
+                  '<td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">'+relPed.TotalCSValorImporteOficina+'</td>'+'\n'+
+                  '<td class="FilasFonBold" style="text-align:right;">'+relPed.TotalDifCantidadSurtOficina+'</td>'+'\n'+
+                  '<td class="FilasFonBold" style="text-align:right;">'+relPed.TotalDifImporteSurtidoOficina+'</td>  '+'\n'+
+                  '<td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">'+relPed.TotalDifValorAgregadoOficina+'</td>  '+'\n'+
+                  '<td class="FilasFonBold" style="text-align:right;">'+relPed.TotalCantPedidoProdOficina+'</td>  '+'\n'+
+                  '<td class="FilasFonBold" style="text-align:right;">'+relPed.TotalCantidadProducidaOficina+'</td>  '+'\n'+
+                  '<td class="FilasFonBold" style="text-align:right;">'+relPed.TotalDifCantidadProdOficina+'</td>    '+'\n'+
+                '</tr>'+'\n';
+
+              });
+
+            //GRAN TOTALES
+          tabla = tabla +   '<tr >' + '\n' +
+            ' <td *ngIf="!bCliente"></td>'+'\n'+
+            ' <td *ngIf="!bCliente"></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td class="FilasFonBold">'+this.oRelacionPedRes.TotalPedidosGranTotal+'</td>'+'\n'+
+            
+            ' <td></td>'+'\n'+
+            ' <td class="FilasFonBold">Pedidos</td>'+'\n'+
+            ' <td *ngIf="!bCliente"></td>'+'\n'+
+            ' <td class="FilasFonBold">GRAN TOTAL</td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td> '+'\n'+
+            ' <td class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalCanPedGranTotal+'</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalImportesGranTotal+'</td>'+'\n'+
+            ' <td  *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalCPValorAgregadoGranTotal+'</td>'+'\n'+
+            ' <td class="FilasFonBold " style="text-align:right;">'+this.oRelacionPedRes.TotalCanSurtidaGranTotal+'</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalCanSurtidaImporteGranTotal+'</td>'+'\n'+
+            ' <td  *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalCSValorImporteGranTotal+'</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalDifCantidadSurtGranTotal+'</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalDifImporteSurtidoGranTotal+'</td>'+'\n'+
+            ' <td *ngIf="!bCliente" class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalDifValorAgregadoGranTotal+'</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalCantPedProdGranTotal+'</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalCantidadProdGranTotal+'</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align:right;">'+this.oRelacionPedRes.TotalDifCantidadProdGranTotal+'</td>'+'\n'+
+          ' </tr>'+'\n';        
+     
+          '</tbody>'+ '\n' +          
+        '</table>';
+
+
+
+          return tabla;
+
+
+  }
+
+
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

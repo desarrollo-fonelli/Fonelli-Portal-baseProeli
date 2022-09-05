@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container float-left">
   <p>
     <button
       type="button"
@@ -12,7 +12,7 @@
   </p>
 </div>
 
-<div #collapse="ngbCollapse" class="container" [(ngbCollapse)]="isCollapsed">
+<div  #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
   <div class="card">
     <div class="card-body">
       <h2 class="card-title">Consulta de Pedidos</h2>
@@ -139,14 +139,14 @@
   </div>
 </div>
 
-<div *ngIf="bBandera">
+<div class="container float-left" *ngIf="bBandera">
   <!-- <div class="container" >      -->
 
-          <br>
-          <h6 style="text-align: center; font-size:xx-large;" >Número {{oBuscar.ClienteCodigo}} {{obtenNombreCliente(oBuscar.ClienteCodigo)}}</h6>
-          
+        <br>
+        <h6 style="text-align: center; font-size:xx-large;" >Número {{oBuscar.ClienteCodigo}} {{obtenNombreCliente(oBuscar.ClienteCodigo)}}</h6>
+        <div class="container"> 
           <div class="form-row">
-            <div class="form-group col-md-1">              
+            <!-- <div class="form-group col-md-1">              
               <label class="CamposFonelli">Pedido:</label>
             </div>
             <div class="form-group col-md-5">              
@@ -156,13 +156,14 @@
                   [(ngModel)]="searchtext"
                   placeholder="Search"                 
                 />
-              </div>
-                <div class="form-group col-md-6">
+              </div> -->
+                <div class="form-group col-md-12">
                   <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
                     Imprimir PDF      
                   </button> 
                 </div> 
           </div>
+        </div>
 
           
 
@@ -218,7 +219,7 @@
 
       </div> 
 
-      </div> 
+</div> 
       <!-- </div>  -->
     
   

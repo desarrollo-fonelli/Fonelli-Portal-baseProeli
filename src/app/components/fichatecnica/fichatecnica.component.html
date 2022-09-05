@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container float-left">
   <p>
     <button
       type="button"
@@ -11,12 +11,8 @@
     </button>
   </p>
 </div>
-<section >
-    <div class="container float-left">
-    <div class="row">
-       <div class="col-lg-12">
 
-        <div #collapse="ngbCollapse" class="container" [(ngbCollapse)]="isCollapsed">
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
  
          <div class="card">
            <div class="card-body">
@@ -173,285 +169,265 @@
              </form><!-- End General Form Elements -->
            </div>             
          </div>
-</div>
-
-
-       </div>
-     </div> 
-    </div>  
+</div>  
 
      
-      <div *ngIf="bBandera" class="container">  
-        <!-- <div class="container" >      -->
+<div *ngIf="bBandera" class="container float-left">  
+  <!-- <div class="container" >      -->
 
-          <h6 style="text-align: center; font-size:xx-large;">{{ obtenNombreCliente(oBuscar.Cliente) }}</h6>          
-          <h6 style="text-align: center; font-size:xx-large;">Desde filial {{oBuscar.FilialDesde}} hasta filial {{oBuscar.FilialHasta}} </h6>
+    <h6 style="text-align: center; font-size:xx-large;">{{ obtenNombreCliente(oBuscar.Cliente) }}</h6>          
+    <h6 style="text-align: center; font-size:xx-large;">Desde filial {{oBuscar.FilialDesde}} hasta filial {{oBuscar.FilialHasta}} </h6>
 
-          <div class="form-row">
-            <div class="col-md-2">              
-              <label >No. Lista 1</label>
-            </div>
-            <div class="col-md-6">   
-              <label class="float-left">{{oFichaTecnicaRes.Contenido.Lista1Codigo+' '+oFichaTecnicaRes.Contenido.Lista1Descripc}}</label>              
-            </div>
-            <div class="col-md-2">              
-              <label class="float-left">Fecha Alta</label>
-            </div>
-            <div class="col-md-2">   
-              <label class="float-left">{{oFichaTecnicaRes.Contenido.FechaAlta}}</label>              
-            </div>
-          </div>
+    <div class="form-row">
+      <div class="col-md-2">              
+        <label >No. Lista 1</label>
+      </div>
+      <div class="col-md-6">   
+        <label class="float-left">{{oFichaTecnicaRes.Contenido.Lista1Codigo+' '+oFichaTecnicaRes.Contenido.Lista1Descripc}}</label>              
+      </div>
+      <div class="col-md-2">              
+        <label class="float-left">Fecha Alta</label>
+      </div>
+      <div class="col-md-2">   
+        <label class="float-left">{{oFichaTecnicaRes.Contenido.FechaAlta}}</label>              
+      </div>
+    </div>
 
-          <div class="form-row">
-            <div class="col-md-2">              
-              <label>No. Lista 2</label>
-            </div>
-            <div class="col-md-6">              
-              <label class="float-left">{{oFichaTecnicaRes.Contenido.Lista2Codigo+' '+oFichaTecnicaRes.Contenido.Lista2Descripc}}</label>              
-            </div>
-            <div class="col-md-2">              
-              <label class="float-left">Status</label>
-            </div>
-            <div class="col-md-2">   
-              <label class="float-left">{{oFichaTecnicaRes.Contenido.ClienteStatus}}</label>              
-            </div>
-          </div>
+    <div class="form-row">
+      <div class="col-md-2">              
+        <label>No. Lista 2</label>
+      </div>
+      <div class="col-md-6">              
+        <label class="float-left">{{oFichaTecnicaRes.Contenido.Lista2Codigo+' '+oFichaTecnicaRes.Contenido.Lista2Descripc}}</label>              
+      </div>
+      <div class="col-md-2">              
+        <label class="float-left">Status</label>
+      </div>
+      <div class="col-md-2">   
+        <label class="float-left">{{oFichaTecnicaRes.Contenido.ClienteStatus}}</label>              
+      </div>
+    </div>
 
-          <div class="form-row">
-            <div class="col-md-2">              
-              <label>Limite de crédito</label>
-            </div>
-            <div class="col-md-6">
-              <label class="float-left">{{oFichaTecnicaRes.Contenido.LimiteCredito}}</label>
-            </div>
-            <div class="col-md-2">              
-              <label class="float-left">TipoCte</label>
-            </div>
-            <div class="col-md-2">   
-              <label class="float-left">{{oFichaTecnicaRes.Contenido.TipoClienteCodigo+' '+oFichaTecnicaRes.Contenido.TipoClienteDescripc}}</label>              
-            </div>
-          </div>
+    <div class="form-row">
+      <div class="col-md-2">              
+        <label>Limite de crédito</label>
+      </div>
+      <div class="col-md-6">
+        <label class="float-left">{{oFichaTecnicaRes.Contenido.LimiteCredito}}</label>
+      </div>
+      <div class="col-md-2">              
+        <label class="float-left">TipoCte</label>
+      </div>
+      <div class="col-md-2">   
+        <label class="float-left">{{oFichaTecnicaRes.Contenido.TipoClienteCodigo+' '+oFichaTecnicaRes.Contenido.TipoClienteDescripc}}</label>              
+      </div>
+    </div>
 
-          <div class="form-row">
-            <div class="col-md-2">              
-              <label>Plazo Pago</label>
-            </div>
-            <div class="col-md-6">            
-              <label class="float-left">{{oFichaTecnicaRes.Contenido.PlazoPago}}</label>
-            </div>
-            <div class="col-md-2">              
-              <label class="float-left">Tipo paridad</label>
-            </div>
-            <div class="col-md-2">   
-              <label class="float-left">{{oFichaTecnicaRes.Contenido.TipoParidadCodigo+' '+oFichaTecnicaRes.Contenido.TipoParidadDescripc}}</label>              
-            </div>
-          </div>
-            
-                
-          
-
-        <br>
-        <div class="form-row">
-          <div class="form-group col-md-1">              
-            <label class="CamposFonelli">Pedido:</label>
-          </div>
-          <div class="form-group col-md-5">              
-            <input
-                type="text"
-                class="form-control"
-                [(ngModel)]="searchtext"
-                placeholder="Search"                 
-              />
-            </div>
-              <div class="form-group col-md-6">
-                <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
-                  Imprimir PDF      
-                </button> 
-              </div> 
-        </div>
-
-    <div id="pdfTable" #pdfTable >
-
-      <h6 style="text-align: center; color:#24a4cc; ">Ventas año anterior desde {{oBuscar.FechaDesdeAnterior}} hasta {{oBuscar.FechaHastaAnterior}}</h6>
-        <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">
-          <thead>
-            <tr class="EncTabla">            
-            <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
-            <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
-            <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
-            <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>
-            <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">IMPORTE</div></th>
-            <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">VALOR AGREGADO</div></th>            
-          </tr>
-          </thead>
-          <tbody>          
-
-            <ng-container *ngFor="let datos of oAnioAnteriorRes index as i">
-              <tr>              
-                <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
-                <td></td>                
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-
-              <tr *ngFor="let subCat of datos.Subcategorias index as i">              
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
-                <td class="FilasFonelli"> {{subCat.SubcategoriaNombre}} </td>                
-                <td class="FilasFonelli"> {{subCat.PiezasAnioAntAux}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.GramosAnioAntAux}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ subCat.ImporteAnioAntAux}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ subCat.ValorAgregadoAnioAntAux}}</td>
-              </tr>
-
-              <tr>              
-                <td></td>
-                <td class="FilasFonelli"> Total Categoria</td>                
-                <td class="FilasFonBold"> {{datos.TotalCatPiezasAnioAnt}}</td>
-                <td class="FilasFonBold" style="text-align:left">{{ datos.TotalCatGramosAnioAnt}}</td>
-                <td class="FilasFonBold" style="text-align:right">{{ datos.TotalCatImporteAnioAnt}}</td>
-                <td class="FilasFonBold" style="text-align:right">{{ datos.TotalCatValorAgregadoAnioAnt}}</td>
-                
-                <!-- <td class="FilasFonBold"> {{formatoNumero(getTotalCategoria(datos.Subcategorias,'Piezas'))}}</td>
-                <td class="FilasFonBold" style="text-align:left">{{ formatoNumero(getTotalCategoria(datos.Subcategorias,'Gramos'))}}</td>
-                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'Importe'))}}</td>
-                <td class="FilasFonBold" style="text-align:right">{{ formatoMoneda(getTotalCategoria(datos.Subcategorias,'ValorAgregado'))}}</td> -->
-              </tr> 
-
-            </ng-container>   
-            <tr>              
-              <td></td>
-              <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
-              <td class="FilasFonBold" style="color:#183e6f;"> {{oFichaTecnicaRes.Contenido.TotalGenAnioAntPiezas}}</td>
-              <td class="FilasFonBold" style="color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioAntGramos}}</td>
-              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ oFichaTecnicaRes.Contenido.TotalGenAnioAntImporte}}</td>
-              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioAntValorAgregado }}</td>
-              <!-- <td class="FilasFonBold" style="color:#183e6f;"> {{formatoNumero(getTotalGeneral(oAnioAnteriorRes,'Piezas'))}}</td>
-              <td class="FilasFonBold" style="color:#183e6f;">{{ formatoNumero(getTotalGeneral(oAnioAnteriorRes,'Gramos'))}}</td>
-              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'Importe'))}}</td>
-              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ formatoMoneda(getTotalGeneral(oAnioAnteriorRes,'ValorAgregado'))}}</td> -->
-            </tr>                     
-
-          
-          </tbody>
-        </table>
-
-        <br>
-        <br>
-
-        <h6 style="text-align: center; color:#24a4cc; ">Ventas año actual desde {{oBuscar.FechaDesdeActual}} hasta {{oBuscar.FechaHastaActual}}</h6>        
-        <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">
-          <thead>
-            <tr class="EncTabla">            
-            <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
-            <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
-            <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
-            <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>
-            <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">IMPORTE</div></th>
-            <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">VALOR AGREGADO</div></th>            
-          </tr>
-          </thead>
-          <tbody>
-
-            <ng-container *ngFor="let datos of oAnioActualRes index as i">
-              <tr>              
-                <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
-                <td></td>                
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-
-              <tr *ngFor="let subCat of datos.Subcategorias index as i">              
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
-                <td class="FilasFonelli"> <u>{{subCat.SubcategoriaNombre}}</u> </td>                
-                <td class="FilasFonelli" >{{ subCat.PiezasAnioActAux}}</td>
-                <td class="FilasFonelli" style="text-align:left">{{ subCat.GramosAnioActAux}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ subCat.ImporteAnioActAux}}</td>
-                <td class="FilasFonelli" style="text-align:right">{{ subCat.ValorAgregadoAnioActAux}}</td>
-              </tr>
-              <tr>              
-                <td></td>
-                <td class="FilasFonelli"> Total Categoria</td>                
-                <td class="FilasFonBold" style="font-weight: bold;"> {{datos.TotalCatPiezasAnioAnt}}</td>
-                <td class="FilasFonBold" style="font-weight: bold;">{{ datos.TotalCatGramosAnioAct}}</td>
-                <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ datos.TotalCatImporteAnioAct}}</td>
-                <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ datos.TotalCatValorAgregadoAnioAct}}</td>
-              </tr> 
-
-
-            </ng-container>
-
-            <tr>              
-              <td></td>
-              <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
-              <td class="FilasFonBold" style="color:#183e6f;"> {{oFichaTecnicaRes.Contenido.TotalGenAnioActPiezas}}</td>
-              <td class="FilasFonBold" style="color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActGramos }}</td>
-              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActImporte }}</td>
-              <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActValorAgregado }}</td>
-            </tr>   
-
-          </tbody>
-        </table>
-
-         <br>
-        <br>
-
-        <label class="CamposFonelli">Resumen de Cartera</label>
-        <table  class="table table-hover table-striped" >
-          <thead>
-            <tr class="EncTabla">            
-            <th style="background-color: #24a4cc; color: white;" scope="col">CARTERA</th>
-            <th style="background-color: #24a4cc; color: white; " scope="col">DESCRIPCIÓN</th>
-            <th style="background-color: #24a4cc; color: white; " scope="col">SALDO</th>
-            <th style="background-color: #24a4cc; color: white;" scope="col">SALDO VENCIDO</th>            
-          </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let datos of oTipoCarteraRes index as i" >              
-              <td class="FilasFonelli" style="text-align:left">{{ datos.TipoCarteraCodigo}}</td>
-              <td class="FilasFonelli"> {{datos.TipoCarteraDescripc}}</td>                
-              <td class="FilasFonelli"> {{ datos.TipoCarteraSaldoAux}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ datos.TipoCarteraSaldoVencidoAux}}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <br>
-        <br>
-
-        <label class="CamposFonelli">Pedidos activos</label>
-        <table  class="table table-hover table-striped" >
-          <thead>
-            <tr class="EncTabla">            
-            <th style="background-color: #24a4cc; color: white;" scope="col">PEDIDOS</th>
-            <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
-            <th style="background-color: #24a4cc; color: white; " scope="col">GRAMOS</th>
-            <th style="background-color: #24a4cc; color: white;" scope="col">IMPORTE</th>            
-          </tr>
-          </thead>
-          <tbody>
-             <tr >       
-              <td class="FilasFonelli" style="text-align:left">{{ oPedidosInactivosRes.PedidosNumero}}</td>
-              <td class="FilasFonelli"> {{oPedidosInactivosRes.Piezas}}</td>                
-              <td class="FilasFonelli" >{{ oPedidosInactivosRes.Gramos}}</td>
-              <td class="FilasFonelli" style="text-align:left">{{ formatoMoneda(oPedidosInactivosRes.Importe)}}</td>
-            </tr> 
-          </tbody>
-        </table>
-
+    <div class="form-row">
+      <div class="col-md-2">              
+        <label>Plazo Pago</label>
+      </div>
+      <div class="col-md-6">            
+        <label class="float-left">{{oFichaTecnicaRes.Contenido.PlazoPago}}</label>
+      </div>
+      <div class="col-md-2">              
+        <label class="float-left">Tipo paridad</label>
+      </div>
+      <div class="col-md-2">   
+        <label class="float-left">{{oFichaTecnicaRes.Contenido.TipoParidadCodigo+' '+oFichaTecnicaRes.Contenido.TipoParidadDescripc}}</label>              
+      </div>
+    </div>
       
+          
+    
 
+  <br>
+  <div class="form-row">
+    <div class="container">
+
+      <div class="form-group col-md-12">
+        <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+          Imprimir PDF      
+        </button> 
+      </div>
+
+    </div>
      
+  </div>
 
-    </div> 
+<div id="pdfTable" #pdfTable >
 
-    </div> 
+<h6 style="text-align: center; color:#24a4cc; ">Ventas año anterior desde {{oBuscar.FechaDesdeAnterior}} hasta {{oBuscar.FechaHastaAnterior}}</h6>
+  <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">
+    <thead>
+      <tr class="EncTabla">            
+      <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
+      <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
+      <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
+      <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>
+      <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">IMPORTE</div></th>
+      <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">VALOR AGREGADO</div></th>            
+    </tr>
+    </thead>
+    <tbody>          
+
+      <ng-container *ngFor="let datos of oAnioAnteriorRes index as i">
+        <tr>              
+          <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
+          <td></td>                
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <tr *ngFor="let subCat of datos.Subcategorias index as i">              
+          <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
+          <td class="FilasFonelli"> {{subCat.SubcategoriaNombre}} </td>                
+          <td class="FilasFonelli"> {{subCat.PiezasAnioAntAux}}</td>
+          <td class="FilasFonelli" style="text-align:left">{{ subCat.GramosAnioAntAux}}</td>
+          <td class="FilasFonelli" style="text-align:right">{{ subCat.ImporteAnioAntAux}}</td>
+          <td class="FilasFonelli" style="text-align:right">{{ subCat.ValorAgregadoAnioAntAux}}</td>
+        </tr>
+
+        <tr>              
+          <td></td>
+          <td class="FilasFonelli"> Total Categoria</td>                
+          <td class="FilasFonBold"> {{datos.TotalCatPiezasAnioAnt}}</td>
+          <td class="FilasFonBold" style="text-align:left">{{ datos.TotalCatGramosAnioAnt}}</td>
+          <td class="FilasFonBold" style="text-align:right">{{ datos.TotalCatImporteAnioAnt}}</td>
+          <td class="FilasFonBold" style="text-align:right">{{ datos.TotalCatValorAgregadoAnioAnt}}</td>          
+        </tr> 
+
+      </ng-container>   
+      <tr>              
+        <td></td>
+        <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
+        <td class="FilasFonBold" style="color:#183e6f;"> {{oFichaTecnicaRes.Contenido.TotalGenAnioAntPiezas}}</td>
+        <td class="FilasFonBold" style="color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioAntGramos}}</td>
+        <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ oFichaTecnicaRes.Contenido.TotalGenAnioAntImporte}}</td>
+        <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioAntValorAgregado }}</td>        
+      </tr>                     
+
+    
+    </tbody>
+  </table>
+
+  <br>
+  <br>
+
+  <h6 style="text-align: center; color:#24a4cc; ">Ventas año actual desde {{oBuscar.FechaDesdeActual}} hasta {{oBuscar.FechaHastaActual}}</h6>        
+  <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">
+    <thead>
+      <tr class="EncTabla">            
+      <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
+      <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
+      <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
+      <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>
+      <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">IMPORTE</div></th>
+      <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">VALOR AGREGADO</div></th>            
+    </tr>
+    </thead>
+    <tbody>
+
+      <ng-container *ngFor="let datos of oAnioActualRes index as i">
+        <tr>              
+          <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
+          <td></td>                
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        <tr *ngFor="let subCat of datos.Subcategorias index as i">              
+          <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
+          <td class="FilasFonelli"> <u>{{subCat.SubcategoriaNombre}}</u> </td>                
+          <td class="FilasFonelli" >{{ subCat.PiezasAnioActAux}}</td>
+          <td class="FilasFonelli" style="text-align:left">{{ subCat.GramosAnioActAux}}</td>
+          <td class="FilasFonelli" style="text-align:right">{{ subCat.ImporteAnioActAux}}</td>
+          <td class="FilasFonelli" style="text-align:right">{{ subCat.ValorAgregadoAnioActAux}}</td>
+        </tr>
+        <tr>              
+          <td></td>
+          <td class="FilasFonelli"> Total Categoria</td>                
+          <td class="FilasFonBold" style="font-weight: bold;"> {{datos.TotalCatPiezasAnioAnt}}</td>
+          <td class="FilasFonBold" style="font-weight: bold;">{{ datos.TotalCatGramosAnioAct}}</td>
+          <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ datos.TotalCatImporteAnioAct}}</td>
+          <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ datos.TotalCatValorAgregadoAnioAct}}</td>
+        </tr> 
+
+
+      </ng-container>
+
+      <tr>              
+        <td></td>
+        <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
+        <td class="FilasFonBold" style="color:#183e6f;"> {{oFichaTecnicaRes.Contenido.TotalGenAnioActPiezas}}</td>
+        <td class="FilasFonBold" style="color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActGramos }}</td>
+        <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActImporte }}</td>
+        <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActValorAgregado }}</td>
+      </tr>   
+
+    </tbody>
+  </table>
+
+    <br>
+  <br>
+
+  <label class="CamposFonelli">Resumen de Cartera</label>
+  <table  class="table table-hover table-striped" >
+    <thead>
+      <tr class="EncTabla">            
+      <th style="background-color: #24a4cc; color: white;" scope="col">CARTERA</th>
+      <th style="background-color: #24a4cc; color: white; " scope="col">DESCRIPCIÓN</th>
+      <th style="background-color: #24a4cc; color: white; " scope="col">SALDO</th>
+      <th style="background-color: #24a4cc; color: white;" scope="col">SALDO VENCIDO</th>            
+    </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let datos of oTipoCarteraRes index as i" >              
+        <td class="FilasFonelli" style="text-align:left">{{ datos.TipoCarteraCodigo}}</td>
+        <td class="FilasFonelli"> {{datos.TipoCarteraDescripc}}</td>                
+        <td class="FilasFonelli"> {{ datos.TipoCarteraSaldoAux}}</td>
+        <td class="FilasFonelli" style="text-align:left">{{ datos.TipoCarteraSaldoVencidoAux}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <br>
+
+  <label class="CamposFonelli">Pedidos activos</label>
+  <table  class="table table-hover table-striped" >
+    <thead>
+      <tr class="EncTabla">            
+      <th style="background-color: #24a4cc; color: white;" scope="col">PEDIDOS</th>
+      <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
+      <th style="background-color: #24a4cc; color: white; " scope="col">GRAMOS</th>
+      <th style="background-color: #24a4cc; color: white;" scope="col">IMPORTE</th>            
+    </tr>
+    </thead>
+    <tbody>
+        <tr >       
+        <td class="FilasFonelli" style="text-align:left">{{ oPedidosInactivosRes.PedidosNumero}}</td>
+        <td class="FilasFonelli"> {{oPedidosInactivosRes.Piezas}}</td>                
+        <td class="FilasFonelli" >{{ oPedidosInactivosRes.Gramos}}</td>
+        <td class="FilasFonelli" style="text-align:left">{{ formatoMoneda(oPedidosInactivosRes.Importe)}}</td>
+      </tr> 
+    </tbody>
+  </table>
+
+
+
+
+
+</div> 
+
+</div> 
     <!-- </div>  -->
   
-</section>
+
 
 
 
