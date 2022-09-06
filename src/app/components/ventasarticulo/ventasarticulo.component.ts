@@ -1008,7 +1008,7 @@ downloadAsPDF() {
 
 
   var html = htmlToPdfmake(cadenaaux);
-  html[2].table.headerRows=1;
+  html[0].table.headerRows=1;
   console.log(html);
   const documentDefinition = { 
     pageOrientation: 'landscape', 

@@ -175,32 +175,12 @@ export class ReporteventasComponent implements OnInit {
         order:[],
         ordering:false,
         dom: 'Bfrltip"',
-        language: {
-          url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-        },  
         buttons: [
           {
             extend: 'excelHtml5',
             text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
             title: 'Consulta de pedidos',
             className: "btnFonelliRosa btn"
-            
-          },
-          {
-            extend: 'pdfHtml5',
-            text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
-            className: "btnFonelliRosa btn",
-            title: 'Consulta de pedidos',
-            messageTop: 'Consulta pedidos 2'/*,
-            customize: function (win) {
-              $(win.document.body).find('th').addClass('display').css('text-align', 'center');
-              $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
-              $(win.document.body).find('table').addClass('display').css('font-size', '16px');
-              $(win.document.body).find('table').addClass('display').css('text-align', 'center');
-              $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
-              $(this).css('background-color', '#D0D0D0');});
-                          $(win.document.body).find('h1').css('text-align', 'center');
-            }*/
             
           }
         ]
@@ -1053,6 +1033,8 @@ downloadAsPDF() {
 
   var cadenaaux = pdfTable.innerHTML;
 
+  //cadenaaux = this.TablaReporteVentas(this.oBuscar.DesglosaCategoria, this.oBuscar.DesglosaCliente);
+
   let cadena =
   '<br><p>Desde Cliente: <strong>' +this.oBuscar.ClienteDesde +' - '+this.oBuscar.FilialDesde+' - '+ this.obtenNombreCliente(this.oBuscar.ClienteDesde)+'<br></strong> Hasta cliente: <strong>' +this.oBuscar.ClienteHasta +' - '+this.oBuscar.FilialHasta+' - '+this.obtenNombreCliente(this.oBuscar.ClienteHasta)+'</strong></p>' +      
   cadenaaux;
@@ -1274,7 +1256,166 @@ downloadAsPDF() {
     return nombre; 
   }
   
+  TablaReporteVentas(oDesgloceCategoria,oDesgloceCliente): string
+  {
+
+    var tabla = "";
+
+
+    //desgloce categoria SI cliente SI
+    if(oDesgloceCategoria == 'S' && oDesgloceCliente == 'S'){
+
+      tabla =  '<table class="table table-hover table-striped" datatable [dtOptions]="dtOptions">'+'\n'+
+        ' <thead>'+'\n'+
+          ' <tr class="EncTabla"> '+'\n'+                
+            ' <th class="table-success" scope="col"></th>'+'\n'+
+            ' <th class="table-success" scope="col"></th>'+'\n'+
+            ' <th class="table-warning" scope="col"  style="text-align:center;"> 1er Periodo</th>  '+'\n'+
+            ' <th class="table-info" scope="col" style="text-align:center;">2do Periodo</th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+          ' </tr>'+'\n'+
+          ' <tr class="EncTabla">'+'\n'+
+            ' <th class="table-success" scope="col"></th>'+'\n'+
+            ' <th class="table-success" scope="col"></th>'+'\n'+
+            ' <th class="table-warning" scope="col"  style="text-align:center;"> desde '+this.oBuscar.Fecha1Desde+'</th>  '+'\n'+
+            ' <th class="table-warning" scope="col"  style="text-align:center;">hasta '+this.oBuscar.Fecha1Hasta+' </th>'+'\n'+
+            ' <th class="table-info" scope="col"  style="text-align:center;"> desde '+this.oBuscar.Fecha2Desde+'</th>  '+'\n'+
+            ' <th class="table-info" scope="col"  style="text-align:center;">hasta '+this.oBuscar.Fecha2Hasta+' </th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+          '</tr>'+'\n'+
+          '<tr   class="EncTabla">'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">NUM FIL</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">RAZON SOCIAL</th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">S</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;">TL1</th>'+'\n'+
+            ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TL2</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">TP</th>'+'\n'+
+            ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TC</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;">AG</th>    '+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+            ' <th></th>'+'\n'+
+          '</tr> '+'\n'+                         
+        '</thead>'+'\n'+
+        '<tbody>'+'\n';
+
+        this.oClienteCont.forEach(function(cli){
+          tabla = tabla +   ' <tr  class="EncTabla">'+'\n'+
+            ' <td colspan="8" class="FilasFonelli">'+cli.ClienteCodigo + ' ' + cli.ClienteFilial +' '+ cli.ClienteNombre +'</td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td> '+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td> '+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+          ' </tr>'+'\n'+
+
+
+          ' <tr class="EncTabla"> '+'\n'+                
+            ' <th style="background-color: #24a4cc; color: white;">Cat</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">Descripcion categoria</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">Piezas</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; ">Gramos</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>              '+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">Piezas</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;;">Gramos</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">%S/Tot</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">%S/Tot</th>     '+'\n'+
+          ' </tr> '+'\n';
+
+
+          cli.Categorias.forEach(function(cat){          
+
+            cat.Subcategorias.forEach(function(subCat){
+          
+                tabla = tabla +   '<tr >'+'\n'+
+                  ' <td class="FilasFonelli">'+cat.CategoriaCodigo + '' +subCat.SubcategoriaCodigo+'</td>'+'\n'+
+                  ' <td class="FilasFonelli">'+cat.CategoriaNombre+ ' - ' +subCat.SubcategoriaNombre+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-warning" style="text-align: right;">'+subCat.Piezas1Aux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-warning" style="text-align: right;">'+subCat.Gramos1Aux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-warning" style="text-align: right;">'+subCat.ImporteVenta1Aux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-warning" style="text-align: right;">'+subCat.PorcentajeImporte1Aux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-warning" style="text-align: right;">'+subCat.ValorAgregado1Aux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-warning" style="text-align: right;">'+subCat.PorcentajeValorAgregado1+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-info" style="text-align: right;">'+subCat.Piezas2+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-info" style="text-align: right;">'+subCat.Gramos2Aux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-info" style="text-align: right;">'+subCat.ImporteVenta2Aux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-info" style="text-align: right;">'+subCat.PorcentajeImporte2Aux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-info" style="text-align: right;">'+subCat.ValorAgregado2Aux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli table-info" style="text-align: right;">'+subCat.PorcentajeValorAgregado2+'</td>'+'\n'+
+                ' </tr>'+'\n';            
+            });            
+          });
+
+          tabla = tabla +   '<tr >'+'\n'+  
+            ' <td class="FilasFonelli"></td>'+'\n'+  
+            ' <td class="FilasFonBold">Total cliente</td>'+'\n'+  
+            ' <td class="FilasFonBold table-warning" style="text-align: right;">'+cli.TotalesClientexPiezas1+'</td>'+'\n'+  
+            ' <td class="FilasFonBold table-warning" style="text-align: right;">'+cli.TotalesClientexGramos1+'</td>'+'\n'+  
+            ' <td class="FilasFonBold table-warning" style="text-align: right;">'+cli.TotalesClientexImporteVenta1+'</td>'+'\n'+  
+            ' <td class="FilasFonBold table-warning" style="text-align: right;"></td>'+'\n'+  
+            ' <td class="FilasFonBold table-warning" style="text-align: right;">'+cli.TotalesClientexValorAgregado1+'</td>'+'\n'+  
+            ' <td class="FilasFonBold table-warning" style="text-align: right;"></td>'+'\n'+  
+            ' <td class="FilasFonBold table-info" style="text-align: right;">'+cli.TotalesClientexPiezas2+'</td>'+'\n'+  
+            ' <td class="FilasFonBold table-info" style="text-align: right;">'+cli.TotalesClientexGramos2+'</td>'+'\n'+  
+            ' <td class="FilasFonBold table-info" style="text-align: right;">'+cli.TotalesClientexImporteVenta2+'</td>'+'\n'+  
+            ' <td class="FilasFonBold table-info" style="text-align: right;"></td>'+'\n'+  
+            ' <td class="FilasFonBold table-info" style="text-align: right;">'+cli.TotalesClientexValorAgregado2+'</td>'+'\n'+  
+            ' <td class="FilasFonBold table-info" style="text-align: right;"></td>                   '+'\n'+  
+          ' </tr> '+'\n'; 
+        });
+        '</tbody>'+'\n'+
+        '</table>';
+    }
+
+
+
+    //desgloce categoria NO cliente SI
+    if(oDesgloceCategoria == 'N' && oDesgloceCliente == 'S'){
+    }
+
+
+
+
   
+
+
+
+          return tabla;
+
+
+  }
   
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
