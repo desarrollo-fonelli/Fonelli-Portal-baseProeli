@@ -402,9 +402,9 @@ export class FichatecnicaComponent implements OnInit {
     const pdfTable = this.pdfTable.nativeElement;
     console.log(pdfTable);
 
-    var cadenaaux = pdfTable.innerHTML;
+    //var cadenaaux = pdfTable.innerHTML;
 
-    cadenaaux = this.TablaFichaTecnica();
+    var cadenaaux = this.TablaFichaTecnica();
 
     let cadena =
     '<br><p>Cliente: <strong> ' +this.oBuscar.Cliente +'   de la Filial '+this.oBuscar.FilialDesde+'  hasta la Filial '+this.oBuscar.FilialHasta+'</strong></p>' +    

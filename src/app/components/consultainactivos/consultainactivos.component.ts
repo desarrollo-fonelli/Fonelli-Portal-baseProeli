@@ -154,7 +154,7 @@ export class ConsultainactivosComponent implements OnInit {
 
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 5,
+      pageLength: 10,
       processing: true,
       order:[],
       ordering:false,
@@ -168,23 +168,6 @@ export class ConsultainactivosComponent implements OnInit {
           text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
           title: 'Consulta de pedidos',
           className: "btnFonelliRosa btn"
-          
-        },
-        {
-          extend: 'pdfHtml5',
-          text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
-          className: "btnFonelliRosa btn",
-          title: 'Consulta de pedidos',
-          messageTop: 'Consulta pedidos 2'/*,
-          customize: function (win) {
-            $(win.document.body).find('th').addClass('display').css('text-align', 'center');
-            $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
-            $(win.document.body).find('table').addClass('display').css('font-size', '16px');
-            $(win.document.body).find('table').addClass('display').css('text-align', 'center');
-            $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
-            $(this).css('background-color', '#D0D0D0');});
-                        $(win.document.body).find('h1').css('text-align', 'center');
-          }*/
           
         }
       ]
