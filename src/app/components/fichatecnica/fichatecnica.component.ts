@@ -148,6 +148,9 @@ export class FichatecnicaComponent implements OnInit {
       order:[],
       ordering:false,
       dom: 'Bfrltip"',
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
       buttons: [
         {
           extend: 'excelHtml5',
@@ -404,7 +407,7 @@ export class FichatecnicaComponent implements OnInit {
     cadenaaux = this.TablaFichaTecnica();
 
     let cadena =
-    '<br><p>Cliente: <strong>' +this.oBuscar.Cliente +'-'+this.oBuscar.FilialDesde+' '+this.obtenNombreCliente(this.oBuscar.Cliente)+'</strong></p>' +    
+    '<br><p>Cliente: <strong> ' +this.oBuscar.Cliente +'   de la Filial '+this.oBuscar.FilialDesde+'  hasta la Filial '+this.oBuscar.FilialHasta+'</strong></p>' +    
     cadenaaux;
 
     console.log('cadena');

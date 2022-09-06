@@ -208,7 +208,7 @@
                 <td ></td>                
                 <td class="FilasFonelli" style="text-align:left">Total General</td>
                 <td class="FilasFonelli" style="text-align:right">{{ oPedidoRes.Contenido.CantidadPedida}}</td>
-                <td ></td>
+                <td class="FilasFonelli" style="text-align:right">{{ oPedidoRes.Contenido.CantidadPedida - oPedidoRes.Contenido.DiferenciaPedidosSurtido}}</td>
                 <td class="FilasFonelli" style="text-align:right">{{ oPedidoRes.Contenido.DiferenciaPedidosSurtido}}</td>
               </tr>
             </tbody>
@@ -336,10 +336,12 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>                                                      
+                            <td></td> 
                             <td class="FilasFonelli" style="text-align:right; color: #183e6f;">Totales</td>
-                            <td class="FilasFonelli" style="text-align:right; color: #183e6f;">{{oPedidoDetalleRes.Contenido.CantidadPedida }}</td>                            
-                            <!-- <td class="FilasFonelli" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadPedida')}}</td>                             -->
+                            <td class="FilasFonelli" style="text-align:right; color: #183e6f;">{{oPedidoDetalleRes.Contenido.CantidadPedida }}</td> 
+                            <td></td> 
+                            <td class="FilasFonelli" style="text-align:right; color: #183e6f;">{{oPedidoDetalleRes.Contenido.CantidadSurtida }}</td> 
+                            <!-- <td class="FilasFonelli" style="text-align:right; color: #183e6f;">{{ getTotalPedido(pedidoDet,'CantidadPedida')}}</td> -->
                           </tr>
                         </tbody>
                       </table>

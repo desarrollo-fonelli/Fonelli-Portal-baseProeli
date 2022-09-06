@@ -162,6 +162,9 @@ export class ConsultapedidosComponent implements OnInit {
       order:[],
       ordering:false,
       dom: 'Bfrltip"',
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
       buttons: [
         {
           extend: 'excelHtml5',
