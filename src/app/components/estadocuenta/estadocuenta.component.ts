@@ -156,6 +156,9 @@ export class EstadocuentaComponent implements OnInit {
         order:[],
         ordering:false,
         dom: 'Bfrltip"',
+        language: {
+          url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        },
         buttons: [
           {
             extend: 'excelHtml5',
@@ -394,17 +397,17 @@ consultaEstadoCuenta(){
             for(var mov of tiCa.Movimientos){
 
               //Datos principales movimientos
-              mov.CargosAux = this.formatoMoneda(mov.Cargos);
-              mov.AbonosAux = this.formatoMoneda(mov.Abonos);
-              mov.SaldoAux = this.formatoMoneda(mov.Saldo);
-              mov.SaldoVencidoAux = this.formatoMoneda(mov.SaldoVencido)              
+              mov.CargosAux = this.formatoMoneda(mov.Cargos, tiCa.TipoCarteraCodigo);
+              mov.AbonosAux = this.formatoMoneda(mov.Abonos, tiCa.TipoCarteraCodigo);
+              mov.SaldoAux = this.formatoMoneda(mov.Saldo, tiCa.TipoCarteraCodigo);
+              mov.SaldoVencidoAux = this.formatoMoneda(mov.SaldoVencido, tiCa.TipoCarteraCodigo) 
             }
 
             //Datos tipo de cartera
-            tiCa.TotalCargos = this.formatoMoneda(this.getTotalCargos(tiCa.Movimientos));
-            tiCa.TotalAbonos = this.formatoMoneda(this.getTotalAbonos(tiCa.Movimientos));
-            tiCa.TotalSaldo = this.formatoMoneda(this.getTotalSaldo(tiCa.Movimientos));
-            tiCa.TotalVencido = this.formatoMoneda(this.getTotalVencido(tiCa.Movimientos));
+            tiCa.TotalCargos = this.formatoMoneda(this.getTotalCargos(tiCa.Movimientos), tiCa.TipoCarteraCodigo);
+            tiCa.TotalAbonos = this.formatoMoneda(this.getTotalAbonos(tiCa.Movimientos), tiCa.TipoCarteraCodigo);
+            tiCa.TotalSaldo = this.formatoMoneda(this.getTotalSaldo(tiCa.Movimientos), tiCa.TipoCarteraCodigo);
+            tiCa.TotalVencido = this.formatoMoneda(this.getTotalVencido(tiCa.Movimientos), tiCa.TipoCarteraCodigo);
            
           }
         }
@@ -413,10 +416,10 @@ consultaEstadoCuenta(){
 
               
                //Datos principales tipo cartera
-               resTipCar.TipoCarteraCargosAux = this.formatoMoneda(resTipCar.TipoCarteraCargos);
-               resTipCar.TipoCarteraAbonosAux = this.formatoMoneda(resTipCar.TipoCarteraAbonos);
-               resTipCar.TipoCarteraSaldoAux = this.formatoMoneda(resTipCar.TipoCarteraSaldo);
-               resTipCar.TipoCarteraSaldoVencidoAux = this.formatoMoneda(resTipCar.TipoCarteraSaldoVencido) 
+               resTipCar.TipoCarteraCargosAux = this.formatoMoneda(resTipCar.TipoCarteraCargos, resTipCar.TipoCarteraCodigo);
+               resTipCar.TipoCarteraAbonosAux = this.formatoMoneda(resTipCar.TipoCarteraAbonos, resTipCar.TipoCarteraCodigo);
+               resTipCar.TipoCarteraSaldoAux = this.formatoMoneda(resTipCar.TipoCarteraSaldo, resTipCar.TipoCarteraCodigo);
+               resTipCar.TipoCarteraSaldoVencidoAux = this.formatoMoneda(resTipCar.TipoCarteraSaldoVencido, resTipCar.TipoCarteraCodigo) 
          
            
         }
@@ -570,8 +573,12 @@ consultaEstadoCuenta(){
   
 
   
-  formatoMoneda(number){
-    return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
+  formatoMoneda(number, CarteraCodigo = ""){
+    if (CarteraCodigo == "2" || CarteraCodigo == "7") {
+      return number.toLocaleString('en') + " gr";
+    } else {
+      return new Intl.NumberFormat('en-US', {style: 'currency',currency: 'USD', maximumFractionDigits: 2}).format(number);
+    }
   };
 
     //Modal clientes

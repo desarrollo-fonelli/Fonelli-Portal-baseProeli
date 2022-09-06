@@ -159,6 +159,9 @@ export class ConsultainactivosComponent implements OnInit {
       order:[],
       ordering:false,
       dom: 'Bfrltip"',
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },  
       buttons: [
         {
           extend: 'excelHtml5',
@@ -214,6 +217,9 @@ export class ConsultainactivosComponent implements OnInit {
    } 
     let date: Date = new Date();
     let mes;
+
+    // Resto un dia porque la datasource tiene un día de atraso
+    date.setDate(date.getDate() - 1);
 
     //Valida mes
     if (date.getMonth().toString().length == 1) {
