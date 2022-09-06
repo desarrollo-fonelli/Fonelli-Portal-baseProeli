@@ -22,7 +22,7 @@ export interface Contenido {
 
 export interface Categorias {
     CategoriaCodigo?:   string;
-    CategoriaNombre?:      string;
+    CategoNombre?:      string;
     Subcategorias:     Subcategorias[];
 
     TotalPiezasxCategoria: number;

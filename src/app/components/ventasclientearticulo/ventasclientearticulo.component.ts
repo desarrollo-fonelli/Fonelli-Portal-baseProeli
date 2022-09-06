@@ -188,23 +188,6 @@ export class VentasclientearticuloComponent implements OnInit {
             title: 'Consulta de pedidos',
             className: "btnFonelliRosa btn"
             
-          },
-          {
-            extend: 'pdfHtml5',
-            text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
-            className: "btnFonelliRosa btn",
-            title: 'Consulta de pedidos',
-            messageTop: 'Consulta pedidos 2'/*,
-            customize: function (win) {
-              $(win.document.body).find('th').addClass('display').css('text-align', 'center');
-              $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
-              $(win.document.body).find('table').addClass('display').css('font-size', '16px');
-              $(win.document.body).find('table').addClass('display').css('text-align', 'center');
-              $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
-              $(this).css('background-color', '#D0D0D0');});
-                          $(win.document.body).find('h1').css('text-align', 'center');
-            }*/
-            
           }
         ]
      
@@ -1163,6 +1146,8 @@ downloadAsPDF() {
 
   var cadenaaux = pdfTable.innerHTML;
 
+  cadenaaux = this.TablaVentasClienteArt(this.oBuscar.Presentacion);
+
   var titulo;
 
   if(this.bCliente)
@@ -1381,7 +1366,207 @@ reemplaza(valor: string, valorAReemplazar: string){
     }      
     console.log("Resultado del segundo = "+JSON.stringify(bCategoria ? this.oSubCatDesde : this.oSubCatHasta));
   }
+
   
+  TablaVentasClienteArt(oPresentacion): string
+  {
+
+    var tabla = "";
+    
+    //RESUMIDO
+    if (oPresentacion == 'R'){
+
+      tabla =  '<table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">'+'\n'+
+      ' <thead>'+'\n'+
+        ' <tr class="EncTabla">'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white;">LN</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white;">DESCRIPCION LÍNEA</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white;">COLECCIÓN</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>'+'\n'+
+          ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>'+'\n'+
+          ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              '+'\n'+
+        ' </tr>'+'\n'+
+        ' </thead>'+'\n'+
+        ' <tbody>'+'\n';
+
+    //DETALLADO
+    }else{
+
+      tabla =  '<table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">'+'\n'+
+      ' <thead>'+'\n'+
+        ' <tr class="EncTabla">'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white;">CÓDIGO</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white;">DESCRIPCIÓN</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white;">TIPO</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>'+'\n'+
+          ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>'+'\n'+
+          ' <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              '+'\n'+
+        ' </tr>'+'\n'+
+      ' </thead>'+'\n'+
+      ' <tbody>'+'\n';
+    }  
+        
+
+
+    this.oVentasCliRes.Contenido.forEach(function(venArt){
+      tabla = tabla +   ' <tr class="table-info">'+'\n'+                    
+        ' <td class="FilasFonelli">'+venArt.ClienteCodigo + ' ' + venArt.ClienteNombre+'</td>'+'\n'+
+        ' <td></td>'+'\n'+
+        ' <td></td>'+'\n'+
+        ' <td></td>'+'\n'+
+        ' <td *ngIf="!bCliente"></td>'+'\n'+
+        ' <td></td>'+'\n'+
+        ' <td *ngIf="!bCliente"></td>'+'\n'+
+        ' <td></td>'+'\n'+
+      ' </tr>'+'\n';
+
+      venArt.Categorias.forEach(function(cat){
+        tabla = tabla +
+        ' <tr class="table-warning" >'+'\n'+
+          ' <td class="FilasFonelli">'+'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoNombre +'</td>'+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td *ngIf="!bCliente"></td>'+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td *ngIf="!bCliente"></td>'+'\n'+
+          ' <td></td>'+'\n'+
+        ' </tr>'+'\n';
+            
+
+        cat.Subcategorias.forEach(function(subCat){
+
+          tabla = tabla + ' <tr> '+'\n'+
+            ' <td class="FilasFonelli">'+subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre+'</td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td *ngIf="!bCliente"></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td *ngIf="!bCliente"></td>'+'\n'+
+            ' <td></td>'+'\n'+
+          ' </tr>'+'\n';
+
+          //RESUMIDO
+          subCat.LineasProducto.forEach(function(linPro){
+
+            //DETALLADO
+            if(oPresentacion == 'D'){
+              tabla = tabla + ' <tr>'+'\n'+
+                ' <td class=""><strong>'+linPro.LineaCodigo + ' - ' + linPro.LineaDescripc+'}</strong></td>'+'\n'+
+                ' <td></td>'+'\n'+
+                ' <td></td>'+'\n'+
+                ' <td></td>'+'\n'+
+                ' <td *ngIf="!bCliente"></td>'+'\n'+
+                ' <td></td>'+'\n'+
+                ' <td *ngIf="!bCliente"></td>'+'\n'+
+                ' <td></td>'+'\n'+
+              ' </tr>'+'\n';
+
+              linPro.Articulos.forEach(function(art){              
+                tabla = tabla +   '<tr >' + '\n' +
+                  ' <td class="FilasFonelli">'+art.ArticuloCodigo+'</td>'+'\n'+
+                  ' <td class="FilasFonelli">'+art.ArticuloDescripc+'</td>'+'\n'+
+                  ' <td class="FilasFonelli">'+art.ArticuloTipo+'</td>'+'\n'+
+                  ' <td class="FilasFonelli" style="text-align: right;">'+art.Piezas+'</td>'+'\n'+
+                  ' <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">'+art.PiezasPorcentajeAux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli" style="text-align: right;">'+art.GramosAux+'</td>'+'\n'+
+                  ' <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">'+art.GramosPorcentajeAux+'</td>'+'\n'+
+                  ' <td class="FilasFonelli" style="text-align: right;">'+art.ImporteVentaAux+'</td>'+'\n'+
+                ' </tr>'+'\n';           
+              });   
+
+              //DETALLADO
+              tabla = tabla + ' <tr> '+'\n'+
+                ' <td class="FilasFonelli"></td>'+'\n'+
+                ' <td class="FilasFonelli"></td>'+'\n'+
+                ' <td class="FilasFonelli" style="text-align: right;">Total Línea</td>'+'\n'+
+                ' <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasArticulo}}</td>'+'\n'+
+                ' <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasPorArticulo}}</td>'+'\n'+
+                ' <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosArticulo}}</td>'+'\n'+
+                ' <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosPorArticulo}}</td>'+'\n'+
+                ' <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalImpVenArticulo}}</td>'+'\n'+
+              ' </tr>'+'\n';
+            }
+
+
+            if(oPresentacion == 'R'){
+              //RESUMIDO  
+              tabla = tabla + ' <tr> '+'\n'+
+                ' <td class="FilasFonelli">'+linPro.LineaCodigo+'</td>'+'\n'+
+                ' <td class="FilasFonelli">'+linPro.LineaDescripc+'</td>'+'\n'+
+                ' <td class="FilasFonelli">'+linPro.ColeccionDescripc+'</td>'+'\n'+
+                ' <td class="FilasFonelli" style="text-align: right;">'+linPro.TotalPiezasArticulo+'</td>'+'\n'+
+                ' <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">'+linPro.TotalPiezasPorArticulo+'</td>'+'\n'+
+                ' <td class="FilasFonelli" style="text-align: right;">'+linPro.TotalGramosArticulo+'</td>'+'\n'+
+                ' <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">'+linPro.TotalGramosPorArticulo+'</td>'+'\n'+
+                ' <td class="FilasFonelli" style="text-align: right;">'+linPro.TotalImpVenArticulo+'</td>'+'\n'+
+              ' </tr>'+'\n';  
+            } 
+
+          });
+
+
+          //TOTAL SUBCATEGORIA
+          tabla = tabla + ' <tr> '+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td></td>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align: right;">Total SubCategoria</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align: right;">'+subCat.TotalPiezasxSubCat+'</td>'+'\n'+
+            ' <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">'+subCat.TotalPiezasPorxSubCat+'</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align: right;">'+subCat.TotalGramosxSubCat+'</td>'+'\n'+
+            ' <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">'+subCat.TotalGramosPorxSubCat+'</td>'+'\n'+
+            ' <td class="FilasFonBold" style="text-align: right;">'+subCat.TotalImpVenxSubCat+'</td>'+'\n'+
+          ' </tr>'+'\n';
+      
+        });
+
+        //TOTAL CATEGORIA
+        tabla = tabla + ' <tr> '+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>'+'\n'+
+          ' <td class="FilasFonBold" style="text-align: right;">'+cat.TotalPiezasxCategoria+'</td>'+'\n'+
+          ' <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>'+'\n'+
+          ' <td class="FilasFonBold" style="text-align: right;">'+cat.TotalGramosxCategoria+'</td>'+'\n'+
+          ' <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>'+'\n'+
+          ' <td class="FilasFonBold" style="text-align: right;">'+cat.TotalImpVenxCategoria+'</td>'+'\n'+
+        ' </tr>'+'\n';
+      });
+
+      //TOTAL CLIENTE
+      tabla = tabla + ' <tr> '+'\n'+
+      ' <td></td>'+'\n'+
+      ' <td></td>'+'\n'+
+      ' <td class="FilasFonelli" style="text-align: right;">Total Cliente</td>'+'\n'+
+      ' <td class="FilasFonBold" style="text-align: right; color: #183e6f;">'+venArt.TotalPiezasxCliente+'</td>'+'\n'+
+      ' <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f; "></td>'+'\n'+
+      ' <td class="FilasFonBold" style="text-align: right; color: #183e6f;">'+venArt.TotalGramosxCliente+'</td>'+'\n'+
+      ' <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>'+'\n'+
+      ' <td class="FilasFonBold" style="text-align: right; color: #183e6f;">'+venArt.TotalImpVenxCliente+'</td>'+'\n'+
+    ' </tr>'+'\n';
+    });
+
+    //TOTAL CLIENTE
+    tabla = tabla + ' <tr> '+'\n'+
+      ' <td></td>'+'\n'+
+      ' <td></td>'+'\n'+
+      ' <td class="FilasFonelli" style="text-align: right;">Total General</td>'+'\n'+
+      ' <td class="FilasFonBold" style="text-align: right; color: #183e6f;">'+this.oVentasCliRes.TotalPiezasGeneral+'</td>'+'\n'+
+      ' <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f; "></td>'+'\n'+
+      ' <td class="FilasFonBold" style="text-align: right; color: #183e6f;">'+this.oVentasCliRes.TotalGramosGeneral+'</td>'+'\n'+
+      ' <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>'+'\n'+
+      ' <td class="FilasFonBold" style="text-align: right; color: #183e6f;">'+this.oVentasCliRes.TotalImpVenGeneral+'</td>'+'\n'+
+    ' </tr>'+'\n'+   
+    ' </tbody>' + '\n' +          
+    ' </table>';
+
+    return tabla;
+  }
   
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

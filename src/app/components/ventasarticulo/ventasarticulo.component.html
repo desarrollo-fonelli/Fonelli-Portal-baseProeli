@@ -1,710 +1,680 @@
+
+<div class="container float-left">
+  <p>
+    <button
+      type="button"
+      class="btnFonelliAzul btn"
+      (click)="collapse.toggle()"
+      [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample"
+    >
+      Filtros
+    </button>
+  </p>
+</div>  
+
      
-     <div class="container">
-      <p>
-        <button
-          type="button"
-          class="btnFonelliAzul btn"
-          (click)="collapse.toggle()"
-          [attr.aria-expanded]="!isCollapsed"
-          aria-controls="collapseExample"
-        >
-          Filtros
-        </button>
-      </p>
-    </div>
-
-     <section >
-        <div class="container float-left">
-        <div class="row">
-          <div class="col-lg-12">
+       
   
-            <div #collapse="ngbCollapse" class="container" [(ngbCollapse)]="isCollapsed">
-            <div class="card">
-              <div class="card-body">
-                <h2 class="card-title" >Ventas por artículo</h2>
-  
-                <!-- General Form Elements -->
-                <form class="table-responsive">
-                  <div class="form-row">
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title" >Ventas por artículo</h2>
 
-                    <div class="form-group col-md-3" >
-                      <label class="CamposFonelli">Desde Oficina</label>
-                      <select 
-                        class="form-select" 
-                        name="idOfiDes"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.OficinaDesde"
-                        required
-                      >
-                        <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">{{dato.OficinaCodigo}} - {{dato.OficinaNombre}}</option>                          
-                      </select>
-                    </div>
+      <!-- General Form Elements -->
+      <form class="table-responsive">
+        <div class="form-row">
 
-                    <div class="form-group col-md-3" >
-                      <label class="CamposFonelli">Hasta Oficina</label>
-                      <select 
-                        class="form-select" 
-                        name="idOfiHas"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.OficinaHasta"
-                        required
-                      >
-                        <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">{{dato.OficinaCodigo}} - {{dato.OficinaNombre}}</option>                          
-                      </select>
-                    </div>
-
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Desde Fecha</label>
-                      <input 
-                        type="date" 
-                        id="idFecDes"
-                        class="form-control"
-                        name="idFecDes"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.FechaDesde"
-                        required
-                      >
-                    </div> 
-
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Hasta Fecha</label>
-                      <input 
-                        type="date" 
-                        id="idFecHas"
-                        class="form-control"
-                        name="idFecHas"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.FechaHasta"
-                        required
-                      >
-                    </div>
-
-                  </div>
-
-                  <div class="form-row">
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Desde Línea</label>
-                      <select 
-                        class="form-select" 
-                        name="idLinDes"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.LineaDesde"
-                        required
-                      >
-                        <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasCon">{{dato.LineaCodigo}} - {{dato.LineaDescripc}}</option>                          
-                      </select>
-                    </div>
-
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Hasta línea</label>
-                      <select 
-                          class="form-select" 
-                          name="idLinHas"
-                          #nombre="ngModel"
-                          [(ngModel)]="oBuscar.LineaHasta"
-                          required
-                        >
-                          <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasCon">{{dato.LineaCodigo}} - {{dato.LineaDescripc}}</option>                          
-                        </select>
-
-                    </div>
-
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Desde clave</label>
-                      <input 
-                        type="text" 
-                        id="idClvDes"
-                        class="form-control"
-                        name="idClvDes"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.ClaveDesde"
-                        required
-                      >
-                    </div>
-
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Hasta clave</label>
-                      <input 
-                        type="text" 
-                        id="idClvHas"
-                        class="form-control"
-                        name="idClvHas"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.ClaveHasta"
-                        required
-                      >
-                    </div>
-
-                  </div>
-
-                  <div class="form-row">
-
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Desde categoria</label>
-                      <select 
-                        class="form-select" 
-                        name="idCatDes"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.CategoriaDesde"
-                        (ngModelChange)="cargaSubCat($event,true)"
-                        required
-                      >
-                      <ng-container *ngFor='let dato of oCategoriasCon;' >
-                        <option value="{{dato.CategoriaCodigo}}" *ngIf="dato.Subcategoria == ''  ">
-                          {{dato.CategoriaCodigo}} - {{dato.CategoriaDescripc}}
-                        </option>
-                      </ng-container>
-                      </select>
-                    </div>
-
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Desde subCategoria</label>
-                      <select 
-                      class="form-select" 
-                      name="idSucaDes"
-                      #nombre="ngModel"
-                      [(ngModel)]="oBuscar.SubcategoDesde"                          
-                      required
-                    >
-                      <ng-container *ngFor='let dato of oSubCatDesde;' >
-                        <option value="{{dato.Subcategoria}}">
-                          {{dato.CategoriaCodigo+dato.Subcategoria}} - {{dato.CategoriaDescripc}}
-                        </option>
-                      </ng-container>
-
-                    </select>
-                  </div>
-
-                    <div class="form-group col-md-3">
-                      <label class="CamposFonelli">Hasta categoria</label>
-                      <select 
-                        class="form-select" 
-                        name="idCatHas"
-                        #nombre="ngModel"
-                        [(ngModel)]="oBuscar.CategoriaHasta"
-                        (ngModelChange)="cargaSubCat($event,false)"
-                        required
-                      >
-                        <ng-container *ngFor='let dato of oCategoriasCon;' >
-                          <option value="{{dato.CategoriaCodigo}}" *ngIf="dato.Subcategoria == ''">
-                            {{dato.CategoriaCodigo}} - {{dato.CategoriaDescripc}}
-                          </option>
-                        </ng-container>
-                                                
-                      </select>
-                     
-                    </div>
-                   
-
-                  <div class="form-group col-md-3">
-                    <label class="CamposFonelli">Hasta subCategoria</label>
-                    <select 
-                      class="form-select" 
-                      name="idSucaHas"
-                      #nombre="ngModel"
-                      [(ngModel)]="oBuscar.SubcategoHasta"                          
-                      required
-                    >
-                      <ng-container *ngFor='let dato of oSubCatHasta;' >
-                        <option value="{{dato.Subcategoria}}">
-                          {{dato.CategoriaCodigo+dato.Subcategoria}} - {{dato.CategoriaDescripc}}
-                        </option>
-                      </ng-container>
-                                              
-                    </select>
-                  </div>
-
-
-                  </div>  
-  
-                  <!-- control de radios -->
-                  <div class="row">
-                     
-                    <div class="form-group col-md-3">
-                      <p class="CamposFonelli"> Tipo de artículos</p>                        
-                      <div class="form-check" >                        
-                        <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="TipArt"
-                            value="L"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.TipoArticulo"                            
-                          >
-                        <label class="form-check-label CamposFonelli" for="gridRadios1"> Línea</label>
-                      </div>
-                      <div class="form-check">
-                        <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="TipArt"
-                            value="E"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.TipoArticulo"                            
-                          >
-                        <label class="form-check-label CamposFonelli" for="gridRadios2">Especiales</label>
-                      </div>
-                      <div class="form-check">
-                        <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="TipArt"
-                            value="T"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.TipoArticulo"                            
-                          >
-                        <label class="form-check-label CamposFonelli"> Todos </label>
-                      </div>
-                    </div>
-
-                    <div class="form-group col-md-3" [hidden]="bCliente">
-                      <p class="CamposFonelli"> Internos/Externos</p>  
-                        <div class="form-check">
-                          <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="TipOri"
-                            value="I"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.TipoOrigen"                            
-                          >
-                          <label class="form-check-label CamposFonelli"> Internos</label>
-                        </div>
-                        <div class="form-check">
-                          <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="TipOri"
-                            value="E"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.TipoOrigen"                            
-                          >
-                          <label class="form-check-label CamposFonelli" for="gridRadios2"> Externos </label>
-                        </div>
-                        <div class="form-check">
-                          <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="TipOri"
-                            value="T"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.TipoOrigen"                            
-                          >
-                          <label class="form-check-label CamposFonelli" for="gridRadios3"> Todos </label>
-                        </div>
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <p class="CamposFonelli"> Ordenado por</p> 
-                        <div class="form-check">
-                          <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="OrdPor"
-                            value="C"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.OrdenReporte"                            
-                          >
-                          <label class="form-check-label CamposFonelli" for="gridRadios1"> Categoria </label>
-                        </div>
-                        <div class="form-check">
-                          <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="OrdPor"
-                            value="P"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.OrdenReporte"                            
-                          >
-                          <label class="form-check-label CamposFonelli" for="gridRadios2"> Piezas </label>
-                        </div>
-                        <div class="form-check">
-                          <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="OrdPor"
-                            value="I"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.OrdenReporte"                            
-                          >
-                          <label class="form-check-label CamposFonelli" for="gridRadios3"> Importe </label>
-                        </div>
-                      </div>
-
-                      <div class="form-group col-md-3">
-                        <p class="CamposFonelli"> Presentación</p> 
-                        <div class="form-check"  *ngIf="oBuscar.OrdenReporte == 'C' " >
-                          <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="Pres"
-                            value="D"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.Presentacion"                            
-                          >
-                          <label class="form-check-label CamposFonelli" for="gridRadios1"> Detallado </label>
-                        </div>
-                        <div class="form-check">
-                          <input 
-                            class="form-check-input" 
-                            type="radio" 
-                            name="Pres"
-                            value="R"
-                            #nombre="ngModel"
-                            [(ngModel)]="oBuscar.Presentacion"                            
-                          >
-                          <label class="form-check-label CamposFonelli" for="gridRadios2"> Resumido </label>
-                        </div>
-                        
-                      </div>
-
-                    
-                  </div>
-  
-  
-                   
-                  <div *ngIf="sMensaje">
-                    <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
-                  </div>
-                  <div class="form-row">
-                      <div class="form-group col-md-6">
-                          <button type="submit" (click)="consultaVentasArticulo()" class="btnFonelli btn"> <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span> BUSCAR</button>
-                      </div>
-                  </div>                    
-                </form><!-- End General Form Elements --> 
-              </div> 
-            </div>
+          <div class="form-group col-md-3" >
+            <label class="CamposFonelli">Desde Oficina</label>
+            <select 
+              class="form-select" 
+              name="idOfiDes"
+              #nombre="ngModel"
+              [(ngModel)]="oBuscar.OficinaDesde"
+              required
+            >
+              <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">{{dato.OficinaCodigo}} - {{dato.OficinaNombre}}</option>                          
+            </select>
           </div>
 
+          <div class="form-group col-md-3" >
+            <label class="CamposFonelli">Hasta Oficina</label>
+            <select 
+              class="form-select" 
+              name="idOfiHas"
+              #nombre="ngModel"
+              [(ngModel)]="oBuscar.OficinaHasta"
+              required
+            >
+              <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">{{dato.OficinaCodigo}} - {{dato.OficinaNombre}}</option>                          
+            </select>
           </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde Fecha</label>
+            <input 
+              type="date" 
+              id="idFecDes"
+              class="form-control"
+              name="idFecDes"
+              #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaDesde"
+              required
+            >
+          </div> 
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta Fecha</label>
+            <input 
+              type="date" 
+              id="idFecHas"
+              class="form-control"
+              name="idFecHas"
+              #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaHasta"
+              required
+            >
+          </div>
+
         </div>
-      </div>
 
-          <div *ngIf="bBandera" class="container">
-            <br>
-            <div class="form-row">
-              <!-- <div class="form-group col-md-1">              
-                <label class="CamposFonelli">Búsqueda</label>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde Línea</label>
+            <select 
+              class="form-select" 
+              name="idLinDes"
+              #nombre="ngModel"
+              [(ngModel)]="oBuscar.LineaDesde"
+              required
+            >
+              <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasCon">{{dato.LineaCodigo}} - {{dato.LineaDescripc}}</option>                          
+            </select>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta línea</label>
+            <select 
+                class="form-select" 
+                name="idLinHas"
+                #nombre="ngModel"
+                [(ngModel)]="oBuscar.LineaHasta"
+                required
+              >
+                <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasCon">{{dato.LineaCodigo}} - {{dato.LineaDescripc}}</option>                          
+              </select>
+
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde clave</label>
+            <input 
+              type="text" 
+              id="idClvDes"
+              class="form-control"
+              name="idClvDes"
+              #nombre="ngModel"
+              [(ngModel)]="oBuscar.ClaveDesde"
+              required
+            >
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta clave</label>
+            <input 
+              type="text" 
+              id="idClvHas"
+              class="form-control"
+              name="idClvHas"
+              #nombre="ngModel"
+              [(ngModel)]="oBuscar.ClaveHasta"
+              required
+            >
+          </div>
+
+        </div>
+
+        <div class="form-row">
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde categoria</label>
+            <select 
+              class="form-select" 
+              name="idCatDes"
+              #nombre="ngModel"
+              [(ngModel)]="oBuscar.CategoriaDesde"
+              (ngModelChange)="cargaSubCat($event,true)"
+              required
+            >
+            <ng-container *ngFor='let dato of oCategoriasCon;' >
+              <option value="{{dato.CategoriaCodigo}}" *ngIf="dato.Subcategoria == ''  ">
+                {{dato.CategoriaCodigo}} - {{dato.CategoriaDescripc}}
+              </option>
+            </ng-container>
+            </select>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde subCategoria</label>
+            <select 
+            class="form-select" 
+            name="idSucaDes"
+            #nombre="ngModel"
+            [(ngModel)]="oBuscar.SubcategoDesde"                          
+            required
+          >
+            <ng-container *ngFor='let dato of oSubCatDesde;' >
+              <option value="{{dato.Subcategoria}}">
+                {{dato.CategoriaCodigo+dato.Subcategoria}} - {{dato.CategoriaDescripc}}
+              </option>
+            </ng-container>
+
+          </select>
+        </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta categoria</label>
+            <select 
+              class="form-select" 
+              name="idCatHas"
+              #nombre="ngModel"
+              [(ngModel)]="oBuscar.CategoriaHasta"
+              (ngModelChange)="cargaSubCat($event,false)"
+              required
+            >
+              <ng-container *ngFor='let dato of oCategoriasCon;' >
+                <option value="{{dato.CategoriaCodigo}}" *ngIf="dato.Subcategoria == ''">
+                  {{dato.CategoriaCodigo}} - {{dato.CategoriaDescripc}}
+                </option>
+              </ng-container>
+                                      
+            </select>
+            
+          </div>
+          
+
+        <div class="form-group col-md-3">
+          <label class="CamposFonelli">Hasta subCategoria</label>
+          <select 
+            class="form-select" 
+            name="idSucaHas"
+            #nombre="ngModel"
+            [(ngModel)]="oBuscar.SubcategoHasta"                          
+            required
+          >
+            <ng-container *ngFor='let dato of oSubCatHasta;' >
+              <option value="{{dato.Subcategoria}}">
+                {{dato.CategoriaCodigo+dato.Subcategoria}} - {{dato.CategoriaDescripc}}
+              </option>
+            </ng-container>
+                                    
+          </select>
+        </div>
+
+
+        </div>  
+
+        <!-- control de radios -->
+        <div class="row">
+            
+          <div class="form-group col-md-3">
+            <p class="CamposFonelli"> Tipo de artículos</p>                        
+            <div class="form-check" >                        
+              <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="TipArt"
+                  value="L"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.TipoArticulo"                            
+                >
+              <label class="form-check-label CamposFonelli" for="gridRadios1"> Línea</label>
+            </div>
+            <div class="form-check">
+              <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="TipArt"
+                  value="E"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.TipoArticulo"                            
+                >
+              <label class="form-check-label CamposFonelli" for="gridRadios2">Especiales</label>
+            </div>
+            <div class="form-check">
+              <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="TipArt"
+                  value="T"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.TipoArticulo"                            
+                >
+              <label class="form-check-label CamposFonelli"> Todos </label>
+            </div>
+          </div>
+
+          <div class="form-group col-md-3" [hidden]="bCliente">
+            <p class="CamposFonelli"> Internos/Externos</p>  
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="TipOri"
+                  value="I"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.TipoOrigen"                            
+                >
+                <label class="form-check-label CamposFonelli"> Internos</label>
               </div>
-              <div class="form-group col-md-5">              
-                <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="searchtext"
-                    placeholder="Search"                 
-                  />
-                </div> -->
-                  <div class="form-group col-md-12">
-                    <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
-                      Imprimir PDF      
-                    </button> 
-                  </div> 
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="TipOri"
+                  value="E"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.TipoOrigen"                            
+                >
+                <label class="form-check-label CamposFonelli" for="gridRadios2"> Externos </label>
+              </div>
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="TipOri"
+                  value="T"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.TipoOrigen"                            
+                >
+                <label class="form-check-label CamposFonelli" for="gridRadios3"> Todos </label>
+              </div>
             </div>
 
-        <div class="" *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable>
-            <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">
-              <thead>
-                <tr *ngIf="bFiltrResumido" class="EncTabla">
-                  <th style="background-color: #24a4cc; color: white;">LN</th>
-                  <th style="background-color: #24a4cc; color: white;">DESCRIPCION LÍNEA</th>
-                  <th style="background-color: #24a4cc; color: white;">COLECCIÓN</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
-                </tr>
-                <tr *ngIf="!bFiltrResumido" class="EncTabla">
-                  <th style="background-color: #24a4cc; color: white;">CÓDIGO</th>
-                  <th style="background-color: #24a4cc; color: white;">DESCRIPCIÓN</th>
-                  <th style="background-color: #24a4cc; color: white;">TIPO</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
-                </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let venArt of oVentasArticuloRes.Contenido | searchventasclientearticulo: searchtext">
-                  <tr class="table-info">                    
-                    <td class="FilasFonelli">{{'CATEGORIA'+' '+venArt.CategoriaCodigo + ': ' + venArt.CategoriaNombre }}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td> 
-                    <td></td>
-                    <td></td>                 
-                  </tr>
-                  <ng-container *ngFor="let subCat of venArt.Subcategorias;">              
-                    <tr class="table-warning" >
-                      <td class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' : ' + subCat.SubcategoriaNombre }}</td>   
-                      <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td> 
-                    <td></td>
-                    <td></td>                    
+            <div class="form-group col-md-3">
+              <p class="CamposFonelli"> Ordenado por</p> 
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="OrdPor"
+                  value="C"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.OrdenReporte"                            
+                >
+                <label class="form-check-label CamposFonelli" for="gridRadios1"> Categoria </label>
+              </div>
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="OrdPor"
+                  value="P"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.OrdenReporte"                            
+                >
+                <label class="form-check-label CamposFonelli" for="gridRadios2"> Piezas </label>
+              </div>
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="OrdPor"
+                  value="I"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.OrdenReporte"                            
+                >
+                <label class="form-check-label CamposFonelli" for="gridRadios3"> Importe </label>
+              </div>
+            </div>
+
+            <div class="form-group col-md-3">
+              <p class="CamposFonelli"> Presentación</p> 
+              <div class="form-check"  *ngIf="oBuscar.OrdenReporte == 'C' " >
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="Pres"
+                  value="D"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.Presentacion"                            
+                >
+                <label class="form-check-label CamposFonelli" for="gridRadios1"> Detallado </label>
+              </div>
+              <div class="form-check">
+                <input 
+                  class="form-check-input" 
+                  type="radio" 
+                  name="Pres"
+                  value="R"
+                  #nombre="ngModel"
+                  [(ngModel)]="oBuscar.Presentacion"                            
+                >
+                <label class="form-check-label CamposFonelli" for="gridRadios2"> Resumido </label>
+              </div>
+              
+            </div>
+
+          
+        </div>
+
+
+          
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <button type="submit" (click)="consultaVentasArticulo()" class="btnFonelli btn"> <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f"> </span> BUSCAR</button>
+            </div>
+        </div>                    
+      </form><!-- End General Form Elements --> 
+    </div> 
+  </div>
+</div>
+
+
+<div *ngIf="bBandera" class="container float-left">
+        <br>
+        <div class="form-row">
+          <!-- <div class="form-group col-md-1">              
+            <label class="CamposFonelli">Búsqueda</label>
+          </div>
+          <div class="form-group col-md-5">              
+            <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="searchtext"
+                placeholder="Search"                 
+              />
+            </div> -->
+              <div class="form-group col-md-12">
+                <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
+                  Imprimir PDF      
+                </button> 
+              </div> 
+        </div>
+
+    <div class="" *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable>
+        <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">
+          <thead>
+            <tr *ngIf="bFiltrResumido" class="EncTabla">
+              <th style="background-color: #24a4cc; color: white;">LN</th>
+              <th style="background-color: #24a4cc; color: white;">DESCRIPCION LÍNEA</th>
+              <th style="background-color: #24a4cc; color: white;">COLECCIÓN</th>
+              <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT</th>
+              <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>
+              <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
+            </tr>
+            <tr *ngIf="!bFiltrResumido" class="EncTabla">
+              <th style="background-color: #24a4cc; color: white;">CÓDIGO</th>
+              <th style="background-color: #24a4cc; color: white;">DESCRIPCIÓN</th>
+              <th style="background-color: #24a4cc; color: white;">TIPO</th>
+              <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/CAT</th>
+              <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
+              <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/CAT</th>
+              <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let venArt of oVentasArticuloRes.Contenido | searchventasclientearticulo: searchtext">
+              <tr class="table-info">                    
+                <td class="FilasFonelli">{{'CATEGORIA'+' '+venArt.CategoriaCodigo + ': ' + venArt.CategoriaNombre }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> 
+                <td></td>
+                <td></td>                 
+              </tr>
+              <ng-container *ngFor="let subCat of venArt.Subcategorias;">              
+                <tr class="table-warning" >
+                  <td class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' : ' + subCat.SubcategoriaNombre }}</td>   
+                  <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td> 
+                <td></td>
+                <td></td>                    
+                </tr> 
+                <!-- RESUMIDO  -->
+                <ng-container *ngFor="let linPro of subCat.LineasProducto;"> 
+
+                      <!-- DETALLADO  -->
+                      <ng-container *ngIf="!bFiltrResumido">
+                      <tr>  
+                        <td class=""><strong>{{linPro.LineaCodigo + ' - ' + linPro.LineaDescripc }}</strong></td>                
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td> 
+                        <td></td>
+                        <td></td> 
+                      </tr> 
+
+                      <tr *ngFor="let art of linPro.Articulos;">  
+                        <td class="FilasFonelli">{{art.ArticuloCodigo}}</td>
+                        <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
+                        <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
+                        <td class="FilasFonelli" style="text-align: right;">{{art.Piezas}}</td>
+                        <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.PiezasPorcentajeAux}}</td>
+                        <td class="FilasFonelli" style="text-align: right;">{{art.GramosAux}}</td>
+                        <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.GramosPorcentajeAux}}</td>
+                        <td class="FilasFonelli" style="text-align: right;">{{art.ImporteVentaAux}}</td>
+                      </tr> 
+
+                    </ng-container> 
+
+                    <!-- DETALLADO  -->
+                    <tr *ngIf="!bFiltrResumido" >  
+                      <td class="FilasFonelli"></td>
+                      <td class="FilasFonelli"></td>
+                      <td class="FilasFonelli" style="text-align: right;">Total Línea</td>
+                      <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasArticulo}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasPorArticulo}}</td>
+                      <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosArticulo}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosPorArticulo}}</td>
+                      <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalImpVenArticulo}}</td>
                     </tr> 
+
                     <!-- RESUMIDO  -->
-                    <ng-container *ngFor="let linPro of subCat.LineasProducto;"> 
-
-                          <!-- DETALLADO  -->
-                         <ng-container *ngIf="!bFiltrResumido">
-                          <tr>  
-                            <td class=""><strong>{{linPro.LineaCodigo + ' - ' + linPro.LineaDescripc }}</strong></td>                
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td> 
-                            <td></td>
-                            <td></td> 
-                          </tr> 
-
-                          <tr *ngFor="let art of linPro.Articulos;">  
-                            <td class="FilasFonelli">{{art.ArticuloCodigo}}</td>
-                            <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
-                            <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
-                            <td class="FilasFonelli" style="text-align: right;">{{art.Piezas}}</td>
-                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.PiezasPorcentajeAux}}</td>
-                            <td class="FilasFonelli" style="text-align: right;">{{art.GramosAux}}</td>
-                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.GramosPorcentajeAux}}</td>
-                            <td class="FilasFonelli" style="text-align: right;">{{art.ImporteVentaAux}}</td>
-
-                            <!-- <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(art.PiezasPorcentaje),'$')}}</td>
-                            <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(art.Gramos),'$')}}</td>
-                            <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(art.GramosPorcentaje),'$')}}</td>
-                            <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(art.ImporteVenta)}}</td> -->
-                          </tr> 
-
-                        </ng-container> 
-
-                        <!-- DETALLADO  -->
-                        <tr *ngIf="!bFiltrResumido" >  
-                          <td class="FilasFonelli"></td>
-                          <td class="FilasFonelli"></td>
-                          <td class="FilasFonelli" style="text-align: right;">Total Línea</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasArticulo}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasPorArticulo}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosArticulo}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosPorArticulo}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalImpVenArticulo}}</td>
-
-                          <!-- <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(getTotalPiezasPorArticulo(linPro.Articulos)),'$')}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosArticulo(linPro.Articulos)),'$')}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{ reemplaza(formatoMoneda(getTotalGramosPorArticulo(linPro.Articulos)),'$')}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td> -->
-                        </tr> 
-
-                        <!-- RESUMIDO  -->
-                        <tr *ngIf="bFiltrResumido">  
-                          <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
-                          <td class="FilasFonelli">{{linPro.LineaDescripc}}</td>
-                          <td class="FilasFonelli">{{linPro.ColeccionDescripc}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasArticulo}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasPorArticulo}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosArticulo}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosPorArticulo}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalImpVenArticulo}}</td>
-
-                          <!-- <td class="FilasFonelli" style="text-align: right;">{{getTotalPiezasArticulo(linPro.Articulos)}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorArticulo(linPro.Articulos)),'$')}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosArticulo(linPro.Articulos)),'$')}}</td>
-                          <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorArticulo(linPro.Articulos)),'$')}}</td>
-                          <td class="FilasFonelli" style="text-align: right;">{{formatoMoneda(getTotalImpVenArticulo(linPro.Articulos))}}</td> -->
-                        </tr>
-
-                    </ng-container>
-
-                    <!-- TOTAL SUBCATEGORIA-->
-                    <tr>  
-                       
-
-                      <td></td>
-                      <td></td>      
-                      <td class="FilasFonelli" style="text-align: right;">Total SubCategoria</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasxSubCat}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasPorxSubCat}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosxSubCat}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosPorxSubCat}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalImpVenxSubCat}}</td>
-
-                      <!-- <td class="FilasFonBold" style="text-align: right;">{{getTotalPiezasxSubCat(subCat.LineasProducto)}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalPiezasPorxSubCat(subCat.LineasProducto)),'$')}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosxSubCat(subCat.LineasProducto)),'$')}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{reemplaza(formatoMoneda(getTotalGramosPorxSubCat(subCat.LineasProducto)),'$')}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{formatoMoneda(getTotalImpVenxSubCat(subCat.LineasProducto))}}</td> -->
+                    <tr *ngIf="bFiltrResumido">  
+                      <td class="FilasFonelli">{{linPro.LineaCodigo}}</td>
+                      <td class="FilasFonelli">{{linPro.LineaDescripc}}</td>
+                      <td class="FilasFonelli">{{linPro.ColeccionDescripc}}</td>
+                      <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasArticulo}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalPiezasPorArticulo}}</td>
+                      <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosArticulo}}</td>
+                      <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{linPro.TotalGramosPorArticulo}}</td>
+                      <td class="FilasFonelli" style="text-align: right;">{{linPro.TotalImpVenArticulo}}</td>
                     </tr>
 
-                  </ng-container>
-                     <!-- TOTAL CATEGORIA-->
-                    <tr>  
-                      <td></td>
-                      <td></td>      
-                      <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalPiezasxCategoria}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                      <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalGramosxCategoria}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                      <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalImpVenxCategoria}}</td>
-                    </tr>  
-                     
-                  </ng-container>
-    
-                <!-- TOTAL CLIENTE-->
+                </ng-container>
+
+                <!-- TOTAL SUBCATEGORIA-->
                 <tr>  
                   <td></td>
                   <td></td>      
-                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">Total General</td>
-                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{oVentasArticuloRes.TotalPiezasxCliente}}</td>
-                  <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f; "></td>
-                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{oVentasArticuloRes.TotalGramosxCliente}}</td>
-                  <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>
-                  <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{oVentasArticuloRes.TotalImpVenxCliente}}</td>
-                </tr> 
-                         
-    
-              </tbody>               
-            </table>
-        </div> 
+                  <td class="FilasFonelli" style="text-align: right;">Total SubCategoria</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasxSubCat}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasPorxSubCat}}</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosxSubCat}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosPorxSubCat}}</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalImpVenxSubCat}}</td>
+                </tr>
 
-        <div class="" *ngIf="!bFiltroOrden" id="pdfTable" #pdfTable> <!--Piezas o importe-->
-          <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">
-            <thead>
-              <tr class="EncTabla">
-                <!-- <th style="background-color: #24a4cc; color: white;">NUM</th>                 -->
-                <th style="background-color: #24a4cc; color: white;">LN</th>                
-                <th style="background-color: #24a4cc; color: white;">CÓDIGO</th>              
-                <th style="background-color: #24a4cc; color: white;">F</th>              
-                <th style="background-color: #24a4cc; color: white;">DESCRIPCION</th>
-                <th style="background-color: #24a4cc; color: white; text-align: right;">TIPO</th>
-                <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
-                <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/TOTAL</th>
-                <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
-                <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/TOTAL</th>
-                <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
-              </tr>
-            </thead>
-            <tbody>
-              <ng-container *ngFor="let venArt of oVentasArticuloPzasImpRes.Contenido | searchventasclientearticulo: searchtext">
-                <!-- <tr class="table-info">                    
-                  <td class="FilasFonelli">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
+              </ng-container>
+                  <!-- TOTAL CATEGORIA-->
+                <tr>  
                   <td></td>
-                  <td></td>
+                  <td></td>      
+                  <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalPiezasxCategoria}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
+                  <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalGramosxCategoria}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
+                  <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalImpVenxCategoria}}</td>
+                </tr>  
+                  
+              </ng-container>
+
+            <!-- TOTAL CLIENTE-->
+            <tr>  
+              <td></td>
+              <td></td>      
+              <td class="FilasFonBold" style="text-align: right; color: #183e6f;">Total General</td>
+              <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{oVentasArticuloRes.TotalPiezasxCliente}}</td>
+              <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f; "></td>
+              <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{oVentasArticuloRes.TotalGramosxCliente}}</td>
+              <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right; color: #183e6f;"></td>
+              <td class="FilasFonBold" style="text-align: right; color: #183e6f;">{{oVentasArticuloRes.TotalImpVenxCliente}}</td>
+            </tr> 
+                      
+
+          </tbody>               
+        </table>
+    </div> 
+
+    <div class="" *ngIf="!bFiltroOrden" id="pdfTable" #pdfTable> <!--Piezas o importe-->
+      <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">
+        <thead>
+          <tr class="EncTabla">
+            <!-- <th style="background-color: #24a4cc; color: white;">NUM</th>                 -->
+            <th style="background-color: #24a4cc; color: white;">LN</th>                
+            <th style="background-color: #24a4cc; color: white;">CÓDIGO</th>              
+            <th style="background-color: #24a4cc; color: white;">F</th>              
+            <th style="background-color: #24a4cc; color: white;">DESCRIPCION</th>
+            <th style="background-color: #24a4cc; color: white; text-align: right;">TIPO</th>
+            <th style="background-color: #24a4cc; color: white; text-align: right;">PIEZAS</th>
+            <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%P/TOTAL</th>
+            <th style="background-color: #24a4cc; color: white; text-align: right;">GRAMOS</th>
+            <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: right;">%G/TOTAL</th>
+            <th style="background-color: #24a4cc; color: white; text-align: right;">IMPORTE VENTA</th>              
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let venArt of oVentasArticuloPzasImpRes.Contenido | searchventasclientearticulo: searchtext">
+            <!-- <tr class="table-info">                    
+              <td class="FilasFonelli">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td> 
+              <td></td>
+              <td></td>                 
+              <td></td>                 
+              <td></td>                 
+              <td></td>                 
+              <td></td>                 
+            </tr> -->
+                        
+              <tr class="table-warning" >
+                <td class="FilasFonelli">{{'CATEGORIA '+' ' +venArt.CategoriaCodigo + ': ' + venArt.CategoriaNombre }}</td>                  
+                <td></td>
+                <td></td>
+                <td></td> 
+                <td></td>
+                <td></td>                    
+                <td *ngIf="!bCliente"></td>                    
+                <td></td>                    
+                <td *ngIf="!bCliente"></td>                    
+                <td></td>                    
+              </tr> 
+
+              <ng-container *ngFor="let subCat of venArt.Subcategorias;">
+                <tr>  
+                  <td class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>
                   <td></td>
                   <td></td>
                   <td></td> 
                   <td></td>
-                  <td></td>                 
-                  <td></td>                 
-                  <td></td>                 
-                  <td></td>                 
-                  <td></td>                 
-                </tr> -->
-                            
-                  <tr class="table-warning" >
-                    <td class="FilasFonelli">{{'CATEGORIA '+' ' +venArt.CategoriaCodigo + ': ' + venArt.CategoriaNombre }}</td>                  
-                    <td></td>
-                    <td></td>
-                    <td></td> 
-                    <td></td>
-                    <td></td>                    
-                    <td *ngIf="!bCliente"></td>                    
-                    <td></td>                    
-                    <td *ngIf="!bCliente"></td>                    
-                    <td></td>                    
-                  </tr> 
+                  <td></td>
+                  <td *ngIf="!bCliente"></td>
+                  <td></td>
+                  <td *ngIf="!bCliente"></td>
+                  <td></td> 
+                </tr>  
 
-                  <ng-container *ngFor="let subCat of venArt.Subcategorias;">
-                    <tr>  
-                      <td class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>
-                      <td></td>
-                      <td></td>
-                      <td></td> 
-                      <td></td>
-                      <td></td>
-                      <td *ngIf="!bCliente"></td>
-                      <td></td>
-                      <td *ngIf="!bCliente"></td>
-                      <td></td> 
-                    </tr>  
+                
+                <tr *ngFor="let art of subCat.Detalle;">                  
+                  <td class="FilasFonelli">{{art.LineaCodigo}}</td>
+                  <td class="FilasFonelli"><div class="size">{{art.ArticuloCodigo}}</div></td>
+                  <td class="FilasFonelli">{{venArt.CategoriaCodigo}}</td>
+                  <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
+                  <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
+                  <td class="FilasFonelli" style="text-align: right;">{{art.PiezasAux}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.PiezasPorcentajeAux}}</td>
+                  <td class="FilasFonelli" style="text-align: right;">{{art.GramosAux}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.GramosPorcentajeAux}}</td>
+                  <td class="FilasFonelli" style="text-align: right;">{{art.ImporteVentaAux}}</td>                      
+                </tr>                     
 
-                    
-                    <tr *ngFor="let art of subCat.Detalle;">                  
-                      <td class="FilasFonelli">{{art.LineaCodigo}}</td>
-                      <td class="FilasFonelli"><div class="size">{{art.ArticuloCodigo}}</div></td>
-                      <td class="FilasFonelli">{{venArt.CategoriaCodigo}}</td>
-                      <td class="FilasFonelli">{{art.ArticuloDescripc}}</td>
-                      <td class="FilasFonelli">{{art.ArticuloTipo}}</td>
-                      <td class="FilasFonelli" style="text-align: right;">{{art.PiezasAux}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.PiezasPorcentajeAux}}</td>
-                      <td class="FilasFonelli" style="text-align: right;">{{art.GramosAux}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{art.GramosPorcentajeAux}}</td>
-                      <td class="FilasFonelli" style="text-align: right;">{{art.ImporteVentaAux}}</td>                      
-                    </tr>                     
+                <tr>      
+                  <td></td>      
+                  <td></td>      
+                  <td></td>      
+                  <td></td>      
+                  <td class="FilasFonelli" style="text-align: right;">Total SubCategoria</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasxSubCat}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasPorxSubCat}}</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosxSubCat}}</td>
+                  <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosPorxSubCat}}</td>
+                  <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalImpVenxSubCat}}</td>                    
+                  
+                </tr>  
 
-                    <tr>      
-                      <td></td>      
-                      <td></td>      
-                      <td></td>      
-                      <td></td>      
-                      <td class="FilasFonelli" style="text-align: right;">Total SubCategoria</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasxSubCat}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalPiezasPorxSubCat}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosxSubCat}}</td>
-                      <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;">{{subCat.TotalGramosPorxSubCat}}</td>
-                      <td class="FilasFonBold" style="text-align: right;">{{subCat.TotalImpVenxSubCat}}</td>                    
-                      
-                    </tr>  
+              </ng-container>
 
-                  </ng-container>
+              <tr>                      
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>      
+                <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
+                <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalPiezasxCategoria}}</td>
+                <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
+                <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalGramosxCategoria}}</td>
+                <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
+                <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalImpVenxCategoria}}</td>
 
-                  <tr>                      
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>      
-                    <td class="FilasFonelli" style="text-align: right;">Total Categoria</td>
-                    <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalPiezasxCategoria}}</td>
-                    <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                    <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalGramosxCategoria}}</td>
-                    <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-                    <td class="FilasFonBold" style="text-align: right;">{{venArt.TotalImpVenxCategoria}}</td>
+                
+              </tr>                    
 
-                    
-                  </tr>                    
+          
 
-              
+          <!-- TOTAL CLIENTE-->
+
+          
+        </ng-container> 
+        
+        <tr>  
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>      
+          <td class="FilasFonelli" style="text-align: right;">Total General</td>
+          <td class="FilasFonBold" style="text-align: right;">{{oVentasArticuloPzasImpRes.TotalPiezasGeneral}}</td>
+          <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
+          <td class="FilasFonBold" style="text-align: right;">{{oVentasArticuloPzasImpRes.TotalGramosGeneral}}</td>
+          <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
+          <td class="FilasFonBold" style="text-align: right;">{{this.oVentasArticuloPzasImpRes.TotalImpVenGeneral}}</td>
+        </tr> 
+
+
+      </tbody>               
+    </table>
+  </div> 
+
+</div> 
   
-              <!-- TOTAL CLIENTE-->
-
-              
-            </ng-container> 
-            
-            <tr>  
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>      
-              <td class="FilasFonelli" style="text-align: right;">Total General</td>
-              <td class="FilasFonBold" style="text-align: right;">{{oVentasArticuloPzasImpRes.TotalPiezasGeneral}}</td>
-              <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-              <td class="FilasFonBold" style="text-align: right;">{{oVentasArticuloPzasImpRes.TotalGramosGeneral}}</td>
-              <td *ngIf="!bCliente" class="FilasFonBold" style="text-align: right;"></td>
-              <td class="FilasFonBold" style="text-align: right;">{{this.oVentasArticuloPzasImpRes.TotalImpVenGeneral}}</td>
-            </tr> 
-
-  
-          </tbody>               
-        </table>
-      </div> 
-
-    </div> 
-  </section>
   
   
       
