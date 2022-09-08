@@ -147,7 +147,8 @@ export class FichatecnicaComponent implements OnInit {
         },
       order:[],
       ordering:false,
-      dom: 'Bfrltip"',
+      //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
+      dom: 'Brltip"',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
@@ -361,7 +362,7 @@ export class FichatecnicaComponent implements OnInit {
          //Resumen cartera
          for(var cart of this.oTipoCarteraRes){
           cart.TipoCarteraSaldoAux = this.formatoMoneda(cart.TipoCarteraSaldo);
-          cart.TipoCarteraSaldoVencidoAux = this.formatoMoneda(cart.TipoCarteraSaldo);
+          cart.TipoCarteraSaldoVencidoAux = this.formatoMoneda(cart.TipoCarteraSaldoVencido);
          }
         
         this. isCollapsed = true;

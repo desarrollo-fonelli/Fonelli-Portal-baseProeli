@@ -770,7 +770,7 @@ export class ConsultapedidosComponent implements OnInit {
               ' <td ></td>'+'\n'+
               ' <td class="FilasFonelli" style="text-align:left">Total General</td>'+'\n'+
               ' <td class="FilasFonelli" style="text-align:right"> '+this.oPedidoRes.Contenido.CantidadPedida+'</td>'+'\n'+
-              ' <td ></td>'+'\n'+
+              ' <td class="FilasFonelli" style="text-align:right">' + ( this.oPedidoRes.Contenido.CantidadPedida - this.oPedidoRes.Contenido.DiferenciaPedidosSurtido)+ '</td>'+'\n'+
               ' <td class="FilasFonelli" style="text-align:right"> '+this.oPedidoRes.Contenido.DiferenciaPedidosSurtido+'</td>'+'\n'+
             '</tr>'+'\n'+
           '</tbody>'+'\n'+
