@@ -507,9 +507,9 @@
         <tbody>
           <ng-container *ngFor="let venArt of oVentasCliRes.Contenido | searchventasclientearticulo: searchtext">
             <tr class="table-info">
-              <td class="FilasFonelli">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
-              <td></td>
-              <td></td>
+              <td colspan="3" class="FilasFonelli">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
               <td></td>
               <td *ngIf="!bCliente"></td>
               <td></td>
@@ -518,9 +518,9 @@
             </tr>
             <ng-container *ngFor="let cat of venArt.Categorias;">
               <tr class="table-warning" >
-                <td class="FilasFonelli">{{'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoriaNombre }}</td>
-                <td></td>
-              <td></td>
+              <td colspan="3" class="FilasFonelli">{{'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoriaNombre }}</td>
+              <td style="display: none"></td>
+              <td style="display: none"></td>
               <td></td>
               <td *ngIf="!bCliente"></td>
               <td></td>
@@ -530,9 +530,9 @@
 
               <ng-container *ngFor="let subCat of cat.Subcategorias;">
                   <tr>
-                  <td class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>
-                  <td></td>
-                  <td></td>
+                  <td colspan="3" class="FilasFonelli">{{subCat.SubcategoriaCodigo + ' - ' + subCat.SubcategoriaNombre }}</td>
+                  <td style="display: none"></td>
+                  <td style="display: none"></td>
                   <td></td>
                   <td *ngIf="!bCliente"></td>
                   <td></td>

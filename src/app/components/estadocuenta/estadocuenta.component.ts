@@ -738,73 +738,78 @@ consultaEstadoCuenta(){
         
 
 
-            this.oCliente.forEach(function(cliente){
-tabla = tabla +   '<tr class="table-info">' + '\n' +
-              '<td  class="FilasFonelli" colspan="13">'+cliente.ClienteCodigo+" "+cliente.ClienteFilial+ ") " +cliente.ClienteNombre+ "-" +cliente.Sucursal + '</td>' + '\n' +
-            '</tr>' + '\n';
+    this.oCliente.forEach(function(cliente){
+      tabla = tabla +
+        '<tr class="table-info">' + '\n' +
+          '<td  class="FilasFonelli" colspan="13">'+cliente.ClienteCodigo+" "+cliente.ClienteFilial+ ") " +cliente.ClienteNombre+ "-" +cliente.Sucursal + '</td>' + '\n' +
+        '</tr>' + '\n';
 
-              cliente.TipoCartera.forEach(function(cartera){
+      cliente.TipoCartera.forEach(function(cartera){    
 
-            
+        cartera.Movimientos.forEach(function(movimiento){
+    
+          tabla = tabla +   '<tr >' + '\n' +
+          '<td class="FilasFonelli">'+ movimiento.OficinaFonelliCodigo +'</td>' + '\n' +
+          '<td class="FilasFonelli">'+ cartera.TipoCarteraCodigo +'</td>' + '\n' +
+          '<td class="FilasFonelli">'+ movimiento.DocumentoSerie +'</td>' + '\n' +
+          '<td class="FilasFonelli">'+ movimiento.DocumentoFolio +'</td>' + '\n' +
+          '<td class="FilasFonelli">'+ movimiento.FechaExpedicion +'</td>' + '\n' +
+          '<td class="FilasFonelli">'+ movimiento.FechaVencimiento +'</td>' + '\n' +
+          '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.Cargos +'</td>' + '\n' +
+          '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.Abonos +'</td>' + '\n' +
+          '<td class="FilasFonelli" style="text-align:right;"> '+ movimiento.Saldo +'</td>' + '\n' +
+          '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.DiasVencimiento +'</td>' + '\n' +
+          '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.SaldoVencido +'</td>' + '\n' +
+          '<td class="FilasFonelli">'+ movimiento.Documento2Serie +'</td>' + '\n' +
+          '<td class="FilasFonelli">'+ movimiento.Referencia +'</td>'        + '\n' +   
+        '</tr>' + '\n' ;      
+        });      
+      });
+    });
 
-                cartera.Movimientos.forEach(function(movimiento){
+    tabla = tabla +
+    '</tbody>'+ '\n' +          
+    '</table>';
 
-            
-                  tabla = tabla +   '<tr >' + '\n' +
-                  '<td class="FilasFonelli">'+ movimiento.OficinaFonelliCodigo +'</td>' + '\n' +
-                  '<td class="FilasFonelli">'+ cartera.TipoCarteraCodigo +'</td>' + '\n' +
-                  '<td class="FilasFonelli">'+ movimiento.DocumentoSerie +'</td>' + '\n' +
-                  '<td class="FilasFonelli">'+ movimiento.DocumentoFolio +'</td>' + '\n' +
-                  '<td class="FilasFonelli">'+ movimiento.FechaExpedicion +'</td>' + '\n' +
-                  '<td class="FilasFonelli">'+ movimiento.FechaVencimiento +'</td>' + '\n' +
-                  '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.Cargos +'</td>' + '\n' +
-                  '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.Abonos +'</td>' + '\n' +
-                  '<td class="FilasFonelli" style="text-align:right;"> '+ movimiento.Saldo +'</td>' + '\n' +
-                  '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.DiasVencimiento +'</td>' + '\n' +
-                  '<td class="FilasFonelli" style="text-align:right;">'+ movimiento.SaldoVencido +'</td>' + '\n' +
-                  '<td class="FilasFonelli">'+ movimiento.Documento2Serie +'</td>' + '\n' +
-                  '<td class="FilasFonelli">'+ movimiento.Referencia +'</td>'        + '\n' +   
-                '</tr>' + '\n' ;
+    //RESUMEN TIPOS DE CARTERA
+    tabla = tabla + 
+      '<br>'+'\n'+
+      '<br>'+'\n'+
+      '<h6 class="card-title" style="color: #24a4cc; text-align: center;">Resumen tipos de cartera</h6> '+'\n';
 
+      tabla = tabla +
+      
+      ' <table class="table table-sm  ">'+'\n'+
+        ' <thead>'+'\n'+
+          ' <tr>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">CART</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;">DESCRIPCION</th>                  '+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;" >CARGOS</th>                  '+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;">ABONOS</th>                  '+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;">SALDO</th>                  '+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: right;">SALDO VENCIDO</th>                  '+'\n'+
+          ' </tr>'+'\n'+
+        ' </thead>'+'\n'+
+        ' <tbody>'+'\n';
 
-              
-                });
+        this.oResumenTipoCartera.forEach(function(resCartera){
+          tabla = tabla +
 
-              
-              });
+          ' <tr>'+'\n'+
+            ' <td>'+resCartera.TipoCarteraCodigo+'</td>'+'\n'+
+            ' <td>'+resCartera.TipoCarteraDescripc+'</td>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align:right;">'+resCartera.TipoCarteraCargosAux+'</td>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align:right;">'+resCartera.TipoCarteraAbonosAux+'</td>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align:right;">'+resCartera.TipoCarteraSaldoAux+'</td>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align:right;">'+resCartera.TipoCarteraSaldoVencidoAux+'</td>'+'\n'+
+          ' </tr>'+'\n';
+        });
 
+        tabla = tabla +
+        ' </tbody>'+'\n'+              
+        ' </table>'+'\n';
 
-            });
-
-            /*  '<ng-container *ngFor="let cliente of oCliente | searchestadocuenta: searchtext">' + '\n' +
-         
-              '<ng-container *ngFor="let cartera of cliente.TipoCartera;">' + '\n' +
-         
-                '<tr>' + '\n' +
-                  '<td></td>' + '\n' +
-                  '<td class="FilasFonelli">{{cartera.TipoCarteraCodigo}}</td>' + '\n' +
-                  '<td></td>' + '\n' +
-                  '<td></td>' + '\n' +
-                  '<td></td>' + '\n' +
-                  '<td  class="FilasFonelli" style="text-align:right;">{{cartera.TipoCarteraDescripc}}</td>' + '\n' +
-                  '<td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalCargos(cartera.Movimientos))}}</td>' + '\n' +
-                  '<td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalAbonos(cartera.Movimientos))}}</td>' + '\n' +
-                  '<td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalSaldo(cartera.Movimientos))}}</td>' + '\n' +
-                  '<td></td>' + '\n' +
-                  '<td  class="FilasFonelli" style="text-align:right;">{{formatoMoneda(getTotalVencido(cartera.Movimientos))}}</td>' + '\n' +
-                  '<td></td>' + '\n' +
-                  '<td></td>' + '\n' +
-                '</tr>' + '\n' +
-              '</ng-container>' + '\n' +
-             
-            '</ng-container>'      + '\n' +  */       
-            '</tbody>'      + '\n' +          
-          '</table>';
-
-
-
-          return tabla;
-
+      return tabla;
 
   }
 

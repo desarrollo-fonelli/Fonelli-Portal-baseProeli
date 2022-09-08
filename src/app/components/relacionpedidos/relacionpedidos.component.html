@@ -424,11 +424,11 @@
             <ng-container *ngFor="let relPed of oRelacionPedRes.Contenido | searchrelacionpedidos: searchtext ">
               <tr class="table-info">
                 <!-- <td *ngIf="!bCliente" ? colspan="14" :colspan="18">{{relPed.OficinaFonelliNombre}}</td> -->
-                <td class="sticky" >{{relPed.OficinaFonelliNombre}}</td> 
-                 <td></td> 
-                <td ></td> 
-                <td ></td>  
-                <td ></td> 
+                <td colspan="5" class="sticky" >{{relPed.OficinaFonelliNombre}}</td> 
+                <td style="display: none"></td> 
+                <td style="display: none"></td> 
+                <td style="display: none"></td>  
+                <td style="display: none"></td> 
                 <td ></td> 
                 <td *ngIf="!bCliente"></td> 
                 <td ></td> 
@@ -456,7 +456,7 @@
                   <td>{{cartera.TipoCarteraDescripc}}</td>
                   <td></td>
                 </tr> -->
-                <tr *ngFor="let pedido of tipoPed.Pedidos;" (click)="openPedidoDetalle(PedidoDetalle,pedido.PedidoFolio)" >
+                <tr *ngFor="let pedido of tipoPed.Pedidos;" (click)="openPedidoDetalle(PedidoDetalle,pedido.PedidoFolio,pedido.ClienteCodigo,pedido.ClienteFilial)" >
                   <!-- <td>{{idx1 + '-' + idx2 + '-' + idx3 }}</td> -->
                   <td class="FilasFonelli text-left sticky"><u>{{pedido.PedidoFolio}}</u></td>
                   <td *ngIf="!bCliente" class="FilasFonelli text-left">{{tipoPed.TipoPedidoCodigo}}</td>

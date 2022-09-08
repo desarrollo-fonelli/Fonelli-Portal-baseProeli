@@ -260,6 +260,7 @@ export class ReporteventasComponent implements OnInit {
         case 'A': { 
            //Agente; 
            this.oBuscar.AgenteCodigo = this.sCodigo; 
+           this.oBuscar.Usuario = this.sCodigo; 
            this.oBuscar.Tipo = "2";
            this.bCliente = false;    
            break; 
@@ -267,7 +268,8 @@ export class ReporteventasComponent implements OnInit {
         default: { 
            //Gerente;
            this.oBuscar.Tipo = "1";
-           this.oBuscar.AgenteCodigo = this.sCodigo;
+           this.oBuscar.Usuario = this.sCodigo;
+           //this.oBuscar.AgenteCodigo = this.sCodigo;
            this.bCliente = false;     
            break; 
         } 
@@ -518,7 +520,7 @@ export class ReporteventasComponent implements OnInit {
       
     console.log(this.oBuscar);
     //this.oBuscar.TipoUsuario = this.sTipo
-    this.oBuscar.Usuario = this.sCodigo
+    //this.oBuscar.Usuario = this.sCodigo;
     this.bCargando = true;
 
 
@@ -579,7 +581,7 @@ export class ReporteventasComponent implements OnInit {
                 subCat.PorcentajeValorAgregado1Aux = this.formatoMoneda(subCat.PorcentajeValorAgregado1);
                 
                 subCat.Piezas2Aux = this.formatoNumero(subCat.Piezas2);
-                subCat.Gramos2Aux = this.formatoMoneda(subCat.Gramos2);
+                subCat.Gramos2Aux = this.formatoNumero(subCat.Gramos2);
                 subCat.ImporteVenta2Aux = this.formatoMoneda(subCat.ImporteVenta2);
                 subCat.PorcentajeImporte2Aux = this.formatoNumero(subCat.PorcentajeImporte2);
                 subCat.ValorAgregado2Aux = this.formatoMoneda(subCat.ValorAgregado2);     
@@ -628,7 +630,7 @@ export class ReporteventasComponent implements OnInit {
               totSubCat.TotalPorcentajeValorAgregado1Aux = this.formatoMoneda(totSubCat.TotalPorcentajeValorAgregado1);
                 
               totSubCat.TotalPiezas2Aux = this.formatoNumero(totSubCat.TotalPiezas2);
-              totSubCat.TotalGramos2Aux = this.formatoMoneda(totSubCat.TotalGramos2);
+              totSubCat.TotalGramos2Aux = this.formatoNumero(totSubCat.TotalGramos2);
               totSubCat.TotalImporte2Aux = this.formatoMoneda(totSubCat.TotalImporte2);
               totSubCat.TotalPorcentajeImporte2Aux = this.formatoNumero(totSubCat.TotalPorcentajeImporte2);
               totSubCat.TotalValorAgregado2Aux = this.formatoMoneda(totSubCat.TotalValorAgregado2);     
@@ -637,14 +639,14 @@ export class ReporteventasComponent implements OnInit {
             }   
         }
 
-        this.oReporteVentasRes.Contenido.TotalGeneralCategxPiezas1 = this.formatoNumero(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'Piezas1'))
-        this.oReporteVentasRes.Contenido.TotalGeneralCategxGramos1 = this.formatoNumero(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'Gramos1'))
-        this.oReporteVentasRes.Contenido.TotalGeneralCategxImporteVenta1 = this.formatoMoneda(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'ImporteVenta1'))
-        this.oReporteVentasRes.Contenido.TotalGeneralCategxValorAgregado1 = this.formatoMoneda(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'ValorAgregado1')) 
-        this.oReporteVentasRes.Contenido.TotalGeneralCategxPiezas2 = this.formatoNumero(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'Piezas2')) 
-        this.oReporteVentasRes.Contenido.TotalGeneralCategxGramos2 = this.formatoNumero(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'Gramos2')) 
-        this.oReporteVentasRes.Contenido.TotalGeneralCategxImporteVenta2 = this.formatoMoneda(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'ImporteVenta2')) 
-        this.oReporteVentasRes.Contenido.TotalGeneralCategxValorAgregado2 = this.formatoMoneda(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'ValorAgregado2')) 
+        this.oReporteVentasRes.Contenido.TotalGeneralCategxPiezas1 = this.formatoNumero(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'TotalPiezas1'));
+        this.oReporteVentasRes.Contenido.TotalGeneralCategxGramos1 = this.formatoNumero(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'TotalGramos1'));
+        this.oReporteVentasRes.Contenido.TotalGeneralCategxImporteVenta1 = this.formatoMoneda(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'TotalImporte1'));
+        this.oReporteVentasRes.Contenido.TotalGeneralCategxValorAgregado1 = this.formatoMoneda(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'TotalValorAgregado1')) ;
+        this.oReporteVentasRes.Contenido.TotalGeneralCategxPiezas2 = this.formatoNumero(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'TotalPiezas2')) ;
+        this.oReporteVentasRes.Contenido.TotalGeneralCategxGramos2 = this.formatoNumero(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'TotalGramos2')) ;
+        this.oReporteVentasRes.Contenido.TotalGeneralCategxImporteVenta2 = this.formatoMoneda(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'TotalImporte2')) ;
+        this.oReporteVentasRes.Contenido.TotalGeneralCategxValorAgregado2 = this.formatoMoneda(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'TotalValorAgregado2')) ;
 
         this.isCollapsed = true;
  
