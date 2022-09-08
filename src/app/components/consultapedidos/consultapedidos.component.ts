@@ -369,6 +369,7 @@ export class ConsultapedidosComponent implements OnInit {
           this.bError = true;
           this.sMensaje = 'No se encontro detalle de pedido';
           this.bBanderaDet = false;
+          this.pedidoDet = [];
           return;
         }
 
@@ -427,7 +428,11 @@ export class ConsultapedidosComponent implements OnInit {
       (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         console.log('reason ' + reason);
-        this.pedidoDet = [];
+        this.bBanderaDet = true;
+        this.bBanderaDetPro = false;
+        this.bBanderaBtnPro = true;
+        this.bBanderaBtnPed = false;
+        //this.pedidoDet = null;
       }
     );
   }

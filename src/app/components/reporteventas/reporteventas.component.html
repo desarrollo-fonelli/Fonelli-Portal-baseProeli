@@ -508,8 +508,8 @@
             </div>
 
         <!-- <div *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable> -->
-        <div  class=""  id="pdfTable" #pdfTable>
-          <table *ngIf="oBuscar.DesglosaCategoria == 'S' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped">             
+        <div  class="contenedor-tabla"  id="pdfTable" #pdfTable>
+          <table *ngIf="oBuscar.DesglosaCategoria == 'S' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped" datatable [dtOptions]="dtOptions">             
             <thead>
               <tr class="EncTabla">                 
                 <th class="table-success" scope="col"></th>
@@ -530,83 +530,37 @@
               <tr   class="EncTabla">                 
                 <th style="background-color: #24a4cc; color: white;">NUM FIL</th>
                 <th style="background-color: #24a4cc; color: white;">RAZON SOCIAL</th>
-                <th style="background-color: #24a4cc;"></th>
-                <th style="background-color: #24a4cc;"></th>
-                <th style="background-color: #24a4cc;"></th>
+                <th></th>
+                <th></th>
+                <th></th>
                 <th style="background-color: #24a4cc; color: white;">S</th>
-                <th style="background-color: #24a4cc; color: white; text-align: right;">TL1</th>
-                <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TL2</th>
-                <th style="background-color: #24a4cc; color: white;">TP</th>
-                <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TC</th>
-                <th style="background-color: #24a4cc; color: white; text-align: right;">AG</th>    
-                <th style="background-color: #24a4cc;"></th>
-                <th style="background-color: #24a4cc;"></th>
-                <th style="background-color: #24a4cc;"></th>          
+                <th style="background-color: #24a4cc; color: white; text-align: center;">TL1</th>
+                <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: center;">TL2</th>
+                <th style="background-color: #24a4cc; color: white; text-align: center;">TP</th>
+                <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white; text-align: center;">TC</th>
+                <th style="background-color: #24a4cc; color: white; text-align: center;">AG</th>    
+                <th></th>
+                <th></th>
+                <th></th>          
               </tr>                
               
-            </thead>
-              <!-- <thead>
-                <tr class="EncTabla">                 
-                  <th class="table-success" scope="col"></th>
-                  <th class="table-success" scope="col"></th>
-                  <th class="table-warning" scope="col"  style="text-align:center;"> 1er Periodo</th>  
-                  <th class="table-info" scope="col" style="text-align:center;">2do Periodo</th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-
-                <tr class="EncTabla">                 
-                  <th class="table-success" scope="col"></th>
-                  <th class="table-success" scope="col"></th>
-                  <th class="table-warning" scope="col"  style="text-align:center;"> desde {{oBuscar.Fecha1Desde}}</th>  
-                  <th class="table-warning" scope="col"  style="text-align:center;">hasta {{oBuscar.Fecha1Hasta}} </th>
-                  <th class="table-info" scope="col"  style="text-align:center;"> desde {{oBuscar.Fecha2Desde}}</th>  
-                  <th class="table-info" scope="col"  style="text-align:center;">hasta {{oBuscar.Fecha2Hasta}} </th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-
-                <tr   class="EncTabla">                 
-                  <th style="background-color: #24a4cc; color: white;">NUM FIL</th>
-                  <th style="background-color: #24a4cc; color: white;">RAZON SOCIAL</th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th style="background-color: #24a4cc; color: white;">S</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">TL1</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TL2</th>
-                  <th style="background-color: #24a4cc; color: white;">TP</th>
-                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TC</th>
-                  <th style="background-color: #24a4cc; color: white; text-align: right;">AG</th>    
-                  <th></th>
-                  <th></th>
-                  <th></th>          
-                </tr>                
-                
-              </thead> -->
+            </thead>           
               <tbody>
                 
                 <ng-container *ngFor="let cli of oClienteCont">                  
                     <tr  class="EncTabla">
-                      <td colspan="8" class="FilasFonelli">{{cli.ClienteCodigo + ' ' + cli.ClienteFilial +' '+ cli.ClienteNombre }}</td>
+                      <td  colspan='5' class="FilasFonelli">{{cli.ClienteCodigo + ' ' + cli.ClienteFilial +' '+ cli.ClienteNombre }}</td>
+                      <td style="display: none"></td>
+                      <td style="display: none"></td>
+                      <td style="display: none"></td>
+                      <td style="display: none"></td> 
+                      <td class="FilasFonelli">{{cli.ClienteStatus}}</td>
+                      <td class="FilasFonelli" style="text-align: center;">{{cli.Lista1}}</td>
+                      <td class="FilasFonelli" style="text-align: center;">{{cli.Lista2}}</td>
+                      <td class="FilasFonelli" style="text-align: center;">{{cli.TipoParidad}}</td>
+                      <td class="FilasFonelli" style="text-align: center;">{{cli.TipoCliente}}</td>
+                      <td class="FilasFonelli" style="text-align: center;">{{cli.AgenteCodigo}}</td>
                       <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td> 
                       <td></td>
                       <td></td>
                     </tr>
@@ -673,139 +627,124 @@
               </tbody>               
           </table>
 
-          <table *ngIf="oBuscar.DesglosaCategoria == 'N' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped" datatable [dtOptions]="dtOptions"> 
-              <!-- <table class="table table-bordered" > -->
-                <thead>
-                  <tr class="EncTabla">                 
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-warning" scope="col" style="text-align:center;"> 1er Periodo</th>  
-                    <th class="table-info" scope="col" style="text-align:center;">2do Periodo</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-  
-                  <tr class="EncTabla">                 
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-success" scope="col"></th>
-                    <th class="table-warning" scope="col" style="text-align:center;"> desde {{oBuscar.Fecha1Desde}}</th>  
-                    <th class="table-warning" scope="col" style="text-align:center;">hasta {{oBuscar.Fecha1Hasta}} </th>
-                    <th class="table-info" scope="col"  style="text-align:center;"> desde {{oBuscar.Fecha2Desde}}</th>  
-                    <th class="table-info" scope="col"  style="text-align:center;">hasta {{oBuscar.Fecha2Hasta}} </th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-  
+          <table *ngIf="oBuscar.DesglosaCategoria == 'N' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped" datatable [dtOptions]="dtOptions">             
+              <thead>
+                <tr class="EncTabla">                 
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-warning" scope="col" colspan="6" style="text-align:center;"> 1er Periodo</th>  
+                  <th class="table-info" scope="col" colspan="6" style="text-align:center;">2do Periodo</th>
+                </tr>
 
-                  
-                  <tr class="EncTabla">                 
-                    <th style="background-color: #24a4cc; color: white;">Numero</th>
-                    <th style="background-color: #24a4cc; color: white;">Fil</th>
-                    <th style="background-color: #24a4cc; color: white;">RAZON SOCIAL</th>
-                    <th style="background-color: #24a4cc; color: white;">S</th>
-                    <th style="background-color: #24a4cc; color: white; text-align: right;">TL1</th>
-                    <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TL2</th>
-                    <th style="background-color: #24a4cc; color: white;">TP</th>
-                    <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TC</th>
-                    <th style="background-color: #24a4cc; color: white; text-align: right;">AG</th>
-                    <th style="background-color: #24a4cc; color: white;">Piezas</th>
-                    <th style="background-color: #24a4cc; color: white; ">Gramos</th>
-                    <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>
-                    <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>
-                    <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>
-                    <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>              
-                    <th style="background-color: #24a4cc; color: white;">Piezas</th>
-                    <th style="background-color: #24a4cc; color: white;;">Gramos</th>
-                    <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>
-                    <th style="background-color: #24a4cc; color: white;">%S/Tot</th>
-                    <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>
-                    <th style="background-color: #24a4cc; color: white;">%S/Tot</th>     
-                  </tr> 
-                  
-                </thead>
-                <tbody>
-                  
-                  <ng-container *ngFor="let cli of oClienteCont">                  
-            
-                          <tr>  
-                            <td class="FilasFonelli">{{cli.ClienteCodigo}}</td>
-                            <td class="FilasFonelli">{{cli.ClienteFilial}}</td>
-                            <td class="FilasFonelli">{{cli.ClienteNombre}}</td>
-                            <td class="FilasFonelli">{{cli.ClienteStatus}}</td>
-                            <td class="FilasFonelli">{{cli.Lista1}}</td>
-                            <td class="FilasFonelli">{{cli.Lista2}}</td>
-                            <td class="FilasFonelli">{{cli.TipoParidad}}</td>
-                            <td class="FilasFonelli">{{cli.TipoCliente}}</td>
-                            <td class="FilasFonelli">{{cli.AgenteCodigo}}</td>
-                            <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexPiezas1}}</td>
-                            <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexGramos1}}</td>
-                            <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexImporteVenta1}}</td>
-                            <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexPorcentajeImporte1}}</td>
-                            <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexValorAgregado1}}</td>
-                            <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexPorcentajeValorAgregado1}}</td>
-                            <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexPiezas2}}</td>
-                            <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexGramos2}}</td>
-                            <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexImporteVenta2}}</td>
-                            <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexPorcentajeImporte2}}</td>
-                            <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexValorAgregado2}}</td>
-                            <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexPorcentajeValorAgregado2}}</td>
-                            
-                          </tr> 
+                <tr class="EncTabla">                 
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-success" scope="col"></th>
+                  <th class="table-warning" scope="col" colspan="3" style="text-align:center;"> desde {{oBuscar.Fecha1Desde}}</th>  
+                  <th class="table-warning" scope="col" colspan="3" style="text-align:center;">hasta {{oBuscar.Fecha1Hasta}} </th>
+                  <th class="table-info" scope="col" colspan="3" style="text-align:center;"> desde {{oBuscar.Fecha2Desde}}</th>  
+                  <th class="table-info" scope="col" colspan="3" style="text-align:center;">hasta {{oBuscar.Fecha2Hasta}} </th>
+                </tr>
+
+
+                
+                <tr class="EncTabla">                 
+                  <th style="background-color: #24a4cc; color: white;">Numero</th>
+                  <th style="background-color: #24a4cc; color: white;">Fil</th>
+                  <th style="background-color: #24a4cc; color: white;">RAZON SOCIAL</th>
+                  <th style="background-color: #24a4cc; color: white;">S</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">TL1</th>
+                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TL2</th>
+                  <th style="background-color: #24a4cc; color: white;">TP</th>
+                  <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">TC</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">AG</th>
+                  <th style="background-color: #24a4cc; color: white;">Piezas</th>
+                  <th style="background-color: #24a4cc; color: white; ">Gramos</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>
+                  <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>
+                  <th style="background-color: #24a4cc; color: white; ">%S/Tot</th>              
+                  <th style="background-color: #24a4cc; color: white;">Piezas</th>
+                  <th style="background-color: #24a4cc; color: white;;">Gramos</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">Importe</th>
+                  <th style="background-color: #24a4cc; color: white;">%S/Tot</th>
+                  <th style="background-color: #24a4cc; color: white; text-align: right;">Val Agreg</th>
+                  <th style="background-color: #24a4cc; color: white;">%S/Tot</th>     
+                </tr> 
+                
+              </thead>
+              <tbody>
+                
+                <ng-container *ngFor="let cli of oClienteCont">                  
+          
+                        <tr>  
+                          <td class="FilasFonelli">{{cli.ClienteCodigo}}</td>
+                          <td class="FilasFonelli">{{cli.ClienteFilial}}</td>
+                          <td class="FilasFonelli">{{cli.ClienteNombre}}</td>
+                          <td class="FilasFonelli">{{cli.ClienteStatus}}</td>
+                          <td class="FilasFonelli">{{cli.Lista1}}</td>
+                          <td class="FilasFonelli">{{cli.Lista2}}</td>
+                          <td class="FilasFonelli">{{cli.TipoParidad}}</td>
+                          <td class="FilasFonelli">{{cli.TipoCliente}}</td>
+                          <td class="FilasFonelli">{{cli.AgenteCodigo}}</td>
+                          <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexPiezas1}}</td>
+                          <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexGramos1}}</td>
+                          <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexImporteVenta1}}</td>
+                          <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexPorcentajeImporte1}}</td>
+                          <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexValorAgregado1}}</td>
+                          <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexPorcentajeValorAgregado1}}</td>
+                          <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexPiezas2}}</td>
+                          <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexGramos2}}</td>
+                          <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexImporteVenta2}}</td>
+                          <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexPorcentajeImporte2}}</td>
+                          <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexValorAgregado2}}</td>
+                          <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexPorcentajeValorAgregado2}}</td>
+                          
+                        </tr> 
+                   
+
                      
+                </ng-container>
+                <tr>  
+                  <td class="FilasFonelli"></td>
+                  <td class="FilasFonBold"></td>
+                  <td class="FilasFonBold"></td>
+                  <td class="FilasFonBold"></td>
+                  <td class="FilasFonBold"></td>
+                  <td class="FilasFonBold"></td>
+                  <td class="FilasFonBold"></td>
+                  <td class="FilasFonBold"></td>
+                  <td class="FilasFonBold"></td>
+                  <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxPiezas1}}</td>
+                  <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxGramos1}}</td>
+                  <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxImporteVenta1}}</td>
+                  <td class="FilasFonBold table-warning" style="text-align: right;"></td>
+                  <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxValorAgregado1}}</td>
+                  <td class="FilasFonBold table-warning" style="text-align: right;"></td>
+                  <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxPiezas2}}</td>
+                  <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxGramos2}}</td>
+                  <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxImporteVenta2}}</td>
+                  <td class="FilasFonBold table-info" style="text-align: right;"></td>
+                  <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxValorAgregado2}}</td>
+                  <td class="FilasFonBold table-info" style="text-align: right;"></td>        
+                </tr>                 
+              </tbody>               
+        </table>
 
-                       
-                  </ng-container>
-                  <tr>  
-                    <td class="FilasFonelli"></td>
-                    <td class="FilasFonBold"></td>
-                    <td class="FilasFonBold"></td>
-                    <td class="FilasFonBold"></td>
-                    <td class="FilasFonBold"></td>
-                    <td class="FilasFonBold"></td>
-                    <td class="FilasFonBold"></td>
-                    <td class="FilasFonBold"></td>
-                    <td class="FilasFonBold"></td>
-                    <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxPiezas1}}</td>
-                    <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxGramos1}}</td>
-                    <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxImporteVenta1}}</td>
-                    <td class="FilasFonBold table-warning" style="text-align: right;"></td>
-                    <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxValorAgregado1}}</td>
-                    <td class="FilasFonBold table-warning" style="text-align: right;"></td>
-                    <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxPiezas2}}</td>
-                    <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxGramos2}}</td>
-                    <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxImporteVenta2}}</td>
-                    <td class="FilasFonBold table-info" style="text-align: right;"></td>
-                    <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxValorAgregado2}}</td>
-                    <td class="FilasFonBold table-info" style="text-align: right;"></td>                        
-                </tbody>               
-          </table>
+        
         </div> 
 
 
@@ -847,7 +786,7 @@
         <br>
 
           <h2 class="card-title">Total General</h2> 
-        <table class="table table-hover table-striped " style="display:block;   overflow-x: auto;" [style.height.px]="sHeight">
+        <table class="table table-hover table-striped">
             <thead>
 
               <tr class="EncTabla">                 
@@ -915,17 +854,17 @@
                <tr>  
                 <td class="FilasFonelli"></td>
                 <td class="FilasFonBold"></td>
-                <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxPiezas1}}</td>
-                <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxGramos1}}</td>
-                <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxImporteVenta1}}</td>
+                <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxPiezas1}}</td>
+                <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxGramos1}}</td>
+                <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxImporteVenta1}}</td>
                 <td class="FilasFonBold table-warning" style="text-align: right;"></td>
-                <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxValorAgregado1}}</td>
+                <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxValorAgregado1}}</td>
                 <td class="FilasFonBold table-warning" style="text-align: right;"></td>
-                <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxPiezas2}}</td>
-                <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxGramos2}}</td>
-                <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxImporteVenta2}}</td>
+                <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxPiezas2
+                <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxGramos2}}</td>
+                <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxImporteVenta2}}</td>
                 <td class="FilasFonBold table-info" style="text-align: right;"></td>
-                <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxValorAgregado2}}</td>
+                <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxValorAgregado2}}</td>
                 <td class="FilasFonBold table-info" style="text-align: right;"></td>
                 
               </tr>

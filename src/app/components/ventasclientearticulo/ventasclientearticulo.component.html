@@ -518,7 +518,7 @@
             </tr>
             <ng-container *ngFor="let cat of venArt.Categorias;">
               <tr class="table-warning" >
-                <td class="FilasFonelli">{{'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoNombre }}</td>
+                <td class="FilasFonelli">{{'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoriaNombre }}</td>
                 <td></td>
               <td></td>
               <td></td>
@@ -677,7 +677,7 @@
         <ng-container *ngFor="let venArtPzaImp of oVentasCliArtPzasImpRes.Contenido | searchventasclientearticulo: searchtext">
 
           <tr class="table-warning" >
-            <td class="FilasFonelli">{{'CATEGORIA ' +venArtPzaImp.CategoriaCodigo + ' : ' + venArtPzaImp.CategoNombre }}</td>
+            <td class="FilasFonelli">{{'CATEGORIA ' +venArtPzaImp.CategoriaCodigo + ' : ' + venArtPzaImp.CategoriaNombre }}</td>
             <td></td>
             <td></td>
             <td></td>
