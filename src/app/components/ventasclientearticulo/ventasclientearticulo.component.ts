@@ -1430,7 +1430,7 @@ reemplaza(valor: string, valorAReemplazar: string){
       venArt.Categorias.forEach(function(cat){
         tabla = tabla +
         ' <tr class="table-warning" >'+'\n'+
-          ' <td class="FilasFonelli">'+'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoNombre +'</td>'+'\n'+
+          ' <td class="FilasFonelli">'+'CATEGORIA ' +cat.CategoriaCodigo + ' : ' + cat.CategoriaNombre +'</td>'+'\n'+
           ' <td></td>'+'\n'+
           ' <td></td>'+'\n'+
           ' <td></td>'+'\n'+

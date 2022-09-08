@@ -18,6 +18,15 @@ export interface Contenido {
     TotalGeneralxGramos2: string;
     TotalGeneralxImporteVenta2: string;
     TotalGeneralxValorAgregado2: string;
+
+    TotalGeneralCategxPiezas1: string;
+    TotalGeneralCategxGramos1: string;
+    TotalGeneralCategxImporteVenta1: string;
+    TotalGeneralCategxValorAgregado1: string;
+    TotalGeneralCategxPiezas2: string;
+    TotalGeneralCategxGramos2: string;
+    TotalGeneralCategxImporteVenta2: string;
+    TotalGeneralCategxValorAgregado2: string;
 }
 
 export interface Cliente {

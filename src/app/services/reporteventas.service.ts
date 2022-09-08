@@ -43,7 +43,7 @@ Get(FiltrosReporteVentas: any): Observable<any>{
     this.sFiltros += '&Usuario=' + FiltrosReporteVentas.Usuario;
     }
 
-    if(FiltrosReporteVentas.AgenteCodigo)
+    if(FiltrosReporteVentas.Tipo == '2')
     {
     this.sFiltros += '&AgenteCodigo=' + FiltrosReporteVentas.AgenteCodigo;
     }

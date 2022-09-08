@@ -467,6 +467,9 @@ export class ConsultainactivosComponent implements OnInit {
 
     var cadenaaux = pdfTable.innerHTML;
 
+    cadenaaux = this.TablaInactivos(this.bBanCtaCorrMN_SAL, this.bBanCtaCorrORO_SAL, this.bBanCtaCorrDLLS_SAL, this.bBanCtaDocMN_SAL, this.bBanCtaDocORO_SAL, this.bBanCtaDocDLLS_SAL, this.bBanCtaCorrMN_VEN, 
+      this.bBanCtaCorrORO_VEN, this.bBanCtaCorrDLLS_VEN, this.bBanCtaDocMN_VEN, this.bBanCtaDocORO_VEN, this.bBanCtaDocDLLS_VEN);
+
     let cadena =
       '<br><p>Agende desde: <strong>' +this.oBuscar.AgenteDesde +' - '+ this.obtenNombreAgente(this.oBuscar.AgenteDesde)+'<br></strong> Agente Hasta: <strong>' +this.oBuscar.AgenteHasta +' - '+this.obtenNombreAgente(this.oBuscar.AgenteHasta)+'</strong></p>' +      
       cadenaaux;
@@ -475,12 +478,12 @@ export class ConsultainactivosComponent implements OnInit {
     console.log(cadena);
 
     var html = htmlToPdfmake(cadena);
-    html[2].table.headerRows= 2;
+   html[2].table.headerRows= 2;
     console.log(html);
     const documentDefinition = {
     
       pageSize: {
-        width: 1500,
+        width: 1400,
         height: 820
       },
       pageOrientation: 'landscape',
@@ -496,14 +499,14 @@ export class ConsultainactivosComponent implements OnInit {
           width: 160 
         },
       {
-        width:1120,
+        width:1050,
         text: 'Consulta de inactivos',
         alignment: 'center',
         style: 'header',
         margin: [8,8]    
       },
       {
-        width: 170,
+        width: 120,
         text: this.fechaHoy, 
         alignment: 'right',
         margin: [2, 15]
@@ -648,6 +651,418 @@ export class ConsultainactivosComponent implements OnInit {
   }
   
 
+
+  TablaInactivos(bBanCtaCorrMN_SAL, bBanCtaCorrORO_SAL, bBanCtaCorrDLLS_SAL, bBanCtaDocMN_SAL, bBanCtaDocORO_SAL, bBanCtaDocDLLS_SAL, bBanCtaCorrMN_VEN, bBanCtaCorrORO_VEN, bBanCtaCorrDLLS_VEN, bBanCtaDocMN_VEN, bBanCtaDocORO_VEN, bBanCtaDocDLLS_VEN): string
+  {
+
+  var tabla = "";
+
+
+  tabla =  ' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">' + '\n' +
+            ' <thead>' + '\n' +
+              ' <tr class="EncTabla">' + '\n' +                 
+                ' <th  colspan="7" class="table-warning" scope="col"></th>' + '\n' +
+                ' <th class="table-warning" scope="col" colspan='+this.sColSaldo+' style="text-align:center; color: #24a4cc;">SALDO TOTAL</th>  ' + '\n' +
+                ' <th class="table-success" scope="col" colspan='+this.sColVencido+' style="text-align:center; color: #24a4cc;">SALDO VENCIDO</th>' + '\n' +
+                ' <th colspan="2" style="text-align:center; background-color:#24a4cc;"></th>' + '\n' +
+
+              ' </tr>' + '\n' +
+              ' <tr class="EncTabla">' + '\n' +
+              ' <th style="background-color: #24a4cc; color: white;" scope="col" >CLIENTE</th>' + '\n' +
+              ' <th style="background-color: #24a4cc; color: white;" scope="col">FIL</th>' + '\n' +
+              ' <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>' + '\n' +
+              ' <th style="background-color: #24a4cc; color: white; " scope="col">SUCURSAL</th>' + '\n' +
+              ' <th style="background-color: #24a4cc; color: white;" scope="col">L1</th>' + '\n' +
+              ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">L2</th>' + '\n' +
+              ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">PLAZO</th>' + '\n';
+
+
+              if(this.bBanCtaCorrMN_SAL){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaCorrMN_SAL" style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>' + '\n';
+              }
+
+              if(this.bBanCtaCorrORO_SAL){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaCorrORO_SAL" style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>' + '\n' ;
+              }
+
+              if(this.bBanCtaCorrDLLS_SAL){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaCorrDLLS_SAL"style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_DLLS</th>' + '\n' ;
+              }
+
+              if(this.bBanCtaDocMN_SAL){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaDocMN_SAL" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            ' + '\n' ;
+              }
+
+              if(this.bBanCtaDocORO_SAL){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaDocORO_SAL" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_ORO</th>            ' + '\n' ;
+              }
+
+              if(this.bBanCtaDocDLLS_SAL){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaDocDLLS_SAL" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_DLLS</th>            ' + '\n' ;
+              }
+
+              if(this.bBanCtaCorrMN_VEN){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaCorrMN_VEN" style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>' + '\n' ;
+              }
+
+              if(this.bBanCtaCorrORO_VEN){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaCorrORO_VEN" style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>' + '\n' ;
+              }
+
+              if(this.bBanCtaCorrDLLS_VEN){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaCorrDLLS_VEN" style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_DLLS</th>' + '\n' ;
+              }
+
+              if(this.bBanCtaDocMN_VEN){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaDocMN_VEN" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            ' + '\n' ;
+              }
+
+              if(this.bBanCtaDocORO_VEN){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaDocORO_VEN" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_ORO</th>            ' + '\n' ;
+              }
+
+              if(this.bBanCtaDocDLLS_VEN){
+                tabla = tabla+
+                ' <th *ngIf="bBanCtaDocDLLS_VEN" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_DLLS</th>            ' + '\n' ;
+              }
+              
+              tabla = tabla+
+              ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DÍAS</th>' + '\n' +
+              ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PED</th>' + '\n' +
+            ' </tr>' + '\n' +
+            ' </thead>' + '\n' +
+            ' <tbody>' + '\n';
+
+            this.oClientesInacRes.Contenido.forEach(function(con){
+              tabla = tabla +
+              ' <tr class="table-info">' + '\n' +
+                ' <td class="FilasFonelli">Agente</td>   ' + '\n' +
+                ' <td>'+con.AgenteCodigo+'</td>' + '\n' +
+                ' <td>'+con.AgenteNombre+'</td>' + '\n' +
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' ;
+
+                if(bBanCtaCorrMN_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrMN_SAL"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrORO_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrORO_SAL"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrDLLS_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrDLLS_SAL"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaDocMN_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocMN_SAL"></td>            ' + '\n' ;
+                }
+  
+                if(bBanCtaDocORO_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocORO_SAL"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaDocDLLS_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocDLLS_SAL"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrMN_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrMN_VEN"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrORO_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrORO_VEN"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrDLLS_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrDLLS_VEN"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaDocMN_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocMN_VEN"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaDocORO_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocORO_VEN"></td>' + '\n' ;
+                }
+  
+                if(bBanCtaDocDLLS_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocDLLS_VEN"></td> ' + '\n' ;
+                }
+                tabla = tabla+
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' +
+              ' </tr>' + '\n';
+             
+
+
+              
+              con.Clientes.forEach(function(cli){
+                tabla = tabla +   
+                '<tr >' + '\n' +
+                  ' <td class="FilasFonelli" style="text-align:left">'+ cli.ClienteCodigo+'</td>' + '\n' +
+                  ' <td class="FilasFonelli"> '+cli.ClienteFilial +'</td>' + '\n' +
+                  ' <td class="FilasFonelli" >'+ cli.ClienteNombre+'</td>' + '\n' +
+                  ' <td class="FilasFonelli" style="text-align:left">'+ cli.ClienteSucursal+'</td>' + '\n' +
+                  ' <td class="FilasFonelli" style="text-align:left">'+ cli.Lista1+'</td>' + '\n' +
+                  ' <td class="FilasFonelli" style="text-align:left">'+ cli.Lista2+'</td>' + '\n' +
+                  ' <td class="FilasFonelli" style="text-align:left">'+ cli.Plazo+'</td>               ' + '\n' ;
+
+
+                  if(bBanCtaCorrMN_SAL){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaCorrMN_SAL+'</td>' + '\n' ;
+                  }
+    
+                  if(bBanCtaCorrORO_SAL){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaCorrORO_SAL+'</td>' + '\n' ;
+                  }
+    
+                  if(bBanCtaCorrDLLS_SAL){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaCorrDLLS_SAL+'</td>' + '\n' ;
+                  }
+    
+                  if(bBanCtaDocMN_SAL){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaDocMN_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaDocMN_SAL+'</td>' + '\n' ;
+                  }
+    
+                  if(bBanCtaDocORO_SAL){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaDocORO_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaDocORO_SAL+'</td>' + '\n' ;
+                  }
+    
+                  if(bBanCtaDocDLLS_SAL){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaDocDLLS_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaDocDLLS_SAL+'</td>' + '\n' ;
+                  }
+    
+                  if(bBanCtaCorrMN_VEN){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaCorrMN_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaCorrMN_VEN+'</td>' + '\n' ;
+                  }
+    
+                  if(bBanCtaCorrORO_VEN){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaCorrORO_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaCorrORO_VEN+'</td>' + '\n' ;
+                  }
+    
+                  if(bBanCtaCorrDLLS_VEN){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaCorrDLLS_VEN+'</td>' + '\n' ;
+                  }
+    
+                  if(bBanCtaDocMN_VEN){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaDocMN_VEN+'</td> ' + '\n' ;
+                  }
+    
+                  if(bBanCtaDocORO_VEN){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaDocORO_VEN+'</td> ' + '\n' ;
+                  }
+    
+                  if(bBanCtaDocDLLS_VEN){
+                    tabla = tabla+
+                    ' <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaDocDLLS_VEN+'</td> ' + '\n' ;
+                  }
+                  tabla = tabla+
+                  ' <td class="FilasFonelli" style="text-align:right">'+ cli.DiasAtraso+'</td>' + '\n' +
+                  ' <td class="FilasFonelli" style="text-align:left">'+ cli.PedidosActivos+'</td>' + '\n' +
+                  
+                ' </tr>' + '\n' ;
+              });
+
+              tabla = tabla +   
+              ' <tr>' + '\n' +     
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' +
+                ' <td class="FilasFonBold" style="text-align:right">Total agente</td>               ' + '\n' ;
+  
+  
+                if(bBanCtaCorrMN_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaCorrMN_SAL+'</td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrORO_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaCorrORO_SAL+'</td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrDLLS_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaCorrDLLS_SAL+'</td>' + '\n' ;
+                }
+  
+                if(bBanCtaDocMN_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocMN_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaDocMN_SAL+'</td>' + '\n' ;
+                }
+  
+                if(bBanCtaDocORO_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocORO_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaDocORO_SAL+'</td>' + '\n' ;
+                }
+  
+                if(bBanCtaDocDLLS_SAL){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocDLLS_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaDocDLLS_SAL+'</td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrMN_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrMN_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaCorrMN_VEN+'</td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrORO_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrORO_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaCorrORO_VEN+'</td>' + '\n' ;
+                }
+  
+                if(bBanCtaCorrDLLS_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaCorrDLLS_VEN+'</td>' + '\n' ;
+                }
+  
+                if(bBanCtaDocMN_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaDocMN_VEN+'</td> ' + '\n' ;
+                }
+  
+                if(bBanCtaDocORO_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaDocORO_VEN+'</td> ' + '\n' ;
+                }
+  
+                if(bBanCtaDocDLLS_VEN){
+                  tabla = tabla+
+                  ' <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaDocDLLS_VEN+'</td> ' + '\n' ;
+                }    
+                tabla = tabla+
+                ' <td></td>' + '\n' +
+                ' <td></td>' + '\n' +                
+              ' </tr>' + '\n' ;
+
+            });
+
+            tabla = tabla +   
+            ' <tr>     ' + '\n' +
+              ' <td></td>' + '\n' +
+              ' <td></td>' + '\n' +
+              ' <td></td>' + '\n' +
+              ' <td></td>' + '\n' +
+              ' <td></td>' + '\n' +
+              ' <td></td>' + '\n' +
+              ' <td class="FilasFonBold" style="text-align:right">Total general</td>               ' + '\n' ;
+  
+              if(bBanCtaCorrMN_SAL){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaCorrMN_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrMN_SAL +'</td>' + '\n' ;
+              }
+  
+              if(bBanCtaCorrORO_SAL){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaCorrORO_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrORO_SAL +'</td>' + '\n' ;
+              }
+  
+              if(bBanCtaCorrDLLS_SAL){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaCorrDLLS_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrDLLS_SAL +'</td>' + '\n' ;
+              }
+  
+              if(bBanCtaDocMN_SAL){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaDocMN_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocMN_SAL +'</td>' + '\n' ;
+              }
+  
+              if(bBanCtaDocORO_SAL){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaDocORO_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocORO_SAL +'</td>' + '\n' ;
+              }
+  
+              if(bBanCtaDocDLLS_SAL){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaDocDLLS_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocDLLS_SAL +'</td>' + '\n' ;
+              }
+  
+              if(bBanCtaCorrMN_VEN){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaCorrMN_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrMN_VEN +'</td>' + '\n' ;
+              }
+  
+              if(bBanCtaCorrORO_VEN){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaCorrORO_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrORO_VEN +'</td>' + '\n' ;
+              }
+  
+              if(bBanCtaCorrDLLS_VEN){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaCorrDLLS_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrDLLS_VEN +'</td>' + '\n' ;
+              }
+  
+              if(bBanCtaDocMN_VEN){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaDocMN_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocMN_VEN +'</td> ' + '\n' ;
+              }
+  
+              if(bBanCtaDocORO_VEN){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaDocORO_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocORO_VEN +'</td> ' + '\n' ;
+              }
+  
+              if(bBanCtaDocDLLS_VEN){
+                tabla = tabla+
+                ' <td *ngIf="bBanCtaDocDLLS_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocDLLS_VEN +'</td> ' + '\n' ;
+              }  
+              tabla = tabla+
+              ' <td></td>' + '\n' +
+              ' <td></td>' + '\n' +              
+              ' </tr>' + '\n'+    
+            '</tbody>'+ '\n' +          
+          '</table>'; 
+
+
+        
+  
+  
+          return tabla;      
+
+   
+
+
+  }
 
 
   //Funcion para cerrar sesion y redireccionar al home

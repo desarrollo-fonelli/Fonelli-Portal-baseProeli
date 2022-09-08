@@ -20,8 +20,7 @@
                 <h2 class="card-title" >Estado de cuenta</h2>
   
                 <!-- General Form Elements -->
-                <form>
-  
+                <form>  
                     <div class="form-row">
                         <div class="form-group col-md-3">
                           <label class="CamposFonelli">Desde cliente</label>
@@ -187,14 +186,14 @@
             <tbody>
               <ng-container *ngFor="let cliente of oCliente | searchestadocuenta: searchtext">
                 <tr class="table-info">
-                  <td  class="FilasFonelli" >{{'('+cliente.ClienteCodigo+' '+cliente.ClienteFilial+ ') ' +cliente.ClienteNombre+ '-' +cliente.Sucursal}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td colspan="8" class="FilasFonelli" >{{'('+cliente.ClienteCodigo+' '+cliente.ClienteFilial+ ') ' +cliente.ClienteNombre+ '-' +cliente.Sucursal}}</td>
+                <td style="display: none"></td>
+                <td style="display: none"></td>
+                <td style="display: none"></td>                 
+                <td style="display: none"></td>
+                <td style="display: none"></td>
+                <td style="display: none"></td>
+                <td style="display: none"></td>
                 <td></td>
                 <td></td>
                 <td></td>

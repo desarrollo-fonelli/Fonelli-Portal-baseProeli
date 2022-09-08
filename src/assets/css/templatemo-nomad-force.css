@@ -907,7 +907,7 @@ thead, tbody tr {
   max-height: 75vh;
   overflow: auto;
   border: 0px solid;
-  display: inline-block;  
+  /* display: inline-block;   */
 }
 
 table {
@@ -919,7 +919,7 @@ thead th {
   top: 0;
   background: white;
   z-index: 1;
-  border-bottom: 2px solid;
+  /* border-bottom: 2px solid; */
 }
 
 th,
