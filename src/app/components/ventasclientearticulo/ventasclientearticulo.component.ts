@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild} from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild,ViewChildren, OnDestroy, QueryList} from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { DecimalPipe } from '@angular/common';
@@ -7,6 +7,8 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
 
 //Modelos
@@ -56,7 +58,7 @@ import {
     ServicioVentasClienteArticuloPzasImp
   ]
 })
-export class VentasclientearticuloComponent implements OnInit {
+export class VentasclientearticuloComponent implements OnInit,OnDestroy {
 
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
@@ -73,7 +75,12 @@ export class VentasclientearticuloComponent implements OnInit {
   public oBuscarOfi: FiltrosOficina;
   oOficinasRes: Oficina; 
 
-  dtOptions: any = {};
+  //dtOptions: any = {};
+  @ViewChildren(DataTableDirective) 
+  datatableElementList: QueryList<DataTableDirective>;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger1: Subject<any> = new Subject();
+  dtTrigger2: Subject<any> = new Subject();
 
   public oBuscarLineas: FiltrosLineas;
   oLineasRes: Lineas; 
@@ -170,14 +177,36 @@ export class VentasclientearticuloComponent implements OnInit {
 
     ngOnInit(): void {
 
-      this.dtOptions = {
+      this.dtOptions[0] = {
         pagingType: 'full_numbers',
         pageLength: 10,
         processing: true,
-        fixedHeader: { 
-          header: true, 
-          footer: false 
-          },
+
+        order:[],
+        ordering:false,
+        dom: 'Bfrltip"',
+        language: {
+          url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        },  
+        buttons: [
+          {
+            extend: 'excelHtml5',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+            title: 'Consulta de pedidos',
+            className: "btnFonelliRosa btn"
+            
+          }
+        ]
+     
+        
+      };
+
+
+      this.dtOptions[1] = {
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+
         order:[],
         ordering:false,
         dom: 'Bfrltip"',
@@ -482,7 +511,9 @@ export class VentasclientearticuloComponent implements OnInit {
           }
 
 
-
+          this.dtTrigger1.next("");
+      
+          this.dtTrigger2.next("");
 
       
     }
@@ -582,6 +613,9 @@ export class VentasclientearticuloComponent implements OnInit {
           
           this.isCollapsed = true;
 
+          $("#firstTable").DataTable().destroy();
+          this.dtTrigger1.next("");
+
           },
           (error:VentasClienteArticulo) => {
     
@@ -661,6 +695,9 @@ export class VentasclientearticuloComponent implements OnInit {
             this.bBandera = true;
             this.bCargando = false;
             this.isCollapsed = true;
+
+            $("#secondTable").DataTable().destroy();
+            this.dtTrigger2.next("");
     
           },
           (error:VentasClienteArticuloPzasImp) => {
@@ -1577,5 +1614,15 @@ reemplaza(valor: string, valorAReemplazar: string){
     this._router.navigate(['/']);    
   }
 
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger1.unsubscribe();
+    this.dtTrigger2.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    //this.dtTrigger1.next("");
+    //this.dtTrigger2.next("");
+  }
 
 }

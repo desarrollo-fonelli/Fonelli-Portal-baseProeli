@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild} from '@angular/core';
+import { Component, OnInit,OnDestroy,ChangeDetectorRef, ElementRef,ViewChildren, ViewChild, QueryList} from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { DecimalPipe } from '@angular/common';
@@ -7,6 +7,8 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
 
 //Modelos
@@ -50,7 +52,7 @@ import {
     ServicioVentasArticuloPzasImp
   ]
 })
-export class VentasarticuloComponent implements OnInit {
+export class VentasarticuloComponent implements OnInit, OnDestroy {
 
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
@@ -61,7 +63,11 @@ export class VentasarticuloComponent implements OnInit {
 
   searchtext = '';
 
-  dtOptions: any = {};
+  @ViewChildren(DataTableDirective) 
+  datatableElementList: QueryList<DataTableDirective>;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger1: Subject<any> = new Subject();
+  dtTrigger2: Subject<any> = new Subject();
 
 
   public oBuscar: FiltrosVentasArticulo;
@@ -130,6 +136,8 @@ export class VentasarticuloComponent implements OnInit {
       this.oBuscarOfi =  new FiltrosOficina('',0)
       this.oOficinasRes = {} as Oficina;
 
+      this.oVentasArticuloPzasImpRes = {} as VentasArticuloPzasImp;
+
       this.bCliente = false;
       this.bBandera = false;
       this.bFiltroOrden = false;
@@ -141,8 +149,36 @@ export class VentasarticuloComponent implements OnInit {
 
    
   
-      this.dtOptions = {
+      this.dtOptions[0] = {
         pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        destroy:true,
+        fixedHeader: { 
+          header: true, 
+          footer: false 
+          },
+        order:[],
+        ordering:false,
+        dom: 'Bfrltip"',
+        language: {
+          url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        },  
+        buttons: [
+          {
+            extend: 'excelHtml5',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+            title: 'Consulta de pedidos',
+            className: "btnFonelliRosa btn"
+            
+          }
+        ]
+     
+        
+      };
+      this.dtOptions[1] = {
+        pagingType: 'full_numbers',
+        destroy:true,
         pageLength: 10,
         processing: true,
         fixedHeader: { 
@@ -167,6 +203,7 @@ export class VentasarticuloComponent implements OnInit {
      
         
       };
+
   
       //Se agrega validacion control de sesion distribuidores
       if(!this.sCodigo) {
@@ -393,6 +430,10 @@ export class VentasarticuloComponent implements OnInit {
           }
 
           
+   
+      this.dtTrigger1.next("");
+      
+      this.dtTrigger2.next("");
           
 
       
@@ -489,6 +530,13 @@ export class VentasarticuloComponent implements OnInit {
         this.oVentasArticuloRes.TotalImpVenxCliente = this.formatoMoneda(this.getTotalImpVenGeneral(this.oVentasArticuloRes.Contenido))                     
 
 
+        $("#firstTable").DataTable().destroy();
+        this.dtTrigger1.next("");
+       // $("#secondTable").DataTable().destroy();
+         //   this.dtTrigger2.next("");
+  
+    
+
          this.isCollapsed = true;
 
 
@@ -571,6 +619,14 @@ export class VentasarticuloComponent implements OnInit {
             this.bBandera = true;
             this.bCargando = false;
             this.isCollapsed = true;
+
+           
+           // $("#firstTable").DataTable().destroy();
+            //this.dtTrigger1.next("");
+
+            $("#secondTable").DataTable().destroy();
+            this.dtTrigger2.next("");
+        
     
           },
           (error:VentasArticuloPzasImp) => {
@@ -1290,6 +1346,17 @@ downloadAsPDF() {
   EliminaSesion() {
     localStorage.clear();
     this._router.navigate(['/']);    
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger1.unsubscribe();
+    this.dtTrigger2.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    //this.dtTrigger1.next("");
+    //this.dtTrigger2.next("");
   }
 
 

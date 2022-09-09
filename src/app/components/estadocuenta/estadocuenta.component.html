@@ -141,7 +141,7 @@
             </div>
 </div>      
 
-<div *ngIf="bBandera" class="container float-left">
+<div [hidden]="!bBandera" class="container float-left">
           <br>
           <div class="container">
             <div class="form-row">
@@ -165,7 +165,7 @@
           </div>
     
         <div class="container" id="pdfTable" #pdfTable>
-          <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions" >
+          <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  >
             <thead>
               <tr class="EncTabla">
                 <th style="background-color: #24a4cc; color: white;">OF</th><!--Codigo oficina -->
@@ -246,7 +246,7 @@
           <br>
           <br>
           <!-- Tablas resumen status cliente y resumen tipo cliente  -->
-          <div *ngIf="bBandera" >
+          <div [hidden]="!bBandera" >
             <div class="container">
               <div class="row">
 

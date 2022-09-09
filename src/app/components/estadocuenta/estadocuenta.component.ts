@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef,OnDestroy, ElementRef, ViewChild } from '@angular/core';
 import { Router,ActivatedRoute,Params, OutletContext } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { DecimalPipe } from '@angular/common';
@@ -7,6 +7,9 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
+
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
 //Modelos
 import {FiltrosEstadoCuenta} from 'src/app/models/estadocuenta.filtros';
@@ -42,7 +45,7 @@ import {
     DecimalPipe,ServicioClientes,
     ServicioTiposCartera]
 })
-export class EstadocuentaComponent implements OnInit {
+export class EstadocuentaComponent implements OnInit, OnDestroy {
 
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
@@ -54,6 +57,10 @@ export class EstadocuentaComponent implements OnInit {
   searchtext = '';
 
   dtOptions: any = {};
+  dtTrigger: Subject<any> = new Subject();
+
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
 
   public oBuscar: FiltrosEstadoCuenta;
   oEdoCuentaRes: EstadoCuenta; 
@@ -424,6 +431,13 @@ consultaEstadoCuenta(){
            
         }
   
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance.destroy();
+          // Call the dtTrigger to rerender again
+          this.dtTrigger.next("");
+        });
+    
 
         this.isCollapsed = true;
 
@@ -813,6 +827,13 @@ consultaEstadoCuenta(){
 
   }
 
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
 
+  ngAfterViewInit(): void {
+    this.dtTrigger.next("");
+  }
 
 }
