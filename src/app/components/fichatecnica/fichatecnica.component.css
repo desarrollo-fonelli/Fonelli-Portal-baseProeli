@@ -2,12 +2,12 @@ thead tr Th {
     position: sticky;
     z-index: 12;
     top: 60px;
-    background: white;
+    /* background: white; */
     }
     
     thead Th {
         position: fixed;
         z-index: 12;
         top: 300px;
-        background: white;
+        /* background: white; */
     }

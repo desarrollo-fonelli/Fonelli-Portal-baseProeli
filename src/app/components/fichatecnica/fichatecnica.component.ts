@@ -92,6 +92,7 @@ export class FichatecnicaComponent implements OnInit {
 
   public Buscar: FiltrosClientes;
   public oCliente: Clientes; 
+  public oDatosCliente: Clientes; 
   public oContenido : Contenido;
   public oCondiciones : Condiciones;
   public oDatosGenerales : DatosGenerales;
@@ -519,58 +520,143 @@ export class FichatecnicaComponent implements OnInit {
     }
   }
 
+  
   //Funcion para seleccionar cliente
   obtenCliente(sCodigo: string) {
 
-      this.oBuscar.Cliente = Number(sCodigo);
-      //this.oBuscar.ClienteFilial = Number(sFilial);
+    this.oBuscar.Cliente = Number(sCodigo);
+    //this.oBuscar.ClienteFilial = Number(sFilial);
 
-      this.ModalActivo.dismiss('Cross click');    
+    this.ModalActivo.dismiss('Cross click');    
+  }
+
+BuscaClientes():boolean{
+
+  this._servicioCClientes
+  .GetCliente(this.Buscar)
+  .subscribe(
+    (Response: Clientes) =>  {
+      
+
+      this.oCliente = Response;
+
+      console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
+      this.bCargandoClientes =false;
+
+
+      if(this.oCliente.Codigo != 0){
+        this.bError= true;
+        this.sMensaje="No se encontraron datos del cliente";
+ 
+        return false;
+      }
+ 
+      this.oContenido = this.oCliente.Contenido[0];
+      this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+      this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+      this.oContacto =this.oCliente.Contenido[0].Contactos;
+      return true;
+
+   
+    },
+    (error:Clientes) => {
+
+      this.oCliente = error;
+
+      console.log("error");
+      console.log(this.oCliente);
+      this.bCargandoClientes =false;
+      return false;
+   
+    }
+    
+  );
+  return true;
+}  
+
+    //Modal datos cliente
+    openDatosCliente(DatoCliente: any) {
+      console.log("Entra modal datos cliente");
+      
+      var result;
+  
+      try{
+        result = this.BuscaDatosCliente()
+       
+  
+        if(result){
+          this.ModalActivo = this.modalService.open(DatoCliente, {
+            ariaLabelledBy: 'DatoCliente',
+            size: 'xl',
+            scrollable: true
+            
+          });
+      
+          this.ModalActivo.result.then(
+            (result) => {},
+            (reason) => {
+              this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              console.log('reason ' + reason);
+              this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+            }
+          );
+        }
+  
+        
+  
+  
+        console.log("respuesta"+result);
+  
+      }catch(err){
+        
+      }
     }
 
-  BuscaClientes():boolean{
-
-    this._servicioCClientes
-    .GetCliente(this.Buscar)
-    .subscribe(
-      (Response: Clientes) =>  {
-        
-
-        this.oCliente = Response;
-
-        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
-        this.bCargandoClientes =false;
-
-
-        if(this.oCliente.Codigo != 0){
-          this.bError= true;
-          this.sMensaje="No se encontraron datos del cliente";
-   
-          return false;
-        }
-   
-        this.oContenido = this.oCliente.Contenido[0];
-        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-        this.oContacto =this.oCliente.Contenido[0].Contactos;
-        return true;
-
-     
-      },
-      (error:Clientes) => {
-
-        this.oCliente = error;
-
-        console.log("error");
-        console.log(this.oCliente);
-        this.bCargandoClientes =false;
-        return false;
-     
-      }
+    BuscaDatosCliente():boolean{
       
-    );
-    return true;
-  }  
+      this.Buscar.ClienteCodigo = this.oBuscar.Cliente;
+
+      this._servicioCClientes      
+      .GetCliente(this.Buscar)
+      .subscribe(
+        (Response: Clientes) =>  {
+          
+  
+          this.oDatosCliente = Response;
+  
+          console.log("Respuesta datos cliente"+JSON.stringify(this.oDatosCliente));
+        //  this.bCargandoClientes =false;
+  
+  
+          if(this.oDatosCliente.Codigo != 0){
+            this.bError= true;
+            this.sMensaje="No se encontraron datos del cliente";     
+            return false;
+          }
+     
+          // this.oContenido = this.oCliente.Contenido[0];
+          // this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          // this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+          // this.oContacto =this.oCliente.Contenido[0].Contactos;
+          return true;
+  
+       
+        },
+        (error:Clientes) => {
+  
+          this.oDatosCliente = error;
+  
+          console.log("error");
+          console.log(this.oCliente);
+          this.bCargandoClientes =false;
+          return false;
+       
+        }
+        
+      );
+      return true;
+    }  
+
 
    // #### Obten totales categoria ####
    getTotalCategoria(subCat: Subcategorias[], sValor: string): number {   
