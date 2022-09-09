@@ -97,8 +97,19 @@ export class FichatecnicaComponent implements OnInit {
   public oCondiciones : Condiciones;
   public oDatosGenerales : DatosGenerales;
   public oContacto : Contactos;
+  public bMostrarDatos: boolean;
+
+  //Busqueda de datos cliente detalle
+  public BuscarCliente: FiltrosClientes;
+  public oDatosClienteDet: Clientes; 
+  public oContenidoDet : Contenido;
+  public oCondicionesDet : Condiciones;
+  public oDatosGeneralesDet : DatosGenerales;
+  public oContactoDet : Contactos;
 
   
+  active = 1;
+
   private _mobileQueryListener: () => void;
 
   constructor(
@@ -129,10 +140,21 @@ export class FichatecnicaComponent implements OnInit {
 
     this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
     this.oCliente={} as Clientes;
+    this.oDatosCliente={} as Clientes;
     this.oContenido ={} as Contenido;
     this.oCondiciones ={} as Condiciones;
     this.oDatosGenerales ={} as DatosGenerales;
     this.oContacto ={} as Contactos;
+
+    //Busqueda datos de cliente detalle
+    this.BuscarCliente= new FiltrosClientes(0, 0, 0,'', 0);
+    this.oDatosClienteDet={} as Clientes;
+    this.oContenidoDet ={} as Contenido;
+    this.oCondicionesDet ={} as Condiciones;
+    this.oDatosGeneralesDet ={} as DatosGenerales;
+    this.oContactoDet ={} as Contactos;
+
+    this.bMostrarDatos = false;
 }
 
   ngOnInit(): void {
@@ -578,6 +600,7 @@ BuscaClientes():boolean{
     //Modal datos cliente
     openDatosCliente(DatoCliente: any) {
       console.log("Entra modal datos cliente");
+      this.bMostrarDatos = false;//Se setea el detalle de los datos
       
       var result;
   
@@ -1004,6 +1027,58 @@ BuscaClientes():boolean{
   
     }
   
+
+    consultaCliente(filial){
+    
+      this.bMostrarDatos=false;
+      //this.sMensaje="";
+      //this.bCargando = true;
+      console.log("Entra a consultar detalle cliente");
+  
+
+      this.BuscarCliente.ClienteCodigo = this.oBuscar.Cliente;
+      this.BuscarCliente.ClienteFilial = filial;
+
+      this._servicioCClientes
+      .GetCliente(this.BuscarCliente)
+      .subscribe(
+        (Response: Clientes) => {
+
+          this.oDatosClienteDet = Response;
+
+          console.log("Respuesta cliente"+JSON.stringify(this.oDatosClienteDet));
+
+
+          if(this.oDatosClienteDet.Codigo != 0){
+
+            this.bError= true;
+            // this.sMensaje="No se encontraron datos del cliente detalle";
+            // this.bCargando = false;
+            return;
+          }
+    
+          this.oContenidoDet = this.oDatosClienteDet.Contenido[0];
+          this.oCondicionesDet = this.oDatosClienteDet.Contenido[0].Condiciones;
+          this.oDatosGeneralesDet =this.oDatosClienteDet.Contenido[0].DatosGenerales;
+          this.oContactoDet =this.oDatosClienteDet.Contenido[0].Contactos;
+          this.bMostrarDatos=true;
+          // this.bCargando = false;
+      
+        },
+        (error:Clientes) => {
+
+          this.oCliente = error;
+
+          console.log("error");
+          console.log(this.oDatosClienteDet);
+          this.bMostrarDatos=false;
+          // this.bCargando = false;
+      
+        }
+      );
+
+  }
+
 
 
   //Funcion para cerrar sesion y redireccionar al home
