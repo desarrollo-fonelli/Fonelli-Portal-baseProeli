@@ -486,7 +486,7 @@
 </div>
 </div>    
 
-<div *ngIf="bBandera" class="container float-left" >
+<div  [hidden]="!bBandera" class="container float-left" >
             <br>
             <div class="form-row">
               <!-- <div class="form-group col-md-1">              
@@ -508,8 +508,9 @@
             </div>
 
         <!-- <div *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable> -->
-        <div  class="contenedor-tabla"  id="pdfTable" #pdfTable>
-          <table *ngIf="oBuscar.DesglosaCategoria == 'S' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped" datatable [dtOptions]="dtOptions">             
+        <div  class=""  id="pdfTable" #pdfTable>
+         <div [hidden]="!bMuestraTablaA ">
+          <table    class="table table-hover table-striped" id="firstTable" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger1">             
             <thead>
               <tr class="EncTabla">                 
                 <th class="table-success" scope="col"></th>
@@ -613,9 +614,10 @@
                       <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexPiezas1}}</td>
                       <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexGramos1}}</td>
                       <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexImporteVenta1}}</td>
+                                     
                       <td class="FilasFonBold table-warning" style="text-align: right;"></td>
                       <td class="FilasFonBold table-warning" style="text-align: right;">{{cli.TotalesClientexValorAgregado1}}</td>
-                      <td class="FilasFonBold table-warning" style="text-align: right;"></td>
+                       <td class="FilasFonBold table-warning" style="text-align: right;"></td>
                       <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexPiezas2}}</td>
                       <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexGramos2}}</td>
                       <td class="FilasFonBold table-info" style="text-align: right;">{{cli.TotalesClientexImporteVenta2}}</td>
@@ -627,7 +629,9 @@
               </tbody>               
           </table>
 
-          <table *ngIf="oBuscar.DesglosaCategoria == 'N' && oBuscar.DesglosaCliente =='S'" class="table table-hover table-striped" datatable [dtOptions]="dtOptions">             
+        </div>
+        <div [hidden]="!bMuestraTablaB">
+          <table class="table table-hover table-striped" id="secondTable" datatable [dtOptions]="dtOptions[1]"  [dtTrigger]="dtTrigger2">             
               <thead>
                 <tr class="EncTabla">                 
                   <th class="table-success" scope="col"></th>
@@ -737,13 +741,15 @@
                   <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxPiezas2}}</td>
                   <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxGramos2}}</td>
                   <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxImporteVenta2}}</td>
+        
                   <td class="FilasFonBold table-info" style="text-align: right;"></td>
+     
                   <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralxValorAgregado2}}</td>
                   <td class="FilasFonBold table-info" style="text-align: right;"></td>        
                 </tr>                 
               </tbody>               
         </table>
-
+      </div>
         
         </div> 
 
@@ -766,17 +772,20 @@
                 <tr>  
                   <td class="FilasFonBold" style="text-align: right;">Cliente con venta</td>
                   <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesConVenta1}}</td>
-                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesConVenta2}}</td>                  
+                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesConVenta2}}</td>     
+              
                 </tr>
                 <tr>  
                   <td class="FilasFonBold" style="text-align: right;">Cliente sin venta</td>
                   <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesSinVenta1}}</td>
-                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesSinVenta2}}</td>                  
+                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesSinVenta2}}</td>  
+                        
                 </tr>
                 <tr>  
                   <td class="FilasFonBold" style="text-align: right;">Cliente totales</td>
                   <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesTotales1}}</td>
-                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesTotales2}}</td>                  
+                  <td class="FilasFonBold" style="text-align: right;">{{oClienteConVentaCont.ClientesTotales2}}</td>       
+                           
                 </tr>
               </ng-container>
           </tbody>               
@@ -857,14 +866,18 @@
                 <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxPiezas1}}</td>
                 <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxGramos1}}</td>
                 <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxImporteVenta1}}</td>
+      
                 <td class="FilasFonBold table-warning" style="text-align: right;"></td>
                 <td class="FilasFonBold table-warning" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxValorAgregado1}}</td>
+             
                 <td class="FilasFonBold table-warning" style="text-align: right;"></td>
                 <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxPiezas2}}</td>
                 <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxGramos2}}</td>
                 <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxImporteVenta2}}</td>
+
                 <td class="FilasFonBold table-info" style="text-align: right;"></td>
                 <td class="FilasFonBold table-info" style="text-align: right;">{{oReporteVentasRes.Contenido.TotalGeneralCategxValorAgregado2}}</td>
+
                 <td class="FilasFonBold table-info" style="text-align: right;"></td>
                 
               </tr>

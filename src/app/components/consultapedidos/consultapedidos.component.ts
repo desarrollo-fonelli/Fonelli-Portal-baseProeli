@@ -167,10 +167,6 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      fixedHeader: { 
-        header: true, 
-        footer: false 
-        },
       order:[],
       ordering:false,
       dom: 'Bfrltip"',
@@ -302,6 +298,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
    }
 
 
+
   }
 
   //Funcion para consultar los pedidos
@@ -342,6 +339,13 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
         this.bCargando = false;
         this.isCollapsed = true;
 
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance.destroy();
+          // Call the dtTrigger to rerender again
+          this.dtTrigger.next("");
+        });
+
       },
       (error: ConsultaPedido) => {
         this.oPedidoRes = error;
@@ -352,12 +356,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
       }
     );
 
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
-      dtInstance.destroy();
-      // Call the dtTrigger to rerender again
-      this.dtTrigger.next("");
-    });
+
 
 
   }
@@ -406,6 +405,15 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
         this.bBanderaDet = true;
         this.sMensaje = '';
         //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
+
+
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance.destroy();
+          // Call the dtTrigger to rerender again
+          this.dtTrigger.next("");
+        });
+
       },
       (error: DetallePedido) => {
         this.oPedidoDetalleRes = error;

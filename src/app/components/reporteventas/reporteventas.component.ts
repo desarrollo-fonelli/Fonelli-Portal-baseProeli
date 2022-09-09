@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild} from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild,ViewChildren, OnDestroy, QueryList} from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { DecimalPipe } from '@angular/common';
@@ -7,11 +7,13 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
 
 
 //Modelos
 import { FiltrosReporteVentas } from 'src/app/models/reporteventas.filtros';
-import { ReporteVentas, Cliente, Categorias as CliCategoriasCon, ClientesConVenta, TotalGeneralCategorias } from 'src/app/models/reporteventas';
+import { ReporteVentas, Cliente, Categorias as CliCategoriasCon, ClientesConVenta, TotalGeneralCategorias, Contenido } from 'src/app/models/reporteventas';
 import {FiltrosClientes} from 'src/app/models/clientes.filtros';
 import { Clientes } from 'src/app/models/clientes';
 import { Contenido as ContenidoCli } from 'src/app/models/clientes';
@@ -59,7 +61,7 @@ import {
     ServicioAgentes
   ]
 })
-export class ReporteventasComponent implements OnInit {
+export class ReporteventasComponent implements OnInit, OnDestroy {
 
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
@@ -70,7 +72,11 @@ export class ReporteventasComponent implements OnInit {
 
   searchtext = '';
 
-  dtOptions: any = {};
+  @ViewChildren(DataTableDirective) 
+  datatableElementList: QueryList<DataTableDirective>;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger1: Subject<any> = new Subject();
+  dtTrigger2: Subject<any> = new Subject();
 
   public oBuscar: FiltrosReporteVentas;
   oReporteVentasRes: ReporteVentas; 
@@ -90,6 +96,10 @@ export class ReporteventasComponent implements OnInit {
   public bCliente: boolean;
   public bFiltroOrden: boolean;
   public bFiltrResumido: boolean;
+
+  public bMuestraTablaA: boolean  =false;
+  public bMuestraTablaB: boolean  =false;
+
   bBandera: boolean;
   public isCollapsed = false;
 
@@ -160,18 +170,19 @@ export class ReporteventasComponent implements OnInit {
 	    this.oDatosGenerales ={} as DatosGenerales;
 	    this.oContacto ={} as Contactos;
 
+      this.oReporteVentasRes = {} as ReporteVentas;
+      this.oReporteVentasRes.Contenido = {} as Contenido;
+      this.oClienteConVentaCont = {} as ClientesConVenta;
+
     }
 
     ngOnInit(): void {
 
-      this.dtOptions = {
+      this.dtOptions[0] = {
         pagingType: 'full_numbers',
         pageLength: 10,
         processing: true,
-        fixedHeader: { 
-          header: true, 
-          footer: false 
-          },
+
         order:[],
         ordering:false,
         dom: 'Bfrltip"',
@@ -183,28 +194,36 @@ export class ReporteventasComponent implements OnInit {
             className: "btnFonelliRosa btn"
             
           }
-          // {
-          //     extend: 'pdfHtml5',
-          //     text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
-          //     className: "btnFonelliRosa btn",
-          //     title: 'Consulta de pedidos',
-          //     orientation: 'landscape',
-          //     messageTop: 'Consulta pedidos 2'/*,
-          //     customize: function (win) {
-          //       $(win.document.body).find('th').addClass('display').css('text-align', 'center');
-          //       $(win.document.body).find('th').addClass('display').css('background-color', '#24a4cc');
-          //       $(win.document.body).find('table').addClass('display').css('font-size', '16px');
-          //       $(win.document.body).find('table').addClass('display').css('text-align', 'center');
-          //       $(win.document.body).find('tr:nth-child(odd) td').each(function (index) {
-          //       $(this).css('background-color', '#D0D0D0');});
-          //                   $(win.document.body).find('h1').css('text-align', 'center');
-          //     }*/
-              
-          //   }
         ]
-     
+
         
       };
+
+      this.dtOptions[1] = {
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+
+        order:[],
+        ordering:false,
+        dom: 'Bfrltip"',
+        buttons: [
+          {
+            extend: 'excelHtml5',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+            title: 'Consulta de pedidos',
+            className: "btnFonelliRosa btn"
+            
+          }
+        ]
+
+        
+      };
+
+      this.dtTrigger1.next("");
+      
+      this.dtTrigger2.next("");
+          
 
       console.log("La resolución de tu pantalla es: " + screen.width + " x " + screen.height);
 
@@ -550,6 +569,28 @@ export class ReporteventasComponent implements OnInit {
          }
  
          this.sMensaje="";
+
+         //public bMuestraTablaA: boolean  =false;
+         //public bMuestraTablaB: boolean  =false;
+
+if(this.oBuscar.DesglosaCategoria == 'S' && this.oBuscar.DesglosaCliente =='S')
+{
+  this.bMuestraTablaA = true;
+  this.bMuestraTablaB = false;
+}
+else if(this.oBuscar.DesglosaCategoria == 'N' && this.oBuscar.DesglosaCliente =='S')
+{
+  this.bMuestraTablaA = false;
+  this.bMuestraTablaB = true;
+}
+else
+{
+  this.bMuestraTablaA = false;
+  this.bMuestraTablaB = false;
+}
+
+
+
          this.bBandera = true;
          /*if (this.oBuscar.OrdenReporte == 'C'){
           this.bFiltroOrden = true;//Es categoria
@@ -649,6 +690,15 @@ export class ReporteventasComponent implements OnInit {
         this.oReporteVentasRes.Contenido.TotalGeneralCategxValorAgregado2 = this.formatoMoneda(this.getTotalesGeneralCateg(this.oClienteGeneralCatCont,'TotalValorAgregado2')) ;
 
         this.isCollapsed = true;
+
+
+      
+
+
+        $("#firstTable").DataTable().destroy();
+        this.dtTrigger1.next("");
+        $("#secondTable").DataTable().destroy();
+            this.dtTrigger2.next("");
  
        },
        (error:ReporteVentas) => {
@@ -1645,6 +1695,17 @@ downloadAsPDF() {
     this._router.navigate(['/']);    
   }
 
+  
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger1.unsubscribe();
+    this.dtTrigger2.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    //this.dtTrigger1.next("");
+    //this.dtTrigger2.next("");
+  }
 
 }
 

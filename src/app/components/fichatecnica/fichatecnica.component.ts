@@ -3,7 +3,8 @@ import {
   OnInit,
   ChangeDetectorRef,
   ElementRef,
-  ViewChild,
+  ViewChild
+  ,ViewChildren, OnDestroy, QueryList
 } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -21,9 +22,12 @@ import {
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
 
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
+
 //Modelos
 import { FiltrosFichaTecnica } from 'src/app/models/fichatecnica.filtros';
-import { FichaTecnica, VentasAnioA as AnioAnterior, VentasAnioA as AnioActual, ResumenCartera,PedidosActivos, Subcategorias ,VentasAnioA} from 'src/app/models/fichatecnica';
+import { FichaTecnica, VentasAnioA as AnioAnterior, VentasAnioA as AnioActual, ResumenCartera,PedidosActivos, Subcategorias ,VentasAnioA,Contenido as ftContenido  } from 'src/app/models/fichatecnica';
 
 
 import {FiltrosClientes} from 'src/app/models/clientes.filtros';
@@ -57,7 +61,11 @@ export class FichatecnicaComponent implements OnInit {
 
   public bCliente: boolean;
 
-  dtOptions: any = {};
+  @ViewChildren(DataTableDirective) 
+  datatableElementList: QueryList<DataTableDirective>;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger1: Subject<any> = new Subject();
+  dtTrigger2: Subject<any> = new Subject();
 
   oBuscar: FiltrosFichaTecnica;
   oFichaTecnicaRes: FichaTecnica;
@@ -136,6 +144,9 @@ export class FichatecnicaComponent implements OnInit {
     //Inicializamos variables consulta pedidos
     this.oBuscar = new FiltrosFichaTecnica(0,'',0,0,0,'','','','');
     this.oFichaTecnicaRes = {} as FichaTecnica;
+    this.oFichaTecnicaRes.Contenido = {} as ftContenido;
+
+    this.oPedidosInactivosRes = {} as PedidosActivos;
 
 
     this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
@@ -160,14 +171,35 @@ export class FichatecnicaComponent implements OnInit {
   ngOnInit(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
 
-    this.dtOptions = {
+    this.dtOptions[0] = {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      fixedHeader: { 
-        header: true, 
-        footer: false 
-        },
+      order:[],
+      ordering:false,
+      //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
+      dom: 'Brltip"',
+      language: {
+        url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
+      buttons: [
+        {
+          extend: 'excelHtml5',
+          text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+          title: 'Consulta de pedidos',
+          className: "btnFonelliRosa btn"
+          
+        }
+        
+      ]
+   
+      
+    };
+
+    this.dtOptions[1] = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
       order:[],
       ordering:false,
       //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
@@ -296,7 +328,9 @@ export class FichatecnicaComponent implements OnInit {
 
     }
 
-    
+    this.dtTrigger1.next("");
+      
+    this.dtTrigger2.next("");
 
 
   }
@@ -390,6 +424,12 @@ export class FichatecnicaComponent implements OnInit {
         
         this. isCollapsed = true;
 
+
+        
+        $("#firstTable").DataTable().destroy();
+        this.dtTrigger1.next("");
+        $("#secondTable").DataTable().destroy();
+            this.dtTrigger2.next("");
 
 
       },
@@ -1085,6 +1125,18 @@ BuscaClientes():boolean{
   EliminaSesion() {
     localStorage.clear();
     this._router.navigate(['/']);
+  }
+
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger1.unsubscribe();
+    this.dtTrigger2.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    //this.dtTrigger1.next("");
+    //this.dtTrigger2.next("");
   }
 }
 
