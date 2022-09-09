@@ -922,9 +922,9 @@ getTotalPedidos(Pedido: Pedido[]): number {
   //##### GRAN TOTAL #####
 
  //###### MODAL PEDIDO DETALLE ####
- openPedidoDetalle(PedidoDetalle: any, folio: string) {
+ openPedidoDetalle(PedidoDetalle: any, folio: string, cliente: string, filial: string) {
   console.log(folio);
-  this.consultaPedidoDetalle(folio);
+  this.consultaPedidoDetalle(folio,cliente,filial);
   
   
   this.ModalActivo = this.modalService.open(PedidoDetalle, {
@@ -957,13 +957,13 @@ private getDismissReason(reason: any): string {
 }
 
  //###### CONSULTA DETALLE PEDIDO ####
-consultaPedidoDetalle(folio: String){
+consultaPedidoDetalle(folio: String, cliente: string, filial: string){
   console.log("consultaPedido detalle : "+folio);
 
   //Inicializamos datos de encabezado requeridos para consultar detalle
   this.oBuscaDetalle.TipoUsuario= this.oBuscar.TipoUsuario;
-  this.oBuscaDetalle.ClienteCodigo= this.oBuscar.ClienteDesde;
-  this.oBuscaDetalle.ClienteFilial= this.sFilial;
+  this.oBuscaDetalle.ClienteCodigo= Number(cliente);
+  this.oBuscaDetalle.ClienteFilial= Number(filial);
   this.oBuscaDetalle.PedidoFolio= Number(folio); 
   this.oBuscaDetalle.PedidoLetra= 'C';
   this.oBuscaDetalle.Usuario= this.sCodigo;

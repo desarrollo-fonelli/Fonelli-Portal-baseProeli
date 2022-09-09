@@ -390,6 +390,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
           this.bError = true;
           this.sMensaje = 'No se encontro detalle de pedido';
           this.bBanderaDet = false;
+          this.pedidoDet = [];
           return;
         }
 
@@ -448,7 +449,11 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
       (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         console.log('reason ' + reason);
-        this.pedidoDet = [];
+        this.bBanderaDet = true;
+        this.bBanderaDetPro = false;
+        this.bBanderaBtnPro = true;
+        this.bBanderaBtnPed = false;
+        //this.pedidoDet = null;
       }
     );
   }
@@ -791,7 +796,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
               ' <td ></td>'+'\n'+
               ' <td class="FilasFonelli" style="text-align:left">Total General</td>'+'\n'+
               ' <td class="FilasFonelli" style="text-align:right"> '+this.oPedidoRes.Contenido.CantidadPedida+'</td>'+'\n'+
-              ' <td ></td>'+'\n'+
+              ' <td class="FilasFonelli" style="text-align:right">' + ( this.oPedidoRes.Contenido.CantidadPedida - this.oPedidoRes.Contenido.DiferenciaPedidosSurtido)+ '</td>'+'\n'+
               ' <td class="FilasFonelli" style="text-align:right"> '+this.oPedidoRes.Contenido.DiferenciaPedidosSurtido+'</td>'+'\n'+
             '</tr>'+'\n'+
           '</tbody>'+'\n'+

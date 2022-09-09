@@ -213,7 +213,7 @@
         <label>Limite de crédito</label>
       </div>
       <div class="col-md-6">
-        <label class="float-left">{{oFichaTecnicaRes.Contenido.LimiteCredito}}</label>
+        <label class="float-left">{{ formatoMoneda(oFichaTecnicaRes.Contenido.LimiteCredito) }}</label>
       </div>
       <div class="col-md-2">              
         <label class="float-left">TipoCte</label>
@@ -351,7 +351,7 @@
         <tr>              
           <td></td>
           <td class="FilasFonelli"> Total Categoria</td>                
-          <td class="FilasFonBold" style="font-weight: bold;"> {{datos.TotalCatPiezasAnioAnt}}</td>
+          <td class="FilasFonBold" style="font-weight: bold;"> {{datos.TotalCatPiezasAnioAct}}</td>
           <td class="FilasFonBold" style="font-weight: bold;">{{ datos.TotalCatGramosAnioAct}}</td>
           <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ datos.TotalCatImporteAnioAct}}</td>
           <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ datos.TotalCatValorAgregadoAnioAct}}</td>
@@ -375,7 +375,7 @@
     <br>
   <br>
 
-  <label class="CamposFonelli">Resumen de Cartera</label>
+  <label class="CamposFonelli">Resumen de cartera</label>
   <table  class="table table-hover table-striped" >
     <thead>
       <tr class="EncTabla">            

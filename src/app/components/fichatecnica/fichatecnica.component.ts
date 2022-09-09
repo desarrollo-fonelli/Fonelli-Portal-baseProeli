@@ -147,7 +147,8 @@ export class FichatecnicaComponent implements OnInit {
         },
       order:[],
       ordering:false,
-      dom: 'Bfrltip"',
+      //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
+      dom: 'Brltip"',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
@@ -361,7 +362,7 @@ export class FichatecnicaComponent implements OnInit {
          //Resumen cartera
          for(var cart of this.oTipoCarteraRes){
           cart.TipoCarteraSaldoAux = this.formatoMoneda(cart.TipoCarteraSaldo);
-          cart.TipoCarteraSaldoVencidoAux = this.formatoMoneda(cart.TipoCarteraSaldo);
+          cart.TipoCarteraSaldoVencidoAux = this.formatoMoneda(cart.TipoCarteraSaldoVencido);
          }
         
         this. isCollapsed = true;
@@ -708,26 +709,26 @@ export class FichatecnicaComponent implements OnInit {
   
       var tabla = "";
   
-     tabla =  '<h6 style="text-align: center; color:#24a4cc; ">Ventas año anterior desde '+this.oBuscar.FechaDesdeAnterior+' hasta '+this.oBuscar.FechaHastaAnterior+'</h6>'+'\n'+
-     ' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">'+'\n'+
-    ' <thead>'+'\n'+
-      ' <tr class="EncTabla">'+'\n'+
-      ' <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>'+'\n'+
-      ' <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>'+'\n'+
-      ' <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>'+'\n'+
-      ' <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>'+'\n'+
-      ' <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">IMPORTE</div></th>'+'\n'+
-      ' <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">VALOR AGREGADO</div></th>            '+'\n'+
-    '</tr>'+'\n'+
-    '</thead>'+'\n'+
-    '<tbody>'+'\n'
-  
-          
-  
-  
-    this.oAnioAnteriorRes.forEach(function(datos){
-    tabla = tabla +   '<tr >' + '\n' +
-    '<tr>'+'\n'+
+      tabla =  '<h6 style="text-align: center; color:#24a4cc; ">Ventas año anterior desde '+this.oBuscar.FechaDesdeAnterior+' hasta '+this.oBuscar.FechaHastaAnterior+'</h6>'+'\n'+
+      ' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">'+'\n'+
+      ' <thead>'+'\n'+
+        ' <tr class="EncTabla">'+'\n'+
+        ' <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>'+'\n'+
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>'+'\n'+
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>'+'\n'+
+        ' <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>'+'\n'+
+        ' <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">IMPORTE</div></th>'+'\n'+
+        ' <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">VALOR AGREGADO</div></th>            '+'\n'+
+      '</tr>'+'\n'+
+      '</thead>'+'\n'+
+      '<tbody>'+'\n';
+    
+            
+    
+    
+      this.oAnioAnteriorRes.forEach(function(datos){
+      tabla = tabla +   
+      '<tr>'+'\n'+
         ' <td class="FilasFonelli">'+'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre+'</td>   '+'\n'+
         ' <td></td>                '+'\n'+
         ' <td></td>'+'\n'+
@@ -736,107 +737,181 @@ export class FichatecnicaComponent implements OnInit {
         ' <td></td>'+'\n'+
       '</tr>'+'\n';
 
-      datos.Subcategorias.forEach(function(subCat){
+        datos.Subcategorias.forEach(function(subCat){
 
-        tabla = tabla +   '<tr >' + '\n' +
-        ' <td class="FilasFonelli" style="text-align:left">'+subCat.SubcategoriaCodigo+'</td>'+'\n'+
-        ' <td class="FilasFonelli"> '+subCat.SubcategoriaNombre+' </td>                '+'\n'+
-        ' <td class="FilasFonelli"> '+subCat.PiezasAnioAntAux+'</td>'+'\n'+
-        ' <td class="FilasFonelli" style="text-align:left">'+subCat.GramosAnioAntAux+'</td>'+'\n'+
-        ' <td class="FilasFonelli" style="text-align:right">'+subCat.ImporteAnioAntAux+'</td>'+'\n'+
-        ' <td class="FilasFonelli" style="text-align:right">'+subCat.ValorAgregadoAnioAntAux+'</td>'+'\n'+
-        '</tr>'+'\n';
-        
+          tabla = tabla +   
+          '<tr >' + '\n' +
+          ' <td class="FilasFonelli" style="text-align:left">'+subCat.SubcategoriaCodigo+'</td>'+'\n'+
+          ' <td class="FilasFonelli"> '+subCat.SubcategoriaNombre+' </td>                '+'\n'+
+          ' <td class="FilasFonelli"> '+subCat.PiezasAnioAntAux+'</td>'+'\n'+
+          ' <td class="FilasFonelli" style="text-align:left">'+subCat.GramosAnioAntAux+'</td>'+'\n'+
+          ' <td class="FilasFonelli" style="text-align:right">'+subCat.ImporteAnioAntAux+'</td>'+'\n'+
+          ' <td class="FilasFonelli" style="text-align:right">'+subCat.ValorAgregadoAnioAntAux+'</td>'+'\n'+
+          '</tr>'+'\n';
+          
+        });
+
+
+        tabla = tabla +   
+        '<tr>' + '\n' +     
+          ' <td></td>'+'\n'+
+          ' <td class="FilasFonelli"> Total Categoria</td>                '+'\n'+
+          ' <td class="FilasFonBold"> '+datos.TotalCatPiezasAnioAnt+'</td>'+'\n'+
+          ' <td class="FilasFonBold" style="text-align:left">'+ datos.TotalCatGramosAnioAnt+'</td>'+'\n'+
+          ' <td class="FilasFonBold" style="text-align:right">'+ datos.TotalCatImporteAnioAnt+'</td>'+'\n'+
+          ' <td class="FilasFonBold" style="text-align:right">'+ datos.TotalCatValorAgregadoAnioAnt+'</td>          '+'\n'+
+        ' </tr>'+'\n';
       });
 
 
-      tabla = tabla +   '<tr >' + '\n' +     
-        ' <td></td>'+'\n'+
-        ' <td class="FilasFonelli"> Total Categoria</td>                '+'\n'+
-        ' <td class="FilasFonBold"> '+datos.TotalCatPiezasAnioAnt+'</td>'+'\n'+
-        ' <td class="FilasFonBold" style="text-align:left">'+ datos.TotalCatGramosAnioAnt+'</td>'+'\n'+
-        ' <td class="FilasFonBold" style="text-align:right">'+ datos.TotalCatImporteAnioAnt+'</td>'+'\n'+
-        ' <td class="FilasFonBold" style="text-align:right">'+ datos.TotalCatValorAgregadoAnioAnt+'</td>          '+'\n'+
-      ' </tr>'+'\n';
-    });
-
-
-    tabla = tabla +   '<tr >' + '\n' +              
+      tabla = tabla +   
+      '<tr>' + '\n' +              
         ' <td></td>'+'\n'+
         ' <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                '+'\n'+
         ' <td class="FilasFonBold" style="color:#183e6f;"> '+this.oFichaTecnicaRes.Contenido.TotalGenAnioAntPiezas+'</td>'+'\n'+
         ' <td class="FilasFonBold" style="color:#183e6f;">'+this.oFichaTecnicaRes.Contenido.TotalGenAnioAntGramos+'</td>'+'\n'+
         ' <td class="FilasFonBold" style="text-align:right; color:#183e6f;">'+ this.oFichaTecnicaRes.Contenido.TotalGenAnioAntImporte+'</td>'+'\n'+
         ' <td class="FilasFonBold" style="text-align:right; color:#183e6f;">'+this.oFichaTecnicaRes.Contenido.TotalGenAnioAntValorAgregado +'</td>        '+'\n'+
-      ' </tr>'+'\n'
-        
+      '</tr>'+'\n'+          
       '</tbody>'+'\n'+
-      '</table>'+'\n'+
-      ' <br>+'+'\n'+
-      ' <br>+'+'\n';
+      '</table>'+'\n';
+
+      tabla = tabla + 
+      '<br>'+'\n'+
+      '<br>'+'\n'+
+      '<h6 class="card-title" style="color: #24a4cc; text-align: center;">Ventas año actual desde '+this.oBuscar.FechaDesdeActual+' hasta '+this.oBuscar.FechaHastaActual+'</h6> '+'\n';
+  
+
+      tabla = tabla +        
+      '<table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">'+'\n'+
+        '<thead>'+'\n'+
+          '<tr class="EncTabla">'+'\n'+            
+            ' <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">IMPORTE</div></th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">VALOR AGREGADO</div></th>'+'\n'+
+        '</tr>'+'\n'+
+        '</thead>'+'\n'+
+        '<tbody>'+'\n';
 
 
-    //   tabla = tabla +  ' <h6 style="text-align: center; color:#24a4cc; ">Ventas año actual desde '+this.oBuscar.FechaDesdeActual+' hasta '+this.oBuscar.FechaHastaActual+'</h6>'+'\n'+
-    //   '<table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">'+'\n'+
-    //     '<thead>'+'\n'+
-    //       '<tr class="EncTabla">'+'\n'+            
-    //         ' <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>'+'\n'+
-    //         ' <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>'+'\n'+
-    //         ' <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>'+'\n'+
-    //         ' <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>'+'\n'+
-    //         ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">IMPORTE</div></th>'+'\n'+
-    //         ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">VALOR AGREGADO</div></th>'+'\n'+
-    //     '</tr>'+'\n'+
-    //     '</thead>'+'\n'+
-    //     '<tbody>'+'\n'+
+      this.oAnioActualRes.forEach(function(datos){ 
+        
+        tabla = tabla +
+        ' <tr>'+'\n'+
+          ' <td class="FilasFonelli">'+'CATEGORIA'+datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre+' "</td>   '+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td></td>'+'\n'+
+          ' <td></td>'+'\n'+
+        '</tr>'+'\n';
 
+        datos.Subcategorias.forEach(function(subCat){          
 
-    //   this.oAnioActualRes.forEach(function(datos){ 
-    //     console.log("-------------"+datos.CategoriaCodigo);
-    //     tabla = tabla + '<tr>'+'\n'+
-    //     ' <td class="FilasFonelli">'+'CATEGORIA'+datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre+' "</td>   '+'\n'+
-    //     ' <td></td>'+'\n'+
-    //     ' <td></td>'+'\n'+
-    //     ' <td></td>'+'\n'+
-    //     ' <td></td>'+'\n'+
-    //     ' <td></td>'+'\n'+
-    //   '</tr>'+'\n';
-
-    //     datos.Subcategorias.forEach(function(subCat){
-    //       console.log("-------------"+subCat.GramosAnioActAux);
-
-    //       tabla = tabla +   '<tr >' + '\n' +
-    //         ' <td class="FilasFonelli" style="text-align:left">'+ subCat.SubcategoriaCodigo+'</td>'+'\n'+
-    //         ' <td class="FilasFonelli"> <u>'+subCat.SubcategoriaNombre+'</u> </td>                '+'\n'+
-    //         ' <td class="FilasFonelli" >'+ subCat.PiezasAnioActAux+'</td>'+'\n'+
-    //         ' <td class="FilasFonelli" style="text-align:left">'+ subCat.GramosAnioActAux+'</td>'+'\n'+
-    //         ' <td class="FilasFonelli" style="text-align:right">'+ subCat.ImporteAnioActAux+'</td>'+'\n'+
-    //         ' <td class="FilasFonelli" style="text-align:right">'+ subCat.ValorAgregadoAnioActAux+'</td>'+'\n'+
-    //       '</tr>'+'\n';
+          tabla = tabla +   
+          '<tr >' + '\n' +
+            ' <td class="FilasFonelli" style="text-align:left">'+ subCat.SubcategoriaCodigo+'</td>'+'\n'+
+            ' <td class="FilasFonelli">'+subCat.SubcategoriaNombre+' </td>                '+'\n'+
+            ' <td class="FilasFonelli" >'+ subCat.PiezasAnioActAux+'</td>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align:left">'+ subCat.GramosAnioActAux+'</td>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align:right">'+ subCat.ImporteAnioActAux+'</td>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align:right">'+ subCat.ValorAgregadoAnioActAux+'</td>'+'\n'+
+          '</tr>'+'\n';
           
-    //     });
+        });
 
-    //     tabla = tabla +  '<tr>'+'\n'+
-    //       ' <td></td>'+'\n'+
-    //       ' <td class="FilasFonelli"> Total Categoria</td>'+'\n'+
-    //       ' <td class="FilasFonBold" style="font-weight: bold;"> '+datos.TotalCatPiezasAnioAnt+'</td>'+'\n'+
-    //       ' <td class="FilasFonBold" style="font-weight: bold;">'+ datos.TotalCatGramosAnioAct+'</td>'+'\n'+
-    //       ' <td class="FilasFonBold" style="text-align:right; font-weight: bold;">'+ datos.TotalCatImporteAnioAct+'</td>'+'\n'+
-    //       ' <td class="FilasFonBold" style="text-align:right; font-weight: bold;">'+ datos.TotalCatValorAgregadoAnioAct+'</td>'+'\n'+
-    //     ' </tr>'+'\n'
+        tabla = tabla +  
+        ' <tr>'+'\n'+              
+          ' <td></td>'+'\n'+
+          ' <td class="FilasFonelli"> Total Categoria</td>'+'\n'+
+          ' <td class="FilasFonBold" style="font-weight: bold;"> '+datos.TotalCatPiezasAnioAct+'</td>'+'\n'+
+          ' <td class="FilasFonBold" style="font-weight: bold;">'+ datos.TotalCatGramosAnioAct+'</td>'+'\n'+
+          ' <td class="FilasFonBold" style="text-align:right; font-weight: bold;">'+ datos.TotalCatImporteAnioAct+'</td>'+'\n'+
+          ' <td class="FilasFonBold" style="text-align:right; font-weight: bold;">'+ datos.TotalCatValorAgregadoAnioAct+'</td>'+'\n'+
+        ' </tr>'+'\n';
 
-    //   });
+      });
 
-    //   tabla = tabla +   '<tr>'+'\n'+
-    //   ' <td></td>'+'\n'+
-    //   ' <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                '+'\n'+
-    //   ' <td class="FilasFonBold" style="color:#183e6f;"> '+this.oFichaTecnicaRes.Contenido.TotalGenAnioActPiezas+'</td>'+'\n'+
-    //   ' <td class="FilasFonBold" style="color:#183e6f;">'+this.oFichaTecnicaRes.Contenido.TotalGenAnioActGramos +'</td>'+'\n'+
-    //   ' <td class="FilasFonBold" style="text-align:right; color:#183e6f;">'+this.oFichaTecnicaRes.Contenido.TotalGenAnioActImporte +'</td>'+'\n'+
-    //   ' <td class="FilasFonBold" style="text-align:right; color:#183e6f;">'+this.oFichaTecnicaRes.Contenido.TotalGenAnioActValorAgregado +'</td>'+'\n'+
-    // '</tr>'+'\n'+      
-    // '</tbody>'+'\n'+
-    // '</table>'+'\n';
+      tabla = tabla +   
+      '<tr>'+'\n'+
+        ' <td></td>'+'\n'+
+        ' <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                '+'\n'+
+        ' <td class="FilasFonBold" style="color:#183e6f;"> '+this.oFichaTecnicaRes.Contenido.TotalGenAnioActPiezas+'</td>'+'\n'+
+        ' <td class="FilasFonBold" style="color:#183e6f;">'+this.oFichaTecnicaRes.Contenido.TotalGenAnioActGramos +'</td>'+'\n'+
+        ' <td class="FilasFonBold" style="text-align:right; color:#183e6f;">'+this.oFichaTecnicaRes.Contenido.TotalGenAnioActImporte +'</td>'+'\n'+
+        ' <td class="FilasFonBold" style="text-align:right; color:#183e6f;">'+this.oFichaTecnicaRes.Contenido.TotalGenAnioActValorAgregado +'</td>'+'\n'+
+      '</tr>'+'\n'+      
+    '</tbody>'+'\n'+
+    '</table>'+'\n';
+
+
+    //RESUMEN DE CARTERA
+
+    tabla = tabla + 
+      '<br>'+'\n'+
+      '<br>'+'\n'+
+      '<h6 class="card-title" style="color: #24a4cc; text-align: center;">Resumen de cartera</h6> '+'\n';
+
+    tabla = tabla + 
+      ' <table  class="table table-hover table-striped" >'+'\n'+
+      ' <thead>'+'\n'+
+        ' <tr class="EncTabla">'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white;" scope="col">CARTERA</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white; " scope="col">DESCRIPCIÓN</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white; " scope="col">SALDO</th>'+'\n'+
+          ' <th style="background-color: #24a4cc; color: white;" scope="col">SALDO VENCIDO</th>            '+'\n'+
+        ' </tr>'+'\n'+
+      ' </thead>'+'\n'+
+      ' <tbody>'+'\n';
+
+      this.oTipoCarteraRes.forEach(function(datos){ 
+        tabla = tabla + 
+        ' <tr>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align:left">'+ datos.TipoCarteraCodigo+'</td>'+'\n'+
+            ' <td class="FilasFonelli"> '+datos.TipoCarteraDescripc+'</td>                '+'\n'+
+            ' <td class="FilasFonelli"> '+ datos.TipoCarteraSaldoAux+'</td>'+'\n'+
+            ' <td class="FilasFonelli" style="text-align:left">'+ datos.TipoCarteraSaldoVencidoAux+'</td>'+'\n'+
+        ' </tr>'+'\n'; 
+      });
+
+      tabla = tabla + 
+      ' </tbody>'+'\n'+
+      ' </table>'+'\n';
+
+      //PEDIDOS ACTIVOS
+
+      tabla = tabla + 
+      '<br>'+'\n'+
+      '<br>'+'\n'+
+      '<h6 class="card-title" style="color: #24a4cc; text-align: center;">Pedidos activos</h6> '+'\n';
+
+      tabla = tabla + 
+      ' <table  class="table table-hover table-striped" >'+'\n'+
+        ' <thead>'+'\n'+
+          ' <tr class="EncTabla">  '+'\n'+          
+            ' <th style="background-color: #24a4cc; color: white;" scope="col">PEDIDOS</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white; " scope="col">GRAMOS</th>'+'\n'+
+            ' <th style="background-color: #24a4cc; color: white;" scope="col">IMPORTE</th>            '+'\n'+
+        ' </tr>'+'\n'+
+        ' </thead>'+'\n'+
+        ' <tbody>'+'\n'+
+            ' <tr >  '+'\n'+     
+              ' <td class="FilasFonelli" style="text-align:left">'+ this.oPedidosInactivosRes.PedidosNumero+'</td>'+'\n'+
+              ' <td class="FilasFonelli"> '+this.oPedidosInactivosRes.Piezas+'</td>                '+'\n'+
+              ' <td class="FilasFonelli" >'+ this.oPedidosInactivosRes.Gramos+'</td>'+'\n'+
+              ' <td class="FilasFonelli" style="text-align:left">'+ this.formatoMoneda(this.oPedidosInactivosRes.Importe)+'</td>'+'\n'+
+          ' </tr> '+'\n'+
+        ' </tbody>'+'\n'+
+      ' </table>'+'\n';
+
+
+
+
+
   
     return tabla;
   
