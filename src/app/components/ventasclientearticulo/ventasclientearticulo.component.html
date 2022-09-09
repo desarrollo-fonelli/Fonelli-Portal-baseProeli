@@ -459,7 +459,7 @@
   </div>
 </div>       
 
-<div *ngIf="bBandera" class="container float-left" >
+<div [hidden]="!bBandera" class="container float-left" >
       <br>
       <div class="form-row">
         <!-- <div class="form-group col-md-1">
@@ -480,8 +480,8 @@
             </div>
       </div>
 
-  <div class=""  *ngIf="bBanderaCat"  id="pdfTable" #pdfTable>
-      <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">
+  <div class=""  [hidden]="!bBanderaCat"  id="pdfTable" #pdfTable>
+      <table class="table table-hover table-striped  " id="firstTable" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger1" >
         <thead>
           <tr *ngIf="oBuscar.Presentacion == 'R'" class="EncTabla">
             <th style="background-color: #24a4cc; color: white;">LN</th>
@@ -655,8 +655,8 @@
       </table>
   </div>
 
-  <div class="" *ngIf="bBanderaPzIm" id="pdfTable" #pdfTable> <!--Piezas o importe-->
-    <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">
+  <div class="" [hidden]="!bBanderaPzIm" id="pdfTable" #pdfTable> <!--Piezas o importe-->
+    <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions[1]"  [dtTrigger]="dtTrigger2">
       <thead>
         <tr class="EncTabla">
           <th style="background-color: #24a4cc; color: white;">NUM</th>

@@ -1,4 +1,4 @@
-import { Component, OnInit,ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit,OnDestroy,ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { Router,ActivatedRoute,Params } from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
 import { DecimalPipe } from '@angular/common';
@@ -14,6 +14,9 @@ import {
   NgbModalRef,
 } from '@ng-bootstrap/ng-bootstrap';
 
+import { DataTableDirective } from 'angular-datatables';
+
+import { Subject } from 'rxjs';
 
 //Modelos
 import {FiltrosRelacionPedidos} from 'src/app/models/relacionpedidos.filtros';
@@ -42,7 +45,7 @@ import { ServicioClientes } from 'src/app/services/clientes.service';
   styleUrls: ['./relacionpedidos.component.css'],
   providers:[ServicioRelacionPedido,ServicioOficinas,ServicioDetallePedido, DecimalPipe, ServicioClientes]
 })
-export class RelacionpedidosComponent implements OnInit {
+export class RelacionpedidosComponent implements OnInit,OnDestroy {
 
   @ViewChild('pdfTable') pdfTable: ElementRef;
   
@@ -53,6 +56,10 @@ export class RelacionpedidosComponent implements OnInit {
   searchtext = '';
 
   dtOptions: any = {};
+  dtTrigger: Subject<any> = new Subject();
+
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
 
   public oBuscar: FiltrosRelacionPedidos;
   oRelacionPedRes: RelacionPedidos; 
@@ -459,6 +466,14 @@ consultaRelPed(){
         this.sMensaje="";
         this.bBandera = true;
         this.bCargando = false;
+
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance.destroy();
+          // Call the dtTrigger to rerender again
+          this.dtTrigger.next("");
+        });
+
         
         this.isCollapsed = true;
         
@@ -1460,6 +1475,15 @@ openClientes(Clientes: any, cliente: boolean) {
   EliminaSesion() {
     localStorage.clear();
     this._router.navigate(['/']);    
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next("");
   }
 
 }

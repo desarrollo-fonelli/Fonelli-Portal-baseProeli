@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   ChangeDetectorRef,
   ElementRef,
   ViewChild
@@ -40,7 +41,9 @@ import { ServicioConsultaPedidos } from 'src/app/services/consultapedidos.servic
 import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 
+import { DataTableDirective } from 'angular-datatables';
 
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-consultapedidos',
@@ -48,7 +51,7 @@ import { ServicioClientes } from 'src/app/services/clientes.service';
   styleUrls: ['./consultapedidos.component.css'],
   providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes],
 })
-export class ConsultapedidosComponent implements OnInit {
+export class ConsultapedidosComponent implements OnInit,OnDestroy {
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
   searchtext = '';
@@ -62,6 +65,15 @@ export class ConsultapedidosComponent implements OnInit {
   sHeight: number;
 
   dtOptions: any = {};
+  persons = [];
+  dtTrigger: Subject<any> = new Subject();
+
+  
+
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+
+
   public isCollapsed = false;
 
   public bCliente: boolean;
@@ -339,6 +351,15 @@ export class ConsultapedidosComponent implements OnInit {
         this.bCargando = false;
       }
     );
+
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next("");
+    });
+
+
   }
 
   //Funcion para consultar los pedidos detalle
@@ -785,5 +806,14 @@ export class ConsultapedidosComponent implements OnInit {
   EliminaSesion() {
     localStorage.clear();
     this._router.navigate(['/']);
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next("");
   }
 }

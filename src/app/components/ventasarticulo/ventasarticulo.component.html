@@ -375,7 +375,7 @@
 </div>
 
 
-<div *ngIf="bBandera" class="container float-left">
+<div [hidden]="!bBandera" class="container float-left">
         <br>
         <div class="form-row">
           <!-- <div class="form-group col-md-1">              
@@ -396,8 +396,8 @@
               </div> 
         </div>
 
-    <div class="" *ngIf="bFiltroOrden"  id="pdfTable" #pdfTable>
-        <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">
+    <div class=""  [hidden]="!bFiltroOrden" id="pdfTable" #pdfTable>
+        <table class="table table-hover table-striped  " id="firstTable" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger1"  >
           <thead>
             <tr *ngIf="bFiltrResumido" class="EncTabla">
               <th style="background-color: #24a4cc; color: white;">LN</th>
@@ -542,11 +542,13 @@
         </table>
     </div> 
 
-    <div class="" *ngIf="!bFiltroOrden" id="pdfTable" #pdfTable> <!--Piezas o importe-->
-      <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions">
+    <!--Piezas o importe-->
+
+    <div class=""  [hidden]="bFiltroOrden" id="pdfTable2" #pdfTable2>
+      <table class="table table-hover table-striped  " id="secondTable" datatable [dtOptions]="dtOptions[1]"  [dtTrigger]="dtTrigger2">
         <thead>
           <tr class="EncTabla">
-            <!-- <th style="background-color: #24a4cc; color: white;">NUM</th>                 -->
+                        
             <th style="background-color: #24a4cc; color: white;">LN</th>                
             <th style="background-color: #24a4cc; color: white;">CÓDIGO</th>              
             <th style="background-color: #24a4cc; color: white;">F</th>              
@@ -560,22 +562,7 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let venArt of oVentasArticuloPzasImpRes.Contenido | searchventasclientearticulo: searchtext">
-            <!-- <tr class="table-info">                    
-              <td class="FilasFonelli">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td> 
-              <td></td>
-              <td></td>                 
-              <td></td>                 
-              <td></td>                 
-              <td></td>                 
-              <td></td>                 
-            </tr> -->
-                        
+          <ng-container *ngFor="let venArt of oVentasArticuloPzasImpRes.Contenido ">
               <tr class="table-warning" >
                 <td class="FilasFonelli">{{'CATEGORIA '+' ' +venArt.CategoriaCodigo + ': ' + venArt.CategoriaNombre }}</td>                  
                 <td></td>
@@ -648,11 +635,6 @@
                 
               </tr>                    
 
-          
-
-          <!-- TOTAL CLIENTE-->
-
-          
         </ng-container> 
         
         <tr>  
