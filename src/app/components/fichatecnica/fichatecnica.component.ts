@@ -179,17 +179,16 @@ export class FichatecnicaComponent implements OnInit {
       order:[],
       ordering:false,
       //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
-      dom: 'Brltip"',
+      dom: 'lBtip"',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
       buttons: [
         {
           extend: 'excelHtml5',
+          title: 'Ficha Tecnica - Ventas anterior',
           text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-          title: 'Consulta de pedidos',
-          className: "btnFonelliRosa btn"
-          
+          className: "btnExcel btn"          
         }
         
       ]
@@ -204,17 +203,16 @@ export class FichatecnicaComponent implements OnInit {
       order:[],
       ordering:false,
       //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
-      dom: 'Brltip"',
+      dom: 'lBtip"',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
       buttons: [
         {
           extend: 'excelHtml5',
+          title: 'Ficha Tecnica - Ventas actual',
           text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-          title: 'Consulta de pedidos',
-          className: "btnFonelliRosa btn"
-          
+          className: "btnExcel btn"          
         }
         
       ]

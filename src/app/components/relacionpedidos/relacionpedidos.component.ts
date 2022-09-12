@@ -171,7 +171,7 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
         processing: true,
         order:[],
         ordering:false,
-        dom: 'Bfrltip"',
+        dom: 'flBtip',
         language: {
           url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
         },
@@ -179,9 +179,8 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
           {
             extend: 'excelHtml5',
             text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-            title: 'Consulta de pedidos',
-            className: "btnFonelliRosa btn"
-            
+            title: 'Relacion de Pedidos',
+            className: "btnExcel btn"            
           }
          
         ]
