@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   ElementRef,
   ViewChild,
+  OnDestroy
 } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -14,6 +15,10 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
+
+import { DataTableDirective } from 'angular-datatables';
+
+import { Subject } from 'rxjs';
 
 import {
   NgbModal,
@@ -48,12 +53,20 @@ import { ServicioClientes } from 'src/app/services/clientes.service';
   styleUrls: ['./consultainactivos.component.css'],
   providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes, ServicioAgentes, ServicioConsultaInactivos],
 })
-export class ConsultainactivosComponent implements OnInit {
+export class ConsultainactivosComponent implements OnInit, OnDestroy {
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
   searchtext = '';
 
   dtOptions: any = {};
+  dtTrigger: Subject<any> = new Subject();
+
+  
+
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+
+
   public isCollapsed = false;
 
   sCodigo: number | null;
@@ -155,7 +168,7 @@ export class ConsultainactivosComponent implements OnInit {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
-      processing: true,
+      processing: false,
       order:[],
       ordering:false,
       dom: 'Bfrltip"',
@@ -450,6 +463,14 @@ export class ConsultainactivosComponent implements OnInit {
         this.bCargando = false;
         this.isCollapsed = true;
 
+
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance.destroy();
+          // Call the dtTrigger to rerender again
+          this.dtTrigger.next("");
+        });
+
       },
       (error: ClienteInactivo) => {
         this.sMensaje = 'No se encontraron datos de clientes inactivos.';
@@ -465,9 +486,9 @@ export class ConsultainactivosComponent implements OnInit {
     const pdfTable = this.pdfTable.nativeElement;
     console.log(pdfTable);
 
-    var cadenaaux = pdfTable.innerHTML;
+    //var cadenaaux = pdfTable.innerHTML;
 
-    cadenaaux = this.TablaInactivos(this.bBanCtaCorrMN_SAL, this.bBanCtaCorrORO_SAL, this.bBanCtaCorrDLLS_SAL, this.bBanCtaDocMN_SAL, this.bBanCtaDocORO_SAL, this.bBanCtaDocDLLS_SAL, this.bBanCtaCorrMN_VEN, 
+    var cadenaaux = this.TablaInactivos(this.bBanCtaCorrMN_SAL, this.bBanCtaCorrORO_SAL, this.bBanCtaCorrDLLS_SAL, this.bBanCtaDocMN_SAL, this.bBanCtaDocORO_SAL, this.bBanCtaDocDLLS_SAL, this.bBanCtaCorrMN_VEN, 
       this.bBanCtaCorrORO_VEN, this.bBanCtaCorrDLLS_VEN, this.bBanCtaDocMN_VEN, this.bBanCtaDocORO_VEN, this.bBanCtaDocDLLS_VEN);
 
     let cadena =
@@ -479,11 +500,12 @@ export class ConsultainactivosComponent implements OnInit {
 
     var html = htmlToPdfmake(cadena);
    html[2].table.headerRows= 2;
-    console.log(html);
+   console.log('html'); 
+   console.log(html);
     const documentDefinition = {
     
       pageSize: {
-        width: 1400,
+        width: 1800,
         height: 820
       },
       pageOrientation: 'landscape',
@@ -658,16 +680,21 @@ export class ConsultainactivosComponent implements OnInit {
   var tabla = "";
 
 
-  tabla =  ' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions">' + '\n' +
-            ' <thead>' + '\n' +
-              ' <tr class="EncTabla">' + '\n' +                 
-                ' <th  colspan="7" class="table-warning" scope="col"></th>' + '\n' +
-                ' <th class="table-warning" scope="col" colspan='+this.sColSaldo+' style="text-align:center; color: #24a4cc;">SALDO TOTAL</th>  ' + '\n' +
-                ' <th class="table-success" scope="col" colspan='+this.sColVencido+' style="text-align:center; color: #24a4cc;">SALDO VENCIDO</th>' + '\n' +
-                ' <th colspan="2" style="text-align:center; background-color:#24a4cc;"></th>' + '\n' +
+  tabla = tabla +   ' <table  class="table table-hover table-striped" ' + '\n' +
+            ' <thead>' + '\n' ;
 
-              ' </tr>' + '\n' +
-              ' <tr class="EncTabla">' + '\n' +
+            tabla = tabla +    ' <tr class="EncTabla">' + '\n' +                 
+            ' <th  colspan="7" class="table-warning" scope="col"></th>' + '\n' +
+            ' <th class="table-warning" scope="col" colspan=6 style="text-align:center; color: #24a4cc;">SALDO TOTAL</th>  ' + '\n' +
+            ' <th class="table-success" scope="col" colspan=6 style="text-align:center; color: #24a4cc;">SALDO VENCIDO</th>' + '\n' +
+            ' <th colspan="2" style="text-align:center; background-color:#24a4cc;"></th>' + '\n' +
+
+          ' </tr>' + '\n' ;
+
+
+
+          
+     tabla = tabla +         ' <tr class="EncTabla">' + '\n' +
               ' <th style="background-color: #24a4cc; color: white;" scope="col" >CLIENTE</th>' + '\n' +
               ' <th style="background-color: #24a4cc; color: white;" scope="col">FIL</th>' + '\n' +
               ' <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>' + '\n' +
@@ -677,65 +704,43 @@ export class ConsultainactivosComponent implements OnInit {
               ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">PLAZO</th>' + '\n';
 
 
-              if(this.bBanCtaCorrMN_SAL){
+             
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaCorrMN_SAL" style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>' + '\n';
-              }
+                ' <th  style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>' + '\n';
+        
+                tabla = tabla+
+                ' <th  style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>' + '\n' ;
+            
+                tabla = tabla+
+                ' <th  style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_DLLS</th>' + '\n' ;
 
-              if(this.bBanCtaCorrORO_SAL){
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaCorrORO_SAL" style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>' + '\n' ;
-              }
+                ' <th  style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            ' + '\n' ;
 
-              if(this.bBanCtaCorrDLLS_SAL){
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaCorrDLLS_SAL"style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_DLLS</th>' + '\n' ;
-              }
-
-              if(this.bBanCtaDocMN_SAL){
+                ' <th  style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_ORO</th>            ' + '\n' ;
+        
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaDocMN_SAL" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            ' + '\n' ;
-              }
-
-              if(this.bBanCtaDocORO_SAL){
+                ' <th  style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_DLLS</th>            ' + '\n' ;
+             
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaDocORO_SAL" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_ORO</th>            ' + '\n' ;
-              }
-
-              if(this.bBanCtaDocDLLS_SAL){
+                ' <th  style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>' + '\n' ;
+             
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaDocDLLS_SAL" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_DLLS</th>            ' + '\n' ;
-              }
-
-              if(this.bBanCtaCorrMN_VEN){
+                ' <th  style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>' + '\n' ;
+             
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaCorrMN_VEN" style="background-color: #24a4cc; color: white; text-align: center;" scope="col">CTACORR_MN</th>' + '\n' ;
-              }
-
-              if(this.bBanCtaCorrORO_VEN){
+                ' <th  style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_DLLS</th>' + '\n' ;
+        
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaCorrORO_VEN" style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_ORO</th>' + '\n' ;
-              }
-
-              if(this.bBanCtaCorrDLLS_VEN){
+                ' <th  style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            ' + '\n' ;
+            
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaCorrDLLS_VEN" style="background-color: #24a4cc; color: white; text-align:right;">CTACORR_DLLS</th>' + '\n' ;
-              }
-
-              if(this.bBanCtaDocMN_VEN){
+                ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_ORO</th>            ' + '\n' ;
+             
                 tabla = tabla+
-                ' <th *ngIf="bBanCtaDocMN_VEN" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_MN</th>            ' + '\n' ;
-              }
-
-              if(this.bBanCtaDocORO_VEN){
-                tabla = tabla+
-                ' <th *ngIf="bBanCtaDocORO_VEN" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_ORO</th>            ' + '\n' ;
-              }
-
-              if(this.bBanCtaDocDLLS_VEN){
-                tabla = tabla+
-                ' <th *ngIf="bBanCtaDocDLLS_VEN" style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_DLLS</th>            ' + '\n' ;
-              }
+                ' <th  style="background-color: #24a4cc; color: white; text-align:right;" scope="col">CTADOC_DLLS</th>            ' + '\n' ;
+             
               
               tabla = tabla+
               ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DÍAS</th>' + '\n' +
@@ -755,65 +760,47 @@ export class ConsultainactivosComponent implements OnInit {
                 ' <td></td>' + '\n' +
                 ' <td></td>' + '\n' ;
 
-                if(bBanCtaCorrMN_SAL){
+              
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrMN_SAL"></td>' + '\n' ;
-                }
+                  ' <td ></td>' + '\n' ;
+              
+                  tabla = tabla+
+                  ' <td ></td>' + '\n' ;
+                
+                  tabla = tabla+
+                  ' <td ></td>' + '\n' ;
+            
+                  tabla = tabla+
+                  ' <td ></td>            ' + '\n' ;
+            
+                  tabla = tabla+
+                  ' <td ></td>' + '\n' ;
+          
+                  tabla = tabla+
+                  ' <td ></td>' + '\n' ;
+               
+                  tabla = tabla+
+                  ' <td ></td>' + '\n' ;
+              
+                  tabla = tabla+
+                  ' <td ></td>' + '\n' ;
+              
+                  tabla = tabla+
+                  ' <td ></td>' + '\n' ;
+             
+                  tabla = tabla+
+                  ' <td ></td>' + '\n' ;
+               
   
-                if(bBanCtaCorrORO_SAL){
+               
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrORO_SAL"></td>' + '\n' ;
-                }
+                  ' <td ></td>' + '\n' ;
+              
   
-                if(bBanCtaCorrDLLS_SAL){
+              
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrDLLS_SAL"></td>' + '\n' ;
-                }
-  
-                if(bBanCtaDocMN_SAL){
-                  tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocMN_SAL"></td>            ' + '\n' ;
-                }
-  
-                if(bBanCtaDocORO_SAL){
-                  tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocORO_SAL"></td>' + '\n' ;
-                }
-  
-                if(bBanCtaDocDLLS_SAL){
-                  tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocDLLS_SAL"></td>' + '\n' ;
-                }
-  
-                if(bBanCtaCorrMN_VEN){
-                  tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrMN_VEN"></td>' + '\n' ;
-                }
-  
-                if(bBanCtaCorrORO_VEN){
-                  tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrORO_VEN"></td>' + '\n' ;
-                }
-  
-                if(bBanCtaCorrDLLS_VEN){
-                  tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrDLLS_VEN"></td>' + '\n' ;
-                }
-  
-                if(bBanCtaDocMN_VEN){
-                  tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocMN_VEN"></td>' + '\n' ;
-                }
-  
-                if(bBanCtaDocORO_VEN){
-                  tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocORO_VEN"></td>' + '\n' ;
-                }
-  
-                if(bBanCtaDocDLLS_VEN){
-                  tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocDLLS_VEN"></td> ' + '\n' ;
-                }
+                  ' <td ></td> ' + '\n' ;
+    
                 tabla = tabla+
                 ' <td></td>' + '\n' +
                 ' <td></td>' + '\n' +
@@ -834,65 +821,44 @@ export class ConsultainactivosComponent implements OnInit {
                   ' <td class="FilasFonelli" style="text-align:left">'+ cli.Plazo+'</td>               ' + '\n' ;
 
 
-                  if(bBanCtaCorrMN_SAL){
+              
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaCorrMN_SAL+'</td>' + '\n' ;
-                  }
-    
-                  if(bBanCtaCorrORO_SAL){
+                    ' <td  class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaCorrMN_SAL+'</td>' + '\n' ;
+                 
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaCorrORO_SAL+'</td>' + '\n' ;
-                  }
-    
-                  if(bBanCtaCorrDLLS_SAL){
+                    ' <td  class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaCorrORO_SAL+'</td>' + '\n' ;
+               
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaCorrDLLS_SAL+'</td>' + '\n' ;
-                  }
-    
-                  if(bBanCtaDocMN_SAL){
+                    ' <td  class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaCorrDLLS_SAL+'</td>' + '\n' ;
+                  
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaDocMN_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaDocMN_SAL+'</td>' + '\n' ;
-                  }
-    
-                  if(bBanCtaDocORO_SAL){
+                    ' <td class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaDocMN_SAL+'</td>' + '\n' ;
+              
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaDocORO_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaDocORO_SAL+'</td>' + '\n' ;
-                  }
-    
-                  if(bBanCtaDocDLLS_SAL){
+                    ' <td  class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaDocORO_SAL+'</td>' + '\n' ;
+           
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaDocDLLS_SAL" class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaDocDLLS_SAL+'</td>' + '\n' ;
-                  }
-    
-                  if(bBanCtaCorrMN_VEN){
+                    ' <td  class="table-warning FilasFonelli" style="text-align:right">'+ cli.CtaDocDLLS_SAL+'</td>' + '\n' ;
+          
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaCorrMN_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaCorrMN_VEN+'</td>' + '\n' ;
-                  }
-    
-                  if(bBanCtaCorrORO_VEN){
+                    ' <td  class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaCorrMN_VEN+'</td>' + '\n' ;
+              
+                  
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaCorrORO_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaCorrORO_VEN+'</td>' + '\n' ;
-                  }
-    
-                  if(bBanCtaCorrDLLS_VEN){
+                    ' <td  class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaCorrORO_VEN+'</td>' + '\n' ;
+                  
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaCorrDLLS_VEN+'</td>' + '\n' ;
-                  }
-    
-                  if(bBanCtaDocMN_VEN){
+                    ' <td class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaCorrDLLS_VEN+'</td>' + '\n' ;
+                
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaDocMN_VEN+'</td> ' + '\n' ;
-                  }
-    
-                  if(bBanCtaDocORO_VEN){
+                    ' <td class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaDocMN_VEN+'</td> ' + '\n' ;
+          
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaDocORO_VEN+'</td> ' + '\n' ;
-                  }
-    
-                  if(bBanCtaDocDLLS_VEN){
+                    ' <td  class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaDocORO_VEN+'</td> ' + '\n' ;
+         
                     tabla = tabla+
-                    ' <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaDocDLLS_VEN+'</td> ' + '\n' ;
-                  }
+                    ' <td class="table-success FilasFonelli" style="text-align:right">'+ cli.CtaDocDLLS_VEN+'</td> ' + '\n' ;
+             
                   tabla = tabla+
                   ' <td class="FilasFonelli" style="text-align:right">'+ cli.DiasAtraso+'</td>' + '\n' +
                   ' <td class="FilasFonelli" style="text-align:left">'+ cli.PedidosActivos+'</td>' + '\n' +
@@ -911,65 +877,43 @@ export class ConsultainactivosComponent implements OnInit {
                 ' <td class="FilasFonBold" style="text-align:right">Total agente</td>               ' + '\n' ;
   
   
-                if(bBanCtaCorrMN_SAL){
+       
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrMN_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaCorrMN_SAL+'</td>' + '\n' ;
-                }
-  
-                if(bBanCtaCorrORO_SAL){
+                  ' <td  class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaCorrMN_SAL+'</td>' + '\n' ;
+      
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrORO_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaCorrORO_SAL+'</td>' + '\n' ;
-                }
-  
-                if(bBanCtaCorrDLLS_SAL){
+                  ' <td  class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaCorrORO_SAL+'</td>' + '\n' ;
+        
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrDLLS_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaCorrDLLS_SAL+'</td>' + '\n' ;
-                }
-  
-                if(bBanCtaDocMN_SAL){
+                  ' <td  class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaCorrDLLS_SAL+'</td>' + '\n' ;
+           
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocMN_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaDocMN_SAL+'</td>' + '\n' ;
-                }
-  
-                if(bBanCtaDocORO_SAL){
+                  ' <td  class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaDocMN_SAL+'</td>' + '\n' ;
+        
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocORO_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaDocORO_SAL+'</td>' + '\n' ;
-                }
-  
-                if(bBanCtaDocDLLS_SAL){
+                  ' <td * class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaDocORO_SAL+'</td>' + '\n' ;
+            
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocDLLS_SAL" class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaDocDLLS_SAL+'</td>' + '\n' ;
-                }
-  
-                if(bBanCtaCorrMN_VEN){
+                  ' <td  class="table-warning FilasFonBold" style="text-align:right">'+ con.CtaDocDLLS_SAL+'</td>' + '\n' ;
+              
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrMN_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaCorrMN_VEN+'</td>' + '\n' ;
-                }
-  
-                if(bBanCtaCorrORO_VEN){
+                  ' <td  class="table-success FilasFonBold" style="text-align:right">'+ con.CtaCorrMN_VEN+'</td>' + '\n' ;
+             
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrORO_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaCorrORO_VEN+'</td>' + '\n' ;
-                }
-  
-                if(bBanCtaCorrDLLS_VEN){
+                  ' <td class="table-success FilasFonBold" style="text-align:right">'+ con.CtaCorrORO_VEN+'</td>' + '\n' ;
+             
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaCorrDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaCorrDLLS_VEN+'</td>' + '\n' ;
-                }
-  
-                if(bBanCtaDocMN_VEN){
+                  ' <td  class="table-success FilasFonBold" style="text-align:right">'+ con.CtaCorrDLLS_VEN+'</td>' + '\n' ;
+            
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocMN_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaDocMN_VEN+'</td> ' + '\n' ;
-                }
-  
-                if(bBanCtaDocORO_VEN){
+                  ' <td class="table-success FilasFonBold" style="text-align:right">'+ con.CtaDocMN_VEN+'</td> ' + '\n' ;
+               
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocORO_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaDocORO_VEN+'</td> ' + '\n' ;
-                }
-  
-                if(bBanCtaDocDLLS_VEN){
+                  ' <td  class="table-success FilasFonBold" style="text-align:right">'+ con.CtaDocORO_VEN+'</td> ' + '\n' ;
+           
                   tabla = tabla+
-                  ' <td *ngIf="bBanCtaDocDLLS_VEN" class="table-success FilasFonBold" style="text-align:right">'+ con.CtaDocDLLS_VEN+'</td> ' + '\n' ;
-                }    
+                  ' <td  class="table-success FilasFonBold" style="text-align:right">'+ con.CtaDocDLLS_VEN+'</td> ' + '\n' ;
+             
                 tabla = tabla+
                 ' <td></td>' + '\n' +
                 ' <td></td>' + '\n' +                
@@ -987,65 +931,45 @@ export class ConsultainactivosComponent implements OnInit {
               ' <td></td>' + '\n' +
               ' <td class="FilasFonBold" style="text-align:right">Total general</td>               ' + '\n' ;
   
-              if(bBanCtaCorrMN_SAL){
+           
                 tabla = tabla+
-                ' <td *ngIf="bBanCtaCorrMN_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrMN_SAL +'</td>' + '\n' ;
-              }
+                ' <td  class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrMN_SAL +'</td>' + '\n' ;
+    
+                tabla = tabla+
+                ' <td  class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrORO_SAL +'</td>' + '\n' ;
+        
+                tabla = tabla+
+                ' <td class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrDLLS_SAL +'</td>' + '\n' ;
+             
+                tabla = tabla+
+                ' <td class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocMN_SAL +'</td>' + '\n' ;
+          
+                tabla = tabla+
+                ' <td class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocORO_SAL +'</td>' + '\n' ;
+           
+                tabla = tabla+
+                ' <td  class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocDLLS_SAL +'</td>' + '\n' ;
+             
+                tabla = tabla+
+                ' <td  class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrMN_VEN +'</td>' + '\n' ;
+           
   
-              if(bBanCtaCorrORO_SAL){
+          
                 tabla = tabla+
-                ' <td *ngIf="bBanCtaCorrORO_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrORO_SAL +'</td>' + '\n' ;
-              }
-  
-              if(bBanCtaCorrDLLS_SAL){
+                ' <td  class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrORO_VEN +'</td>' + '\n' ;
+           
                 tabla = tabla+
-                ' <td *ngIf="bBanCtaCorrDLLS_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrDLLS_SAL +'</td>' + '\n' ;
-              }
-  
-              if(bBanCtaDocMN_SAL){
+                ' <td class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrDLLS_VEN +'</td>' + '\n' ;
+   
                 tabla = tabla+
-                ' <td *ngIf="bBanCtaDocMN_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocMN_SAL +'</td>' + '\n' ;
-              }
-  
-              if(bBanCtaDocORO_SAL){
+                ' <td  class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocMN_VEN +'</td> ' + '\n' ;
+    
                 tabla = tabla+
-                ' <td *ngIf="bBanCtaDocORO_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocORO_SAL +'</td>' + '\n' ;
-              }
-  
-              if(bBanCtaDocDLLS_SAL){
+                ' <td  class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocORO_VEN +'</td> ' + '\n' ;
+      
                 tabla = tabla+
-                ' <td *ngIf="bBanCtaDocDLLS_SAL" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocDLLS_SAL +'</td>' + '\n' ;
-              }
-  
-              if(bBanCtaCorrMN_VEN){
-                tabla = tabla+
-                ' <td *ngIf="bBanCtaCorrMN_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrMN_VEN +'</td>' + '\n' ;
-              }
-  
-              if(bBanCtaCorrORO_VEN){
-                tabla = tabla+
-                ' <td *ngIf="bBanCtaCorrORO_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrORO_VEN +'</td>' + '\n' ;
-              }
-  
-              if(bBanCtaCorrDLLS_VEN){
-                tabla = tabla+
-                ' <td *ngIf="bBanCtaCorrDLLS_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaCorrDLLS_VEN +'</td>' + '\n' ;
-              }
-  
-              if(bBanCtaDocMN_VEN){
-                tabla = tabla+
-                ' <td *ngIf="bBanCtaDocMN_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocMN_VEN +'</td> ' + '\n' ;
-              }
-  
-              if(bBanCtaDocORO_VEN){
-                tabla = tabla+
-                ' <td *ngIf="bBanCtaDocORO_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocORO_VEN +'</td> ' + '\n' ;
-              }
-  
-              if(bBanCtaDocDLLS_VEN){
-                tabla = tabla+
-                ' <td *ngIf="bBanCtaDocDLLS_VEN" class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocDLLS_VEN +'</td> ' + '\n' ;
-              }  
+                ' <td  class="FilasFonBold" style="text-align:right">'+ this.oClientesInacRes.CtaDocDLLS_VEN +'</td> ' + '\n' ;
+              
               tabla = tabla+
               ' <td></td>' + '\n' +
               ' <td></td>' + '\n' +              
@@ -1070,6 +994,17 @@ export class ConsultainactivosComponent implements OnInit {
     localStorage.clear();
     this._router.navigate(['/']);
   }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  ngAfterViewInit(): void {
+    this.dtTrigger.next("");
+  }
+
+
 }
 
 
