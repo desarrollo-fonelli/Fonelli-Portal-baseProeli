@@ -260,7 +260,7 @@
 
 <h6 style="text-align: center; color:#24a4cc; ">Ventas año anterior desde {{oBuscar.FechaDesdeAnterior}} hasta {{oBuscar.FechaHastaAnterior}}</h6>
   <table  class="table table-hover table-striped" id="firstTable"  datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger1" >
-    <thead>
+    <thead class="thead-p">
       <tr class="EncTabla">            
       <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
       <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
@@ -319,7 +319,7 @@
 
   <h6 style="text-align: center; color:#24a4cc; ">Ventas año actual desde {{oBuscar.FechaDesdeActual}} hasta {{oBuscar.FechaHastaActual}}</h6>        
   <table  class="table table-hover table-striped" id="secondTable" datatable [dtOptions]="dtOptions[1]"  [dtTrigger]="dtTrigger2">
-    <thead>
+    <thead class="thead-p">
       <tr class="EncTabla">            
       <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
       <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
@@ -565,124 +565,124 @@
                             <div class="container">
                               <div class="row">       
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral">Sucursal/Nombre:</label>                                                
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.Sucursal}}</label>                            
                                   </div>     
                                 </div>
                                 
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Estatus:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.Status}}</label>
                                   </div>     
                                 </div>
                                 <div *ngIf="!bCliente" class="form-row" >
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Tipo cliente:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.TipoClienteCodigo+' '+oDatosGeneralesDet.TipoClienteDescripc}}</label>
                                   </div>     
                                 </div>
                                 <div  class="form-row" >
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Pago referenciado BANAMEX:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oCondicionesDet.PagoRefBanamex}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Calle:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.Calle}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Exterior:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.NumExterior}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Interior:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.NumInterior}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Colonia:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.Colonia}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Delegación/Municipio:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.AlcaldiaNombre}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Ciudad población:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.CiudadPoblacion}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Estado:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.EntidadNombre}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>C.P.:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.CodigoPostal}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                      <label class="CamposGeneral"><strong>País:</strong></label>
                                   </div>        	
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.PaisNombre}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>RFC:</strong></label>
                                   </div>
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.Rfc}}</label>
                                   </div>     
                                 </div>
                                 
                                 <div class="form-row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Telefono:</strong></label>
                                   </div> 	
-                                  <div class="col-sm-4">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.Lada +' '+ oDatosGeneralesDet.Telefono}}</label>
                                   </div>     
                                 </div> 
@@ -698,66 +698,66 @@
                               <div class="row">  
       
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral">Oficina de atención:</label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oCondicionesDet.OficinaAtencionCodigo+' '+oCondicionesDet.OficinaAtencionNombre }}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral">Agente:</label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oDatosGeneralesDet.AgenteCodigo+' '+oDatosGeneralesDet.AgenteNombre}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral" >N°. de Lista 1:</label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oCondicionesDet.TipoListaPrecios+' '+oCondicionesDet.TipoListaPreciosDescripc}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label  class="CamposGeneral">N° de Lista 2:</label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oCondicionesDet.TipoListaPrecios2+' '+oCondicionesDet.TipoListaPrecios2Descripc}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral">Tipo de paridad:</label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oCondicionesDet.ParidadCodigo+' '+oCondicionesDet.ParidadDescripc}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral">Límite de crédito:</label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{formatoNumero(oCondicionesDet.LimiteCredito)}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label  class="CamposGeneral">Plazo pago:</label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oCondicionesDet.Plazo}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral">Alta:</label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oCondicionesDet.FechaAlta}}</label>
                                   </div>     
                                 </div>
@@ -775,67 +775,67 @@
       
                                 <label class="LabelNegritas" style="font-weight:bold;">Contacto 1</label>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Nombre:</strong></label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oContactoDet.Contacto1Nombre}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Apellido paterno:</strong></label>                  
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oContactoDet.Contacto1ApellidoPaterno}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Apellido materno:</strong></label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oContactoDet.Contacto1ApellidoMaterno}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Email:</strong></label>              
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oContactoDet.Contacto1Email}}</label>
                                   </div>     
                                 </div>
                                 <label class="LabelNegritas" style="font-weight:bold;">Contacto 2</label>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Nombre:</strong></label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oContactoDet.Contacto2Nombre}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Apellido paterno:</strong></label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oContactoDet.Contacto2ApellidoPaterno}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Apellido materno:</strong></label>
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oContactoDet.Contacto2ApellidoMaterno}}</label>
                                   </div>     
                                 </div>
                                 <div class="form-row">
-                                  <div class="col-sm-3">
+                                  <div class="col-sm-6">
                                     <label class="CamposGeneral"><strong>Email:</strong></label>       
                                   </div>
-                                  <div class="col-sm-3">                     
+                                  <div class="col-sm-6">                     
                                     <label>{{oContactoDet.Contacto2Email}}</label>
                                   </div>     
                                 </div>

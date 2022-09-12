@@ -26,7 +26,7 @@ import {
 //Modelos
 import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
 import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
-import { ConsultaPedido, Pedido } from 'src/app/models/consultapedidos';
+import { ConsultaPedido, Pedido, Contenido as ConPed } from 'src/app/models/consultapedidos';
 import { DetallePedido, PedidoArticulo } from 'src/app/models/detallepedido';
 import { FiltrosClientes} from 'src/app/models/clientes.filtros';
 import { Clientes } from 'src/app/models/clientes';
@@ -144,6 +144,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     //Inicializamos variables consulta pedidos
     this.oBuscar = new FiltrosConsultaPedidos('', 0, 0, 0, '');
     this.oPedidoRes = {} as ConsultaPedido;
+    this.oPedidoRes.Contenido = {} as ConPed;
     this.pedido = [];
 
     //Inicializamos variables consulta detalle pedidos
@@ -179,7 +180,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
           text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
           title: 'Consulta de pedidos',
           className: "btnFonelliRosa btn"          
-        },
+        }
         // {
         //   extend: 'pdfHtml5',
         //   text: '<p style=" color: #f9f9f9; height: 9px;">Imprimir</p>',
@@ -201,6 +202,8 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
    
       
     };
+
+    
 
  
 
@@ -679,7 +682,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
   }
 
   getTotal(oPedido: Pedido[], idCol: string): number {   
-    console.log("Entra total-------")
+    console.log("Entra total-------");
     let Total: number = 0;
 
     switch(idCol) {        
