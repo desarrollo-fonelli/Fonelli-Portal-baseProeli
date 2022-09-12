@@ -82,6 +82,7 @@ export class FichatecnicaComponent implements OnInit {
   bBanderaBtnPro = true;
   bBanderaBtnPed = false;
   public isCollapsed = false;
+  
 
   fechaHoy: String;
 
@@ -114,7 +115,7 @@ export class FichatecnicaComponent implements OnInit {
   public oCondicionesDet : Condiciones;
   public oDatosGeneralesDet : DatosGenerales;
   public oContactoDet : Contactos;
-
+  public sClienteFil: string; 
   
   active = 1;
 
@@ -851,6 +852,31 @@ BuscaClientes():boolean{
      
       return nombre; 
     }
+
+
+
+    obtenNombreClienteFil(cliente: number, sFilial: number): string {   
+      let nombre: string = '';  
+    
+        for(var cliCon of this.oCliente.Contenido){ 
+          if (cliCon.ClienteCodigo == String(cliente) && cliCon.ClienteFilial == String(sFilial)){
+  
+            if (cliCon.ClienteFilial != '0'){
+              nombre = "Número "+cliente+' - '+cliCon.ClienteFilial+' '+ cliCon.RazonSocial;
+            }else{
+              nombre = "Número "+cliente+' '+ cliCon.RazonSocial;
+            }
+  
+            
+            break
+          }
+  
+                
+           
+      }
+     
+      return nombre; 
+    }
   
 
     TablaFichaTecnica(): string
@@ -1103,6 +1129,7 @@ BuscaClientes():boolean{
           this.oContactoDet =this.oDatosClienteDet.Contenido[0].Contactos;
           this.bMostrarDatos=true;
           // this.bCargando = false;
+          this.sClienteFil =this.obtenNombreClienteFil(this.oBuscar.Cliente,filial)
       
         },
         (error:Clientes) => {
