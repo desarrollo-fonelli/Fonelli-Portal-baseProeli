@@ -407,12 +407,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
         //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
 
 
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-          // Destroy the table first
-          dtInstance.destroy();
-          // Call the dtTrigger to rerender again
-          this.dtTrigger.next("");
-        });
+      
 
       },
       (error: DetallePedido) => {
