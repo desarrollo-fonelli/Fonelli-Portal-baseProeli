@@ -160,17 +160,16 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
           },
         order:[],
         ordering:false,
-        dom: 'Bfrltip"',
+        dom: 'flBtip',
         language: {
           url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
         },  
         buttons: [
           {
             extend: 'excelHtml5',
+            title: 'Ventas por Articulo',
             text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-            title: 'Consulta de pedidos',
-            className: "btnFonelliRosa btn"
-            
+            className: "btnExcel btn"            
           }
         ]
      
@@ -187,17 +186,16 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
           },
         order:[],
         ordering:false,
-        dom: 'Bfrltip"',
+        dom: 'flBtip"',
         language: {
           url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
         },  
         buttons: [
           {
             extend: 'excelHtml5',
+            title: 'Ventas por Articulo',
             text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-            title: 'Consulta de pedidos',
-            className: "btnFonelliRosa btn"
-            
+            className: "btnExcel btn"            
           }
         ]
      
