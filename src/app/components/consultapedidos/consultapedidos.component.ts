@@ -26,7 +26,7 @@ import {
 //Modelos
 import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
 import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
-import { ConsultaPedido, Pedido } from 'src/app/models/consultapedidos';
+import { ConsultaPedido, Pedido, Contenido as ConPed } from 'src/app/models/consultapedidos';
 import { DetallePedido, PedidoArticulo } from 'src/app/models/detallepedido';
 import { FiltrosClientes} from 'src/app/models/clientes.filtros';
 import { Clientes } from 'src/app/models/clientes';
@@ -144,6 +144,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     //Inicializamos variables consulta pedidos
     this.oBuscar = new FiltrosConsultaPedidos('', 0, 0, 0, '');
     this.oPedidoRes = {} as ConsultaPedido;
+    this.oPedidoRes.Contenido = {} as ConPed;
     this.pedido = [];
 
     //Inicializamos variables consulta detalle pedidos
@@ -202,6 +203,8 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
    
       
     };
+
+    
 
  
 
@@ -408,12 +411,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
         //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
 
 
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-          // Destroy the table first
-          dtInstance.destroy();
-          // Call the dtTrigger to rerender again
-          this.dtTrigger.next("");
-        });
+      
 
       },
       (error: DetallePedido) => {
@@ -680,7 +678,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
   }
 
   getTotal(oPedido: Pedido[], idCol: string): number {   
-    console.log("Entra total-------")
+    console.log("Entra total-------");
     let Total: number = 0;
 
     switch(idCol) {        

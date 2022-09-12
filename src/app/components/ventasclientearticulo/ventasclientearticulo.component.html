@@ -482,7 +482,7 @@
 
   <div class=""  [hidden]="!bBanderaCat"  id="pdfTable" #pdfTable>
       <table class="table table-hover table-striped  " id="firstTable" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger1" >
-        <thead>
+        <thead class="thead-p">
           <tr *ngIf="oBuscar.Presentacion == 'R'" class="EncTabla">
             <th style="background-color: #24a4cc; color: white;">LN</th>
             <th style="background-color: #24a4cc; color: white;">DESCRIPCION LÍNEA</th>
@@ -657,7 +657,7 @@
 
   <div class="" [hidden]="!bBanderaPzIm" id="pdfTable" #pdfTable> <!--Piezas o importe-->
     <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions[1]"  [dtTrigger]="dtTrigger2">
-      <thead>
+      <thead class="thead-p">
         <tr class="EncTabla">
           <th style="background-color: #24a4cc; color: white;">NUM</th>
           <th style="background-color: #24a4cc; color: white;">FIL</th>

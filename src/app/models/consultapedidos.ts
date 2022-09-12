@@ -11,6 +11,7 @@ export interface Contenido {
     ClienteNombre?: string;
     Sucursal?:      string;
     Pedidos:       Pedido[];
+    
     CantidadPedida: number;
     DiferenciaPedidosSurtido: number;
 }

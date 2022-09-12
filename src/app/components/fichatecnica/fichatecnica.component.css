@@ -1,11 +1,11 @@
-thead tr Th {
+.thead-p tr Th {
     position: sticky;
     z-index: 12;
     top: 60px;
     /* background: white; */
     }
     
-    thead Th {
+    .thead-p Th {
         position: fixed;
         z-index: 12;
         top: 300px;
