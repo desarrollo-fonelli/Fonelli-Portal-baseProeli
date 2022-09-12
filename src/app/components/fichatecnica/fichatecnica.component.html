@@ -262,19 +262,19 @@
   <table  class="table table-hover table-striped" id="firstTable"  datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger1" >
     <thead>
       <tr class="EncTabla">            
-      <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
-      <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
-      <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
-      <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>
-      <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">IMPORTE</div></th>
-      <th style="background-color: #24a4cc; color: white; text-align: right;" ><div class="size">VALOR AGREGADO</div></th>            
-    </tr>
+        <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
+        <th style="background-color: #24a4cc; color: white;" scope="col">NOMBRE</th>
+        <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PIEZAS</th>
+        <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">GRAMOS</th>
+        <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">IMPORTE</th>
+        <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">VALOR AGREGADO</th>            
+      </tr>
     </thead>
     <tbody>          
 
       <ng-container *ngFor="let datos of oAnioAnteriorRes index as i">
         <tr>              
-          <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
+          <th class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</th>   
           <td></td>                
           <td></td>
           <td></td>
@@ -283,10 +283,10 @@
         </tr>
 
         <tr *ngFor="let subCat of datos.Subcategorias index as i">              
-          <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
-          <td class="FilasFonelli"> {{subCat.SubcategoriaNombre}} </td>                
-          <td class="FilasFonelli"> {{subCat.PiezasAnioAntAux}}</td>
-          <td class="FilasFonelli" style="text-align:left">{{ subCat.GramosAnioAntAux}}</td>
+          <td class="FilasFonelli" style="text-align:left">{{subCat.SubcategoriaCodigo}}</td>
+          <td class="FilasFonelli">{{subCat.SubcategoriaNombre}}</td>                
+          <td class="FilasFonelli" style="text-align:right">{{ subCat.PiezasAnioAntAux}}</td>
+          <td class="FilasFonelli" style="text-align:right">{{ subCat.GramosAnioAntAux}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ subCat.ImporteAnioAntAux}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ subCat.ValorAgregadoAnioAntAux}}</td>
         </tr>
@@ -294,8 +294,8 @@
         <tr>              
           <td></td>
           <td class="FilasFonelli"> Total Categoria</td>                
-          <td class="FilasFonBold"> {{datos.TotalCatPiezasAnioAnt}}</td>
-          <td class="FilasFonBold" style="text-align:left">{{ datos.TotalCatGramosAnioAnt}}</td>
+          <td class="FilasFonBold" style="text-align:right"> {{datos.TotalCatPiezasAnioAnt}}</td>
+          <td class="FilasFonBold" style="text-align:right">{{ datos.TotalCatGramosAnioAnt}}</td>
           <td class="FilasFonBold" style="text-align:right">{{ datos.TotalCatImporteAnioAnt}}</td>
           <td class="FilasFonBold" style="text-align:right">{{ datos.TotalCatValorAgregadoAnioAnt}}</td>          
         </tr> 
@@ -304,10 +304,10 @@
       <tr>              
         <td></td>
         <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
-        <td class="FilasFonBold" style="color:#183e6f;"> {{oFichaTecnicaRes.Contenido.TotalGenAnioAntPiezas}}</td>
-        <td class="FilasFonBold" style="color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioAntGramos}}</td>
-        <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{ oFichaTecnicaRes.Contenido.TotalGenAnioAntImporte}}</td>
-        <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioAntValorAgregado }}</td>        
+        <td class="FilasFonBold" style="color:#183e6f;text-align:right;"> {{oFichaTecnicaRes.Contenido.TotalGenAnioAntPiezas}}</td>
+        <td class="FilasFonBold" style="color:#183e6f;text-align:right;">{{oFichaTecnicaRes.Contenido.TotalGenAnioAntGramos}}</td>
+        <td class="FilasFonBold" style="color:#183e6f;text-align:right;">{{ oFichaTecnicaRes.Contenido.TotalGenAnioAntImporte}}</td>
+        <td class="FilasFonBold" style="color:#183e6f;text-align:right;">{{oFichaTecnicaRes.Contenido.TotalGenAnioAntValorAgregado }}</td>        
       </tr>                     
 
     
@@ -321,19 +321,19 @@
   <table  class="table table-hover table-striped" id="secondTable" datatable [dtOptions]="dtOptions[1]"  [dtTrigger]="dtTrigger2">
     <thead>
       <tr class="EncTabla">            
-      <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
-      <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
-      <th style="background-color: #24a4cc; color: white; " scope="col">PIEZAS</th>
-      <th style="background-color: #24a4cc; color: white;" scope="col">GRAMOS</th>
-      <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">IMPORTE</div></th>
-      <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">VALOR AGREGADO</div></th>            
-    </tr>
+        <th style="background-color: #24a4cc; color: white;" scope="col">CATEG</th>
+        <th style="background-color: #24a4cc; color: white; " scope="col">NOMBRE</th>
+        <th style="background-color: #24a4cc; color: white; text-align: right;" scope="col">PIEZAS</th>
+        <th style="background-color: #24a4cc; color: white; text-align: right;" scope="col">GRAMOS</th>
+        <th style="background-color: #24a4cc; color: white; text-align: right;" scope="col">IMPORTE</th>
+        <th style="background-color: #24a4cc; color: white; text-align: right;" scope="col">VALOR AGREGADO</th>            
+      </tr>
     </thead>
     <tbody>
 
       <ng-container *ngFor="let datos of oAnioActualRes index as i">
         <tr>              
-          <td class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</td>   
+          <th class="FilasFonelli">{{'CATEGORIA ' +datos.CategoriaCodigo + ' : ' + datos.CategoriaNombre }}</th>   
           <td></td>                
           <td></td>
           <td></td>
@@ -344,18 +344,18 @@
         <tr *ngFor="let subCat of datos.Subcategorias index as i">              
           <td class="FilasFonelli" style="text-align:left">{{ subCat.SubcategoriaCodigo}}</td>
           <td class="FilasFonelli"> <u>{{subCat.SubcategoriaNombre}}</u> </td>                
-          <td class="FilasFonelli" >{{ subCat.PiezasAnioActAux}}</td>
-          <td class="FilasFonelli" style="text-align:left">{{ subCat.GramosAnioActAux}}</td>
+          <td class="FilasFonelli" style="text-align:right">{{ subCat.PiezasAnioActAux}}</td>
+          <td class="FilasFonelli" style="text-align:right">{{ subCat.GramosAnioActAux}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ subCat.ImporteAnioActAux}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ subCat.ValorAgregadoAnioActAux}}</td>
         </tr>
         <tr>              
           <td></td>
           <td class="FilasFonelli"> Total Categoria</td>                
-          <td class="FilasFonBold" style="font-weight: bold;"> {{datos.TotalCatPiezasAnioAct}}</td>
-          <td class="FilasFonBold" style="font-weight: bold;">{{ datos.TotalCatGramosAnioAct}}</td>
-          <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ datos.TotalCatImporteAnioAct}}</td>
-          <td class="FilasFonBold" style="text-align:right; font-weight: bold;">{{ datos.TotalCatValorAgregadoAnioAct}}</td>
+          <td class="FilasFonBold" style="font-weight: bold; text-align:right;"> {{datos.TotalCatPiezasAnioAct}}</td>
+          <td class="FilasFonBold" style="font-weight: bold; text-align:right;">{{ datos.TotalCatGramosAnioAct}}</td>
+          <td class="FilasFonBold" style="font-weight: bold; text-align:right;">{{ datos.TotalCatImporteAnioAct}}</td>
+          <td class="FilasFonBold" style="font-weight: bold; text-align:right;">{{ datos.TotalCatValorAgregadoAnioAct}}</td>
         </tr> 
 
 
@@ -364,10 +364,10 @@
       <tr>              
         <td></td>
         <td class="FilasFonBold" style="color:#183e6f;"> Total General</td>                
-        <td class="FilasFonBold" style="color:#183e6f;"> {{oFichaTecnicaRes.Contenido.TotalGenAnioActPiezas}}</td>
-        <td class="FilasFonBold" style="color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActGramos }}</td>
-        <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActImporte }}</td>
-        <td class="FilasFonBold" style="text-align:right; color:#183e6f;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActValorAgregado }}</td>
+        <td class="FilasFonBold" style="color:#183e6f; text-align:right;"> {{oFichaTecnicaRes.Contenido.TotalGenAnioActPiezas}}</td>
+        <td class="FilasFonBold" style="color:#183e6f; text-align:right;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActGramos }}</td>
+        <td class="FilasFonBold" style="color:#183e6f; text-align:right;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActImporte }}</td>
+        <td class="FilasFonBold" style="color:#183e6f; text-align:right;">{{oFichaTecnicaRes.Contenido.TotalGenAnioActValorAgregado }}</td>
       </tr>   
 
     </tbody>

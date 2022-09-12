@@ -179,7 +179,7 @@ export class FichatecnicaComponent implements OnInit {
       order:[],
       ordering:false,
       //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
-      dom: 'lBtip"',
+      dom: 'lBtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
@@ -189,11 +189,9 @@ export class FichatecnicaComponent implements OnInit {
           title: 'Ficha Tecnica - Ventas anterior',
           text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
           className: "btnExcel btn"          
-        }
-        
-      ]
-   
-      
+        }        
+      ],
+      //columnDefs: [{"orderable": false, "targets": 0},{"orderable": false, "targets": 1},{"orderable": false, "targets": 2}]         
     };
 
     this.dtOptions[1] = {
@@ -203,7 +201,7 @@ export class FichatecnicaComponent implements OnInit {
       order:[],
       ordering:false,
       //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
-      dom: 'lBtip"',
+      dom: 'lBtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
@@ -213,11 +211,8 @@ export class FichatecnicaComponent implements OnInit {
           title: 'Ficha Tecnica - Ventas actual',
           text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
           className: "btnExcel btn"          
-        }
-        
-      ]
-   
-      
+        }        
+      ]      
     };
 
     //Se agrega validacion control de sesion distribuidores
