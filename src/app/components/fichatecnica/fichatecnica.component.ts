@@ -82,6 +82,7 @@ export class FichatecnicaComponent implements OnInit {
   bBanderaBtnPro = true;
   bBanderaBtnPed = false;
   public isCollapsed = false;
+  
 
   fechaHoy: String;
 
@@ -114,7 +115,7 @@ export class FichatecnicaComponent implements OnInit {
   public oCondicionesDet : Condiciones;
   public oDatosGeneralesDet : DatosGenerales;
   public oContactoDet : Contactos;
-
+  public sClienteFil: string; 
   
   active = 1;
 
@@ -178,17 +179,16 @@ export class FichatecnicaComponent implements OnInit {
       order:[],
       ordering:false,
       //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
-      dom: 'Brltip"',
+      dom: 'lBtip"',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
       buttons: [
         {
           extend: 'excelHtml5',
+          title: 'Ficha Tecnica - Ventas anterior',
           text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-          title: 'Consulta de pedidos',
-          className: "btnFonelliRosa btn"
-          
+          className: "btnExcel btn"          
         }
         
       ]
@@ -203,17 +203,16 @@ export class FichatecnicaComponent implements OnInit {
       order:[],
       ordering:false,
       //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
-      dom: 'Brltip"',
+      dom: 'lBtip"',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
       buttons: [
         {
           extend: 'excelHtml5',
+          title: 'Ficha Tecnica - Ventas actual',
           text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-          title: 'Consulta de pedidos',
-          className: "btnFonelliRosa btn"
-          
+          className: "btnExcel btn"          
         }
         
       ]
@@ -851,6 +850,31 @@ BuscaClientes():boolean{
      
       return nombre; 
     }
+
+
+
+    obtenNombreClienteFil(cliente: number, sFilial: number): string {   
+      let nombre: string = '';  
+    
+        for(var cliCon of this.oCliente.Contenido){ 
+          if (cliCon.ClienteCodigo == String(cliente) && cliCon.ClienteFilial == String(sFilial)){
+  
+            if (cliCon.ClienteFilial != '0'){
+              nombre = "Número "+cliente+' - '+cliCon.ClienteFilial+' '+ cliCon.RazonSocial;
+            }else{
+              nombre = "Número "+cliente+' '+ cliCon.RazonSocial;
+            }
+  
+            
+            break
+          }
+  
+                
+           
+      }
+     
+      return nombre; 
+    }
   
 
     TablaFichaTecnica(): string
@@ -1103,6 +1127,7 @@ BuscaClientes():boolean{
           this.oContactoDet =this.oDatosClienteDet.Contenido[0].Contactos;
           this.bMostrarDatos=true;
           // this.bCargando = false;
+          this.sClienteFil =this.obtenNombreClienteFil(this.oBuscar.Cliente,filial)
       
         },
         (error:Clientes) => {
