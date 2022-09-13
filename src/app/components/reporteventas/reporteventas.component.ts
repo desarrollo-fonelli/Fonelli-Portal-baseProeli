@@ -77,6 +77,7 @@ export class ReporteventasComponent implements OnInit, OnDestroy {
   dtOptions: DataTables.Settings = {};
   dtTrigger1: Subject<any> = new Subject();
   dtTrigger2: Subject<any> = new Subject();
+  dtTrigger3: Subject<any> = new Subject();
 
   public oBuscar: FiltrosReporteVentas;
   oReporteVentasRes: ReporteVentas; 
@@ -222,9 +223,32 @@ export class ReporteventasComponent implements OnInit, OnDestroy {
         
       };
 
+      this.dtOptions[2] = {
+        pagingType: 'full_numbers',
+        pageLength: 10,
+        processing: true,
+        order:[],
+        ordering:false,
+        dom: 'lBtip',
+        language: {
+          url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        },  
+        buttons: [
+          {
+            extend: 'excelHtml5',
+            title: 'Reporte de Ventas - Total General',
+            text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+            className: "btnExcel btn"            
+          }
+        ]        
+      };
+
+
       this.dtTrigger1.next("");
       
       this.dtTrigger2.next("");
+
+      this.dtTrigger3.next("");
           
 
       console.log("La resolución de tu pantalla es: " + screen.width + " x " + screen.height);
@@ -701,6 +725,8 @@ else
         this.dtTrigger1.next("");
         $("#secondTable").DataTable().destroy();
             this.dtTrigger2.next("");
+        $("#thirdTable").DataTable().destroy();
+        this.dtTrigger3.next("");
  
        },
        (error:ReporteVentas) => {
@@ -1702,6 +1728,7 @@ downloadAsPDF() {
     // Do not forget to unsubscribe the event
     this.dtTrigger1.unsubscribe();
     this.dtTrigger2.unsubscribe();
+    this.dtTrigger3.unsubscribe();
   }
 
   ngAfterViewInit(): void {
