@@ -1,0 +1,13 @@
+.thead-p2 tr:first-child Th {
+    position: sticky;
+    z-index: 12;
+    top: 0;
+    background: #24a4cc; 
+    }
+    
+    .thead-p2 Th {
+        position: fixed;
+        z-index: 12;
+        top: 60px;
+        background: #24a4cc; 
+    }
