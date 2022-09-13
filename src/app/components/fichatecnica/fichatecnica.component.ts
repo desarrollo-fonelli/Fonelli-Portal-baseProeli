@@ -178,6 +178,9 @@ export class FichatecnicaComponent implements OnInit {
       processing: true,
       order:[],
       ordering:false,
+      columnDefs: [
+        { orderable: false, targets: "_all" } // Applies the option to all columns
+      ],
       //dom: 'Bfrltip"',   dRendon 08.09.2022 voy a quitar "f" para no mostrar casilla de busqueda
       dom: 'lBtip',
       language: {
