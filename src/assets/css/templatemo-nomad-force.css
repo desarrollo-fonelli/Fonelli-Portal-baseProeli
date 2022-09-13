@@ -882,3 +882,12 @@ table_Fija {
 .table_Fija tbody tr:nth-child(2n) .sticky {
   background: #f2f2f2;
 }
+
+/* ----------------------------------------- */
+button.btnExcel {
+  background-color: #198754 !important;
+  font-family: QuickSand-SemiBold;
+  margin-bottom: 14px;
+  margin-left: 40px;
+}
+/* ----------------------------------------- */
