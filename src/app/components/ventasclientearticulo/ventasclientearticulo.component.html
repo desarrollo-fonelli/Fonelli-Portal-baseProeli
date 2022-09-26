@@ -507,7 +507,7 @@
         <tbody>
           <ng-container *ngFor="let venArt of oVentasCliRes.Contenido">
             <tr class="table-info">
-              <td colspan="3" class="FilasFonelli">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
+              <td colspan="3" class="FilasFonelli">{{venArt.ClienteCodigo + '-' + venArt.ClienteFilial + ' ' + venArt.ClienteNombre }}</td>
               <td style="display: none"></td>
               <td style="display: none"></td>
               <td></td>
@@ -716,7 +716,7 @@
                   <td class="FilasFonelli"><div class="size">{{det.ArticuloCodigo}}</div></td>
                   <td class="FilasFonelli">{{venArtPzaImp.CategoriaCodigo}}</td>
                   <td class="FilasFonelli">{{det.ArticuloDescripc}}</td>
-                  <td class="FilasFonelli">{{det.ArticuloTipo}}</td>
+                  <td class="FilasFonelli" style="text-align: right;">{{det.ArticuloTipo}}</td>
                   <td class="FilasFonelli" style="text-align: right;">{{det.PiezasAux}}</td>
                   <td *ngIf="!bCliente" class="FilasFonelli" style="text-align: right;">{{det.PiezasPorcentajeAux}}</td>
                   <td class="FilasFonelli" style="text-align: right;">{{det.GramosAux}}</td>
