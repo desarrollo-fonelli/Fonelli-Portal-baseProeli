@@ -391,7 +391,7 @@
    <div   class="container" id="pdfTable" #pdfTable  > 
   
     <!-- <div  class="contenedor-tabla"> -->
-      <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  >
+      <table class="table table-hover table-striped" id="firstTable" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger"  >
         <!-- <table class="table table-hover table-striped "  style="position:sticky;" > -->
           <thead class="thead-p">
            <tr class="EncTabla" > 
@@ -421,7 +421,7 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let relPed of oRelacionPedRes.Contenido | searchrelacionpedidos: searchtext ">
+            <ng-container *ngFor="let relPed of oRelacionPedRes.Contenido ">
               <tr class="table-info">
                 <!-- <td *ngIf="!bCliente" ? colspan="14" :colspan="18">{{relPed.OficinaFonelliNombre}}</td> -->
                 <td colspan="5" class="sticky" >{{relPed.OficinaFonelliNombre}}</td> 

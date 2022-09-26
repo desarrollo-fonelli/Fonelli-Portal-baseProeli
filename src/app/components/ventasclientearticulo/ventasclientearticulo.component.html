@@ -505,7 +505,7 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let venArt of oVentasCliRes.Contenido | searchventasclientearticulo: searchtext">
+          <ng-container *ngFor="let venArt of oVentasCliRes.Contenido">
             <tr class="table-info">
               <td colspan="3" class="FilasFonelli">{{venArt.ClienteCodigo + ' ' + venArt.ClienteNombre }}</td>
               <td style="display: none"></td>
@@ -656,7 +656,7 @@
   </div>
 
   <div class="" [hidden]="!bBanderaPzIm" id="pdfTable" #pdfTable> <!--Piezas o importe-->
-    <table class="table table-hover table-striped  " datatable [dtOptions]="dtOptions[1]"  [dtTrigger]="dtTrigger2">
+    <table class="table table-hover table-striped  " id="secondTable" datatable [dtOptions]="dtOptions[1]"  [dtTrigger]="dtTrigger2">
       <thead class="thead-p">
         <tr class="EncTabla">
           <th style="background-color: #24a4cc; color: white;">NUM</th>
@@ -674,7 +674,7 @@
         </tr>
       </thead>
       <tbody>
-        <ng-container *ngFor="let venArtPzaImp of oVentasCliArtPzasImpRes.Contenido | searchventasclientearticulo: searchtext">
+        <ng-container *ngFor="let venArtPzaImp of oVentasCliArtPzasImpRes.Contenido">
 
           <tr class="table-warning" >
             <td class="FilasFonelli">{{'CATEGORIA ' +venArtPzaImp.CategoriaCodigo + ' : ' + venArtPzaImp.CategoriaNombre }}</td>
@@ -714,7 +714,7 @@
                   <td class="FilasFonelli">{{det.ClienteFilial}}</td>
                   <td class="FilasFonelli">{{det.LineaCodigo}}</td>
                   <td class="FilasFonelli"><div class="size">{{det.ArticuloCodigo}}</div></td>
-                  <td class="FilasFonelli">{{det.CategoriaCodigo}}</td>
+                  <td class="FilasFonelli">{{venArtPzaImp.CategoriaCodigo}}</td>
                   <td class="FilasFonelli">{{det.ArticuloDescripc}}</td>
                   <td class="FilasFonelli">{{det.ArticuloTipo}}</td>
                   <td class="FilasFonelli" style="text-align: right;">{{det.PiezasAux}}</td>

@@ -505,7 +505,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     cadenaaux = this.TablaPedidos();
 
     let cadena =
-    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.obtenNombreCliente(this.oBuscar.ClienteCodigo)+'</strong></p>' +    
+    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.obtenNombreCliente(this.oBuscar.ClienteCodigo, this.oBuscar.ClienteFilial)+'</strong></p>' +    
     cadenaaux;
 
     console.log('cadena');
@@ -664,16 +664,15 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     return true;
   }  
 
-  obtenNombreCliente(cliente: number): string {   
+  obtenNombreCliente(cliente: number, filial: number): string {   
     let nombre: string = '';  
   
       for(var cliCon of this.oCliente.Contenido){ 
-        if (cliCon.ClienteCodigo == String(cliente)){
+        if (cliCon.ClienteCodigo == String(cliente) && cliCon.ClienteFilial == String(filial)){
           nombre = cliCon.RazonSocial;
           break;
         }             
-         
-    }
+      }
     return nombre;
   }
 

@@ -184,7 +184,7 @@
               </tr>
             </thead>
             <tbody>
-              <ng-container *ngFor="let cliente of oCliente | searchestadocuenta: searchtext">
+              <ng-container *ngFor="let cliente of oCliente">
                 <tr class="table-info">
                 <td colspan="8" class="FilasFonelli" >{{'('+cliente.ClienteCodigo+' '+cliente.ClienteFilial+ ') ' +cliente.ClienteNombre+ '-' +cliente.Sucursal}}</td>
                 <td style="display: none"></td>

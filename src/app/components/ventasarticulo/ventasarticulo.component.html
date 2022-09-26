@@ -421,7 +421,7 @@
             </tr>
           </thead>
           <tbody>
-            <ng-container *ngFor="let venArt of oVentasArticuloRes.Contenido | searchventasclientearticulo: searchtext">
+            <ng-container *ngFor="let venArt of oVentasArticuloRes.Contenido">
               <tr class="table-info">                    
                 <td colspan="5" class="FilasFonelli">{{'CATEGORIA'+' '+venArt.CategoriaCodigo + ': ' + venArt.CategoriaNombre }}</td>
                 <td style="display: none"></td>
