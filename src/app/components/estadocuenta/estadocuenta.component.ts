@@ -238,19 +238,21 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
         } 
       } 
 
-      let date: Date = new Date
+      let date: Date = new Date();
     let mes;
     
     //Valida mes 
-    if (date.getMonth().toString().length == 1){
+    if ((date.getMonth()+1).toString().length == 1){
       mes = '0'+(date.getMonth()+1);
+    } else {
+      mes = (date.getMonth()+1);
     }
 
     this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());  
     
     this.oBuscar.TipoUsuario = this.sTipo;
      
-    
+    console.log(this.fechaHoy);
 
     //Consulta carteras
     if (!localStorage.getItem('Carteras')){

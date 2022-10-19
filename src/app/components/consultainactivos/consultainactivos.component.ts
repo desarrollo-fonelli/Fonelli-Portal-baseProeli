@@ -217,14 +217,15 @@ export class ConsultainactivosComponent implements OnInit, OnDestroy {
     date.setDate(date.getDate() - 1);
 
     //Valida mes
-    if (date.getMonth().toString().length == 1) {
+    if ((date.getMonth()+1).toString().length == 1) {
       mes = '0' + (date.getMonth() + 1);
+    } else {
+      mes = (date.getMonth() + 1);
     }
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();    
     this.fechaFron = date.getDate() + '/' + mes + '/' + date.getFullYear();    
     
-
       //Consulta agentes
       if (!localStorage.getItem('Agentes')){
 

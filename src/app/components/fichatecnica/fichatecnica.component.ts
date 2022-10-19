@@ -252,9 +252,11 @@ export class FichatecnicaComponent implements OnInit {
     let mes;
 
     //Valida mes
-    if (date.getMonth().toString().length == 1) {
+    if ((date.getMonth()+1).toString().length == 1) {
       mes = '0' + (date.getMonth() + 1);
     }
+
+      mes = (date.getMonth()+1);
     
       //validacion dia anterior inicio de mes
       if(date.getDate() == 1){//es inicio de mes

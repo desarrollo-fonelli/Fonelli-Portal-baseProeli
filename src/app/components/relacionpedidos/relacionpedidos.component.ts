@@ -199,14 +199,17 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
       let dia;
       
       //Valida mes 
-      if (date.getMonth().toString().length == 1){
+      if ((date.getMonth()+1).toString().length == 1){
         mes = '0'+(date.getMonth()+1);
       }
+
+        mes = (date.getMonth()+1);
+
        //Valida dia 
        if (date.getDate().toString().length == 1){
         dia = '0'+(date.getDate());
       }
-
+      
       let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()) : date.getDate());          
       let fechaAyer: string;
       //validacion dia anterior inicio de mes

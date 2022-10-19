@@ -238,8 +238,10 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
       let mes;
       
       //Valida mes 
-      if (date.getMonth().toString().length == 1){
+      if ((date.getMonth()+1).toString().length == 1){
         mes = '0'+(date.getMonth()+1);
+      } else {
+        mes = (date.getMonth()+1);
       }
 
       let fechaDesde =  date.getFullYear() +'-01-01';          

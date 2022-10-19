@@ -147,11 +147,12 @@ export class IndicadoresventaComponent implements OnInit {
 
     let date: Date = new Date();
     let mes;
-
-
+   
     //Valida mes
-    if (date.getMonth().toString().length == 1) {
+    if ((date.getMonth()+1).toString().length == 1) {
       mes = '0' + (date.getMonth() + 1);
+    } else {
+      mes = (date.getMonth() + 1);
     }
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();  
