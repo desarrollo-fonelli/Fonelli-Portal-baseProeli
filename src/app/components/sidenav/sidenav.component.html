@@ -50,6 +50,7 @@
         <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']" routerLinkActive="active-list-item"><span class="font_side">Relación de pedidos</span></a> 
         <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']" routerLinkActive="active-list-item"><span class="font_side">Estado de cuenta</span></a>
         <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
+        <a mat-list-item [routerLink]="['/catalogointeractivo/']" routerLinkActive="active-list-item"><span class="font_side_ic">Catálogo interactivo </span></a>
       </mat-nav-list>
 
       <mat-nav-list *ngIf="!bCliente" nav-list (click)="toggle(snav)" > 
@@ -65,7 +66,7 @@
         <a mat-list-item [routerLink]="['/asesores/ventasclientearticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas clte y artículo</span></a>
         <a mat-list-item [routerLink]="['/asesores/reporteventas/']" routerLinkActive="active-list-item"><span class="font_side">Reporte de ventas</span></a>
         <a mat-list-item [routerLink]="['/asesores/consultainactivos/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de inactivos</span></a>
-        <a mat-list-item [routerLink]="['/asesores/catalogointeractivo/']" routerLinkActive="active-list-item"><span class="font_side_ic">Catálogo interactivo </span></a>
+        <a mat-list-item [routerLink]="['/catalogointeractivo/']" routerLinkActive="active-list-item"><span class="font_side_ic">Catálogo interactivo </span></a>
       </mat-nav-list>
     </mat-sidenav>
   

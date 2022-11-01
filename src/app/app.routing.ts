@@ -30,7 +30,7 @@ import { EncabezadoComponent } from "./components/encabezado/encabezado.componen
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'tabla', component: EncabezadoComponent },
+    { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
 
     {
       path: 'distribuidores',
