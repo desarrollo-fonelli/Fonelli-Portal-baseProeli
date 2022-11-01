@@ -262,10 +262,14 @@ export class FichatecnicaComponent implements OnInit {
       if(date.getDate() == 1){//es inicio de mes
         if(mes == '01'){
           mes = '12';
-          this.fechaHoy = (date.getFullYear()-1) +'-'+ mes +'-'+'30';          
+          this.fechaHoy = (date.getFullYear()-1) +'-'+ mes +'-'+'31'; 
         }else{
           mes = mes-1;
-          this.fechaHoy = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
+          if(mes < 10){
+            this.fechaHoy = (date.getFullYear()) +'-0'+ mes +'-'+'31';
+          } else {
+            this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+'31'; 
+          }
         }        
       }else{
         

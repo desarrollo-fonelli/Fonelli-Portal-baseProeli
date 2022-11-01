@@ -162,16 +162,19 @@ export class IndicadoresventaComponent implements OnInit {
       if(date.getDate() == 1){//es inicio de mes
         if(mes == '01'){
           mes = '12';
-          fechaAyer = (date.getFullYear()-1) +'-'+ mes +'-'+'30';          
+          fechaAyer = (date.getFullYear()-1) +'-'+ mes +'-'+'31';          
         }else{
-          mes = mes-1;
-          fechaAyer = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
+          mes = mes-1;          
+          if(mes < 10){
+            fechaAyer = (date.getFullYear()) +'-0'+ mes +'-'+'31';          
+          } else {
+            fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+'31';          
+          }
         }        
       }else{
         
         fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                                       
       }
-      
     this.oBuscar.FechaCorte = fechaAyer;
 
     //Consulta agentes
