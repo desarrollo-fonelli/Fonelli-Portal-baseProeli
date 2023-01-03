@@ -201,17 +201,20 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
       //Valida mes 
       if ((date.getMonth()+1).toString().length == 1){
         mes = '0'+(date.getMonth()+1);
+      } else {
+        mes = (date.getMonth()+1);
       }
 
-        mes = (date.getMonth()+1);
-
        //Valida dia 
-       if (date.getDate().toString().length == 1){
+      if (date.getDate().toString().length == 1){
         dia = '0'+(date.getDate());
       }
       
+      //console.log('dRendon: mes',mes,(date.getMonth()+1).toString().length==1);
+
       let fechaActual = (date.getFullYear()+1) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()) : date.getDate());          
       let fechaAyer: string;
+
       //validacion dia anterior inicio de mes
       if(date.getDate() == 1){//es inicio de mes
         if(mes == '01'){
@@ -232,8 +235,8 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
       
       this.fechaHoy =  (date.getDate() +'-'+mes+'-'+ date.getFullYear());                  
 
-      console.log("--"+fechaActual);
-      console.log("--"+fechaAyer);
+      // console.log("drendon: fechaActual",fechaActual);
+      // console.log("drendon: fechaAyer",fechaAyer);
 
       switch(this.sTipo) { 
         case 'C':{    

@@ -254,27 +254,26 @@ export class FichatecnicaComponent implements OnInit {
     //Valida mes
     if ((date.getMonth()+1).toString().length == 1) {
       mes = '0' + (date.getMonth() + 1);
-    }
-
+    } else {
       mes = (date.getMonth()+1);
+    }
     
-      //validacion dia anterior inicio de mes
-      if(date.getDate() == 1){//es inicio de mes
-        if(mes == '01'){
-          mes = '12';
-          this.fechaHoy = (date.getFullYear()-1) +'-'+ mes +'-'+'31'; 
-        }else{
-          mes = mes-1;
-          if(mes < 10){
-            this.fechaHoy = (date.getFullYear()) +'-0'+ mes +'-'+'31';
-          } else {
-            this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+'31'; 
-          }
-        }        
+    //validacion dia anterior inicio de mes
+    if(date.getDate() == 1){//es inicio de mes
+      if(mes == '01'){
+        mes = '12';
+        this.fechaHoy = (date.getFullYear()-1) +'-'+ mes +'-'+'31'; 
       }else{
-        
-        this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                                       
-      }
+        mes = mes-1;
+        if(mes < 10){
+          this.fechaHoy = (date.getFullYear()) +'-0'+ mes +'-'+'31';
+        } else {
+          this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+'31'; 
+        }
+      }        
+    }else{      
+      this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+(date.getDate().toString().length == 1 ? '0'+(date.getDate()-1) : (date.getDate()-1).toString().length == 1 ? '0'+(date.getDate()-1) : date.getDate()-1 );                                       
+    }
 
 
     this.oBuscar.FechaDesdeAnterior = (date.getFullYear()-1)+'-01-01';
