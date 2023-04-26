@@ -288,11 +288,11 @@ export class ReporteventasComponent implements OnInit, OnDestroy {
         }else{
           mes = mes-1;
           if(mes < 10){
-            fecha1Hasta = (date.getFullYear()-1) +'-0'+ mes +'-'+'31';
-            fecha2Hasta = (date.getFullYear()) +'-0'+ mes +'-'+'31'; 
+            fecha1Hasta = (date.getFullYear()-1) +'-0'+ mes +'-'+'30';
+            fecha2Hasta = (date.getFullYear()) +'-0'+ mes +'-'+'30'; 
           } else {
-            fecha1Hasta = (date.getFullYear()-1) +'-'+ mes +'-'+'31'; 
-            fecha2Hasta = (date.getFullYear()) +'-'+ mes +'-'+'31';            
+            fecha1Hasta = (date.getFullYear()-1) +'-'+ mes +'-'+'30'; 
+            fecha2Hasta = (date.getFullYear()) +'-'+ mes +'-'+'30';            
           }
         }        
       }else{
