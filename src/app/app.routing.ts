@@ -32,6 +32,7 @@ const appRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
 
+    /**
     {
       path: 'distribuidores',
       component: SidenavComponent,
@@ -48,6 +49,7 @@ const appRoutes: Routes = [
         },
       ],
     },
+     */
   
     {
       path: 'asesores',
