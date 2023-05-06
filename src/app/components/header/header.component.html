@@ -51,11 +51,11 @@
                         
                     </li>
 
-                    <!-- drendon 28/abr/2023 Voy a deshabilitar este item de menu hasta que se coriga el error
+                    <!-- drendon 28/abr/2023 Voy a deshabilitar este item de menu hasta que se coriga el error-->
                     <li class="nav-item">                        
                         <a class="nav-link"  href="javascript:void(0);"(click)="openDistribuidor(LoginDistribuidor)">Distribuidores</a>
                     </li>
-                    -->
+                    
 
                     <li class="nav-item">
                         <!--<a class="nav-link" href="#news">News & Events</a>-->
@@ -71,7 +71,7 @@
             </div>
 
 
-            <!-- <div *ngIf="idMenu == '2' "  class="collapse navbar-collapse" id="navbarNav">
+            <div *ngIf="idMenu == '2' "  class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="#about">Nosotros</a>
@@ -87,7 +87,7 @@
                     </li>
 
                 </ul>
-            </div> -->
+            </div> 
 
         </div>
     </nav>
@@ -134,11 +134,7 @@
 
                             <div class="form-group m-0">
                                 <button type="submit" class="btn btn-block" style="background-color:#24a4cc; color: white;" [disabled]="!formLoginDistribuidor.form.valid" (click)="ConsultarLDistribuidor()"><span *ngIf="bCargandoDistribuidor" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#e8b4c1"></span>INGRESAR</button>
-                            </div>
-
-                            
-                            
-                        
+                            </div> 
                             
                         </form>
                     </div>

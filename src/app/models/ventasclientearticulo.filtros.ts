@@ -1,7 +1,7 @@
 export class FiltrosVentaArticuloCliente {
   constructor(
     public TipoUsuario: String | null,
-    public Usuario: number,
+    public Usuario: string,
     public OficinaDesde: string,
     public OficinaHasta: string,
     public FechaDesde: string,

@@ -1,7 +1,7 @@
 export class FiltrosRelacionPedidos {
     constructor(
       public TipoUsuario : string,
-      public Usuario: number,
+      public Usuario: number | string,
       public OficinaDesde: string,
       public OficinaHasta: string, 
       public ClienteDesde: number | null,

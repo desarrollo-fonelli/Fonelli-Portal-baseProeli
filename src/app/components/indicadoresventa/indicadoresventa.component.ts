@@ -100,18 +100,18 @@ export class IndicadoresventaComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.sCodigo = Number(localStorage.getItem('codigo'));
-    this.sTipo = localStorage.getItem('tipo');
-    this.sFilial = Number(localStorage.getItem('filial'));
-    this.sNombre = localStorage.getItem('nombre');
+    this.sCodigo = Number(sessionStorage.getItem('codigo'));
+    this.sTipo = sessionStorage.getItem('tipo');
+    this.sFilial = Number(sessionStorage.getItem('filial'));
+    this.sNombre = sessionStorage.getItem('nombre');
 
-    this.oBuscarAgentes =  new FiltrosAgente(0,'','A',0)
+    this.oBuscarAgentes =  new FiltrosAgente(0,'','A',0,'','')
     this.oAgentes = {} as Agentes;
 
     this.bCliente = false;
 
     //Inicializamos variables consulta pedidos
-    this.oBuscar = new FiltroIndicadoresVenta(0, 0,'', 0);
+    this.oBuscar = new FiltroIndicadoresVenta(0, 0,'', 0,'','');
     this.oIndVentaRes = {} as IndicadoresVenta;
 
 }
@@ -131,15 +131,16 @@ export class IndicadoresventaComponent implements OnInit {
          this.oBuscar.AgenteDesde = this.sCodigo;
          this.oBuscar.AgenteHasta = this.sCodigo;
          this.bCliente = false;    
-         //this.oBuscar.Status = 'A';         
+         this.oBuscarAgentes.Status = "A";
+            
          break; 
       } 
       default: { 
          //Gerente; 
          this.oBuscar.AgenteDesde = 1;
          this.oBuscar.AgenteHasta = 99;
-         this.bCliente = false; 
-         //this.oBuscar.Status = 'A';   
+         this.bCliente = false;    
+         this.oBuscarAgentes.Status = "G";
          break; 
       } 
    } 
@@ -178,9 +179,12 @@ export class IndicadoresventaComponent implements OnInit {
     this.oBuscar.FechaCorte = fechaAyer;
 
     //Consulta agentes
-    if (!localStorage.getItem('Agentes')){
+    if (!sessionStorage.getItem('Agentes')){
 
-      this.oBuscarAgentes.Status = "A";
+     
+
+      
+      this.oBuscarAgentes.TipoUsuario = this.sTipo;
       this._servicioAgentes
       .Get(this.oBuscarAgentes)
       .subscribe(
@@ -203,9 +207,15 @@ export class IndicadoresventaComponent implements OnInit {
           if (this.sTipo == 'A'){
             this.oBuscar.AgenteDesde = this.sCodigo;
             this.oBuscar.AgenteHasta = this.sCodigo;
+            this.oBuscar.TipoUsuario=sessionStorage.getItem('tipo');
+            this.oBuscar.Usuario=sessionStorage.getItem('codigo') ;
+
+
           }else{
             this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
             this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo); 
+            this.oBuscar.TipoUsuario=sessionStorage.getItem('tipo');
+            this.oBuscar.Usuario=sessionStorage.getItem('codigo') ;
           }
           
           return true;
@@ -228,14 +238,18 @@ export class IndicadoresventaComponent implements OnInit {
     }else{//Ya tenemos agentes
     //  console.log("Ya tenemos agentes");
 
-      this.oAgentesCon = JSON.parse(localStorage.getItem('Agentes'));
+      this.oAgentesCon = JSON.parse(sessionStorage.getItem('Agentes'));
   
           if (this.sTipo == 'A'){
             this.oBuscar.AgenteDesde = this.sCodigo;
             this.oBuscar.AgenteHasta = this.sCodigo;
+            this.oBuscar.TipoUsuario=sessionStorage.getItem('tipo');
+            this.oBuscar.Usuario=sessionStorage.getItem('codigo') ;
           }else{
             this.oBuscar.AgenteDesde = Number(this.oAgentesCon[0].AgenteCodigo); 
             this.oBuscar.AgenteHasta = Number( this.oAgentesCon[ this.oAgentesCon?.length - 1].AgenteCodigo); 
+            this.oBuscar.TipoUsuario=sessionStorage.getItem('tipo');
+            this.oBuscar.Usuario=sessionStorage.getItem('codigo') ;
           }
 
 
@@ -559,7 +573,7 @@ export class IndicadoresventaComponent implements OnInit {
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);
   }
 }

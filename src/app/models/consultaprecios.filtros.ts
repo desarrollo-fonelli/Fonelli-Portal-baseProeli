@@ -1,7 +1,7 @@
 export class FiltrosConsultaPrecios {
   constructor(
     public TipoUsuario: string | null,
-    public Usuario: number,
+    public Usuario: number | string,
     public ClienteCodigo: number | null,
     public ClienteFilial: number | null,
     public Lista: number,

@@ -135,10 +135,10 @@ export class FichatecnicaComponent implements OnInit {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.sCodigo = Number(localStorage.getItem('codigo'));
-    this.sTipo = localStorage.getItem('tipo');
-    this.sFilial = Number(localStorage.getItem('filial'));
-    this.sNombre = localStorage.getItem('nombre');
+    this.sCodigo = Number(sessionStorage.getItem('codigo'));
+    this.sTipo = sessionStorage.getItem('tipo');
+    this.sFilial = Number(sessionStorage.getItem('filial'));
+    this.sNombre = sessionStorage.getItem('nombre');
 
     this.bCliente = false;
 
@@ -284,7 +284,7 @@ export class FichatecnicaComponent implements OnInit {
 
     
      //Realizamos llamada al servicio de clientes 
-   if (!localStorage.getItem('Clientes')){
+   if (!sessionStorage.getItem('Clientes')){
 
     //console.log("no tenemos  Clientes");
 
@@ -322,7 +322,7 @@ export class FichatecnicaComponent implements OnInit {
      // console.log("Ya tenemos  Clientes");
 
 
-      this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+      this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
       this.oContenido = this.oCliente.Contenido[0];
       this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
       this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
@@ -1151,7 +1151,7 @@ BuscaClientes():boolean{
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);
   }
 

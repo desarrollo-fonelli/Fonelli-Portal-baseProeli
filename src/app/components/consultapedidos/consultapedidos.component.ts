@@ -134,10 +134,10 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.sCodigo = Number(localStorage.getItem('codigo'));
-    this.sTipo = localStorage.getItem('tipo');
-    this.sFilial = Number(localStorage.getItem('filial'));
-    this.sNombre = localStorage.getItem('nombre');
+    this.sCodigo = Number(sessionStorage.getItem('codigo'));
+    this.sTipo = sessionStorage.getItem('tipo');
+    this.sFilial = Number(sessionStorage.getItem('filial'));
+    this.sNombre = sessionStorage.getItem('nombre');
 
     this.bCliente = false;
 
@@ -223,6 +223,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
         this.oBuscar.ClienteCodigo = this.sCodigo;
         this.oBuscar.ClienteFilial = this.sFilial;
         this.oBuscar.Status = 'A';
+        this.oBuscar.Usuario =this.sCodigo+'-'+this.sFilial;
          break; 
       } 
       case 'A': { 
@@ -255,7 +256,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();    
 
     //Realizamos llamada al servicio de clientes 
-   if (!localStorage.getItem('Clientes')){
+   if (!sessionStorage.getItem('Clientes')){
 
     ///console.log("no tenemos  Clientes");
 
@@ -293,7 +294,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     //console.log("Ya tenemos  Clientes");
 
 
-    this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+    this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
     this.oContenido = this.oCliente.Contenido[0];
     this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
     this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
@@ -312,6 +313,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
 
     //Inicializamos el tipo de usuario por el momento
     this.oBuscar.TipoUsuario = this.sTipo;
+    //this.oBuscar.Usuario = this.sCodigo;
 
     console.log(this.oBuscar.ClienteCodigo);
     console.log(this.oBuscar.ClienteFilial);
@@ -815,7 +817,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);
   }
 

@@ -103,10 +103,10 @@ export class ConsultapreciosComponent implements OnInit {
     private _servicioCClientes: ServicioClientes,
     private _servicioLineas: ServicioLineas) {
 
-    this.sCodigo = Number(localStorage.getItem('codigo'));
-    this.sTipo = localStorage.getItem('tipo');
-    this.sFilial  = Number(localStorage.getItem('filial'));
-    this.sNombre = localStorage.getItem('nombre')
+    this.sCodigo = Number(sessionStorage.getItem('codigo'));
+    this.sTipo = sessionStorage.getItem('tipo');
+    this.sFilial  = Number(sessionStorage.getItem('filial'));
+    this.sNombre = sessionStorage.getItem('nombre')
 
     //Inicializamos variables consulta precios
     this.oBuscar = new FiltrosConsultaPrecios('',0,0,0,0,'','','')
@@ -146,23 +146,26 @@ export class ConsultapreciosComponent implements OnInit {
         this.oBuscar.ClienteCodigo = this.sCodigo; 
         this.oBuscar.ClienteFilial = this.sFilial; 
          this.oBuscar.ParidadTipo = 'N';
+         this.oBuscar.Usuario =this.sCodigo+'-'+this.sFilial;
          this.bCliente = true;    
          break; 
       } 
       case 'A': { 
          //statements; 
-         this.bCliente = false;    
+         this.bCliente = false;   
+         this.Buscar.Usuario = this.sCodigo; 
          break; 
       } 
       default: { 
          //statements; 
          this.bCliente = false;    
+         this.Buscar.Usuario = this.sCodigo;
          break; 
       } 
    } 
 
    this.Buscar.TipoUsuario = this.sTipo;
-   this.Buscar.Usuario = this.sCodigo;
+   
 
   
 
@@ -178,7 +181,7 @@ export class ConsultapreciosComponent implements OnInit {
   
   //Consulta lineas de producto
 
-  if (!localStorage.getItem('Lineas')){
+  if (!sessionStorage.getItem('Lineas')){
 
     //console.log("Lineas no existen");
 
@@ -220,7 +223,7 @@ export class ConsultapreciosComponent implements OnInit {
 
     //console.log("Lineas ya existen");
 
-    this.oLineas = JSON.parse(localStorage.getItem('Lineas'));  
+    this.oLineas = JSON.parse(sessionStorage.getItem('Lineas'));  
 
     this.oLineasProCon = this.oLineas.Contenido;
     this.oBuscar.ArticuloLinea = this.oLineas.Contenido[0].LineaCodigo; 
@@ -230,7 +233,7 @@ export class ConsultapreciosComponent implements OnInit {
 
 
     //Realizamos llamada al servicio de clientes 
-   if (!localStorage.getItem('Clientes')){
+   if (!sessionStorage.getItem('Clientes')){
 
     //console.log("no tenemos  Clientes");
 
@@ -268,7 +271,7 @@ export class ConsultapreciosComponent implements OnInit {
    // console.log("Ya tenemos  Clientes");
 
 
-    this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+    this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
     this.oContenido = this.oCliente.Contenido[0];
     this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
     this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
@@ -291,7 +294,15 @@ export class ConsultapreciosComponent implements OnInit {
 
   //Inicializamos el tipo de usuario por el momento
   this.oBuscar.TipoUsuario = this.sTipo;
+if(this.sTipo =='C')
+{
+  this.oBuscar.Usuario = this.sCodigo +'-'+ this.sFilial;
+}
+else{
   this.oBuscar.Usuario = this.sCodigo;
+}
+
+  //this.oBuscar.Usuario = this.sCodigo;
 
 
 
@@ -548,7 +559,7 @@ private getDismissReason(reason: any): string {
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);    
   }
 

@@ -82,8 +82,9 @@ export class HeaderComponent implements OnInit {
     private _router: Router,
     private snackBar: MatSnackBar,
     changeDetectorRef: ChangeDetectorRef, 
-    media: MediaMatcher,
+    media: MediaMatcher,    
     private _servicioTemplate: ServicioTemplate
+    
     
 
   ) {
@@ -93,8 +94,8 @@ export class HeaderComponent implements OnInit {
     this.mobileQuery.addListener(this._mobileQueryListener);
     
     this.ModeloContacto = new Contacto('', '', '', '');
-    this.ModeloLoginDistribuidor = new LoginDistribuidor('', '','');
-    this.ModeloLoginEjecutivo = new LoginEjecutivo('', '', '');
+    this.ModeloLoginDistribuidor = new LoginDistribuidor('','', '','','');
+    this.ModeloLoginEjecutivo = new LoginEjecutivo('','', '', '','');
 
      console.log("estoooooo:"+window.location.href)
 
@@ -115,10 +116,10 @@ export class HeaderComponent implements OnInit {
     //modal distribuidor
     openDistribuidor(LoginDistribuidor: any) {
 
-      let sCodigo :number | null = Number(localStorage.getItem('codigo'));
-      let sTipo :string | null = localStorage.getItem('tipo');
-      let sFilial :number | null = Number(localStorage.getItem('filial'));
-      let sNombre :string | null = localStorage.getItem('nombre');
+      let sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
+      let sTipo :string | null = sessionStorage.getItem('tipo');
+      let sFilial :number | null = Number(sessionStorage.getItem('filial'));
+      let sNombre :string | null = sessionStorage.getItem('nombre');
 
 
       if(sTipo=='C')
@@ -202,21 +203,28 @@ export class HeaderComponent implements OnInit {
 
     this.bCargandoDistribuidor = true;
     let ModeloLoginDistribuidorAux: LoginDistribuidor;
-    ModeloLoginDistribuidorAux = new LoginDistribuidor('','',''); 
-    let filialAux = this.ModeloLoginDistribuidor.codigo.split('-');
-    ModeloLoginDistribuidorAux.codigo=filialAux[0];
-    ModeloLoginDistribuidorAux.filial=filialAux[1];
+    this.ModeloLoginDistribuidor.TipoUsuario = "C"
 
-    ModeloLoginDistribuidorAux.password = this.ModeloLoginDistribuidor.password;
+    var myFormData = new FormData();
+
+    var DatosNuevos = {
+      usr_tipo: this.ModeloLoginDistribuidor.TipoUsuario,
+      usr_code: this.ModeloLoginDistribuidor.codigo,
+      usr_password: this.ModeloLoginDistribuidor.password
+    };
+
+    myFormData.append('DatosForm', JSON.stringify(DatosNuevos));
+
+    console.log(JSON.stringify(DatosNuevos))
 
     //Se realiza login con datos enviados
-    this._servicioLoginDistribuidor
-      .Login(ModeloLoginDistribuidorAux)
+    this._servicioLoginDistribuidor.Login(myFormData)
       .subscribe(
         (Response) => {
+
           //Respuesta correcta de login
           this.respuestaLoginDistribuidor = Response;
-          console.log( Response);
+          console.log(Response);
           
           console.log(this.respuestaLoginDistribuidor.Codigo)
 
@@ -229,26 +237,90 @@ export class HeaderComponent implements OnInit {
 
             }else{
               console.log("Login correcto");
-              console.log(this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString());
-              
-           
-              this.saveData(ModeloLoginDistribuidorAux.codigo.toString(),ModeloLoginDistribuidorAux.filial.toString(),this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString(),'C')
 
-              this.ModalActivo?.close();
+              ModeloLoginDistribuidorAux = new LoginDistribuidor('','','','',''); 
+              let filialAux = this.ModeloLoginDistribuidor.codigo.split('-');
+              ModeloLoginDistribuidorAux.codigo=filialAux[0];
+              ModeloLoginDistribuidorAux.filial=filialAux[1];
+              ModeloLoginDistribuidorAux.TipoUsuario = this.ModeloLoginDistribuidor.TipoUsuario;
+              ModeloLoginDistribuidorAux.Usuario = this.ModeloLoginDistribuidor.codigo;
+
+
+              console.log("ModeloLoginDistribuidorAux");
+              console.log(ModeloLoginDistribuidorAux);
+              console.log("this.ModeloLoginDistribuidor");
+              console.log(this.ModeloLoginDistribuidor);
               
-              this._router.navigate(['/distribuidores/inicio/']);
+              this.saveData(ModeloLoginDistribuidorAux.codigo,ModeloLoginDistribuidorAux.filial,'',ModeloLoginDistribuidorAux.TipoUsuario,this.respuestaLoginDistribuidor.Auth)              
+
+
+
+              console.log("CONSULTA RAZON SOCIAL");
+              //Consultamos razon social
+                  //Se realiza login con datos enviados
+                  this._servicioLoginDistribuidor.ObtenRazon(ModeloLoginDistribuidorAux, this.respuestaLoginDistribuidor.Auth)
+                  .subscribe(
+                    (Response) => {
+                      console.log("222222222222222");
+        
+                      //Respuesta correcta de login
+                      this.respuestaLoginDistribuidor = Response;
+                      console.log(Response);
+                      
+                      console.log(this.respuestaLoginDistribuidor.Codigo)
+                      
+                        //Se valida login incorrecto
+                        if (this.respuestaLoginDistribuidor.Codigo == 1) {
+                          this.alerLoginDistribuidor = true;
+                          this.respuestaLoginDistribuidor ="Datos incorrectos!";
+                          //window.alert("Datos incorrectos")
+                          console.log("Datos incorrectos");
+        
+                        }else{
+                          console.log("Se consulto correctamente razon social");
+                          
+                          console.log(this.respuestaLoginDistribuidor.Contenido[0].RazonSocial);
+                          sessionStorage.setItem('nombre', this.respuestaLoginDistribuidor.Contenido[0].RazonSocial);
+                          //this.saveData(ModeloLoginDistribuidorAux.codigo,ModeloLoginDistribuidorAux.filial,this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString(),ModeloLoginDistribuidorAux.tipo,this.respuestaLoginDistribuidor.Auth)              
+                          //this.saveData(ModeloLoginDistribuidorAux.codigo,ModeloLoginDistribuidorAux.filial,'',ModeloLoginDistribuidorAux.tipo,this.respuestaLoginDistribuidor.Auth)              
+        
+                          this.ModalActivo?.close();
+                          
+                          this._router.navigate(['/distribuidores/inicio/']);
+                        }
+        
+                        this.bCargandoDistribuidor = false;
+                      
+                    },
+                    (error) => {
+                      this.alerLoginDistribuidor = true;
+                      this.respuestaLoginDistribuidor = 'Error en login.';
+                      console.log("--------------");
+                      console.log(<any>error);
+                      this.bCargandoDistribuidor = false;
+                    }
+                  );
+
+
+
+
             }
 
-            this.bCargandoDistribuidor = false;
+            //this.bCargandoDistribuidor = false;
           
         },
         (error) => {
           this.alerLoginDistribuidor = true;
           this.respuestaLoginDistribuidor = 'Error en login.';
+          console.log("--------------");
           console.log(<any>error);
           this.bCargandoDistribuidor = false;
         }
       );
+
+      
+
+
   }
 
   private getDismissReason(reason: any): string {
@@ -264,10 +336,10 @@ export class HeaderComponent implements OnInit {
   //Modal ejecutivo
   openEjecutivo(LoginEjecutivos: any) {
 
-    let sCodigo :number | null = Number(localStorage.getItem('codigo'));
-    let sTipo :string | null = localStorage.getItem('tipo');
-    let sFilial :number | null = Number(localStorage.getItem('filial'));
-    let sNombre :string | null = localStorage.getItem('nombre');
+    let sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
+    let sTipo :string | null = sessionStorage.getItem('tipo');
+    let sFilial :number | null = Number(sessionStorage.getItem('filial'));
+    let sNombre :string | null = sessionStorage.getItem('nombre');
 
 
     if(sTipo =='A' || sTipo =='G')
@@ -308,7 +380,27 @@ export class HeaderComponent implements OnInit {
 
     this.bCargandoEmpleados = true;
 
-    this._servicioLoginEjecutivo.login(this.ModeloLoginEjecutivo).subscribe(
+    var myFormData = new FormData();
+
+    if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
+      
+      this.ModeloLoginEjecutivo.TipoUsuario = "A"
+    }else{
+      this.ModeloLoginEjecutivo.TipoUsuario = "G"
+    }
+
+    var DatosNuevos = {
+      usr_tipo: this.ModeloLoginEjecutivo.TipoUsuario,
+      usr_code: this.ModeloLoginEjecutivo.codigo,
+      usr_password: this.ModeloLoginEjecutivo.password
+    };
+
+    myFormData.append('DatosForm', JSON.stringify(DatosNuevos));
+
+    console.log(JSON.stringify(DatosNuevos))
+
+
+    this._servicioLoginEjecutivo.login(myFormData).subscribe(
       (Response) => {
         this.respuestaLoginEjecutivo = Response;
         console.log('Respuesta login empleados: ' + JSON.stringify(this.respuestaLoginEjecutivo));
@@ -322,20 +414,70 @@ export class HeaderComponent implements OnInit {
 
             }else{
               console.log("Login correcto");
-              //console.log(this.respuestaLoginEjecutivo.Contenido[0].RazonSocial.toString());             
-           
-              if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
-                this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A');  
-              }else{
-                this.saveData(this.respuestaLoginEjecutivo.Contenido[0].GerenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre.toString(),'G');  
-              }             
-
-              this.ModalActivo?.close();
+              //console.log(this.respuestaLoginEjecutivo.Contenido[0].RazonSocial.toString());  
               
-              this._router.navigate(['/asesores/inicio/']);
+              this.saveData(this.ModeloLoginEjecutivo.codigo,'','',this.ModeloLoginEjecutivo.TipoUsuario,this.respuestaLoginEjecutivo.Auth)     
+              
+              
+              this.ModeloLoginEjecutivo.Usuario = sessionStorage.getItem("codigo")
+              console.log("Consultamos razon social");  
+              this._servicioLoginEjecutivo.ObtenRazon(this.ModeloLoginEjecutivo,this.respuestaLoginEjecutivo.Auth).subscribe(
+                (Response) => {
+                  this.respuestaLoginEjecutivo = Response;
+                  console.log('Respuesta login empleados: ' + JSON.stringify(this.respuestaLoginEjecutivo));
+          
+                 
+                      //Se valida login incorrecto
+                      if (this.respuestaLoginEjecutivo.Codigo == 1) {
+                        this.alerLoginEjecutivo = true;
+                        this.respuestaLoginEjecutivo ="Datos incorrectos!";
+                        //window.alert("Datos incorrectos")
+          
+                      }else{
+                        console.log("Login correcto");
+                        //console.log(this.respuestaLoginEjecutivo.Contenido[0].RazonSocial.toString());  
+                        
+                        console.log("Se consulto correctamente razon social");
+                            
+                            //console.log(this.respuestaLoginDistribuidor.Contenido[0].RazonSocial);
+                            if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
+                              console.log(this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre);
+                              sessionStorage.setItem('nombre', this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre);       
+                            }else{
+                              console.log(this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre);
+                              sessionStorage.setItem('nombre', this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre);       
+                            }
+                                 
+                        //this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A',"123456");  
+                     
+                        /*if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
+                          this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A',"123456");  
+                        }else{
+                          this.saveData(this.respuestaLoginEjecutivo.Contenido[0].GerenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre.toString(),'G',"123456");  
+                        }*/             
+          
+                        
+                        this.ModalActivo?.close();
+                        
+                        this._router.navigate(['/asesores/inicio/']);
+                      }
+          
+                  this.bCargandoEmpleados = false;
+                },
+                (error) => {
+                  console.log("error");
+                  console.log(error);
+                  this.alerLoginEjecutivo = true;
+                  this.respuestaLoginEjecutivo ="Datos incorrectos!";
+                  this.bCargandoEmpleados = false;
+                }
+              );
+
+
+
             }
 
-        this.bCargandoEmpleados = false;
+        //this.bCargandoEmpleados = false;
       },
       (error) => {
         this.alerLoginEjecutivo = true;
@@ -343,6 +485,9 @@ export class HeaderComponent implements OnInit {
         this.bCargandoEmpleados = false;
       }
     );
+
+
+   
   }
 
     //Modal contacto
@@ -425,23 +570,24 @@ export class HeaderComponent implements OnInit {
 
 
 
-  saveData(codigo: string,filial:string,nombre: string, tipo:string) {
+  saveData(codigo: string, filial:string, nombre: string, tipo:string, token:string) {
 
-    localStorage.setItem('codigo', codigo);
-    localStorage.setItem('filial', filial);
-    localStorage.setItem('nombre', nombre);
-    localStorage.setItem('tipo', tipo);
+    sessionStorage.setItem('codigo', codigo);
+    sessionStorage.setItem('filial', filial);
+    //sessionStorage.setItem('nombre', nombre);
+    sessionStorage.setItem('tipo', tipo);
+    sessionStorage.setItem('token', token);
     
   }
 
   getData() {
-    return localStorage.getItem('idMenu');
+    return sessionStorage.getItem('idMenu');
   }
   removeData() {
-    localStorage.removeItem('location');
+    sessionStorage.removeItem('location');
   }
   deleteData() {
-    localStorage.clear();
+    sessionStorage.clear();
   }
 
 

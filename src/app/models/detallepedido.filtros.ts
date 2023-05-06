@@ -5,7 +5,7 @@ export class FiltrosDetallePedidos{
         public TipoUsuario: string | null,
         public ClienteCodigo: number | null,
         public ClienteFilial: number | null,
-        public Usuario: number
+        public Usuario: number | string
 
     ){}
 }

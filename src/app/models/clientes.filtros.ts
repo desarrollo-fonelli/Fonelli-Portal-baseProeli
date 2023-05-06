@@ -1,6 +1,6 @@
 export class FiltrosClientes {
   constructor(
-    public Usuario: number,
+    public Usuario: number | string,
     public ClienteCodigo: number,
     public ClienteFilial: number,
     public TipoUsuario: string,

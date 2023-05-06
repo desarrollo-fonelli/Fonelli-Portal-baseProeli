@@ -146,13 +146,17 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
 
-      this.sCodigo = Number(localStorage.getItem('codigo'));
-      this.sTipo = localStorage.getItem('tipo');
-      this.sFilial  = Number(localStorage.getItem('filial'));
-      this.sNombre = localStorage.getItem('nombre');
+
+  this.sCodigo =Number(sessionStorage.getItem('codigo'));
+
+
+      
+      this.sTipo = sessionStorage.getItem('tipo');
+      this.sFilial  = Number(sessionStorage.getItem('filial'));
+      this.sNombre = sessionStorage.getItem('nombre');
   
       //Inicializamos variables consulta pedidos
-      this.oBuscar = new FiltrosVentaArticuloCliente('',0,'','','','',0,0,0,0,'','','','','','','','','','','','','','',0)
+      this.oBuscar = new FiltrosVentaArticuloCliente('','','','','','',0,0,0,0,'','','','','','','','','','','','','','',0)
       this.oVentasCliRes={} as VentasClienteArticulo; 
       this.oVentasCliArtPzasImpRes={} as VentasClienteArticuloPzasImp; 
       this.oBuscarOfi =  new FiltrosOficina('',0)
@@ -315,7 +319,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
       this.Buscar.Usuario = this.sCodigo;
 
        //Llenamos oficinas
-     if (!localStorage.getItem('Oficinas')){
+     if (!sessionStorage.getItem('Oficinas')){
      // console.log("NO tenemos oficina");
 
       this._servicioOficinas 
@@ -350,7 +354,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
     }else{
      // console.log("Ya tenemos oficina");
 
-      this.oOficinasRes = JSON.parse(localStorage.getItem('Oficinas'));
+      this.oOficinasRes = JSON.parse(sessionStorage.getItem('Oficinas'));
 
       this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
       this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
@@ -359,7 +363,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
 
 
      //Consulta lineas de producto
-    if (!localStorage.getItem('Lineas')){
+    if (!sessionStorage.getItem('Lineas')){
 
        // console.log("Lineas no existen");
 
@@ -399,7 +403,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
         }else{
          // console.log("Lineas ya existen");
 
-          this.oLineasRes = JSON.parse(localStorage.getItem('Lineas'));
+          this.oLineasRes = JSON.parse(sessionStorage.getItem('Lineas'));
           this.oLineasCon = this.oLineasRes.Contenido
           this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
           this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
@@ -408,7 +412,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
 
        
           //Realizamos llamada al servicio de categorias 
-          if (!localStorage.getItem('Categorias')){
+          if (!sessionStorage.getItem('Categorias')){
 
             //console.log("No tenemos categorias");
             this._servicioCategorias 
@@ -453,7 +457,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
           }else{
            // console.log("Tenemos categorias");
             
-            this.oCategoriasRes = JSON.parse(localStorage.getItem('Categorias'));
+            this.oCategoriasRes = JSON.parse(sessionStorage.getItem('Categorias'));
             this.oCategoriasCon = this.oCategoriasRes.Contenido;
             this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
             this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
@@ -469,7 +473,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
 
 
         //Realizamos llamada al servicio de clientes 
-        if (!localStorage.getItem('Clientes')){
+        if (!sessionStorage.getItem('Clientes')){
 
         //  console.log("no tenemos  Clientes");
 
@@ -507,7 +511,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
            // console.log("Ya tenemos  Clientes");
 
 
-            this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+            this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
             this.oContenido = this.oCliente.Contenido[0];
             this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
             this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
@@ -530,7 +534,18 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
 
       console.log(this.oBuscar);
       this.oBuscar.TipoUsuario = this.sTipo
-      this.oBuscar.Usuario = this.sCodigo
+
+      if(sessionStorage.getItem('tipo') == 'C')
+      {
+        this.oBuscar.Usuario = sessionStorage.getItem('codigo')+'-'+sessionStorage.getItem('filial')  
+      }
+      else{
+        this.oBuscar.Usuario = sessionStorage.getItem('codigo') 
+      }
+     
+
+
+    
       this.bCargando = true;
       
       //Validacion para determinar que servicio se estara utilizando
@@ -1615,7 +1630,7 @@ reemplaza(valor: string, valorAReemplazar: string){
   
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);    
   }
 

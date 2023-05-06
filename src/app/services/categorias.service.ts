@@ -10,6 +10,8 @@ import { environment } from '../../environments/environment';
 export class ServicioCategorias{
     public API: string;
     public API_URL: string;
+    public sToken: string;
+
 
 constructor(
     public _http:HttpClient
@@ -17,6 +19,7 @@ constructor(
 
     this.API = Configuracion.API;
     this.API_URL = environment.API_URL;
+    this.sToken = sessionStorage.getItem('token');
 
 }
 
@@ -26,7 +29,8 @@ Get(FiltrosCategorias: any): Observable<any>{
     let headers =  new HttpHeaders().set('Content-Type','application-json')
                                     .set("Access-Control-Allow-Origin","*")
                                     .set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-                                    . set("Access-Control-Allow-Methods", "GET")
+                                    .set("Access-Control-Allow-Methods", "GET")
+                                    .set("Auth", this.sToken)
                                     .set("Access-Control-Allow-Credentials", "true");
 
     return this._http.get(this.API_URL+this.API + 'catalogos/ListaCategorias.php',{headers:headers});

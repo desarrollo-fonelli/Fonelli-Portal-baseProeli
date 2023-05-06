@@ -56,7 +56,7 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
 
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
-  sCodigo :number | null;
+  sCodigo :string | null;
   sTipo :string | null;
   sFilial :number | null;
   sNombre :string | null;
@@ -125,13 +125,24 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
 
-      this.sCodigo = Number(localStorage.getItem('codigo'));
-      this.sTipo = localStorage.getItem('tipo');
-      this.sFilial  = Number(localStorage.getItem('filial'));
-      this.sNombre = localStorage.getItem('nombre');
+      console.log(sessionStorage.getItem('tipo') );
+      if(sessionStorage.getItem('tipo') == 'C')
+      {
+        this.sCodigo = sessionStorage.getItem('codigo')+'-'+sessionStorage.getItem('filial');
+      }
+      else{
+        this.sCodigo = sessionStorage.getItem('codigo');
+      }
+     
+      console.log("this.sCodigo" );
+      console.log(this.sCodigo );
+
+      this.sTipo = sessionStorage.getItem('tipo');
+      this.sFilial  = Number(sessionStorage.getItem('filial'));
+      this.sNombre = sessionStorage.getItem('nombre');
   
       //Inicializamos variables consulta pedidos
-      this.oBuscar = new FiltrosVentasArticulo('',0,'','','','','','','','','','','','','','','','',0)
+      this.oBuscar = new FiltrosVentasArticulo('','','','','','','','','','','','','','','','','','',0)
       this.oVentasArticuloRes={} as VentasArticulo; 
       this.oBuscarOfi =  new FiltrosOficina('',0)
       this.oOficinasRes = {} as Oficina;
@@ -281,7 +292,7 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
       this.oBuscar.Usuario = this.sCodigo;
 
       //Llenamos oficinas
-     if (!localStorage.getItem('Oficinas')){
+     if (!sessionStorage.getItem('Oficinas')){
      // console.log("NO tenemos oficina");
 
       this._servicioOficinas 
@@ -316,7 +327,7 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
     }else{
     //  console.log("Ya tenemos oficina");
 
-      this.oOficinasRes = JSON.parse(localStorage.getItem('Oficinas'));
+      this.oOficinasRes = JSON.parse(sessionStorage.getItem('Oficinas'));
 
       this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
       this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
@@ -325,7 +336,7 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
 
 
      //Consulta lineas de producto
-    if (!localStorage.getItem('Lineas')){
+    if (!sessionStorage.getItem('Lineas')){
 
       //  console.log("Lineas no existen");
 
@@ -365,7 +376,7 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
         }else{
           //console.log("Lineas ya existen");
 
-          this.oLineasRes = JSON.parse(localStorage.getItem('Lineas'));
+          this.oLineasRes = JSON.parse(sessionStorage.getItem('Lineas'));
           this.oLineasCon = this.oLineasRes.Contenido
           this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
           this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
@@ -374,7 +385,7 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
 
        
           //Realizamos llamada al servicio de categorias 
-          if (!localStorage.getItem('Categorias')){
+          if (!sessionStorage.getItem('Categorias')){
 
             //console.log("No tenemos categorias");
             this._servicioCategorias 
@@ -420,7 +431,7 @@ export class VentasarticuloComponent implements OnInit, OnDestroy {
           }else{
            // console.log("Tenemos categorias");
             
-            this.oCategoriasRes = JSON.parse(localStorage.getItem('Categorias'));
+            this.oCategoriasRes = JSON.parse(sessionStorage.getItem('Categorias'));
             this.oCategoriasCon = this.oCategoriasRes.Contenido;
             this.oBuscar.CategoriaDesde = this.oCategoriasCon[0].CategoriaCodigo; 
             this.oBuscar.CategoriaHasta = this.oCategoriasCon[this.oCategoriasCon.length - 1].CategoriaCodigo; 
@@ -1348,7 +1359,7 @@ downloadAsPDF() {
   
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);    
   }
 

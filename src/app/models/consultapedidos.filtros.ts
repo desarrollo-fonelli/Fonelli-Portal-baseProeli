@@ -3,7 +3,7 @@ export class FiltrosConsultaPedidos{
        public TipoUsuario: string | null,
        public ClienteCodigo: number| null,
        public ClienteFilial: number| null,
-       public Usuario: number,
+       public Usuario: number | string,
        public Status: string
     ){}
 }

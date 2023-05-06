@@ -37,10 +37,10 @@ export class AdminComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let sCodigo :string | null = localStorage.getItem('codigo');
-    let sTipo :string | null = localStorage.getItem('tipo');
-    let sFilial :number | null = Number(localStorage.getItem('filial'));
-    let sNombre :string | null = localStorage.getItem('nombre');
+    let sCodigo :string | null = sessionStorage.getItem('codigo');
+    let sTipo :string | null = sessionStorage.getItem('tipo');
+    let sFilial :number | null = Number(sessionStorage.getItem('filial'));
+    let sNombre :string | null = sessionStorage.getItem('nombre');
 
 
     if(sTipo=='M')
@@ -67,8 +67,8 @@ export class AdminComponent implements OnInit {
 
   onInicioSesion(){
 
-    let sCodigo :number | null = Number(localStorage.getItem('codigo'));
-    let sTipo :string | null = localStorage.getItem('tipo');
+    let sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
+    let sTipo :string | null = sessionStorage.getItem('tipo');
 
 
     if(sTipo =='M')
@@ -106,7 +106,7 @@ export class AdminComponent implements OnInit {
               this.respuestaLoginAdmin ="Datos incorrectos!";
             }else{              
               console.log("Login correcto");
-              this.saveData(this.ModeloLoginAdmin.usuario,'M');             
+              this.saveData(this.ModeloLoginAdmin.usuario,'M',"123456");             
               this._router.navigate(['/panel/inicio']);
             }
 
@@ -124,10 +124,12 @@ export class AdminComponent implements OnInit {
   }
 
 
-  saveData(usuario: string, tipo:string) {
+  saveData(usuario: string, tipo:string, token:string) {
 
-    localStorage.setItem('codigo', usuario);
-    localStorage.setItem('tipo', tipo);
+    sessionStorage.setItem('codigo', usuario);
+    sessionStorage.setItem('tipo', tipo);
+    sessionStorage.setItem('token', token);
+
     
   }
 

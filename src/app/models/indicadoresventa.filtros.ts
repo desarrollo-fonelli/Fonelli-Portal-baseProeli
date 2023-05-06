@@ -3,6 +3,8 @@ export class FiltroIndicadoresVenta {
     public AgenteDesde: number,
     public AgenteHasta: number,
     public FechaCorte: string,
-    public Pagina: number
+    public Pagina: number,
+    public TipoUsuario: string,
+    public Usuario: number|string
   ) {}
 }

@@ -124,10 +124,10 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
 
 
-    this.sCodigo = Number(localStorage.getItem('codigo'));
-    this.sTipo = localStorage.getItem('tipo');
-    this.sFilial  = Number(localStorage.getItem('filial'));
-    this.sNombre = localStorage.getItem('nombre');
+    this.sCodigo = Number(sessionStorage.getItem('codigo'));
+    this.sTipo = sessionStorage.getItem('tipo');
+    this.sFilial  = Number(sessionStorage.getItem('filial'));
+    this.sNombre = sessionStorage.getItem('nombre');
 
     this.bCliente = false;
     this.bBandera = false;
@@ -211,6 +211,7 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
            this.oBuscar.FilialDesde = this.sFilial; 
            this.oBuscar.FilialHasta = this.sFilial;   
            //this.oBuscar.CarteraHasta= 'Z';   
+           this.oBuscar.Usuario =this.sCodigo+'-'+this.sFilial;
            this.bCliente = true;    
            break; 
         } 
@@ -255,7 +256,7 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
     console.log(this.fechaHoy);
 
     //Consulta carteras
-    if (!localStorage.getItem('Carteras')){
+    if (!sessionStorage.getItem('Carteras')){
      // console.log("No tenemos carteras");
       this._servicioCartera
       .Get(this.oBuscaCartera)
@@ -295,7 +296,7 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
     }else{
       //console.log("YA tenemos carteras");
 
-      this.oCarterasCon = JSON.parse(localStorage.getItem('Carteras'));
+      this.oCarterasCon = JSON.parse(sessionStorage.getItem('Carteras'));
       this.oBuscar.CarteraDesde = this.oCarterasCon[0].CarteraCodigo;
       this.oBuscar.CarteraHasta = this.oCarterasCon[this.oCarterasCon.length -1].CarteraCodigo;
 
@@ -304,7 +305,7 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
     
 
     //Realizamos llamada al servicio de clientes 
-   if (!localStorage.getItem('Clientes')){
+   if (!sessionStorage.getItem('Clientes')){
 
     //console.log("no tenemos  Clientes");
 
@@ -342,7 +343,7 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
       //console.log("Ya tenemos  Clientes");
 
 
-      this.oClientes = JSON.parse(localStorage.getItem('Clientes'));
+      this.oClientes = JSON.parse(sessionStorage.getItem('Clientes'));
       /*this.oContenido = this.oClientes.Contenido[0];
       this.oCondiciones = this.oClientes.Contenido[0].Condiciones;
       this.oDatosGenerales =this.oClientes.Contenido[0].DatosGenerales;
@@ -721,7 +722,7 @@ consultaEstadoCuenta(){
   
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);    
   }
 

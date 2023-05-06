@@ -124,10 +124,10 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
     private modalService: NgbModal,
     private _servicioCClientes: ServicioClientes) { 
 
-      this.sCodigo = Number(localStorage.getItem('codigo'));
-      this.sTipo = localStorage.getItem('tipo');
-      this.sFilial  = Number(localStorage.getItem('filial'));
-      this.sNombre = localStorage.getItem('nombre');
+      this.sCodigo = Number(sessionStorage.getItem('codigo'));
+      this.sTipo = sessionStorage.getItem('tipo');
+      this.sFilial  = Number(sessionStorage.getItem('filial'));
+      this.sNombre = sessionStorage.getItem('nombre');
 
     //Inicializamos variables consulta pedidos
     this.oBuscar = new FiltrosRelacionPedidos('',0,'','',0,0,0,0,'','','','','','','','',0)
@@ -246,7 +246,7 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
            this.oBuscar.FilialHasta = this.sFilial;   
            this.oBuscar.ClienteHasta = this.sCodigo; 
            this.oBuscar.FilialHasta = this.sFilial; 
-         
+           this.oBuscar.Usuario =this.sCodigo+'-'+this.sFilial;
            this.bCliente = true;    
 
            break; 
@@ -283,7 +283,7 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
     this.Buscar.Usuario = this.sCodigo;
 
      //Llenamos oficinas
-     if (!localStorage.getItem('Oficinas')){
+     if (!sessionStorage.getItem('Oficinas')){
      // console.log("NO tenemos oficina");
 
       this._servicioOficinas 
@@ -318,7 +318,7 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
     }else{
       //console.log("Ya tenemos oficina");
 
-      this.oOficinasRes = JSON.parse(localStorage.getItem('Oficinas'));
+      this.oOficinasRes = JSON.parse(sessionStorage.getItem('Oficinas'));
 
       this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
       this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
@@ -327,7 +327,7 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
        
 
   //Realizamos llamada al servicio de clientes 
-   if (!localStorage.getItem('Clientes')){
+   if (!sessionStorage.getItem('Clientes')){
 
    // console.log("no tenemos  Clientes");
 
@@ -365,7 +365,7 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
      // console.log("Ya tenemos  Clientes");
 
 
-      this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+      this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
       this.oContenido = this.oCliente.Contenido[0];
       this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
       this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
@@ -1482,7 +1482,7 @@ openClientes(Clientes: any, cliente: boolean) {
 
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);    
   }
 

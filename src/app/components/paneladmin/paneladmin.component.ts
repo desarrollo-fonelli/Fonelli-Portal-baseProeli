@@ -14,8 +14,8 @@ export class PaneladminComponent implements OnInit {
   public sCuenta: string;
   mobileQuery: MediaQueryList;
 
-  public sCodigo: string | null = localStorage.getItem('codigo');
-  public sTipo: string | null = localStorage.getItem('tipo');
+  public sCodigo: string | null = sessionStorage.getItem('codigo');
+  public sTipo: string | null = sessionStorage.getItem('tipo');
 
 
 
@@ -56,7 +56,7 @@ export class PaneladminComponent implements OnInit {
 
     //Funcion para cerrar sesion y redireccionar al home
     EliminaSesion() {
-      localStorage.clear();
+      sessionStorage.clear();
       this._router.navigate(['/']);
     }
 

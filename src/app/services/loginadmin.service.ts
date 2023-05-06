@@ -21,6 +21,7 @@ export class ServicioLoginAdmin{
     public API: string;
     public API_URL: string;
     public LoginAdminAux: LoginAdminAux;
+    public sToken: string;
 
 constructor(
     public _http:HttpClient
@@ -29,6 +30,7 @@ constructor(
     this.API = Configuracion.API;
     this.API_URL = environment.API_URL;
     this.LoginAdminAux = {}  as LoginAdminAux;
+    this.sToken = sessionStorage.getItem('token');
 
 }
 
@@ -39,7 +41,8 @@ Login(admin: any): Observable<any>{
 
     let params = JSON.stringify(this.LoginAdminAux);
     
-    let headers =  new HttpHeaders().set('Content-Type','application-json');
+    let headers =  new HttpHeaders().set('Content-Type','application-json')
+                                    .set("Auth", this.sToken);
 
     const form =  new FormData;
 

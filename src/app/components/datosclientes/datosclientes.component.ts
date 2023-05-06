@@ -106,10 +106,10 @@ export class DatosclientesComponent implements OnInit {
                 this._mobileQueryListener = () => changeDetectorRef.detectChanges();
                 this.mobileQuery.addListener(this._mobileQueryListener);
 
-                this.sCodigo = Number(localStorage.getItem('codigo'));
-                this.sTipo = localStorage.getItem('tipo');
-                this.sFilial  = Number(localStorage.getItem('filial'));
-                this.sNombre = localStorage.getItem('nombre');
+                this.sCodigo = Number(sessionStorage.getItem('codigo'));
+                this.sTipo = sessionStorage.getItem('tipo');
+                this.sFilial  = Number(sessionStorage.getItem('filial'));
+                this.sNombre = sessionStorage.getItem('nombre');
             
                
               }
@@ -132,7 +132,9 @@ export class DatosclientesComponent implements OnInit {
         this.bCliente = true;
         
         this.oBuscar.ClienteCodigo=this.sCodigo;
-        this.oBuscar.ClienteFilial=this.sFilial;
+        //this.oBuscar.Usuario=this.sCodigo;
+        this.oBuscar.ClienteFilial = this.sFilial;
+        this.oBuscar.Usuario =this.sCodigo+'-'+this.sFilial;
          break; 
       } 
       case 'A': { 
@@ -152,7 +154,7 @@ export class DatosclientesComponent implements OnInit {
    this.oBuscar.TipoUsuario= this.sTipo;
 
    //Realizamos llamada al servicio de clientes 
-   if (!localStorage.getItem('Clientes')){
+   if (!sessionStorage.getItem('Clientes')){
 
     //console.log("no tenemos  Clientes");
 
@@ -191,7 +193,7 @@ export class DatosclientesComponent implements OnInit {
     //console.log("Ya tenemos  Clientes");
 
 
-    this.oClienteModal = JSON.parse(localStorage.getItem('Clientes'));
+    this.oClienteModal = JSON.parse(sessionStorage.getItem('Clientes'));
     this.oContenidoModal = this.oClienteModal.Contenido[0];
     this.oCondicionesModal = this.oClienteModal.Contenido[0].Condiciones;
     this.oDatosGeneralesModal =this.oClienteModal.Contenido[0].DatosGenerales;
@@ -211,6 +213,7 @@ export class DatosclientesComponent implements OnInit {
       this.bCargando = true;
   
 
+      console.log("--------DATOS"+this.oBuscar.Usuario)
       this._servicioCClientes
       .GetCliente(this.oBuscar)
       .subscribe(
@@ -399,7 +402,7 @@ export class DatosclientesComponent implements OnInit {
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);    
   }
 

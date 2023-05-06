@@ -3,6 +3,8 @@ export class FiltrosAgente {
     public AgenteCodigo: number,
     public Password: string,
     public Status: string,
-    public Pagina: number
+    public Pagina: number,
+    public TipoUsuario: string,
+    public Usuario: number|string
   ) {}
 }

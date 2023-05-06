@@ -50,10 +50,10 @@ export class SidenavComponent implements OnInit {
   public sCuenta: string;
   mobileQuery: MediaQueryList;
 
-  public sCodigo: number | null = Number(localStorage.getItem('codigo'));
-  public sTipo: string | null = localStorage.getItem('tipo');
-  public sFilial: number | null = Number(localStorage.getItem('filial'));
-  public sNombre: string | null = localStorage.getItem('nombre');
+  public sCodigo: number | null = Number(sessionStorage.getItem('codigo'));
+  public sTipo: string | null = sessionStorage.getItem('tipo');
+  public sFilial: number | null = Number(sessionStorage.getItem('filial'));
+  public sNombre: string | null = sessionStorage.getItem('nombre');
 
   private _mobileQueryListener: () => void;
 
@@ -116,7 +116,7 @@ export class SidenavComponent implements OnInit {
     this.bCliente = false;
     this.sCuenta = '';
 
-    this.oBuscarAgentes =  new FiltrosAgente(0,'','A',0)
+    this.oBuscarAgentes =  new FiltrosAgente(0,'','A',0,'','')
     this.oAgentes = {} as Agentes;
 
     this.oBuscarOfi =  new FiltrosOficina('',0)
@@ -164,11 +164,22 @@ export class SidenavComponent implements OnInit {
     
     
    //Consulta agentes      
-   if (!localStorage.getItem('Agentes')){
+   if (!sessionStorage.getItem('Agentes')){
     console.log("Inicia carga agentes");
 
 
 console.log(1);
+
+this.oBuscarAgentes.TipoUsuario = sessionStorage.getItem('tipo');
+if(sessionStorage.getItem('tipo') == 'C')
+{
+  this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo')+'-'+sessionStorage.getItem('filial');
+}
+else{
+  this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo');
+}
+
+
     this.oBuscarAgentes.Status = "A";
     console.log(2);
     
@@ -186,7 +197,7 @@ console.log(1);
         }
    
         this.oAgentesCon = this.oAgentes.Contenido;
-        localStorage.setItem('Agentes', JSON.stringify(this.oAgentesCon));       
+        sessionStorage.setItem('Agentes', JSON.stringify(this.oAgentesCon));       
         return true;
      
       },
@@ -204,7 +215,7 @@ console.log(1);
 
 
     //Realizamos llamada al servicio de oficinas
-    if (!localStorage.getItem('Oficinas')){
+    if (!sessionStorage.getItem('Oficinas')){
 
       //console.log("Inicia carga Oficinas");
       this._servicioOficinas 
@@ -222,7 +233,7 @@ console.log(1);
             return;
           }
 
-          localStorage.setItem('Oficinas', JSON.stringify(this.oOficinasRes));    
+          sessionStorage.setItem('Oficinas', JSON.stringify(this.oOficinasRes));    
 
         },
         (error:Oficina) => {
@@ -241,7 +252,7 @@ console.log(1);
     
 
      //Realizamos llamada al servicio de lineas
-     if (!localStorage.getItem('Lineas')){
+     if (!sessionStorage.getItem('Lineas')){
 
        // console.log("Inicia carga Lineaes");
         this._servicioLineas 
@@ -260,7 +271,7 @@ console.log(1);
             }
   
             //this.oLineasCon = this.oLineasRes.Contenido
-            localStorage.setItem('Lineas', JSON.stringify(this.oLineasRes));    
+            sessionStorage.setItem('Lineas', JSON.stringify(this.oLineasRes));    
           },
           (error:Lineas) => {
   
@@ -278,7 +289,7 @@ console.log(1);
 
 
      //Realizamos llamada al servicio de categorias 
-     if (!localStorage.getItem('Categorias')){
+     if (!sessionStorage.getItem('Categorias')){
 
      // console.log("Inicia carga Categorias");
         
@@ -296,7 +307,7 @@ console.log(1);
           }
 
           //this.oCategoriasCon = this.oCategoriasRes.Contenido;
-          localStorage.setItem('Categorias', JSON.stringify(this.oCategoriasRes));    
+          sessionStorage.setItem('Categorias', JSON.stringify(this.oCategoriasRes));    
 
 
         },
@@ -315,7 +326,7 @@ console.log(1);
 
 
      //Realizamos llamada al servicio de clientes 
-     if (!localStorage.getItem('Clientes')){
+     if (!sessionStorage.getItem('Clientes')){
 
     //  console.log("Inicia carga Clientes");
 
@@ -334,7 +345,7 @@ console.log(1);
             return false;
           }
      
-          localStorage.setItem('Clientes', JSON.stringify(this.oCliente));    
+          sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente));    
           /*this.oContenido = this.oCliente.Contenido[0];
           this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
           this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
@@ -357,7 +368,7 @@ console.log(1);
 
 
      //Consulta carteras
-     if (!localStorage.getItem('Carteras')){
+     if (!sessionStorage.getItem('Carteras')){
         console.log("Inicia carga Carteras");
 
         this._servicioCartera
@@ -375,7 +386,7 @@ console.log(1);
               return false;
             }
       
-            localStorage.setItem('Carteras', JSON.stringify(this.oCarteras.Contenido));    
+            sessionStorage.setItem('Carteras', JSON.stringify(this.oCarteras.Contenido));    
             
             return true;
 
@@ -395,7 +406,7 @@ console.log(1);
       
 
      //Consulta Tipos cliente
-     if (!localStorage.getItem('TiposCliente')){
+     if (!sessionStorage.getItem('TiposCliente')){
       console.log("Inicia carga Tipos cliente");
 
       this._servicioTiposCliente
@@ -410,7 +421,7 @@ console.log(1);
             return false;
           }
 
-          localStorage.setItem('TiposCliente', JSON.stringify(this.oTipoCliente.Contenido));          
+          sessionStorage.setItem('TiposCliente', JSON.stringify(this.oTipoCliente.Contenido));          
           return true;
 
         },
@@ -445,12 +456,12 @@ console.log(1);
   }
 
   obtenMenu() {
-    return localStorage.getItem('tipo');
+    return sessionStorage.getItem('tipo');
   }
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);
   }
 

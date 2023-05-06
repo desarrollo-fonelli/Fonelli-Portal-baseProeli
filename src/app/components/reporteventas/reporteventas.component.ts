@@ -149,10 +149,10 @@ export class ReporteventasComponent implements OnInit, OnDestroy {
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
 
-      this.sCodigo = Number(localStorage.getItem('codigo'));
-      this.sTipo = localStorage.getItem('tipo');
-      this.sFilial  = Number(localStorage.getItem('filial'));
-      this.sNombre = localStorage.getItem('nombre');
+      this.sCodigo = Number(sessionStorage.getItem('codigo'));
+      this.sTipo = sessionStorage.getItem('tipo');
+      this.sFilial  = Number(sessionStorage.getItem('filial'));
+      this.sNombre = sessionStorage.getItem('nombre');
   
       //Inicializamos variables consulta pedidos
       this.oBuscar = new FiltrosReporteVentas('','',0,0,0,0,0,0,'','','','','','','','','','','','','','',0)
@@ -359,7 +359,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
       this.Buscar.Usuario = this.sCodigo;
        
          //Realizamos llamada al servicio de categorias 
-         if (!localStorage.getItem('Categorias')){
+         if (!sessionStorage.getItem('Categorias')){
 
           //console.log("No tenemos categorias");
           this._servicioCategorias 
@@ -402,7 +402,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
         }else{
           //console.log("Tenemos categorias");
           
-          this.oCategoriasRes = JSON.parse(localStorage.getItem('Categorias'));
+          this.oCategoriasRes = JSON.parse(sessionStorage.getItem('Categorias'));
           this.oCategoriasCon = this.oCategoriasRes.Contenido;
           this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
           this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
@@ -416,7 +416,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
 
 
       //Realizamos llamada al servicio de clientes 
-      if (!localStorage.getItem('Clientes')){
+      if (!sessionStorage.getItem('Clientes')){
 
        // console.log("no tenemos  Clientes");
 
@@ -454,7 +454,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
          // console.log("Ya tenemos  Clientes");
 
 
-          this.oCliente = JSON.parse(localStorage.getItem('Clientes'));
+          this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
           this.oContenido = this.oCliente.Contenido[0];
           this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
           this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
@@ -463,7 +463,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
         }
 
   //Consulta agentes
-  if (!localStorage.getItem('Agentes')){
+  if (!sessionStorage.getItem('Agentes')){
 
     this._servicioAgentes
     .Get(this.oBuscarAgentes)
@@ -510,7 +510,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
   }else{//Ya tenemos agentes
   //  console.log("Ya tenemos agentes");
 
-    this.oAgentesCon = JSON.parse(localStorage.getItem('Agentes'));
+    this.oAgentesCon = JSON.parse(sessionStorage.getItem('Agentes'));
     if (this.sTipo =='A'){
       this.oBuscar.AgenteCodigo = this.sCodigo; 
     }else{
@@ -525,7 +525,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
 
 
   //Consulta Tipos cliente
-  if (!localStorage.getItem('TiposCliente')){
+  if (!sessionStorage.getItem('TiposCliente')){
     console.log("Inicia carga Tipos cliente");
 
     this._servicioTiposCliente
@@ -558,7 +558,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
    // console.log("Termina carga oTipoCliente");
  }else{//Ya tenemos clientes
 
-    this.oTiposClienteCon = JSON.parse(localStorage.getItem('TiposCliente'));    
+    this.oTiposClienteCon = JSON.parse(sessionStorage.getItem('TiposCliente'));    
 
     this.oBuscar.TipoClienteDesde = this.oTiposClienteCon[0].TipoCodigo
     this.oBuscar.TipoClienteHasta = this.oTiposClienteCon[this.oTiposClienteCon.length -1 ].TipoCodigo    
@@ -1731,7 +1731,7 @@ downloadAsPDF() {
   
 //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);    
   }
 

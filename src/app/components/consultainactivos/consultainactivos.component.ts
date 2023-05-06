@@ -148,15 +148,16 @@ export class ConsultainactivosComponent implements OnInit, OnDestroy {
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
 
-    this.sCodigo = Number(localStorage.getItem('codigo'));
-    this.sTipo = localStorage.getItem('tipo');
-    this.sFilial = Number(localStorage.getItem('filial'));
-    this.sNombre = localStorage.getItem('nombre');
+    this.sCodigo = Number(sessionStorage.getItem('codigo'));
+    this.sTipo = sessionStorage.getItem('tipo');
+    this.sFilial = Number(sessionStorage.getItem('filial'));
+    this.sNombre = sessionStorage.getItem('nombre');
 
     this.bCliente = false;
 
     //Inicializamos variables consulta pedidos
-    this.oBuscar = new FiltrosClientesInactivos(0, 0, 0);
+    this.oBuscar = new FiltrosClientesInactivos(0, 0, "","",0);
+
     this.oClientesInacRes = {} as ClienteInactivo;
 
 
@@ -184,6 +185,8 @@ export class ConsultainactivosComponent implements OnInit, OnDestroy {
         }
       ]
    
+
+     
       
     };
 
@@ -225,12 +228,15 @@ export class ConsultainactivosComponent implements OnInit, OnDestroy {
 
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();    
     this.fechaFron = date.getDate() + '/' + mes + '/' + date.getFullYear();    
+
+    this.oBuscar.TipoUsuario=sessionStorage.getItem('tipo');
+    this.oBuscar.Usuario=sessionStorage.getItem('codigo');
     
       //Consulta agentes
-      if (!localStorage.getItem('Agentes')){
+      if (!sessionStorage.getItem('Agentes')){
 
-        this._servicioAgentes
-        .Get(this.oBuscarAgentes)
+        
+        this._servicioAgentes.Get(this.oBuscarAgentes)
         .subscribe(
           (Response: Agentes) =>  {
             
@@ -276,7 +282,7 @@ export class ConsultainactivosComponent implements OnInit, OnDestroy {
       }else{//Ya tenemos agentes
         //console.log("Ya tenemos agentes");
   
-        this.oAgentesCon = JSON.parse(localStorage.getItem('Agentes'));
+        this.oAgentesCon = JSON.parse(sessionStorage.getItem('Agentes'));
     
             if (this.sTipo == 'A'){
               this.oBuscar.AgenteDesde = this.sCodigo;
@@ -991,7 +997,7 @@ export class ConsultainactivosComponent implements OnInit, OnDestroy {
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
-    localStorage.clear();
+    sessionStorage.clear();
     this._router.navigate(['/']);
   }
 
