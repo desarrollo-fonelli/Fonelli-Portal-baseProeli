@@ -1,6 +1,6 @@
 {
     "/med_fonelli_apiportal/*":{
-        "target":"http://a027/",
+        "target":"https://www.fonelli.com/",
         "secure":false,
         "logLevel":"debug"
     }
