@@ -58,6 +58,11 @@ GetCliente(FiltrosClientes: any): Observable<any>{
   this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario;
     
 
+  if(FiltrosClientes.TipoUsuario =='A')
+  {
+      this.sFiltros += '&AgenteCodigo=' + FiltrosClientes.Usuario;
+  }
+
 
     if(FiltrosClientes.ClienteCodigo)
     {
