@@ -67,6 +67,7 @@ GetCliente(FiltrosClientes: any): Observable<any>{
     if(FiltrosClientes.ClienteCodigo)
     {
         this.sFiltros += '&ClienteCodigo=' + FiltrosClientes.ClienteCodigo;
+        this.sFiltros += '&ClienteFilial=' + FiltrosClientes.ClienteFilial;
     }
 
     if(FiltrosClientes.ClienteFilial)
