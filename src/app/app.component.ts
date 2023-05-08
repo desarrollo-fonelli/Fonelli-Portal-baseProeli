@@ -65,6 +65,12 @@ export class AppComponent {
           sessionStorage.clear();
           this._router.navigate(['/']);
         }
+
+        if (localStorage.getItem('codigo') != null){
+          console.log("hay datos");
+          localStorage.clear();
+          this._router.navigate(['/']);
+        }
         
       }
     })
@@ -88,6 +94,17 @@ export class AppComponent {
     
     this.MenuHome = this.obtenMenu();
     console.log(this.MenuHome);*/
+
+    if (sessionStorage.getItem('codigo') != null){
+      console.log("hay datos");
+      sessionStorage.clear();
+    }
+
+    if (localStorage.getItem('codigo') != null){
+      console.log("hay datos");
+      localStorage.clear();
+    }
+
   }
 
 
