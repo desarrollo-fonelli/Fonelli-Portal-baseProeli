@@ -183,7 +183,7 @@ export class ConsultapreciosComponent implements OnInit {
 
   if (!sessionStorage.getItem('Lineas')){
 
-    //console.log("Lineas no existen");
+    console.log("Lineas no existen");
 
     this._servicioLineas
     .Get(this.oBuscarLineasPro)
@@ -201,8 +201,10 @@ export class ConsultapreciosComponent implements OnInit {
           this.sMensaje="No se encontraron lineas de producto";     
           return false;
         }
-   
-        this.oLineasProCon = this.oLineas.Contenido;
+
+
+        sessionStorage.setItem('Lineas', JSON.stringify(this.oLineas));    
+        this.oLineasProCon = this.oLineas.Contenido;             
         this.oBuscar.ArticuloLinea = this.oLineas.Contenido[0].LineaCodigo; 
         
         return true;
@@ -248,6 +250,7 @@ export class ConsultapreciosComponent implements OnInit {
           return false;
         }
    
+        sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente));    
        
        this.oContenido= this.oCliente.Contenido[0];
         this.oCondiciones = this.oCliente.Contenido[0].Condiciones;

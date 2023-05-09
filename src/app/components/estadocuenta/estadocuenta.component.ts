@@ -257,7 +257,7 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
 
     //Consulta carteras
     if (!sessionStorage.getItem('Carteras')){
-     // console.log("No tenemos carteras");
+     console.log("No tenemos carteras");
       this._servicioCartera
       .Get(this.oBuscaCartera)
       .subscribe(
@@ -275,6 +275,8 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
             return false;
           }
      
+          console.log("Tenemos carteras");
+          sessionStorage.setItem('Carteras', JSON.stringify(this.oCarteras.Contenido));   
           this.oCarterasCon = this.oCarteras.Contenido;
           this.oBuscar.CarteraDesde = this.oCarterasCon[0].CarteraCodigo;
           this.oBuscar.CarteraHasta = this.oCarterasCon[this.oCarterasCon.length -1].CarteraCodigo;
@@ -307,7 +309,7 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
     //Realizamos llamada al servicio de clientes 
    if (!sessionStorage.getItem('Clientes')){
 
-    //console.log("no tenemos  Clientes");
+    console.log("no tenemos  Clientes");
 
     this._servicioCClientes
       .GetCliente(this.Buscar)
@@ -320,7 +322,8 @@ export class EstadocuentaComponent implements OnInit, OnDestroy {
             return false;
           }
     
-        
+          console.log("llenamos Clientes");
+          sessionStorage.setItem('Clientes', JSON.stringify(this.oClientes));   
         this.oContenido= this.oClientes.Contenido[0];
           this.oCondiciones = this.oClientes.Contenido[0].Condiciones;
           this.oDatosGenerales =this.oClientes.Contenido[0].DatosGenerales;

@@ -233,7 +233,7 @@ else{
             return;
           }
 
-          sessionStorage.setItem('Oficinas', JSON.stringify(this.oOficinasRes));    
+          sessionStorage.setItem('Oficinas', JSON.stringify(this.oOficinasRes));
 
         },
         (error:Oficina) => {

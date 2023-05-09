@@ -157,6 +157,7 @@ export class ConsultainactivosComponent implements OnInit, OnDestroy {
 
     //Inicializamos variables consulta pedidos
     this.oBuscar = new FiltrosClientesInactivos(0, 0, "","",0);
+    this.oBuscarAgentes =  new FiltrosAgente(0,'','A',0,'','')
 
     this.oClientesInacRes = {} as ClienteInactivo;
 
@@ -235,6 +236,17 @@ export class ConsultainactivosComponent implements OnInit, OnDestroy {
       //Consulta agentes
       if (!sessionStorage.getItem('Agentes')){
 
+        this.oBuscarAgentes.TipoUsuario = sessionStorage.getItem('tipo');
+if(sessionStorage.getItem('tipo') == 'C')
+{
+  this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo')+'-'+sessionStorage.getItem('filial');
+}
+else{
+  this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo');
+}
+
+
+    this.oBuscarAgentes.Status = "A";
         
         this._servicioAgentes.Get(this.oBuscarAgentes)
         .subscribe(
@@ -253,6 +265,8 @@ export class ConsultainactivosComponent implements OnInit, OnDestroy {
             }
        
             this.oAgentesCon = this.oAgentes.Contenido;
+
+            sessionStorage.setItem('Agentes', JSON.stringify(this.oAgentesCon));   
     
             if (this.sTipo == 'A'){
               this.oBuscar.AgenteDesde = this.sCodigo;

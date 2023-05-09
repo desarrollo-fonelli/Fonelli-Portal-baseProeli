@@ -271,7 +271,8 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
           return false;
         }
    
-       
+        sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente));    
+        
        this.oContenido= this.oCliente.Contenido[0];
         this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
         this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;

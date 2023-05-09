@@ -156,6 +156,7 @@ export class ReporteventasComponent implements OnInit, OnDestroy {
   
       //Inicializamos variables consulta pedidos
       this.oBuscar = new FiltrosReporteVentas('','',0,0,0,0,0,0,'','','','','','','','','','','','','','',0)
+      this.oBuscarAgentes =  new FiltrosAgente(0,'','A',0,'','')
       //this.oReporteVentasRes= {} as oReporteVentasRes; 
 
 
@@ -361,7 +362,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
          //Realizamos llamada al servicio de categorias 
          if (!sessionStorage.getItem('Categorias')){
 
-          //console.log("No tenemos categorias");
+          console.log("No tenemos categorias");
           this._servicioCategorias 
           .Get(this.oBuscarCategorias)
           .subscribe(
@@ -377,6 +378,8 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
                 return;
               }
     
+              console.log("llenamos categorias");
+              sessionStorage.setItem('Categorias', JSON.stringify(this.oCategoriasRes));
               this.oCategoriasCon = this.oCategoriasRes.Contenido;
               this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
               this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
@@ -418,7 +421,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
       //Realizamos llamada al servicio de clientes 
       if (!sessionStorage.getItem('Clientes')){
 
-       // console.log("no tenemos  Clientes");
+       console.log("no tenemos  Clientes");
 
         this._servicioCClientes
           .GetCliente(this.Buscar)
@@ -431,7 +434,8 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
                 return false;
               }
         
-            
+              console.log("LLenamos  Clientes");
+              sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente)); 
             this.oContenido= this.oCliente.Contenido[0];
               this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
               this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
@@ -465,6 +469,20 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
   //Consulta agentes
   if (!sessionStorage.getItem('Agentes')){
 
+    this.oBuscarAgentes.TipoUsuario = sessionStorage.getItem('tipo');
+if(sessionStorage.getItem('tipo') == 'C')
+{
+  this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo')+'-'+sessionStorage.getItem('filial');
+}
+else{
+  this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo');
+}
+
+
+    this.oBuscarAgentes.Status = "A";
+
+    console.log("no tenemos  Agentes");
+
     this._servicioAgentes
     .Get(this.oBuscarAgentes)
     .subscribe(
@@ -481,8 +499,13 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
           this.sMensaje="No se encontraron agentes";   
           return false;
         }
+
+        
    
         this.oAgentesCon = this.oAgentes.Contenido;        
+
+        console.log("llenamos  Agentes");
+        sessionStorage.setItem('Agentes', JSON.stringify(this.oAgentesCon)); 
         if (this.sTipo =='A'){
           this.oBuscar.AgenteCodigo = this.sCodigo; 
         }else{
@@ -526,7 +549,7 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
 
   //Consulta Tipos cliente
   if (!sessionStorage.getItem('TiposCliente')){
-    console.log("Inicia carga Tipos cliente");
+    console.log("No tenemos Tipos cliente");
 
     this._servicioTiposCliente
     .Get(this.oBuscaTipoCliente)
@@ -541,6 +564,9 @@ console.log(mes,fecha1Hasta,fecha2Hasta);
           this.sMensaje="No se encontraron tipos de cliente";   
           return false;
         }
+
+        console.log("llenamos Tipos cliente");
+        sessionStorage.setItem('TiposCliente', JSON.stringify(this.oTipoCliente.Contenido)); 
 
         this.oTiposClienteCon = this.oTipoCliente.Contenido;           
         return true;
