@@ -330,6 +330,12 @@ else{
 
     //  console.log("Inicia carga Clientes");
 
+    if(this.sTipo == 'C')
+    {
+      this.Buscar.ClienteCodigo=this.sCodigo;
+      this.Buscar.ClienteFilial=this.sFilial;
+    }
+
     this.Buscar.TipoUsuario = this.sTipo;
     this.Buscar.Usuario = this.sCodigo;
 

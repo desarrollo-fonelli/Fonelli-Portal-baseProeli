@@ -47,15 +47,22 @@ GetCliente(FiltrosClientes: any): Observable<any>{
 
     console.log(FiltrosClientes);
     this.sFiltros = '';   
-
-
-
     if(FiltrosClientes.TipoUsuario)
     {
         this.sFiltros += 'TipoUsuario=' + FiltrosClientes.TipoUsuario;
     }
-    
-  this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario;
+
+
+    if(FiltrosClientes.TipoUsuario =='C')
+    {
+        this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario+'-'+FiltrosClientes.ClienteFilial;
+        this.sFiltros += '&ClienteCodigo=' + FiltrosClientes.ClienteCodigo;
+        this.sFiltros += '&ClienteFilial=' + FiltrosClientes.ClienteFilial;
+    }
+    else{
+      this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario;
+    }
+
     
 
   if(FiltrosClientes.TipoUsuario =='A')
