@@ -320,7 +320,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
 
        //Llenamos oficinas
      if (!sessionStorage.getItem('Oficinas')){
-     // console.log("NO tenemos oficina");
+     console.log("NO tenemos oficina");
 
       this._servicioOficinas 
       .Get(this.oBuscarOfi)
@@ -335,8 +335,9 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
             this.sMensaje="No se encontraron oficinas";
             return;
           }
- 
- 
+          
+          console.log("LLenamos oficina");
+          sessionStorage.setItem('Oficinas', JSON.stringify(this.oOficinasRes));
           this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo; 
           this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo; 
          this.sMensaje="";
@@ -365,7 +366,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
      //Consulta lineas de producto
     if (!sessionStorage.getItem('Lineas')){
 
-       // console.log("Lineas no existen");
+       console.log("Lineas no existen");
 
 
         //Realizamos llamada al servicio de lineas
@@ -384,6 +385,8 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
               return;
             }
             
+            console.log("Se llenan Lineas");
+            sessionStorage.setItem('Lineas', JSON.stringify(this.oLineasRes));
             this.oLineasCon = this.oLineasRes.Contenido
             this.oBuscar.LineaDesde = this.oLineasRes.Contenido[0].LineaCodigo; 
             this.oBuscar.LineaHasta = this.oLineasRes.Contenido[this.oLineasRes.Contenido?.length - 1].LineaCodigo; 
@@ -414,7 +417,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
           //Realizamos llamada al servicio de categorias 
           if (!sessionStorage.getItem('Categorias')){
 
-            //console.log("No tenemos categorias");
+            console.log("No tenemos categorias");
             this._servicioCategorias 
             .Get(this.oBuscarCategorias)
             .subscribe(
@@ -430,6 +433,9 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
                   return;
                 }
       
+
+                console.log("LLemaos categorias");
+                sessionStorage.setItem('Categorias', JSON.stringify(this.oCategoriasRes));
                 this.oCategoriasCon = this.oCategoriasRes.Contenido;
                 this.oBuscar.CategoriaDesde = this.oCategoriasRes.Contenido[0].CategoriaCodigo; 
                 this.oBuscar.CategoriaHasta = this.oCategoriasRes.Contenido[this.oCategoriasRes.Contenido?.length - 1].CategoriaCodigo; 
@@ -475,7 +481,7 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
         //Realizamos llamada al servicio de clientes 
         if (!sessionStorage.getItem('Clientes')){
 
-        //  console.log("no tenemos  Clientes");
+        console.log("no tenemos  Clientes");
 
           this._servicioCClientes
             .GetCliente(this.Buscar)
@@ -488,7 +494,8 @@ export class VentasclientearticuloComponent implements OnInit,OnDestroy {
                   return false;
                 }
           
-              
+                console.log("llenamos  Clientes");
+                sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente));
               this.oContenido= this.oCliente.Contenido[0];
                 this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
                 this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;

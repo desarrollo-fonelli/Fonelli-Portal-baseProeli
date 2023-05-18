@@ -179,12 +179,20 @@ export class IndicadoresventaComponent implements OnInit {
     this.oBuscar.FechaCorte = fechaAyer;
 
     //Consulta agentes
-    if (!sessionStorage.getItem('Agentes')){
-
-     
+    if (!sessionStorage.getItem('Agentes')){    
 
       
-      this.oBuscarAgentes.TipoUsuario = this.sTipo;
+      this.oBuscarAgentes.TipoUsuario = sessionStorage.getItem('tipo');
+      if(sessionStorage.getItem('tipo') == 'C')
+      {
+        this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo')+'-'+sessionStorage.getItem('filial');
+      }
+      else{
+        this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo');
+      }     
+      
+      this.oBuscarAgentes.Status = "A";
+
       this._servicioAgentes
       .Get(this.oBuscarAgentes)
       .subscribe(
@@ -193,31 +201,15 @@ export class IndicadoresventaComponent implements OnInit {
   
           this.oAgentes = Response;
   
-          console.log("Respuesta agentes"+JSON.stringify(this.oAgentes));
-  
-  
+        
           if(this.oAgentes.Codigo != 0){
-            this.bError= true;
-            this.sMensaje="No se encontraron agentes";   
+            //this.bError= true;
+            //this.sMensaje="No se encontraron agentes";   
             return false;
           }
      
           this.oAgentesCon = this.oAgentes.Contenido;
-  
-          if (this.sTipo == 'A'){
-            this.oBuscar.AgenteDesde = this.sCodigo;
-            this.oBuscar.AgenteHasta = this.sCodigo;
-            this.oBuscar.TipoUsuario=sessionStorage.getItem('tipo');
-            this.oBuscar.Usuario=sessionStorage.getItem('codigo') ;
-
-
-          }else{
-            this.oBuscar.AgenteDesde = Number(this.oAgentes.Contenido[0].AgenteCodigo); 
-            this.oBuscar.AgenteHasta = Number(this.oAgentes.Contenido[this.oAgentes.Contenido?.length - 1].AgenteCodigo); 
-            this.oBuscar.TipoUsuario=sessionStorage.getItem('tipo');
-            this.oBuscar.Usuario=sessionStorage.getItem('codigo') ;
-          }
-          
+          sessionStorage.setItem('Agentes', JSON.stringify(this.oAgentesCon));       
           return true;
   
        

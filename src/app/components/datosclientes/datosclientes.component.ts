@@ -94,6 +94,7 @@ export class DatosclientesComponent implements OnInit {
             
                 this.Buscar = new FiltrosClientes(0, 0, 0,'',0);
                 this.oBuscar = new FiltrosClientes(0, 0, 0,'',0);
+                this.BuscarModal = new FiltrosClientes(0, 0, 0,'',0);
             
                 this.oCliente={} as Clientes;
             
@@ -155,8 +156,12 @@ export class DatosclientesComponent implements OnInit {
 
    //Realizamos llamada al servicio de clientes 
    if (!sessionStorage.getItem('Clientes')){
+    console.log("No tenemos clientes")
 
-    //console.log("no tenemos  Clientes");
+    console.log(this.BuscarModal)
+
+    this.BuscarModal.TipoUsuario = this.sTipo;
+    this.BuscarModal.Usuario = this.sCodigo;
 
    this._servicioCClientes
     .GetCliente(this.BuscarModal)
@@ -170,7 +175,7 @@ export class DatosclientesComponent implements OnInit {
           return false;
         }
    
-       
+        sessionStorage.setItem('Clientes', JSON.stringify(this.oClienteModal));    
        this.oContenidoModal= this.oClienteModal.Contenido[0];
         this.oCondicionesModal = this.oClienteModal.Contenido[0].Condiciones;
         this.oDatosGeneralesModal =this.oClienteModal.Contenido[0].DatosGenerales;

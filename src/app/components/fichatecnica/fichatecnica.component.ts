@@ -286,7 +286,7 @@ export class FichatecnicaComponent implements OnInit {
      //Realizamos llamada al servicio de clientes 
    if (!sessionStorage.getItem('Clientes')){
 
-    //console.log("no tenemos  Clientes");
+    console.log("no tenemos  Clientes");
 
     this._servicioCClientes
       .GetCliente(this.Buscar)
@@ -299,7 +299,8 @@ export class FichatecnicaComponent implements OnInit {
             return false;
           }
     
-        
+          console.log("llenamos Clientes");
+          sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente));   
         this.oContenido= this.oCliente.Contenido[0];
           this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
           this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
