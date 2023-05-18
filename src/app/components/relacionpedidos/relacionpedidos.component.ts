@@ -977,7 +977,16 @@ consultaPedidoDetalle(folio: String, cliente: string, filial: string){
   this.oBuscaDetalle.ClienteFilial= Number(filial);
   this.oBuscaDetalle.PedidoFolio= Number(folio); 
   this.oBuscaDetalle.PedidoLetra= 'C';
-  this.oBuscaDetalle.Usuario= this.sCodigo;
+
+  if (this.sTipo=='C')
+  {
+    this.oBuscaDetalle.Usuario= this.sCodigo+'-'+this.sFilial;
+  } 
+  else
+  {
+    this.oBuscaDetalle.Usuario= this.sCodigo;
+  }
+
 
   console.log("----------"+this.oBuscaDetalle);
 
