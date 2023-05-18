@@ -135,7 +135,7 @@ export class DatosclientesComponent implements OnInit {
         this.oBuscar.ClienteCodigo=this.sCodigo;
         //this.oBuscar.Usuario=this.sCodigo;
         this.oBuscar.ClienteFilial = this.sFilial;
-        this.oBuscar.Usuario =this.sCodigo+'-'+this.sFilial;
+        this.oBuscar.Usuario =this.sCodigo
          break; 
       } 
       case 'A': { 
