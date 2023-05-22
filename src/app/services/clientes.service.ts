@@ -50,16 +50,10 @@ GetCliente(FiltrosClientes: any): Observable<any>{
 
     console.log(FiltrosClientes);
     this.sFiltros = '';   
-
-
-
     if(FiltrosClientes.TipoUsuario)
     {
         this.sFiltros += 'TipoUsuario=' + FiltrosClientes.TipoUsuario;
     }
-    
-
-
 
   if(FiltrosClientes.TipoUsuario =='C')
   {

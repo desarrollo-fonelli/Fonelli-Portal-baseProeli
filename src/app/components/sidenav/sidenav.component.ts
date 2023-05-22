@@ -330,6 +330,7 @@ else{
 
     //  console.log("Inicia carga Clientes");
 
+
 if(this.sTipo == 'C')
 {
   this.Buscar.ClienteCodigo=this.sCodigo;
