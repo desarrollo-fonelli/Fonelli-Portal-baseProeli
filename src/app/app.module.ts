@@ -40,6 +40,7 @@ import { AdminComponent } from "./components/admin/admin.component";
 import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
 import { TemplateComponent } from "./components/template/template.component";
 import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
+import { GuiasComponent } from './components/guias/guias.component';
 
 //Pipes
 import { SearchEstadoCuentaPipe } from './pipes/estadocuenta.pipe';
@@ -52,6 +53,8 @@ import { PdfComponent } from './components/pdf/pdf.component';
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
 import { EncabezadoComponent } from './components/encabezado/encabezado.component';
 
+
+import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service'
 
 
 
@@ -93,7 +96,8 @@ import { EncabezadoComponent } from './components/encabezado/encabezado.componen
     InicioadminComponent,
     SearchConsultaClientesInacPipe,
     CatalogointeractivoComponent,
-    EncabezadoComponent
+    EncabezadoComponent,
+    GuiasComponent
   ],
   imports: [
     BrowserModule,
@@ -112,7 +116,8 @@ import { EncabezadoComponent } from './components/encabezado/encabezado.componen
   ],
   providers: [
     appRoutingProviders,
-    BnNgIdleService
+    BnNgIdleService,
+    ServicioRelacionPedidoDet
   ],
   bootstrap: [AppComponent]
 })

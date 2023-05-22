@@ -25,6 +25,7 @@ import { TemplateComponent } from "./components/template/template.component";
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
 import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
 import { EncabezadoComponent } from "./components/encabezado/encabezado.component";
+import { GuiasComponent } from "./components/guias/guias.component";
 
 
 
@@ -47,6 +48,7 @@ const appRoutes: Routes = [
           path: 'ventasclientearticulo',
           component: VentasclientearticuloComponent,
         },
+        { path: 'guias', component: GuiasComponent }
       ],
     },
      
@@ -71,7 +73,8 @@ const appRoutes: Routes = [
         { path: 'reporteventas', component: ReporteventasComponent },
         { path: 'consultainactivos', component: ConsultainactivosComponent },
         { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
-        { path: 'tabla', component: EncabezadoComponent }
+        { path: 'tabla', component: EncabezadoComponent },
+        { path: 'guias', component: GuiasComponent }
       ],
     },
     
