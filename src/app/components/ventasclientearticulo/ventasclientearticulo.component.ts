@@ -1235,6 +1235,7 @@ downloadAsPDF() {
   html[2].table.headerRows= 1;
   const documentDefinition = { 
     pageOrientation: 'landscape', 
+    pageMargins: [20, 100, 20, 10],
     header: [
       {
         alignment: 'justify',

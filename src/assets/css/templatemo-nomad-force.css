@@ -822,6 +822,12 @@ button.btnImprimir {
   font-family: Quicksand-SemiBold;
 }
 
+button.btnExcel {
+  background-color: green;
+  color: #f9f9f9;
+  font-family: Quicksand-SemiBold;
+}
+
 label.CamposGeneral {
   color: #183e6f;
   font-family: Quicksand-SemiBold;
