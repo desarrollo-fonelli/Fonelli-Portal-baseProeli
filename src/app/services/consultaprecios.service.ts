@@ -42,6 +42,7 @@ Get(FiltrosConPrecios: any): Observable<any>{
                           '&ClienteCodigo=' + FiltrosConPrecios.ClienteCodigo +
                           '&ClienteFilial=' + FiltrosConPrecios.ClienteFilial +
                           '&Lista=' + FiltrosConPrecios.Lista +
+                          '&ListaCodigo=' + FiltrosConPrecios.ListaCodigo +
                           '&ParidadTipo=' + FiltrosConPrecios.ParidadTipo +
                           '&ArticuloLinea=' + FiltrosConPrecios.ArticuloLinea +
                           '&ArticuloCodigo=' + FiltrosConPrecios.ArticuloCodigo 

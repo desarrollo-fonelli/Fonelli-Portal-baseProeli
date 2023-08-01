@@ -5,6 +5,7 @@ export class FiltrosConsultaPrecios {
     public ClienteCodigo: number | null,
     public ClienteFilial: number | null,
     public Lista: number,
+    public ListaCodigo: number,
     public ParidadTipo: string,
     public ArticuloLinea: string,
     public ArticuloCodigo: string

@@ -109,7 +109,7 @@ export class ConsultapreciosComponent implements OnInit {
     this.sNombre = sessionStorage.getItem('nombre')
 
     //Inicializamos variables consulta precios
-    this.oBuscar = new FiltrosConsultaPrecios('',0,0,0,0,'','','')
+    this.oBuscar = new FiltrosConsultaPrecios('',0,0,0,1,0,'N','','')
     this.oPreciosRes={} as ConsultaPrecios;  
   
     this.bCliente=false;

@@ -167,9 +167,9 @@ export class IndicadoresventaComponent implements OnInit {
         }else{
           mes = mes-1;          
           if(mes < 10){
-            fechaAyer = (date.getFullYear()) +'-0'+ mes +'-'+'30';          
+            fechaAyer = (date.getFullYear()) +'-0'+ mes +'-'+'31';          
           } else {
-            fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+'30';          
+            fechaAyer = (date.getFullYear()) +'-'+ mes +'-'+'31';          
           }
         }        
       }else{

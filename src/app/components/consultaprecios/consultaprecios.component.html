@@ -21,7 +21,7 @@
                         #nombre="ngModel"
                         [(ngModel)]="oBuscar.ClienteCodigo"
                         disabled="{{ bCliente }}"
-                        required>
+                        >
                         
                     </div>
                   
@@ -38,8 +38,7 @@
                       [(ngModel)]="oBuscar.ClienteFilial"
                       disabled="{{ bCliente }}"
                       [disabled]="oBuscar.ClienteCodigo == 0 || bCliente"   
-                      required
-                    >
+                      >
                   </div>
 
                   <div class="form-group col-md-3" [hidden]="bCliente"> 
@@ -74,7 +73,15 @@
                       </div>
                       <div class="form-group col-md-3" [hidden]="bCliente">
                         <label class="CamposFonelli" style="color:white;">-</label>
-                        <input type="text" class="form-control" id="" placeholder=""  [disabled]="oBuscar.ClienteCodigo != 0"  >
+                        <input 
+                        type="text" 
+                        id="" placeholder=""
+                        class="form-control"   
+                        name="idListaCodigo"
+                        #nombre="ngModel"
+                        [(ngModel)]="oBuscar.ListaCodigo"
+                        [disabled]="oBuscar.ClienteCodigo != 0" 
+                        >
                       </div>
                   </div>
 
@@ -86,10 +93,11 @@
                           name="idParidadPre"
                           #nombre="ngModel"
                           [(ngModel)]="oBuscar.ParidadTipo"
-                          required
+                          [disabled]="oBuscar.ClienteCodigo != 0" 
                         >
                           <option value="N">Normal</option>
                           <option value="E">Especial</option>
+                          <option value="P">Premium</option>
                           
                         </select>
                       </div>

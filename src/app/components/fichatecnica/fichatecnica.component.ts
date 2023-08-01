@@ -266,9 +266,9 @@ export class FichatecnicaComponent implements OnInit {
       }else{
         mes = mes-1;
         if(mes < 10){
-          this.fechaHoy = (date.getFullYear()) +'-0'+ mes +'-'+'30';
+          this.fechaHoy = (date.getFullYear()) +'-0'+ mes +'-'+'31';
         } else {
-          this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+'30'; 
+          this.fechaHoy = (date.getFullYear()) +'-'+ mes +'-'+'31'; 
         }
       }        
     }else{      
