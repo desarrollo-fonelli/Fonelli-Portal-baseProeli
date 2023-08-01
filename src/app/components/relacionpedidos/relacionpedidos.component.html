@@ -374,19 +374,29 @@
       
    <div [hidden]="!bBandera" class="container float-left">
     <br>
-    <div class="container">
+    <!-- <div class="container"> -->
       <div class="form-row">
+        <div class="container">
+          <div class="form-group col-md-12">
+            <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" style="margin-left: 10px">      
+              Imprimir PDF      
+            </button> 
+            <button class="btnExcel btn float-right" (click)="exportToExcel()"  >Detalle excel</button>  
+          </div>
+    
+        </div>
         
-        <div class="form-group col-md-12">
+        <!-- <div class="form-group col-md-12">
           <button class="btnImprimir btn float-right" (click)="downloadAsPDF()" >      
             Imprimir PDF      
           </button> 
-        </div> 
+        </div>  -->
       </div>
-    </div>
+    <!-- </div> -->
       
   
-  
+    
+    <br>
   
    <div   class="container" id="pdfTable" #pdfTable  > 
   
@@ -591,7 +601,107 @@
     
           </tbody>               
         </table>
-    
+
+
+        <table style="display: none;" class="table table-hover table-striped" id="season-tble" >
+          <!-- <table class="table table-hover table-striped "  style="position:sticky;" > -->
+            <thead class="thead-p">
+             <tr class="EncTabla" > 
+              <!-- <tr class="EncTabla" > -->
+                <th style="background-color: #24a4cc; color: white;">PEDIDO</th>
+                <th style="background-color: #24a4cc; color: white;">CLIENTE</th>
+                <th style="background-color: #24a4cc; color: white;">FILIAL</th>
+                <th style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA PEDIDO</div></th>
+                <th style="background-color: #24a4cc; color: white;">Linea</th>
+                <th style="background-color: #24a4cc; color: white;">Clave</th>
+                <th style="background-color: #24a4cc; color: white;">Descripción</th>
+                <th style="background-color: #24a4cc; color: white;">S</th>
+                <th style="background-color: #24a4cc; color: white;">Categoria</th>
+                <th style="background-color: #24a4cc; color: white;">SubCategoria</th>
+                <th style="background-color: #24a4cc; color: white;">Cantidad perdida</th>
+                <th style="background-color: #24a4cc; color: white;">Fecha surtido</th>
+                <th style="background-color: #24a4cc; color: white;">Cantidad surtida</th>
+                <th style="background-color: #24a4cc; color: white;">Diferenncia</th>
+                <th style="background-color: #24a4cc; color: white;">S</th>
+                <th style="background-color: #24a4cc; color: white;">Documento</th>
+                <th style="background-color: #24a4cc; color: white;">Fecha terminacion</th>
+                <th style="background-color: #24a4cc; color: white;">Cantidad por producir</th>
+                <th style="background-color: #24a4cc; color: white;">Producido</th>
+                <th style="background-color: #24a4cc; color: white;">Diferencia</th>
+                <th style="background-color: #24a4cc; color: white;">Fecha produccion</th>
+                <th style="background-color: #24a4cc; color: white;">CP4</th>
+                <th style="background-color: #24a4cc; color: white;">CP45</th>
+                <th style="background-color: #24a4cc; color: white;">CP5</th>
+                <th style="background-color: #24a4cc; color: white;">CP.5</th>
+                <th style="background-color: #24a4cc; color: white;">CP6</th>
+                <th style="background-color: #24a4cc; color: white;">CP65</th>
+                <th style="background-color: #24a4cc; color: white;">CP70</th>
+                <th style="background-color: #24a4cc; color: white;">CP75</th>
+                <th style="background-color: #24a4cc; color: white;">CP8</th>
+                <th style="background-color: #24a4cc; color: white;">CP85</th>
+                <th style="background-color: #24a4cc; color: white;">CP9</th>
+                <th style="background-color: #24a4cc; color: white;">CP95</th>
+                <th style="background-color: #24a4cc; color: white;">CP10</th>
+                <th style="background-color: #24a4cc; color: white;">CP105</th>
+                <th style="background-color: #24a4cc; color: white;">CP11</th>
+                <th style="background-color: #24a4cc; color: white;">CP115</th>
+                <th style="background-color: #24a4cc; color: white;">CP12</th>
+                <th style="background-color: #24a4cc; color: white;">CL125</th>
+                <th style="background-color: #24a4cc; color: white;">CP13</th>
+                <th style="background-color: #24a4cc; color: white;">MEDDX</th>
+                <th style="background-color: #24a4cc; color: white;">CANX</th>
+              </tr>
+            </thead>
+            <tbody>              
+                <tr *ngFor="let PedDet of oPedDetRes;"> 
+
+                  <td class="FilasFonelli text-left sticky"><u>{{PedDet.PedidoFolio}}</u></td>
+                  <td class="FilasFonelli text-left">{{PedDet.ClienteCodigo}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.ClienteFilial}}</td>
+                  <td class="FilasFonelli">{{PedDet.FechaPedido}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.ArticuloLinea}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.ArticuloCodigo}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.ArticuloDescripc}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.PedidoStatus}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.ArticuloCategoria}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.ArticuloSubcategoria}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadPedida}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.FechaSurtido}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadSurtida}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.DiferenciaSurtido}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.FacturaSerie}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.FacturaFolio}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.FechaTerminacionArticulo}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadPedidoProduccion}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadProducida}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.DiferenciaProducido}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.FechaProduccionArticulo}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida4}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida4_5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida5_5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida6}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida6_5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida7}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida7_5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida8}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida8_5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida9}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida9_5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida10}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida10_5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida11}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida11_5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida12}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida12_5}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedida13}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.MedidaEspecial}}</td>
+                  <td class="FilasFonelli text-left">{{PedDet.CantidadMedidaEspecial}}</td>               
+                </tr> 
+                      
+            </tbody>               
+          </table>
+
     <!-- </div> -->
   
     

@@ -7,6 +7,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import htmlToPdfmake from 'html-to-pdfmake';
+import * as XLSX from 'xlsx';
 
 import {
   NgbModal,
@@ -31,12 +32,16 @@ import { Contenido } from 'src/app/models/clientes';
 import { Condiciones } from 'src/app/models/clientes';
 import { DatosGenerales } from 'src/app/models/clientes';
 import { Contactos } from 'src/app/models/clientes';
+import {PedidoDet, RelacionPedidosDet, Contenido as DetPedCon} from 'src/app/models/relacionPedidosDet';
+
 
 //Servicios
 import { ServicioRelacionPedido } from 'src/app/services/relacionpedidos.service';
 import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
 import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
+import { ServicioRelacionPedidoDet } from 'src/app/services/relacionPedidosDet.service';
+
 
 
 @Component({
@@ -68,6 +73,14 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
   public oBuscaDetalle: FiltrosDetallePedidos;
   oPedidoDetalleRes: DetallePedido; 
   //oContenido: ContenidoRelPed; 
+
+  //Detalle excel
+  public oBuscarPedDet: FiltrosRelacionPedidos;
+  oRelacionPedDetRes: RelacionPedidosDet; 
+  oDetalleRes: PedidoDet;
+  oDetPed: DetPedCon;
+
+
 
   public isCollapsed = false;
 
@@ -107,7 +120,11 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
 
   public bBanderaCliente: boolean;
 
+  Seasons:any
+
    private _mobileQueryListener: () => void;
+
+   oPedDetRes: PedidoDet[];
 
   
   sWidth: number;
@@ -122,7 +139,11 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
     private _servicioOficinas:ServicioOficinas,
     private _servicioCPedidosDet: ServicioDetallePedido,
     private modalService: NgbModal,
+    private _servicioRelacionPedDet: ServicioRelacionPedidoDet,
     private _servicioCClientes: ServicioClientes) { 
+
+   this.oPedDetRes= []; 
+   
 
       this.sCodigo = Number(sessionStorage.getItem('codigo'));
       this.sTipo = sessionStorage.getItem('tipo');
@@ -137,9 +158,14 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
     //this.oContenido = {} as ContenidoRelPed;
 
      //Inicializamos variables consulta detalle pedidos
+     this.oBuscarPedDet= new FiltrosRelacionPedidos('',0,'','',0,0,0,0,'','','','','','','','',0)
      this.oBuscaDetalle = new FiltrosDetallePedidos('',0,'',0,0,0);
      this.oPedidoDetalleRes={} as DetallePedido;  
      this.pedidoDet = [];
+     
+
+     //Excel
+     ///this.oDetPed= {} as PedidoDet;
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -382,7 +408,10 @@ export class RelacionpedidosComponent implements OnInit,OnDestroy {
 
 
 //Funcion para consultar la relacion de pedidos
-consultaRelPed(){
+consultaRelPed(){  
+
+  //Consulta detalle
+  this.consultaPedDetalle()
 
   //this.oBuscar.TipoUsuario = this.sTipo? this.sTipo : 'C';
   console.log(this.oBuscar);
@@ -502,8 +531,123 @@ consultaRelPed(){
       }
     );
 
+    
+
 }
 
+
+
+//Funcion para consultar pedidos detalle 
+consultaPedDetalle(){
+
+  /*let date: Date = new Date(); 
+  this.oRelacionPedDetRes = {"Codigo":0,"Mensaje":"success", "Paginacion":{"NumFilas":1,"TotalPaginas":1,"Pagina":1}, "Contenido": {"DetallePedido": [{"PedidoFolio": "004", "ClienteCodigo": "004", "ClienteFilial": "004", "FechaPedido": date, "ArticuloLinea": "004", "ArticuloCodigo": "004", "ArticuloDescripc": "004", "PedidoStatus": "004", "ArticuloCategoria": "004", "ArticuloSubcategoria": "004", "CantidadPedida": 456, "FechaSurtido": date, "CantidadSurtida": 155, "DiferenciaSurtido": 568, "FacturaSerie": "004", "FacturaFolio": "004", "FechaTerminacionArticulo": date, "CantidadPedidoProduccion": 564, "CantidadProducida": 65465, "DiferenciaProducido": 400, "FechaProduccionArticulo": date, "CantidadMedida4": 250, "CantidadMedida4_5": 15, "CantidadMedida5": 2, "CantidadMedida5_5": 123, "CantidadMedida6": 321, "CantidadMedida6_5": 123, "CantidadMedida7": 254, "CantidadMedida7_5":55, "CantidadMedida8": 58, "CantidadMedida8_5": 654, "CantidadMedida9": 4, "CantidadMedida9_5": 123, "CantidadMedida10": 963, "CantidadMedida10_5": 845, "CantidadMedida11":123, "CantidadMedida11_5": 564, "CantidadMedida12": 456, "CantidadMedida12_5": 365, "CantidadMedida13": 23, "MedidaEspecial": "004", "CantidadMedidaEspecial": 123}] } }
+
+  this.oPedDetRes = this.oRelacionPedDetRes.Contenido.DetallePedido
+
+
+        console.log("RESPUESTA");
+        console.log(JSON.stringify(this.oPedDetRes));*/
+
+        console.log("CONSULTA DETALLE PEDIDOS");
+
+  switch(this.sTipo) { 
+    case 'C':{    
+      //Tipo cliente               
+
+       this.oBuscarPedDet.ClienteDesde = this.sCodigo; 
+       this.oBuscarPedDet.FilialHasta = this.sFilial;   
+       this.oBuscarPedDet.ClienteHasta = this.sCodigo; 
+       this.oBuscarPedDet.FilialHasta = this.sFilial; 
+       this.oBuscarPedDet.Usuario =this.sCodigo+'-'+this.sFilial;
+       //this.bCliente = true;    
+
+       break; 
+    } 
+    case 'A': { 
+       //Agente; 
+       this.bCliente = false;  
+       this.oBuscarPedDet.ClienteHasta = 999999;
+       this.oBuscarPedDet.FilialHasta = 999;
+       this.oBuscarPedDet.Usuario = this.sCodigo;
+       break; 
+    } 
+    default: { 
+       //Gerente; 
+       this.oBuscarPedDet.ClienteHasta = 999999;
+       this.oBuscarPedDet.FilialHasta = 999;
+       this.oBuscarPedDet.Usuario = this.sCodigo;
+       this.bCliente = false;  
+       break; 
+    } 
+ } 
+
+  
+
+    //Realizamos llamada al servicio de relacion de pedidos
+    this._servicioRelacionPedDet
+    .Get(this.oBuscarPedDet)
+    .subscribe(
+      (Response: RelacionPedidosDet) => {
+
+        console.log("Llamada realizada");
+        this.oRelacionPedDetRes = Response;        //this.pedido = this.oRelacionPedRes.Contenido.Pedidos
+        //this.oRelacionPedDetRes = {"Codigo":0,"Mensaje":"success", "Paginacion":{"NumFilas":1,"TotalPaginas":1,"Pagina":1}, "Contenido": {"DetallePedido": [{"PedidoFolio": "004", "ClienteCodigo": "004", "ClienteFilial": "004", "FechaPedido": "004", "ArticuloLinea": "004", "ArticuloCodigo": "004", "ArticuloDescripc": "004", "PedidoStatus": "004", "ArticuloCategoria": "004", "ArticuloSubcategoria": "004", "CantidadPedida": "004", "FechaSurtido": "004", "CantidadSurtida": 155, "DiferenciaSurtido": 568, "FacturaSerie": "004", "FacturaFolio": "004", "FechaTerminacionArticulo": "004", "CantidadPedidoProduccion": 564, "CantidadProducida": 65465, "DiferenciaProducido": 400, "FechaProduccionArticulo": "004", "CantidadMedida4": 250, "CantidadMedida4_5": "004", "CantidadMedida5": "004", "CantidadMedida5_5": "004", "CantidadMedida6": "004", "CantidadMedida6_5": "004", "CantidadMedida7": "004", "CantidadMedida7_5": "004", "CantidadMedida8": "004", "CantidadMedida8_5": "004", "CantidadMedida9": "004", "CantidadMedida9_5": "004", "CantidadMedida10": "004", "CantidadMedida10_5": "004", "CantidadMedida11": "004", "CantidadMedida11_5": "004", "CantidadMedida12": "004", "CantidadMedida12_5": "004", "CantidadMedida13": "004", "MedidaEspecial": "004", "CantidadMedidaEspecial": "004"}] } }               
+
+        //console.log( this.collectionSize);
+        console.log("RESULTADO LLAMADA  "+JSON.stringify(this.oRelacionPedDetRes) );
+        //console.log(this.pedido);
+
+        if(this.oRelacionPedDetRes.Codigo != 0){
+          this.bError= true;
+          this.sMensaje="No se encontraron datos relación de pedidos";
+          this.bCargando = false;
+          this.bBandera = false;
+          return;
+        }
+
+        this.oDetPed = this.oRelacionPedDetRes.Contenido
+        this.oPedDetRes = this.oRelacionPedDetRes.Contenido.DetallePedido
+
+
+        console.log("RESPUESTA");
+        //console.log(this.oPedDetRes);
+        console.log(JSON.stringify(this.oDetPed));
+        console.log(JSON.stringify(this.oPedDetRes));
+
+        //console.log("Termina de realizarlo");
+        //console.log(JSON.stringify(this.oPedDetRes));
+
+        //this.sMensaje="";
+        //this.bBandera = true;
+        //this.bCargando = false;
+
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance.destroy();
+          // Call the dtTrigger to rerender again
+          this.dtTrigger.next("");
+        });
+
+        
+        this.isCollapsed = true;
+        
+
+      },
+      (error:RelacionPedidos) => {
+        let date: Date = new Date(); 
+        this.oRelacionPedDetRes = {"Codigo":0,"Mensaje":"success", "Paginacion":{"NumFilas":1,"TotalPaginas":1,"Pagina":1}, "Contenido": {"DetallePedido": [{"PedidoFolio": "004", "ClienteCodigo": "004", "ClienteFilial": "004", "FechaPedido": date, "ArticuloLinea": "004", "ArticuloCodigo": "004", "ArticuloDescripc": "004", "PedidoStatus": "004", "ArticuloCategoria": "004", "ArticuloSubcategoria": "004", "CantidadPedida": 456, "FechaSurtido": date, "CantidadSurtida": 155, "DiferenciaSurtido": 568, "FacturaSerie": "004", "FacturaFolio": "004", "FechaTerminacionArticulo": date, "CantidadPedidoProduccion": 564, "CantidadProducida": 65465, "DiferenciaProducido": 400, "FechaProduccionArticulo": date, "CantidadMedida4": 250, "CantidadMedida4_5": 15, "CantidadMedida5": 2, "CantidadMedida5_5": 123, "CantidadMedida6": 321, "CantidadMedida6_5": 123, "CantidadMedida7": 254, "CantidadMedida7_5":55, "CantidadMedida8": 58, "CantidadMedida8_5": 654, "CantidadMedida9": 4, "CantidadMedida9_5": 123, "CantidadMedida10": 963, "CantidadMedida10_5": 845, "CantidadMedida11":123, "CantidadMedida11_5": 564, "CantidadMedida12": 456, "CantidadMedida12_5": 365, "CantidadMedida13": 23, "MedidaEspecial": "004", "CantidadMedidaEspecial": 123}] } }
+
+        this.oPedDetRes = this.oRelacionPedDetRes.Contenido.DetallePedido
+
+        //this.oRelacionPedDetRes = error;
+        this.sMensaje="No se encontraron datos relación de pedidos";
+        console.log("error");
+      
+      }
+    );
+
+}
 
 //##### TOTALES PEDIDOS #####
 getTotalPedidos(Pedido: Pedido[]): number {
@@ -1504,6 +1648,227 @@ openClientes(Clientes: any, cliente: boolean) {
 
   ngAfterViewInit(): void {
     this.dtTrigger.next("");
+  }
+
+
+
+
+
+
+
+  TablaDetallePedidos(): string
+  {
+
+    var tabla = "";
+    /*var oBuscaPedDet: FiltrosDetallePedidos;
+    var oPedDetalleRes: DetallePedido;
+    var _servicioPedDet: ServicioDetallePedido
+
+    oBuscaPedDet = new FiltrosDetallePedidos('',0,'',0,0,0);*/
+
+   tabla =  '<table class="table table-hover table-striped" datatable [dtOptions]="dtOptions"  >  '+'\n'+      
+              '<thead >'+'\n'+
+                '<tr class="EncTabla" > '+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">PEDIDO</th><!--Pedido folio -->'+'\n'+                  
+                  ' <th style="background-color: #24a4cc; color: white;">CLIENTE</th><!--Cliente codigo -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">FILIAL</th><!--Cliente filial -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white; text-align:center;"><div class="size">FECHA PEDIDO</div></th><!--Fecha pedido -->'+'\n'+                  
+                  ' <th style="background-color: #24a4cc; color: white;">Linea</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Clave</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Descripción</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">S</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Categoria</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">SubCategoria</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Cantidad perdida</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Fecha surtido</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Cantidad surtida</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Diferenncia</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">S</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Documento</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Fecha terminacion</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Cantidad por producir</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Producido</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Diferencia</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">Fecha produccion</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP4</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP45</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP5</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP.5</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP6</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP65</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP70</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP75</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP8</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP85</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP9</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP95</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP10</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP105</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP11</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP115</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP12</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CL125</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CP13</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">MEDDX</th><!--Pedido status -->'+'\n'+
+                  ' <th style="background-color: #24a4cc; color: white;">CANX</th><!--Pedido status -->'+'\n'+
+                '</tr>'+'\n'+
+              '</thead>'+'\n'+
+              '<tbody>'+'\n';
+
+
+              this.oPedDetRes.forEach(function(PedDet){   
+
+                console.log("ID PEDIDO:"+PedDet.PedidoFolio)
+                
+                tabla = tabla +   '<tr >' + '\n' +
+                      ' <td class="FilasFonelli text-left sticky"><u>'+PedDet.PedidoFolio+'</u></td>'+'\n'+                      
+                      ' <td class="FilasFonelli text-left">'+PedDet.ClienteCodigo+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.ClienteFilial+'</td>'+'\n'+
+                      ' <td class="FilasFonelli">'+PedDet.FechaPedido+'</td>'+'\n'+                      
+                      ' <td class="FilasFonelli text-left">'+PedDet.ArticuloLinea+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.ArticuloCodigo+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.ArticuloDescripc+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.PedidoStatus+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.ArticuloCategoria+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.ArticuloSubcategoria+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadPedida+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.FechaSurtido+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadSurtida+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.DiferenciaSurtido+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.FacturaSerie+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.FacturaFolio+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.FechaTerminacionArticulo+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadPedidoProduccion+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadProducida+'</td>'+'\n'+                      
+                      ' <td class="FilasFonelli text-left">'+PedDet.DiferenciaProducido+'</td>'+'\n'+                      
+                      ' <td class="FilasFonelli text-left">'+PedDet.FechaProduccionArticulo+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida4+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida4_5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida5_5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida6+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida6_5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida7+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida7_5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida8+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida8_5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida9+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida9_5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida10+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida10_5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida11+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida11_5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida12+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida12_5+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedida13+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.MedidaEspecial+'</td>'+'\n'+
+                      ' <td class="FilasFonelli text-left">'+PedDet.CantidadMedidaEspecial+'</td>'+'\n'+
+                    '</tr>'+'\n';
+                  });             
+     
+                  '</tbody>'+ '\n' +          
+                '</table>';
+        
+        
+        
+                  return tabla;
+
+                /*relPed.TipoPedido.forEach(function(tipoPed){
+
+                  tipoPed.Pedidos.forEach(function(pedido){
+
+                    console.log("------PEDIDOS---------")
+                    console.log(pedido.PedidoFolio)
+                    console.log(pedido.ClienteCodigo)
+                    console.log(pedido.ClienteFilial)
+
+                    oBuscaPedDet.ClienteCodigo= Number(pedido.PedidoFolio);
+                    oBuscaPedDet.ClienteFilial= Number(pedido.ClienteCodigo);
+                    oBuscaPedDet.PedidoFolio= Number(pedido.ClienteFilial); 
+
+                    //console.log("------OBDEJO SETEADO---------")
+                    console.log(oBuscaPedDet);              
+                    
+                    console.log("Antes de entrar");
+
+                    //Realizamos llamada al servicio de pedidos
+                    _servicioPedDet    
+                    .Get(oBuscaPedDet)
+                    .subscribe(
+                      (Response: DetallePedido) => {
+
+                        console.log("Respuesta");
+
+                        oPedDetalleRes = Response;
+                        
+                        if(oPedDetalleRes.Codigo != 0){
+                          console.log(1);
+                          this.bError= true;
+                          this.sMensajeModal="No se encontro detalle de pedido";        
+                          this.bBanderaDet = false;  
+                          return;
+                        }
+
+                        
+                        //this.pedidoDet = oPedDetalleRes.Contenido.PedidoArticulos
+                              
+
+                        //console.log( this.collectionSize);
+                        console.log("Respuesta : " +JSON.stringify(oPedDetalleRes));
+                        console.log("Detalle pedido : " +JSON.stringify(this.pedidoDet)); 
+                    
+
+                        
+
+                        
+                        this.bBanderaDet = true;
+                        this.sMensaje="";
+                        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
+
+                      },
+                      (error:DetallePedido) => {
+
+                        oPedDetalleRes = error;
+
+                        console.log("error");
+                        console.log(oPedDetalleRes);
+                      
+                      }
+                    );
+
+
+                    //this.consultaPedidoDetalle(pedido.PedidoFolio,pedido.ClienteCodigo,pedido.ClienteFilial)
+
+                    this.pedidoDet.forEach(function(PedDet){  
+
+                      
+                    });
+
+                    
+                  });
+                });*/             
+
+              
+
+
+  }
+
+
+
+  name = 'RelacionPedidos.xlsx';
+  exportToExcel(): void {
+
+    //var doc = new DOMParser().parseFromString(this.TablaDetallePedidos(), "text/xml");
+    let element = document.getElementById('season-tble');
+    //let element = doc;
+    //console.log("IMPRIME ELEMENTO")
+    console.log(element)
+     const worksheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+     const book: XLSX.WorkBook = XLSX.utils.book_new();
+     XLSX.utils.book_append_sheet(book, worksheet, 'Sheet1');
+
+     XLSX.writeFile(book, this.name);
   }
 
 }

@@ -33,6 +33,9 @@ GetLista(FiltrosClientes: any): Observable<any>{
                                     .set("Auth", this.sToken)
                                     .set("Access-Control-Allow-Credentials", "true");
 
+                                    console.log("GetLista")     
+     console.log(FiltrosClientes)                               
+
     return this._http.get(this.API + 'catalogos/CatalogoClientes.php?Pagina='+FiltrosClientes.Pagina ,{headers:headers});
 }
 
@@ -52,17 +55,15 @@ GetCliente(FiltrosClientes: any): Observable<any>{
         this.sFiltros += 'TipoUsuario=' + FiltrosClientes.TipoUsuario;
     }
 
-
-    if(FiltrosClientes.TipoUsuario =='C')
-    {
-        this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario+'-'+FiltrosClientes.ClienteFilial;
-        this.sFiltros += '&ClienteCodigo=' + FiltrosClientes.ClienteCodigo;
-        this.sFiltros += '&ClienteFilial=' + FiltrosClientes.ClienteFilial;
-    }
-    else{
-      this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario;
-    }
-
+  if(FiltrosClientes.TipoUsuario =='C')
+  {
+      this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario+'-'+FiltrosClientes.ClienteFilial;
+      this.sFiltros += '&ClienteCodigo=' + FiltrosClientes.ClienteCodigo;
+      this.sFiltros += '&ClienteFilial=' + FiltrosClientes.ClienteFilial;
+  }
+  else{
+    this.sFiltros += '&Usuario=' + FiltrosClientes.Usuario;
+  }
     
 
   if(FiltrosClientes.TipoUsuario =='A')
