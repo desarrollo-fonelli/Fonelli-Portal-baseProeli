@@ -1,7 +1,8 @@
 {
-    "/med_fonelli_apiportal/*":{
-        "target":"https://fonelli.com/",
-        "secure":false,
-        "logLevel":"debug"
+    "/med_fonelli_apiportal/*": {
+        "target_test": "https://www.fonelli.com/",
+        "target": "http://172.16.2.150/",
+        "secure": false,
+        "logLevel": "debug"
     }
 }

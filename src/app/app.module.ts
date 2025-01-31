@@ -10,7 +10,6 @@ import {MatIconModule} from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { DataTablesModule } from 'angular-datatables';
 
-
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './components/modal/modal.component';
@@ -29,6 +28,7 @@ import { VentasarticuloComponent } from './components/ventasarticulo/ventasartic
 import { VentasclientearticuloComponent } from './components/ventasclientearticulo/ventasclientearticulo.component';
 import { ReporteventasComponent } from './components/reporteventas/reporteventas.component';
 import { ConsultainactivosComponent } from './components/consultainactivos/consultainactivos.component';
+import { GuiasComponent } from './components/guias/guias.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -40,7 +40,6 @@ import { AdminComponent } from "./components/admin/admin.component";
 import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
 import { TemplateComponent } from "./components/template/template.component";
 import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
-import { GuiasComponent } from './components/guias/guias.component';
 
 //Pipes
 import { SearchEstadoCuentaPipe } from './pipes/estadocuenta.pipe';
@@ -55,11 +54,6 @@ import { EncabezadoComponent } from './components/encabezado/encabezado.componen
 
 
 import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service'
-
-
-
-
-
 
 @NgModule({
   declarations: [
@@ -80,6 +74,7 @@ import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service
     VentasclientearticuloComponent,
     ReporteventasComponent,
     ConsultainactivosComponent,
+    GuiasComponent,
     HeaderComponent,
     FooterComponent,
     SidenavComponent,
@@ -96,8 +91,7 @@ import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service
     InicioadminComponent,
     SearchConsultaClientesInacPipe,
     CatalogointeractivoComponent,
-    EncabezadoComponent,
-    GuiasComponent
+    EncabezadoComponent
   ],
   imports: [
     BrowserModule,

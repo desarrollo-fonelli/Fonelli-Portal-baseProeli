@@ -1,31 +1,33 @@
 <mat-toolbar class="fixedElement">
-  <button class="btn btn-primary" style="background-color: #24a4cc; border: none;" (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
+  <button class="btn btn-primary" style="background-color: #24a4cc; border: none;"
+    (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
   <div class="cat ">
     <a href="#">
-      <img  src="../../../assets/images/principal/logo_fonelli.png"  >
-    </a>      
+      <img src="../../../assets/images/principal/logo_fonelli.png">
+    </a>
   </div>
   <!--<button (click)="EliminaSesion()" class="btn btn-primary btn-sm ml-auto">Cerrar Sesión</button>-->
 
   <div class="ms-auto">
     <button class="boton_sesion" [matMenuTriggerFor]="menu">
-      <img src="../../../assets/images/principal/usuario.png"  alt="" style="height:30px ; width:30px;">
+      <img src="../../../assets/images/principal/usuario.png" alt="" style="height:30px ; width:30px;">
     </button>
-    <mat-menu #menu="matMenu" class="profile-dropdown">    
+    <mat-menu #menu="matMenu" class="profile-dropdown">
 
-      <span class="fs-16 text-center"  mat-menu-item>{{sCuenta}}</span>
-      <span  *ngIf="bCliente" class="fs-16" mat-menu-item>{{'Cuenta: '}}<strong>{{ sCodigo +'-'+ sFilial}}</strong></span>
+      <span class="fs-16 text-center" mat-menu-item>{{sCuenta}}</span>
+      <span *ngIf="bCliente" class="fs-16" mat-menu-item>{{'Cuenta: '}}<strong>{{ sCodigo +'-'+
+          sFilial}}</strong></span>
       <!-- <span class="fs-16" mat-menu-item><mat-icon>login</mat-icon>{{'Nombre: '}}<strong>{{ sNombre }}</strong> </span> -->
       <span class="fs-16" mat-menu-item>{{'Nombre: '}}<strong>{{ sNombre }}</strong> </span>
-      
-      
+
+
       <div class="container float-left">
-        <div class="row">   
+        <div class="row">
           <button (click)="EliminaSesion()" class="btnLogout btn">Cerrar Sesión</button>
-        </div>  
-      </div>  
-        
-      
+        </div>
+      </div>
+
+
     </mat-menu>
   </div>
 
@@ -33,49 +35,66 @@
 
 
 <div class="main-container">
-  <mat-sidenav-container >
+  <mat-sidenav-container>
     <!-- <mat-sidenav #snav class="mat-elevation-z10" [opened]="true" fixedTopGap="64" [mode]="mobileQuery.matches ? 'over' : 'side'" fixedInViewport="true" style="width:260px;"> -->
-    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-    [fixedInViewport]="mobileQuery.matches" fixedTopGap="64" 
-    [opened]="mobileQuery.matches ? 'false' : 'true'"
-    
-    style="width:260px;"
-    
-    >
+    <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
+      fixedTopGap="64" [opened]="mobileQuery.matches ? 'false' : 'true'" style="width:260px;">
       <mat-nav-list *ngIf="bCliente" nav-list (click)="toggle(snav)">
-        <a mat-list-item [routerLink]="['/distribuidores/inicio/']" routerLinkActive="active-list-item"> <span class="font_side">Inicio</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']" routerLinkActive="active-list-item"><span class="font_side">Datos de clientes</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de precios</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de pedidos</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']" routerLinkActive="active-list-item"><span class="font_side">Relación de pedidos</span></a> 
-        <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']" routerLinkActive="active-list-item"><span class="font_side">Estado de cuenta</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/guias/']" routerLinkActive="active-list-item"><span class="font_side">Consulta guías </span></a>
-        <a mat-list-item [routerLink]="['/catalogointeractivo/']" routerLinkActive="active-list-item"><span class="font_side_ic">Catálogo interactivo </span></a>        
+        <a mat-list-item [routerLink]="['/distribuidores/inicio/']" routerLinkActive="active-list-item"> <span
+            class="font_side">Inicio</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']" routerLinkActive="active-list-item"><span
+            class="font_side">Datos de clientes</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']" routerLinkActive="active-list-item"><span
+            class="font_side">Consulta de precios</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']" routerLinkActive="active-list-item"><span
+            class="font_side">Consulta de pedidos</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']" routerLinkActive="active-list-item"><span
+            class="font_side">Relación de pedidos</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']" routerLinkActive="active-list-item"><span
+            class="font_side">Estado de cuenta</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"
+          routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
+        <!-- <a mat-list-item [routerLink]="['/distribuidores/guias/']" routerLinkActive="active-list-item"><span class="font_side">Consulta guías </span></a> -->
+        <a mat-list-item [routerLink]="['/catalogointeractivo/']" routerLinkActive="active-list-item"><span
+            class="font_side_ic">Catálogo interactivo </span></a>
       </mat-nav-list>
 
-      <mat-nav-list *ngIf="!bCliente" nav-list (click)="toggle(snav)" > 
-        <a mat-list-item [routerLink]="['/asesores/inicio/']" routerLinkActive="active-list-item"> <span class="font_side">Inicio</span></a>
-        <a mat-list-item [routerLink]="['/asesores/indicadoresventa/']" routerLinkActive="active-list-item" ><span class="font_side">Indicadores de venta</span></a>
-        <a mat-list-item [routerLink]="['/asesores/datoscliente/']" routerLinkActive="active-list-item"><span class="font_side">Datos de clientes</span></a>        
-        <a mat-list-item [routerLink]="['/asesores/consultaprecios/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de precios</span></a>
-        <a mat-list-item [routerLink]="['/asesores/consultapedidos/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de pedidos</span></a>
-        <a mat-list-item [routerLink]="['/asesores/relacionpedidos/']" routerLinkActive="active-list-item"><span class="font_side">Relación de pedidos</span></a> 
-        <a mat-list-item [routerLink]="['/asesores/estadocuenta/']" routerLinkActive="active-list-item"><span class="font_side">Estado de cuenta</span></a>
-        <a mat-list-item [routerLink]="['/asesores/fichatecnica/']" routerLinkActive="active-list-item"><span class="font_side">Ficha técnica</span></a>
-        <a mat-list-item [routerLink]="['/asesores/ventasarticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
-        <a mat-list-item [routerLink]="['/asesores/ventasclientearticulo/']" routerLinkActive="active-list-item"><span class="font_side">Ventas clte y artículo</span></a>
-        <a mat-list-item [routerLink]="['/asesores/reporteventas/']" routerLinkActive="active-list-item"><span class="font_side">Reporte de ventas</span></a>
-        <a mat-list-item [routerLink]="['/asesores/consultainactivos/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de inactivos</span></a>
-        <a mat-list-item [routerLink]="['/asesores/guias/']" routerLinkActive="active-list-item"><span class="font_side">Consulta de guías </span></a>
-        <a mat-list-item [routerLink]="['/catalogointeractivo/']" routerLinkActive="active-list-item"><span class="font_side_ic">Catálogo interactivo </span></a>        
+      <mat-nav-list *ngIf="!bCliente" nav-list (click)="toggle(snav)">
+        <a mat-list-item [routerLink]="['/asesores/inicio/']" routerLinkActive="active-list-item"> <span
+            class="font_side">Inicio</span></a>
+        <a mat-list-item [routerLink]="['/asesores/indicadoresventa/']" routerLinkActive="active-list-item"><span
+            class="font_side">Indicadores de venta</span></a>
+        <a mat-list-item [routerLink]="['/asesores/datoscliente/']" routerLinkActive="active-list-item"><span
+            class="font_side">Datos de clientes</span></a>
+        <a mat-list-item [routerLink]="['/asesores/consultaprecios/']" routerLinkActive="active-list-item"><span
+            class="font_side">Consulta de precios</span></a>
+        <a mat-list-item [routerLink]="['/asesores/consultapedidos/']" routerLinkActive="active-list-item"><span
+            class="font_side">Consulta de pedidos</span></a>
+        <a mat-list-item [routerLink]="['/asesores/relacionpedidos/']" routerLinkActive="active-list-item"><span
+            class="font_side">Relación de pedidos</span></a>
+        <a mat-list-item [routerLink]="['/asesores/estadocuenta/']" routerLinkActive="active-list-item"><span
+            class="font_side">Estado de cuenta</span></a>
+        <a mat-list-item [routerLink]="['/asesores/fichatecnica/']" routerLinkActive="active-list-item"><span
+            class="font_side">Ficha técnica</span></a>
+        <a mat-list-item [routerLink]="['/asesores/ventasarticulo/']" routerLinkActive="active-list-item"><span
+            class="font_side">Ventas por artículo</span></a>
+        <a mat-list-item [routerLink]="['/asesores/ventasclientearticulo/']" routerLinkActive="active-list-item"><span
+            class="font_side">Ventas clte y artículo</span></a>
+        <a mat-list-item [routerLink]="['/asesores/reporteventas/']" routerLinkActive="active-list-item"><span
+            class="font_side">Reporte de ventas</span></a>
+        <a mat-list-item [routerLink]="['/asesores/consultainactivos/']" routerLinkActive="active-list-item"><span
+            class="font_side">Consulta de inactivos</span></a>
+        <a mat-list-item [routerLink]="['/asesores/guias/']" routerLinkActive="active-list-item"><span
+            class="font_side">Consulta de guías </span></a>
+        <a mat-list-item [routerLink]="['/catalogointeractivo/']" routerLinkActive="active-list-item"><span
+            class="font_side_ic">Catálogo interactivo </span></a>
       </mat-nav-list>
     </mat-sidenav>
-  
-    <mat-sidenav-content  >
-      
-        <router-outlet></router-outlet>
-     
+
+    <mat-sidenav-content>
+
+      <router-outlet></router-outlet>
+
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

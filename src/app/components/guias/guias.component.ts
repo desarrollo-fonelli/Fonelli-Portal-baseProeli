@@ -25,22 +25,18 @@ import {
 
 //Modelos
 import { FiltrosGuias } from 'src/app/models/guias.filtros';
+import { FiltrosDetalleGuia } from 'src/app/models/detalleGuia.filtros';
 import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
+import { ConsultaGuias, Guia, Contenido as GuiasContenido } from 'src/app/models/consultaGuias';
 import { ConsultaPedido, Pedido, Contenido as ConPed } from 'src/app/models/consultapedidos';
 import { DetallePedido, PedidoArticulo } from 'src/app/models/detallepedido';
-import { FiltrosClientes} from 'src/app/models/clientes.filtros';
+import { FiltrosClientes } from 'src/app/models/clientes.filtros';
 import { Clientes } from 'src/app/models/clientes';
 import { Contenido } from 'src/app/models/clientes';
 import { Condiciones } from 'src/app/models/clientes';
 import { DatosGenerales } from 'src/app/models/clientes';
 import { Contactos } from 'src/app/models/clientes';
-import { ConsultaGuias, Contenido as GuiasContenido} from 'src/app/models/consultaGuias';
 import { DetalleGuia, Articulos as DetalleGuiaContenido } from 'src/app/models/detalleGuia';
-import { FiltrosDetalleGuia } from 'src/app/models/detalleGuia.filtros';
-
-
-
-
 
 //Servicios
 import { ServicioConsultaPedidos } from 'src/app/services/consultapedidos.service';
@@ -50,28 +46,26 @@ import { ServicioCarriers } from 'src/app/services/carriers.service';
 import { ServicioConsultaGuias } from 'src/app/services/consultaguias.service';
 import { ServicioConsultaGuiasDet } from 'src/app/services/detalleguias.service';
 
-
-
 import { DataTableDirective } from 'angular-datatables';
 
 import { Subject } from 'rxjs';
 import { Carriers, Contenido as CarriersCon } from 'src/app/models/carriers';
 
 @Component({
-  selector: 'app-guias',
+  selector: 'app-guias',  
   templateUrl: './guias.component.html',
   styleUrls: ['./guias.component.css'],
-  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes, ServicioCarriers, ServicioConsultaGuias, ServicioConsultaGuiasDet],
+  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, 
+    ServicioClientes, ServicioCarriers, ServicioConsultaGuias, ServicioConsultaGuiasDet],
 })
-export class GuiasComponent implements OnInit,OnDestroy {
+export class GuiasComponent implements OnInit, OnDestroy {
   @ViewChild('pdfTable') pdfTable: ElementRef;
-
 
   searchtext = '';
 
   sCodigo: number | null;
-  sTipo: string | null;
   sFilial: number | null;
+  sTipo: string | null;
   sNombre: string | null;
 
   sWidth: number;
@@ -81,14 +75,10 @@ export class GuiasComponent implements OnInit,OnDestroy {
   persons = [];
   dtTrigger: Subject<any> = new Subject();
 
-
-
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
 
-
   public isCollapsed = false;
-
   public bCliente: boolean;
 
   //Consulta y detalle de guias
@@ -108,7 +98,7 @@ export class GuiasComponent implements OnInit,OnDestroy {
 
   fechaHoy: String;
 
-  guias: GuiasContenido[];
+  guia: Guia[];
   pedidoDet: DetalleGuiaContenido[];
 
   public bCargando: boolean = false;
@@ -126,15 +116,14 @@ export class GuiasComponent implements OnInit,OnDestroy {
 
   public Buscar: FiltrosClientes;
   public oCliente: Clientes;
-  public oContenido : Contenido;
-  public oCondiciones : Condiciones;
-  public oDatosGenerales : DatosGenerales;
-  public oContacto : Contactos;
+  public oContenido: Contenido;
+  public oCondiciones: Condiciones;
+  public oDatosGenerales: DatosGenerales;
+  public oContacto: Contactos;
 
   //Carriers
   public oCarriers: Carriers;
   public oCarriersCon: CarriersCon[];
-
 
   private _mobileQueryListener: () => void;
 
@@ -154,36 +143,35 @@ export class GuiasComponent implements OnInit,OnDestroy {
     this.mobileQuery.addListener(this._mobileQueryListener);
 
     this.sCodigo = Number(sessionStorage.getItem('codigo'));
-    this.sTipo = sessionStorage.getItem('tipo');
     this.sFilial = Number(sessionStorage.getItem('filial'));
+    this.sTipo = sessionStorage.getItem('tipo');
     this.sNombre = sessionStorage.getItem('nombre');
 
     this.bCliente = false;
 
     //Inicializamos variables consulta guias
-    this.oBuscar = new FiltrosGuias('', '',0,0, '', '','','','',0,0);
+    this.oBuscar = new FiltrosGuias('',0,'','',0,0,'','','','','',0,0);
     this.oGuiaRes = {} as ConsultaGuias;
     //this.oGuiaRes.Contenido = {} as ConPed;
-    this.guias = [];
+    this.guia = [];
 
     //Inicializamos variables consulta detalle pedidos
-    this.oBuscaDetalle = new FiltrosDetalleGuia(0,"", '', 0);
+    this.oBuscaDetalle = new FiltrosDetalleGuia(0, "", '', 0);
     this.oPedidoDetalleRes = {} as DetalleGuia;
     this.pedidoDet = [];
 
     this.refreshCountries();
 
-    this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
-    this.oCliente={} as Clientes;
-    this.oContenido ={} as Contenido;
-    this.oCondiciones ={} as Condiciones;
-    this.oDatosGenerales ={} as DatosGenerales;
-    this.oContacto ={} as Contactos;
-
+    this.Buscar = new FiltrosClientes(0, 0, 0, '', 0);
+    this.oCliente = {} as Clientes;
+    this.oContenido = {} as Contenido;
+    this.oCondiciones = {} as Condiciones;
+    this.oDatosGenerales = {} as DatosGenerales;
+    this.oContacto = {} as Contactos;
 
     //Carriers
-    this.oCarriers={} as Carriers;
-}
+    this.oCarriers = {} as Carriers;
+  }
 
   ngOnInit(): void {
 
@@ -191,8 +179,8 @@ export class GuiasComponent implements OnInit,OnDestroy {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      order:[],
-      ordering:false,
+      order: [],
+      ordering: false,
       dom: 'flBtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
@@ -200,9 +188,9 @@ export class GuiasComponent implements OnInit,OnDestroy {
       buttons: [
         {
           extend: 'excelHtml5',
-            title: 'Consulta de guías',
-            text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-            className: "btnExcel btn"
+          title: 'Consulta de guías',
+          text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
+          className: "btnExcel btn"
         },
         // {
         //   extend: 'pdfHtml5',
@@ -223,12 +211,7 @@ export class GuiasComponent implements OnInit,OnDestroy {
         // }
       ]
 
-
     };
-
-
-
-
 
     this.mobileQuery.removeListener(this._mobileQueryListener);
 
@@ -238,35 +221,35 @@ export class GuiasComponent implements OnInit,OnDestroy {
       this._router.navigate(['/']);
     }
 
-    switch(this.sTipo) {
-      case 'C':{
+    switch (this.sTipo) {
+      case 'C': {
         //Tipo cliente
-        this.oBuscar.TipoUsuario	 = "C";
+        this.oBuscar.TipoUsuario = "C";
         this.bCliente = true;
         this.oBuscar.ClienteCodigo = this.sCodigo;
         this.oBuscar.ClienteFilial = this.sFilial;
-        this.oBuscar.Usuario =this.sCodigo+'-'+this.sFilial;
-         break;
+        this.oBuscar.Usuario = this.sCodigo + '-' + this.sFilial;
+        break;
       }
       case 'A': {
-         //Agente;
-         this.oBuscar.TipoUsuario	 = "A";
-         this.oBuscar.Usuario	= this.sCodigo;
-         this.bCliente = false;
-         break;
+        //Agente;
+        this.oBuscar.TipoUsuario = "A";
+        this.oBuscar.Usuario = this.sCodigo;
+        this.bCliente = false;
+        break;
       }
       case 'G': {
         //Agente;
         this.oBuscar.TipoUsuario = "G";
-        this.oBuscar.Usuario	= this.sCodigo;
+        this.oBuscar.Usuario = this.sCodigo;
         this.bCliente = false;
         break;
-     }
+      }
 
-   }
+    }
 
-   this.Buscar.TipoUsuario = this.sTipo;
-   this.Buscar.Usuario = this.sCodigo;
+    this.Buscar.TipoUsuario = this.sTipo;
+    this.Buscar.Usuario = this.sCodigo;
 
     let date: Date = new Date();
     let mes;
@@ -279,197 +262,183 @@ export class GuiasComponent implements OnInit,OnDestroy {
     this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();
 
     //Realizamos llamada al servicio de clientes
-   if (!sessionStorage.getItem('Clientes')){
+    if (!sessionStorage.getItem('Clientes')) {
 
-    ///console.log("no tenemos  Clientes");
+      ///console.log("no tenemos  Clientes");
 
-   this._servicioCClientes
-    .GetCliente(this.Buscar)
-    .subscribe(
-      (Response: Clientes) =>  {
+      this._servicioCClientes
+        .GetCliente(this.Buscar)
+        .subscribe(
+          (Response: Clientes) => {
 
-        this.oCliente = Response;
-        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
-        if(this.oCliente.Codigo != 0){
+            this.oCliente = Response;
+            console.log("Respuesta cliente" + JSON.stringify(this.oCliente));
+            if (this.oCliente.Codigo != 0) {
+              return false;
+            }
+
+            sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente));
+
+            this.oContenido = this.oCliente.Contenido[0];
+            this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+            this.oDatosGenerales = this.oCliente.Contenido[0].DatosGenerales;
+            this.oContacto = this.oCliente.Contenido[0].Contactos;
+            return true;
+          },
+          (error: Clientes) => {
+            this.oCliente = error;
+            console.log(this.oCliente);
+            return false;
+          }
+
+        );
+      //console.log("Termina carga Clientes");
+
+    } else {
+      //console.log("Ya tenemos  Clientes");
+
+      this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
+      this.oContenido = this.oCliente.Contenido[0];
+      this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+      this.oDatosGenerales = this.oCliente.Contenido[0].DatosGenerales;
+      this.oContacto = this.oCliente.Contenido[0].Contactos;
+    }
+
+    //Inicializa
+    //this.oBuscar.TipoGuia = 'C';
+
+    //Carga catalogo carriers
+    this._servicioCarriers
+      .GetCarrier()
+      .subscribe(
+        (Response: Carriers) => {
+
+          this.oCarriers = Response;
+          console.log("Respuesta carriers" + JSON.stringify(this.oCarriers));
+
+          if (this.oCarriers.Codigo != 0) {
+            return false;
+          }
+
+          this.oCarriersCon = this.oCarriers.Contenido
+
+          //sessionStorage.setItem('Clientes', JSON.stringify(this.oCarriers));
+
+          // this.oContenido= this.oCliente.Contenido[0];
+          //  this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          //  this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
+          //  this.oContacto =this.oCliente.Contenido[0].Contactos;
+          return true;
+        },
+        (error: Carriers) => {
+          this.oCarriers = { "Codigo": 0, "Mensaje": "success", "Paginacion": { "NumFilas": 1, "TotalPaginas": 1, "Pagina": 1 }, "Contenido": [{ "CarrierCodigo": "01", "CarrierNombre": "Opcion1", "Url": "" }, { "CarrierCodigo": "02", "CarrierNombre": "Opcion2", "Url": "https://www.ups.com/track?HTMLVersion=5.0&Requester=NES&AgreeToTermsAndConditions=yes&loc=es_MX&tracknum=1Z612W3R0414932785/trackdetails" }, { "CarrierCodigo": "03", "CarrierNombre": "Opcion3", "Url": "" }] }
+          this.oCarriersCon = this.oCarriers.Contenido
+          console.log(this.oCarriers)
+          this.oCarriers = error;
+          console.log(this.oCarriers);
           return false;
         }
 
-        sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente));
-
-       this.oContenido= this.oCliente.Contenido[0];
-        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-        this.oContacto =this.oCliente.Contenido[0].Contactos;
-        return true;
-
-
-      },
-      (error:Clientes) => {
-        this.oCliente = error;
-        console.log(this.oCliente);
-        return false;
-
-      }
-
-    );
-    //console.log("Termina carga Clientes");
-
-   }else{
-    //console.log("Ya tenemos  Clientes");
-
-
-    this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
-    this.oContenido = this.oCliente.Contenido[0];
-    this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-    this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-    this.oContacto =this.oCliente.Contenido[0].Contactos;
-
-   }
-
-//Inicializa
-   //this.oBuscar.TipoGuia = 'C';
-
- //Carga catalogo carriers
-   this._servicioCarriers
-   .GetCarrier()
-   .subscribe(
-     (Response: Carriers) =>  {
-
-      this.oCarriers = Response;
-       console.log("Respuesta carriers"+JSON.stringify(this.oCarriers));
-
-       if(this.oCarriers.Codigo != 0){
-         return false;
-       }
-
-       this.oCarriersCon = this.oCarriers.Contenido
-
-       //sessionStorage.setItem('Clientes', JSON.stringify(this.oCarriers));
-
-      // this.oContenido= this.oCliente.Contenido[0];
-      //  this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-      //  this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-      //  this.oContacto =this.oCliente.Contenido[0].Contactos;
-        return true;
-
-
-     },
-     (error:Carriers) => {
-      this.oCarriers = {"Codigo":0,"Mensaje":"success","Paginacion":{"NumFilas":1,"TotalPaginas":1,"Pagina":1},"Contenido":[{"CarrierCodigo":"01","CarrierNombre":"Opcion1","Url":""},{"CarrierCodigo":"02","CarrierNombre":"Opcion2","Url":"https://www.ups.com/track?HTMLVersion=5.0&Requester=NES&AgreeToTermsAndConditions=yes&loc=es_MX&tracknum=1Z612W3R0414932785/trackdetails"},{"CarrierCodigo":"03","CarrierNombre":"Opcion3","Url":""}]}
-      this.oCarriersCon = this.oCarriers.Contenido
-      console.log(this.oCarriers)
-       this.oCarriers = error;
-       console.log(this.oCarriers);
-       return false;
-
-     }
-
-   );
-
-
-
-
-
-
+      );
   }
 
-  //Funcion para consultar los pedidos
+  //Funcion para consultar las Guias (Paquetes)
   consultaGuias() {
-
 
     this.oBuscar.TipoUsuario = this.sTipo;
 
     console.log(this.oBuscar);
 
-    if (this.oBuscar.TipoGuia == 1 ){
+    if (this.oBuscar.TipoGuia == 1) {
       this.bBanderaTipo = true
-    }else if(this.oBuscar.TipoGuia == 3){
+    } else if (this.oBuscar.TipoGuia == 3) {
       this.bBanderaTipo = true
-    }else{
+    } else {
       this.bBanderaTipo = false
     }
 
-
-   this.bBandera = true;
-   this.bCargando = false;
+    this.bBandera = true;
+    this.bCargando = false;
     this.isCollapsed = true;
 
-        //Realizamos llamada al servicio de consulta de guias
-        this._servicioConGuias.Get(this.oBuscar).subscribe(
-          (Response: ConsultaGuias) => {
+    //Realizamos llamada al servicio de consulta de guias
+    this._servicioConGuias.Get(this.oBuscar).subscribe(
+      (Response: ConsultaGuias) => {
 
-            this.oGuiaRes = Response
+        this.oGuiaRes = Response;
 
+        console.log("................> RESULTADO LLAMADA "+JSON.stringify(this.oGuiaRes) );
 
-            if (this.oGuiaRes.Codigo != 0) {
-              this.bError = true;
-              this.sMensaje = 'No se encontraron de pedidos';
-              this.bBandera = false;
-              this.bCargando = false;
-              return;
-            }
+        if (this.oGuiaRes.Codigo != 0) {
+          this.bError = true;
+          this.sMensaje = 'No se encontraron Guias (Paquetes)';
+          this.bBandera = false;
+          this.bCargando = false;
+          return;
+        }
 
-            this.guias = this.oGuiaRes.Contenido
+        this.guia = this.oGuiaRes.Contenido.Guias;
 
-            console.log(this.guias)
-            console.log("tabla cargada");
+        console.log(this.guia)
+        console.log("tabla cargada");
 
-    //        this.oPedidoRes.Contenido.CantidadPedida = this.getTotal(this.pedido,'CantidadPedida');
-      //      this.oPedidoRes.Contenido.DiferenciaPedidosSurtido = this.getTotal(this.pedido,'DiferenciaPedidosSurtido');
+        //      this.oPedidoRes.Contenido.CantidadPedida = this.getTotal(this.pedido,'CantidadPedida');
+        //      this.oPedidoRes.Contenido.DiferenciaPedidosSurtido = this.getTotal(this.pedido,'DiferenciaPedidosSurtido');
 
-            this.sMensaje = '';
-            this.bBandera = true;
-            //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length; //Seteamos el tamaño de los datos obtenidos
-            this.bCargando = false;
-            this.isCollapsed = true;
+        this.sMensaje = '';
+        this.bBandera = true;
+        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length; //Seteamos el tamaño de los datos obtenidos
+        this.bCargando = false;
+        this.isCollapsed = true;
 
-            this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-              // Destroy the table first
-              dtInstance.destroy();
-              // Call the dtTrigger to rerender again
-              this.dtTrigger.next("");
-            });
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+          // Destroy the table first
+          dtInstance.destroy();
+          // Call the dtTrigger to rerender again
+          this.dtTrigger.next("");
+        });
 
-          },
-          (error: ConsultaGuias) => {
+      },
+      (error: ConsultaGuias) => {
 
-            this.oGuiaRes = {"Codigo":0,"Mensaje":"success", "Paginacion":{"NumFilas":1,"TotalPaginas":1,"Pagina":1}, "Contenido": [{"Oficina":"001", "Serie":"SAFD1526ETY14", "Documento":"223", "Fecha":"11/05/2023", "TC":"02", "Carrier":"UPS", "NumeroGuia":"1203669750490295056", "FechaGuia":"18/05/2023", "FechaRecepcion":"18/05/2023", "Observaciones":"Recepcion", "NumeroCliente":"46", "Filial":"0", "Importe":"2540", "Piezas":"6", "Gramos":"3.65", "TipoPedido":"G", "Pedido":"3652"}, {"Oficina":"002", "Serie":"SAFD1526E6542", "Documento":"224", "Fecha":"11/05/2023", "TC":"02", "Carrier":"UPS", "NumeroGuia":"1203669750490296545","FechaGuia":"18/05/2023", "FechaRecepcion":"18/05/2023", "Observaciones":"Recepcion", "NumeroCliente":"46", "Filial":"0", "Importe":"3900", "Piezas":"10", "Gramos":"1.65", "TipoPedido":"G", "Pedido":"2565"} ] }
-            this.guias = this.oGuiaRes.Contenido
-            //this.oGuiaRes = error;
-            this.sMensaje = 'No se encontraron de pedidos';
-            console.log('error');
-            console.log(this.oGuiaRes);
-            this.bCargando = false;
-          }
-        );
+        //    this.oGuiaRes = { "Codigo": 0, "Mensaje": "success", "Paginacion": { "NumFilas": 1, "TotalPaginas": 1, "Pagina": 1 }, "Contenido": [{ "Oficina": "001", "Serie": "SAFD1526ETY14", "Documento": "223", "Fecha": "11/05/2023", "TC": "02", "Carrier": "UPS", "NumeroGuia": "1203669750490295056", "FechaGuia": "18/05/2023", "FechaRecepcion": "18/05/2023", "Observaciones": "Recepcion", "NumeroCliente": "46", "Filial": "0", "Importe": "2540", "Piezas": "6", "Gramos": "3.65", "TipoPedido": "G", "Pedido": "3652" }, { "Oficina": "002", "Serie": "SAFD1526E6542", "Documento": "224", "Fecha": "11/05/2023", "TC": "02", "Carrier": "UPS", "NumeroGuia": "1203669750490296545", "FechaGuia": "18/05/2023", "FechaRecepcion": "18/05/2023", "Observaciones": "Recepcion", "NumeroCliente": "46", "Filial": "0", "Importe": "3900", "Piezas": "10", "Gramos": "1.65", "TipoPedido": "G", "Pedido": "2565" }] }
+        //    this.guias = this.oGuiaRes.Contenido
+
+        this.oGuiaRes = error;
+        this.sMensaje = 'No se encontraron Guias (Paquetes)';
+        console.log('.................> error');
+        console.log(this.oGuiaRes);
+        this.bCargando = false;
+      }
+    );
 
 
   }
 
 
-    //modal detalle guia
-    openDetalleGuia(PedidoDetalle: any, folio: string) {
-      console.log("Folio pedido a buscar - " +folio);
-      //this.pedidoDet = [];
-      this.consultaDetalleGuia(folio);
+  //modal detalle guia
+  openDetalleGuia(PedidoDetalle: any, folio: string) {
+    console.log("Folio pedido a buscar - " + folio);
+    //this.pedidoDet = [];
+    this.consultaDetalleGuia(folio);
 
-      this.ModalActivo = this.modalService.open(PedidoDetalle, {
-        ariaLabelledBy: 'PedidoDetalle',
-        size: 'xl',
-        scrollable: true
+    this.ModalActivo = this.modalService.open(PedidoDetalle, {
+      ariaLabelledBy: 'PedidoDetalle',
+      size: 'xl',
+      scrollable: true
 
-      });
+    });
 
-      this.ModalActivo.result.then(
-        (result) => {},
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-          console.log('reason ' + reason);
-          this.bBanderaDet = true;
-          //this.pedidoDet = null;
-        }
-      );
-    }
+    this.ModalActivo.result.then(
+      (result) => { },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        console.log('reason ' + reason);
+        this.bBanderaDet = true;
+        //this.pedidoDet = null;
+      }
+    );
+  }
   //Funcion para consultar detalle guia
   consultaDetalleGuia(folio: String) {
     //console.log('consultaPedido detalle : ' + folio);
@@ -480,10 +449,8 @@ export class GuiasComponent implements OnInit,OnDestroy {
     this.oBuscaDetalle.PedidoLetra = "A";
     this.oBuscaDetalle.Usuario = this.oBuscar.Usuario;
 
-    console.log("Datos pedicion detalle guia: "+this.oBuscaDetalle);
+    console.log("Datos pedicion detalle guia: " + this.oBuscaDetalle);
 
-
-    
     //this.pedidoDet = this.oPedidoDetalleRes.Contenido.PedidoArticulos;//llena detalle pedido
 
     this.bBanderaDet = true;
@@ -521,12 +488,9 @@ export class GuiasComponent implements OnInit,OnDestroy {
         this.sMensaje = '';
         //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
 
-
-
-
       },
       (error: DetalleGuia) => {
-        this.oPedidoDetalleRes = {"Codigo":0, "Mensaje":"success","Contenido":{"PedidoLetra":"L","PedidoFolio":"125","Articulos": [{Linea:"1", Clave:"A001", Descripcion:"Articulo prueba 1", FechaPedido:"11/05/2023", CantidadPedido:"5000", GramoPedido:"5.3", FechaSurtido:"11/05/2023", CantidadSurtido:"300", GramosSurtidos:"4.2", Estatus:"1"}, {Linea:"2", Clave:"A002", Descripcion:"Articulo prueba 2", FechaPedido:"11/05/2023", CantidadPedido:"2500", GramoPedido:"3.6", FechaSurtido:"11/05/2023", CantidadSurtido:"100", GramosSurtidos:"1.0", Estatus:"2"} ] }} 
+        this.oPedidoDetalleRes = { "Codigo": 0, "Mensaje": "success", "Contenido": { "PedidoLetra": "L", "PedidoFolio": "125", "Articulos": [{ Linea: "1", Clave: "A001", Descripcion: "Articulo prueba 1", FechaPedido: "11/05/2023", CantidadPedido: "5000", GramoPedido: "5.3", FechaSurtido: "11/05/2023", CantidadSurtido: "300", GramosSurtidos: "4.2", Estatus: "1" }, { Linea: "2", Clave: "A002", Descripcion: "Articulo prueba 2", FechaPedido: "11/05/2023", CantidadPedido: "2500", GramoPedido: "3.6", FechaSurtido: "11/05/2023", CantidadSurtido: "100", GramosSurtidos: "1.0", Estatus: "2" }] } }
         this.pedidoDet = this.oPedidoDetalleRes.Contenido.Articulos
         console.log(this.pedidoDet)
 
@@ -552,8 +516,6 @@ export class GuiasComponent implements OnInit,OnDestroy {
       );
     console.log('TErmina');*/
   }
-
-
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -595,15 +557,15 @@ export class GuiasComponent implements OnInit,OnDestroy {
     cadenaaux = this.TablaPedidos();
 
     let cadena =
-    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.obtenNombreCliente(this.oBuscar.ClienteCodigo, this.oBuscar.ClienteFilial)+'</strong></p>' +
-    cadenaaux;
+      '<br><p>Cliente: <strong>' + this.oBuscar.ClienteCodigo + '-' + this.oBuscar.ClienteFilial + ' ' + this.obtenNombreCliente(this.oBuscar.ClienteCodigo, this.oBuscar.ClienteFilial) + '</strong></p>' +
+      cadenaaux;
 
     console.log('cadena');
     console.log(cadena);
 
     var html = htmlToPdfmake(cadena);
     console.log(html);
-    html[2].table.headerRows= 1;
+    html[2].table.headerRows = 1;
     const documentDefinition = {
       pageOrientation: 'landscape',
       header: [
@@ -613,7 +575,7 @@ export class GuiasComponent implements OnInit,OnDestroy {
           columns: [
             {
               image: 'logo',
-              margin: [25,13],
+              margin: [25, 13],
               heigth: 40,
               width: 110
             },
@@ -622,7 +584,7 @@ export class GuiasComponent implements OnInit,OnDestroy {
               text: 'Ventas por artículo',
               alignment: 'center',
               style: 'header',
-              margin: [8,8]
+              margin: [8, 8]
             },
             {
               width: 100,
@@ -648,10 +610,11 @@ export class GuiasComponent implements OnInit,OnDestroy {
         },
       },
       content: html,
-    footer: function (currentPage, pageCount) {
-      return [
-        { text: currentPage.toString() + ' de ' + pageCount , alignment: 'right',  margin: [25, 20] }
-      ]},
+      footer: function (currentPage, pageCount) {
+        return [
+          { text: currentPage.toString() + ' de ' + pageCount, alignment: 'right', margin: [25, 20] }
+        ]
+      },
       images: {
         logo: 'data:image/png;base64,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',
       }
@@ -666,11 +629,11 @@ export class GuiasComponent implements OnInit,OnDestroy {
     this.bCargandoClientes = true;
     var result;
 
-    try{
+    try {
       //result = this.BuscaClientes()
       result = true;
 
-      if(result){
+      if (result) {
         this.ModalActivo = this.modalService.open(Clientes, {
           ariaLabelledBy: 'Clientes',
           size: 'xl',
@@ -679,11 +642,11 @@ export class GuiasComponent implements OnInit,OnDestroy {
         });
 
         this.ModalActivo.result.then(
-          (result) => {},
+          (result) => { },
           (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
             console.log('reason ' + reason);
-            this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+            this.Buscar = new FiltrosClientes(0, 0, 0, '', 0);
           }
         );
       }
@@ -691,9 +654,9 @@ export class GuiasComponent implements OnInit,OnDestroy {
       this.bCargandoClientes = false;
 
 
-      console.log("respuesta"+result);
+      console.log("respuesta" + result);
 
-    }catch(err){
+    } catch (err) {
 
     }
   }
@@ -701,65 +664,65 @@ export class GuiasComponent implements OnInit,OnDestroy {
   //Funcion para seleccionar cliente
   obtenCliente(sCodigo: string, sFilial: string) {
 
-      this.oBuscar.ClienteCodigo = Number(sCodigo);
-      this.oBuscar.ClienteFilial = Number(sFilial);
+    this.oBuscar.ClienteCodigo = Number(sCodigo);
+    this.oBuscar.ClienteFilial = Number(sFilial);
 
-      this.ModalActivo.dismiss('Cross click');
-    }
+    this.ModalActivo.dismiss('Cross click');
+  }
 
-  BuscaClientes():boolean{
+  BuscaClientes(): boolean {
 
     this._servicioCClientes
-    .GetCliente(this.Buscar)
-    .subscribe(
-      (Response: Clientes) =>  {
+      .GetCliente(this.Buscar)
+      .subscribe(
+        (Response: Clientes) => {
 
 
-        this.oCliente = Response;
+          this.oCliente = Response;
 
-        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
-        this.bCargandoClientes =false;
+          console.log("Respuesta cliente" + JSON.stringify(this.oCliente));
+          this.bCargandoClientes = false;
 
 
-        if(this.oCliente.Codigo != 0){
-          this.bError= true;
-          this.sMensaje="No se encontraron datos del cliente";
+          if (this.oCliente.Codigo != 0) {
+            this.bError = true;
+            this.sMensaje = "No se encontraron datos del cliente";
 
+            return false;
+          }
+
+          this.oContenido = this.oCliente.Contenido[0];
+          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          this.oDatosGenerales = this.oCliente.Contenido[0].DatosGenerales;
+          this.oContacto = this.oCliente.Contenido[0].Contactos;
+          return true;
+
+
+        },
+        (error: Clientes) => {
+
+          this.oCliente = error;
+
+          console.log("error");
+          console.log(this.oCliente);
+          this.bCargandoClientes = false;
           return false;
+
         }
 
-        this.oContenido = this.oCliente.Contenido[0];
-        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-        this.oContacto =this.oCliente.Contenido[0].Contactos;
-        return true;
-
-
-      },
-      (error:Clientes) => {
-
-        this.oCliente = error;
-
-        console.log("error");
-        console.log(this.oCliente);
-        this.bCargandoClientes =false;
-        return false;
-
-      }
-
-    );
+      );
     return true;
   }
 
   obtenNombreCliente(cliente: number, filial: number): string {
     let nombre: string = '';
 
-      for(var cliCon of this.oCliente.Contenido){
-        if (cliCon.ClienteCodigo == String(cliente) && cliCon.ClienteFilial == String(filial)){
-          nombre = cliCon.RazonSocial;
-          break;
-        }
+    for (var cliCon of this.oCliente.Contenido) {
+      if (cliCon.ClienteCodigo == String(cliente) && cliCon.ClienteFilial == String(filial)) {
+        nombre = cliCon.RazonSocial;
+        break;
       }
+    }
     return nombre;
   }
 
@@ -767,17 +730,17 @@ export class GuiasComponent implements OnInit,OnDestroy {
     console.log("Entra total-------");
     let Total: number = 0;
 
-    switch(idCol) {
+    switch (idCol) {
       case 'CantidadPedida': {
 
-        for(var detPed of oPedido){
+        for (var detPed of oPedido) {
           Total += detPed.CantidadPedida;
         }
         break;
       }
       case 'DiferenciaPedidosSurtido': {
 
-        for(var detPed of oPedido){
+        for (var detPed of oPedido) {
           Total += detPed.DiferenciaPedidosSurtido;
         }
         break;
@@ -787,44 +750,44 @@ export class GuiasComponent implements OnInit,OnDestroy {
 
     Total = Number(Total.toFixed(2));
     return Total;
-   }
+  }
 
   getTotalPedido(oDetallePed: PedidoArticulo[], idCol: string): number {
-    console.log("Entra ---------") ;
+    console.log("Entra ---------");
     let Total: number = 0;
 
-    switch(idCol) {
+    switch (idCol) {
       case 'CantidadPedida': {
 
-        for(var detPed of oDetallePed){
+        for (var detPed of oDetallePed) {
           Total += detPed.CantidadPedida;
         }
         break;
       }
       case 'CantidadPedidoProduccion': {
 
-        for(var detPed of oDetallePed){
+        for (var detPed of oDetallePed) {
           Total += detPed.CantidadPedidoProduccion;
         }
         break;
       }
       case 'CantidadProducida': {
 
-        for(var detPed of oDetallePed){
+        for (var detPed of oDetallePed) {
           Total += detPed.CantidadProducida;
         }
         break;
       }
       case 'CantidadSurtida': {
 
-        for(var detPed of oDetallePed){
+        for (var detPed of oDetallePed) {
           Total += detPed.CantidadSurtida;
         }
         break;
       }
       case 'DiferenciaProducido': {
 
-        for(var detPed of oDetallePed){
+        for (var detPed of oDetallePed) {
           Total += detPed.DiferenciaProducido;
         }
         break;
@@ -833,112 +796,123 @@ export class GuiasComponent implements OnInit,OnDestroy {
 
     Total = Number(Total.toFixed(2));
     return Total;
-   }
+  }
 
-   TablaPedidos(): string
-   {
+  TablaPedidos(): string {
 
-     var tabla = "";
-     var con=1;
+    var tabla = "";
+    var con = 1;
 
-     if (this.bBanderaTipo){
+    if (this.bBanderaTipo) {
 
-      tabla =' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions"  >' + '\n'+
-              ' <thead>' + '\n'+
-                  ' <tr class="EncTabla">' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white;" scope="col">OF</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; " scope="col">S</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; " scope="col">DOCTO</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA/EXP</div></th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white;" scope="col">TC</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">CARRIER</div></th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">NUMERO GUIA</div></th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA/GUIA</div></th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA/REC</div></th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;">OBSERVACIONES</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">NUMERO CLIENTE</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">FILIAL</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">IMPORTE</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PIEZAS</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">GRAMOS</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">TIPO PEDIDO</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PEDIOD</th>' + '\n'+
-                '</tr>' + '\n'+
-              ' </thead>' + '\n'+
-              ' <tbody>' + '\n'
+      tabla = ' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions"  >' + '\n' +
+        ' <thead>' + '\n' +
+        ' <tr class="EncTabla">' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white;" scope="col">Paquete</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FechaPaq</div></th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white;" scope="col">Oficina</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">SeriePred</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">Prefactura</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">Serie</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">Factura</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">OrdenComp</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">Traspaso</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">OrdenReto</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Piezas</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Gramos</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Importe</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FechaExpe</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">Carrier</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">Guia</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">Stat</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FechaRece</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;">Observac</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Cliente</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Filial</th>' + '\n' +
+        '</tr>' + '\n' +
+        ' </thead>' + '\n' +
+        ' <tbody>' + '\n'
 
-     }else{
-      tabla =' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions"  >' + '\n'+
-              ' <thead>' + '\n'+
-                '<tr class="EncTabla">' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white;" scope="col" >#</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white;" scope="col">OF</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; " scope="col">S</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; " scope="col">DOCTO</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA/EXP</div></th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white;" scope="col">TC</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">CARRIER</div></th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA/GUIA</div></th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA/REC</div></th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;">OBSERVACIONES</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">NUMERO CLIENTE</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">FILIAL</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">IMPORTE</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PIEZAS</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">GRAMOS</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">TIPO PEDIDO</th>' + '\n'+
-                  '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">PEDIOD</th>' + '\n'+
-                '</tr>' + '\n'+
-              ' </thead>' + '\n'+
-              ' <tbody>' + '\n'
-     }
-
-
-              this.guias.forEach(function(ped){
-
-                tabla = tabla +   '<tr >' + '\n' +
-
-                  '<th scope="row"> '+con+' </th>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:left">'+ ped.Oficina +'</td>'+'\n'+
-                  '<td class="FilasFonelli">'+ ped.Serie +' </td>'+'\n'+
-                  '<td class="FilasFonelli" >'+ ped.Documento +'</td>'+'\n'+
-                  '<td class="FilasFonelli" >'+ ped.Fecha+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:left">'+ ped.TC+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:left" >'+ ped.Carrier+'</td>'+'\n'+
-                  '<td *ngIf="bBanderaTipo" class="FilasFonelli" style="text-align:left"><u>'+ ped.NumeroGuia+'</u></td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:left">'+ ped.FechaGuia+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:left">'+ ped.FechaRecepcion+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:right">'+ ped.Observaciones+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:right">'+ ped.NumeroCliente+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:right">'+ ped.Filial+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:right">'+ ped.Importe+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:right">'+ ped.Piezas+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:right">'+ ped.Gramos+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:right">'+ ped.TipoPedido+'</td>'+'\n'+
-                  '<td class="FilasFonelli" style="text-align:right">'+ ped.Pedido+'</td>'+'\n'+
-                '</tr>'+'\n';
-
-                con +=1;
-              });
-
-          '</tbody>'+'\n'+
-        '</table>';
-
-        return tabla;
+    } else {
+      tabla = ' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions"  >' + '\n' +
+        ' <thead>' + '\n' +
+        '<tr class="EncTabla">' + '\n' +
+        '<th style="background-color: #24a4cc; color: white;" scope="col" >#</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white;" scope="col">Paquete</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FechaPaq</div></th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white;" scope="col">Oficina</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">SeriePred</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">Prefactura</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">Serie</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">Factura</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">OrdenComp</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">Traspaso</th>' + '\n' +
+        ' <th style="background-color: #24a4cc; color: white; " scope="col">OrdenReto</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Piezas</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Gramos</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Importe</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FechaExpe</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">Carrier</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">Guia</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">Stat</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FechaRece</div></th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;">Observac</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Cliente</th>' + '\n' +
+        '<th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Filial</th>' + '\n' +
+        '</tr>' + '\n' +
+        ' </thead>' + '\n' +
+        ' <tbody>' + '\n'
+    }
 
 
-   }
+    this.guia.forEach(function (gui) {
 
-      //modal pedido detalle
-      validaColumna(event) {
+      tabla = tabla + '<tr >' + '\n' +
 
-        console.log("EVENTOOOOOOOO " );
-        console.log(event);
+        '<th scope="row"> ' + con + ' </th>' + '\n' +
+        '<td class="FilasFonelli">' + gui.Paquete + ' </td>' + '\n' +
+        '<td class="FilasFonelli" >' + gui.FechaPaq + '</td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:left">' + gui.Oficina + '</td>' + '\n' +
+        '<td class="FilasFonelli">' + gui.SeriePref + ' </td>' + '\n' +
+        '<td class="FilasFonelli" >' + gui.Prefactura + '</td>' + '\n' +
+        '<td class="FilasFonelli">' + gui.Serie + ' </td>' + '\n' +
+        '<td class="FilasFonelli" >' + gui.Factura + '</td>' + '\n' +
+        '<td class="FilasFonelli" >' + gui.OrdenComp + '</td>' + '\n' +
+        '<td class="FilasFonelli" >' + gui.Traspaso + '</td>' + '\n' +
+        '<td class="FilasFonelli" >' + gui.OrdenReto + '</td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:right">' + gui.Piezas + '</td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:right">' + gui.Gramos + '</td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:right">' + gui.Importe + '</td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:left">' + gui.FechaExpe + '</td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:left" >' + gui.Carrier + '</td>' + '\n' +
+        '<td *ngIf="bBanderaTipo" class="FilasFonelli" style="text-align:left"><u>' + gui.Guia + '</u></td>' + '\n' +
+        '<td class="FilasFonelli">' + gui.Stat + ' </td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:left">' + gui.FechaRece + '</td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:right">' + gui.Observac + '</td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:right">' + gui.Cliente + '</td>' + '\n' +
+        '<td class="FilasFonelli" style="text-align:right">' + gui.Filial + '</td>' + '\n' +
+        '</tr>' + '\n';
+
+      con += 1;
+    });
+
+    '</tbody>' + '\n' +
+      '</table>';
+
+    return tabla;
+
+  }
+
+  //modal pedido detalle
+  validaColumna(event) {
+
+    console.log("EVENTOOOOOOOO ");
+    console.log(event);
 
 
 
-      }
+  }
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {

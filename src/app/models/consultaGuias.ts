@@ -1,28 +1,41 @@
+import { GuiasComponent } from '../components/guias/guias.component';
 export interface ConsultaGuias {
     Codigo?:     number;
     Mensaje?:    string;
     Paginacion?: Paginacion;
-    Contenido:  Contenido[];
+    Contenido:  Contenido;
 }
 
 export interface Contenido {
-    Oficina?: string;
-    Serie?: string;
-    Documento?: string;
-    Fecha?: string;
-    TC?: string;
-    Carrier?: string;
-    NumeroGuia?: string;
-    FechaGuia?: string;
-    FechaRecepcion?: string;
-    Observaciones?: string;
-    NumeroCliente?: string;
-    Filial?: string;
-    Importe?: string;
-    Piezas?: string;
-    Gramos?: string;
-    TipoPedido?: string;
-    Pedido?: string;
+    ClienteCodigo?: string;
+    ClienteFilial?: string;
+    ClienteNombre?: string;
+    ClienteSucursal?: string;
+    Guias: Guia[];
+}
+
+export interface Guia {
+    Paquete?:       string;
+    FechaPaq?:      Date | null;
+    Oficina?:       string;
+    SeriePref?:     string;
+    Prefactura?:    string;
+    Serie?:         string;
+    Factura?:       string;
+    OrdenComp?:     string;
+    Traspaso?:      string;
+    OrdenReto:      string;
+    Piezas?:        number;
+    Gramos?:        number;
+    Importe?:       number;
+    FechaExpe?:     Date | null;
+    Carrier?:       string;
+    Guia?:          string;
+    Stat?:          string;
+    FechaRece?:     Date | null;
+    Observac?:      string;
+    Cliente?:       string;
+    Filial?:        string;
 }
 
 export interface Paginacion {
