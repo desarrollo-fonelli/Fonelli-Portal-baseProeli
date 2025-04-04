@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { routing,appRoutingProviders } from './app.routing';
+import { routing, appRoutingProviders } from './app.routing';
 import { FormsModule } from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { DataTablesModule } from 'angular-datatables';
 
@@ -29,12 +29,13 @@ import { VentasclientearticuloComponent } from './components/ventasclientearticu
 import { ReporteventasComponent } from './components/reporteventas/reporteventas.component';
 import { ConsultainactivosComponent } from './components/consultainactivos/consultainactivos.component';
 import { GuiasComponent } from './components/guias/guias.component';
+import { OrdnretornoComponent } from './components/ordnretorno/ordnretorno.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 
-import { MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 import { AdminComponent } from "./components/admin/admin.component";
 import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
@@ -53,7 +54,7 @@ import { InicioadminComponent } from './components/inicioadmin/inicioadmin.compo
 import { EncabezadoComponent } from './components/encabezado/encabezado.component';
 
 
-import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service'
+import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service';
 
 @NgModule({
   declarations: [
@@ -75,11 +76,11 @@ import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service
     ReporteventasComponent,
     ConsultainactivosComponent,
     GuiasComponent,
+    OrdnretornoComponent,
     HeaderComponent,
     FooterComponent,
     SidenavComponent,
-
-    SearchEstadoCuentaPipe ,
+    SearchEstadoCuentaPipe,
     SearchConsultaPedidoPipe,
     SearchRelacionPedidosPipe,
     SearchVentasClienteArticuloPipe,
@@ -105,8 +106,8 @@ import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service
     MatToolbarModule,
     MatIconModule,
     MatSnackBarModule,
-    MatMenuModule ,
-    DataTablesModule 
+    MatMenuModule,
+    DataTablesModule
   ],
   providers: [
     appRoutingProviders,

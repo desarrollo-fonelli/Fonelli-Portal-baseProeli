@@ -18,6 +18,7 @@ import { VentasclientearticuloComponent } from "./components/ventasclientearticu
 import { ReporteventasComponent } from "./components/reporteventas/reporteventas.component";
 import { ConsultainactivosComponent } from "./components/consultainactivos/consultainactivos.component";
 import { GuiasComponent } from "./components/guias/guias.component";
+import { OrdnretornoComponent } from "./components/ordnretorno/ordnretorno.component";
 import { SidenavComponent } from "./components/sidenav/sidenav.component";
 import { AdminComponent } from "./components/admin/admin.component";
 import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
@@ -45,6 +46,7 @@ const appRoutes: Routes = [
         component: VentasclientearticuloComponent,
       }
       //{ path: 'guias', component: GuiasComponent }
+      //{ path: 'ordnretorno', component: OrdnretornoComponent }
     ],
   },
 
@@ -68,6 +70,7 @@ const appRoutes: Routes = [
       { path: 'reporteventas', component: ReporteventasComponent },
       { path: 'consultainactivos', component: ConsultainactivosComponent },
       { path: 'guias', component: GuiasComponent },
+      { path: 'ordnretorno', component: OrdnretornoComponent },
       { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
       { path: 'tabla', component: EncabezadoComponent }
     ],

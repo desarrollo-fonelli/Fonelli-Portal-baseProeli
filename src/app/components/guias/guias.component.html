@@ -1,3 +1,4 @@
+<!-- BOTON para mostrar o esconder Criterios de Filtro -->
 <div class="container float-left">
   <p>
     <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
@@ -7,6 +8,7 @@
   </p>
 </div>
 
+<!-- Criterios de filtro -->
 <div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
   <div class="card">
     <div class="card-body">
@@ -15,18 +17,27 @@
       <form>
         <div class="form-row">
           <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde Oficina</label>
+            <input type="text" id="idOficinaDesde" class="form-control" name="idOficinaDesde" #nombre="ngModel"
+              [(ngModel)]="oBuscar.OficinaDesde" />
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta Oficina</label>
+            <input type="text" id="idOficinaHasta" class="form-control" name="idOficinaHasta" #nombre="ngModel"
+              [(ngModel)]="oBuscar.OficinaHasta" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
             <label class="CamposFonelli">Cliente</label>
             <input type="text" id="idCliCod" class="form-control" name="idCliCod" #nombre="ngModel"
               [(ngModel)]="oBuscar.ClienteCodigo" disabled="{{ bCliente }}" required />
           </div>
-
           <div class="form-group col-md-3">
             <label class="CamposFonelli">Filial</label>
-
             <input type="text" id="idFilCli" class="form-control" name="idFilCli" #nombre="ngModel"
               [(ngModel)]="oBuscar.ClienteFilial" disabled="{{ bCliente }}" required />
           </div>
-
           <div class="form-group col-md-3" [hidden]="bCliente">
             <label class="CamposFonelli col-md-12" style="color: white">-</label>
             <button type="button" class="btnFonelli btn" (click)="openClientes(Clientes)"
@@ -35,67 +46,96 @@
             </button>
           </div>
         </div>
-
         <div class="form-row">
           <div class="form-group col-md-3">
-            <label class="CamposFonelli">Facturas</label>
-            <input type="text" id="idFac" class="form-control" name="idFac" #nombre="ngModel"
+            <label class="CamposFonelli">Paquete</label>
+            <input type="text" id="idPaquete" class="form-control" name="idPaquete" #nombre="ngModel"
+              [(ngModel)]="oBuscar.Paquete" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Serie</label>
+            <input type="text" id="idFactSerie" class="form-control" name="idFactSerie" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FactSerie" required />
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Factura</label>
+            <input type="text" id="idFactura" class="form-control" name="idFactura" #nombre="ngModel"
               [(ngModel)]="oBuscar.Factura" required />
           </div>
-
           <div class="form-group col-md-3">
             <label class="CamposFonelli">Remision</label>
-
-            <input type="text" id="idRem" class="form-control" name="idRem" #nombre="ngModel"
+            <input type="text" id="idRemision" class="form-control" name="idRemision" #nombre="ngModel"
               [(ngModel)]="oBuscar.Remision" required />
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-md-3">
+            <label class="CamposFonelli">Serie</label>
+            <input type="text" id="idPrefaSerie" class="form-control" name="idPrefaSerie" #nombre="ngModel"
+              [(ngModel)]="oBuscar.PrefaSerie" required />
+          </div>
+          <div class="form-group col-md-3">
             <label class="CamposFonelli">Prefactura</label>
-            <input type="text" id="idPreFac" class="form-control" name="idPreFac" #nombre="ngModel"
+            <input type="text" id="idPrefactura" class="form-control" name="idPrefactura" #nombre="ngModel"
               [(ngModel)]="oBuscar.Prefactura" required />
           </div>
-
           <div class="form-group col-md-3">
             <label class="CamposFonelli">Pedido</label>
-
-            <input type="text" id="idPed" class="form-control" name="idPed" #nombre="ngModel"
+            <input type="text" id="idPedido" class="form-control" name="idPedido" #nombre="ngModel"
               [(ngModel)]="oBuscar.Pedido" required />
           </div>
         </div>
-
         <div class="form-row">
           <div class="form-group col-md-3">
-            <label>Desde cartera</label>
-            <select class="form-select" name="idCarrier" #nombre="ngModel" [(ngModel)]="oBuscar.Carrier" required>
-              <option value="{{dato.Url}}" *ngFor="let dato of oCarriersCon">{{dato.CarrierCodigo}} -
-                {{dato.CarrierNombre}}</option>
-            </select>
+            <label class="CamposFonelli">Traspaso</label>
+            <input type="text" id="idTraspaso" class="form-control" name="idTraspaso" #nombre="ngModel"
+              [(ngModel)]="oBuscar.Traspaso" required />
           </div>
-
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Orden Retorno</label>
+            <input type="text" id="idOrdenRetorno" class="form-control" name="idOrdenRetorno" #nombre="ngModel"
+              [(ngModel)]="oBuscar.OrdenRetorno" required />
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Orden Compra</label>
+            <input type="text" id="idOrdenCompra" class="form-control" name="idOrdenCompra" #nombre="ngModel"
+              [(ngModel)]="oBuscar.OrdenCompra" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Carrier</label>
+            <input type="text" id="idCarrier" class="form-control" name="idOrdenCarrier" #nombre="ngModel"
+              [(ngModel)]="oBuscar.Carrier" required />
+          </div>
         </div>
 
         <div class="row">
-          <div class="form-group col-md-3">
+          <div class="form-group col-md-2">
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="idCG" value=1 #nombre="ngModel"
-                [(ngModel)]="oBuscar.TipoGuia" />
-              <label class="form-check-label CamposFonelli" for="gridRadios1">
-                Con guía
+              <input class="form-check-input" type="radio" name="gridRadios" id="idClteCredito" value=1
+                #nombre="ngModel" [(ngModel)]="oBuscar.ClteCredito" />
+              <label class="form-check-label CamposFonelli" for="gridRadios">
+                Cltes Crédito
               </label>
             </div>
+          </div>
+          <div class="form-group col-md-2">
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="idSG" value=2 #nombre="ngModel"
-                [(ngModel)]="oBuscar.TipoGuia" />
-              <label class="form-check-label CamposFonelli" for="gridRadios2">
-                Sin guía</label>
+              <input class="form-check-input" type="radio" name="gridRadios" id="idClteContado" value=2
+                #nombre="ngModel" [(ngModel)]="oBuscar.ClteCredito" />
+              <label class="form-check-label CamposFonelli" for="gridRadios">
+                Cltes Contado</label>
             </div>
+          </div>
+          <div class="form-group col-md-2">
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="gridRadios" id="idTod" value=3 #nombre="ngModel"
-                [(ngModel)]="oBuscar.TipoGuia" />
-              <label class="form-check-label CamposFonelli" for="gridRadios3">
+              <input class="form-check-input" type="radio" name="gridRadios" id="idClteTodos" value=3 #nombre="ngModel"
+                [(ngModel)]="oBuscar.ClteCredito" />
+              <label class="form-check-label CamposFonelli" for="gridRadios">
                 Todos
               </label>
             </div>
@@ -122,9 +162,11 @@
   </div>
 </div>
 
+<!-- Header de la form que muestra los datos recuperados -->
 <div class="container float-left" [hidden]="!bBandera">
   <br>
-  <!-- <h4 style="text-align: center; font-size:xx-large;" >Número {{oPedidoRes.Contenido.ClienteCodigo}}-{{oPedidoRes.Contenido.ClienteFilial}} {{oPedidoRes.Contenido.ClienteNombre}}</h4> -->
+  <h4 style="text-align: center; font-size:xx-large;">Número
+    {{oGuiaRes.Contenido.ClienteCodigo}}-{{oGuiaRes.Contenido.ClienteFilial}} {{oGuiaRes.Contenido.ClienteNombre}}</h4>
   <div class="container">
     <div class="form-row">
       <!-- <div class="form-group col-md-1">              
@@ -146,6 +188,8 @@
     </div>
   </div>
 
+  <!-- Tabla que muestra los datos recuperados
+       (tambien se usa para "pdfTable" -->
   <div class="container" id="pdfTable" #pdfTable>
     <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
       <thead class="thead-p">
@@ -160,7 +204,7 @@
           <th style="background-color: #24a4cc; color: white; " scope="col">SeriePref</th>
           <th style="background-color: #24a4cc; color: white; " scope="col">Prefactura</th>
           <th style="background-color: #24a4cc; color: white; " scope="col">Serie</th>
-          <th style="background-color: #24a4cc; color: white; " scope="col">Factura</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Fact/Rem</th>
           <th style="background-color: #24a4cc; color: white; " scope="col">OrdenComp</th>
           <th style="background-color: #24a4cc; color: white; " scope="col">Traspaso</th>
           <th style="background-color: #24a4cc; color: white; " scope="col">OrdenReto</th>
@@ -173,7 +217,8 @@
           <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
             <div class="size">Carrier</div>
           </th>
-          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
+          <th style="background-color: #24a4cc; color: white; " scope="col">CarrierNom</th>
+          <th style="background-color: #24a4cc; color: white; text-align: left;" scope="col">
             <div class="size">Guia</div>
           </th>
           <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
@@ -182,7 +227,9 @@
           <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
             <div class="size">FechaRece</div>
           </th>
-          <th style="background-color: #24a4cc; color: white; text-align:right;">Observac</th>
+          <th style="background-color: #24a4cc; color: white; text-align:left;">Observac</th>
+          <th style="background-color: #24a4cc; color: white;">L</th>
+          <th style="background-color: #24a4cc; color: white; text-align:left;">Pedido</th>
           <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Cliente</th>
           <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Filial</th>
         </tr>
@@ -195,23 +242,24 @@
             <div class="size">FechaPaq</div>
           </th>
           <th style="background-color: #24a4cc; color: white;" scope="col">Oficina</th>
-          <th style="background-color: #24a4cc; color: white; " scope="col">SeriePref</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center;" scope="col">SeriePref</th>
           <th style="background-color: #24a4cc; color: white; " scope="col">Prefactura</th>
-          <th style="background-color: #24a4cc; color: white; " scope="col">Serie</th>
-          <th style="background-color: #24a4cc; color: white; " scope="col">Factura</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center;" scope="col">Serie</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Fact/Rem</th>
           <th style="background-color: #24a4cc; color: white; " scope="col">OrdenComp</th>
           <th style="background-color: #24a4cc; color: white; " scope="col">Traspaso</th>
           <th style="background-color: #24a4cc; color: white; " scope="col">OrdenReto</th>
           <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Piezas</th>
           <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Gramos</th>
           <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Importe</th>
-          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
+          <th style="background-color: #24a4cc; color: white; text-align:center;" scope="col">
             <div class="size">FechaExpe</div>
           </th>
           <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
             <div class="size">Carrier</div>
           </th>
-          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
+          <th style="background-color: #24a4cc; color: white; " scope="col">CarrierNom</th>
+          <th style="background-color: #24a4cc; color: white; text-align: left;" scope="col">
             <div class="size">Guia</div>
           </th>
           <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
@@ -220,7 +268,9 @@
           <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
             <div class="size">FechaRece</div>
           </th>
-          <th style="background-color: #24a4cc; color: white; text-align:right;">Observac</th>
+          <th style="background-color: #24a4cc; color: white; text-align:left;">Observac</th>
+          <th style="background-color: #24a4cc; color: white;">L</th>
+          <th style="background-color: #24a4cc; color: white; text-align:left;">Pedido</th>
           <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Cliente</th>
           <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Filial</th>
         </tr>
@@ -233,10 +283,10 @@
           <td class="FilasFonelli" style="text-align:left" (click)="openDetalleGuia(PedidoDetalle,gui.Guia)">{{
             gui.Paquete}}</td>
           <td class="FilasFonelli" style="text-align:left">{{ gui.FechaPaq}}</td>
-          <td class="FilasFonelli"> {{gui.Oficina}} </td>
-          <td class="FilasFonelli"> {{gui.SeriePref}} </td>
+          <td class="FilasFonelli" style="text-align:center"> {{gui.Oficina}} </td>
+          <td class="FilasFonelli" style="text-align:center"> {{gui.SeriePref}} </td>
           <td class="FilasFonelli" (click)="openDetalleGuia(PedidoDetalle,gui.Guia)">{{ gui.Prefactura}} </td>
-          <td class="FilasFonelli"> {{gui.Serie}} </td>
+          <td class="FilasFonelli" style="text-align:center"> {{gui.Serie}} </td>
           <td class="FilasFonelli" (click)="openDetalleGuia(PedidoDetalle,gui.Guia)">{{ gui.Factura}} </td>
           <td class="FilasFonelli"> {{gui.OrdenComp}} </td>
           <td class="FilasFonelli"> {{gui.Traspaso}} </td>
@@ -245,15 +295,18 @@
           <td class="FilasFonelli" style="text-align:right">{{ gui.Gramos}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ gui.Importe}}</td>
           <td class="FilasFonelli">{{ gui.FechaExpe}}</td>
-          <td class="FilasFonelli" style="text-align:left">{{ gui.Carrier}}</td>
+          <td class="FilasFonelli" style="text-align:center">{{ gui.Carrier}}</td>
+          <td class="FilasFonelli" style="white-space: nowrap;min-width: 20;">{{ gui.CarrierNom}}</td>
           <!--
           <td *ngIf="bBanderaTipo" class="FilasFonelli" style="text-align:left"> <u><a class="nav-link"
                 [attr.href]="oBuscar.Carrier" target="_blank">{{ gui.NumeroGuia}}</a></u></td>
           -->
-          <td class="FilasFonelli" style="text-align:left">{{ gui.Guia}}</td>
-          <td class="FilasFonelli" style="text-align:left">{{ gui.Stat}}</td>
+          <td class="FilasFonelli" style="text-align:left;white-space: nowrap;min-width: 20;">{{ gui.Guia}}</td>
+          <td class="FilasFonelli" style="text-align:center">{{ gui.Stat}}</td>
           <td class="FilasFonelli" style="text-align:left">{{ gui.FechaRece}}</td>
-          <td class="FilasFonelli" style="text-align:right">{{ gui.Observac}}</td>
+          <td class="FilasFonelli" style="white-space:nowrap;min-width: 40ch;">{{ gui.Observac}}</td>
+          <td class="FilasFonelli" style="text-align:center;">{{ gui.Letra}}</td>
+          <td class="FilasFonelli"> {{gui.Pedido}} </td>
           <td class="FilasFonelli" style="text-align:right">{{ gui.Cliente}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ gui.Filial}}</td>
         </tr>
@@ -283,12 +336,10 @@
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
     </div>
 
-
     <div class="modal-body-tables" style="overflow-y: scroll;">
 
       <div class="container">
         <div class="row">
-
           <div>
             <label>Numero de cliente: <strong>{{oBuscar.ClienteCodigo+'-'+oBuscar.ClienteFilial}}
                 {{obtenNombreCliente(oBuscar.ClienteCodigo, oBuscar.ClienteFilial)}}</strong></label>
@@ -302,8 +353,6 @@
                       <button  *ngIf="bBanderaBtnPed" type="submit" (click)="verDetallePed()" class="btnFonelli btn float-right">Detalle pedido</button>
                   </div>
                 </div>  -->
-
-
           <div class="col-12">
             <table *ngIf="bBanderaDet" class="table table-striped">
               <thead class="thead-p2">
@@ -356,12 +405,8 @@
                           </tr> -->
               </tbody>
             </table>
-
-
-
           </div>
         </div>
-
       </div>
     </div>
 

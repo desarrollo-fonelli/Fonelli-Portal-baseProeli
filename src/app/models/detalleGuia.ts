@@ -1,19 +1,18 @@
 export interface DetalleGuia {
-    Codigo?:    number;
-    Mensaje?:   string;
-    Contenido: Contenido;    
+    Codigo?: number;
+    Mensaje?: string;
+    Contenido: Contenido;
 }
 
 export interface Contenido {
-    PedidoLetra?:     string;
-    PedidoFolio?:     string;
+    PedidoLetra?: string;
+    PedidoFolio?: string;
     Articulos: Articulos[];
 }
 
-
 export interface Articulos {
-    Linea?:     string;
-    Clave?:     string;
+    Linea?: string;
+    Clave?: string;
     Descripcion: string;
     FechaPedido: string;
     CantidadPedido: string;

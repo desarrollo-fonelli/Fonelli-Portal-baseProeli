@@ -1,9 +1,8 @@
-import { GuiasComponent } from '../components/guias/guias.component';
 export interface ConsultaGuias {
-    Codigo?:     number;
-    Mensaje?:    string;
+    Codigo?: number;
+    Mensaje?: string;
     Paginacion?: Paginacion;
-    Contenido:  Contenido;
+    Contenido: Contenido;
 }
 
 export interface Contenido {
@@ -15,31 +14,34 @@ export interface Contenido {
 }
 
 export interface Guia {
-    Paquete?:       string;
-    FechaPaq?:      Date | null;
-    Oficina?:       string;
-    SeriePref?:     string;
-    Prefactura?:    string;
-    Serie?:         string;
-    Factura?:       string;
-    OrdenComp?:     string;
-    Traspaso?:      string;
-    OrdenReto:      string;
-    Piezas?:        number;
-    Gramos?:        number;
-    Importe?:       number;
-    FechaExpe?:     Date | null;
-    Carrier?:       string;
-    Guia?:          string;
-    Stat?:          string;
-    FechaRece?:     Date | null;
-    Observac?:      string;
-    Cliente?:       string;
-    Filial?:        string;
+    Paquete?: string;
+    FechaPaq?: Date | null;
+    Oficina?: string;
+    SeriePref?: string;
+    Prefactura?: string;
+    Serie?: string;
+    Factura?: string;
+    OrdenComp?: string;
+    Traspaso?: string;
+    OrdenReto: string;
+    Piezas?: number;
+    Gramos?: number;
+    Importe?: number;
+    FechaExpe?: Date | null;
+    Carrier?: string;
+    CarrierNom?: string;
+    Guia?: string;
+    Stat?: string;
+    FechaRece?: Date | null;
+    Observac?: string;
+    Letra?: string;
+    Pedido?: string;
+    Cliente?: string;
+    Filial?: string;
 }
 
 export interface Paginacion {
-    NumFilas?:     number;
+    NumFilas?: number;
     TotalPaginas?: number;
-    Pagina?:       number;
+    Pagina?: number;
 }

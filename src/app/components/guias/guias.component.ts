@@ -52,10 +52,10 @@ import { Subject } from 'rxjs';
 import { Carriers, Contenido as CarriersCon } from 'src/app/models/carriers';
 
 @Component({
-  selector: 'app-guias',  
+  selector: 'app-guias',
   templateUrl: './guias.component.html',
   styleUrls: ['./guias.component.css'],
-  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, 
+  providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe,
     ServicioClientes, ServicioCarriers, ServicioConsultaGuias, ServicioConsultaGuiasDet],
 })
 export class GuiasComponent implements OnInit, OnDestroy {
@@ -67,10 +67,8 @@ export class GuiasComponent implements OnInit, OnDestroy {
   sFilial: number | null;
   sTipo: string | null;
   sNombre: string | null;
-
   sWidth: number;
   sHeight: number;
-
   dtOptions: any = {};
   persons = [];
   dtTrigger: Subject<any> = new Subject();
@@ -111,7 +109,6 @@ export class GuiasComponent implements OnInit, OnDestroy {
 
   closeResult = '';
   public ModalActivo?: NgbModalRef;
-
   mobileQuery: MediaQueryList;
 
   public Buscar: FiltrosClientes;
@@ -150,13 +147,13 @@ export class GuiasComponent implements OnInit, OnDestroy {
     this.bCliente = false;
 
     //Inicializamos variables consulta guias
-    this.oBuscar = new FiltrosGuias('',0,'','',0,0,'','','','','',0,0);
+    this.oBuscar = new FiltrosGuias('', 0, '', '', 0, 0, '', '', '', '', '', '', '', '', '', '', '', '', 0);
     this.oGuiaRes = {} as ConsultaGuias;
     //this.oGuiaRes.Contenido = {} as ConPed;
     this.guia = [];
 
     //Inicializamos variables consulta detalle pedidos
-    this.oBuscaDetalle = new FiltrosDetalleGuia(0, "", '', 0);
+    this.oBuscaDetalle = new FiltrosDetalleGuia('', '', 0, '');
     this.oPedidoDetalleRes = {} as DetalleGuia;
     this.pedidoDet = [];
 
@@ -248,6 +245,9 @@ export class GuiasComponent implements OnInit, OnDestroy {
 
     }
 
+    this.oBuscar.OficinaDesde = '  ';
+    this.oBuscar.OficinaHasta = 'zz';
+    this.oBuscar.ClteCredito = "3";
     this.Buscar.TipoUsuario = this.sTipo;
     this.Buscar.Usuario = this.sCodigo;
 
@@ -349,14 +349,6 @@ export class GuiasComponent implements OnInit, OnDestroy {
 
     console.log(this.oBuscar);
 
-    if (this.oBuscar.TipoGuia == 1) {
-      this.bBanderaTipo = true
-    } else if (this.oBuscar.TipoGuia == 3) {
-      this.bBanderaTipo = true
-    } else {
-      this.bBanderaTipo = false
-    }
-
     this.bBandera = true;
     this.bCargando = false;
     this.isCollapsed = true;
@@ -367,7 +359,7 @@ export class GuiasComponent implements OnInit, OnDestroy {
 
         this.oGuiaRes = Response;
 
-        console.log("................> RESULTADO LLAMADA "+JSON.stringify(this.oGuiaRes) );
+        //console.log("................> RESULTADO LLAMADA " + JSON.stringify(this.oGuiaRes));
 
         if (this.oGuiaRes.Codigo != 0) {
           this.bError = true;
@@ -381,9 +373,6 @@ export class GuiasComponent implements OnInit, OnDestroy {
 
         console.log(this.guia)
         console.log("tabla cargada");
-
-        //      this.oPedidoRes.Contenido.CantidadPedida = this.getTotal(this.pedido,'CantidadPedida');
-        //      this.oPedidoRes.Contenido.DiferenciaPedidosSurtido = this.getTotal(this.pedido,'DiferenciaPedidosSurtido');
 
         this.sMensaje = '';
         this.bBandera = true;
@@ -412,9 +401,7 @@ export class GuiasComponent implements OnInit, OnDestroy {
       }
     );
 
-
   }
-
 
   //modal detalle guia
   openDetalleGuia(PedidoDetalle: any, folio: string) {
@@ -906,12 +893,8 @@ export class GuiasComponent implements OnInit, OnDestroy {
 
   //modal pedido detalle
   validaColumna(event) {
-
     console.log("EVENTOOOOOOOO ");
     console.log(event);
-
-
-
   }
 
   //Funcion para cerrar sesion y redireccionar al home

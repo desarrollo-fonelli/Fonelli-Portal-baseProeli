@@ -1,0 +1,267 @@
+<!-- BOTON para mostrar o esconder Criterios de Filtro -->
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!-- Criterios de filtro -->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Consulta Ordenes de Retorno</h2>
+      <!-- General Form Elements -->
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Cliente</label>
+            <input type="text" id="idCliCod" class="form-control" name="idCliCod" #nombre="ngModel"
+              [(ngModel)]="oBuscar.ClienteCodigo" disabled="{{ bCliente }}" required />
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Filial</label>
+            <input type="text" id="idFilCli" class="form-control" name="idFilCli" #nombre="ngModel"
+              [(ngModel)]="oBuscar.ClienteFilial" disabled="{{ bCliente }}" required />
+          </div>
+          <!--
+          <div class="form-group col-md-3" [hidden]="bCliente">
+            <label class="CamposFonelli col-md-12" style="color: white">-</label>
+            <button type="button" class="btnFonelli btn" (click)="openClientes(Clientes)"
+              style="background-color: #24a4cc">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+          -->
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Agente</label>
+            <input type="text" id="idAgenteCodigo" class="form-control" name="idAgenteCodigo" #nombre="ngModel"
+              [(ngModel)]="oBuscar.AgenteCodigo" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Folio</label>
+            <input type="text" id="idFolio" class="form-control" name="idFolio" #nombre="ngModel"
+              [(ngModel)]="oBuscar.Folio" required />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Referencia</label>
+
+            <input type="text" id="idRef" class="form-control" name="idRef" #nombre="ngModel"
+              [(ngModel)]="oBuscar.Referencia" required />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="idAct" value="A" #nombre="ngModel"
+                [(ngModel)]="oBuscar.Status" />
+              <label class="form-check-label CamposFonelli" for="gridRadios1">
+                Activas
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="idIna" value="I" #nombre="ngModel"
+                [(ngModel)]="oBuscar.Status" />
+              <label class="form-check-label CamposFonelli" for="gridRadios2">
+                Inactivas</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="idTod" value="T" #nombre="ngModel"
+                [(ngModel)]="oBuscar.Status" />
+              <label class="form-check-label CamposFonelli" for="gridRadios3">
+                Todas
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{ sMensaje }}</p>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" (click)="consultaOrdenesRetorno()" class="btnFonelli btn">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color: #183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+      </form>
+      <!-- End General Form Elements -->
+    </div>
+  </div>
+</div>
+
+<!-- Header de la form que muestra los datos recuperados -->
+<div class="container float-left" [hidden]="!bBandera">
+  <br>
+  <h4 style="text-align: center;font-size: xx-large;">Cliente
+    {{oOrdnRetoRes.Contenido.ClienteCodigo}}-{{oOrdnRetoRes.Contenido.ClienteFilial}}
+    {{oOrdnRetoRes.Contenido.ClienteNombre}}
+  </h4>
+
+  <div class="container">
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <button class="btnImprimir btn float-right" (click)="downloadAsPDF()">
+          Imprimir PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla que muestra los datos recuperados
+       (tambien se usa para "pdfTable" -->
+  <div class="container" id="pdfTable" #pdfTable>
+    <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead class="thead-p">
+        <tr class="EncTabla">
+          <th style="background-color: #24a4cc; color: white;" scope="col">#</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Folio</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
+            <div class="size">Stat</div>
+          </th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Agente</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Cliente</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Filial</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Guia Emisión</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Carrier</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Carrier Nom</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Piezas</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Gramos</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Descripción</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Ktje</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Valor Merc</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Tipo Orden</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Referencia</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Defecto</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Descripción</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Email</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Razon Social</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Agente</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Solicitud</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Autorizac</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Emisión</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Recepción</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Liberac</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Envio</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Guia</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Serie</th>
+          <th style="background-color: #24a4cc; color: white; " scope="col">Documento</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ord of OrdenReto; index as i">
+          <th scope="row" (click)="openDetalleOrdenReto(oOrdnRetoDetaRes,ord.Folio)">{{i + 1}}</th>
+          <td class="FilasFonelli" style="text-align: right;">{{ ord.Folio }}</td>
+          <td class="FilasFonelli" style="text-align: center;">{{ ord.Status }}</td>
+          <td class="FilasFonelli" style="text-align: center;">{{ ord.Agente }}</td>
+          <td class="FilasFonelli" style="text-align: right;">{{ ord.ClienteCodigo }}</td>
+          <td class="FilasFonelli" style="text-align: center;">{{ ord.ClienteFilial }}</td>
+          <td class="FilasFonelli" style="text-align: left;white-space: nowrap;min-width: 15ch;">
+            {{ ord.GuiaEmi }}</td>
+          <td class="FilasFonelli" style="text-align: center;">{{ ord.Carrier }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 10ch;max-width: 30ch;">
+            {{ ord.CarrierNom }}</td>
+          <td class="FilasFonelli" style="text-align: right;">{{ ord.Piezas }}</td>
+          <td class="FilasFonelli" style="text-align: right;">{{ ord.Gramos }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 30ch;max-width: 40ch;">
+            {{ ord.Descripc }}</td>
+          <td class="FilasFonelli" style="text-align: center;">{{ ord.Kilataje }}</td>
+          <td class="FilasFonelli" style="text-align: right;min-width: 12ch;">{{ ord.ValorMerc }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 10ch;max-width: 20ch;">
+            {{ ord.TipoOrdDesc }}</td>
+          <td class="FilasFonelli" style="text-align: left;">{{ ord.Referencia }}</td>
+          <td class="FilasFonelli" style="text-align: center;">{{ ord.TipoDefec }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 30ch;max-width: 40ch;">
+            {{ ord.TipoDefDesc }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 30ch;max-width: 50ch;">
+            {{ ord.Email }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 30ch;max-width: 50ch;">
+            {{ ord.ClteNom }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 20ch;max-width: 30ch;">
+            {{ ord.AgenteNom }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 10ch;">{{ ord.FechaSolic }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 10ch;">{{ ord.FechaAutor }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 10ch;">{{ ord.FechaEmis }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 10ch;">{{ ord.FechaRecep }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 10ch;">{{ ord.FechaLiber }}</td>
+          <td class="FilasFonelli" style="text-align: left;min-width: 10ch;">{{ ord.FechaEnvio }}</td>
+          <td class="FilasFonelli" style="text-align: left;white-space: nowrap;min-width: 15ch;">
+            {{ ord.Guia }}</td>
+          <td class="FilasFonelli" style="text-align: center;">{{ ord.Serie }}</td>
+          <td class="FilasFonelli" style="text-align: right;">{{ ord.Documento }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal Detalle Orden de Retorno -->
+  <ng-template #OrdenRetoDetalleHtml let-modal>
+    <div class="modal-header">
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+
+    <div class="modal-body-tables" style="overflow-y: scroll;">
+
+      <div class="container">
+        <div class="row">
+          <div>
+            <!-- <label>Numero de cliente: <strong>{{oBuscar.ClienteCodigo+'-'+oBuscar.ClienteFilial}}
+                {{obtenNombreCliente(oBuscar.ClienteCodigo, oBuscar.ClienteFilial)}}</strong></label> -->
+            <label>Numero de cliente: <strong>{{oBuscar.ClienteCodigo+'-'+oBuscar.ClienteFilial}}
+              </strong></label>
+            <br>
+            <label> Orden de Retorno: <strong>{{oBuscaDetalle.Folio}}</strong> </label>
+          </div>
+
+          <div class="col-12">
+            <table *ngIf="bBanderaDeta" class="table table-striped">
+              <thead class="thead-p2">
+                <tr class="EncTabla">
+                  <th>#</th>
+                  <th scope="col" style="text-align:left">Línea</th>
+                  <th scope="col" style="text-align:left">
+                    <div class="size">Clave</div>
+                  </th>
+                  <th scope="col" style="text-align:left">Descripción</th>
+                  <th scope="col" style="text-align:right">Piezas</th>
+                  <th scope="col" style="text-align:right">Gramos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ordDet of OrdnRetoDeta; index as i">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td class="FilasFonelli" style="text-align:left">{{ ordDet.LineaPT}}</td>
+                  <td class="FilasFonelli" style="text-align:left"> <u>{{ordDet.ClaveArticulo}}</u> </td>
+                  <td class="FilasFonelli" style="text-align:left">{{ ordDet.Descripcion}}</td>
+                  <td class="FilasFonelli" style="text-align:left">{{ ordDet.Piezas}}</td>
+                  <td class="FilasFonelli" style="text-align:right">{{ ordDet.Gramos}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div *ngIf="alerLoginDistribuidor">
+          <p class="alert alert-danger" role="alert">{{respuestaLoginDistribuidor}}</p>
+        </div> -->
+  </ng-template>
+
+
+</div>

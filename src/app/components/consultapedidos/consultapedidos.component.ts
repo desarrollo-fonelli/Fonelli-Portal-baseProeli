@@ -28,7 +28,7 @@ import { FiltrosConsultaPedidos } from 'src/app/models/consultapedidos.filtros';
 import { FiltrosDetallePedidos } from 'src/app/models/detallepedido.filtros';
 import { ConsultaPedido, Pedido, Contenido as ConPed } from 'src/app/models/consultapedidos';
 import { DetallePedido, PedidoArticulo } from 'src/app/models/detallepedido';
-import { FiltrosClientes} from 'src/app/models/clientes.filtros';
+import { FiltrosClientes } from 'src/app/models/clientes.filtros';
 import { Clientes } from 'src/app/models/clientes';
 import { Contenido } from 'src/app/models/clientes';
 import { Condiciones } from 'src/app/models/clientes';
@@ -52,31 +52,24 @@ import { Subject } from 'rxjs';
   styleUrls: ['./consultapedidos.component.css'],
   providers: [ServicioConsultaPedidos, ServicioDetallePedido, DecimalPipe, ServicioClientes],
 })
-export class ConsultapedidosComponent implements OnInit,OnDestroy {
+export class ConsultapedidosComponent implements OnInit, OnDestroy {
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
   searchtext = '';
-
   sCodigo: number | null;
   sTipo: string | null;
   sFilial: number | null;
   sNombre: string | null;
-
   sWidth: number;
   sHeight: number;
-
   dtOptions: any = {};
   persons = [];
   dtTrigger: Subject<any> = new Subject();
 
-  
-
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
 
-
   public isCollapsed = false;
-
   public bCliente: boolean;
 
   oBuscar: FiltrosConsultaPedidos;
@@ -104,20 +97,18 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
   pageSize = 4;
   collectionSize = 0;
   //countries: Country[];
-
   closeResult = '';
   public ModalActivo?: NgbModalRef;
-
   mobileQuery: MediaQueryList;
 
   public Buscar: FiltrosClientes;
-  public oCliente: Clientes; 
-  public oContenido : Contenido;
-  public oCondiciones : Condiciones;
-  public oDatosGenerales : DatosGenerales;
-  public oContacto : Contactos;
+  public oCliente: Clientes;
+  public oContenido: Contenido;
+  public oCondiciones: Condiciones;
+  public oDatosGenerales: DatosGenerales;
+  public oContacto: Contactos;
 
-  
+
   private _mobileQueryListener: () => void;
 
   constructor(
@@ -129,7 +120,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     private _servicioCPedidosDet: ServicioDetallePedido,
     private modalService: NgbModal,
     private _servicioCClientes: ServicioClientes
-    
+
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -155,13 +146,13 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
 
     this.refreshCountries();
 
-    this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
-    this.oCliente={} as Clientes;
-    this.oContenido ={} as Contenido;
-    this.oCondiciones ={} as Condiciones;
-    this.oDatosGenerales ={} as DatosGenerales;
-    this.oContacto ={} as Contactos;
-}
+    this.Buscar = new FiltrosClientes(0, 0, 0, '', 0);
+    this.oCliente = {} as Clientes;
+    this.oContenido = {} as Contenido;
+    this.oCondiciones = {} as Condiciones;
+    this.oDatosGenerales = {} as DatosGenerales;
+    this.oContacto = {} as Contactos;
+  }
 
   ngOnInit(): void {
 
@@ -169,8 +160,8 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
-      order:[],
-      ordering:false,
+      order: [],
+      ordering: false,
       dom: 'flBtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
@@ -181,7 +172,7 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
           title: 'Consulta de pedidos',
           //className: "btnFonelliRosa btn" 
           text: '<p style="color: #f9f9f9; height: 9px;">Excel</p>',
-          className: "btnExcel btn" 
+          className: "btnExcel btn"
         },
         // {
         //   extend: 'pdfHtml5',
@@ -198,16 +189,10 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
         //     $(this).css('background-color', '#D0D0D0');});
         //                 $(win.document.body).find('h1').css('text-align', 'center');
         //   }*/
-          
+
         // }
       ]
-   
-      
     };
-
-    
-
- 
 
     this.mobileQuery.removeListener(this._mobileQueryListener);
 
@@ -217,34 +202,34 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
       this._router.navigate(['/']);
     }
 
-    switch(this.sTipo) { 
-      case 'C':{    
+    switch (this.sTipo) {
+      case 'C': {
         //Tipo cliente                  
         this.bCliente = true;
         this.oBuscar.ClienteCodigo = this.sCodigo;
         this.oBuscar.ClienteFilial = this.sFilial;
         this.oBuscar.Status = 'A';
-        this.oBuscar.Usuario =this.sCodigo+'-'+this.sFilial;
-         break; 
-      } 
-      case 'A': { 
-         //Agente; 
-         this.oBuscar.Usuario = this.sCodigo;
-         this.bCliente = false;    
-         this.oBuscar.Status = 'A';         
-         break; 
-      } 
-      default: { 
-         //Gerente; 
-         this.oBuscar.Usuario = this.sCodigo;
-         this.bCliente = false; 
-         this.oBuscar.Status = 'A';   
-         break; 
-      } 
-   } 
+        this.oBuscar.Usuario = this.sCodigo + '-' + this.sFilial;
+        break;
+      }
+      case 'A': {
+        //Agente; 
+        this.oBuscar.Usuario = this.sCodigo;
+        this.bCliente = false;
+        this.oBuscar.Status = 'A';
+        break;
+      }
+      default: {
+        //Gerente; 
+        this.oBuscar.Usuario = this.sCodigo;
+        this.bCliente = false;
+        this.oBuscar.Status = 'A';
+        break;
+      }
+    }
 
-   this.Buscar.TipoUsuario = this.sTipo;
-   this.Buscar.Usuario = this.sCodigo;
+    this.Buscar.TipoUsuario = this.sTipo;
+    this.Buscar.Usuario = this.sCodigo;
 
     let date: Date = new Date();
     let mes;
@@ -254,63 +239,52 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
       mes = '0' + (date.getMonth() + 1);
     }
 
-    this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();    
+    this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();
 
     //Realizamos llamada al servicio de clientes 
-   if (!sessionStorage.getItem('Clientes')){
+    if (!sessionStorage.getItem('Clientes')) {
 
-    ///console.log("no tenemos  Clientes");
+      ///console.log("no tenemos  Clientes");
 
-   this._servicioCClientes
-    .GetCliente(this.Buscar)
-    .subscribe(
-      (Response: Clientes) =>  {        
+      this._servicioCClientes
+        .GetCliente(this.Buscar)
+        .subscribe(
+          (Response: Clientes) => {
+            this.oCliente = Response;
+            //console.log("Respuesta cliente" + JSON.stringify(this.oCliente));
+            if (this.oCliente.Codigo != 0) {
+              return false;
+            }
 
-        this.oCliente = Response;  
-        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));    
-        if(this.oCliente.Codigo != 0){     
-          return false;
-        }
-   
-        sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente));    
-        
-       this.oContenido= this.oCliente.Contenido[0];
-        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-        this.oContacto =this.oCliente.Contenido[0].Contactos;
-        return true;
+            sessionStorage.setItem('Clientes', JSON.stringify(this.oCliente));
 
-     
-      },
-      (error:Clientes) => {  
-        this.oCliente = error;
-        console.log(this.oCliente);
-        return false;
-     
-      }
-      
-    );
-    //console.log("Termina carga Clientes");
+            this.oContenido = this.oCliente.Contenido[0];
+            this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+            this.oDatosGenerales = this.oCliente.Contenido[0].DatosGenerales;
+            this.oContacto = this.oCliente.Contenido[0].Contactos;
+            return true;
+          },
+          (error: Clientes) => {
+            this.oCliente = error;
+            console.log(this.oCliente);
+            return false;
+          }
 
-   }else{
-    //console.log("Ya tenemos  Clientes");
+        );
+      //console.log("Termina carga Clientes");
 
-
-    this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
-    this.oContenido = this.oCliente.Contenido[0];
-    this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-    this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-    this.oContacto =this.oCliente.Contenido[0].Contactos;
-
-   }
-
-
-
+    } else {
+      //console.log("Ya tenemos  Clientes");
+      this.oCliente = JSON.parse(sessionStorage.getItem('Clientes'));
+      this.oContenido = this.oCliente.Contenido[0];
+      this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+      this.oDatosGenerales = this.oCliente.Contenido[0].DatosGenerales;
+      this.oContacto = this.oCliente.Contenido[0].Contactos;
+    }
   }
 
   //Funcion para consultar los pedidos
   consultaPedido() {
-    
 
     //Inicializamos el tipo de usuario por el momento
     this.oBuscar.TipoUsuario = this.sTipo;
@@ -323,13 +297,12 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     console.log(this.oBuscar);
 
     //Validamos que tengamos un cliente codigo seleccionado
-    if (this.oBuscar.ClienteCodigo == 0){
-     return;
+    if (this.oBuscar.ClienteCodigo == 0) {
+      return;
     }
 
     this.bBandera = false;
     this.bCargando = true;
-
 
     //Realizamos llamada al servicio de pedidos
     this._servicioCPedidos.Get(this.oBuscar).subscribe(
@@ -337,7 +310,6 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
         this.oPedidoRes = Response;
         this.pedido = this.oPedidoRes.Contenido.Pedidos;
 
-        
         if (this.oPedidoRes.Codigo != 0) {
           this.bError = true;
           this.sMensaje = 'No se encontraron de pedidos';
@@ -346,8 +318,8 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
           return;
         }
 
-        this.oPedidoRes.Contenido.CantidadPedida = this.getTotal(this.pedido,'CantidadPedida');
-        this.oPedidoRes.Contenido.DiferenciaPedidosSurtido = this.getTotal(this.pedido,'DiferenciaPedidosSurtido');
+        this.oPedidoRes.Contenido.CantidadPedida = this.getTotal(this.pedido, 'CantidadPedida');
+        this.oPedidoRes.Contenido.DiferenciaPedidosSurtido = this.getTotal(this.pedido, 'DiferenciaPedidosSurtido');
 
         this.sMensaje = '';
         this.bBandera = true;
@@ -371,9 +343,6 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
         this.bCargando = false;
       }
     );
-
-
-
 
   }
 
@@ -410,20 +379,16 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
         }
 
         //Se calculan totales pedido
-        this.oPedidoDetalleRes.Contenido.CantidadPedida = this.getTotalPedido(this.pedidoDet,'CantidadPedida');
+        this.oPedidoDetalleRes.Contenido.CantidadPedida = this.getTotalPedido(this.pedidoDet, 'CantidadPedida');
 
-        this.oPedidoDetalleRes.Contenido.CantidadPedidoProduccion = this.getTotalPedido(this.pedidoDet,'CantidadPedidoProduccion');
-        this.oPedidoDetalleRes.Contenido.CantidadProducida = this.getTotalPedido(this.pedidoDet,'CantidadProducida');
-        this.oPedidoDetalleRes.Contenido.CantidadSurtida = this.getTotalPedido(this.pedidoDet,'CantidadSurtida');
-        this.oPedidoDetalleRes.Contenido.DiferenciaProducido = this.getTotalPedido(this.pedidoDet,'DiferenciaProducido');
-        
+        this.oPedidoDetalleRes.Contenido.CantidadPedidoProduccion = this.getTotalPedido(this.pedidoDet, 'CantidadPedidoProduccion');
+        this.oPedidoDetalleRes.Contenido.CantidadProducida = this.getTotalPedido(this.pedidoDet, 'CantidadProducida');
+        this.oPedidoDetalleRes.Contenido.CantidadSurtida = this.getTotalPedido(this.pedidoDet, 'CantidadSurtida');
+        this.oPedidoDetalleRes.Contenido.DiferenciaProducido = this.getTotalPedido(this.pedidoDet, 'DiferenciaProducido');
 
         this.bBanderaDet = true;
         this.sMensaje = '';
         //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
-
-
-      
 
       },
       (error: DetallePedido) => {
@@ -460,11 +425,11 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
       ariaLabelledBy: 'PedidoDetalle',
       size: 'xl',
       scrollable: true
-      
+
     });
 
     this.ModalActivo.result.then(
-      (result) => {},
+      (result) => { },
       (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         console.log('reason ' + reason);
@@ -517,15 +482,15 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     cadenaaux = this.TablaPedidos();
 
     let cadena =
-    '<br><p>Cliente: <strong>' +this.oBuscar.ClienteCodigo +'-'+this.oBuscar.ClienteFilial+' '+this.obtenNombreCliente(this.oBuscar.ClienteCodigo, this.oBuscar.ClienteFilial)+'</strong></p>' +    
-    cadenaaux;
+      '<br><p>Cliente: <strong>' + this.oBuscar.ClienteCodigo + '-' + this.oBuscar.ClienteFilial + ' ' + this.obtenNombreCliente(this.oBuscar.ClienteCodigo, this.oBuscar.ClienteFilial) + '</strong></p>' +
+      cadenaaux;
 
     console.log('cadena');
     console.log(cadena);
 
     var html = htmlToPdfmake(cadena);
     console.log(html);
-    html[2].table.headerRows= 1;
+    html[2].table.headerRows = 1;
     const documentDefinition = {
       pageSize: 'A4',
       header: [
@@ -533,19 +498,19 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
           alignment: 'justify',
           heigth: 200,
           columns: [
-            { 
-              image: 'logo', 
-              margin: [25,13],
-              heigth: 40, 
-              width: 110 
+            {
+              image: 'logo',
+              margin: [25, 13],
+              heigth: 40,
+              width: 110
             },
             {
               width: 380,
               text: 'Consulta de pedidos',
               alignment: 'center',
               style: 'header',
-              margin: [8,8],
-              
+              margin: [8, 8],
+
             },
             {
               width: 65,
@@ -591,24 +556,24 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
     this.bCargandoClientes = true;
     var result;
 
-    try{
+    try {
       //result = this.BuscaClientes()
       result = true;
 
-      if(result){
+      if (result) {
         this.ModalActivo = this.modalService.open(Clientes, {
           ariaLabelledBy: 'Clientes',
           size: 'xl',
           scrollable: true
-          
+
         });
-    
+
         this.ModalActivo.result.then(
-          (result) => {},
+          (result) => { },
           (reason) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
             console.log('reason ' + reason);
-            this.Buscar = new FiltrosClientes(0, 0, 0,'', 0);
+            this.Buscar = new FiltrosClientes(0, 0, 0, '', 0);
           }
         );
       }
@@ -616,214 +581,213 @@ export class ConsultapedidosComponent implements OnInit,OnDestroy {
       this.bCargandoClientes = false;
 
 
-      console.log("respuesta"+result);
+      console.log("respuesta" + result);
 
-    }catch(err){
-      
+    } catch (err) {
+
     }
   }
 
   //Funcion para seleccionar cliente
   obtenCliente(sCodigo: string, sFilial: string) {
 
-      this.oBuscar.ClienteCodigo = Number(sCodigo);
-      this.oBuscar.ClienteFilial = Number(sFilial);
+    this.oBuscar.ClienteCodigo = Number(sCodigo);
+    this.oBuscar.ClienteFilial = Number(sFilial);
 
-      this.ModalActivo.dismiss('Cross click');    
-    }
+    this.ModalActivo.dismiss('Cross click');
+  }
 
-  BuscaClientes():boolean{
+  BuscaClientes(): boolean {
 
     this._servicioCClientes
-    .GetCliente(this.Buscar)
-    .subscribe(
-      (Response: Clientes) =>  {
-        
-
-        this.oCliente = Response;
-
-        console.log("Respuesta cliente"+JSON.stringify(this.oCliente));
-        this.bCargandoClientes =false;
+      .GetCliente(this.Buscar)
+      .subscribe(
+        (Response: Clientes) => {
 
 
-        if(this.oCliente.Codigo != 0){
-          this.bError= true;
-          this.sMensaje="No se encontraron datos del cliente";
-   
+          this.oCliente = Response;
+
+          console.log("Respuesta cliente" + JSON.stringify(this.oCliente));
+          this.bCargandoClientes = false;
+
+
+          if (this.oCliente.Codigo != 0) {
+            this.bError = true;
+            this.sMensaje = "No se encontraron datos del cliente";
+
+            return false;
+          }
+
+          this.oContenido = this.oCliente.Contenido[0];
+          this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
+          this.oDatosGenerales = this.oCliente.Contenido[0].DatosGenerales;
+          this.oContacto = this.oCliente.Contenido[0].Contactos;
+          return true;
+
+
+        },
+        (error: Clientes) => {
+
+          this.oCliente = error;
+
+          console.log("error");
+          console.log(this.oCliente);
+          this.bCargandoClientes = false;
           return false;
+
         }
-   
-        this.oContenido = this.oCliente.Contenido[0];
-        this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
-        this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
-        this.oContacto =this.oCliente.Contenido[0].Contactos;
-        return true;
 
-     
-      },
-      (error:Clientes) => {
-
-        this.oCliente = error;
-
-        console.log("error");
-        console.log(this.oCliente);
-        this.bCargandoClientes =false;
-        return false;
-     
-      }
-      
-    );
+      );
     return true;
-  }  
+  }
 
-  obtenNombreCliente(cliente: number, filial: number): string {   
-    let nombre: string = '';  
-  
-      for(var cliCon of this.oCliente.Contenido){ 
-        if (cliCon.ClienteCodigo == String(cliente) && cliCon.ClienteFilial == String(filial)){
-          nombre = cliCon.RazonSocial;
-          break;
-        }             
+  obtenNombreCliente(cliente: number, filial: number): string {
+    let nombre: string = '';
+
+    for (var cliCon of this.oCliente.Contenido) {
+      if (cliCon.ClienteCodigo == String(cliente) && cliCon.ClienteFilial == String(filial)) {
+        nombre = cliCon.RazonSocial;
+        break;
       }
+    }
     return nombre;
   }
 
-  getTotal(oPedido: Pedido[], idCol: string): number {   
+  getTotal(oPedido: Pedido[], idCol: string): number {
     console.log("Entra total-------");
     let Total: number = 0;
 
-    switch(idCol) {        
-      case 'CantidadPedida': { 
-   
-        for(var detPed of oPedido){ 
-          Total += detPed.CantidadPedida;    
-        }
-        break; 
-      } 
-      case 'DiferenciaPedidosSurtido': { 
-   
-        for(var detPed of oPedido){ 
-          Total += detPed.DiferenciaPedidosSurtido;    
-        }
-        break; 
-      } 
-    
-    }   
-   
-    Total = Number(Total.toFixed(2));
-    return Total; 
-   }
+    switch (idCol) {
+      case 'CantidadPedida': {
 
-  getTotalPedido(oDetallePed: PedidoArticulo[], idCol: string): number {  
-    console.log("Entra ---------") ;
+        for (var detPed of oPedido) {
+          Total += detPed.CantidadPedida;
+        }
+        break;
+      }
+      case 'DiferenciaPedidosSurtido': {
+
+        for (var detPed of oPedido) {
+          Total += detPed.DiferenciaPedidosSurtido;
+        }
+        break;
+      }
+
+    }
+
+    Total = Number(Total.toFixed(2));
+    return Total;
+  }
+
+  getTotalPedido(oDetallePed: PedidoArticulo[], idCol: string): number {
+    console.log("Entra ---------");
     let Total: number = 0;
 
-    switch(idCol) {        
-      case 'CantidadPedida': { 
-   
-        for(var detPed of oDetallePed){ 
-          Total += detPed.CantidadPedida;    
+    switch (idCol) {
+      case 'CantidadPedida': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.CantidadPedida;
         }
-        break; 
-      } 
-      case 'CantidadPedidoProduccion': { 
-   
-        for(var detPed of oDetallePed){ 
-          Total += detPed.CantidadPedidoProduccion;    
+        break;
+      }
+      case 'CantidadPedidoProduccion': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.CantidadPedidoProduccion;
         }
-        break; 
-      } 
-      case 'CantidadProducida': { 
-   
-        for(var detPed of oDetallePed){ 
-          Total += detPed.CantidadProducida;    
+        break;
+      }
+      case 'CantidadProducida': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.CantidadProducida;
         }
-        break; 
-      } 
-      case 'CantidadSurtida': { 
-   
-        for(var detPed of oDetallePed){ 
-          Total += detPed.CantidadSurtida;    
+        break;
+      }
+      case 'CantidadSurtida': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.CantidadSurtida;
         }
-        break; 
-      } 
-      case 'DiferenciaProducido': { 
-   
-        for(var detPed of oDetallePed){ 
-          Total += detPed.DiferenciaProducido;    
+        break;
+      }
+      case 'DiferenciaProducido': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.DiferenciaProducido;
         }
-        break; 
-      } 
-    }   
-   
+        break;
+      }
+    }
+
     Total = Number(Total.toFixed(2));
-    return Total; 
-   }
+    return Total;
+  }
 
-   TablaPedidos(): string
-   {
- 
-     var tabla = "";
-     var con=1;
+  TablaPedidos(): string {
 
-     tabla =' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions"  >' + '\n'+
-              ' <thead>' + '\n'+
-                ' <tr class="EncTabla">' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white;" scope="col">L</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; " scope="col">PEDIDO</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; " scope="col">OF</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white;" scope="col">S</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA PED</div></th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA CANCOP</div></th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA SURT</div></th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; text-align:right;">PEDIDO</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">SURTIDO</th>' + '\n'+
-                  ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFCIA</th>' + '\n'+
-                ' </tr>' + '\n'+
-              ' </thead>' + '\n'+
-              ' <tbody>' + '\n'
+    var tabla = "";
+    var con = 1;
 
-              this.pedido.forEach(function(ped){
-                 
-                tabla = tabla +   '<tr >' + '\n' +
-                
-                  '<th scope="row"> '+con+' </th>'+'\n'+
-                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.PedidoLetra+'</td>' +'\n'+
-                  ' <td class="FilasFonelli"> '+ped.PedidoFolio+' </td>                ' +'\n'+
-                  ' <td class="FilasFonelli">'+ ped.OficinaFonelliCodigo+'</td>' +'\n'+
-                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.Status+'</td>' +'\n'+
-                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.FechaPedido+'</td>' +'\n'+
-                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.FechaCancelacion+'</td>' +'\n'+
-                  ' <td class="FilasFonelli" style="text-align:left">'+ ped.FechaSurtido+'</td>' +'\n'+
-                  ' <td class="FilasFonelli" style="text-align:right">'+ ped.CantidadPedida+'</td>' +'\n'+
-                  ' <td class="FilasFonelli" style="text-align:right">'+ ped.CantidadSurtida+'</td>' +'\n'+
-                  ' <td class="FilasFonelli" style="text-align:right">'+ ped.DiferenciaPedidosSurtido+'</td>' +'\n'+
-                '</tr>'+'\n';
+    tabla = ' <table  class="table table-hover table-striped" datatable [dtOptions]="dtOptions"  >' + '\n' +
+      ' <thead>' + '\n' +
+      ' <tr class="EncTabla">' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white;" scope="col" >#</th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white;" scope="col">L</th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; " scope="col">PEDIDO</th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; " scope="col">OF</th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white;" scope="col">S</th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA PED</div></th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA CANCOP</div></th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col"><div class="size">FECHA SURT</div></th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; text-align:right;">PEDIDO</th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">SURTIDO</th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFCIA</th>' + '\n' +
+      ' </tr>' + '\n' +
+      ' </thead>' + '\n' +
+      ' <tbody>' + '\n'
 
-                con +=1;
-              });
+    this.pedido.forEach(function (ped) {
 
-              tabla = tabla +  '<tr>'+'\n'+
-              '<th ></th>'+'\n'+
-              ' <td ></td>'+'\n'+
-              ' <td ></td>'+'\n'+
-              ' <td ></td>'+'\n'+
-              ' <td ></td>'+'\n'+
-              ' <td ></td>'+'\n'+
-              ' <td ></td>'+'\n'+
-              ' <td class="FilasFonelli" style="text-align:left">Total General</td>'+'\n'+
-              ' <td class="FilasFonelli" style="text-align:right"> '+this.oPedidoRes.Contenido.CantidadPedida+'</td>'+'\n'+
-              ' <td class="FilasFonelli" style="text-align:right">' + ( this.oPedidoRes.Contenido.CantidadPedida - this.oPedidoRes.Contenido.DiferenciaPedidosSurtido)+ '</td>'+'\n'+
-              ' <td class="FilasFonelli" style="text-align:right"> '+this.oPedidoRes.Contenido.DiferenciaPedidosSurtido+'</td>'+'\n'+
-            '</tr>'+'\n'+
-          '</tbody>'+'\n'+
-        '</table>';
- 
-        return tabla;
- 
- 
-   }
+      tabla = tabla + '<tr >' + '\n' +
+
+        '<th scope="row"> ' + con + ' </th>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:left">' + ped.PedidoLetra + '</td>' + '\n' +
+        ' <td class="FilasFonelli"> ' + ped.PedidoFolio + ' </td>                ' + '\n' +
+        ' <td class="FilasFonelli">' + ped.OficinaFonelliCodigo + '</td>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:left">' + ped.Status + '</td>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:left">' + ped.FechaPedido + '</td>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:left">' + ped.FechaCancelacion + '</td>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:left">' + ped.FechaSurtido + '</td>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:right">' + ped.CantidadPedida + '</td>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:right">' + ped.CantidadSurtida + '</td>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:right">' + ped.DiferenciaPedidosSurtido + '</td>' + '\n' +
+        '</tr>' + '\n';
+
+      con += 1;
+    });
+
+    tabla = tabla + '<tr>' + '\n' +
+      '<th ></th>' + '\n' +
+      ' <td ></td>' + '\n' +
+      ' <td ></td>' + '\n' +
+      ' <td ></td>' + '\n' +
+      ' <td ></td>' + '\n' +
+      ' <td ></td>' + '\n' +
+      ' <td ></td>' + '\n' +
+      ' <td class="FilasFonelli" style="text-align:left">Total General</td>' + '\n' +
+      ' <td class="FilasFonelli" style="text-align:right"> ' + this.oPedidoRes.Contenido.CantidadPedida + '</td>' + '\n' +
+      ' <td class="FilasFonelli" style="text-align:right">' + (this.oPedidoRes.Contenido.CantidadPedida - this.oPedidoRes.Contenido.DiferenciaPedidosSurtido) + '</td>' + '\n' +
+      ' <td class="FilasFonelli" style="text-align:right"> ' + this.oPedidoRes.Contenido.DiferenciaPedidosSurtido + '</td>' + '\n' +
+      '</tr>' + '\n' +
+      '</tbody>' + '\n' +
+      '</table>';
+
+    return tabla;
+
+
+  }
 
   //Funcion para cerrar sesion y redireccionar al home
   EliminaSesion() {
