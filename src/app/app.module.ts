@@ -53,8 +53,9 @@ import { PdfComponent } from './components/pdf/pdf.component';
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
 import { EncabezadoComponent } from './components/encabezado/encabezado.component';
 
-
 import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service';
+import { ListacfdisComponent } from './components/listacfdis/listacfdis.component';
+import { DescargafactComponent } from './components/descargafact/descargafact.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,9 @@ import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service
     InicioadminComponent,
     SearchConsultaClientesInacPipe,
     CatalogointeractivoComponent,
-    EncabezadoComponent
+    EncabezadoComponent,
+    ListacfdisComponent,
+    DescargafactComponent
   ],
   imports: [
     BrowserModule,

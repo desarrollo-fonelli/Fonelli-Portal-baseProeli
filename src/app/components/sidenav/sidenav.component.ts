@@ -129,12 +129,10 @@ export class SidenavComponent implements OnInit {
     this.oDatosGenerales = {} as DatosGenerales;
     this.oContacto = {} as Contactos;
 
-
   }
 
   ngOnInit(): void {
     this.mobileQuery.removeListener(this._mobileQueryListener);
-
 
     //Se agrega validacion control de sesion distribuidores
     if (!this.sCodigo) {
@@ -161,12 +159,9 @@ export class SidenavComponent implements OnInit {
       }
     }
 
-
-
     //Consulta agentes      
     if (!sessionStorage.getItem('Agentes')) {
       console.log("Inicia carga agentes");
-
 
       console.log(1);
 
@@ -177,7 +172,6 @@ export class SidenavComponent implements OnInit {
       else {
         this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo');
       }
-
 
       this.oBuscarAgentes.Status = "A";
       console.log(2);
@@ -210,8 +204,6 @@ export class SidenavComponent implements OnInit {
       //console.log("Termina carga agentes");
 
     }
-
-
 
     //Realizamos llamada al servicio de oficinas
     if (!sessionStorage.getItem('Oficinas')) {
@@ -285,8 +277,6 @@ export class SidenavComponent implements OnInit {
       //console.log("Termina carga Lineaes");
     }
 
-
-
     //Realizamos llamada al servicio de categorias 
     if (!sessionStorage.getItem('Categorias')) {
 
@@ -308,7 +298,6 @@ export class SidenavComponent implements OnInit {
             //this.oCategoriasCon = this.oCategoriasRes.Contenido;
             sessionStorage.setItem('Categorias', JSON.stringify(this.oCategoriasRes));
 
-
           },
           (error: Categorias) => {
 
@@ -323,13 +312,10 @@ export class SidenavComponent implements OnInit {
       //console.log("Termina carga Categorias");
     }
 
-
     //Realizamos llamada al servicio de clientes 
     if (!sessionStorage.getItem('Clientes')) {
 
       //  console.log("Inicia carga Clientes");
-
-
       if (this.sTipo == 'C') {
         this.Buscar.ClienteCodigo = this.sCodigo;
         this.Buscar.ClienteFilial = this.sFilial;
@@ -343,7 +329,6 @@ export class SidenavComponent implements OnInit {
         .subscribe(
           (Response: Clientes) => {
 
-
             this.oCliente = Response;
             //console.log("Respuesta cliente"+JSON.stringify(this.oCliente));    
             if (this.oCliente.Codigo != 0) {
@@ -356,7 +341,6 @@ export class SidenavComponent implements OnInit {
             this.oDatosGenerales =this.oCliente.Contenido[0].DatosGenerales;
             this.oContacto =this.oCliente.Contenido[0].Contactos;*/
             return true;
-
 
           },
           (error: Clientes) => {
@@ -381,11 +365,8 @@ export class SidenavComponent implements OnInit {
         .subscribe(
           (Response: TipoCartera) => {
 
-
             this.oCarteras = Response;
             //console.log("Respuesta carteras: "+JSON.stringify(this.oCarteras));
-
-
 
             if (this.oCarteras.Codigo != 0) {
               return false;
@@ -394,7 +375,6 @@ export class SidenavComponent implements OnInit {
             sessionStorage.setItem('Carteras', JSON.stringify(this.oCarteras.Contenido));
 
             return true;
-
 
           },
           (error: TipoCartera) => {
@@ -442,14 +422,7 @@ export class SidenavComponent implements OnInit {
       // console.log("Termina carga oTipoCliente");
     }
 
-
-
   }
-
-
-
-
-
 
   toggle(nav: MatSidenav) {
     const isSmallScreen = this.breakpointObserver.isMatched(

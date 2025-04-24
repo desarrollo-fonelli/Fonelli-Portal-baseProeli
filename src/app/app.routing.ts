@@ -3,7 +3,9 @@ import { Routes, RouterModule, Router } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from "./components/home/home.component";
+import { EncabezadoComponent } from "./components/encabezado/encabezado.component";
 import { ErrorComponent } from "./components/error/error.component";
+import { TemplateComponent } from "./components/template/template.component";
 import { DistribuidoresComponent } from "./components/distribuidores/distribuidores.component";
 import { EjecutivosComponent } from "./components/ejecutivos/ejecutivos.component";
 import { IndicadoresventaComponent } from "./components/indicadoresventa/indicadoresventa.component";
@@ -19,13 +21,12 @@ import { ReporteventasComponent } from "./components/reporteventas/reporteventas
 import { ConsultainactivosComponent } from "./components/consultainactivos/consultainactivos.component";
 import { GuiasComponent } from "./components/guias/guias.component";
 import { OrdnretornoComponent } from "./components/ordnretorno/ordnretorno.component";
+import { ListacfdisComponent } from "./components/listacfdis/listacfdis.component";
 import { SidenavComponent } from "./components/sidenav/sidenav.component";
 import { AdminComponent } from "./components/admin/admin.component";
 import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
-import { TemplateComponent } from "./components/template/template.component";
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
 import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
-import { EncabezadoComponent } from "./components/encabezado/encabezado.component";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -72,6 +73,7 @@ const appRoutes: Routes = [
       { path: 'guias', component: GuiasComponent },
       { path: 'ordnretorno', component: OrdnretornoComponent },
       { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
+      { path: 'listacfdis', component: ListacfdisComponent },
       { path: 'tabla', component: EncabezadoComponent }
     ],
   },

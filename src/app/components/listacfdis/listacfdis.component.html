@@ -1,0 +1,243 @@
+<!-- BOTON para mostrar o esconder Criterios de Filtro -->
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!-- Criterios de filtro -->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <h2 class="card-title">Descarga de CFDIs</h2>
+      <!-- General Form Elements -->
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Numero</label>
+            <input type="text" id="idNumpPed" class="form-control" name="idNumpPed" #nombre="ngModel"
+              [(ngModel)]="oBuscar.ClienteCodigo" disabled="{{ bCliente }}" required />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Filial</label>
+
+            <input type="text" id="idFilPed" class="form-control" name="idFilPed" #nombre="ngModel"
+              [(ngModel)]="oBuscar.ClienteFilial" disabled="{{ bCliente }}" required />
+          </div>
+
+          <div class="form-group col-md-3" [hidden]="bCliente">
+            <label class="CamposFonelli col-md-12" style="color: white">-</label>
+            <button type="button" class="btnFonelli btn" (click)="openClientes(Clientes)"
+              style="background-color: #24a4cc">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Fecha Inicial</label>
+            <input type="date" id="idFechaInicial" class="form-control" name="idFechaInicial" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaInicial" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Pedido</label>
+            <input type="text" id="idPedido" class="form-control" name="idPedido" #nombre="ngModel"
+              [(ngModel)]="oBuscar.Pedido">
+          </div>
+        </div>
+
+        <!-- Tipo de documento
+        <div class="row">
+          <div class="form-group col-md-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="idAct" value="FAC" #nombre="ngModel"
+                [(ngModel)]="oBuscar.Status" />
+              <label class="form-check-label CamposFonelli" for="gridRadios1">
+                Facturas
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="idIna" value="NCR" #nombre="ngModel"
+                [(ngModel)]="oBuscar.Status" />
+              <label class="form-check-label CamposFonelli" for="gridRadios2">
+                Notas Crédito</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios" id="idTod" value="TOD" #nombre="ngModel"
+                [(ngModel)]="oBuscar.Status" />
+              <label class="form-check-label CamposFonelli" for="gridRadios3">
+                Todos
+              </label>
+            </div>
+          </div>
+        </div>
+        -->
+
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{ sMensaje }}</p>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" (click)="consultaListaCfdis()" class="btnFonelli btn">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color: #183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+      </form>
+      <!-- End General Form Elements -->
+    </div>
+  </div>
+</div>
+
+<!-- Tabla que muestra los resultados de la consulta SQL -->
+<div class="container float-left" [hidden]="!bBandera">
+  <br>
+  <h4 style="text-align: center; font-size:xx-large;">Número
+    {{oListaCfdisResult.Contenido.ClienteCodigo}}-{{oListaCfdisResult.Contenido.ClienteFilial}}
+    {{oListaCfdisResult.Contenido.ClienteNombre}}
+  </h4>
+  <div class="container">
+    <div class="form-row">
+      <!-- <div class="form-group col-md-1">              
+      <label class="CamposFonelli">Pedido:</label>
+    </div>
+    <div class="form-group col-md-5">              
+      <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="searchtext"
+          placeholder="Search"                 
+        />
+      </div> -->
+
+      <!--
+      <div class="form-group col-md-12">
+        <button class="btnImprimir btn float-right" (click)="downloadAsPDF()">
+          Imprimir PDF
+        </button>
+      </div>
+      -->
+      <br>
+    </div>
+  </div>
+
+  <div class="container" id="pdfTable" #pdfTable>
+    <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead class="thead-p">
+        <tr class="EncTabla">
+          <th style="background-color: #24a4cc; color: white;" scope="col">#</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Documento</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Serie</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Folio</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Pedido</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Fecha</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Total</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center;" scope="col">PDF</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cfd of cfdirows ; index as i">
+          <th class="FilasFonelli" scope="row">{{ i + 1 }}</th>
+          <td class="FilasFonelli" style="text-align:left">{{ cfd.Documento }}</td>
+          <td class="FilasFonelli" style="text-align:center"> {{ cfd.Serie }} </td>
+          <td class="FilasFonelli" style="text-align:center">{{ cfd.Folio }}</td>
+          <td class="FilasFonelli" style="text-align:center">{{ cfd.Pedido }}</td>
+          <td class="FilasFonelli" style="text-align:center">{{ cfd.Fecha }}</td>
+          <td class="FilasFonelli" style="text-align:right">{{ cfd.Total | currency }}</td>
+          <td class="FilasFonelli" style="text-align:center">
+            <!--
+            <a href="#" (click)="descargarFactura(oListaCfdisResult.Contenido,cfd); 
+            $event.preventDefault()">Descargar</a>
+            -->
+            <a href="#" (click)="descargarFactura(oListaCfdisResult.Contenido,
+              cfd.Serie, cfd.Folio, cfd.Fecha); $event.preventDefault()">Descargar</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!--Modal catalogo clientes-->
+<ng-template #Clientes let-modal>
+  <div class="modal-header">
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+  <div class="modal-body-tables" style="overflow-y: scroll;">
+
+    <div class="container">
+      <div class="row">
+
+        <div class="form-group col-md-1">
+          <br>
+          <label class="CamposFonelli">Buscar:</label>
+        </div>
+        <div class="form-group col-md-5">
+          <br>
+          <input type="text" class="form-control" [(ngModel)]="searchtext" placeholder="Search" />
+        </div>
+
+
+        <div class="col-12">
+          <table class="table table-striped">
+            <thead class="thead-p2">
+              <tr class="EncTabla">
+                <th>#</th>
+                <th scope="col"></th>
+                <th scope="col">NUM</th>
+                <th scope="col">FIL</th>
+                <th scope="col">RAZÓN SOCIAL</th>
+                <th scope="col">SUCURSAL/NOMBRE</th>
+                <th scope="col">S</th>
+                <th scope="col">CONTACTO1</th>
+                <th scope="col">CONTACTO2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span
+                  class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f">
+                </span></td>
+              <tr *ngFor="let emp of oCliente.Contenido |searchconsultaCliente: searchtext; index as i"
+                (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>
+                  <input style="border-color: #24a4cc;" type="checkbox">
+                </td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="modal-footer">
+    <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+
+  </div>
+
+</ng-template>
