@@ -22,6 +22,7 @@ import { ConsultainactivosComponent } from "./components/consultainactivos/consu
 import { GuiasComponent } from "./components/guias/guias.component";
 import { OrdnretornoComponent } from "./components/ordnretorno/ordnretorno.component";
 import { ListacfdisComponent } from "./components/listacfdis/listacfdis.component";
+import { ConsultaexistenciasComponent } from "./components/consultaexistencias/consultaexistencias.component";
 import { SidenavComponent } from "./components/sidenav/sidenav.component";
 import { AdminComponent } from "./components/admin/admin.component";
 import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
@@ -42,10 +43,8 @@ const appRoutes: Routes = [
       { path: 'consultapedidos', component: ConsultapedidosComponent },
       { path: 'relacionpedidos', component: RelacionpedidosComponent },
       { path: 'estadocuenta', component: EstadocuentaComponent },
-      {
-        path: 'ventasclientearticulo',
-        component: VentasclientearticuloComponent,
-      }
+      { path: 'ventasclientearticulo', component: VentasclientearticuloComponent },
+      { path: 'listacfdis', component: ListacfdisComponent }
       //{ path: 'guias', component: GuiasComponent }
       //{ path: 'ordnretorno', component: OrdnretornoComponent }
     ],
@@ -74,6 +73,7 @@ const appRoutes: Routes = [
       { path: 'ordnretorno', component: OrdnretornoComponent },
       { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
       { path: 'listacfdis', component: ListacfdisComponent },
+      { path: 'consultaexistencias', component: ConsultaexistenciasComponent },
       { path: 'tabla', component: EncabezadoComponent }
     ],
   },

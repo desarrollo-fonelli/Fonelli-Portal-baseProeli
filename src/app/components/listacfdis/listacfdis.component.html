@@ -12,7 +12,7 @@
 <div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
   <div class="card">
     <div class="card-body">
-      <h2 class="card-title">Descarga de CFDIs</h2>
+      <h3 class="card-title">Descarga de CFDIs</h3>
       <!-- General Form Elements -->
       <form>
         <div class="form-row">
@@ -48,7 +48,7 @@
 
         <div class="form-row">
           <div class="form-group col-md-3">
-            <label class="CamposFonelli">Pedido</label>
+            <label class="CamposFonelli">Pedido/Ref</label>
             <input type="text" id="idPedido" class="form-control" name="idPedido" #nombre="ngModel"
               [(ngModel)]="oBuscar.Pedido">
           </div>
@@ -141,7 +141,7 @@
           <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Documento</th>
           <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Serie</th>
           <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Folio</th>
-          <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Pedido</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Pedido/Ref</th>
           <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Fecha</th>
           <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Total</th>
           <th style="background-color: #24a4cc; color: white; text-align:center;" scope="col">PDF</th>
@@ -153,7 +153,7 @@
           <td class="FilasFonelli" style="text-align:left">{{ cfd.Documento }}</td>
           <td class="FilasFonelli" style="text-align:center"> {{ cfd.Serie }} </td>
           <td class="FilasFonelli" style="text-align:center">{{ cfd.Folio }}</td>
-          <td class="FilasFonelli" style="text-align:center">{{ cfd.Pedido }}</td>
+          <td class="FilasFonelli" style="text-align:center">{{ cfd.Ref }}</td>
           <td class="FilasFonelli" style="text-align:center">{{ cfd.Fecha }}</td>
           <td class="FilasFonelli" style="text-align:right">{{ cfd.Total | currency }}</td>
           <td class="FilasFonelli" style="text-align:center">
@@ -161,7 +161,7 @@
             <a href="#" (click)="descargarFactura(oListaCfdisResult.Contenido,cfd); 
             $event.preventDefault()">Descargar</a>
             -->
-            <a href="#" (click)="descargarFactura(oListaCfdisResult.Contenido,
+            <a href="#" (click)="descargarFactura(oBuscar, oListaCfdisResult.Contenido,
               cfd.Serie, cfd.Folio, cfd.Fecha); $event.preventDefault()">Descargar</a>
           </td>
         </tr>

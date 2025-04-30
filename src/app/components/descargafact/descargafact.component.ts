@@ -1,4 +1,4 @@
-/**
+/**                        OJO - OJO - OJO
  * dRendon 22/abr/2025 
  * Este componente no se utiliza actualmente, pero se ha dejado aquí para
  * futuras implementaciones.

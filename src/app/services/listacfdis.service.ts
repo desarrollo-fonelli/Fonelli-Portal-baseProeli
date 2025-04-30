@@ -9,18 +9,18 @@ import { Pedido } from 'src/app/models/consultapedidos';
 @Injectable()
 export class ServicioListaCfdis {
     public API: string;
-    public sFiltros: string;
     public API_URL: string;
     public sToken: string;
+    public sFiltros: string;
 
     constructor(
         public _http: HttpClient
     ) {
 
         this.API = Configuracion.API;
-        this.sFiltros = '';
         this.API_URL = environment.API_URL;
         this.sToken = sessionStorage.getItem('token');
+        this.sFiltros = '';
     }
 
     Get(FiltrosListaCFDIS: any): Observable<any> {
@@ -58,7 +58,7 @@ export class ServicioListaCfdis {
 
         this.sFiltros += '&Usuario=' + FiltrosListaCFDIS.Usuario;
 
-        console.log('🔸' + this.sFiltros);
+        //console.log('🔸' + this.sFiltros);
 
         return this._http.get(this.API_URL + this.API + 'reportes/ListaCFDIS.php?' +
             this.sFiltros, { headers: headers });

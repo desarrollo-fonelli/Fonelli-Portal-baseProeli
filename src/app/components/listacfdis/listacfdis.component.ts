@@ -43,31 +43,36 @@ import { DescargafactService } from 'src/app/services/descargafact.service';
 //Datatables
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
+import { Usuario } from '../../models/usuario';
 
 
 @Component({
   selector: 'app-listacfdis',
   templateUrl: './listacfdis.component.html',
   styleUrls: ['./listacfdis.component.css'],
-  providers: [ServicioListaCfdis, DecimalPipe, ServicioClientes, DescargafactService]
+  providers: [
+    DecimalPipe,
+    ServicioClientes,
+    ServicioListaCfdis,
+    DescargafactService]
 })
 
 export class ListacfdisComponent implements OnInit, OnDestroy {
   @ViewChild('pdfTable') pdfTable: ElementRef;
 
   searchtext = '';
-  sTipo: string | null;
-  sCodigo: number | null;
+  sTipo: string | null;     // tipo de usuario
+  sCodigo: number | null;   // usuario loggeado
   sFilial: number | null;
   sNombre: string | null;
   sWidth: number;
   sHeight: number;
-  dtOptions: any = {};
   persons = [];
-  dtTrigger: Subject<any> = new Subject();
 
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
+  dtOptions: any = {};
+  dtTrigger: Subject<any> = new Subject();
 
   public isCollapsed = false;
   public bCliente: boolean;
@@ -312,7 +317,7 @@ export class ListacfdisComponent implements OnInit, OnDestroy {
     this.bBandera = false;
     this.bCargando = true;
 
-    // Llamada al servicio de listacfdis
+    //console.log('🔸Llamada al servicio de listacfdis');
     this._servicioListaCfdis.Get(this.oBuscar).subscribe(
       (Response: ListaCfdis) => {
         this.oListaCfdisResult = Response;
@@ -343,8 +348,8 @@ export class ListacfdisComponent implements OnInit, OnDestroy {
       (error: ListaCfdis) => {
         this.oListaCfdisResult = error;
         this.sMensaje = 'No se encontraron documentos';
-        console.log('🔴error');
-        console.log('❗' + this.oListaCfdisResult);
+        console.log('🔸error: no se encontraron documentos');
+        console.log('❗oListaCfdisResult: ' + this.oListaCfdisResult);
         this.bCargando = false;
       }
     );
@@ -356,8 +361,9 @@ export class ListacfdisComponent implements OnInit, OnDestroy {
   // dRendon -> dejé esta función heredada aunque no me queda muy claro su uso
   refreshCountries() {
     //this.countries = COUNTRIES
-    console.log('✅Inicio refreshCountries');
-    console.log('🔸cfdirows: ' + this.cfdirows);
+    //console.log('✅Inicio refreshCountries');
+    console.log('🔸cfdirows: ')
+    console.log(this.cfdirows);
 
     this.cfdirows
       .map((c, i) => ({ id: i + 1, ...c }))
@@ -648,7 +654,7 @@ export class ListacfdisComponent implements OnInit, OnDestroy {
 
   }
 
-  descargarFactura(oCliente: ContenidoListaCfdis,
+  descargarFactura(oBuscar: any, oCliente: ContenidoListaCfdis,
     serie: string, folio: string, fecha: Date) {
 
     // console.log("✔ Descargando PDF de comprobante fiscal Cliente " +
@@ -668,7 +674,12 @@ export class ListacfdisComponent implements OnInit, OnDestroy {
     let mes = pfecha.getMonth() + 1;     // enero = 0
     let anio = pfecha.getFullYear();
 
-    this._descargafactService.descargarFactura(oCliente, mes, anio, serie, folio)
+    //let _tipoUsuario = sessionStorage.getItem('tipo');
+    let _tipoUsuario = this.sTipo;
+    //this.sTipo = sessionStorage.getItem('tipo');
+    let _usuario = oBuscar.Usuario;
+
+    this._descargafactService.descargarFactura(_tipoUsuario, _usuario, oCliente, mes, anio, serie, folio)
       .subscribe(
         blob => {
           let clterfc = oCliente.ClienteRfc.replace(/[-\s]/g, "");  // quita guiones y espacios del rfc
@@ -676,19 +687,25 @@ export class ListacfdisComponent implements OnInit, OnDestroy {
 
           const fileURL = window.URL.createObjectURL(blob);
 
-          // abre documento en una ventana nueva
-          window.open(fileURL, '_blank');
-          /*
-                    // descarga archivo automaticamente
-                    const a = document.createElement('a');
-                    a.href = fileURL;
-                    a.download = `FON900101R36_` + filename + `.PDF`;
-                    a.click();
-                    //esta linea se comenta cuando el documento se abrio en una ventana
-                    //window.URL.revokeObjectURL(fileURL);
-          */
-          //esta linea se usa cuando el documento se abre en una ventana
-          setTimeout(() => window.URL.revokeObjectURL(fileURL), 1000);
+          if (blob.type === 'application/pdf') {
+            // abre documento en una ventana nueva
+            window.open(fileURL, '_blank');
+
+            // descarga archivo automaticamente
+            const a = document.createElement('a');
+            a.href = fileURL;
+            a.download = `FON900101R36_` + filename + `.PDF`;
+            a.click();
+            //esta linea se comenta cuando el documento se abrio en una ventana
+            //window.URL.revokeObjectURL(fileURL);
+
+            //esta linea se usa cuando el documento se abre en una ventana
+            setTimeout(() => window.URL.revokeObjectURL(fileURL), 1000);
+          } else {
+            this.sMensaje = 'No se encontró el archivo. Contacte a Cuentas por Cobrar'
+            alert('No se encontró el archivo. Contacte a Cuentas por Cobrar');
+            this.sMensaje = ''
+          }
 
         }, error => {
           console.error('Error descargando archivo', error);
@@ -713,9 +730,5 @@ export class ListacfdisComponent implements OnInit, OnDestroy {
             }
           });
     */
-
-
   }
-
-
 }

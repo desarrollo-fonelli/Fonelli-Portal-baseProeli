@@ -56,6 +56,7 @@ import { EncabezadoComponent } from './components/encabezado/encabezado.componen
 import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service';
 import { ListacfdisComponent } from './components/listacfdis/listacfdis.component';
 import { DescargafactComponent } from './components/descargafact/descargafact.component';
+import { ConsultaexistenciasComponent } from './components/consultaexistencias/consultaexistencias.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +96,8 @@ import { DescargafactComponent } from './components/descargafact/descargafact.co
     CatalogointeractivoComponent,
     EncabezadoComponent,
     ListacfdisComponent,
-    DescargafactComponent
+    DescargafactComponent,
+    ConsultaexistenciasComponent
   ],
   imports: [
     BrowserModule,

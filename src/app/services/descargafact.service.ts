@@ -19,13 +19,13 @@ export class DescargafactService {
     public _http: HttpClient
   ) {
     this.API = Configuracion.API;
-    this.sFiltros = '';
     this.API_URL = environment.API_URL;
     this.sToken = sessionStorage.getItem('token');
+    this.sFiltros = '';
 
   }
 
-  descargarFactura(oCliente, mes, anio, serie, folio) {
+  descargarFactura(_tipoUsuario, _usuario, oCliente, mes, anio, serie, folio) {
 
     let headers = new HttpHeaders().set('Content-Type', 'application-pdf')
       .set("Access-Control-Allow-Origin", "*")
@@ -39,10 +39,11 @@ export class DescargafactService {
     //let clterfc = oCliente.ClienteRfc.replace(/-/g, "").trim();
     let clterfc = oCliente.ClienteRfc.replace(/[-\s]/g, "");  // quita guiones y espacios del rfc
     const fileName: string = clterfc + '_' + serie.trim() + '_' + folio.trim();
+    console.log('🔴 ' + _usuario, _tipoUsuario);
 
     const params = new HttpParams()
-      .set('TipoUsuario', 'G')
-      .set('Usuario', '1')
+      .set('TipoUsuario', _tipoUsuario)
+      .set('Usuario', _usuario)
       .set('ClienteCodigo', oCliente.ClienteCodigo.trim())
       .set('ClienteFilial', oCliente.ClienteFilial.trim())
       .set('ClienteRfc', clterfc)

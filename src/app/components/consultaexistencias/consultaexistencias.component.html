@@ -1,0 +1,164 @@
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!-- Criterios de Filtro -->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <h4 class="card-title">Consulta de Existencias</h4>
+      <!-- Formulario para indicar Criterios de Filtro-->
+      <form>
+        <!-- Oficinas -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli" for="idOfiDes">Desde Oficina</label>
+            <select class="form-select" name="idOfiDes" #nombre="ngModel" [(ngModel)]="oBuscar.OficinaDesde" required>
+              <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">
+                {{dato.OficinaCodigo}} - {{dato.OficinaNombre}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli" for="idOfiHas">Hasta Oficina</label>
+            <select class="form-select" name="idOfiHas" #nombre="ngModel" [(ngModel)]="oBuscar.OficinaHasta" required>
+              <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">
+                {{dato.OficinaCodigo}} - {{dato.OficinaNombre}}</option>
+            </select>
+          </div>
+        </div>
+        <!-- Líneas de PT -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde Línea</label>
+            <select class="form-select" name="idLinDes" #nombre="ngModel" [(ngModel)]="oBuscar.LineaPTDesde" required>
+              <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasCon">
+                {{dato.LineaCodigo}} - {{dato.LineaDescripc}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta línea</label>
+            <select class="form-select" name="idLinHas" #nombre="ngModel" [(ngModel)]="oBuscar.LineaPTHasta" required>
+              <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasCon">
+                {{dato.LineaCodigo}} - {{dato.LineaDescripc}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <!-- Almacenes -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde Almacén</label>
+            <select class="form-select" name="idAlmDes" #nombre="ngModel" [(ngModel)]="oBuscar.AlmacDesde" required>
+              <option value="{{dato.AlmTipo}}{{dato.AlmNum}}" *ngFor="let dato of oAlmacContenido">
+                {{dato.AlmTipo}}-{{dato.AlmNum}} {{dato.AlmNom}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta Almacén</label>
+            <select class="form-select" name="idAlmHas" #nombre="ngModel" [(ngModel)]="oBuscar.AlmacHasta" required>
+              <option value="{{dato.AlmTipo}}{{dato.AlmNum}}" *ngFor="let dato of oAlmacContenido">
+                {{dato.AlmTipo}}-{{dato.AlmNum}} {{dato.AlmNom}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Solo articulos con existencia -->
+        <div class="row">
+          <div class="form-group col-md-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios1" id="idSoloEx" value="S" #nombre="ngModel"
+                [(ngModel)]="oBuscar.SoloExist" />
+              <label class="form-check-label CamposFonelli" for="gridRadios1">
+                Solo Existencias
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios2" id="idTodos" value="N" #nombre="ngModel"
+                [(ngModel)]="oBuscar.SoloExist" />
+              <label class="form-check-label CamposFonelli" for="gridRadios2">
+                Todos
+              </label>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Mensajes relacionados con la búsqueda -->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{ sMensaje }}</p>
+        </div>
+
+        <!-- Boton BUSCAR -->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" class="btnFonelli btn" (click)="ConsultaExistencias()">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- Tabla que muestra los resultados de la consulta SQL -->
+<div class="container float-left" [hidden]="!bBandera">
+  <br>
+
+  <div class="container" id="pdfTable" #pdfTable>
+    <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger">
+      <thead class="thead-p">
+        <tr class="EncTabla">
+          <th style="background-color: #24a4cc; color: white;" scope="col">#</th>
+          <th style="background-color: #24a4cc; color: white; text-align:left" scope="col">Lin Clave</th>
+          <!-- <th style="background-color: #24a4cc; color: white; text-align:left" scope="col">Clave</th> -->
+          <th style="background-color: #24a4cc; color: white; text-align:left" scope="col">Descripción</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Ofic</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Tipo</th>
+          <!-- <th style="background-color: #24a4cc; color: white; text-align:center" scope="col">Almac</th> -->
+          <th style="background-color: #24a4cc; color: white; text-align:left;" scope="col">Almacén</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center;" scope="col">IE</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Piezas</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Gramos</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let exi of existRows ; index as i">
+          <th class="FilasFonelli" scope="row">{{ i + 1 }}</th>
+          <td class="FilasFonelli col-texto-ancho" style="text-align:left">{{ exi.Linea + '-' + exi.Clave }}</td>
+          <!-- <td class="FilasFonelli" style="text-align:left"> {{ exi.Clave }} </td> -->
+          <td class="FilasFonelli col-texto-medio" style="text-align:left">{{ exi.Descripcion }}</td>
+          <td class="FilasFonelli" style="text-align:center">{{ exi.Oficina }}</td>
+          <td class="FilasFonelli" style="text-align:center">{{ exi.Tipo + '-' + exi.Almacen.trim() }}</td>
+          <!-- <td class="FilasFonelli" style="text-align:center">{{ exi.Almacen }}</td> -->
+          <td class="FilasFonelli col-texto-ancho" style="text-align:left">{{ exi.Nombre }}</td>
+          <td class="FilasFonelli" style="text-align:center">{{ exi.IE }}</td>
+          <th class="FilasFonelli" style="text-align:right">{{ exi.ExPiezas === 0 ? '' : (exi.ExPiezas | number:
+            '1.0-0') }}</th>
+          <th class="FilasFonelli" style="text-align:right">{{ exi.ExGramos === 0 ? '' : (exi.ExGramos | number:
+            '1.2-2') }}</th>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>

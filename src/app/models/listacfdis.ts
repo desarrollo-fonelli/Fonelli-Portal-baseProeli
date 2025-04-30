@@ -20,6 +20,7 @@ export interface Cfdi {
     Folio: string;
     Fecha: Date;
     Total: number;
+    Ref: string;
     Pedido: string;
 }
 

@@ -37,6 +37,7 @@
     <!-- <mat-sidenav #snav class="mat-elevation-z10" [opened]="true" fixedTopGap="64" [mode]="mobileQuery.matches ? 'over' : 'side'" fixedInViewport="true" style="width:260px;"> -->
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="64" [opened]="mobileQuery.matches ? 'false' : 'true'" style="width:260px;">
+
       <mat-nav-list *ngIf="bCliente" nav-list (click)="toggle(snav)">
         <a mat-list-item [routerLink]="['/distribuidores/inicio/']" routerLinkActive="active-list-item"> <span
             class="font_side">Inicio</span></a>
@@ -52,6 +53,10 @@
             class="font_side">Estado de cuenta</span></a>
         <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"
           routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
+        <a mat-list-item [routerLink]="['/distribuidores/listacfdis/']" routerLinkActive="active-list-item"><span
+            class="font_side">Descargar CFDIs</span></a>
+
+
         <!-- <a mat-list-item [routerLink]="['/distribuidores/guias/']" routerLinkActive="active-list-item"><span class="font_side">Consulta guías</span></a> -->
         <!-- <a mat-list-item [routerLink]="['/distribuidores/ordnretorno/']" routerLinkActive="active-list-item"><span class="font_side">Ordenes de Retorno</span></a> -->
         <!-- <a mat-list-item [routerLink]="['/catalogointeractivo/']" routerLinkActive="active-list-item"><span
@@ -85,6 +90,10 @@
             class="font_side">Consulta de inactivos</span></a>
         <a mat-list-item [routerLink]="['/asesores/listacfdis/']" routerLinkActive="active-list-item"><span
             class="font_side">Descargar CFDIs</span></a>
+        <a mat-list-item [routerLink]="['/asesores/consultaexistencias/']" routerLinkActive="active-list-item"><span
+            class="font_side">Consulta de Existencias</span></a>
+
+
         <!--
         <a mat-list-item [routerLink]="['/asesores/guias/']" routerLinkActive="active-list-item"><span
             class="font_side">Consulta de guías</span></a>
