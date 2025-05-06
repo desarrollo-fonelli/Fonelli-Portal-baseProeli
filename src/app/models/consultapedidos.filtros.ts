@@ -1,9 +1,11 @@
-export class FiltrosConsultaPedidos{
-    constructor(
-       public TipoUsuario: string | null,
-       public ClienteCodigo: number| null,
-       public ClienteFilial: number| null,
-       public Usuario: number | string,
-       public Status: string
-    ){}
+export class FiltrosConsultaPedidos {
+  constructor(
+    public TipoUsuario: string | null,
+    public Usuario: number | string,
+    public ClienteCodigo: number | null,
+    public ClienteFilial: number | null,
+    public PedidoBuscar: number | null,
+    public OrdCompBuscar: string | null,
+    public Status: string
+  ) { }
 }

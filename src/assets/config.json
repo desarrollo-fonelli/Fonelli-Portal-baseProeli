@@ -1,30 +1,10 @@
 {
-  "version": "2.2.1",
-  "fecha": "2025-04-29",
+  "version": "2.3.0",
+  "fecha": "2025-05-06",
   "caracteristicas": [
     {
-      "caract1": "Existencias por almacén",
-      "descripcion": "Se agrega consulta de existencias de PT, solo para asesores",
-      "enabled": true
-    },
-    {
-      "caract2": "Ocultar boton 'Imprimir PDF'",
-      "descripcion": "Comenté etiquetas HTML que presentan botón para imprimir PDF en todos los servicios",
-      "enabled": true
-    },
-    {
-      "caract2": "Ajustes menores a Relación de Pedidos",
-      "descripcion": "Controlar mensaje 'No se encontraron registros'",
-      "enabled": true
-    },
-    {
-      "caract3": "Ajustes a descarga de CFDIS",
-      "descripcion": "Se completan temas pendientes y se revisa el HTML",
-      "enabled": true
-    },
-    {
-      "caract4": "almacenes | almacenes.filtros | almacenes.service",
-      "descripcion": "Se crean modelos y servicio para cargar almacenes",
+      "caract1": "Consulta de Pedidos",
+      "descripcion": "Detalles en Control-de-Cambios.md",
       "enabled": true
     }
   ]

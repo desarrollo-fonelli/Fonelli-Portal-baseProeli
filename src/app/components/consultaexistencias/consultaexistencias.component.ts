@@ -342,8 +342,8 @@ export class ConsultaexistenciasComponent implements OnInit, OnDestroy {
       // En este caso, se tendrá un array de objetos con las filas de
       // los almacenes obtenidos en la llamada previa.
       let arrayAlmacenes = JSON.parse(sessionStorage.getItem('Almacenes'));
-      console.dir(arrayAlmacenes);
-      console.table(arrayAlmacenes);
+      //console.dir(arrayAlmacenes);
+      //console.table(arrayAlmacenes);
       this.oAlmacContenido = arrayAlmacenes;
 
       this.oBuscar.AlmacDesde = arrayAlmacenes[0].AlmTipo +

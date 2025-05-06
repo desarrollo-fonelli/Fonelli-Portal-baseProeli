@@ -15,6 +15,7 @@
       <h3 class="card-title">Consulta de Pedidos</h3>
       <!-- General Form Elements -->
       <form>
+        <!-- Codigo de Cliente -->
         <div class="form-row">
           <div class="form-group col-md-3">
             <label class="CamposFonelli">Numero</label>
@@ -38,6 +39,25 @@
           </div>
         </div>
 
+        <!-- Pedido -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli" for="">Pedido</label>
+            <input type="text" id="idPedFiltro" class="form-control" name="idPedFiltro" #nombre="ngModel"
+              [(ngModel)]="oBuscar.PedidoBuscar" />
+          </div>
+        </div>
+
+        <!-- Orden de Compra -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli" for="">Orden de Compra</label>
+            <input type="text" id="idOrdCompFiltro" class="form-control" name="idOrdCompFiltro" #nombre="ngModel"
+              [(ngModel)]="oBuscar.OrdCompBuscar" />
+          </div>
+        </div>
+
+        <!-- Botones de radio para definir Status -->
         <div class="row">
           <div class="form-group col-md-3">
             <div class="form-check">
@@ -67,6 +87,7 @@
           <p class="alert alert-danger" role="alert">{{ sMensaje }}</p>
         </div>
 
+        <!-- Botón BUSCAR para llamar el reporte -->
         <div class="form-row">
           <div class="form-group col-md-6">
             <button type="submit" (click)="consultaPedido()" class="btnFonelli btn">
@@ -82,13 +103,17 @@
     </div>
   </div>
 </div>
+<!-- Fin Criterios de filtro -->
 
+<!-- Formulario con encabezado y tabla con resumen de Pedidos de Venta -->
 <div class="container float-left" [hidden]="!bBandera">
   <br>
-  <h4 style="text-align: center; font-size:xx-large;">Número
+  <h3 style="text-align: center; font-size:xx-large;">Número
     {{oPedidoRes.Contenido.ClienteCodigo}}-{{oPedidoRes.Contenido.ClienteFilial}} {{oPedidoRes.Contenido.ClienteNombre}}
-  </h4>
+  </h3>
+
   <div class="container">
+    <!-- Botones Search y PDF independientes del DataTable. No se están usando -->
     <div class="form-row">
       <!-- <div class="form-group col-md-1">              
       <label class="CamposFonelli">Pedido:</label>
@@ -111,28 +136,30 @@
     </div>
   </div>
 
-
+  <!-- Tabla que presenta lista de pedidos-->
   <div class="container" id="pdfTable" #pdfTable>
     <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
       <thead class="thead-p">
         <tr class="EncTabla">
           <th style="background-color: #24a4cc; color: white;" scope="col">#</th>
           <th style="background-color: #24a4cc; color: white;" scope="col">L</th>
-          <th style="background-color: #24a4cc; color: white; " scope="col">PEDIDO</th>
-          <th style="background-color: #24a4cc; color: white; " scope="col">OF</th>
-          <th style="background-color: #24a4cc; color: white;" scope="col">S</th>
-          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
-            <div class="size">FECHA PED</div>
+          <th style="background-color: #24a4cc; color: white;" scope="col">Pedido</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">Ofic</th>
+          <th style="background-color: #24a4cc; color: white;" scope="col">St</th>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" class="col-fecha" scope="col">
+            Fecha Pedido
           </th>
-          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
-            <div class="size">FECHA CANCOP</div>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" class="col-fecha" scope="col">
+            Fecha CancOP
           </th>
-          <th style="background-color: #24a4cc; color: white; text-align: center;" scope="col">
-            <div class="size">FECHA SURT</div>
+          <th style="background-color: #24a4cc; color: white; text-align: center;" class="col-fecha" scope="col">
+            Fecha Surtido
           </th>
-          <th style="background-color: #24a4cc; color: white; text-align:right;">PEDIDO</th>
-          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">SURTIDO</th>
-          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFCIA</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;">Pedido</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Surtido</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Difcia</th>
+          <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Orden Comp</th>
+          <th style="background-color: #24a4cc; color: white; text-align:center;" scope="col">Tda Dest</th>
         </tr>
       </thead>
       <tbody>
@@ -142,12 +169,14 @@
           <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>
           <td class="FilasFonelli">{{ ped.OficinaFonelliCodigo}}</td>
           <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
-          <td class="FilasFonelli" style="text-align:left">{{ ped.FechaPedido}}</td>
-          <td class="FilasFonelli" style="text-align:left">{{ ped.FechaCancelacion}}</td>
-          <td class="FilasFonelli" style="text-align:left">{{ ped.FechaSurtido}}</td>
+          <td class="FilasFonelli col-fecha" style="text-align:center">{{ ped.FechaPedido}}</td>
+          <td class="FilasFonelli col-fecha" style="text-align:center">{{ ped.FechaCancelacion}}</td>
+          <td class="FilasFonelli col-fecha" style="text-align:center">{{ ped.FechaSurtido}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadPedida}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ ped.CantidadSurtida}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ ped.DiferenciaPedidosSurtido}}</td>
+          <td class="FilasFonelli" style="text-align:right">{{ ped.OrdenCompra}}</td>
+          <td class="FilasFonelli" style="text-align:center">{{ ped.TiendaDestino}}</td>
         </tr>
         <tr>
           <th></th>
@@ -162,32 +191,14 @@
           <td class="FilasFonelli" style="text-align:right">{{ oPedidoRes.Contenido.CantidadPedida -
             oPedidoRes.Contenido.DiferenciaPedidosSurtido}}</td>
           <td class="FilasFonelli" style="text-align:right">{{ oPedidoRes.Contenido.DiferenciaPedidosSurtido}}</td>
+          <td></td>
+          <td></td>
         </tr>
       </tbody>
     </table>
-
-    <!--<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>First name</th>
-                <th>Last name</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let person of persons">
-                <td>{{ person.id }}</td>
-                <td>{{ person.firstName }}</td>
-                <td>{{ person.lastName }}</td>
-              </tr>
-            </tbody>
-          </table>-->
-
-
   </div>
 </div>
 
-<!-- </div>  -->
 
 <!--Modal pedidos detalle-->
 <ng-template #PedidoDetalle let-modal>

@@ -134,7 +134,7 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
     this.bCliente = false;
 
     //Inicializamos variables consulta pedidos
-    this.oBuscar = new FiltrosConsultaPedidos('', 0, 0, 0, '');
+    this.oBuscar = new FiltrosConsultaPedidos('', 0, 0, 0, 0, '', '');
     this.oPedidoRes = {} as ConsultaPedido;
     this.oPedidoRes.Contenido = {} as ConPed;
     this.pedido = [];
@@ -206,27 +206,28 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
       case 'C': {
         //Tipo cliente                  
         this.bCliente = true;
+        this.oBuscar.Usuario = this.sCodigo + '-' + this.sFilial;
         this.oBuscar.ClienteCodigo = this.sCodigo;
         this.oBuscar.ClienteFilial = this.sFilial;
-        this.oBuscar.Status = 'A';
-        this.oBuscar.Usuario = this.sCodigo + '-' + this.sFilial;
         break;
       }
       case 'A': {
         //Agente; 
-        this.oBuscar.Usuario = this.sCodigo;
         this.bCliente = false;
-        this.oBuscar.Status = 'A';
+        this.oBuscar.Usuario = this.sCodigo;
         break;
       }
       default: {
         //Gerente; 
-        this.oBuscar.Usuario = this.sCodigo;
         this.bCliente = false;
-        this.oBuscar.Status = 'A';
+        this.oBuscar.Usuario = this.sCodigo;
         break;
       }
     }
+
+    this.oBuscar.PedidoBuscar = 0;
+    this.oBuscar.OrdCompBuscar = '';
+    this.oBuscar.Status = 'A';
 
     this.Buscar.TipoUsuario = this.sTipo;
     this.Buscar.Usuario = this.sCodigo;
@@ -244,7 +245,7 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
     //Realizamos llamada al servicio de clientes 
     if (!sessionStorage.getItem('Clientes')) {
 
-      ///console.log("no tenemos  Clientes");
+      //console.log("no tenemos  Clientes");
 
       this._servicioCClientes
         .GetCliente(this.Buscar)
@@ -290,11 +291,10 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
     this.oBuscar.TipoUsuario = this.sTipo;
     //this.oBuscar.Usuario = this.sCodigo;
 
-    console.log(this.oBuscar.ClienteCodigo);
-    console.log(this.oBuscar.ClienteFilial);
-    console.log(this.oBuscar.Status);
-
-    console.log(this.oBuscar);
+    //console.log(this.oBuscar.ClienteCodigo);
+    //console.log(this.oBuscar.ClienteFilial);
+    //console.log(this.oBuscar.Status);
+    //console.log(this.oBuscar);
 
     //Validamos que tengamos un cliente codigo seleccionado
     if (this.oBuscar.ClienteCodigo == 0) {
@@ -358,7 +358,7 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
     this.oBuscaDetalle.PedidoLetra = 'C';
     this.oBuscaDetalle.Usuario = this.oBuscar.Usuario;
 
-    console.log(this.oBuscaDetalle);
+    //console.log(this.oBuscaDetalle);
 
     //Realizamos llamada al servicio de pedidos
     this._servicioCPedidosDet.Get(this.oBuscaDetalle).subscribe(
@@ -455,7 +455,7 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
   }
 
   verDetalleProd() {
-    console.log('Entra ver detalle prod');
+    //console.log('Entra ver detalle prod');
     this.bBanderaDet = false;
     this.bBanderaDetPro = true;
 
@@ -463,7 +463,7 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
     this.bBanderaBtnPro = false; //Buton produccion para ver detalle produccion
   }
   verDetallePed() {
-    console.log('Entra ver detalle prod');
+    //console.log('Entra ver detalle prod');
     this.bBanderaDet = true;
     this.bBanderaDetPro = false;
 
@@ -475,7 +475,7 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
   downloadAsPDF() {
 
     const pdfTable = this.pdfTable.nativeElement;
-    console.log(pdfTable);
+    //console.log(pdfTable);
 
     var cadenaaux = pdfTable.innerHTML;
 
@@ -485,11 +485,11 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
       '<br><p>Cliente: <strong>' + this.oBuscar.ClienteCodigo + '-' + this.oBuscar.ClienteFilial + ' ' + this.obtenNombreCliente(this.oBuscar.ClienteCodigo, this.oBuscar.ClienteFilial) + '</strong></p>' +
       cadenaaux;
 
-    console.log('cadena');
-    console.log(cadena);
+    //console.log('cadena');
+    //console.log(cadena);
 
     var html = htmlToPdfmake(cadena);
-    console.log(html);
+    //console.log(html);
     html[2].table.headerRows = 1;
     const documentDefinition = {
       pageSize: 'A4',
@@ -549,10 +549,9 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
     pdfMake.createPdf(documentDefinition).open();
   }
 
-
   //Modal clientes
   openClientes(Clientes: any) {
-    console.log("Entra modal clientes");
+    //console.log("Entra modal clientes");
     this.bCargandoClientes = true;
     var result;
 
@@ -579,9 +578,7 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
       }
 
       this.bCargandoClientes = false;
-
-
-      console.log("respuesta" + result);
+      //console.log("respuesta" + result);
 
     } catch (err) {
 
@@ -604,12 +601,10 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
       .subscribe(
         (Response: Clientes) => {
 
-
           this.oCliente = Response;
 
-          console.log("Respuesta cliente" + JSON.stringify(this.oCliente));
+          //console.log("Respuesta cliente" + JSON.stringify(this.oCliente));
           this.bCargandoClientes = false;
-
 
           if (this.oCliente.Codigo != 0) {
             this.bError = true;
@@ -624,12 +619,10 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
           this.oContacto = this.oCliente.Contenido[0].Contactos;
           return true;
 
-
         },
         (error: Clientes) => {
 
           this.oCliente = error;
-
           console.log("error");
           console.log(this.oCliente);
           this.bCargandoClientes = false;
@@ -654,7 +647,7 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
   }
 
   getTotal(oPedido: Pedido[], idCol: string): number {
-    console.log("Entra total-------");
+    //console.log("Entra total-------");
     let Total: number = 0;
 
     switch (idCol) {
@@ -680,7 +673,7 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
   }
 
   getTotalPedido(oDetallePed: PedidoArticulo[], idCol: string): number {
-    console.log("Entra ---------");
+    //console.log("Entra ---------");
     let Total: number = 0;
 
     switch (idCol) {
@@ -744,6 +737,8 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
       ' <th style="background-color: #24a4cc; color: white; text-align:right;">PEDIDO</th>' + '\n' +
       ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">SURTIDO</th>' + '\n' +
       ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">DIFCIA</th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Orden Comp</th>' + '\n' +
+      ' <th style="background-color: #24a4cc; color: white; text-align:right;" scope="col">Tda Dest</th>' + '\n' +
       ' </tr>' + '\n' +
       ' </thead>' + '\n' +
       ' <tbody>' + '\n'
@@ -763,6 +758,8 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
         ' <td class="FilasFonelli" style="text-align:right">' + ped.CantidadPedida + '</td>' + '\n' +
         ' <td class="FilasFonelli" style="text-align:right">' + ped.CantidadSurtida + '</td>' + '\n' +
         ' <td class="FilasFonelli" style="text-align:right">' + ped.DiferenciaPedidosSurtido + '</td>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:left">' + ped.OrdenCompra + '</td>' + '\n' +
+        ' <td class="FilasFonelli" style="text-align:left">' + ped.TiendaDestino + '</td>' + '\n' +
         '</tr>' + '\n';
 
       con += 1;
@@ -780,13 +777,13 @@ export class ConsultapedidosComponent implements OnInit, OnDestroy {
       ' <td class="FilasFonelli" style="text-align:right"> ' + this.oPedidoRes.Contenido.CantidadPedida + '</td>' + '\n' +
       ' <td class="FilasFonelli" style="text-align:right">' + (this.oPedidoRes.Contenido.CantidadPedida - this.oPedidoRes.Contenido.DiferenciaPedidosSurtido) + '</td>' + '\n' +
       ' <td class="FilasFonelli" style="text-align:right"> ' + this.oPedidoRes.Contenido.DiferenciaPedidosSurtido + '</td>' + '\n' +
+      ' <td ></td>' + '\n' +
+      ' <td ></td>' + '\n' +
       '</tr>' + '\n' +
       '</tbody>' + '\n' +
       '</table>';
 
     return tabla;
-
-
   }
 
   //Funcion para cerrar sesion y redireccionar al home

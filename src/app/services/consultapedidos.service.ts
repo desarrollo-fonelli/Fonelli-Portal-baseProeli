@@ -39,6 +39,8 @@ export class ServicioConsultaPedidos {
         if (FiltrosConPedidos.TipoUsuario) {
             this.sFiltros += '&TipoUsuario=' + FiltrosConPedidos.TipoUsuario;
         }
+        this.sFiltros += '&Usuario=' + FiltrosConPedidos.Usuario;
+
         if (FiltrosConPedidos.ClienteCodigo) {
             this.sFiltros += '&ClienteCodigo=' + FiltrosConPedidos.ClienteCodigo;
         }
@@ -48,8 +50,12 @@ export class ServicioConsultaPedidos {
         if (FiltrosConPedidos.Status != 'T') {
             this.sFiltros += '&Status=' + FiltrosConPedidos.Status;
         }
-        this.sFiltros += '&Usuario=' + FiltrosConPedidos.Usuario;
-
+        if (FiltrosConPedidos.PedidoBuscar) {
+            this.sFiltros += '&FolioPedido=' + FiltrosConPedidos.PedidoBuscar;
+        }
+        if (FiltrosConPedidos.OrdCompBuscar) {
+            this.sFiltros += '&OrdenCompra=' + FiltrosConPedidos.OrdCompBuscar;
+        }
 
         return this._http.get(this.API_URL + this.API + 'reportes/ConsultaPedidos.php?' +
             this.sFiltros, { headers: headers });
