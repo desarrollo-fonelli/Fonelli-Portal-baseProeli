@@ -28,6 +28,7 @@ import { AdminComponent } from "./components/admin/admin.component";
 import { PaneladminComponent } from "./components/paneladmin/paneladmin.component";
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
 import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
+import { PedclteListaComponent } from "./components/pedclte-lista/pedclte-lista.component";
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -74,7 +75,8 @@ const appRoutes: Routes = [
       { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
       { path: 'listacfdis', component: ListacfdisComponent },
       { path: 'consultaexistencias', component: ConsultaexistenciasComponent },
-      { path: 'tabla', component: EncabezadoComponent }
+      { path: 'tabla', component: EncabezadoComponent },
+      { path: 'pedclte-lista', component: PedclteListaComponent }
     ],
   },
 

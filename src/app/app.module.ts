@@ -57,6 +57,7 @@ import { ServicioRelacionPedidoDet } from './services/relacionPedidosDet.service
 import { ListacfdisComponent } from './components/listacfdis/listacfdis.component';
 import { DescargafactComponent } from './components/descargafact/descargafact.component';
 import { ConsultaexistenciasComponent } from './components/consultaexistencias/consultaexistencias.component';
+import { PedclteListaComponent } from './components/pedclte-lista/pedclte-lista.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { ConsultaexistenciasComponent } from './components/consultaexistencias/c
     EncabezadoComponent,
     ListacfdisComponent,
     DescargafactComponent,
-    ConsultaexistenciasComponent
+    ConsultaexistenciasComponent,
+    PedclteListaComponent
   ],
   imports: [
     BrowserModule,
