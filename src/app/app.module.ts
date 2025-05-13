@@ -58,6 +58,8 @@ import { ListacfdisComponent } from './components/listacfdis/listacfdis.componen
 import { DescargafactComponent } from './components/descargafact/descargafact.component';
 import { ConsultaexistenciasComponent } from './components/consultaexistencias/consultaexistencias.component';
 import { PedclteListaComponent } from './components/pedclte-lista/pedclte-lista.component';
+import { PedclteListadetaComponent } from './components/pedclte-listadeta/pedclte-listadeta.component';
+import { PedclteMedidasComponent } from './components/pedclte-medidas/pedclte-medidas.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +101,9 @@ import { PedclteListaComponent } from './components/pedclte-lista/pedclte-lista.
     ListacfdisComponent,
     DescargafactComponent,
     ConsultaexistenciasComponent,
-    PedclteListaComponent
+    PedclteListaComponent,
+    PedclteListadetaComponent,
+    PedclteMedidasComponent
   ],
   imports: [
     BrowserModule,

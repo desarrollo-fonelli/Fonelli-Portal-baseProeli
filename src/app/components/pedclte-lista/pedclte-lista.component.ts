@@ -36,6 +36,14 @@ import { PedclteListaService } from 'src/app/services/pedclte-lista.service';
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs';
 
+// --------------------------------------------------- detalle de pedidos
+import { FiltrosPedclteDetalle } from 'src/app/models/pedclte-detalle.filtros';
+import { PedclteDetalle } from 'src/app/models/pedclte-detalle';
+import { PedclteDetalleService } from 'src/app/services/pedclte-detalle.service';
+import { PedidoArticulo } from 'src/app/models/pedclte-detalle';
+import { PedclteMedidasComponent } from '../pedclte-medidas/pedclte-medidas.component';
+// ---------------------------------------------------
+
 
 /**
  * Clase principal del Componente
@@ -44,7 +52,7 @@ import { Subject } from 'rxjs';
   selector: 'app-pedclte-lista',
   templateUrl: './pedclte-lista.component.html',
   styleUrls: ['./pedclte-lista.component.css'],
-  providers: [DecimalPipe, ServicioClientes, PedclteListaService],
+  providers: [DecimalPipe, ServicioClientes, PedclteListaService, PedclteDetalleService]
 })
 export class PedclteListaComponent implements OnInit, OnDestroy {
   @ViewChild('pdfTable') pdfTable: ElementRef;
@@ -67,7 +75,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
   public bCliente: boolean;
   public bError: boolean = false;
   public sMensaje: string = '';
-  bBandera = false;
+  bBandera = false;   // indica si se muestra la tabla con la lista de pedidos
   public bCargando: boolean = false;
   public bCargandoClientes: boolean = false;
   public ModalActivo?: NgbModalRef;
@@ -93,9 +101,20 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
 
   private _mobileQueryListener: () => void;
 
+  // ------------------------------------------------------- detalle de pedidos
+  public MostrarArticulos: boolean = false;
+  public oFiltrosPedclteDetalle: FiltrosPedclteDetalle;
+  public oPedclteDetalleResult: PedclteDetalle;
+  public pedidoDet: PedidoArticulo[];
+
+  sPedidoFolio: string;
+  sPedidoFecha: string;
+
+  // -------------------------------------------------------
+
   /**
    * Constructor de la clase
-   * @param changeDetectorRef 
+   * @param cangeDetectorRef 
    * @param media 
    * @param modalService 
    * @param _route 
@@ -110,7 +129,9 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _router: Router,
     private _servicioCClientes: ServicioClientes,
-    private _pedclteListaService: PedclteListaService
+    private _pedclteListaService: PedclteListaService,
+    private _pedclteDetalleService: PedclteDetalleService
+
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -122,6 +143,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.sNombre = sessionStorage.getItem('nombre');
     this.bCliente = false;
 
+    // Consulta de clientes
     this.Buscar = new FiltrosClientes(0, 0, 0, '', 0);
     this.oCliente = {} as Clientes;
     this.oContenido = {} as Contenido;
@@ -129,11 +151,18 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.oDatosGenerales = {} as DatosGenerales;
     this.oContacto = {} as Contactos;
 
+    // Consulta lista de pedidos
     this.oFiltros = new PedclteListaFiltros('', 0, 0, 0, 0, '', '');
     this.oPedclteListaResult = {} as ConsultaPedido;
     this.oPedclteListaResult.Contenido = {} as ConPed;
     //this.oFilaPedido = [];
     this.pedido = [];
+
+    // Consulta detalle de pedidos ------------------------
+    this.oFiltrosPedclteDetalle = new FiltrosPedclteDetalle('', 0, '', 0, 0, 0);
+    this.oPedclteDetalleResult = {} as PedclteDetalle;
+    this.pedidoDet = [];
+    // ----------------------------------------------------
 
     this.refreshCountries();
 
@@ -490,6 +519,110 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Consulta detalle del pedido seleccionado
+   * @param ped - objeto que representa la fila del pedido elegido
+   */
+  ConsultaPedidoDetalle(ped: any) {
+
+    this.sPedidoFolio = ped.PedidoFolio;
+    this.sPedidoFecha = ped.FechaPedido;
+
+    //Inicializamos datos de encabezado requeridos para consultar detalle
+    this.oFiltrosPedclteDetalle.TipoUsuario = this.oFiltros.TipoUsuario;
+    this.oFiltrosPedclteDetalle.Usuario = this.oFiltros.Usuario;
+    this.oFiltrosPedclteDetalle.ClienteCodigo = this.oFiltros.ClienteCodigo;
+    this.oFiltrosPedclteDetalle.ClienteFilial = this.oFiltros.ClienteFilial;
+    this.oFiltrosPedclteDetalle.PedidoLetra = 'C';
+    this.oFiltrosPedclteDetalle.PedidoFolio = Number(this.sPedidoFolio);
+
+    //Realizamos llamada al servicio de pedidos
+    this._pedclteDetalleService.Get(this.oFiltrosPedclteDetalle).subscribe(
+      (Response: PedclteDetalle) => {
+        this.oPedclteDetalleResult = Response;
+        this.pedidoDet = this.oPedclteDetalleResult.Contenido.PedidoArticulos;
+
+        //console.log( this.collectionSize);
+        //console.log(this.oPedclteDetalleResult);
+        //console.log(this.pedidoDet);
+
+        if (this.oPedclteDetalleResult.Codigo != 0) {
+          this.bError = true;
+          this.sMensaje = 'No se encontro detalle de pedido';
+          this.MostrarArticulos = false;
+          this.pedidoDet = [];
+          return;
+        }
+
+        //Se calculan totales pedido
+        this.oPedclteDetalleResult.Contenido.CantidadPedida = this.getTotalPedido(this.pedidoDet, 'CantidadPedida');
+
+        this.oPedclteDetalleResult.Contenido.CantidadPedidoProduccion = this.getTotalPedido(this.pedidoDet, 'CantidadPedidoProduccion');
+        this.oPedclteDetalleResult.Contenido.CantidadProducida = this.getTotalPedido(this.pedidoDet, 'CantidadProducida');
+        this.oPedclteDetalleResult.Contenido.CantidadSurtida = this.getTotalPedido(this.pedidoDet, 'CantidadSurtida');
+        this.oPedclteDetalleResult.Contenido.DiferenciaProducido = this.getTotalPedido(this.pedidoDet, 'DiferenciaProducido');
+
+        this.MostrarArticulos = true;
+        this.sMensaje = '';
+        //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
+
+      },
+      (error: PedclteDetalle) => {
+        this.oPedclteDetalleResult = error;
+        this.sMensaje = 'No se encontro detalle de pedido';
+        //console.log('error');
+        console.log(this.oPedclteDetalleResult);
+      }
+    );
+
+  }
+
+  getTotalPedido(oDetallePed: PedidoArticulo[], idCol: string): number {
+    //console.log("Entra ---------");
+    let Total: number = 0;
+
+    switch (idCol) {
+      case 'CantidadPedida': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.CantidadPedida;
+        }
+        break;
+      }
+      case 'CantidadPedidoProduccion': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.CantidadPedidoProduccion;
+        }
+        break;
+      }
+      case 'CantidadProducida': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.CantidadProducida;
+        }
+        break;
+      }
+      case 'CantidadSurtida': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.CantidadSurtida;
+        }
+        break;
+      }
+      case 'DiferenciaProducido': {
+
+        for (var detPed of oDetallePed) {
+          Total += detPed.DiferenciaProducido;
+        }
+        break;
+      }
+    }
+
+    Total = Number(Total.toFixed(2));
+    return Total;
+  }
+
   /** 
    * OnDestroy
    */
@@ -505,8 +638,32 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.dtTrigger.next("");
   }
 
-  clicLink(): void {
-    alert('clic en enlace...')
+  /**
+   * Muestra detalle del pedido seleccionado
+   * @param ped - objeto que representa la fila del pedido elegido
+   */
+  clicDetallePed(ped: any): void {
+
+    console.log(ped.PedidoFolio);
+    //this.pedidoDet = [];
+    this.ConsultaPedidoDetalle(ped);
+
+    this.bBandera = false;
+    this.MostrarArticulos = true;
+
+  }
+
+  /**
+   * Oculta detalle de pedido y muestra lista de pedidos
+   */
+  clicCerrarDetallePed(): void {
+    this.MostrarArticulos = false;
+    this.bBandera = true;
+  }
+
+  openModalMedidasPedclte(articulo: any) {
+    const modalRef = this.modalService.open(PedclteMedidasComponent, { size: 'sm' });
+    modalRef.componentInstance.articulo = articulo;
   }
 
 }

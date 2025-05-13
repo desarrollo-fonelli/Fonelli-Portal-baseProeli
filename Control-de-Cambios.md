@@ -2,6 +2,13 @@
 ## Control de Cambios
 
 ----------
+## v2.3.1 | 2025-05-13 | Consulta de Pedidos DETALLE - Primera iteración
+#### Cambios
+1. Se modifica la presentación de los artículos incluidos en el pedido seleccionado por el usuario. En vez de una ventana modal, se presentan en un container de la pagina principal.
+2. Se depuran columnas y se descarta tabla de pedidos a producción.
+3. Se agrega formulario modal para presentar medidas con piezas solicitadas.
+
+----------
 ## v2.3.0 | 2025-05-06 | Consulta de Pedidos
 #### Nuevo:
 1. Se agregan criterios de filtro para Folio de Pedido y Orden de Compra.

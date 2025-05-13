@@ -1,10 +1,10 @@
 {
-  "version": "2.3.0",
-  "fecha": "2025-05-08",
+  "version": "2.3.1",
+  "fecha": "2025-05-13",
   "caracteristicas": [
     {
-      "caract1": "Consulta de Pedidos",
-      "descripcion": "Detalles en Control-de-Cambios.md",
+      "caract1": "Consulta de Pedidos DETALLE",
+      "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }
   ]
