@@ -42,6 +42,8 @@ import { PedclteDetalle } from 'src/app/models/pedclte-detalle';
 import { PedclteDetalleService } from 'src/app/services/pedclte-detalle.service';
 import { PedidoArticulo } from 'src/app/models/pedclte-detalle';
 import { PedclteMedidasComponent } from '../pedclte-medidas/pedclte-medidas.component';
+import { PedclteGuias, PedidoGuia } from 'src/app/models/pedclte-guias';
+import { PedclteGuiasService } from '../../services/pedclte-guias.service';
 // ---------------------------------------------------
 
 
@@ -52,7 +54,10 @@ import { PedclteMedidasComponent } from '../pedclte-medidas/pedclte-medidas.comp
   selector: 'app-pedclte-lista',
   templateUrl: './pedclte-lista.component.html',
   styleUrls: ['./pedclte-lista.component.css'],
-  providers: [DecimalPipe, ServicioClientes, PedclteListaService, PedclteDetalleService]
+  providers: [DecimalPipe, ServicioClientes,
+    PedclteListaService,
+    PedclteDetalleService,
+    PedclteGuiasService]
 })
 export class PedclteListaComponent implements OnInit, OnDestroy {
   @ViewChild('pdfTable') pdfTable: ElementRef;
@@ -106,6 +111,8 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
   public oFiltrosPedclteDetalle: FiltrosPedclteDetalle;
   public oPedclteDetalleResult: PedclteDetalle;
   public pedidoDet: PedidoArticulo[];
+  public pedidoGuias: PedidoGuia[];
+  public oPedclteGuiasResult: PedclteGuias;
 
   sPedidoFolio: string;
   sPedidoFecha: string;
@@ -130,7 +137,8 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     private _router: Router,
     private _servicioCClientes: ServicioClientes,
     private _pedclteListaService: PedclteListaService,
-    private _pedclteDetalleService: PedclteDetalleService
+    private _pedclteDetalleService: PedclteDetalleService,
+    private _pedclteGuiasService: PedclteGuiasService
 
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -162,6 +170,8 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.oFiltrosPedclteDetalle = new FiltrosPedclteDetalle('', 0, '', 0, 0, 0);
     this.oPedclteDetalleResult = {} as PedclteDetalle;
     this.pedidoDet = [];
+    this.oPedclteGuiasResult = {} as PedclteGuias;
+    this.pedidoGuias = [];
     // ----------------------------------------------------
 
     this.refreshCountries();
@@ -536,6 +546,9 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.oFiltrosPedclteDetalle.PedidoLetra = 'C';
     this.oFiltrosPedclteDetalle.PedidoFolio = Number(this.sPedidoFolio);
 
+    this.pedidoDet = [];
+    this.pedidoGuias = [];
+
     //Realizamos llamada al servicio de pedidos
     this._pedclteDetalleService.Get(this.oFiltrosPedclteDetalle).subscribe(
       (Response: PedclteDetalle) => {
@@ -565,6 +578,23 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
         this.MostrarArticulos = true;
         this.sMensaje = '';
         //this.collectionSize = this.oPedidoRes.Contenido.Pedidos.length//Seteamos el tamaño de los datos obtenidos
+
+        // Ahora llamamos al servicio para obtener los paquete enviados (Guias) asociados al pedido
+        this._pedclteGuiasService.Get(this.oFiltrosPedclteDetalle).subscribe(
+          (Response: PedclteGuias) => {
+            this.oPedclteGuiasResult = Response;
+            this.pedidoGuias = this.oPedclteGuiasResult.Contenido.PedidoGuias;
+
+            if (this.oPedclteGuiasResult.Codigo != 0) {
+              this.sMensaje = 'No se encontraron Guias asociadas al pedido';
+              this.pedidoGuias = [];
+              return;
+            }
+
+            this.sMensaje = '';
+
+          }
+        );
 
       },
       (error: PedclteDetalle) => {

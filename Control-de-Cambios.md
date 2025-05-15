@@ -2,9 +2,15 @@
 ## Control de Cambios
 
 ----------
+## v2.3.2 | 2025-05-14 | Consulta de Pedidos DETALLE - Segunda iteración
+#### Cambios
+1. Se agrega TAB para mostrar guias de paquetes enviados por pedido. Se crean modelo y se modifica plantilla HTML.
+2. Se agrega columna para mostrar ubicación del artículo en producción. Se modifican modelo y plantilla HTML.
+
+----------
 ## v2.3.1 | 2025-05-13 | Consulta de Pedidos DETALLE - Primera iteración
 #### Cambios
-1. Se modifica la presentación de los artículos incluidos en el pedido seleccionado por el usuario. En vez de una ventana modal, se presentan en un container de la pagina principal.
+1. Se modifica la presentación de los artículos incluidos en el pedido seleccionado por el usuario. En vez de una ventana modal, se presentan en un container en la pagina principal.
 2. Se depuran columnas y se descarta tabla de pedidos a producción.
 3. Se agrega formulario modal para presentar medidas con piezas solicitadas.
 

@@ -1,12 +1,10 @@
 <div class="modal-dialog modal-dialog-scrollable">
   <div class="modal-content">
     <div class="modal-header">
-      <div class="modal-title" style="text-align: center;"><strong>Modelo: {{articulo.ArticuloLinea}} -
-          {{articulo.ArticuloCodigo}}</strong></div>
-      <div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-          (click)="activeModal.dismiss()">
-        </button>
+      <div class="modal-title">
+        <div style="text-align: center;">
+          <strong>Modelo: {{articulo.ArticuloLinea}} - {{articulo.ArticuloCodigo}}</strong>
+        </div>
       </div>
     </div>
 
@@ -129,14 +127,18 @@
           </tr>
         </tbody>
       </table>
+      <div style="text-align: center;">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="activeModal.dismiss()">
+        </button>
+      </div>
     </div>
-
     <!--
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
-    Cerrar
-  </button>
-</div>
--->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
+        Cerrar
+      </button>
+    </div>
+    -->
   </div>
 </div>

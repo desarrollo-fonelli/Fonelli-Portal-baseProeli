@@ -250,154 +250,213 @@
   <div class="container mt-6">
     <div class="card">
       <div class="card-header">
-        <div class="row">
-          <div class="col-md-3">
-            <div class="card-title">Detalle del Pedido: <strong>{{ sPedidoFolio }} </strong></div>
-          </div>
-          <div class="col-md-2">
-            <button type="submit" class="btn btn-link" (click)="clicCerrarDetallePed()">Volver</button>
-          </div>
+        <div class="card-title">
+          <div class="h5 pt-2">Detalle del Pedido: <strong>{{ sPedidoFolio }}</strong></div>
         </div>
       </div>
       <div class="card-body">
         <div class="row">
-          <div class="col-md-3">
-            Fecha: {{ sPedidoFecha }}
-          </div>
           <div class="col-md-4">
             Cliente:
             {{oPedclteListaResult.Contenido.ClienteCodigo}}-{{oPedclteListaResult.Contenido.ClienteFilial}}
             {{oPedclteListaResult.Contenido.ClienteNombre}}
           </div>
+          <div class="col-md-3">
+            Fecha: {{ sPedidoFecha }}
+          </div>
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-secondary btn-sm" (click)="clicCerrarDetallePed()">Volver a Lista de
+              Pedidos</button>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
+        <div class="row mt-3">
 
-  <!-------------------- Tabla que presenta articulos del pedido ------------------->
-  <div class="container" id="DetallePedTable" #DetallePedTable>
-    <div class="table table-hover table-striped">
-      <thead class="thead-p">
-        <tr class="EncTabla">
-          <th scope="col">Lin</th>
-          <th scope="col">Modelo</th>
-          <th scope="col">Stat</th>
-          <th scope="col" class="col-fecha">Fec Ped</th>
-          <th scope="col" style="text-align:center">Pzas Pedido</th>
-          <th scope="col" style="text-align:center">Pzas Prod</th>
-          <th scope="col" style="text-align:center">Diferencia</th>
-          <th scope="col">Descripción</th>
-          <th scope="col" style="text-align:center">Tallas</th>
-          <!--
-          <th scope="col" style="text-align:center">3</th>
-          <th scope="col" style="text-align:center">3.5</th>
-          <th scope="col" style="text-align:center">4</th>
-          <th scope="col" style="text-align:center">4.5</th>
-          <th scope="col" style="text-align:center">5</th>
-          <th scope="col" style="text-align:center">5.5</th>
-          <th scope="col" style="text-align:center">6</th>
-          <th scope="col" style="text-align:center">6.5</th>
-          <th scope="col" style="text-align:center">7</th>
-          <th scope="col" style="text-align:center">7.5</th>
-          <th scope="col" style="text-align:center">8</th>
-          <th scope="col" style="text-align:center">8.5</th>
-          <th scope="col" style="text-align:center">9</th>
-          <th scope="col" style="text-align:center">9.5</th>
-          <th scope="col" style="text-align:center">10</th>
-          <th scope="col" style="text-align:center">10.5</th>
-          <th scope="col" style="text-align:center">11</th>
-          <th scope="col" style="text-align:center">11.5</th>
-          <th scope="col" style="text-align:center">12</th>
-          <th scope="col" style="text-align:center">12.5</th>
-          <th scope="col" style="text-align:center">13</th>
-          <th scope="col" style="text-align:center">13.5</th>
-          <th scope="col" style="text-align:center">14</th>
-          <th scope="col" style="text-align:center">14.5</th>
-          <th scope="col" style="text-align:center">15</th>
-          <th scope="col" style="text-align:center">15.5</th>
-          <th scope="col" style="text-align:center">MedX</th>
-          <th scope="col" style="text-align:center">CanX</th>
-          -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let det of pedidoDet; index as i">
-          <td class="FilasFonelli">{{det.ArticuloLinea}}</td>
-          <td class="FilasFonelli" style="width: 150px;">{{det.ArticuloCodigo}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.PedidoStatus}}</td>
-          <td class="FilasFonelli col-fecha" style="width: 120px;">{{det.FechaPedido}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.CantidadPedida}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.CantidadSurtida}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.CantidadPedida - det.CantidadSurtida}}</td>
-          <td class="FilasFonelli" style="width: 300px;">{{det.ArticuloDescripc}}</td>
-          <td class="FilasFonelli" style="text-align:center">
-            <div *ngIf="det.Medidas">
-              <button class="btn btn-light btn-sm" (click)="openModalMedidasPedclte(det)">
-                Ver tallas
-              </button>
+          <!-- TABS que muestran detalles del pedido -->
+          <ul class="nav nav-tabs" id="tabPedDet" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="ped-tab" data-bs-toggle="tab" data-bs-target="#ped-tab-pane"
+                type="button" role="tab" aria-controls="ped-tab-pane" aria-selected="true">Detalle</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="guias-tab" data-bs-toggle="tab" data-bs-target="#guias-tab-pane"
+                type="button" role="tab" aria-controls="guias-tab-pane" aria-selected="true">Guías</button>
+            </li>
+          </ul> <!-- .nav nav-tabs-->
+
+          <div class="tab-content mt-3" id="tabPedDetContent">
+            <div class="tab-pane fade show active" id="ped-tab-pane" role="tabpanel" role="tabpanel"
+              aria-labelledby="ped-tab" tabindex="0">
+              <!-------------------- Tabla que presenta articulos del pedido ------------------->
+              <div class="container" id="DetallePedTable" #DetallePedTable>
+                <div class="table table-hover table-striped">
+                  <thead class="thead-p">
+                    <tr class="EncTabla">
+                      <th scope="col">Lin</th>
+                      <th scope="col">Modelo</th>
+                      <th scope="col">Stat</th>
+                      <th scope="col" class="col-fecha">Fec Ped</th>
+                      <th scope="col" style="text-align:center">Pzas Pedido</th>
+                      <th scope="col" style="text-align:center">Pzas Prod</th>
+                      <th scope="col" style="text-align:center">Diferencia</th>
+                      <th scope="col">Descripción</th>
+                      <th scope="col" style="text-align:center">Tallas</th>
+                      <th scope="col">Ubicación</th>
+                      <!--
+                      <th scope="col" style="text-align:center">3</th>
+                      <th scope="col" style="text-align:center">3.5</th>
+                      <th scope="col" style="text-align:center">4</th>
+                      <th scope="col" style="text-align:center">4.5</th>
+                      <th scope="col" style="text-align:center">5</th>
+                      <th scope="col" style="text-align:center">5.5</th>
+                      <th scope="col" style="text-align:center">6</th>
+                      <th scope="col" style="text-align:center">6.5</th>
+                      <th scope="col" style="text-align:center">7</th>
+                      <th scope="col" style="text-align:center">7.5</th>
+                      <th scope="col" style="text-align:center">8</th>
+                      <th scope="col" style="text-align:center">8.5</th>
+                      <th scope="col" style="text-align:center">9</th>
+                      <th scope="col" style="text-align:center">9.5</th>
+                      <th scope="col" style="text-align:center">10</th>
+                      <th scope="col" style="text-align:center">10.5</th>
+                      <th scope="col" style="text-align:center">11</th>
+                      <th scope="col" style="text-align:center">11.5</th>
+                      <th scope="col" style="text-align:center">12</th>
+                      <th scope="col" style="text-align:center">12.5</th>
+                      <th scope="col" style="text-align:center">13</th>
+                      <th scope="col" style="text-align:center">13.5</th>
+                      <th scope="col" style="text-align:center">14</th>
+                      <th scope="col" style="text-align:center">14.5</th>
+                      <th scope="col" style="text-align:center">15</th>
+                      <th scope="col" style="text-align:center">15.5</th>
+                      <th scope="col" style="text-align:center">MedX</th>
+                      <th scope="col" style="text-align:center">CanX</th>
+-->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let det of pedidoDet; index as i">
+                      <td class="FilasFonelli">{{det.ArticuloLinea}}</td>
+                      <td class="FilasFonelli" style="width: 150px;">{{det.ArticuloCodigo}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.PedidoStatus}}</td>
+                      <td class="FilasFonelli col-fecha" style="width: 120px;">{{det.FechaPedido}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.CantidadPedida}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.CantidadSurtida}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.CantidadPedida - det.CantidadSurtida}}
+                      </td>
+                      <td class="FilasFonelli" style="width: 300px;">{{det.ArticuloDescripc}}</td>
+                      <td class="FilasFonelli" style="text-align:center">
+                        <div *ngIf="det.Medidas">
+                          <button class="btn btn-light btn-sm" (click)="openModalMedidasPedclte(det)">
+                            Ver tallas
+                          </button>
+                        </div>
+                        <div *ngIf="!det.Medidas">NA</div>
+                      </td>
+                      <td class="FilasFonelli" style="width: 200px;">{{det.UbicacProdNomb}}</td>
+                      <!--
+                      <td class="FilasFonelli" style="text-align:center">{{ det.cp3 === 0 ? '' : det.cp3}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp35 === 0 ? '' :
+                        det.cp35}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp4 === 0 ? '' : det.cp4}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp45 === 0 ? '' :
+                        det.cp45}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp5 === 0 ? '' : det.cp5}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp55 === 0 ? '' :
+                        det.cp55}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp6 === 0 ? '' : det.cp6}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp65 === 0 ? '' :
+                        det.cp65}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp7 === 0 ? '' : det.cp7}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp75 === 0 ? '' :
+                        det.cp75}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp8 === 0 ? '' : det.cp8}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp85 === 0 ? '' :
+                        det.cp85}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp9 === 0 ? '' : det.cp9}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp95 === 0 ? '' :
+                        det.cp95}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp10 === 0 ? '' : det.cp10}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp105 === 0 ? '' :
+                        det.cp105}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp11 === 0 ? '' : det.cp11}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp115 === 0 ? '' :
+                        det.cp115}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp12 === 0 ? '' : det.cp12}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp125 === 0 ? '' :
+                        det.cp125}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp13 === 0 ? '' : det.cp13}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp135 === 0 ? '' :
+                        det.cp13}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp14 === 0 ? '' : det.cp14}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp145 === 0 ? '' :
+                        det.cp145}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp15 === 0 ? '' : det.cp15}}
+                      </td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cp155 === 0 ? '' :
+                        det.cp155}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.mpx}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.cpx === 0 ? '' :
+                        det.cpx}}</td>
+-->
+                    </tr>
+                  </tbody>
+                </div>
+              </div> <!-- .container id="DetallePedTable" -->
             </div>
-            <div *ngIf="!det.Medidas">NA</div>
-          </td>
-          <!--
-          <td class="FilasFonelli" style="text-align:center">{{ det.cp3 === 0 ? '' : det.cp3}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp35 === 0 ? '' :
-            det.cp35}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp4 === 0 ? '' : det.cp4}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp45 === 0 ? '' :
-            det.cp45}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp5 === 0 ? '' : det.cp5}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp55 === 0 ? '' :
-            det.cp55}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp6 === 0 ? '' : det.cp6}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp65 === 0 ? '' :
-            det.cp65}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp7 === 0 ? '' : det.cp7}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp75 === 0 ? '' :
-            det.cp75}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp8 === 0 ? '' : det.cp8}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp85 === 0 ? '' :
-            det.cp85}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp9 === 0 ? '' : det.cp9}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp95 === 0 ? '' :
-            det.cp95}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp10 === 0 ? '' : det.cp10}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp105 === 0 ? '' :
-            det.cp105}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp11 === 0 ? '' : det.cp11}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp115 === 0 ? '' :
-            det.cp115}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp12 === 0 ? '' : det.cp12}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp125 === 0 ? '' :
-            det.cp125}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp13 === 0 ? '' : det.cp13}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp135 === 0 ? '' :
-            det.cp13}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp14 === 0 ? '' : det.cp14}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp145 === 0 ? '' :
-            det.cp145}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp15 === 0 ? '' : det.cp15}}
-          </td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cp155 === 0 ? '' :
-            det.cp155}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.mpx}}</td>
-          <td class="FilasFonelli" style="text-align:center">{{det.cpx === 0 ? '' :
-            det.cpx}}</td>
-            -->
-        </tr>
-      </tbody>
+            <div class="tab-pane fade" id="guias-tab-pane" role="tabpanel" role="tabpanel" aria-labelledby="guias-tab"
+              tabindex="0">
+              <!------------------------- Tabla que presenta GUIAS de paquetes enviados -------------------->
+              <div class="container" id="DetalleGuiasTable" #DetalleGuiasTable>
+                <div class="table table-hover table-striped">
+                  <thead class="thead-p">
+                    <tr class="EncTabla">
+                      <th scope="col">Guia</th>
+                      <th scope="col">Fecha Guia</th>
+                      <th scope="col">Fecha Rec</th>
+                      <th scope="col">Carrier</th>
+                      <th scope="col">Documento</th>
+                      <th scope="col">Fecha Exp</th>
+                      <th scope="col">Observaciones</th>
+                      <th scope="col" style="text-align:right">Importe</th>
+                      <th scope="col" style="text-align:center">Piezas</th>
+                      <th scope="col" style="text-align:right">Gramos</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let guia of pedidoGuias; index as i">
+                      <td class="FilasFonelli">{{ guia.GuiaFolio }}</td>
+                      <td class="FilasFonelli">{{ guia.GuiaFecha }}</td>
+                      <td class="FilasFonelli">{{ guia.GuiaFechaRec }}</td>
+                      <td class="FilasFonelli">{{ guia.CarrierId +'-'+ guia.CarrierNomb }}</td>
+                      <td class="FilasFonelli">{{ guia.DocSerie + ' ' + guia.DocFolio }}</td>
+                      <td class="FilasFonelli">{{ guia.DocFecExp }}</td>
+                      <td class="FilasFonelli">{{ guia.GuiaObservac }}</td>
+                      <td class="FilasFonelli" style="text-align:right">{{ guia.GuiaImporte + guia.GuiaIVA |
+                        number:'1.2-2'}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{ guia.GuiaPiezas }}</td>
+                      <td class="FilasFonelli" style="text-align:right">{{ guia.GuiaGramos | number:'1.2-2'}}</td>
+                    </tr>
+                  </tbody>
+                </div> <!-- .table -->
+              </div> <!-- .container id="DetalleGuiasTable"-->
+            </div>
+          </div> <!-- .tab-content-->
+
+        </div> <!-- .row -->
+      </div> <!-- .card-body -->
     </div>
   </div>
 

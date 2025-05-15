@@ -65,4 +65,9 @@ export interface PedidoArticulo {
   CantidadProducida: number;
   DiferenciaProducido: number;
   FechaProduccionArticulo: Date | null;
+  OrdProd: string;
+  OrdProdLetra: string;
+  OrdProdSobre: string;
+  UbicacProd: string;
+  UbicacProdNomb: string
 }
