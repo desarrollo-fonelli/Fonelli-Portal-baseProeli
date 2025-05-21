@@ -4,7 +4,9 @@ import {
   OnDestroy,
   ChangeDetectorRef,
   ElementRef,
-  ViewChild
+  ViewChild,
+  ViewChildren,
+  QueryList
 } from '@angular/core';
 
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -34,7 +36,7 @@ import { PedclteListaService } from 'src/app/services/pedclte-lista.service';
 
 // Datatables
 import { DataTableDirective } from 'angular-datatables';
-import { Subject } from 'rxjs';
+import { empty, Subject } from 'rxjs';
 
 // --------------------------------------------------- detalle de pedidos
 import { FiltrosPedclteDetalle } from 'src/app/models/pedclte-detalle.filtros';
@@ -44,6 +46,7 @@ import { PedidoArticulo } from 'src/app/models/pedclte-detalle';
 import { PedclteMedidasComponent } from '../pedclte-medidas/pedclte-medidas.component';
 import { PedclteGuias, PedidoGuia } from 'src/app/models/pedclte-guias';
 import { PedclteGuiasService } from '../../services/pedclte-guias.service';
+import { PedclteArticfactComponent } from '../pedclte-articfact/pedclte-articfact.component';
 // ---------------------------------------------------
 
 
@@ -70,11 +73,13 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
   sWidth: number;
   sHeight: number;
 
-  dtOptions: any = {};
-  dtTrigger: Subject<any> = new Subject();
-
-  @ViewChild(DataTableDirective)
-  dtElement: DataTableDirective;
+  // datatables
+  @ViewChildren(DataTableDirective)
+  datatableElementList: QueryList<DataTableDirective>;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger0: Subject<any> = new Subject();
+  dtTrigger1: Subject<any> = new Subject();
+  dtTrigger2: Subject<any> = new Subject();
 
   public isCollapsed = false;
   public bCliente: boolean;
@@ -183,14 +188,71 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
    */
   ngOnInit(): void {
 
-    this.dtOptions = {
+    // Tabla con Lista de Pedidos
+    this.dtOptions[0] = {
       pagingType: 'full_numbers',
       pageLength: 10,
       processing: true,
       order: [],
       ordering: false,
+      columnDefs: [
+        { orderable: false, targets: "_all" }   // aplica la opción a todas las columnas
+      ],
       dom: 'flBtip',
-      language: { url: "cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json" },
+      language: {
+        url: "cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
+      buttons: [
+        {
+          extend: 'excelHtml5',
+          title: 'Consulta de Pedidos',
+          text: '<p style="color: #f9f9f9; height: 9px;">Excel</p>',
+          className: 'btnExcel btn',
+        }
+      ]
+    };
+
+    // Tabla con Detalle del Pedido (artículos en el pedido)
+    this.dtOptions[1] = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      scrollX: true,
+      autoWidth: false, // evita que DataTables calcule anchos incorrectos
+      processing: true,
+      order: [],
+      ordering: false,
+      columnDefs: [
+        { orderable: false, targets: "_all" }   // aplica la opción a todas las columnas
+      ],
+      dom: 'flBtip',
+      language: {
+        emptyTable: 'No se encontraron registros',
+        url: "cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
+      buttons: [
+        {
+          extend: 'excelHtml5',
+          title: 'Consulta de Pedidos',
+          text: '<p style="color: #f9f9f9; height: 9px;">Excel</p>',
+          className: 'btnExcel btn',
+        }
+      ]
+    };
+
+    this.dtOptions[2] = {
+      pagingType: 'full_numbers',
+      pageLength: 10,
+      processing: true,
+      order: [],
+      ordering: false,
+      columnDefs: [
+        { orderable: false, targets: "_all" }   // aplica la opción a todas las columnas
+      ],
+      dom: 'flBtip',
+      language: {
+        emptyTable: 'No se encontraron registros',
+        url: "cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+      },
       buttons: [
         {
           extend: 'excelHtml5',
@@ -290,6 +352,10 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
       this.oContacto = this.oCliente.Contenido[0].Contactos;
     }
 
+    this.dtTrigger0.next("");
+    this.dtTrigger1.next("");
+    this.dtTrigger2.next("");
+
   }
 
   /**
@@ -304,6 +370,8 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
 
     this.bBandera = false;
     this.bCargando = true;
+
+    this.MostrarArticulos = false;  // Container que muestra el detalle de pedidos
 
     // Llamada al servicio que obtiene la lista de pedidos
     this._pedclteListaService.Get(this.oFiltros).subscribe(
@@ -334,13 +402,26 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
         this.bCargando = false;
         this.isCollapsed = true;
 
-
+        /*
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
           // destruye la tabla primero
           dtInstance.destroy();
           // llama el dtTrigger para renderizar otra vez
           this.dtTrigger.next("");
         });
+        */
+
+        // datos nuevos, se destruyen las instancias y despues
+        // se llama el dttrigger para renderizar otra vez 
+
+        $("#tabla2").DataTable().destroy();
+        this.dtTrigger2.next("");
+
+        $("#tabla1").DataTable().destroy();
+        this.dtTrigger1.next("");
+
+        $("#tabla0").DataTable().destroy();
+        this.dtTrigger0.next("");
 
       },
       (error: ConsultaPedido) => {
@@ -546,9 +627,6 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.oFiltrosPedclteDetalle.PedidoLetra = 'C';
     this.oFiltrosPedclteDetalle.PedidoFolio = Number(this.sPedidoFolio);
 
-    this.pedidoDet = [];
-    this.pedidoGuias = [];
-
     //Realizamos llamada al servicio de pedidos
     this._pedclteDetalleService.Get(this.oFiltrosPedclteDetalle).subscribe(
       (Response: PedclteDetalle) => {
@@ -593,8 +671,21 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
 
             this.sMensaje = '';
 
+            // datos nuevos, se destruyen las instancias y despues
+            // se llama el dttrigger para renderizar otra vez 
+            $("#tabla2").DataTable().destroy();
+            this.dtTrigger2.next("");
+
           }
         );
+
+        // datos nuevos, se destruyen las instancias y despues
+        // se llama el dttrigger para renderizar otra vez 
+        $("#tabla2").DataTable().destroy();
+        this.dtTrigger2.next("");
+
+        $("#tabla1").DataTable().destroy();
+        this.dtTrigger1.next("");
 
       },
       (error: PedclteDetalle) => {
@@ -602,6 +693,8 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
         this.sMensaje = 'No se encontro detalle de pedido';
         //console.log('error');
         console.log(this.oPedclteDetalleResult);
+        this.pedidoDet = [];
+        this.pedidoGuias = [];
       }
     );
 
@@ -658,14 +751,18 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
+    this.dtTrigger0.unsubscribe();
+    this.dtTrigger1.unsubscribe();
+    this.dtTrigger2.unsubscribe();
   }
 
   /**
    * ngAfterViewInit
    */
   ngAfterViewInit(): void {
-    this.dtTrigger.next("");
+    this.dtTrigger0.next("");
+    this.dtTrigger1.next("");
+    this.dtTrigger2.next("");
   }
 
   /**
@@ -674,8 +771,18 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
    */
   clicDetallePed(ped: any): void {
 
-    console.log(ped.PedidoFolio);
-    //this.pedidoDet = [];
+    //console.log(ped.PedidoFolio);
+
+    this.pedidoDet = [];
+    this.pedidoGuias = [];
+
+    // destruyo las tabblas y las renderizo sin datos para que no 
+    // se dupliquen las filas en caso de repetir la consulta
+    $("#tabla2").DataTable().destroy();
+    this.dtTrigger2.next("");
+    $("#tabla1").DataTable().destroy();
+    this.dtTrigger1.next("");
+
     this.ConsultaPedidoDetalle(ped);
 
     this.bBandera = false;
@@ -691,9 +798,21 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.bBandera = true;
   }
 
-  openModalMedidasPedclte(articulo: any) {
+  OpenModalMedidasPedclte(articulo: any) {
     const modalRef = this.modalService.open(PedclteMedidasComponent, { size: 'sm' });
     modalRef.componentInstance.articulo = articulo;
   }
+
+  /**
+  * Muestra articulos incluidos en el documento de venta asociado
+  * a la guia seleccionada
+  */
+  OpenModalArticFact(guia: any) {
+    //const modalRef = this.modalService.open(PedclteArticfactComponent, { size: 'lg', centered: true });
+    const modalRef = this.modalService.open(PedclteArticfactComponent, { size: 'lg' });
+    modalRef.componentInstance.guia = guia;
+    modalRef.componentInstance.oFiltros = this.oFiltros;
+  }
+
 
 }

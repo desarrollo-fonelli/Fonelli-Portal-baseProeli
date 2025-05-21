@@ -23,6 +23,7 @@ export interface PedidoArticulo {
   PedidoStatus: string;
   ArticuloCategoria: string;
   ArticuloSubcategoria: string;
+  IntExt: string;
   FechaPedido: Date;
   CantidadPedida: number;
   FechaSurtido: Date;
@@ -60,11 +61,13 @@ export interface PedidoArticulo {
   cp155: number;
   mpx: string;
   cpx: number;
+  PzasCompra: number;
   FechaPedidoProduccion: Date | null;
   CantidadPedidoProduccion: number;
   CantidadProducida: number;
   DiferenciaProducido: number;
   FechaProduccionArticulo: Date | null;
+  SumaPzasProdCompra: number;   // suma lo producido y lo comprado
   OrdProd: string;
   OrdProdLetra: string;
   OrdProdSobre: string;

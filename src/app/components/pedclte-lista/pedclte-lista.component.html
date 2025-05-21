@@ -105,7 +105,7 @@
 </div>
 <!-- Fin Criterios de filtro -->
 
-<!------- Formulario con encabezado y tabla con resumen de Pedidos de Venta ------->
+<!------- Formulario con encabezado y tabla con la Lista de Pedidos de Venta ------->
 <div class="container float-left" [hidden]="!bBandera">
   <br>
   <h3 style="text-align: center; font-size:xx-large;">Número
@@ -114,8 +114,9 @@
   </h3>
 
   <!--------------------- Tabla que presenta LISTA DE PEDIDOS --------------------->
-  <div class="container" id="pdfTable" #pdfTable>
-    <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+  <div id="pdfTable" #pdfTable>
+    <table id="tabla0" class="table table-hover table-striped" datatable [dtOptions]="dtOptions[0]"
+      [dtTrigger]="dtTrigger0">
       <thead class="thead-p">
         <tr class="EncTabla">
           <!-- <th style="background-color: #24a4cc; color: white;" scope="col">#</th> -->
@@ -139,11 +140,10 @@
         </tr>
       </thead>
       <tbody>
-        <!--  (click)="openPedidoDetalle(PedidoDetalle,ped.PedidoFolio)" -->
-        <tr *ngFor="let ped of pedido ; index as i" (click)="clicDetallePed(ped)">
+        <tr *ngFor="let ped of pedido ; index as i">
           <!-- <th scope="row">{{ i + 1 }}</th> -->
           <td class="FilasFonelli">{{ ped.OficinaFonelliCodigo}}</td>
-          <td class="FilasFonelli"> <u>{{ped.PedidoFolio}}</u> </td>
+          <td class="FilasFonelli text-primary" (click)="clicDetallePed(ped)"> <u>{{ped.PedidoFolio}}</u> </td>
           <td class="FilasFonelli" style="text-align:left">{{ ped.Status}}</td>
           <td class="FilasFonelli col-fecha">{{ ped.FechaPedido}}</td>
           <td class="FilasFonelli col-fecha">{{ ped.FechaCancelacion}}</td>
@@ -242,17 +242,25 @@
 
 </ng-template>
 
-<!-----------------------   Tabla con articulos del pedido   ---------------------->
+<!----------------   Contenedor para Tabla con articulos del pedido   ------------->
 <div class="container float-left" [hidden]="!MostrarArticulos">
   <br>
 
-  <!------------------------- Datos generales del pedido -------------------------->
+  <!------------------------------ Datos del pedido -------------------------->
   <div class="container mt-6">
     <div class="card">
       <div class="card-header">
         <div class="card-title">
-          <div class="h5 pt-2">Detalle del Pedido: <strong>{{ sPedidoFolio }}</strong></div>
-        </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="h5 pt-2">Detalle del Pedido: <strong>{{ sPedidoFolio }}</strong></div>
+            </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-link" (click)="clicCerrarDetallePed()">
+                Volver a Lista de Pedidos</button>
+            </div>
+          </div>
+        </div> <!-- .card-title -->
       </div>
       <div class="card-body">
         <div class="row">
@@ -263,10 +271,6 @@
           </div>
           <div class="col-md-3">
             Fecha: {{ sPedidoFecha }}
-          </div>
-          <div class="col-md-3">
-            <button type="submit" class="btn btn-secondary btn-sm" (click)="clicCerrarDetallePed()">Volver a Lista de
-              Pedidos</button>
           </div>
         </div>
         <div class="row mt-3">
@@ -286,51 +290,88 @@
           <div class="tab-content mt-3" id="tabPedDetContent">
             <div class="tab-pane fade show active" id="ped-tab-pane" role="tabpanel" role="tabpanel"
               aria-labelledby="ped-tab" tabindex="0">
+
+
+
+              <div style="overflow-x: auto;">
+                <table id="miTabla" class="display nowrap" style="width:100%">
+                  <!-- encabezados y cuerpo -->
+                </table>
+              </div>
+
+
+
+
               <!-------------------- Tabla que presenta articulos del pedido ------------------->
-              <div class="container" id="DetallePedTable" #DetallePedTable>
-                <div class="table table-hover table-striped">
+              <!-- 
+                overflow-x: auto ... barra horizontal de desplazamiento, tambien hay que inicializarlo en el datatable
+                display nowrap   ... necesario para que no se estrechen las columnas
+                style=width:100% ... necesario para que funcione bien la barra de desplazamiento
+              -->
+              <div class="container" id="DetallePedTable" #DetallePedTable style="overflow-x: auto;">
+                <table id="tabla1" class="table table-hover table-sm table-striped display nowrap" datatable
+                  [dtOptions]="dtOptions[1]" [dtTrigger]="dtTrigger1" style="width:100%">
                   <thead class="thead-p">
                     <tr class="EncTabla">
-                      <th scope="col">Lin</th>
-                      <th scope="col">Modelo</th>
-                      <th scope="col">Stat</th>
-                      <th scope="col" class="col-fecha">Fec Ped</th>
-                      <th scope="col" style="text-align:center">Pzas Pedido</th>
-                      <th scope="col" style="text-align:center">Pzas Prod</th>
-                      <th scope="col" style="text-align:center">Diferencia</th>
-                      <th scope="col">Descripción</th>
-                      <th scope="col" style="text-align:center">Tallas</th>
-                      <th scope="col">Ubicación</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col">Lin</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col">Modelo</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col">Stat</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" class="col-fecha">Fec Ped</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">Pzas
+                        Pedido</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">Pzas
+                        Prod</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">
+                        Diferencia</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col">Descripción</th>
                       <!--
-                      <th scope="col" style="text-align:center">3</th>
-                      <th scope="col" style="text-align:center">3.5</th>
-                      <th scope="col" style="text-align:center">4</th>
-                      <th scope="col" style="text-align:center">4.5</th>
-                      <th scope="col" style="text-align:center">5</th>
-                      <th scope="col" style="text-align:center">5.5</th>
-                      <th scope="col" style="text-align:center">6</th>
-                      <th scope="col" style="text-align:center">6.5</th>
-                      <th scope="col" style="text-align:center">7</th>
-                      <th scope="col" style="text-align:center">7.5</th>
-                      <th scope="col" style="text-align:center">8</th>
-                      <th scope="col" style="text-align:center">8.5</th>
-                      <th scope="col" style="text-align:center">9</th>
-                      <th scope="col" style="text-align:center">9.5</th>
-                      <th scope="col" style="text-align:center">10</th>
-                      <th scope="col" style="text-align:center">10.5</th>
-                      <th scope="col" style="text-align:center">11</th>
-                      <th scope="col" style="text-align:center">11.5</th>
-                      <th scope="col" style="text-align:center">12</th>
-                      <th scope="col" style="text-align:center">12.5</th>
-                      <th scope="col" style="text-align:center">13</th>
-                      <th scope="col" style="text-align:center">13.5</th>
-                      <th scope="col" style="text-align:center">14</th>
-                      <th scope="col" style="text-align:center">14.5</th>
-                      <th scope="col" style="text-align:center">15</th>
-                      <th scope="col" style="text-align:center">15.5</th>
-                      <th scope="col" style="text-align:center">MedX</th>
-                      <th scope="col" style="text-align:center">CanX</th>
--->
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">Tallas</th>
+                        -->
+                      <th style="background-color: #24a4cc; color: white;" scope="col">Ubicación</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">3</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">3.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">4</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">4.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">5</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">5.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">6</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">6.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">7</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">7.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">8</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">8.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">9</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">9.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">10</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">10.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">11</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">11.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">12</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">12.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">13</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">13.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">14</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">14.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">15</th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">15.5
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">MedX
+                      </th>
+                      <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">CanX
+                      </th>
+
                     </tr>
                   </thead>
                   <tbody>
@@ -340,20 +381,29 @@
                       <td class="FilasFonelli" style="text-align:center">{{det.PedidoStatus}}</td>
                       <td class="FilasFonelli col-fecha" style="width: 120px;">{{det.FechaPedido}}</td>
                       <td class="FilasFonelli" style="text-align:center">{{det.CantidadPedida}}</td>
-                      <td class="FilasFonelli" style="text-align:center">{{det.CantidadSurtida}}</td>
-                      <td class="FilasFonelli" style="text-align:center">{{det.CantidadPedida - det.CantidadSurtida}}
+                      <td class="FilasFonelli" style="text-align:center">{{det.SumaPzasProdCompra}}</td>
+                      <td class="FilasFonelli" style="text-align:center">{{det.CantidadPedida - det.SumaPzasProdCompra}}
                       </td>
                       <td class="FilasFonelli" style="width: 300px;">{{det.ArticuloDescripc}}</td>
+                      <!--
                       <td class="FilasFonelli" style="text-align:center">
                         <div *ngIf="det.Medidas">
-                          <button class="btn btn-light btn-sm" (click)="openModalMedidasPedclte(det)">
+                          <button class="btn btn-light btn-sm" (click)="OpenModalMedidasPedclte(det)">
                             Ver tallas
                           </button>
                         </div>
-                        <div *ngIf="!det.Medidas">NA</div>
+                        <div *ngIf="!det.Medidas">n/a</div>
                       </td>
-                      <td class="FilasFonelli" style="width: 200px;">{{det.UbicacProdNomb}}</td>
-                      <!--
+                      -->
+                      <td class="FilasFonelli" style="width: 200px;">
+                        <div *ngIf="det.IntExt=='I'">
+                          {{det.UbicacProdNomb}}
+                        </div>
+                        <div *ngIf="det.IntExt=='E'">
+                          externo
+                        </div>
+                      </td>
+
                       <td class="FilasFonelli" style="text-align:center">{{ det.cp3 === 0 ? '' : det.cp3}}
                       </td>
                       <td class="FilasFonelli" style="text-align:center">{{det.cp35 === 0 ? '' :
@@ -410,17 +460,19 @@
                       <td class="FilasFonelli" style="text-align:center">{{det.mpx}}</td>
                       <td class="FilasFonelli" style="text-align:center">{{det.cpx === 0 ? '' :
                         det.cpx}}</td>
--->
+
                     </tr>
                   </tbody>
-                </div>
+                </table>
               </div> <!-- .container id="DetallePedTable" -->
             </div>
+
+            <!------------------------- Tabla que presenta GUIAS de paquetes enviados -------------------->
             <div class="tab-pane fade" id="guias-tab-pane" role="tabpanel" role="tabpanel" aria-labelledby="guias-tab"
               tabindex="0">
-              <!------------------------- Tabla que presenta GUIAS de paquetes enviados -------------------->
               <div class="container" id="DetalleGuiasTable" #DetalleGuiasTable>
-                <div class="table table-hover table-striped">
+                <table id="tabla2" class="table table-hover table-striped table-sm display nowrap" datatable
+                  [dtOptions]="dtOptions[2]" [dtTrigger]="dtTrigger2" style="width:100%">
                   <thead class="thead-p">
                     <tr class="EncTabla">
                       <th scope="col">Guia</th>
@@ -438,21 +490,22 @@
                   <tbody>
                     <tr *ngFor="let guia of pedidoGuias; index as i">
                       <td class="FilasFonelli">{{ guia.GuiaFolio }}</td>
-                      <td class="FilasFonelli">{{ guia.GuiaFecha }}</td>
-                      <td class="FilasFonelli">{{ guia.GuiaFechaRec }}</td>
-                      <td class="FilasFonelli">{{ guia.CarrierId +'-'+ guia.CarrierNomb }}</td>
-                      <td class="FilasFonelli">{{ guia.DocSerie + ' ' + guia.DocFolio }}</td>
-                      <td class="FilasFonelli">{{ guia.DocFecExp }}</td>
-                      <td class="FilasFonelli">{{ guia.GuiaObservac }}</td>
+                      <td class="FilasFonelli col-fecha" style="width: 120px;">{{ guia.GuiaFecha }}</td>
+                      <td class="FilasFonelli col-fecha" style="width: 120px;">{{ guia.GuiaFechaRec }}</td>
+                      <td class="FilasFonelli" style="width: 120px;">{{ guia.CarrierId +'-'+ guia.CarrierNomb }}</td>
+                      <td class="FilasFonelli text-primary" (click)="OpenModalArticFact(guia)"><u>{{
+                          guia.DocSerie + ' ' + guia.DocFolio}}</u></td>
+                      <td class="FilasFonelli col-fecha" style="width: 120px;">{{ guia.DocFecExp }}</td>
+                      <td class="FilasFonelli" style="width: 260px;">{{ guia.GuiaObservac }}</td>
                       <td class="FilasFonelli" style="text-align:right">{{ guia.GuiaImporte + guia.GuiaIVA |
                         number:'1.2-2'}}</td>
                       <td class="FilasFonelli" style="text-align:center">{{ guia.GuiaPiezas }}</td>
                       <td class="FilasFonelli" style="text-align:right">{{ guia.GuiaGramos | number:'1.2-2'}}</td>
                     </tr>
                   </tbody>
-                </div> <!-- .table -->
+                </table> <!-- .table -->
               </div> <!-- .container id="DetalleGuiasTable"-->
-            </div>
+            </div> <!-- .tab-pane id="guias-tab-pane"-->
           </div> <!-- .tab-content-->
 
         </div> <!-- .row -->

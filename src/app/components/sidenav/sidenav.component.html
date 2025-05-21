@@ -38,6 +38,7 @@
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="64" [opened]="mobileQuery.matches ? 'false' : 'true'" style="width:260px;">
 
+      <!------------ Items de menú para Distribuidores (CLIENTES) ------------>
       <mat-nav-list *ngIf="bCliente" nav-list (click)="toggle(snav)">
         <a mat-list-item [routerLink]="['/distribuidores/inicio/']" routerLinkActive="active-list-item"> <span
             class="font_side">Inicio</span></a>
@@ -63,6 +64,7 @@
             class="font_side_ic">Catálogo interactivo </span></a> -->
       </mat-nav-list>
 
+      <!------------ Items de menú para Asesores y Gerentes de Venta ------------>
       <mat-nav-list *ngIf="!bCliente" nav-list (click)="toggle(snav)">
         <a mat-list-item [routerLink]="['/asesores/inicio/']" routerLinkActive="active-list-item"> <span
             class="font_side">Inicio</span></a>
@@ -72,8 +74,13 @@
             class="font_side">Datos de clientes</span></a>
         <a mat-list-item [routerLink]="['/asesores/consultaprecios/']" routerLinkActive="active-list-item"><span
             class="font_side">Consulta de precios</span></a>
-        <a mat-list-item [routerLink]="['/asesores/consultapedidos/']" routerLinkActive="active-list-item"><span
+        <!--
+            <a mat-list-item [routerLink]="['/asesores/consultapedidos/']" routerLinkActive="active-list-item"><span
             class="font_side">Consulta de pedidos</span></a>
+          -->
+        <a mat-list-item [routerLink]="['/asesores/pedclte-lista/']" routerLinkActive="active-list-item"><span
+            class="font_side">Consulta de pedidos</span></a>
+
         <a mat-list-item [routerLink]="['/asesores/relacionpedidos/']" routerLinkActive="active-list-item"><span
             class="font_side">Relación de pedidos</span></a>
         <a mat-list-item [routerLink]="['/asesores/estadocuenta/']" routerLinkActive="active-list-item"><span
@@ -93,10 +100,10 @@
         <a mat-list-item [routerLink]="['/asesores/consultaexistencias/']" routerLinkActive="active-list-item"><span
             class="font_side">Consulta de Existencias</span></a>
 
-
-        <a mat-list-item [routerLink]="['/asesores/pedclte-lista/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de pedidos</span></a>
-
+        <!--
+        <a mat-list-item [routerLink]="['/asesores/testdr2/']" routerLinkActive="active-list-item"><span
+            class="font_side">Test2 dRendon</span></a>
+        -->
 
         <!--
         <a mat-list-item [routerLink]="['/asesores/guias/']" routerLinkActive="active-list-item"><span

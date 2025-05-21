@@ -2,6 +2,15 @@
 ## Control de Cambios
 
 ----------
+## v2.3.3 | 2025-05-21 | Consulta de Pedidos DETALLE - Tercera iteración
+### Cambios
+1. Se revisa la obtención de las piezas producidas.
+   (si no hay piezas producidas debe aparecer la ubicación).
+2. La tabla de guías debe permitir consultar los artículos que contiene el documento de venta.
+3. Se aplican caracteristicas de datatables a todas las tablas del formulario
+4. Se debe generar una hoja de Excel con los artículos del pedido, mostrando las piezas por cada medida.
+
+----------
 ## v2.3.2 | 2025-05-14 | Consulta de Pedidos DETALLE - Segunda iteración
 #### Cambios
 1. Se agrega TAB para mostrar guias de paquetes enviados por pedido. Se crean modelo y se modifica plantilla HTML.

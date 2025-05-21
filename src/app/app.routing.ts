@@ -31,6 +31,11 @@ import { CatalogointeractivoComponent } from './components/catalogointeractivo/c
 import { PedclteListaComponent } from "./components/pedclte-lista/pedclte-lista.component";
 import { PedclteListadetaComponent } from "./components/pedclte-listadeta/pedclte-listadeta.component";
 
+// componentes para pruebas: descartar en versión de producción ---------------------------------------
+import { TestdrComponent } from "./components/testdr/testdr.component";
+import { Testdr2Component } from "./components/testdr2/testdr2.component";
+// componentes para pruebas: descartar en versión de producción ---------------------------------------
+
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'catalogointeractivo', component: CatalogointeractivoComponent },
@@ -78,7 +83,9 @@ const appRoutes: Routes = [
       { path: 'consultaexistencias', component: ConsultaexistenciasComponent },
       { path: 'tabla', component: EncabezadoComponent },
       { path: 'pedclte-lista', component: PedclteListaComponent },
-      { path: 'pedclte-listadeta', component: PedclteListadetaComponent }
+      { path: 'pedclte-listadeta', component: PedclteListadetaComponent },
+      { path: 'testdr', component: TestdrComponent },
+      { path: 'testdr2', component: Testdr2Component }
     ],
   },
 

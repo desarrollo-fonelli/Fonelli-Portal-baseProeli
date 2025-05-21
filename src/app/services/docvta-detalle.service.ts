@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Configuracion } from "src/app/models/configuraciones";
 import { environment } from '../../environments/environment';
-import { Usuario } from '../models/usuario';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class PedclteDetalleService {
+export class DocvtaDetalleService {
   public API: string;
   public API_URL: string;
   public sFiltros: string;
@@ -21,10 +21,13 @@ export class PedclteDetalleService {
     this.API_URL = environment.API_URL;
     this.sFiltros = '';
     this.sToken = sessionStorage.getItem('token');
+
   }
 
-  Get(FiltrosPedclteDetallePedido: any): Observable<any> {
-    let llamada: string;
+  Get(PedclteListaFiltros: any, DocSerie: string, DocFolio: string): Observable<any> {
+
+    // Este servicio usa los mismos filtros indicados al iniciar la consulta
+    // y adicionalmente debe recibir la serie y folio del documento de venta
 
     let headers = new HttpHeaders().set('Content-Type', 'application-json')
       .set("Access-Control-Allow-Origin", "*")
@@ -33,19 +36,20 @@ export class PedclteDetalleService {
       .set("Auth", this.sToken)
       .set("Access-Control-Allow-Credentials", "true");
 
-    this.sFiltros = '';
-    this.sFiltros += 'TipoUsuario=' + FiltrosPedclteDetallePedido.TipoUsuario;
-    this.sFiltros += '&ClienteCodigo=' + FiltrosPedclteDetallePedido.ClienteCodigo;
-    this.sFiltros += '&ClienteFilial=' + FiltrosPedclteDetallePedido.ClienteFilial;
-    this.sFiltros += '&PedidoLetra=' + FiltrosPedclteDetallePedido.PedidoLetra;
-    this.sFiltros += '&PedidoFolio=' + FiltrosPedclteDetallePedido.PedidoFolio;
+    //console.table(PedclteListaFiltros);
 
-    if (FiltrosPedclteDetallePedido.Usuario) {
-      this.sFiltros += '&Usuario=' + FiltrosPedclteDetallePedido.Usuario;
+    this.sFiltros = '';
+    if (PedclteListaFiltros.Usuario) {
+      this.sFiltros += 'Usuario=' + PedclteListaFiltros.Usuario;
     }
+    this.sFiltros += '&TipoUsuario=' + PedclteListaFiltros.TipoUsuario;
+    this.sFiltros += '&ClienteCodigo=' + PedclteListaFiltros.ClienteCodigo;
+    this.sFiltros += '&ClienteFilial=' + PedclteListaFiltros.ClienteFilial;
+    this.sFiltros += '&DocSerie=' + DocSerie;
+    this.sFiltros += '&DocFolio=' + DocFolio;
 
     return this._http.get(this.API_URL + this.API +
-      'reportes/DetallePed2025.php?' + this.sFiltros,
+      'reportes/DocVentaDetalle.php?' + this.sFiltros,
       { headers: headers });
   }
 
