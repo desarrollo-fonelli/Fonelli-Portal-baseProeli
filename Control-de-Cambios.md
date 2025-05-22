@@ -2,6 +2,13 @@
 ## Control de Cambios
 
 ----------
+## v2.3.4 | 2025-05-22 | Consulta de Pedidos DETALLE - Cuarta iteración
+### Cambios
+1. Se aplica restricción para que distribuidores no vean la "ubicación" del artículo en las áreas de producción.
+2. La columna "Ubicación" no se incluye en el excel exportado
+2. Se incluye ítem para consulta de pedidos en menú de distribuidores.
+
+----------
 ## v2.3.3 | 2025-05-21 | Consulta de Pedidos DETALLE - Tercera iteración
 ### Cambios
 1. Se revisa la obtención de las piezas producidas.

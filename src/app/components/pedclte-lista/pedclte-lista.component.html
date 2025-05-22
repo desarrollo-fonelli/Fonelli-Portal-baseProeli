@@ -49,13 +49,15 @@
         </div>
 
         <!-- Orden de Compra -->
-        <div class="form-row">
-          <div class="form-group col-md-3">
-            <label class="CamposFonelli" for="">Orden de Compra</label>
-            <input type="text" id="idOrdCompFiltro" class="form-control" name="idOrdCompFiltro" #nombre="ngModel"
-              [(ngModel)]="oFiltros.OrdCompBuscar" />
+        <ng-container *ngIf="!bCliente">
+          <div class="form-row">
+            <div class="form-group col-md-3">
+              <label class="CamposFonelli" for="">Orden de Compra</label>
+              <input type="text" id="idOrdCompFiltro" class="form-control" name="idOrdCompFiltro" #nombre="ngModel"
+                [(ngModel)]="oFiltros.OrdCompBuscar" />
+            </div>
           </div>
-        </div>
+        </ng-container>
 
         <!-- Botones de radio para definir Status -->
         <div class="row">
@@ -82,6 +84,19 @@
             </div>
           </div>
         </div>
+
+        <!-- checkbox para mostrar ubicación-->
+        <!--
+        <div class="form-row">
+          <div class="form-group col-auto">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="idMostrarUbicacion" #nombre="ngModel"
+                [(ngModel)]="oFiltros.MostrarUbicacion" />
+              <label for="idMostrarUbicacion">Mostrar Ubicación en Producción</label>
+            </div>
+          </div>
+        </div>
+        -->
 
         <div *ngIf="sMensaje">
           <p class="alert alert-danger" role="alert">{{ sMensaje }}</p>
@@ -253,11 +268,11 @@
         <div class="card-title">
           <div class="row">
             <div class="col-md-4">
-              <div class="h5 pt-2">Detalle del Pedido: <strong>{{ sPedidoFolio }}</strong></div>
-            </div>
-            <div class="col-md-2">
               <button type="submit" class="btn btn-link" (click)="clicCerrarDetallePed()">
                 Volver a Lista de Pedidos</button>
+            </div>
+            <div class="col-md-4">
+              <div class="h5 pt-2">Detalle del Pedido: <strong>{{ sPedidoFolio }}</strong></div>
             </div>
           </div>
         </div> <!-- .card-title -->
@@ -265,12 +280,26 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-4">
-            Cliente:
-            {{oPedclteListaResult.Contenido.ClienteCodigo}}-{{oPedclteListaResult.Contenido.ClienteFilial}}
-            {{oPedclteListaResult.Contenido.ClienteNombre}}
+            Cliente:<strong>
+              {{oPedclteListaResult.Contenido.ClienteCodigo}}-{{oPedclteListaResult.Contenido.ClienteFilial}}
+              {{oPedclteListaResult.Contenido.ClienteNombre}}</strong>
           </div>
           <div class="col-md-3">
-            Fecha: {{ sPedidoFecha }}
+            Fecha: <strong>{{ sPedidoFecha }}</strong>
+          </div>
+          <div class="col-md-3">
+            Orden de Compra: <strong>{{ oPed.OrdenCompra }}</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            {{ oDatosGenerales.Sucursal }}
+          </div>
+          <div class="col-md-3">
+            Fecha Canc: <strong>{{ oPed.FechaCancelacion }}</strong>
+          </div>
+          <div class="col-md-3">
+            Tienda Destino: <strong>{{ oPed.TiendaDestino }}</strong>
           </div>
         </div>
         <div class="row mt-3">
@@ -290,17 +319,6 @@
           <div class="tab-content mt-3" id="tabPedDetContent">
             <div class="tab-pane fade show active" id="ped-tab-pane" role="tabpanel" role="tabpanel"
               aria-labelledby="ped-tab" tabindex="0">
-
-
-
-              <div style="overflow-x: auto;">
-                <table id="miTabla" class="display nowrap" style="width:100%">
-                  <!-- encabezados y cuerpo -->
-                </table>
-              </div>
-
-
-
 
               <!-------------------- Tabla que presenta articulos del pedido ------------------->
               <!-- 
@@ -327,7 +345,12 @@
                       <!--
                       <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">Tallas</th>
                         -->
-                      <th style="background-color: #24a4cc; color: white;" scope="col">Ubicación</th>
+
+                      <!-- <th class="no-export" style="background-color: #24a4cc; color: white;" scope="col">Ubicación</th> -->
+                      <!-- <th class="no-export" [hidden]="!oFiltros.MostrarUbicacion" -->
+                      <th class="no-export" [hidden]="!oFiltros.MostrarUbicacion"
+                        style="background-color: #24a4cc; color: white;" scope="col">Ubicación</th>
+
                       <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">3</th>
                       <th style="background-color: #24a4cc; color: white;" scope="col" style="text-align:center">3.5
                       </th>
@@ -395,7 +418,9 @@
                         <div *ngIf="!det.Medidas">n/a</div>
                       </td>
                       -->
-                      <td class="FilasFonelli" style="width: 200px;">
+
+                      <!-- <td [hidden]="!oFiltros.MostrarUbicacion" class="FilasFonelli" style="width: 200px;"> -->
+                      <td class="FilasFonelli no-export" [hidden]="!oFiltros.MostrarUbicacion" style="width: 200px;">
                         <div *ngIf="det.IntExt=='I'">
                           {{det.UbicacProdNomb}}
                         </div>
@@ -480,7 +505,7 @@
                       <th scope="col">Fecha Rec</th>
                       <th scope="col">Carrier</th>
                       <th scope="col">Documento</th>
-                      <th scope="col">Fecha Exp</th>
+                      <th scope="col">Fecha Exped</th>
                       <th scope="col">Observaciones</th>
                       <th scope="col" style="text-align:right">Importe</th>
                       <th scope="col" style="text-align:center">Piezas</th>

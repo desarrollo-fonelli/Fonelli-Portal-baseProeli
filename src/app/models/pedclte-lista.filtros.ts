@@ -6,6 +6,7 @@ export class PedclteListaFiltros {
     public ClienteFilial: number | null,
     public PedidoBuscar: number | null,
     public OrdCompBuscar: string | null,
-    public Status: string
+    public Status: string,
+    public MostrarUbicacion: boolean
   ) { }
 }

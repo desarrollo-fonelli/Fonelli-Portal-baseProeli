@@ -122,6 +122,16 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
   sPedidoFolio: string;
   sPedidoFecha: string;
 
+  // Voy a crear un objeto en vez de usar un modelo para no tener
+  // que modificar el codigo heredado. Este objeto lo voy a usar para
+  // usar sus atributos en la plantilla HTML
+  oPed: any = {
+    PedidoLetra: "", PedidoFolio: "", OficinaFonelliCodigo: "",
+    Status: "", FechaPedido: "", FechaCancelacion: "",
+    OrdenCompra: "", TiendaDestino: ""
+  }
+
+
   // -------------------------------------------------------
 
   /**
@@ -165,7 +175,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.oContacto = {} as Contactos;
 
     // Consulta lista de pedidos
-    this.oFiltros = new PedclteListaFiltros('', 0, 0, 0, 0, '', '');
+    this.oFiltros = new PedclteListaFiltros('', 0, 0, 0, 0, '', '', false);
     this.oPedclteListaResult = {} as ConsultaPedido;
     this.oPedclteListaResult.Contenido = {} as ConPed;
     //this.oFilaPedido = [];
@@ -205,7 +215,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
       buttons: [
         {
           extend: 'excelHtml5',
-          title: 'Consulta de Pedidos',
+          title: 'Lista de Pedidos',
           text: '<p style="color: #f9f9f9; height: 9px;">Excel</p>',
           className: 'btnExcel btn',
         }
@@ -232,9 +242,12 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
       buttons: [
         {
           extend: 'excelHtml5',
-          title: 'Consulta de Pedidos',
+          title: 'Detalle del Pedido',
           text: '<p style="color: #f9f9f9; height: 9px;">Excel</p>',
           className: 'btnExcel btn',
+          exportOptions: {
+            columns: ':not(.no-export)' // excluye columnas con esta clase
+          }
         }
       ]
     };
@@ -256,9 +269,9 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
       buttons: [
         {
           extend: 'excelHtml5',
-          title: 'Consulta de Pedidos',
+          title: 'Guias Paquetes Pedido',
           text: '<p style="color: #f9f9f9; height: 9px;">Excel</p>',
-          className: 'btnExcel btn',
+          className: 'btnExcel btn'
         }
       ]
     };
@@ -297,6 +310,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.oFiltros.PedidoBuscar = 0;
     this.oFiltros.OrdCompBuscar = '';
     this.oFiltros.Status = 'A';
+    this.oFiltros.MostrarUbicacion = !this.bCliente;
 
     this.Buscar.TipoUsuario = this.sTipo;
     this.Buscar.Usuario = this.sCodigo;
@@ -619,6 +633,17 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
     this.sPedidoFolio = ped.PedidoFolio;
     this.sPedidoFecha = ped.FechaPedido;
 
+    // oPed: { } Uso este objeto para no modificar el codigo heredado        
+    this.oPed.PedidoLetra = ped.PedidoLetra;
+    this.oPed.PedidoFolio = ped.PedidoFolio;
+    this.oPed.OficinaFonelliCodigo = ped.OficinaFonelliCodigo;
+    this.oPed.Status = ped.Status;
+    this.oPed.FechaPedido = ped.FechaPedido;
+    this.oPed.FechaCancelacion = ped.FechaCancelacion;
+    this.oPed.OrdenCompra = ped.OrdenCompra;
+    this.oPed.TiendaDestino = ped.TiendaDestino;
+
+
     //Inicializamos datos de encabezado requeridos para consultar detalle
     this.oFiltrosPedclteDetalle.TipoUsuario = this.oFiltros.TipoUsuario;
     this.oFiltrosPedclteDetalle.Usuario = this.oFiltros.Usuario;
@@ -664,7 +689,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
             this.pedidoGuias = this.oPedclteGuiasResult.Contenido.PedidoGuias;
 
             if (this.oPedclteGuiasResult.Codigo != 0) {
-              this.sMensaje = 'No se encontraron Guias asociadas al pedido';
+              //this.sMensaje = 'No se encontraron Guias asociadas al pedido'; no es necesario mostrarlo
               this.pedidoGuias = [];
               return;
             }
