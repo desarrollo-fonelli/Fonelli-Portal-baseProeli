@@ -51,7 +51,10 @@ const appRoutes: Routes = [
       { path: 'relacionpedidos', component: RelacionpedidosComponent },
       { path: 'estadocuenta', component: EstadocuentaComponent },
       { path: 'ventasclientearticulo', component: VentasclientearticuloComponent },
-      { path: 'listacfdis', component: ListacfdisComponent }
+      { path: 'listacfdis', component: ListacfdisComponent },
+      { path: 'pedclte-lista', component: PedclteListaComponent },
+      { path: 'pedclte-listadeta', component: PedclteListadetaComponent }
+
       //{ path: 'guias', component: GuiasComponent }
       //{ path: 'ordnretorno', component: OrdnretornoComponent }
     ],

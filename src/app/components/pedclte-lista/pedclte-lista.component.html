@@ -287,7 +287,7 @@
           <div class="col-md-3">
             Fecha: <strong>{{ sPedidoFecha }}</strong>
           </div>
-          <div class="col-md-3">
+          <div *ngIf="!bCliente" class="col-md-3">
             Orden de Compra: <strong>{{ oPed.OrdenCompra }}</strong>
           </div>
         </div>
@@ -298,7 +298,7 @@
           <div class="col-md-3">
             Fecha Canc: <strong>{{ oPed.FechaCancelacion }}</strong>
           </div>
-          <div class="col-md-3">
+          <div *ngIf="!bCliente" class="col-md-3">
             Tienda Destino: <strong>{{ oPed.TiendaDestino }}</strong>
           </div>
         </div>

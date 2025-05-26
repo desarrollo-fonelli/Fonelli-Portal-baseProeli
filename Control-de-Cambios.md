@@ -2,6 +2,11 @@
 ## Control de Cambios
 
 ----------
+## v2.4.0 | 2025-05-25 | Consulta de Logistica | Consulta de Pedidos DETALLE
+#### Cambios:
+1. Se corrigen detalles en Consulta de Pedidos (criterios, lista de pedidos, detalle de pedidos y consulta de guias)
+
+----------
 ## v2.3.4 | 2025-05-22 | Consulta de Pedidos DETALLE - Cuarta iteración
 ### Cambios
 1. Se aplica restricción para que distribuidores no vean la "ubicación" del artículo en las áreas de producción.
