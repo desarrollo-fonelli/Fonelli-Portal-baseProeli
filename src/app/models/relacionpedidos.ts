@@ -1,7 +1,7 @@
 export interface RelacionPedidos {
-    Codigo?:     number;
-    Mensaje?:    string;
-    Contenido:  Contenido[];
+    Codigo?: number;
+    Mensaje?: string;
+    Contenido: Contenido[];
     Paginacion?: Paginacion;
     TotalPedidosGranTotal: number;
     TotalCanPedGranTotal: string;
@@ -23,8 +23,8 @@ export interface RelacionPedidos {
 export interface Contenido {
     OficinaFonelliCodigo?: string;
     OficinaFonelliNombre?: string;
-    TipoPedido:           TipoPedido[];
-    TotalPedidosOficina:  number;
+    TipoPedido: TipoPedido[];
+    TotalPedidosOficina: number;
     TotalCanPedOficina: string;
     TotalImportesOficina: string;
     TotalCPValorAgregadoOficina: string;
@@ -41,66 +41,67 @@ export interface Contenido {
 
 export interface TipoPedido {
     TipoPedidoCodigo?: string;
-    TipoPedido?:       string;
-    Pedidos:          Pedido[];
-    TotalPedidos:   number;
-    TotalCanPed:    string;
-    TotlImportes:    string;
-    TotalCPValorAgregado:    string;
-    TotalCanSurtida:    string;
-    TotalCanSurtidaImporte:    string;
-    TotalCSValorImporte:    string;
-    TotalDifCantidadSurt:    string;
-    TotalDifImporteSurtido:    string;
-    TotalDifValorAgregado:    string;
-    TotalCantPedidaProd:    number;
-    TotalCantidadProd:    number;
-    TotalDifCantidadProd:    number;
+    TipoPedido?: string;
+    Pedidos: Pedido[];
+    TotalPedidos: number;
+    TotalCanPed: string;
+    TotlImportes: string;
+    TotalCPValorAgregado: string;
+    TotalCanSurtida: string;
+    TotalCanSurtidaImporte: string;
+    TotalCSValorImporte: string;
+    TotalDifCantidadSurt: string;
+    TotalDifImporteSurtido: string;
+    TotalDifValorAgregado: string;
+    TotalCantPedidaProd: number;
+    TotalCantidadProd: number;
+    TotalDifCantidadProd: number;
 }
 
 export interface Pedido {
-    PedidoLetra?:                       string;
-    PedidoFolio:                       string;
-    ClienteCodigo?:                     string;
-    ClienteFilial?:                     string;
-    FechaPedido?:                       Date;
-    FechaPedidoProduccion?:             Date;
-    FechaCancelacion?:                  Date;
-    PedidoStatus?:                      string;
-    DiasAtraso?:                        number;
-    CantidadPedida:                    number;
-    CantidadPedidaImporte:             number;
-    CantidadPedidaValorAgregado:       number;
-    CantidadSurtida:                   number;
-    CantidadSurtidaImporte:            number;
-    CantidadSurtidaValorAgregado:      number;
-    DiferenciaCantidadSurtido?:         number;
-    DiferenciaImporteSurtido:          number;
-    CantidadPedidaProduccion?:          number;
-    CantidadProducida?:                 number;
-    DiferenciaValorAgregado?:           number;
-    DiferenciaCantidadProducido:       number;
-    InternoExterno?:                    string;
-    DiferenciaCantidadPedidoSurtido?:   number;
-    DiferenciaImportePedidoSurtido?:    number;
+    PedidoLetra?: string;
+    PedidoFolio: string;
+    ClienteCodigo?: string;
+    ClienteFilial?: string;
+    OrdenCompra?: string;
+    FechaPedido?: Date;
+    FechaPedidoProduccion?: Date;
+    FechaCancelacion?: Date;
+    PedidoStatus?: string;
+    DiasAtraso?: number;
+    CantidadPedida: number;
+    CantidadPedidaImporte: number;
+    CantidadPedidaValorAgregado: number;
+    CantidadSurtida: number;
+    CantidadSurtidaImporte: number;
+    CantidadSurtidaValorAgregado: number;
+    DiferenciaCantidadSurtido?: number;
+    DiferenciaImporteSurtido: number;
+    CantidadPedidaProduccion?: number;
+    CantidadProducida?: number;
+    DiferenciaValorAgregado?: number;
+    DiferenciaCantidadProducido: number;
+    InternoExterno?: string;
+    DiferenciaCantidadPedidoSurtido?: number;
+    DiferenciaImportePedidoSurtido?: number;
     DiferenciaCantidadPedidoProducido?: number;
 
-    CantidadPedidaAux:                    string;
-    CantidadPedidaImporteAux:             string;
-    CantidadPedidaValorAgregadoAux:       string;
-    CantidadSurtidaAux:                   string;
-    CantidadSurtidaImporteAux:            string;
-    CantidadSurtidaValorAgregadoAux:      string;
-    DiferenciaCantidadSurtidoAux?:         string;
-    DiferenciaImporteSurtidoAux:          string;
-    CantidadPedidaProduccionAux?:          string;
-    CantidadProducidaAux?:                 string;
-    DiferenciaValorAgregadoAux?:           string;
-    DiferenciaCantidadProducidoAux:       string;
+    CantidadPedidaAux: string;
+    CantidadPedidaImporteAux: string;
+    CantidadPedidaValorAgregadoAux: string;
+    CantidadSurtidaAux: string;
+    CantidadSurtidaImporteAux: string;
+    CantidadSurtidaValorAgregadoAux: string;
+    DiferenciaCantidadSurtidoAux?: string;
+    DiferenciaImporteSurtidoAux: string;
+    CantidadPedidaProduccionAux?: string;
+    CantidadProducidaAux?: string;
+    DiferenciaValorAgregadoAux?: string;
+    DiferenciaCantidadProducidoAux: string;
 }
 
 export interface Paginacion {
-    NumFilas?:     number;
+    NumFilas?: number;
     TotalPaginas?: number;
-    Pagina?:       number;
+    Pagina?: number;
 }

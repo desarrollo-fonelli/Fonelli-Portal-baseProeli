@@ -240,6 +240,7 @@
           <th *ngIf="!bCliente" style="background-color: #24a4cc; color: white;">L</th><!-- Pedido letra -->
           <th style="background-color: #24a4cc; color: white;">CLTE</th><!--Cliente codigo -->
           <th style="background-color: #24a4cc; color: white;">FIL</th><!--Cliente filial -->
+          <th style="background-color: #24a4cc; color: white;">Orden Compra</th> <!-- debug -->
           <th style="background-color: #24a4cc; color: white; text-align:center;">
             <div class="size">FECHA PEDIDO</div>
           </th><!--Fecha pedido -->
@@ -283,6 +284,7 @@
             <td style="display: none"></td>
             <td style="display: none"></td>
             <td style="display: none"></td>
+            <td></td> <!-- debug -->
             <td></td>
             <td *ngIf="!bCliente"></td>
             <td></td>
@@ -318,6 +320,7 @@
               <td *ngIf="!bCliente" class="FilasFonelli text-left">{{pedido.PedidoLetra}}</td>
               <td class="FilasFonelli text-left">{{pedido.ClienteCodigo}}</td>
               <td class="FilasFonelli text-left">{{pedido.ClienteFilial}}</td>
+              <td class="FilasFonelli text-left">{{pedido.OrdenCompra}}</td> <!-- debug -->
               <td class="FilasFonelli">{{pedido.FechaPedido}}</td>
               <td *ngIf="!bCliente" class="FilasFonelli text-left">{{pedido.FechaPedidoProduccion}}</td>
               <td class="FilasFonelli text-left">{{pedido.FechaCancelacion}}</td>
@@ -344,9 +347,10 @@
             <tr>
               <td *ngIf="!bCliente"></td>
               <td *ngIf="!bCliente"></td>
-              <td class="FilasFonBold">Total</td>
-              <td class="FilasFonBold">{{tipoPed.TotalPedidos}}</td>
+              <td></td> <!-- debug -->
               <td></td>
+              <td class="FilasFonBold">Total</td>
+              <td class="FilasFonBold" style="text-align:center;">{{tipoPed.TotalPedidos}}</td>
               <td class="FilasFonBold">Pedidos</td>
               <td *ngIf="!bCliente"></td>
               <td class="FilasFonBold">{{tipoPed.TipoPedido}}</td>
@@ -383,13 +387,14 @@
 
           <!-- TOTAL OFICINA-->
           <tr>
+            <td></td> <!-- debug -->
+            <td *ngIf="!bCliente"></td>
             <td *ngIf="!bCliente"></td>
             <td *ngIf="!bCliente"></td>
             <td class="FilasFonBold">Total</td>
-            <td class="FilasFonBold">{{relPed.TotalPedidosOficina}}</td>
-            <td></td>
+            <td class="FilasFonBold" style="text-align:center;">{{relPed.TotalPedidosOficina}}</td>
             <td class="FilasFonBold">Pedidos</td>
-            <td *ngIf="!bCliente"></td>
+            <td></td>
             <td class="FilasFonBold">OFICINA</td>
             <td></td>
             <td></td>
@@ -413,16 +418,17 @@
 
         <!-- GRAN TOTALES-->
         <tr>
+          <td></td> <!-- debug -->
           <td *ngIf="!bCliente"></td>
           <td *ngIf="!bCliente"></td>
           <td></td>
-          <td class="FilasFonBold">{{oRelacionPedRes.TotalPedidosGranTotal}}</td>
+          <td></td>
+          <td class="FilasFonBold" style="text-align:center;">{{oRelacionPedRes.TotalPedidosGranTotal}}</td>
           <!-- <td class="FilasFonBold">{{getTotalPedidosGranTotal(oRelacionPedRes.Contenido)}}</td> -->
-          <td></td>
           <td class="FilasFonBold">Pedidos</td>
-          <td *ngIf="!bCliente"></td>
-          <td class="FilasFonBold">GRAN TOTAL</td>
           <td></td>
+          <td class="FilasFonBold">GRAN TOTAL</td>
+          <td *ngIf="!bCliente"></td>
           <td></td>
           <td class="FilasFonBold" style="text-align:right;">{{oRelacionPedRes.TotalCanPedGranTotal}}</td>
           <td class="FilasFonBold" style="text-align:right;">{{oRelacionPedRes.TotalImportesGranTotal}}</td>

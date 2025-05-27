@@ -1,6 +1,10 @@
 #### MED_FONELLI_Portal
 ## Control de Cambios
 
+## v2.4.1 | 2025-05-26 | Relacion de Pedidos - Orden de Compra
+### Cambios:
+1. En la tabla de pedidos, se agrega una columna para mostrar la Orden de Compra.
+
 ----------
 ## v2.4.0 | 2025-05-25 | Consulta de Logistica | Consulta de Pedidos DETALLE
 #### Cambios:
@@ -8,14 +12,14 @@
 
 ----------
 ## v2.3.4 | 2025-05-22 | Consulta de Pedidos DETALLE - Cuarta iteración
-### Cambios
+### Cambios:
 1. Se aplica restricción para que distribuidores no vean la "ubicación" del artículo en las áreas de producción.
 2. La columna "Ubicación" no se incluye en el excel exportado
 2. Se incluye ítem para consulta de pedidos en menú de distribuidores.
 
 ----------
 ## v2.3.3 | 2025-05-21 | Consulta de Pedidos DETALLE - Tercera iteración
-### Cambios
+### Cambios:
 1. Se revisa la obtención de las piezas producidas.
    (si no hay piezas producidas debe aparecer la ubicación).
 2. La tabla de guías debe permitir consultar los artículos que contiene el documento de venta.
@@ -24,13 +28,13 @@
 
 ----------
 ## v2.3.2 | 2025-05-14 | Consulta de Pedidos DETALLE - Segunda iteración
-#### Cambios
+#### Cambios:
 1. Se agrega TAB para mostrar guias de paquetes enviados por pedido. Se crean modelo y se modifica plantilla HTML.
 2. Se agrega columna para mostrar ubicación del artículo en producción. Se modifican modelo y plantilla HTML.
 
 ----------
 ## v2.3.1 | 2025-05-13 | Consulta de Pedidos DETALLE - Primera iteración
-#### Cambios
+#### Cambios:
 1. Se modifica la presentación de los artículos incluidos en el pedido seleccionado por el usuario. En vez de una ventana modal, se presentan en un container en la pagina principal.
 2. Se depuran columnas y se descarta tabla de pedidos a producción.
 3. Se agrega formulario modal para presentar medidas con piezas solicitadas.
