@@ -72,5 +72,8 @@ export interface PedidoArticulo {
   OrdProdLetra: string;
   OrdProdSobre: string;
   UbicacProd: string;
-  UbicacProdNomb: string
+  UbicacProdNomb: string;
+  UbicacExis: string;
+  UbicacExisNomb: string;
+  Ubicacion: string;
 }

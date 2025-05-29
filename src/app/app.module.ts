@@ -58,7 +58,6 @@ import { ListacfdisComponent } from './components/listacfdis/listacfdis.componen
 import { DescargafactComponent } from './components/descargafact/descargafact.component';
 import { ConsultaexistenciasComponent } from './components/consultaexistencias/consultaexistencias.component';
 import { PedclteListaComponent } from './components/pedclte-lista/pedclte-lista.component';
-import { PedclteListadetaComponent } from './components/pedclte-listadeta/pedclte-listadeta.component';
 import { PedclteMedidasComponent } from './components/pedclte-medidas/pedclte-medidas.component';
 import { TestdrComponent } from './components/testdr/testdr.component';
 import { Testdr2Component } from './components/testdr2/testdr2.component';
@@ -105,7 +104,6 @@ import { PedclteArticfactComponent } from './components/pedclte-articfact/pedclt
     DescargafactComponent,
     ConsultaexistenciasComponent,
     PedclteListaComponent,
-    PedclteListadetaComponent,
     PedclteMedidasComponent,
     TestdrComponent,
     Testdr2Component,

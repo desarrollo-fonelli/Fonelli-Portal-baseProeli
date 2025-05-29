@@ -280,26 +280,38 @@
       <div class="card-body">
         <div class="row">
           <div class="col-md-4">
-            Cliente:<strong>
-              {{oPedclteListaResult.Contenido.ClienteCodigo}}-{{oPedclteListaResult.Contenido.ClienteFilial}}
-              {{oPedclteListaResult.Contenido.ClienteNombre}}</strong>
+            Cliente:
+            {{oPedclteListaResult.Contenido.ClienteCodigo}}-{{oPedclteListaResult.Contenido.ClienteFilial}}
           </div>
-          <div class="col-md-3">
-            Fecha: <strong>{{ sPedidoFecha }}</strong>
+          <div class="col-md-2 text-end">
+            Fecha:
           </div>
-          <div *ngIf="!bCliente" class="col-md-3">
-            Orden de Compra: <strong>{{ oPed.OrdenCompra }}</strong>
+          <div class="col-md-2">
+            <strong>{{ sPedidoFecha }}</strong>
+          </div>
+          <div *ngIf="!bCliente" class="col-md-2 text-end">
+            Orden de Compra:
+          </div>
+          <div *ngIf="!bCliente" class="col-md-2">
+            <strong>{{ oPed.OrdenCompra }}</strong>
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
-            {{ oDatosGenerales.Sucursal }}
+            <strong>
+              {{oPedclteListaResult.Contenido.ClienteNombre}}</strong>
           </div>
-          <div class="col-md-3">
-            Fecha Canc: <strong>{{ oPed.FechaCancelacion }}</strong>
+          <div class="col-md-2 text-end">
+            Fecha Canc:
           </div>
-          <div *ngIf="!bCliente" class="col-md-3">
-            Tienda Destino: <strong>{{ oPed.TiendaDestino }}</strong>
+          <div class="col-md-2">
+            <strong>{{ oPed.FechaCancelacion }}</strong>
+          </div>
+          <div *ngIf="!bCliente" class="col-md-2 text-end">
+            Tienda Destino:
+          </div>
+          <div *ngIf="!bCliente" class="col-md-2">
+            <strong>{{ oPed.TiendaDestino }}</strong>
           </div>
         </div>
         <div class="row mt-3">
@@ -420,11 +432,11 @@
                       -->
 
                       <!-- <td [hidden]="!oFiltros.MostrarUbicacion" class="FilasFonelli" style="width: 200px;"> -->
-                      <td class="FilasFonelli no-export" [hidden]="!oFiltros.MostrarUbicacion" style="width: 200px;">
-                        <div *ngIf="det.IntExt=='I'">
-                          {{det.UbicacProdNomb}}
+                      <td class="FilasFonelli no-export" [hidden]="!oFiltros.MostrarUbicacion" style="width: 150px;">
+                        <div *ngIf="det.IntExt=='I'" style="width: 150px;">
+                          {{det.Ubicacion}}
                         </div>
-                        <div *ngIf="det.IntExt=='E'">
+                        <div *ngIf="det.IntExt=='E'" style="width: 150px;">
                           externo
                         </div>
                       </td>

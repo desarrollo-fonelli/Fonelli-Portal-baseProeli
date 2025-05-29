@@ -1,6 +1,12 @@
 #### MED_FONELLI_Portal
 ## Control de Cambios
 
+## v2.4.2 | 2025-05-28 | Consulta de Pedidos DETALLE - Revisión | Relación de Pedidos
+---------
+#### Cambios:
+1. Se agrega código para ver ubicación del pedido cuando se tiene Orden de Producción que no se ha ensobretado
+2. Se corrigen criterios de filtro en relación de pedidos para que el "cliente inicial" y "final" sean iguales y no se puedan modificar.
+
 ## v2.4.1 | 2025-05-26 | Relacion de Pedidos - Orden de Compra
 ### Cambios:
 1. En la tabla de pedidos, se agrega una columna para mostrar la Orden de Compra.

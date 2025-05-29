@@ -1,9 +1,9 @@
 {
-  "version": "2.4.1",
-  "fecha": "2025-05-26",
+  "version": "2.4.2",
+  "fecha": "2025-05-27",
   "caracteristicas": [
     {
-      "caract1": "Relacion de Pedidos - Orde de Compra",
+      "caract1": "Consulta Pedidos DETALLE | Relación de Pedidos",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

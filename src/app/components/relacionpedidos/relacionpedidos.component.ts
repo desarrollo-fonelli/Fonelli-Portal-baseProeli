@@ -262,7 +262,7 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
       case 'C': {
         //Tipo cliente               
         this.oBuscar.ClienteDesde = this.sCodigo;
-        this.oBuscar.FilialHasta = this.sFilial;
+        this.oBuscar.FilialDesde = this.sFilial;
         this.oBuscar.ClienteHasta = this.sCodigo;
         this.oBuscar.FilialHasta = this.sFilial;
         this.oBuscar.Usuario = this.sCodigo + '-' + this.sFilial;
@@ -534,7 +534,7 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
         //Tipo cliente               
 
         this.oBuscarPedDet.ClienteDesde = this.sCodigo;
-        this.oBuscarPedDet.FilialHasta = this.sFilial;
+        this.oBuscarPedDet.FilialDesde = this.sFilial;
         this.oBuscarPedDet.ClienteHasta = this.sCodigo;
         this.oBuscarPedDet.FilialHasta = this.sFilial;
         this.oBuscarPedDet.Usuario = this.sCodigo + '-' + this.sFilial;
