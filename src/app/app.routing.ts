@@ -29,6 +29,7 @@ import { PaneladminComponent } from "./components/paneladmin/paneladmin.componen
 import { InicioadminComponent } from './components/inicioadmin/inicioadmin.component';
 import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
 import { PedclteListaComponent } from "./components/pedclte-lista/pedclte-lista.component";
+import { Guias2025Component } from "./components/guias2025/guias2025.component";
 
 // componentes para pruebas: descartar en versión de producción ---------------------------------------
 import { TestdrComponent } from "./components/testdr/testdr.component";
@@ -52,6 +53,7 @@ const appRoutes: Routes = [
       { path: 'ventasclientearticulo', component: VentasclientearticuloComponent },
       { path: 'listacfdis', component: ListacfdisComponent },
       { path: 'pedclte-lista', component: PedclteListaComponent },
+      { path: 'guias2025', component: Guias2025Component }
 
       //{ path: 'guias', component: GuiasComponent }
       //{ path: 'ordnretorno', component: OrdnretornoComponent }
@@ -84,6 +86,7 @@ const appRoutes: Routes = [
       { path: 'consultaexistencias', component: ConsultaexistenciasComponent },
       { path: 'tabla', component: EncabezadoComponent },
       { path: 'pedclte-lista', component: PedclteListaComponent },
+      { path: 'guias2025', component: Guias2025Component },
       { path: 'testdr', component: TestdrComponent },
       { path: 'testdr2', component: Testdr2Component }
     ],

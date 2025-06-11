@@ -1,0 +1,359 @@
+<!-------------------- BOTON para mostrar o esconder Criterios de Filtro --------------------->
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!-- *********************************   Criterios de filtro   ********************************** -->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <h3 class="card-title">Consulta de Paquetes</h3>
+      <!-- General Form Elements -->
+      <form>
+        <!-- Codigo de Cliente -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Numero</label>
+            <input type="text" id="idNumpPed" class="form-control" name="idNumpPed" #nombre="ngModel"
+              [(ngModel)]="oFiltros.ClienteCodigo" disabled="{{ bCliente }}" required />
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Filial</label>
+
+            <input type="text" id="idFilPed" class="form-control" name="idFilPed" #nombre="ngModel"
+              [(ngModel)]="oFiltros.ClienteFilial" disabled="{{ bCliente }}" required />
+          </div>
+
+          <div class="form-group col-md-3" [hidden]="bCliente">
+            <label class="CamposFonelli col-md-12" style="color: white">-</label>
+            <button type="button" class="btnFonelli btn" (click)="openClientes(Clientes)"
+              style="background-color: #24a4cc">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <!------------------ Oficinas ----------------->
+        <div class="form-row" [hidden]="bCliente">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde oficina</label>
+            <select class="form-select" name="idDesOfi" #nombre="ngModel" [(ngModel)]="oFiltros.OficinaDesde" required>
+              <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">{{dato.OficinaCodigo}}
+                - {{dato.OficinaNombre}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta oficina</label>
+            <select class="form-select" name="idHasOfi" #nombre="ngModel" [(ngModel)]="oFiltros.OficinaHasta" required>
+              <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">{{dato.OficinaCodigo}}
+                - {{dato.OficinaNombre}}</option>
+            </select>
+          </div>
+        </div>
+
+        <!----------------Documento ----------------->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Tipo documento</label>
+            <select class="form-select" name="idDocTipo" #nombre="ngModel" [(ngModel)]="oFiltros.DocTipoBuscar">
+              <option value="{{tipo}}" *ngFor="let tipo of arrDocTipos">{{tipo}}</option>
+            </select>
+
+          </div>
+          <div class="form-group col-md-1">
+            <label class="CamposFonelli">Serie</label>
+            <input type="text" id="idDocSerie" class="form-control" name="idDocSerie" #nombre="ngModel"
+              [(ngModel)]="oFiltros.DocSerieBuscar" />
+          </div>
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Documento</label>
+            <input type="text" id="idDocFolio" class="form-control" name="idDocFolio" #nombre="ngModel"
+              [(ngModel)]="oFiltros.DocFolioBuscar" />
+          </div>
+        </div>
+
+        <!------------------- Pedido ------------------>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli" for="">Pedido</label>
+            <input type="text" id="idPedidoFiltro" class="form-control" name="idPedidoFiltro" #nombre="ngModel"
+              [(ngModel)]="oFiltros.PedidoBuscar" />
+          </div>
+          <!------------------ Orden de Compra ---------->
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli" for="">Orden de Compra</label>
+            <input type="text" id="idOrdCompFiltro" class="form-control" name="idOrdCompFiltro" #nombre="ngModel"
+              [(ngModel)]="oFiltros.OrdCompBuscar" />
+          </div>
+        </div>
+
+        <!------------------ Paquete ----------------->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli" for="">Paquete</label>
+            <input type="text" id="idPaqueteFiltro" class="form-control" name="idPaqueteFiltro" #nombre="ngModel"
+              [(ngModel)]="oFiltros.PaqueteBuscar" />
+          </div>
+          <!-------------------- Carrier ------------------>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Carrier</label>
+            <input type="text" id="idCarrier" class="form-control" name="idCarrier" #nombre="ngModel"
+              [(ngModel)]="oFiltros.CarrierBuscar" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <!--------------- Fecha Desde ------------------>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Fecha Desde</label>
+            <input type="date" id="idFechaDesde" class="form-control" name="idFechaDesde" #nombre="ngModel"
+              [(ngModel)]="oFiltros.FechaDesdeBuscar" required />
+          </div>
+
+          <!--------------- checkbox para mostrar documentos sin guía ------------------>
+          <div class="form-group col-auto">
+            <label class="CamposFonelli">...</label>
+            <div class="form-check" style="text-align: center;">
+              <input class="form-check-input" type="checkbox" id="idDocumSinGuia" #nombre="ngModel"
+                [(ngModel)]="oFiltros.DocumSinGuia" />
+              <label for="idDocumSinGuia">Mostrar Documentos sin Guia</label>
+            </div>
+          </div>
+        </div>
+
+        <!------------------------- Mensaje de Error ----------------------------->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{ sMensaje }}</p>
+        </div>
+
+        <!------------------- Botón BUSCAR para llamar el reporte ---------------->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" (click)="ConsultaGuias()" class="btnFonelli btn">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color: #183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+      </form>
+      <!-- End General Form Elements -->
+    </div>
+  </div>
+</div>
+<!-- ********************************* Fin Criterios de filtro ********************************** -->
+
+
+<!-- ******************************* Tabla con Lista de Paquetes ******************************** -->
+<div class="container float-left" [hidden]="!MostrarTablaGuias" id="containerTablaGuias" #containerTablaGuias>
+
+  <h4 style="text-align: center;">Cliente {{sHeadClteNum + '-' + sHeadClteFil + ' ' + sHeadClteNom}}</h4>
+
+  <br>
+
+  <table id="tabla0" class="table table-hover table-striped" datatable [dtOptions]="dtOptions[0]"
+    [dtTrigger]="dtTrigger0">
+    <thead class="thead-p">
+      <tr class="EncTabla">
+        <th class="thFonelli-center" scope="col">Paquete</th>
+        <th class="thFonelli-center" class="col-fecha" scope="col">Fecha
+        </th>
+        <th class="thFonelli-center" scope="col">Status</th>
+        <th class="thFonelli-left" scope="col">Guia</th>
+        <th class="thFonelli-center" scope="col">Carrier</th>
+        <th class="thFonelli-left" scope="col">Nombre</th>
+        <th class="thFonelli-center" class="col-fecha" scope="col">Fech
+          Recep</th>
+        <th class="thFonelli-left" scope="col">Observaciones</th>
+        <th class="thFonelli-center" scope="col">Piezas</th>
+        <th class="thFonelli-right" scope="col">Gramos</th>
+        <th class="thFonelli-right" scope="col">Importe</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let paq of paquetes; let i=index">
+        <td class="FilasFonelli-center text-primary" (click)="ClicDetallePaquete(paq)">
+          <div *ngIf="paq.Paquete==''"><u>Docums</u></div>
+          <div *ngIf="paq.Paquete!=''"><u>{{paq.Paquete}}</u></div>
+
+        </td>
+        <td class="FilasFonelli-fecha">{{paq.FechaPaq}}</td>
+        <td class="FilasFonelli-center">{{paq.Status}}</td>
+        <td class="FilasFonelli-left">{{paq.Guia}}</td>
+        <td class="FilasFonelli-center">{{paq.Carrier}}</td>
+        <td class="FilasFonelli-left">{{paq.CarrierNom}}</td>
+        <td class="FilasFonelli-fecha">{{paq.FechaRecep}}</td>
+        <td class="FilasFonelli-left">{{paq.Observac}}</td>
+        <td class="FilasFonelli-center">{{paq.TotPiezas}}</td>
+        <td class="FilasFonelli-right">{{paq.TotGramos | number:'1.2-2'}}</td>
+        <td class="FilasFonelli-right">{{paq.TotImporte + paq.TotIva | number:'1.2-2'}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<!-- **************************** Fin Tabla con Lista de Paquetes  ****************************** -->
+
+
+
+<!-- ************************ Tabla documentos incluidos en el Paquete ************************** -->
+<div class="container float-left" [hidden]="!MostrarDetalle">
+  <br>
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">
+        <div class="row">
+          <div class="col-md-4">
+            <button type="submit" class="btn btn-link" (click)="ClicCerrarDetalle()">
+              Volver a Lista de Paquetes</button>
+          </div>
+          <div class="col-md-4">
+            <div class="fs-5 pt-2">Documentos del Paquete: <strong>{{ sPaquete }}</strong></div>
+          </div>
+          <div class="col-md-1">
+            <div class="fs-6 pt-2">Fecha:</div>
+          </div>
+          <div class="col-md-3">
+            <div class="fs-6 pt-2"><strong>{{ sFechaPaq }}</strong></div>
+          </div>
+        </div>
+      </div> <!-- .card-title -->
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-1">Guia:</div>
+        <div class="col-md-7"><strong>{{ sGuia }}</strong></div>
+        <div class="col-md-1">Status:</div>
+        <div class="col-md-3"><strong>{{ sStatus }}</strong></div>
+      </div>
+      <div class="row">
+        <div class="col-md-1">Observac</div>
+        <div class="col-md-7"><strong>{{ sObservac }}</strong></div>
+        <div class="col-md-1">F. Recep:</div>
+        <div class="col-md-3"><strong>{{ sFechaRecep }}</strong></div>
+      </div>
+      <br>
+
+      <div class="row">
+        <div class="container" id="DetallePaqTable" #DetallePaqTable style="overflow-x: auto;">
+          <table id="tabla1" class="table table-hover table-sm table-striped display nowrap" datatable
+            [dtOptions]="dtOptions[1]" [dtTrigger]="dtTrigger1" style="width:100%">
+
+            <thead class="thead-p">
+              <tr class="EncTabla">
+                <th class="thFonelli-left" scope="col">Documento</th>
+                <th class="thFonelli-center" scope="col">Serie</th>
+                <th class="thFonelli-center" scope="col">Folio</th>
+                <th class="thFonelli-center" scope="col">Fecha</th>
+                <th class="thFonelli-center" scope="col">Importe</th>
+                <th class="thFonelli-center" scope="col">Piezas</th>
+                <th class="thFonelli-center" scope="col">Gramos</th>
+                <th class="thFonelli-center" scope="col">Pedido</th>
+                <th class="thFonelli-center" scope="col">OrdenComp</th>
+                <th class="thFonelli-center" scope="col">TiendaDest</th>
+                <th class="thFonelli-center" scope="col">ContraRecibo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let doc of guiadocums; let i=index">
+                <td class="FilasFonelli-left">{{ doc.DocTipo }}</td>
+                <td class="FilasFonelli-center">{{ doc.DocSerie }}</td>
+                <td class="FilasFonelli-center text-primary" (click)="OpenModalDocumArticulos(doc)">
+                  <u>{{doc.DocFolio}}</u>
+                </td>
+                <td class="FilasFonelli-center">{{ doc.DocFecha}}</td>
+                <td class="FilasFonelli-center">
+                  {{ doc.DocImporte + doc.DocIva | number:'1.2-2'}}
+                </td>
+                <td class="FilasFonelli-center">{{ doc.DocPiezas }}</td>
+                <td class="FilasFonelli-center">{{ doc.DocGramos | number:'1.2-2'}}</td>
+                <td class="FilasFonelli-center">{{ doc.Pedido}}</td>
+                <td class="FilasFonelli-center">{{ doc.OrdenComp }}</td>
+                <td class="FilasFonelli-center">{{ doc.OrdCompBodDest}}</td>
+                <td class="FilasFonelli-center">{{ doc.OrdCompContraRec}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div> <!-- .container DetallePaqTable -->
+      </div> <!-- .row -->
+    </div>
+  </div>
+</div>
+<!-- ********************** Fin Tabla documentos incluidos en el Paquete ************************ -->
+
+
+
+<!-- ********************************* Modal catalogo clientes ********************************** -->
+<ng-template #Clientes let-modal>
+  <div class="modal-header">
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+  <div class="modal-body-tables" style="overflow-y: scroll;">
+
+    <div class="container">
+      <div class="row">
+
+        <div class="form-group col-md-1">
+          <br>
+          <label class="CamposFonelli">Buscar:</label>
+        </div>
+        <div class="form-group col-md-5">
+          <br>
+          <input type="text" class="form-control" [(ngModel)]="searchtext" placeholder="Search" />
+        </div>
+
+        <div class="col-12">
+          <table class="table table-striped">
+            <thead class="thead-p2">
+              <tr class="EncTabla">
+                <th>#</th>
+                <th scope="col"></th>
+                <th scope="col">NUM</th>
+                <th scope="col">FIL</th>
+                <th scope="col">RAZÓN SOCIAL</th>
+                <th scope="col">SUCURSAL/NOMBRE</th>
+                <th scope="col">S</th>
+                <th scope="col">CONTACTO1</th>
+                <th scope="col">CONTACTO2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span
+                  class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f">
+                </span></td>
+              <tr *ngFor="let emp of oCliente.Contenido |searchconsultaCliente: searchtext; index as i"
+                (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>
+                  <input style="border-color: #24a4cc;" type="checkbox">
+                </td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+
+  </div>
+
+</ng-template>
+<!-- ******************************* Fin Modal catalogo clientes ********************************** -->

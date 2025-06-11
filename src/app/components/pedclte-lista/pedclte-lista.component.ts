@@ -210,7 +210,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
       ],
       dom: 'flBtip',
       language: {
-        url: "cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
       buttons: [
         {
@@ -237,7 +237,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
       dom: 'flBtip',
       language: {
         emptyTable: 'No se encontraron registros',
-        url: "cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
       buttons: [
         {
@@ -264,7 +264,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
       dom: 'flBtip',
       language: {
         emptyTable: 'No se encontraron registros',
-        url: "cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
       },
       buttons: [
         {
@@ -307,13 +307,13 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
       }
     }
 
+    this.Buscar.TipoUsuario = this.sTipo;
+    this.Buscar.Usuario = this.sCodigo;
+
     this.oFiltros.PedidoBuscar = 0;
     this.oFiltros.OrdCompBuscar = '';
     this.oFiltros.Status = 'A';
     this.oFiltros.MostrarUbicacion = !this.bCliente;
-
-    this.Buscar.TipoUsuario = this.sTipo;
-    this.Buscar.Usuario = this.sCodigo;
 
     let date: Date = new Date();
     let mes;
@@ -404,7 +404,7 @@ export class PedclteListaComponent implements OnInit, OnDestroy {
           return;
         }
 
-        console.dir(this.pedido);
+        //console.dir(this.pedido);
 
         this.oPedclteListaResult.Contenido.CantidadPedida =
           this.getTotal(this.pedido, 'CantidadPedida');

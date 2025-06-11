@@ -1,0 +1,75 @@
+.thead-p tr:first-child Th {
+  position: sticky;
+  z-index: 12;
+  top: 60px;
+  /* background: white; */
+}
+
+.thead-p Th {
+  position: fixed;
+  z-index: 12;
+  top: 300px;
+  /* background: white; */
+}
+
+.thead-p2 tr:first-child Th {
+  position: sticky;
+  z-index: 12;
+  top: 0;
+  background: #24a4cc;
+}
+
+.thead-p2 Th {
+  position: fixed;
+  z-index: 12;
+  top: 60px;
+  background: #24a4cc;
+}
+
+.col-fecha {
+  width: 70px;
+  text-align: center;
+}
+
+.thFonelli-center {
+  background-color: #24a4cc;
+  color: white;
+  text-align: center;
+}
+
+.thFonelli-left {
+  background-color: #24a4cc;
+  color: white;
+  text-align: left;
+}
+
+.thFonelli-right {
+  background-color: #24a4cc;
+  color: white;
+  text-align: right;
+}
+
+td.FilasFonelli-center {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: center;
+}
+
+td.FilasFonelli-left {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: left;
+}
+
+td.FilasFonelli-right {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: right;
+}
+
+td.FilasFonelli-fecha {
+  width: 90px;
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: center;
+}

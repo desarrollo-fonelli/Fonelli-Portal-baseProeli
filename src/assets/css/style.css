@@ -1,57 +1,32 @@
 .fondo_fonelli {
-
    background-image: url("../images/fondo/diamante_destello.jpg");
-
    background-position: center;
-
    background-attachment: fixed;
-
    background-repeat: no-repeat;
-
    background-size: 680px 480px;
-
-
-
 }
 
-
-
 @font-face {
-
    font-family: "Quicksand-SemiBold";
-
    src: url("../fonts/Quicksand-SemiBold.ttf");
-
 }
 
 @font-face {
-
    font-family: "Quicksand-Bold";
-
    src: url("../fonts/Quicksand-Bold.ttf");
-
 }
 
 
 
 @font-face {
-
    font-family: "Brittany-Angella";
-
    src: url("../fonts/brittany-angella.ttf");
-
 }
-
-
 
 .font1 {
-
    color: #183e6f;
-
    font-size: 35px;
-
    font-family: "Quicksand-SemiBold";
-
 }
 
 .font_side {
@@ -105,7 +80,7 @@
 }
 
 .font_video {
-   font-family:CormorantGaramond-Regular;
+   font-family: CormorantGaramond-Regular;
    color: white;
    font-size: 50px;
 }
@@ -117,25 +92,24 @@
    font-size: 25px;
 }
 
-.boton_sesion
-{
-  border: none;
-  padding: 0;
-  background: none;
+.boton_sesion {
+   border: none;
+   padding: 0;
+   background: none;
 }
 
 @font-face {
    font-family: lato;
    src: url(../fonts/CormorantGaramond-SemiBold.ttf) format("opentype");
- }
+}
 
- @font-face {
+@font-face {
    font-family: "Futura_Condensed_Extra_Bold";
    src: url("../fonts/Futura_Condensed_Extra_Bold.otf");
 }
 
- .fondo_mensaje_contacto {
-   background-color:    #24a4cc;
+.fondo_mensaje_contacto {
+   background-color: #24a4cc;
    color: white;
    font-size: large;
 
@@ -144,4 +118,4 @@
 .active-list-item {
    color: white;
    background-color: #e8b4c1;
- }
+}

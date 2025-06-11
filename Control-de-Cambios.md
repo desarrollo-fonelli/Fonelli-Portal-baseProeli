@@ -1,6 +1,16 @@
 #### MED_FONELLI_Portal
 ## Control de Cambios
 
+----------
+## v2.5.0 | 2025-05-25 | Consulta de Logistica 
+#### Nuevo:
+1. Se crean componente guias2025 y artefactos para el módulo "Consulta de Logística".
+2. Se crea formulario de criterios.
+3. Se crea tabla para presentar lista de Paquetes (Guías) y documentos sin guía.
+4. Se crea tabla para presentar documentos incluidos en el Paquete.
+5. Se crea formulario modal para presentar modelos incluidos en el documento.
+6. Se crean componentes para servicios y modelos requeridos.
+
 ## v2.4.2 | 2025-05-28 | Consulta de Pedidos DETALLE - Revisión | Relación de Pedidos
 ---------
 #### Cambios:

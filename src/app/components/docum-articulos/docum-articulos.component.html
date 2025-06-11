@@ -1,0 +1,49 @@
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="h5 modal-title">
+        {{ oDocArtFiltros.DocTipo + ': ' }}
+        <strong>{{oDocArtFiltros.DocSerie + oDocArtFiltros.DocFolio}}</strong>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="activeModal.dismiss()">
+      </button>
+
+    </div>
+
+    <div class="modal-body">
+      <table class="table table-sm table-striped table-hover display nowrap">
+        <thead class="table-light">
+          <tr>
+            <th scope="col" style="text-align: center;">Lin</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Descripción</th>
+            <th scope="col" style="text-align: center;">Piezas</th>
+            <th scope="col" style="text-align: center;">Gramos</th>
+            <th scope="col" style="text-align: center;">Pedido/Ref</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr *ngFor="let art of DocumArticulos; index as i">
+            <!--
+            <th scope="row">{{ i + 1 }}</th>
+            -->
+            <td style="text-align: center;">{{ art.LinPT }}</td>
+            <td>{{ art.ItemCode }}</td>
+            <td>{{ art.Descripc}}</td>
+            <td style="text-align: center;">{{art.Piezas}}</td>
+            <td style="text-align: center;">{{art.Gramos}}</td>
+            <td style="text-align: center;">{{art.Ref}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
+        Cerrar
+      </button>
+    </div>
+    -->
+  </div>
+</div>

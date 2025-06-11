@@ -62,6 +62,8 @@ import { PedclteMedidasComponent } from './components/pedclte-medidas/pedclte-me
 import { TestdrComponent } from './components/testdr/testdr.component';
 import { Testdr2Component } from './components/testdr2/testdr2.component';
 import { PedclteArticfactComponent } from './components/pedclte-articfact/pedclte-articfact.component';
+import { Guias2025Component } from './components/guias2025/guias2025.component';
+import { DocumArticulosComponent } from './components/docum-articulos/docum-articulos.component';
 
 @NgModule({
   declarations: [
@@ -107,7 +109,9 @@ import { PedclteArticfactComponent } from './components/pedclte-articfact/pedclt
     PedclteMedidasComponent,
     TestdrComponent,
     Testdr2Component,
-    PedclteArticfactComponent
+    PedclteArticfactComponent,
+    Guias2025Component,
+    DocumArticulosComponent
   ],
   imports: [
     BrowserModule,

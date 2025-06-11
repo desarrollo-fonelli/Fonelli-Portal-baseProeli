@@ -18,8 +18,8 @@ export class PedclteArticfactComponent implements OnInit {
   @Input() oFiltros: PedclteListaFiltros;
   @Input() guia: PedidoGuia;
 
-  public oDocvtaDetalleResult: DocvtaDetalle;
-  public DocvtaArticulos: DocvtaArticulo[];
+  public oDocvtaDetalleResult: DocvtaDetalle;   // response detalle documentos
+  public DocvtaArticulos: DocvtaArticulo[];     // nodo del response con detalle de articulos
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -30,7 +30,7 @@ export class PedclteArticfactComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const oFiltros = this.oFiltros
+    const oFiltros = this.oFiltros;
     const DocSerie = this.guia.DocSerie;
     const DocFolio = this.guia.DocFolio;
     this.obtenerArticulos(oFiltros, DocSerie, DocFolio);
