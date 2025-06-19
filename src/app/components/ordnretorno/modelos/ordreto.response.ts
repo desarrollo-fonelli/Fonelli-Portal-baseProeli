@@ -1,24 +1,27 @@
-export interface Ordnretorno {
+export interface OrdRetoResponse {
   Codigo?: number;
   Mensaje?: string;
   Paginacion?: Paginacion;
-  Contenido: Contenido;
+  Contenido: OrdRetoContenido;
 }
 
-export interface Contenido {
+export interface OrdRetoContenido {
+  OrdRetoCltes: OrdRetoClte[];
+}
+
+export interface OrdRetoClte {
   ClienteCodigo?: string;
   ClienteFilial?: string;
   ClienteNombre?: string;
   ClienteSucursal?: string;
-  Ordenes: OrdenReto[];
+  AgenteCodigo?: string;
+  AgenteNom?: string;
+  OrdRetoDocs?: OrdRetoDoc[];
 }
 
-export interface OrdenReto {
+export interface OrdRetoDoc {
   Folio?: string;
   Status: string;
-  Agente: string;
-  ClienteCodigo: string;
-  ClienteFilial: string;
   GuiaEmi: string;
   Carrier: string;
   CarrierNom: string;
@@ -33,8 +36,6 @@ export interface OrdenReto {
   TipoDefec: string;
   TipoDefDesc: string;
   Email: string;
-  ClteNom: string;
-  AgenteNom: string;
   FechaSolic: Date | null;
   FechaAutor: Date | null;
   FechaEmis: Date | null;
@@ -44,6 +45,10 @@ export interface OrdenReto {
   Guia: string;
   Serie: string;
   Documento: string;
+  PiezasO: number;
+  GramosO: number;
+  OpeRec: string;
+  OpeNom: string;
 }
 
 export interface Paginacion {

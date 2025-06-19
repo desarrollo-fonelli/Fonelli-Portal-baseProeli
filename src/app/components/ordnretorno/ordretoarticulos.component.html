@@ -1,0 +1,47 @@
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="h5 modal-title">
+        Orden de Retorno:
+        <strong>{{oArticFiltros.Folio}}</strong>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="activeModal.dismiss()">
+      </button>
+
+    </div>
+
+    <div class="modal-body">
+      <table class="table table-sm table-striped table-hover display nowrap">
+        <thead class="table-light">
+          <tr>
+            <th scope="col" style="text-align: center;">Lin</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Descripción</th>
+            <th scope="col" style="text-align: center;">Piezas</th>
+            <th scope="col" style="text-align: center;">Gramos</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr *ngFor="let art of oOrdRetoArticulos; index as i">
+            <!--
+            <th scope="row">{{ i + 1 }}</th>
+            -->
+            <td style="text-align: center;">{{ art.LineaPT }}</td>
+            <td>{{ art.ClaveArticulo }}</td>
+            <td>{{ art.Descripcion}}</td>
+            <td style="text-align: center;">{{art.Piezas}}</td>
+            <td style="text-align: center;">{{art.Gramos}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="activeModal.close()">
+        Cerrar
+      </button>
+    </div>
+    -->
+  </div>
+</div>

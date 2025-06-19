@@ -2,10 +2,22 @@
 ## Control de Cambios
 
 ----------
+## v2.6.0 | 2025-06-19 | Ordenes de Reparación | Consulta de Logística
+#### Nuevo:
+1. Se crea componente OrdenReparacion y artefactos requeridos: modelos, servicios, etc.
+2. Se crea formulario para criterios de filtro.
+3. Se crean tablas HTML y se aplican caracteristicas de datatables.net
+
+#### Cambios
+1. En Consulta de Logistica, se modifica formulario de criterios de filtro.
+1.1 Ahora se permite indicar algún documento u otro criterio de búsqueda único sin tener que indicar el número de cliente.
+1.2 Se agregan reglas de interacción entre controles relacionados, para asignar el valor correcto según el caso.
+
+----------
 ## v2.5.0 | 2025-05-25 | Consulta de Logistica 
 #### Nuevo:
 1. Se crean componente guias2025 y artefactos para el módulo "Consulta de Logística".
-2. Se crea formulario de criterios.
+2. Se crea formulario de criterios de filtro.
 3. Se crea tabla para presentar lista de Paquetes (Guías) y documentos sin guía.
 4. Se crea tabla para presentar documentos incluidos en el Paquete.
 5. Se crea formulario modal para presentar modelos incluidos en el documento.

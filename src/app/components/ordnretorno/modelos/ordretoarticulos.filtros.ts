@@ -1,9 +1,9 @@
-export class FiltrosDetalleordnretorno {
+export class OrdRetoArticulosFiltros {
   constructor(
     public TipoUsuario: string,
     public Usuario: number | string,
-    public Folio: string,
     public ClienteCodigo: number | null,
-    public ClienteFilial: number | null
+    public ClienteFilial: number | null,
+    public Folio: string
   ) { }
 }

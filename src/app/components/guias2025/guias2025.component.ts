@@ -369,10 +369,8 @@ export class Guias2025Component implements OnInit {
    * dRendon 02.06.2025
    */
   ConsultaGuias() {
-    this.oFiltros.TipoUsuario = this.sTipo;
-    if (this.oFiltros.ClienteCodigo == 0) {
-      return;
-    }
+
+    this.sMensaje = '';
 
     this.sPaquete = "";
     this.sFechaPaq = "";
@@ -394,7 +392,31 @@ export class Guias2025Component implements OnInit {
 
     this.MostrarTablaGuias = false;
     this.MostrarDetalle = false;
+
+    if (this.oFiltros.ClienteCodigo == 0) {
+      if (this.oFiltros.DocTipoBuscar == 'Todos' &&
+        (this.oFiltros.PedidoBuscar == '' || this.oFiltros.PedidoBuscar.trim() == '0') &&
+        (this.oFiltros.OrdCompBuscar == '' || this.oFiltros.OrdCompBuscar.trim() == '0') &&
+        (this.oFiltros.PaqueteBuscar == '' || this.oFiltros.PaqueteBuscar == '0')
+      ) {
+        this.sMensaje = "Si no indica número de cliente debe indicar algún otro criterio de búsqueda...";
+        this.bCargando = false;
+        return;
+      }
+    }
+
+    if (this.oFiltros.DocTipoBuscar != 'Todos') {
+      if (this.oFiltros.DocFolioBuscar == '' || this.oFiltros.DocFolioBuscar == '0') {
+        this.sMensaje = "Debe indicar Folio de Documento para " + this.oFiltros.DocTipoBuscar;
+        this.bCargando = false;
+        return;
+      }
+    }
+
+    //console.table(this.oFiltros);
+
     this.bCargando = true;
+    this.oFiltros.TipoUsuario = this.sTipo;
 
     // LLama al serviio que obtiene la lista de guias
     this._servicioGuias.GetPaquetes(this.oFiltros).subscribe(
@@ -604,7 +626,7 @@ export class Guias2025Component implements OnInit {
    * Muestra tabla con documentos que incluye el Paquete
    */
   ClicDetallePaquete(oPaq: any): void {
-    console.dir(oPaq);
+    //console.dir(oPaq);
     //console.table(oPaq.GuiaDocums);
 
     // variables para card de paquetes
@@ -660,6 +682,42 @@ export class Guias2025Component implements OnInit {
     const modalRef = this.modalService.open(DocumArticulosComponent, { size: 'lg' });
     modalRef.componentInstance.oDocArtFiltros = oDocumArticFiltros;
 
+  }
+
+  ActualizarFechaDesde(): void {
+
+    let fecha: string = '';
+    let date: Date = new Date();
+
+    // String con documentos de búsqueda
+    const strDocCriterios =
+      (this.oFiltros.DocFolioBuscar + this.oFiltros.PedidoBuscar +
+        this.oFiltros.OrdCompBuscar + this.oFiltros.PaqueteBuscar).trim();
+
+    // Si se indica algún criterio de búsqueda, se asigna una fecha "dura" a la fecha base,
+    // de lo contrario, se asigna la fecha de hace tres meses
+    if (strDocCriterios.length > 0) {
+      fecha = '2024-01-01'; // Fecha fija para pruebas
+    } else {
+      // Asigna a la "Fecha desde" el valor de tres meses atrás
+      date.setMonth(date.getMonth() - 3);
+      fecha = date.toISOString().split('T')[0]; // Formato YYYY-MM-DD    
+    }
+
+    this.oFiltros.DocumSinGuia = 'S';
+    this.oFiltros.FechaDesdeBuscar = fecha;
+    //console.log('🔸' + this.oFiltros.FechaDesdeBuscar);
+
+    return
+  }
+
+  CambiaTipoDocumento(tipoDoc: string): void {
+    // en realidad no importa el tipo de documento seleccionado,
+    // de todos modos voy a cambiar los valores asociados
+    this.oFiltros.DocSerieBuscar = '';
+    this.oFiltros.DocFolioBuscar = '';
+
+    return
   }
 
 }

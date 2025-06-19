@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Configuracion } from '../models/configuraciones';
-import { environment } from '../../environments/environment';
+import { Configuracion } from 'src/app/models/configuraciones';
+import { environment } from 'src/environments/environment';
+import { FiltrosOrdnretorno } from '../modelos/ordnretorno.filtros';
 
 @Injectable()
-
 export class ServicioOrdnretorno {
+
   public API: string;
   public API_URL: string;
   public sFiltros: string;
@@ -16,12 +17,12 @@ export class ServicioOrdnretorno {
     public _http: HttpClient
   ) {
     this.API = Configuracion.API;
-    this.sFiltros = '';
     this.API_URL = environment.API_URL;
+    this.sFiltros = '';
     this.sToken = sessionStorage.getItem('token');
   }
 
-  Get(FiltrosOrdnretorno: any): Observable<any> {
+  Get(FiltrosOrdnretorno: FiltrosOrdnretorno): Observable<any> {
     let llamada: string;
 
     // let params = JSON.stringify(nuevoContacto);
@@ -34,6 +35,7 @@ export class ServicioOrdnretorno {
       .set('Access-Control-Allow-Credentials', 'true');
 
     this.sFiltros = '';
+
     if (FiltrosOrdnretorno.TipoUsuario) {
       this.sFiltros += 'TipoUsuario=' + FiltrosOrdnretorno.TipoUsuario;
     }
@@ -60,6 +62,9 @@ export class ServicioOrdnretorno {
     }
     if (FiltrosOrdnretorno.Status != 'T') {
       this.sFiltros += '&Status=' + FiltrosOrdnretorno.Status;
+    }
+    if (FiltrosOrdnretorno.OrdenRepo) {
+      this.sFiltros += '&OrdenRepo=' + FiltrosOrdnretorno.OrdenRepo;
     }
 
     return this._http.get(this.API_URL + this.API + 'reportes/OrdenesRetorno.php?' +

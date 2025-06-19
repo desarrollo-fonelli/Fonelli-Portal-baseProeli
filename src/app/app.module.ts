@@ -64,6 +64,7 @@ import { Testdr2Component } from './components/testdr2/testdr2.component';
 import { PedclteArticfactComponent } from './components/pedclte-articfact/pedclte-articfact.component';
 import { Guias2025Component } from './components/guias2025/guias2025.component';
 import { DocumArticulosComponent } from './components/docum-articulos/docum-articulos.component';
+import { OrdretoarticulosComponent } from './components/ordnretorno/ordretoarticulos.component';
 
 @NgModule({
   declarations: [
@@ -111,7 +112,8 @@ import { DocumArticulosComponent } from './components/docum-articulos/docum-arti
     Testdr2Component,
     PedclteArticfactComponent,
     Guias2025Component,
-    DocumArticulosComponent
+    DocumArticulosComponent,
+    OrdretoarticulosComponent
   ],
   imports: [
     BrowserModule,

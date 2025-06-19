@@ -2,12 +2,12 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Configuracion } from "src/app/models/configuraciones";
-import { environment } from '../../environments/environment';
-import { FiltrosOrdnretorno } from '../models/ordnretorno.filtros';
+import { environment } from 'src/environments/environment';
 
-@Injectable()
-
-export class ServicioDetalleOrdenRetorno {
+@Injectable({
+  providedIn: 'root'
+})
+export class OrdRetoArticulosServicio {
   public API: string;
   public API_URL: string;
   public sFiltros: string;
@@ -20,10 +20,8 @@ export class ServicioDetalleOrdenRetorno {
     this.sToken = sessionStorage.getItem('token');
   }
 
-  Get(FiltrosOrdRet: any): Observable<any> {
-    let llamada: string;
+  Get(FiltrosOrdRetArt: any): Observable<any> {
 
-    //let params = JSON.stringify(nuevoContacto);
     let headers = new HttpHeaders().set('Content-Type', 'application-json')
       .set("Access-Control-Allow-Origin", "*")
       .set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
@@ -33,15 +31,15 @@ export class ServicioDetalleOrdenRetorno {
 
     this.sFiltros = '';
 
-    this.sFiltros += 'TipoUsuario=' + FiltrosOrdRet.TipoUsuario;
-    if (FiltrosOrdRet.Usuario) {
-      this.sFiltros += '&Usuario=' + FiltrosOrdRet.Usuario;
+    this.sFiltros += 'TipoUsuario=' + FiltrosOrdRetArt.TipoUsuario;
+    if (FiltrosOrdRetArt.Usuario) {
+      this.sFiltros += '&Usuario=' + FiltrosOrdRetArt.Usuario;
     }
-    if (FiltrosOrdRet.ClienteCodigo) {
-      this.sFiltros += '&ClienteCodigo=' + FiltrosOrdRet.ClienteCodigo;
-      this.sFiltros += '&ClienteFilial=' + FiltrosOrdRet.ClienteFilial;
+    if (FiltrosOrdRetArt.ClienteCodigo) {
+      this.sFiltros += '&ClienteCodigo=' + FiltrosOrdRetArt.ClienteCodigo;
+      this.sFiltros += '&ClienteFilial=' + FiltrosOrdRetArt.ClienteFilial;
     }
-    this.sFiltros += '&Folio=' + FiltrosOrdRet.Folio;
+    this.sFiltros += '&Folio=' + FiltrosOrdRetArt.Folio;
 
     return this._http.get(this.API_URL + this.API +
       'reportes/DetalleOrdenRetorno.php?' + this.sFiltros, { headers: headers });

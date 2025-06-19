@@ -1,9 +1,9 @@
 {
-  "version": "2.4.2",
-  "fecha": "2025-05-27",
+  "version": "2.6.0",
+  "fecha": "2025-06-19",
   "caracteristicas": [
     {
-      "caract1": "Consulta Pedidos DETALLE | Relación de Pedidos",
+      "caract1": "Ordenes de Reparación",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

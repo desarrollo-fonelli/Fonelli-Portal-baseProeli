@@ -8,6 +8,7 @@ export class FiltrosOrdnretorno {
     public Folio: number | null,
     public Referencia: number | null,
     public Status: string,
+    public OrdenRepo: string,
     public Pagina: number,
   ) { }
 }
