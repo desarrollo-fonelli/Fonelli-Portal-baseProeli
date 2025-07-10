@@ -1,9 +1,9 @@
 {
-  "version": "2.6.0",
-  "fecha": "2025-06-19",
+  "version": "2.7.0",
+  "fecha": "2025-07-10",
   "caracteristicas": [
     {
-      "caract1": "Ordenes de Reparación",
+      "caract1": "Formularo para Cotizaciones",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

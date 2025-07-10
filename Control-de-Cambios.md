@@ -2,6 +2,12 @@
 ## Control de Cambios
 
 ----------
+## v2.7.0 | 2025-07-10 | Formulario para Cotizaciones
+#### Nuevo:
+1. Se crean componentes y artefactos requeridos para presentar un formulario de cotización similar a un pedido de venta.
+2. Se revisan y en su caso se crean los servicios para consultar la API REST para obtener los precios fijos o calculados.
+
+----------
 ## v2.6.0 | 2025-06-19 | Ordenes de Reparación | Consulta de Logística
 #### Nuevo:
 1. Se crea componente OrdenReparacion y artefactos requeridos: modelos, servicios, etc.

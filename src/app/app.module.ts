@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { routing, appRoutingProviders } from './app.routing';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -65,6 +65,7 @@ import { PedclteArticfactComponent } from './components/pedclte-articfact/pedclt
 import { Guias2025Component } from './components/guias2025/guias2025.component';
 import { DocumArticulosComponent } from './components/docum-articulos/docum-articulos.component';
 import { OrdretoarticulosComponent } from './components/ordnretorno/ordretoarticulos.component';
+import { CotizacionComponent } from './components/cotizacion/cotizacion.component';
 
 @NgModule({
   declarations: [
@@ -113,13 +114,15 @@ import { OrdretoarticulosComponent } from './components/ordnretorno/ordretoartic
     PedclteArticfactComponent,
     Guias2025Component,
     DocumArticulosComponent,
-    OrdretoarticulosComponent
+    OrdretoarticulosComponent,
+    CotizacionComponent
   ],
   imports: [
     BrowserModule,
     NgbModule,
     routing,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatListModule,

@@ -1,0 +1,175 @@
+<div class="container">
+  <h4 class="mb-4 h4">Propuesta Comercial (Cotización)</h4>
+
+  <form [formGroup]="cotizacForm">
+
+    <div class="row mb-3">
+
+      <div class="col-md-7">
+        <!--------------- Casillas para indicar código de cliente -------------->
+        <div class="row mb-2">
+          <div class="col-md-3">
+            <label for="" class="CamposFonelli">Número</label>
+            <input type="number" class="form-control" formControlName="ClienteCodigo" placeholder="Número">
+          </div>
+          <div class="col-md-2">
+            <label for="idClienteFilial" class="CamposFonelli">Filial</label>
+            <input type="number" class="form-control" formControlName="ClienteFilial" id="idClienteFilial"
+              placeholder="Filial">
+          </div>
+          <div class="col-md-2 d-flex flex-column">
+            <button type="button" class="btn btnFonelliAzul mt-auto" (click)="DatosCliente()">
+              Crear
+            </button>
+          </div>
+        </div>
+        <!------------------------ Información del cliente ---------------------->
+        <div class="row mb-1">
+          <div class="col-md-12">
+            <input type="text" class="form-control font-negrita" formControlName="ClienteNombre"
+              placeholder="nombre cliente" readonly>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <input type="text" class="form-control font-negrita" formControlName="ClienteSucursal"
+              placeholder="nombre sucursal" readonly>
+          </div>
+        </div>
+
+        <!------------------- Mensajes relacionados con el cliente -------------->
+        <div class="alert alert-warning mt-2 font-negrita" role="alert" *ngIf="mostrarMensajeClientes">
+          {{ txtMensajeClientes }}
+        </div>
+
+      </div>
+
+      <div class="col-md-5">
+        <!--------------------------- Datos del documento ----------------------->
+        <div class="row mb-1">
+          <div class="col-md-5 d-flex justify-content-end align-items-center">
+            <div class="CamposFonelli">Folio</div>
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control" formControlName="Folio" placeholder="Nuevo">
+          </div>
+        </div>
+        <div class="row mb-1">
+          <div class="col-md-5 d-flex justify-content-end align-items-center">
+            <div class="CamposFonelli">Fecha</div>
+          </div>
+          <div class="col-md-6">
+            <input type="date" class="form-control" formControlName="FechaDoc">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!------------------------ Ingresa código de artículo --------------------->
+    <div class="row mb-2 bg-light p3 rounded">
+      <div class="col-md-2">
+        <label for="" class="CamposFonelli">Línea PT</label>
+        <input type="text" class="form-control" formControlName="LineaPT">
+      </div>
+      <div class="col-md-3">
+        <label for="" class="CamposFonelli">Clave del modelo</label>
+        <input type="text" class="form-control" formControlName="ItemCode">
+      </div>
+      <div class="col-md-2">
+        <label for="" class="CamposFonelli">Piezas</label>
+        <input type="number" class="form-control" formControlName="Piezas" min="1">
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="button" class="btn btnFonelliAzul" (click)="AgregarArticulo()"
+          [disabled]="!cotizacForm.get('ItemCode')?.value">
+          Agregar
+        </button>
+      </div>
+    </div> <!-- .row Ingresa código de artículo -->
+    <div class="alert alert-warning mt-2 font-negrita" role="alert" *ngIf="mostrarMensajeArticulo">
+      {{ txtMensajeArticulo }}
+    </div>
+
+  </form>
+
+
+  <!----------------------- Tabla de artículos cotizados  ------------------------>
+  <div class="row">
+    <div class="table-responsive mb-4">
+      <table class="table table-sm table-striped table-bordered table-hover">
+        <thead>
+          <tr class="EncTabla">
+            <th class="thFonelli-center" scope="col">Línea</th>
+            <th class="thFonelli-left" scope="col">Modelo</th>
+            <th class="thFonelli-left" scope="col">Descripción</th>
+            <th class="thFonelli-center" scope="col">Ktje</th>
+            <th class="thFonelli-center" scope="col">Piezas</th>
+            <th class="thFonelli-center" scope="col">Gramos</th>
+            <th class="thFonelli-center" scope="col">Calc</th>
+            <th class="thFonelli-right" scope="col">PrecioUnit</th>
+            <th class="thFonelli-right" scope="col">Importe</th>
+            <th class="thFonelli-center" scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of articulos; let i=index">
+            <td class="FilasFonelli-center">{{ item.LineaPT }}</td>
+            <td class="FilasFonelli-left">{{ item.ItemCode }}</td>
+            <td class="FilasFonelli-left">{{ item.Descripc}}</td>
+            <td class="FilasFonelli-center">{{ item.Kilataje }}</td>
+            <td class="FilasFonelli-center">{{ item.Piezas }}</td>
+            <td class="FilasFonelli-center">{{ item.Gramos }}</td>
+            <td class="FilasFonelli-center">{{ (item.TipoCosteo == '1') ? 'Pzas' : 'Grms' }}</td>
+            <td class="FilasFonelli-right">{{ item.Precio | currency}}</td>
+            <td class="FilasFonelli-right">{{ item.Importe | currency}}</td>
+            <td class="FilasFonelli-center">
+              <button class="btn btn-sm btn-dark" (click)="eliminarArticulo(i)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="articulos.length === 0">
+            <td colspan="10" class="text-center text-muted">No hay artículos agregados</td>
+          </tr>
+        </tbody>
+      </table> <!-- .table -->
+    </div> <!-- .table.responsive -->
+  </div>
+
+
+  <!-- Totales del documento -->
+  <div class="row">
+    <div class="col-md-3 offset-md-9">
+      <div class="d-flex justify-content-between align-items-center border-top pt-2">
+        <span class="h5">Total:</span>
+        <span class="h5">{{ totalDocum | currency }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botones del documento -->
+  <div class="mt-4 d-flex justify-content-end gap-2">
+    <button type="button" class="btn btnFonelliAzul mt-auto" (click)="guardarPropuesta()">
+      <!--<i class="bi bi-save me-1"></i>--> Guardar
+    </button>
+    <button type="button" class="btn btnFonelliAzul mt-auto" (click)="imprimir()">
+      <!--<i class="bi bi-printer me-1"></i>--> Imprimir
+    </button>
+  </div>
+
+</div> <!-- .container mt-4 -->
+
+<!----------------------  Formulario Modal para mensajes ------------------------>
+<div class="modal-backdrop" *ngIf="mostrarModalMensaje"></div>
+<div class="modal fade show d-block text-center" *ngIf="mostrarModalMensaje" tabindex="-1">
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p>Documento guardado</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary" (click)="cerrarModalMensaje()">Continuar</button>
+      </div>
+    </div>
+  </div>
+</div>

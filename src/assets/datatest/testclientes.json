@@ -1,0 +1,14 @@
+[
+  {
+    "ClienteCodigo": 431,
+    "ClienteFilial": 1,
+    "ClienteNombre": "ESTHER OLEGNOWICS BICAS",
+    "ClienteSucursal": "SUCURSAL MADERO"
+  },
+  {
+    "ClienteCodigo": 1721,
+    "ClienteFilial": 0,
+    "ClienteNombre": "THE LOVE STORE",
+    "ClienteSucursal": "SUCURSAL PRINCIPAL"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "LineaPT": "76",
+    "ItemCode": "B5050",
+    "Descripc": "ARTICULO 76-B5050",
+    "Precio": 5124.00,
+    "Gramos": 1.90,
+    "TipoCosteo": "1",
+    "Kilataje": "14",
+    "IntExt": "I"
+  },
+  {
+    "LineaPT": "D1",
+    "ItemCode": "AR14-060506",
+    "Descripc": "ARGOLLA 14KT DE LINEA",
+    "Precio": 1679.09,
+    "Gramos": 4.4,
+    "TipoCosteo": "2",
+    "Kilataje": "14",
+    "IntExt": "E"
+  },
+  {
+    "LineaPT": "D7",
+    "ItemCode": "AR10-800124",
+    "Descripc": "ARGOLLA 10KT AMARILLA",
+    "Precio": 1255.36,
+    "Gramos": 1.24,
+    "TipoCosteo": "2",
+    "Kilataje": "10",
+    "IntExt": "E"
+  },
+  {
+    "LineaPT": "72",
+    "ItemCode": "HJ200A",
+    "Descripc": "ARTICULO HJ200A",
+    "Precio": 1689.09,
+    "Gramos": 9.00,
+    "TipoCosteo": "2",
+    "Kilataje": "14",
+    "IntExt": "I"
+  }
+]

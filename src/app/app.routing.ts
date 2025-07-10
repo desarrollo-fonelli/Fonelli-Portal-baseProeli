@@ -30,6 +30,7 @@ import { InicioadminComponent } from './components/inicioadmin/inicioadmin.compo
 import { CatalogointeractivoComponent } from './components/catalogointeractivo/catalogointeractivo.component';
 import { PedclteListaComponent } from "./components/pedclte-lista/pedclte-lista.component";
 import { Guias2025Component } from "./components/guias2025/guias2025.component";
+import { CotizacionComponent } from "./components/cotizacion/cotizacion.component";
 
 // componentes para pruebas: descartar en versión de producción ---------------------------------------
 import { TestdrComponent } from "./components/testdr/testdr.component";
@@ -87,8 +88,9 @@ const appRoutes: Routes = [
       { path: 'tabla', component: EncabezadoComponent },
       { path: 'pedclte-lista', component: PedclteListaComponent },
       { path: 'guias2025', component: Guias2025Component },
-      { path: 'testdr', component: TestdrComponent },
-      { path: 'testdr2', component: Testdr2Component }
+      { path: 'cotizacion', component: CotizacionComponent }
+      //{ path: 'testdr', component: TestdrComponent },
+      //{ path: 'testdr2', component: Testdr2Component }
     ],
   },
 
