@@ -128,3 +128,9 @@ td.FilasFonelli-fecha {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1040;
 }
+
+@media print {
+  .no-imprimir {
+    display: none !important;
+  }
+}

@@ -2,6 +2,18 @@
 ## Control de Cambios
 
 ----------
+## v2.7.1 | 2025-07-11 | Cotizaciones - correcciones derivadas de la revisión 
+#### Issues:
+1. Al acceder a la app como agente, e indicar un código de cliente, el servicio CltesDocVenta devuelve un "Error de autenticación".
+1.1 RESUELTO: se modificó el servicio API REST.
+#### Cambios:
+2. Las casillas "input" para mostrar los datos del cliente se reemplazan con una "textbox".
+3. Ajustes al layout del formulario usando "cards".
+4. Se mejora el formato para la salida impresa.
+5. Se implementa el acceso con el tipo de usuario "C - Cliente" (distribuidor).
+5.1 Se ajusta el comportamiento interactivo de los controles para indicar código de cliente.
+
+----------
 ## v2.7.0 | 2025-07-10 | Formulario para Cotizaciones
 #### Nuevo:
 1. Se crean componentes y artefactos requeridos para presentar un formulario de cotización similar a un pedido de venta.

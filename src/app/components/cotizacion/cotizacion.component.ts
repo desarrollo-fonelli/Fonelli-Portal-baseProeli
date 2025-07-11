@@ -78,28 +78,18 @@ export class CotizacionComponent implements OnInit {
       this._router.navigate(['/']);
     }
 
+    this.bCliente = false;
     this.sTipoUsuario = sessionStorage.getItem('tipo');
     this.sUsuario = sessionStorage.getItem('codigo');
-
-    this.cotizacForm = this.fb.group({
-      ClienteCodigo: [0, [Validators.required, Validators.pattern('^[0-9]*$')]],
-      ClienteFilial: [0, [Validators.required, Validators.pattern('^[0-9]*$')]],
-      Folio: [''],
-      FechaDoc: [new Date().toISOString().substring(0, 10), Validators.required],
-      ClienteNombre: ['', Validators.required],
-      ClienteSucursal: ['', Validators.required],
-      LineaPT: [''],
-      ItemCode: [''],
-      Piezas: [1, [Validators.required, Validators.min(1)]]
-    });
 
     switch (this.sTipoUsuario) {
       case 'C': {
         //Tipo cliente                  
         this.bCliente = true;
-        //this.oFiltros.Usuario = this.sCodigo + '-' + this.sFilial;
+        this.oCalcPrecParam.Usuario = this.sCodigo + '-' + this.sFilial;
         this.oCalcPrecParam.ClienteCodigo = this.sCodigo;
         this.oCalcPrecParam.ClienteFilial = this.sFilial;
+
         break;
       }
       case 'A': {
@@ -116,11 +106,29 @@ export class CotizacionComponent implements OnInit {
       }
     }
 
+    this.cotizacForm = this.fb.group({
+      ClienteCodigo: [this.oCalcPrecParam.ClienteCodigo, [Validators.required, Validators.pattern('^[0-9]*$')]],
+      ClienteFilial: [this.oCalcPrecParam.ClienteFilial, [Validators.required, Validators.pattern('^[0-9]*$')]],
+      Folio: [''],
+      FechaDoc: [new Date().toISOString().substring(0, 10), Validators.required],
+      ClienteNombre: ['', Validators.required],
+      ClienteSucursal: ['', Validators.required],
+      txtDatosCliente: [''],
+      LineaPT: [''],
+      ItemCode: [''],
+      Piezas: [1, [Validators.required, Validators.min(1)]]
+    });
+
+    if (this.sTipoUsuario == 'C') {
+      this.DatosCliente();
+    }
+
   }
+
 
   DatosCliente(): void {
     if (this.sTipoUsuario == 'A') {
-      const _agenteCodigo = this.sUsuario;
+      const _agenteCodigo = this.oCalcPrecParam.Usuario;
     }
 
     // Borra las filas actuales en el documento
@@ -129,10 +137,10 @@ export class CotizacionComponent implements OnInit {
     // Filtros para buscar cliente
     this.oCotzClteFiltros = {
       TipoUsuario: this.sTipoUsuario,
-      Usuario: this.sUsuario,
+      Usuario: this.oCalcPrecParam.Usuario,
       ClienteCodigo: this.cotizacForm.get('ClienteCodigo')?.value,
       ClienteFilial: this.cotizacForm.get('ClienteFilial')?.value,
-      AgenteCodigo: this.sTipoUsuario == 'A' ? String(this.sUsuario) : ''
+      AgenteCodigo: this.sTipoUsuario == 'A' ? String(this.oCalcPrecParam.Usuario) : ''
     };
     //console.table(this.oCotzClteFiltros);
 
@@ -155,6 +163,8 @@ export class CotizacionComponent implements OnInit {
             this.cotizacForm.patchValue({
               ClienteNombre: this.oCotzClte.Contenido.ClteRazonSocial,
               ClienteSucursal: this.oCotzClte.Contenido.ClteSucursal,
+              txtDatosCliente: this.oCotzClte.Contenido.ClteRazonSocial + '\n' +
+                this.oCotzClte.Contenido.ClteSucursal
             })
 
             this.sListaPrecCode = this.oCotzClte.Contenido.ListaPreciosCodigo;
@@ -164,7 +174,8 @@ export class CotizacionComponent implements OnInit {
             this.clteEsValido = false;
             this.cotizacForm.patchValue({
               ClienteNombre: 'Cliente NO registrado',
-              ClienteSucursal: ''
+              ClienteSucursal: '',
+              txtDatosCliente: 'Cliente NO registrado'
             })
 
             this.sListaPrecCode = '11';   // cuando no se indica cliente, no es el caso en este componente
@@ -220,7 +231,7 @@ export class CotizacionComponent implements OnInit {
     // utilice el peso promedio del artículo
     this.oCalcPrecParam = {
       TipoUsuario: this.sTipoUsuario,
-      Usuario: this.sUsuario,
+      Usuario: this.oCalcPrecParam.Usuario,
       ClienteCodigo: this.cotizacForm.get('ClienteCodigo')?.value,
       ClienteFilial: this.cotizacForm.get('ClienteFilial')?.value,
       ItemLinea: _lineaPT,
@@ -318,10 +329,13 @@ export class CotizacionComponent implements OnInit {
     this.mostrarModalMensaje = true;
 
     // Resetea campos para documento nuevo
-    this.cotizacForm.get('ClienteCodigo')?.reset();
-    this.cotizacForm.get('ClienteFilial')?.reset();
-    this.cotizacForm.get('ClienteNombre')?.reset();
-    this.cotizacForm.get('ClienteSucursal')?.reset();
+    if (this.sTipoUsuario != 'C') {
+      this.cotizacForm.get('ClienteCodigo')?.reset();
+      this.cotizacForm.get('ClienteFilial')?.reset();
+      this.cotizacForm.get('ClienteNombre')?.reset();
+      this.cotizacForm.get('ClienteSucursal')?.reset();
+      this.cotizacForm.get('txtDatosCliente')?.reset();
+    }
     this.cotizacForm.get('LineaPT')?.reset();
     this.cotizacForm.get('ItemCode')?.reset();
     this.cotizacForm.get('Piezas')?.setValue(1);
