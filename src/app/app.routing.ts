@@ -31,6 +31,7 @@ import { CatalogointeractivoComponent } from './components/catalogointeractivo/c
 import { PedclteListaComponent } from "./components/pedclte-lista/pedclte-lista.component";
 import { Guias2025Component } from "./components/guias2025/guias2025.component";
 import { CotizacionComponent } from "./components/cotizacion/cotizacion.component";
+import { ArticulosReporteComponent } from "./components/articulos-reporte/articulos-reporte.component";
 
 // componentes para pruebas: descartar en versión de producción ---------------------------------------
 import { TestdrComponent } from "./components/testdr/testdr.component";
@@ -55,7 +56,8 @@ const appRoutes: Routes = [
       { path: 'listacfdis', component: ListacfdisComponent },
       { path: 'pedclte-lista', component: PedclteListaComponent },
       { path: 'guias2025', component: Guias2025Component },
-      { path: 'cotizacion', component: CotizacionComponent }
+      { path: 'cotizacion', component: CotizacionComponent },
+      { path: 'articulosreporte', component: ArticulosReporteComponent }
 
       //{ path: 'guias', component: GuiasComponent }
       //{ path: 'ordnretorno', component: OrdnretornoComponent }
@@ -89,7 +91,9 @@ const appRoutes: Routes = [
       { path: 'tabla', component: EncabezadoComponent },
       { path: 'pedclte-lista', component: PedclteListaComponent },
       { path: 'guias2025', component: Guias2025Component },
-      { path: 'cotizacion', component: CotizacionComponent }
+      { path: 'cotizacion', component: CotizacionComponent },
+      { path: 'articulosreporte', component: ArticulosReporteComponent }
+
       //{ path: 'testdr', component: TestdrComponent },
       //{ path: 'testdr2', component: Testdr2Component }
     ],

@@ -2,6 +2,12 @@
 ## Control de Cambios
 
 ----------
+## v2.8.0 | 2025-07-15 | Reporte Catálogo de Artículos
+#### Nuevo:
+1. Este reporte presenta una lista de artículos de PT permitiendo filtrar por "códigos semejantes".
+2. Para cada artículo devuelto se llama la rutina de cálculo de precio (en  la API REST), lo cual ocasiona que el reporte tarde, así que la presentación se limita a 500 registros máximo. 
+
+----------
 ## v2.7.1 | 2025-07-11 | Cotizaciones - correcciones derivadas de la revisión 
 #### Issues:
 1. Al acceder a la app como agente, e indicar un código de cliente, el servicio CltesDocVenta devuelve un "Error de autenticación".

@@ -1,0 +1,236 @@
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!-- Criterios de Filtro -->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">Catálogo de Artículos</div>
+
+      <!--------------------------- Formulario para indicar Criterios de Filtro ----------------------->
+      <form>
+        <!--------------------- Líneas de PT --------------------->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde Línea</label>
+            <select class="form-select" name="idLinDes" #nombre="ngModel" [(ngModel)]="oBuscar.LineaPTDesde" required>
+              <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasCon">
+                {{dato.LineaCodigo}} - {{dato.LineaDescripc}}
+              </option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta línea</label>
+            <select class="form-select" name="idLinHas" #nombre="ngModel" [(ngModel)]="oBuscar.LineaPTHasta" required>
+              <option value="{{dato.LineaCodigo}}" *ngFor="let dato of oLineasCon">
+                {{dato.LineaCodigo}} - {{dato.LineaDescripc}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!----------- Cliente (Requerido para asignar Paridad y Lista de Precio) ---------->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Cliente</label>
+            <input type="text" id="idCliCod" class="form-control" name="idCliCod" #idCliCod="ngModel"
+              [(ngModel)]="oBuscar.ClienteCodigo" disabled="{{ bCliente }}" required />
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Filial</label>
+            <input type="text" id="idFilCli" class="form-control" name="idFilCli" #idFilCli="ngModel"
+              [(ngModel)]="oBuscar.ClienteFilial" disabled="{{ bCliente }}" required />
+          </div>
+          <div class="form-group col-md-3" [hidden]="bCliente">
+            <label class="CamposFonelli col-md-12" style="color: white">-</label>
+            <button type="button" class="btnFonelli btn" (click)="openClientes(Clientes)"
+              style="background-color: #24a4cc">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <!------------------ Código de artículo --------------------->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Código de modelo</label>
+            <input type="text" class="form-control" id="ItemCode" name="ItemCode" #ItemCode="ngModel"
+              [(ngModel)]="oBuscar.ItemCode" placeholder="Todos" />
+          </div>
+
+          <!-------- checkbox para Buscar Articulos Semejantes -------->
+          <div class="form-group col-auto">
+            <label class="CamposFonelli">...</label>
+            <div class="form-check" style="text-align: center;">
+              <input class="form-check-input" type="checkbox" id="chkBuscarSemejantes" #chkBuscarSemejantes="ngModel"
+                [(ngModel)]="oBuscar.BuscarSemejantes" />
+              <label for="chkBuscarSemejantes">Buscar Semejantes</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones de radio para definir Status -->
+        <div class="row">
+          <div class="form-group col-md-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radActivo" id="radActivo" value="A"
+                #radActivo="ngModel" [(ngModel)]="oBuscar.Status" />
+              <label class="form-check-label CamposFonelli" for="radActivo">
+                Activos
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radInactivo" id="radInactivo" value="I"
+                #radInactivo="ngModel" [(ngModel)]="oBuscar.Status" />
+              <label class="form-check-label CamposFonelli" for="radInactivo">
+                Inactivos</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="radTodos" id="radTodos" value="T" #radTodos="ngModel"
+                [(ngModel)]="oBuscar.Status" />
+              <label class="form-check-label CamposFonelli" for="radTodos">
+                Todos
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mensajes relacionados con la búsqueda -->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-warning font-negrita" role="alert">{{ sMensaje }}</p>
+        </div>
+
+        <!-- Boton BUSCAR -->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" class="btnFonelli btn" (click)="ConsultaArticulos()">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Tabla que muestra los resultados de la consulta SQL -->
+<div class="container float-left" [hidden]="!mostrarTabla">
+  <br>
+  <div class="h4 text-center"><strong>Catálogo de artículos</strong></div>
+  <div *ngIf="oFilasArticulos.length >= 500" class="alert alert-warning text-center">
+    La consulta excede 500 artículos, por favor refine su búsqueda.
+  </div>
+  <div class="container" ID="pdfTable" #pdfTable>
+    <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger">
+      <thead class="thead-p">
+        <tr class="EncTabla">
+          <!--<th style="background-color: #24a4cc; color: white;" scope="col">#</th>-->
+          <th style="background-color: #24a4cc; color: white; text-align:center; max-width: 4ch;" scope="col">Linea</th>
+          <th style="background-color: #24a4cc; color: white; text-align:left; max-width: 18ch;" scope="col">Clave</th>
+          <th style="background-color: #24a4cc; color: white; text-align:left; max-width: 24ch;" scope="col">Descripción
+          </th>
+          <th style="background-color: #24a4cc; color: white; text-align:right; max-width: 12ch;" scope="col">Precio
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let itm of oFilasArticulos ; index as i">
+          <!--<th class="FilasFonelli" scope="row">{{ i + 1 }}</th>-->
+          <td class="FilasFonelli col-texto-medio" style="text-align:center; max-width: 4ch;">{{ itm.LineaPT }}</td>
+          <td class="FilasFonelli col-texto-ancho" style="text-align:left; max-width: 18ch;">{{ itm.ItemCode }}</td>
+          <td class="FilasFonelli col-texto-medio" style="text-align:left; max-width: 24ch;">{{ itm.Descripc }}</td>
+          <th class="FilasFonelli col-texto-medio" style="text-align:right; max-width: 12ch">{{ itm.PrecioVenta |
+            number:
+            '1.2-2' }}</th>
+          <!--
+          <th class="FilasFonelli" style="text-align:right">{{ itm.PrecioVenta === 0 ? '' : (itm.PrecioVenta | number:
+            '1.2-2') }}</th>
+            -->
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+
+<!----------------------------- Modal catalogo clientes --------------------------->
+<ng-template #Clientes let-modal>
+  <div class="modal-header">
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+  <div class="modal-body-tables" style="overflow-y: scroll;">
+
+    <div class="container">
+      <div class="row">
+
+        <div class="form-group col-md-1">
+          <br>
+          <label class="CamposFonelli">Buscar:</label>
+        </div>
+        <div class="form-group col-md-5">
+          <br>
+          <input type="text" class="form-control" [(ngModel)]="searchtext" placeholder="Search" />
+        </div>
+
+        <div class="col-12">
+          <table class="table table-striped">
+            <thead class="thead-p2">
+              <tr class="EncTabla">
+                <th>#</th>
+                <th scope="col"></th>
+                <th scope="col">NUM</th>
+                <th scope="col">FIL</th>
+                <th scope="col">RAZÓN SOCIAL</th>
+                <th scope="col">SUCURSAL/NOMBRE</th>
+                <th scope="col">S</th>
+                <th scope="col">CONTACTO1</th>
+                <th scope="col">CONTACTO2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <td *ngIf="bCargandoClientes" class="FilasFonelli" style="text-align:center" colspan="10"><span
+                  class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f">
+                </span></td>
+              <tr *ngFor="let emp of oCliente.Contenido |searchconsultaCliente: searchtext; index as i"
+                (click)="obtenCliente(emp.ClienteCodigo,emp.ClienteFilial)">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>
+                  <input style="border-color: #24a4cc;" type="checkbox">
+                </td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteCodigo}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.ClienteFilial}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.RazonSocial}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Sucursal}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.DatosGenerales.Status}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto1Nombre}}</td>
+                <td class="FilasFonelli" style="text-align:left">{{emp.Contactos.Contacto2Nombre}}</td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <!-- <button type="submit" class="btn btn-primary" [disabled]="!formLoginDistribuidor.form.valid">INGRESAR</button> -->
+  </div>
+
+</ng-template>
