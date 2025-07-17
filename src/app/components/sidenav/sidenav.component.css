@@ -3,6 +3,7 @@
   z-index: 10;
   height: 60px;
 }
+
 .main-container {
   padding-top: 60px;
   overflow: initial;
@@ -13,9 +14,66 @@ mat-sidenav {
   padding-top: 70px;
 }
 
-mat-sidenav-container, mat-sidenav-content
-{
+mat-sidenav-container,
+mat-sidenav-content {
   overflow: initial;
 
 }
- 
+
+/* ------------------------------------------------- */
+
+/* Ajustes para integrar Bootstrap Accordion con Angular Material Sidenav */
+.mat-drawer-inner-container {
+  overflow-x: hidden;
+  /* Prevenir scroll horizontal */
+}
+
+.accordion-item {
+  background-color: transparent;
+  border: none;
+}
+
+.accordion-button {
+  padding: 0 16px;
+  /* Mismo padding que un mat-list-item */
+  height: 48px;
+  /* Misma altura que un mat-list-item */
+  width: 100%;
+  font-weight: 500;
+
+  /* Heredar el color del texto del sidenav */
+  &:not(.collapsed) {
+    color: var(--bs-body-color);
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  /* Quitar el box-shadow azul al hacer foco */
+  &:focus {
+    box-shadow: none;
+    border-color: transparent;
+  }
+
+  /* Ajustar el ícono de flecha */
+  &::after {
+    background-size: 1rem;
+  }
+}
+
+.accordion-body {
+  padding: 0;
+}
+
+/* Añadir sangría a los sub-items para indicar jerarquía */
+.accordion-body .mat-list-item {
+  padding-left: 16px !important;
+}
+
+/* Aplica una sangría (padding) a los ítems del menú que están DENTRO de un grupo.
+  Este selector apunta específicamente a los `mat-list-item` que son descendientes 
+  de un elemento con la clase `.accordion-collapse`, que es el contenedor de 
+  Bootstrap que se expande y se contrae.
+*/
+.accordion-collapse .mat-list-item {
+  padding-left: 16px !important;
+}

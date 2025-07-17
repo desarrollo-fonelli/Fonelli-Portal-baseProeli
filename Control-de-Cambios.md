@@ -2,7 +2,13 @@
 ## Control de Cambios
 
 ----------
-## v2.8.1 | 2025-07-16 | articulos-consulta > Ajustes Reporte Catálogo de Artículos
+## v2.9.0 | 2025-07-19 | sidenav > reingeniería del menú de la app
+#### Cambios:
+1. Se cambia por completo el layout del menú lateral para agrupar los ítems, usando un "acordeón" en vez de una lista plana
+2. Ajustes menores al formulario articulos-consulta
+
+----------
+## v2.8.1 | 2025-07-17 | articulos-consulta > Ajustes Reporte Catálogo de Artículos
 #### Cambios:
 1. Se pide descartar todos los crterios de filtro actuales, solo dejar una casilla para buscar código semejante.
 1.1 La búsqueda debe presentar artículos cuyo código coincida fonéticamente con el texto indicado por el usuario

@@ -1,154 +1,238 @@
+<!--
+  Este código reemplaza la lista de navegación simple con un acordeón de Bootstrap 5.
+  - Se mantiene la estructura general de Angular Material (mat-sidenav, mat-toolbar).
+  - Se utiliza el componente "Accordion" de Bootstrap para agrupar los ítems del menú.
+  - Los títulos de los grupos y los ítems de nivel superior están en mayúsculas como se solicitó.
+  - Cada grupo de acordeón (`accordion-item`) contiene un botón en el encabezado para expandir/colapsar y una lista de enlaces (`mat-list-item`) en el cuerpo.
+  - La directiva `routerLinkActive="active-list-item"` se conserva en cada enlace para asegurar que el ítem activo se resalte.
+  - Los grupos están colapsados por defecto gracias a la clase `.collapsed` en el botón y el `collapse` en el div del contenido.
+-->
 <mat-toolbar class="fixedElement">
   <button class="btn btn-primary" style="background-color: #24a4cc; border: none;"
     (click)="snav.toggle()"><mat-icon>menu</mat-icon></button>
-  <div class="cat ">
+  <div class="cat">
     <a href="#">
-      <img src="../../../assets/images/principal/logo_fonelli.png">
+      <img src="../../../assets/images/principal/logo_fonelli.png" alt="Logo Fonelli">
     </a>
   </div>
-  <!--<button (click)="EliminaSesion()" class="btn btn-primary btn-sm ml-auto">Cerrar Sesión</button>-->
 
   <div class="ms-auto">
     <button class="boton_sesion" [matMenuTriggerFor]="menu">
-      <img src="../../../assets/images/principal/usuario.png" alt="" style="height:30px ; width:30px;">
+      <img src="../../../assets/images/principal/usuario.png" alt="Icono de usuario" style="height:30px ; width:30px;">
     </button>
     <mat-menu #menu="matMenu" class="profile-dropdown">
-
       <span class="fs-16 text-center" mat-menu-item>{{sCuenta}}</span>
       <span *ngIf="bCliente" class="fs-16" mat-menu-item>{{'Cuenta: '}}<strong>{{ sCodigo +'-'+
           sFilial}}</strong></span>
-      <!-- <span class="fs-16" mat-menu-item><mat-icon>login</mat-icon>{{'Nombre: '}}<strong>{{ sNombre }}</strong> </span> -->
       <span class="fs-16" mat-menu-item>{{'Nombre: '}}<strong>{{ sNombre }}</strong> </span>
-
       <div class="container float-left">
         <div class="row">
           <button (click)="EliminaSesion()" class="btnLogout btn">Cerrar Sesión</button>
         </div>
       </div>
-
     </mat-menu>
   </div>
-
 </mat-toolbar>
-
 
 <div class="main-container">
   <mat-sidenav-container>
-    <!-- <mat-sidenav #snav class="mat-elevation-z10" [opened]="true" fixedTopGap="64" [mode]="mobileQuery.matches ? 'over' : 'side'" fixedInViewport="true" style="width:260px;"> -->
     <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches"
       fixedTopGap="64" [opened]="mobileQuery.matches ? 'false' : 'true'" style="width:260px;">
 
-      <!------------ Items de menú para Distribuidores (CLIENTES) ------------>
-      <mat-nav-list *ngIf="bCliente" nav-list (click)="toggle(snav)">
-        <a mat-list-item [routerLink]="['/distribuidores/inicio/']" routerLinkActive="active-list-item"> <span
-            class="font_side">Inicio</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']" routerLinkActive="active-list-item"><span
-            class="font_side">Datos de clientes</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de precios</span></a>
-        <!--
-            <a mat-list-item [routerLink]="['/distribuidores/consultapedidos/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de pedidos</span></a>
-            -->
-        <a mat-list-item [routerLink]="['/distribuidores/pedclte-lista/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de pedidos</span></a>
-
-        <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']" routerLinkActive="active-list-item"><span
-            class="font_side">Relación de pedidos</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']" routerLinkActive="active-list-item"><span
-            class="font_side">Estado de cuenta</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"
-          routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
-        <a mat-list-item [routerLink]="['/distribuidores/listacfdis/']" routerLinkActive="active-list-item"><span
-            class="font_side">Descargar CFDIs</span></a>
-
-        <!--
-        <a mat-list-item [routerLink]="['/distribuidores/guias2025/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de Logística</span></a>
-        -->
-
-        <!-- <a mat-list-item [routerLink]="['/distribuidores/ordnretorno/']" routerLinkActive="active-list-item"><span class="font_side">Ordenes de Retorno</span></a> -->
-
-        <!--
-        <a mat-list-item [routerLink]="['/distribuidores/cotizacion/']" routerLinkActive="active-list-item"><span
-            class="font_side">Cotización de Ventas</span></a>
-        -->
-
-        <!--
-        <a mat-list-item [routerLink]="['/distribuidores/articulosreporte/']" routerLinkActive="active-list-item"><span
-            class="font_side">Catálogo de Artículos</span></a>
-        -->
-
-        <!-- <a mat-list-item [routerLink]="['/catalogointeractivo/']" routerLinkActive="active-list-item"><span
-            class="font_side_ic">Catálogo interactivo </span></a> -->
-
-      </mat-nav-list>
-
-      <!------------ Items de menú para Asesores y Gerentes de Venta ------------>
-      <mat-nav-list *ngIf="!bCliente" nav-list (click)="toggle(snav)">
-        <a mat-list-item [routerLink]="['/asesores/inicio/']" routerLinkActive="active-list-item"> <span
-            class="font_side">Inicio</span></a>
+      <!-- =============================================================== -->
+      <!-- Menú para Asesores y Gerentes de Venta (*ngIf="!bCliente")       -->
+      <!-- =============================================================== -->
+      <mat-nav-list *ngIf="!bCliente" nav-list>
+        <a mat-list-item [routerLink]="['/asesores/inicio/']" routerLinkActive="active-list-item"
+          class="text-uppercase"><span class="font_side">Inicio</span></a>
         <a mat-list-item [routerLink]="['/asesores/indicadoresventa/']" routerLinkActive="active-list-item"><span
             class="font_side">Indicadores de venta</span></a>
-        <a mat-list-item [routerLink]="['/asesores/datoscliente/']" routerLinkActive="active-list-item"><span
-            class="font_side">Datos de clientes</span></a>
-        <a mat-list-item [routerLink]="['/asesores/consultaprecios/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de precios</span></a>
-        <!--
-            <a mat-list-item [routerLink]="['/asesores/consultapedidos/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de pedidos</span></a>
+
+        <div class="accordion accordion-flush" id="menuAsesorAccordion">
+          <!-- Grupo Clientes -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="asesor-headingOne">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#asesor-collapseOne" aria-expanded="false" aria-controls="asesor-collapseOne">
+                <span class="font_side">Clientes</span>
+              </button>
+            </h2>
+            <div id="asesor-collapseOne" class="accordion-collapse collapse" aria-labelledby="asesor-headingOne"
+              data-bs-parent="#menuAsesorAccordion">
+              <a mat-list-item [routerLink]="['/asesores/datoscliente/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Datos de clientes</span></a>
+              <a mat-list-item [routerLink]="['/asesores/estadocuenta/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Estado de cuenta</span></a>
+              <a mat-list-item [routerLink]="['/asesores/fichatecnica/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Ficha técnica</span></a>
+              <a mat-list-item [routerLink]="['/asesores/consultainactivos/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Consulta de inactivos</span></a>
+              <a mat-list-item [routerLink]="['/asesores/listacfdis/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Descargar CFDIs</span></a>
+            </div>
+          </div>
+          <!-- Grupo Precios -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="asesor-headingTwo">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#asesor-collapseTwo" aria-expanded="false" aria-controls="asesor-collapseTwo">
+                <span class="font_side">Precios</span>
+              </button>
+            </h2>
+            <div id="asesor-collapseTwo" class="accordion-collapse collapse" aria-labelledby="asesor-headingTwo"
+              data-bs-parent="#menuAsesorAccordion">
+              <a mat-list-item [routerLink]="['/asesores/consultaprecios/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Consulta de precios</span></a>
+              <a mat-list-item [routerLink]="['/asesores/cotizacion/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Cotización de Ventas</span></a>
+            </div>
+          </div>
+          <!-- Grupo Pedidos -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="asesor-headingThree">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#asesor-collapseThree" aria-expanded="false" aria-controls="asesor-collapseThree">
+                <span class="font_side">Pedidos</span>
+              </button>
+            </h2>
+            <div id="asesor-collapseThree" class="accordion-collapse collapse" aria-labelledby="asesor-headingThree"
+              data-bs-parent="#menuAsesorAccordion">
+              <a mat-list-item [routerLink]="['/asesores/pedclte-lista/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Consulta de pedidos</span></a>
+              <a mat-list-item [routerLink]="['/asesores/relacionpedidos/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Relación de pedidos</span></a>
+              <a mat-list-item [routerLink]="['/asesores/guias2025/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Consulta de Logística</span></a>
+              <a mat-list-item [routerLink]="['/asesores/ordnretorno/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Ordenes de Retorno</span></a>
+            </div>
+          </div>
+          <!-- Grupo Ventas -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="asesor-headingFour">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#asesor-collapseFour" aria-expanded="false" aria-controls="asesor-collapseFour">
+                <span class="font_side">Ventas</span>
+              </button>
+            </h2>
+            <div id="asesor-collapseFour" class="accordion-collapse collapse" aria-labelledby="asesor-headingFour"
+              data-bs-parent="#menuAsesorAccordion">
+              <a mat-list-item [routerLink]="['/asesores/ventasarticulo/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Ventas por artículo</span></a>
+              <a mat-list-item [routerLink]="['/asesores/ventasclientearticulo/']"
+                routerLinkActive="active-list-item"><span class="font_side">Ventas clte y artículo</span></a>
+              <a mat-list-item [routerLink]="['/asesores/reporteventas/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Reporte de ventas</span></a>
+            </div>
+          </div>
+          <!-- Grupo Inventario -->
+          <!--
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="asesor-headingFive">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#asesor-collapseFive" aria-expanded="false" aria-controls="asesor-collapseFive">
+                <span class="font_side">Inventario</span>
+              </button>
+            </h2>
+            <div id="asesor-collapseFive" class="accordion-collapse collapse" aria-labelledby="asesor-headingFive"
+              data-bs-parent="#menuAsesorAccordion">
+              <a mat-list-item [routerLink]="['/asesores/consultaexistencias/']"
+                routerLinkActive="active-list-item"><span class="font_side">Consulta de Existencias</span></a>
+            </div>
+          </div>
           -->
-        <a mat-list-item [routerLink]="['/asesores/pedclte-lista/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de pedidos</span></a>
+          <a mat-list-item [routerLink]="['/asesores/consultaexistencias/']" routerLinkActive="active-list-item"><span
+              class="font_side">Consulta de Existencias</span></a>
 
-        <a mat-list-item [routerLink]="['/asesores/relacionpedidos/']" routerLinkActive="active-list-item"><span
-            class="font_side">Relación de pedidos</span></a>
-        <a mat-list-item [routerLink]="['/asesores/estadocuenta/']" routerLinkActive="active-list-item"><span
-            class="font_side">Estado de cuenta</span></a>
-        <a mat-list-item [routerLink]="['/asesores/fichatecnica/']" routerLinkActive="active-list-item"><span
-            class="font_side">Ficha técnica</span></a>
-        <a mat-list-item [routerLink]="['/asesores/ventasarticulo/']" routerLinkActive="active-list-item"><span
-            class="font_side">Ventas por artículo</span></a>
-        <a mat-list-item [routerLink]="['/asesores/ventasclientearticulo/']" routerLinkActive="active-list-item"><span
-            class="font_side">Ventas clte y artículo</span></a>
-        <a mat-list-item [routerLink]="['/asesores/reporteventas/']" routerLinkActive="active-list-item"><span
-            class="font_side">Reporte de ventas</span></a>
-        <a mat-list-item [routerLink]="['/asesores/consultainactivos/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de inactivos</span></a>
-        <a mat-list-item [routerLink]="['/asesores/listacfdis/']" routerLinkActive="active-list-item"><span
-            class="font_side">Descargar CFDIs</span></a>
-        <a mat-list-item [routerLink]="['/asesores/consultaexistencias/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de Existencias</span></a>
-        <!--
-        <a mat-list-item [routerLink]="['/asesores/guias/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de guías</span></a>
-          -->
-        <a mat-list-item [routerLink]="['/asesores/guias2025/']" routerLinkActive="active-list-item"><span
-            class="font_side">Consulta de Logística</span></a>
-
-        <a mat-list-item [routerLink]="['/asesores/ordnretorno/']" routerLinkActive="active-list-item"><span
-            class="font_side">Ordenes de Retorno</span></a>
-
-        <a mat-list-item [routerLink]="['/asesores/cotizacion/']" routerLinkActive="active-list-item"><span
-            class="font_side">Cotización de Ventas</span></a>
+        </div>
 
         <a mat-list-item [routerLink]="['/asesores/articulosreporte/']" routerLinkActive="active-list-item"><span
             class="font_side">Catálogo de Artículos</span></a>
-
-        <!--
-        <a mat-list-item [routerLink]="['/asesores/testdr2/']" routerLinkActive="active-list-item"><span
-            class="font_side">Test2 dRendon</span></a>
-
-            <a mat-list-item [routerLink]="['/catalogointeractivo/']" routerLinkActive="active-list-item"><span
-            class="font_side_ic">Catálogo interactivo </span></a>
-        -->
       </mat-nav-list>
+
+      <!-- =============================================================== -->
+      <!-- Menú para Distribuidores (CLIENTES) (*ngIf="bCliente")          -->
+      <!-- =============================================================== -->
+      <mat-nav-list *ngIf="bCliente" nav-list>
+        <a mat-list-item [routerLink]="['/distribuidores/inicio/']" routerLinkActive="active-list-item"
+          class="text-uppercase"> <span class="font_side">Inicio</span></a>
+
+        <div class="accordion accordion-flush" id="menuClienteAccordion">
+          <!-- Grupo Clientes -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="cliente-headingOne">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#cliente-collapseOne" aria-expanded="false" aria-controls="cliente-collapseOne">
+                <span class="font_side">Clientes</span>
+              </button>
+            </h2>
+            <div id="cliente-collapseOne" class="accordion-collapse collapse" aria-labelledby="cliente-headingOne"
+              data-bs-parent="#menuClienteAccordion">
+              <a mat-list-item [routerLink]="['/distribuidores/datoscliente/']"
+                routerLinkActive="active-list-item"><span class="font_side">Datos de clientes</span></a>
+              <a mat-list-item [routerLink]="['/distribuidores/estadocuenta/']"
+                routerLinkActive="active-list-item"><span class="font_side">Estado de cuenta</span></a>
+              <a mat-list-item [routerLink]="['/distribuidores/listacfdis/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Descargar CFDIs</span></a>
+            </div>
+          </div>
+          <!-- Grupo Precios -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="cliente-headingTwo">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#cliente-collapseTwo" aria-expanded="false" aria-controls="cliente-collapseTwo">
+                <span class="font_side">Precios</span>
+              </button>
+            </h2>
+            <div id="cliente-collapseTwo" class="accordion-collapse collapse" aria-labelledby="cliente-headingTwo"
+              data-bs-parent="#menuClienteAccordion">
+              <a mat-list-item [routerLink]="['/distribuidores/consultaprecios/']"
+                routerLinkActive="active-list-item"><span class="font_side">Consulta de precios</span></a>
+              <a mat-list-item [routerLink]="['/distribuidores/cotizacion/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Cotización de Ventas</span></a>
+
+            </div>
+          </div>
+          <!-- Grupo Pedidos -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="cliente-headingThree">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#cliente-collapseThree" aria-expanded="false" aria-controls="cliente-collapseThree">
+                <span class="font_side">Pedidos</span>
+              </button>
+            </h2>
+            <div id="cliente-collapseThree" class="accordion-collapse collapse" aria-labelledby="cliente-headingThree"
+              data-bs-parent="#menuClienteAccordion">
+              <a mat-list-item [routerLink]="['/distribuidores/pedclte-lista/']"
+                routerLinkActive="active-list-item"><span class="font_side">Consulta de pedidos</span></a>
+              <a mat-list-item [routerLink]="['/distribuidores/relacionpedidos/']"
+                routerLinkActive="active-list-item"><span class="font_side">Relación de pedidos</span></a>
+            </div>
+          </div>
+          <!-- Grupo Ventas -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="cliente-headingFour">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#cliente-collapseFour" aria-expanded="false" aria-controls="cliente-collapseFour">
+                <span class="font_side">Ventas</span>
+              </button>
+            </h2>
+            <div id="cliente-collapseFour" class="accordion-collapse collapse" aria-labelledby="cliente-headingFour"
+              data-bs-parent="#menuClienteAccordion">
+              <a mat-list-item [routerLink]="['/distribuidores/ventasclientearticulo/']"
+                routerLinkActive="active-list-item"><span class="font_side">Ventas por artículo</span></a>
+            </div>
+          </div>
+        </div>
+        <a mat-list-item [routerLink]="['/asesores/articulosreporte/']" routerLinkActive="active-list-item"><span
+            class="font_side">Catálogo de Artículos</span></a>
+
+      </mat-nav-list>
+
     </mat-sidenav>
 
     <mat-sidenav-content>
-
       <router-outlet></router-outlet>
-
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

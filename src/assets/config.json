@@ -1,9 +1,9 @@
 {
-  "version": "2.8.1",
+  "version": "2.9.0",
   "fecha": "2025-07-15",
   "caracteristicas": [
     {
-      "caract1": "Ajustes al reporte Catálogo de Artículos",
+      "caract1": "Menú lateral usando acordeón",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }
