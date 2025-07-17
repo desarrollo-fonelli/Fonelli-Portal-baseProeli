@@ -1,9 +1,9 @@
 {
-  "version": "2.8.0",
+  "version": "2.8.1",
   "fecha": "2025-07-15",
   "caracteristicas": [
     {
-      "caract1": "Reporte Catálogo de Artículos",
+      "caract1": "Ajustes al reporte Catálogo de Artículos",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

@@ -67,6 +67,7 @@ import { DocumArticulosComponent } from './components/docum-articulos/docum-arti
 import { OrdretoarticulosComponent } from './components/ordnretorno/ordretoarticulos.component';
 import { CotizacionComponent } from './components/cotizacion/cotizacion.component';
 import { ArticulosReporteComponent } from './components/articulos-reporte/articulos-reporte.component';
+import { ArticulosConsultaComponent } from './components/articulos-consulta/articulos-consulta.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +118,8 @@ import { ArticulosReporteComponent } from './components/articulos-reporte/articu
     DocumArticulosComponent,
     OrdretoarticulosComponent,
     CotizacionComponent,
-    ArticulosReporteComponent
+    ArticulosReporteComponent,
+    ArticulosConsultaComponent
   ],
   imports: [
     BrowserModule,

@@ -2,13 +2,21 @@
 ## Control de Cambios
 
 ----------
-## v2.8.0 | 2025-07-15 | Reporte Catálogo de Artículos
+## v2.8.1 | 2025-07-16 | articulos-consulta > Ajustes Reporte Catálogo de Artículos
+#### Cambios:
+1. Se pide descartar todos los crterios de filtro actuales, solo dejar una casilla para buscar código semejante.
+1.1 La búsqueda debe presentar artículos cuyo código coincida fonéticamente con el texto indicado por el usuario
+2. El reporte no va a llevar precio ni gramos, solo debe presentar línea de PT, código de modelo y descripción.
+3. NOTA: Se crea un nuevo componente en vez de cambiar "articulos-reporte" que fue desarrollado en versión anterior.
+
+----------
+## v2.8.0 | 2025-07-15 | articulos-reporte > Reporte Catálogo de Artículos 
 #### Nuevo:
 1. Este reporte presenta una lista de artículos de PT permitiendo filtrar por "códigos semejantes".
 2. Para cada artículo devuelto se llama la rutina de cálculo de precio (en  la API REST), lo cual ocasiona que el reporte tarde, así que la presentación se limita a 500 registros máximo. 
 
 ----------
-## v2.7.1 | 2025-07-11 | Cotizaciones - correcciones derivadas de la revisión 
+## v2.7.1 | 2025-07-11 | cotizacion > correcciones derivadas de la revisión 
 #### Issues:
 1. Al acceder a la app como agente, e indicar un código de cliente, el servicio CltesDocVenta devuelve un "Error de autenticación".
 1.1 RESUELTO: se modificó el servicio API REST.
@@ -20,13 +28,13 @@
 5.1 Se ajusta el comportamiento interactivo de los controles para indicar código de cliente.
 
 ----------
-## v2.7.0 | 2025-07-10 | Formulario para Cotizaciones
+## v2.7.0 | 2025-07-10 | cotizacion > Formulario para Cotizaciones
 #### Nuevo:
 1. Se crean componentes y artefactos requeridos para presentar un formulario de cotización similar a un pedido de venta.
 2. Se revisan y en su caso se crean los servicios para consultar la API REST para obtener los precios fijos o calculados.
 
 ----------
-## v2.6.0 | 2025-06-19 | Ordenes de Reparación | Consulta de Logística
+## v2.6.0 | 2025-06-19 | ordenretorno > Ordenes de Reparación | Consulta de Logística
 #### Nuevo:
 1. Se crea componente OrdenReparacion y artefactos requeridos: modelos, servicios, etc.
 2. Se crea formulario para criterios de filtro.
@@ -38,7 +46,7 @@
 1.2 Se agregan reglas de interacción entre controles relacionados, para asignar el valor correcto según el caso.
 
 ----------
-## v2.5.0 | 2025-05-25 | Consulta de Logistica 
+## v2.5.0 | 2025-05-25 | guias2025 > Consulta de Logistica 
 #### Nuevo:
 1. Se crean componente guias2025 y artefactos para el módulo "Consulta de Logística".
 2. Se crea formulario de criterios de filtro.

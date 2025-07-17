@@ -1,0 +1,74 @@
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!---------------------------------- Criterios de Filtro -------------------------------------->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">Catálogo de Artículos</div>
+
+      <!--------------------------- Formulario para indicar Criterios de Filtro ----------------------->
+      <form>
+        <!------------------ Código de artículo --------------------->
+
+        <div class="form-row mb-2">
+          <div class="form-group col-md-3">
+            <label for="ItemCode" class="CamposFonelli">Buscar modelo</label>
+            <input type="text" class="form-control" id="ItemCode" name="ItemCode"
+              placeholder="Código parcial o completo" [(ngModel)]="oBuscar.ItemCode" #ItemCode="ngModel" required />
+          </div>
+        </div>
+        <!---------- Mensajes relacionados con la búsqueda ---------->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-warning font-negrita" role="alert">{{ sMensaje }}</p>
+        </div>
+
+        <!---------------------- Boton BUSCAR ----------------------->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" class="btnFonelli btn" (click)="BuscarArticulos()">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div> <!-- .card-body -->
+  </div> <!-- .card -->
+</div>
+
+<!--------------------- Tabla que muestra los resultados de la consulta SQL ------------------->
+<div class="container float-left" [hidden]="!mostrarTabla">
+  <br>
+  <div class="h4 text-center"><strong>Catálogo de artículos</strong></div>
+  <div class="container">
+    <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger">
+      <!-- <table class="table table-hover table-striped"> -->
+      <thead class="thead-p">
+        <tr class="EncTabla">
+          <th style="background-color: #24a4cc; color: white; text-align:center; max-width: 4ch;" scope="col">Linea</th>
+          <th style="background-color: #24a4cc; color: white; text-align:left; max-width: 18ch;" scope="col">Clave</th>
+          <th style="background-color: #24a4cc; color: white; text-align:left; min-width: 60ch;" scope="col">Descripción
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let itm of oFilasItems ; index as i">
+          <td class="FilasFonelli col-texto-medio" style="text-align:center; max-width: 4ch;">{{itm.LineaPT}}</td>
+          <td class="FilasFonelli col-texto-ancho" style="text-align:left; max-width: 18ch;">{{itm.ItemCode}}</td>
+          <td class="FilasFonelli col-texto-medio" style="text-align:left; min-width: 60ch;">{{itm.Descripc}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
