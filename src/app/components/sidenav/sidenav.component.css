@@ -41,23 +41,24 @@ mat-sidenav-content {
   width: 100%;
   font-weight: 500;
 
-  /* Heredar el color del texto del sidenav */
-  &:not(.collapsed) {
-    color: var(--bs-body-color);
-    background-color: transparent;
-    box-shadow: none;
-  }
+}
 
-  /* Quitar el box-shadow azul al hacer foco */
-  &:focus {
-    box-shadow: none;
-    border-color: transparent;
-  }
+/* Heredar el color del texto del sidenav */
+.accordion-button:not(.collapsed) {
+  color: var(--bs-body-color);
+  background-color: transparent;
+  box-shadow: none;
+}
 
-  /* Ajustar el ícono de flecha */
-  &::after {
-    background-size: 1rem;
-  }
+/* Quitar el box-shadow azul al hacer foco */
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: transparent;
+}
+
+/* Ajustar el ícono de flecha */
+.accordion-button::after {
+  background-size: 1rem;
 }
 
 .accordion-body {

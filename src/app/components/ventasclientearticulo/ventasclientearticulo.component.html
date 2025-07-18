@@ -10,8 +10,12 @@
 <div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
   <div class="card">
     <div class="card-body">
-      <h3 class="card-title" [hidden]="!bCliente">Ventas por artículo</h3>
-      <h3 class="card-title" [hidden]="bCliente">Ventas por cliente y artículo</h3>
+      <!-- <h3 class="card-title" [hidden]="!bCliente">Ventas por artículo</h3>
+      <h3 class="card-title" [hidden]="bCliente">Ventas por cliente y artículo</h3> -->
+
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;" [hidden]="!bCliente">Ventas por artículo</div>
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;" [hidden]="bCliente">Ventas por cliente y artículo
+      </div>
 
       <!-- General Form Elements -->
       <form class="table-responsive">

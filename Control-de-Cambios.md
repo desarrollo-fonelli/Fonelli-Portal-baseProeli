@@ -4,8 +4,9 @@
 ----------
 ## v2.9.0 | 2025-07-19 | sidenav > reingeniería del menú de la app
 #### Cambios:
-1. Se cambia por completo el layout del menú lateral para agrupar los ítems, usando un "acordeón" en vez de una lista plana
-2. Ajustes menores al formulario articulos-consulta
+1. Se cambia por completo el layout del menú lateral para agrupar los ítems, usando un "acordeón" en vez de una lista plana.
+2. Ajustes menores al formulario articulos-consulta.
+3. Se cambia la fuente de los títulos en los formularios.
 
 ----------
 ## v2.8.1 | 2025-07-17 | articulos-consulta > Ajustes Reporte Catálogo de Artículos
