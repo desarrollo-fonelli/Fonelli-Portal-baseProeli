@@ -1,9 +1,9 @@
 {
-  "version": "2.9.0",
-  "fecha": "2025-07-15",
+  "version": "2.10.0",
+  "fecha": "2025-07-29",
   "caracteristicas": [
     {
-      "caract1": "Menú lateral usando acordeón",
+      "caract1": "Reporte de Prepedidos",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

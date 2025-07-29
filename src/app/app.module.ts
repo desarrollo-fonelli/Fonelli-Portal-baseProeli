@@ -68,6 +68,7 @@ import { OrdretoarticulosComponent } from './components/ordnretorno/ordretoartic
 import { CotizacionComponent } from './components/cotizacion/cotizacion.component';
 import { ArticulosReporteComponent } from './components/articulos-reporte/articulos-reporte.component';
 import { ArticulosConsultaComponent } from './components/articulos-consulta/articulos-consulta.component';
+import { PrepedidosRepoComponent } from './components/prepedidos-repo/prepedidos-repo.component';
 
 @NgModule({
   declarations: [
@@ -119,7 +120,8 @@ import { ArticulosConsultaComponent } from './components/articulos-consulta/arti
     OrdretoarticulosComponent,
     CotizacionComponent,
     ArticulosReporteComponent,
-    ArticulosConsultaComponent
+    ArticulosConsultaComponent,
+    PrepedidosRepoComponent
   ],
   imports: [
     BrowserModule,

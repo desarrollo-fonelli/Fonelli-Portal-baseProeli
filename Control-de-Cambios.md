@@ -2,6 +2,11 @@
 ## Control de Cambios
 
 ----------
+## v2.10.0 | 2025-07-29 | prepedidos-repo > Reporte de Prepedidos
+#### Nuevo:
+1. Reporte de prepedidos. Se crean componente, servicios y demás artefactos para mostrar formulario de criteros de filtro, lista resumida y detalle del documento elegido.
+
+----------
 ## v2.9.0 | 2025-07-19 | sidenav > reingeniería del menú de la app
 #### Cambios:
 1. Se cambia por completo el layout del menú lateral para agrupar los ítems, usando un "acordeón" en vez de una lista plana.
