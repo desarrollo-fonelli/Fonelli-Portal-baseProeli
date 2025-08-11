@@ -2,6 +2,13 @@
 ## Control de Cambios
 
 ----------
+## v2.11.1 | 2025-08-08 | indic-venta2025 | Indicadores de Venta 2025
+#### Nuevo:
+1. Se crean componentes, servicios y demás artefactos para mostrar indicadores de venta de acuerdo a los criterios establecidos por el Director General en 2025.
+2. Organizo el menú lateral para agrupar los ítems para Indicadores de Venta
+3. Se crea un nuevo componente basado en los indicadores de venta anteriores para mostrar solamente las ventas acumuladas en el periodo.
+
+----------
 ## v2.10.0 | 2025-07-29 | prepedidos-repo > Reporte de Prepedidos
 #### Nuevo:
 1. Reporte de prepedidos. Se crean componente, servicios y demás artefactos para mostrar formulario de criteros de filtro, lista resumida y detalle del documento elegido.

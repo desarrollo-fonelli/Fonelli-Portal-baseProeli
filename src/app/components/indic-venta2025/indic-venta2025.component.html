@@ -1,0 +1,264 @@
+<!-- BOTON para mostrar o esconder Criterios de Filtro -->
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!------------------------------------   Criterios de filtro   ---------------------------------->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <!-- <h3 class="card-title">Consulta de Pedidos</h3> -->
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">KPIs: Eficiencia</div>
+      <!-- General Form Elements -->
+      <form>
+
+        <!------------ Agentes Inicial y Final ------------>
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde agente</label>
+            <select class="form-select" name="idDesAge" #nombre="ngModel" [(ngModel)]="oBuscar.AgenteDesde"
+              [disabled]="sTipo == 'A' " required>
+              <ng-container *ngFor='let dato of oAgentesCon;'>
+                <option value="{{dato.AgenteCodigo}}">
+                  {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta agente</label>
+            <select class="form-select" name="idHasAge" #nombre="ngModel" [(ngModel)]="oBuscar.AgenteHasta"
+              [disabled]="sTipo == 'A' " required>
+              <ng-container *ngFor='let dato of oAgentesCon;'>
+                <option value="{{dato.AgenteCodigo}}">
+                  {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                </option>
+              </ng-container>
+            </select>
+          </div>
+        </div>
+
+        <!---------------- Fecha de Corte ----------------->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Fecha de Corte</label>
+            <input type="date" id="idVenDia" class="form-control" name="idFilPed" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaCorte" disabled="{{ bCliente }}" required>
+          </div>
+        </div>
+
+        <!--------------- Línea de Mensajes --------------->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+        </div>
+
+        <!---------------- Botón de acción ---------------->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" (click)="CreaIndicVenta()" class=" btnFonelli btn">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+
+      </form>
+      <!-- End General Form Elements -->
+    </div>
+  </div>
+</div>
+<!-- Fin Criterios de filtro -->
+
+
+<!--------------------------------   Indicadores de Eficiencia   -------------------------------->
+<div class="container float-left" [hidden]="!bMostrarTabla" id="containerTablaEficiencia" #containerTablaEficiencia>
+  <div class="row">
+    <div class="col-7">
+      <div class="h4" style="text-align: center;color: #24a4cc;"><strong>KPIs: Eficiencia </strong></div>
+      <br>
+      <table class="table table-sm table-hover table-striped table-bordered" id="tablaEficiencia">
+        <thead class="thead-p">
+          <tr class="EncTabla">
+            <th class="thFonelli-center" scope="col">Agte</th>
+            <th class="thFonelli-left" scope="col">Nombre</th>
+            <th class="thFonelli-center" scope="col">Eficiencia</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let age of oIndicadoresVenta index as i">
+            <td class="FilasFonelli" style="text-align: center;">{{age.AgteCodigo}}</td>
+            <td class="FilasFonelli" style="text-align: left;min-width: 26ch;">{{age.AgteNombre}}</td>
+            <td class="FilasFonelli" style="text-align: center;color: #183e6f;"><strong>{{age.AgteEficienc | number:
+                '1.2-2'}}&nbsp;%</strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!--
+  <div class="row">
+    <div class="col-6">
+      <button type="button" class="btn btnFonelli" (click)="alternarTablas('Movil')">Móvil</button>
+    </div>
+  </div>
+  -->
+
+</div>
+<!-- Fin Indicadores Eficiencia -->
+
+
+<!----------------------------------   Tabla de Indicadores   ----------------------------------->
+<div class="container float-left" [hidden]="!bMostrarTabla" id="containerTablaIndicadores" #containerTablaIndicadores>
+  <div class="row">
+    <div class="col-lg-7 col-md-7 col-sm-7">
+      <br>
+      <div class="h4" style="text-align: center;color: #24a4cc;"><strong>Detalle de Indicadores</strong></div>
+      <br>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-7">
+      <table class="table table-sm table-hover table-striped table-bordered" id="tablaIndicadores">
+        <thead class="thead-p">
+          <tr class="EncTabla">
+            <th class="thFonelli-center" scope="col">Id</th>
+            <th class="thFonelli-left" scope="col">Indicador</th>
+            <th class="thFonelli-right" scope="col">Objetivo</th>
+            <th class="thFonelli-right" scope="col">Resultado</th>
+            <th class="thFonelli-right" scope="col">% Result</th>
+            <th class="thFonelli-right" scope="col">% Cumplim</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let age of oIndicadoresVenta index as i">
+            <tr class="table-info">
+              <td class="FilasFonelli-center fw-bold" style="color: #183e6f;">{{ age.AgteCodigo }}</td>
+              <td class="FilasFonelli-left fw-bold" style="color: #183e6f;" colspan="4">{{age.AgteNombre}}</td>
+              <td class="text-end"><span class="badge bg-secondary rounded-pill fs-6" style="background: #183e6f;">{{
+                  age.AgteEficienc | number:'1.2-2'}}&nbsp;%</span></td>
+            </tr>
+
+            <ng-container *ngFor="let indic of age.Indicadores; let j=index">
+              <tr>
+                <td class="FilasFonelli-center">{{indic.IndicadId}}</td>
+                <td class="FilasFonelli-left" style="min-width: 18ch;">{{indic.IndicadDesc}}</td>
+                <td class="FilasFonelli-right">{{FormatearImporteIndicador(indic.IndicadId, indic.Objetivo)}}</td>
+                <td class="FilasFonelli-right">{{FormatearImporteIndicador(indic.IndicadId,indic.Resultado)}}</td>
+                <td class="FilasFonelli-right">{{indic.PorcResult | number:'1.2-2'}}%</td>
+                <td class="FilasFonelli-right"><strong>{{indic.PorcCump | number:'1.2-2'}}&nbsp;%</strong></td>
+              </tr>
+            </ng-container>
+            <tr>
+              <td class="FilasFonelli-center text-light" colspan="6">{{'.'}}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Fin Tabla de Indicadores -->
+
+
+<!-----------------------------  Presentación dispositivo Móvil  ------------------------------------------>
+<div class="container-fluid" [hidden]="!bMostrarMovil" id="containerMovilResumen" #containerMovilResumen>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="h4" style="text-align: center;color: #24a4cc;"><strong>KPIs: Eficiencia</strong></div>
+      <br>
+    </div>
+  </div>
+
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3">
+
+    <div class="col" *ngFor="let age of oIndicadoresVenta; index as i">
+
+      <div class="card h-100 text-center shadow-sm" [ngClass]="getCardClass(age.AgteEficienc)">
+
+        <div class="card-body d-flex flex-column justify-content-center p-2">
+
+          <div class="fw-bold h2 mb-0">
+            {{ age.AgteEficienc | number:'1.2-2' }}<small class="text-muted">%</small>
+          </div>
+
+          <div class="card-title mb-0">{{ '(' + age.AgteCodigo + ') ' + age.AgteNombre }}</div>
+
+          <!-- <div class="small text-muted">ID: {{ age.AgteCodigo }}</div> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <!--
+  <div class="row">
+    <div class="col-6">
+      <button type="button" class="btn btnFonelli" (click)="alternarTablas('Escritorio')">Escritorio</button>
+    </div>
+  </div>
+  -->
+
+  <br>
+</div>
+
+
+<!------------------------------  Detalle por Agente de Venta  -------------------------------------------->
+<div class="container-fluid" [hidden]="!bMostrarMovil" id="containerMovilDetalle" #containerMovilDetalle>
+
+  <div class="row">
+    <div class="col-12">
+      <br>
+      <div class="h4" style="text-align: center;color: #24a4cc;"><strong>Indicadores por Agente</strong></div>
+      <br>
+    </div>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-3">
+
+    <div class="col" *ngFor="let age of oIndicadoresVenta; index as i">
+
+      <div class="card h-100 shadow-sm" [ngClass]="getCardClass(age.AgteEficienc)">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <span class="fw-bold">{{ age.AgteNombre }}</span>
+          <span class="badge bg-dark rounded-pill fs-6">{{ age.AgteEficienc | number:'1.2-2' }}%</span>
+        </div>
+
+        <div class="card-body p-2">
+          <ul class="list-group list-group-flush">
+
+            <li class="list-group-item p-2" *ngFor="let indic of age.Indicadores; let j=index">
+              <div class="fw-bold small">{{ indic.IndicadDesc }}</div>
+
+              <div class="d-flex justify-content-between align-items-baseline small text-muted">
+                <span>Obj: {{ FormatearImporteIndicador(indic.IndicadId, indic.Objetivo) }}</span>
+                <span>Res: {{ FormatearImporteIndicador(indic.IndicadId, indic.Resultado) }}</span>
+                <span class="fw-bold fs-6" [ngClass]="getComplianceClass(indic.PorcCump)">{{ indic.PorcCump |
+                  number:'1.2-2' }}%</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card-footer text-muted small py-1">
+          ID: {{ age.AgteCodigo }}
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <br>
+</div>

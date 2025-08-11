@@ -9,6 +9,7 @@ import { TemplateComponent } from "./components/template/template.component";
 import { DistribuidoresComponent } from "./components/distribuidores/distribuidores.component";
 import { EjecutivosComponent } from "./components/ejecutivos/ejecutivos.component";
 import { IndicadoresventaComponent } from "./components/indicadoresventa/indicadoresventa.component";
+import { IndicadVentaacumComponent } from "./components/indicad-venta-acum/indicad-ventaacum.component";
 import { DatosclientesComponent } from "./components/datosclientes/datosclientes.component";
 import { ConsultapreciosComponent } from "./components/consultaprecios/consultaprecios.component";
 import { ConsultapedidosComponent } from "./components/consultapedidos/consultapedidos.component";
@@ -34,6 +35,7 @@ import { CotizacionComponent } from "./components/cotizacion/cotizacion.componen
 import { ArticulosReporteComponent } from "./components/articulos-reporte/articulos-reporte.component";
 import { ArticulosConsultaComponent } from "./components/articulos-consulta/articulos-consulta.component";
 import { PrepedidosRepoComponent } from "./components/prepedidos-repo/prepedidos-repo.component";
+import { IndicVenta2025Component } from "./components/indic-venta2025/indic-venta2025.component";
 
 // componentes para pruebas: descartar en versión de producción ---------------------------------------
 import { TestdrComponent } from "./components/testdr/testdr.component";
@@ -73,6 +75,7 @@ const appRoutes: Routes = [
     children: [
       { path: 'inicio', component: EjecutivosComponent },
       { path: 'indicadoresventa', component: IndicadoresventaComponent },
+      { path: 'indicadventaacum', component: IndicadVentaacumComponent },
       { path: 'datoscliente', component: DatosclientesComponent },
       { path: 'consultaprecios', component: ConsultapreciosComponent },
       { path: 'consultapedidos', component: ConsultapedidosComponent },
@@ -80,10 +83,7 @@ const appRoutes: Routes = [
       { path: 'estadocuenta', component: EstadocuentaComponent },
       { path: 'fichatecnica', component: FichatecnicaComponent },
       { path: 'ventasarticulo', component: VentasarticuloComponent },
-      {
-        path: 'ventasclientearticulo',
-        component: VentasclientearticuloComponent,
-      },
+      { path: 'ventasclientearticulo', component: VentasclientearticuloComponent },
       { path: 'reporteventas', component: ReporteventasComponent },
       { path: 'consultainactivos', component: ConsultainactivosComponent },
       { path: 'guias', component: GuiasComponent },
@@ -96,7 +96,8 @@ const appRoutes: Routes = [
       { path: 'guias2025', component: Guias2025Component },
       { path: 'cotizacion', component: CotizacionComponent },
       { path: 'articulosreporte', component: ArticulosConsultaComponent },
-      { path: 'prepedidos-repo', component: PrepedidosRepoComponent }
+      { path: 'prepedidos-repo', component: PrepedidosRepoComponent },
+      { path: 'indicventa2025', component: IndicVenta2025Component }
 
       //{ path: 'testdr', component: TestdrComponent },
       //{ path: 'testdr2', component: Testdr2Component }

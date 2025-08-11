@@ -43,12 +43,29 @@
       <!-- Menú para Asesores y Gerentes de Venta (*ngIf="!bCliente")       -->
       <!-- =============================================================== -->
       <mat-nav-list *ngIf="!bCliente" nav-list>
+
         <a mat-list-item [routerLink]="['/asesores/inicio/']" routerLinkActive="active-list-item"
           class="text-uppercase"><span class="font_side">Inicio</span></a>
-        <a mat-list-item [routerLink]="['/asesores/indicadoresventa/']" routerLinkActive="active-list-item"><span
-            class="font_side">Indicadores de venta</span></a>
 
         <div class="accordion accordion-flush" id="menuAsesorAccordion">
+
+          <!-- Grupo Indicadores. Uso "Nine" para no romper la secuencia que ya existía -->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="asesor-headingNine">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#asesor-collapseNine" aria-expanded="false" aria-controls="asesor-collapseNine">
+                <span class="font_side">Indicadores</span>
+              </button>
+            </h2>
+            <div id="asesor-collapseNine" class="accordion-collapse collapse" aria-labelledby="asesor-headingNine"
+              data-bs-parent="#menuAsesorAccordion">
+              <a mat-list-item [routerLink]="['/asesores/indicadventaacum/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Venta acumulada</span></a>
+              <a mat-list-item [routerLink]="['/asesores/indicventa2025/']" routerLinkActive="active-list-item"><span
+                  class="font_side">KPIs Eficiencia</span></a>
+            </div>
+          </div>
+
           <!-- Grupo Clientes -->
           <div class="accordion-item">
             <h2 class="accordion-header" id="asesor-headingOne">

@@ -18,6 +18,7 @@ import { HomeComponent } from './components/home/home.component';
 import { DistribuidoresComponent } from './components/distribuidores/distribuidores.component';
 import { EjecutivosComponent } from './components/ejecutivos/ejecutivos.component';
 import { IndicadoresventaComponent } from './components/indicadoresventa/indicadoresventa.component';
+import { IndicadVentaacumComponent } from './components/indicad-venta-acum/indicad-ventaacum.component';
 import { DatosclientesComponent } from './components/datosclientes/datosclientes.component';
 import { ConsultapreciosComponent } from './components/consultaprecios/consultaprecios.component';
 import { ConsultapedidosComponent } from './components/consultapedidos/consultapedidos.component';
@@ -69,6 +70,7 @@ import { CotizacionComponent } from './components/cotizacion/cotizacion.componen
 import { ArticulosReporteComponent } from './components/articulos-reporte/articulos-reporte.component';
 import { ArticulosConsultaComponent } from './components/articulos-consulta/articulos-consulta.component';
 import { PrepedidosRepoComponent } from './components/prepedidos-repo/prepedidos-repo.component';
+import { IndicVenta2025Component } from './components/indic-venta2025/indic-venta2025.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,7 @@ import { PrepedidosRepoComponent } from './components/prepedidos-repo/prepedidos
     DistribuidoresComponent,
     EjecutivosComponent,
     IndicadoresventaComponent,
+    IndicadVentaacumComponent,
     DatosclientesComponent,
     ConsultapreciosComponent,
     ConsultapedidosComponent,
@@ -121,7 +124,8 @@ import { PrepedidosRepoComponent } from './components/prepedidos-repo/prepedidos
     CotizacionComponent,
     ArticulosReporteComponent,
     ArticulosConsultaComponent,
-    PrepedidosRepoComponent
+    PrepedidosRepoComponent,
+    IndicVenta2025Component
   ],
   imports: [
     BrowserModule,

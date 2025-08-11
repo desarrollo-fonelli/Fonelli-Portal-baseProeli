@@ -1,0 +1,145 @@
+<section>
+  <div class="container float-left">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <!--<h2 class="card-title" >Indicadores de venta</h2>   -->
+            <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">Venta Acumulada</div>
+            <!-- General Form Elements -->
+            <form>
+
+              <div class="form-row">
+
+                <div class="form-group col-md-3">
+                  <label class="CamposFonelli">Desde agente</label>
+                  <select class="form-select" name="idDesAge" #nombre="ngModel" [(ngModel)]="oBuscar.AgenteDesde"
+                    [disabled]="sTipo == 'A' " required>
+                    <ng-container *ngFor='let dato of oAgentesCon;'>
+                      <option value="{{dato.AgenteCodigo}}">
+                        {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                      </option>
+                    </ng-container>
+                  </select>
+
+                </div>
+                <div class="form-group col-md-3">
+                  <label class="CamposFonelli">Hasta agente</label>
+                  <select class="form-select" name="idHasAge" #nombre="ngModel" [(ngModel)]="oBuscar.AgenteHasta"
+                    [disabled]="sTipo == 'A' " required>
+                    <ng-container *ngFor='let dato of oAgentesCon;'>
+                      <option value="{{dato.AgenteCodigo}}">
+                        {{dato.AgenteCodigo}} - {{dato.AgenteNombre}}
+                      </option>
+                    </ng-container>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <label class="CamposFonelli">Venta del día</label>
+                  <input type="date" id="idVenDia" class="form-control" name="idFilPed" #nombre="ngModel"
+                    [(ngModel)]="oBuscar.FechaCorte" disabled="{{ bCliente }}" required>
+                </div>
+              </div>
+              <div *ngIf="sMensaje">
+                <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <button type="submit" (click)="consultaIndVenta()" class=" btnFonelli btn"><span *ngIf="bCargando"
+                      class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#183e6f">
+                    </span> BUSCAR</button>
+                </div>
+              </div>
+
+            </form><!-- End General Form Elements -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="bBandera" class="table-responsive container">
+    <!-- <div class="container" >      -->
+
+    <br>
+    <div class="h4" style="text-align: center;color: #24a4cc;"><strong>Acumulado de Ventas</strong></div>
+    <div id="pdfTable" #pdfTable>
+      <table class="table table-hover table-striped">
+        <thead>
+          <tr class="EncTabla table-info">
+            <!--
+            <th colspan="2" style="background-color: #24a4cc; color: white;text-align:center;" scope="col"></th>
+            <th colspan="3" style="background-color: #24a4cc; color: white;text-align:center;" scope="col">Valor
+              Agregado</th>
+            <th style="background-color: #24a4cc; color: white;text-align:center;" scope="col">|</th>
+            <th colspan="3" style="background-color: #24a4cc; color: white;text-align:center;" scope="col">Venta Bruta
+            </th>
+            -->
+            <th colspan="2" style="text-align:center;" scope="col"></th>
+            <th colspan="3" class="table-warning" style="text-align:center;" scope="col">Valor
+              Agregado</th>
+            <th colspan="3" class="table-success" style="text-align:center;" scope="col">Venta Bruta
+            </th>
+
+          </tr>
+          <tr class="EncTabla table-info">
+            <!--<th style="background-color: #24a4cc; color: white;" scope="col">#</th>-->
+            <th style="text-align:left; color:#183e6f;" scope="col">Agte</th>
+            <th style="text-align:left; color:#183e6f;" scope="col">Nombre</th>
+            <th class="table-warning" style="text-align:right;" scope="col">Diaria</th>
+            <th class="table-warning" style="text-align:right;" scope="col">Acumulada</th>
+            <th class="table-warning" style="text-align:right;" scope="col">Pedidos</th>
+            <th class="table-success" style="text-align:right;" scope="col">Diaria</th>
+            <th class="table-success" style="text-align:right;" scope="col">Acumulada</th>
+            <th class="table-success" style="text-align:right;" scope="col">Pedidos</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <ng-container *ngFor="let impVen of oIndVentaRes.Contenido index as i">
+            <tr>
+              <!--<th scope="row">{{ i + 1 }}</th>-->
+              <td class="FilasFonelli" style="text-align:center">{{ impVen.AgenteCodigo}}</td>
+              <td class="FilasFonelli"> {{impVen.AgenteNombre}} </td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.VentaDiariaAux}}</td>
+              <td class="FilasFonelli" style="text-align:right;">{{
+                impVen.ImporteVentas.VentasAcumuladasAux}}</td>
+              <td class="FilasFonelli" style="text-align:right">{{ impVen.ImporteVentas.ImportePedidosAux}}</td>
+              <td class="FilasFonelli" style="text-align:right;">{{ impVen.ImporteVentas.DiariaBrutoAux }}</td>
+              <td class="FilasFonelli" style="text-align:right;">{{
+                impVen.ImporteVentas.AcumuladaBrutoAux }}</td>
+              <td class="FilasFonelli" style="text-align:right;">{{ impVen.ImporteVentas.PedidosBrutoAux }}</td>
+            </tr>
+          </ng-container>
+          <tr class="table-info">
+            <!--<th></th>-->
+            <td></td>
+            <td class="FilasFonBold" style="text-align:left; color:#183e6f;">Totales</td>
+            <td class="table-warning FilasFonBold" style="text-align:right; color:#183e6f;">
+              {{oIndVentaRes.TotalVentaDiaria}} </td>
+            <td class="table-warning FilasFonBold" style="text-align:right; color:#183e6f;">
+              {{oIndVentaRes.TotalVentasAcumuladas}}
+            </td>
+            <td class="table-warning FilasFonBold" style="text-align:right; color:#183e6f;">
+              {{oIndVentaRes.TotalImportePedidos}} </td>
+            <td class="table-success FilasFonBold" style="text-align:right; color:#183e6f;">
+              {{oIndVentaRes.TotalDiariaBruto}} </td>
+            <td class="table-success FilasFonBold" style="text-align:right; color:#183e6f;">
+              {{oIndVentaRes.TotalAcumuladaBruto}} </td>
+            <td class="table-success FilasFonBold" style="text-align:right; color:#183e6f;">
+              {{oIndVentaRes.TotalPedidosBruto}} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <!-- </div>  -->
+
+</section>
