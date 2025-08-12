@@ -231,6 +231,7 @@
   <table id="tabla0" class="table table-hover table-striped" datatable [dtOptions]="dtOptions[0]"
     [dtTrigger]="dtTrigger0">
     <thead class="thead-p">
+      <!------------ Encabezado Columnas ------------>
       <tr class="EncTabla">
         <th class="thFonelli-center" scope="col">Prepedido</th>
         <th class="thFonelli-center" class="col-fecha" scope="col">Fecha</th>
@@ -244,9 +245,11 @@
         <th class="thFonelli-right" scope="col">Gramos</th>
         <th class="thFonelli-right" scope="col">Importe</th>
         <th class="thFonelli-center" scope="col">Docum</th>
+        <th class="thFonelli-center" scope="col">Plazo</th>
+        <th class="thFonelli-center" scope="col">DSQ</th>
         <th class="thFonelli-center" scope="col">Aut</th>
+        <!--
         <th class="thFonelli-left" scope="col">Observaciones</th>
-
         <th class="thFonelli-center" scope="col">3</th>
         <th class="thFonelli-center" scope="col">3.5</th>
         <th class="thFonelli-center" scope="col">4</th>
@@ -275,12 +278,13 @@
         <th class="thFonelli-center" scope="col">15.5</th>
         <th class="thFonelli-center" scope="col">MPX</th>
         <th class="thFonelli-center" scope="col">CPX</th>
-
+        -->
 
       </tr>
     </thead>
     <tbody>
       <ng-container *ngFor="let ofc of oPrepedOficinas; let i=index">
+        <!------------ Encabezado Oficina ------------>
         <tr class="table-info">
           <th colspan="6" class="FilasFonelli-center">{{ofc.OficinaCode + ' ' + ofc.OficinaNom}}</th>
           <th style="display: none"></th>
@@ -293,6 +297,16 @@
           <th></th>
           <th></th>
           <th></th>
+          <!--
+          <th style="text-align: center;">{{ ofc.PzasOfic | number: '1.0-0'}}</th>
+          <th style="text-align: right;">{{ ofc.GrmsOfic | number:'1.2-2'}}</th>
+          <th style="text-align: right;">{{ ofc.ImpOfic | number:'1.2-2' }}</th>
+          -->
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <!--
           <th></th>
           <th></th>
           <th></th>
@@ -321,10 +335,10 @@
           <th></th>
           <th></th>
           <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
+          -->
         </tr>
+
+        <!------------ Lista prepedidos ------------>
         <ng-container *ngFor="let ped of ofc.Pedidos; let j=index">
           <tr>
             <td class="FilasFonelli-center text-primary" (click)="FilasPreped(ped)"><u>{{ ped.PedFolio }}</u></td>
@@ -342,10 +356,13 @@
             <td class="FilasFonelli" style="text-align: right;">{{ ped.PedGramos | number:'1.2-2' }}</td>
             <td class="FilasFonelli" style="text-align: right;">{{ ped.PedImporte | number:'1.2-2' }}</td>
             <td class="FilasFonelli-center">{{ ped.Documentado }}</td>
+            <td class="FilasFonelli-center">{{ ped.PlazoDias>0 ? ped.PlazoDias : ''}}</td>
+            <td class="FilasFonelli-center">{{ ped.PlazoTipo }}</td>
             <td class="FilasFonelli-center">{{ ped.DocAutoriz }}</td>
+
+            <!--
             <td class="FilasFonelli" style="text-align: left;min-width: 20ch;">
               {{ ped.Observac }}</td>
-
             <td class="FilasFonelli-center">{{ped.cp3 ? ped.cp3 : ''}}</td>
             <td class="FilasFonelli-center">{{ped.cp35 ? ped.cp35 : ''}}</td>
             <td class="FilasFonelli-center">{{ped.cp4 ? ped.cp4 : ''}}</td>
@@ -374,14 +391,70 @@
             <td class="FilasFonelli-center">{{ped.cp155 ? ped.cp155 : '' }}</td>
             <td class="FilasFonelli-center">{{ped.mpx ? ped.mpx : ''}}</td>
             <td class="FilasFonelli-center">{{ped.cpx ? ped.cpx : ''}}</td>
-
+            -->
 
           </tr>
         </ng-container>
+        <!------------ Totales Oficina ------------>
+        <tr class="table-warning">
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th style="text-align: right;">Totales Oficina {{ofc.OficinaCode}}</th>
+          <th></th>
+          <th></th>
+          <th style="text-align: center;">{{ ofc.PzasOfic | number: '1.0-0'}}</th>
+          <th style="text-align: right;">{{ ofc.GrmsOfic | number:'1.2-2'}}</th>
+          <th style="text-align: right;">{{ ofc.ImpOfic | number:'1.2-2' }}</th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
       </ng-container>
     </tbody>
   </table>
+
 </div> <!-- .container containerTablaPrepedidos-->
+
+<div class="container float-left" [hidden]="!mostrarTabla" id="containerTablaResumen" #containerTablaResumen>
+  <br>
+  <br>
+  <div class="h4" style="text-align: center;color: #24a4cc;"><strong>Resumen por Oficina</strong></div>
+  <table id="tablaResumen" class="table table-hover table-striped table-sm">
+    <thead class="thead-p">
+      <tr class="EncTabla">
+        <th class="thFonelli-center">Ofic</th>
+        <th class="thFonelli-left">Nombre</th>
+        <th class="thFonelli-right" scope="col">Pedidos</th>
+        <th class="thFonelli-right" scope="col">Piezas</th>
+        <th class="thFonelli-right" scope="col">Gramos</th>
+        <th class="thFonelli-right" scope="col">Importe</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let ofc of oPrepedOficinas">
+        <td class="FilasFonelli-center"><strong>{{ofc.OficinaCode}}</strong></td>
+        <td class="FilasFonelli"><strong>{{ofc.OficinaNom}}</strong></td>
+        <td class="FilasFonelli" style="text-align: right;">{{ ofc.NumPedOfic | number: '1.0-0'}}</td>
+        <td class="FilasFonelli" style="text-align: right;">{{ ofc.PzasOfic | number: '1.0-0'}}</td>
+        <td class="FilasFonelli" style="text-align: right;">{{ ofc.GrmsOfic | number:'1.2-2'}}</td>
+        <td class="FilasFonelli" style="text-align: right;">{{ ofc.ImpOfic | number:'1.2-2' }}</td>
+      </tr>
+      <tr class="table-warning">
+        <th class="thFonelli-center"></th>
+        <th class="thFonelli-left">Totales</th>
+        <th class="thFonelli-right">{{ granTotal.granTotalNumPed | number: '1.0-0' }}</th>
+        <th class="thFonelli-right">{{ granTotal.granTotalPiezas | number: '1.0-0' }}</th>
+        <th class="thFonelli-right">{{ granTotal.granTotalGramos | number: '1.2-2' }}</th>
+        <th class="thFonelli-right">{{ granTotal.granTotalImporte | number: '1.2-2' }}</th>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <!------------------------ Fin Tabla con Lista de prepedidos -------------------------->
 
 

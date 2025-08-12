@@ -100,6 +100,7 @@ export class PrepedidosRepoComponent implements OnInit {
   // objeto con datos del prepedido seleccionado en la lista, para mostrarlos en el HTML
   oDocPreped: any = {};
 
+  granTotal: any = { granTotalNumPed: 0, granTotalPiezas: 0, granTotalGramos: 0, granTotalImporte: 0 };
 
   oBuscarOfi: FiltrosOficina;
   oOficinasRes: Oficina;
@@ -512,6 +513,7 @@ export class PrepedidosRepoComponent implements OnInit {
     this.mostrarTabla = false;
     this.isCollapsed = false;
     this.bCargando = false;
+    this.granTotal = { granTotalNumPed: 0, granTotalPiezas: 0, granTotalGramos: 0, granTotalImporte: 0 };
 
     // aqui pueden ir las comprobaciones en los criterios de filtro
     // antes de llamar el servicio
@@ -540,6 +542,10 @@ export class PrepedidosRepoComponent implements OnInit {
         this.oPrepedOficinas = this.oPrepedRepoResponse.Contenido.PrepedOficinas;
         //console.dir(this.oPrepedRepoResponse);
         //console.dir(this.oPrepedOficinas);
+
+        this.CalcGranTotal(this.oPrepedOficinas);
+        console.dir(this.granTotal);
+
 
         this.sMensaje = '';
         this.bCargando = false;
@@ -762,6 +768,33 @@ export class PrepedidosRepoComponent implements OnInit {
     this.dtTrigger1.next("");
   }
 
+  /**
+   * Calcula valores para el Gran Total de Piezas
+   */
+  CalcGranTotalPzas(oficinas): number {
 
+    return oficinas.reduce((total, oficina) => total + oficina.PzasOfic, 0);
+
+  }
+
+  /**
+ * Calcula valores para el Gran Total de Piezas
+ */
+  CalcGranTotal(oficinas) {
+
+    console.dir(oficinas);
+
+    this.granTotal = oficinas.reduce(
+      (suma, ofic) => {
+        suma.granTotalNumPed += ofic.NumPedOfic;
+        suma.granTotalPiezas += ofic.PzasOfic;
+        suma.granTotalGramos += ofic.GrmsOfic;
+        suma.granTotalImporte += ofic.ImpOfic;
+        return suma;
+      },
+      { granTotalNumPed: 0, granTotalPiezas: 0, granTotalGramos: 0, granTotalImporte: 0 }
+    );
+
+  }
 
 }

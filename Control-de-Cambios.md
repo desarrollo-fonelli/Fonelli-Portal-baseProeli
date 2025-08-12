@@ -2,6 +2,11 @@
 ## Control de Cambios
 
 ----------
+## v2.12.0 | 2025-08-12 | prepedidos-repo | Ajustes reporte de prepedidos
+#### Cambios:
+1. Se modifica el layout de la lista resumida, se agregan totales por oficina.
+
+----------
 ## v2.11.1 | 2025-08-08 | indic-venta2025 | Indicadores de Venta 2025
 #### Nuevo:
 1. Se crean componentes, servicios y demás artefactos para mostrar indicadores de venta de acuerdo a los criterios establecidos por el Director General en 2025.

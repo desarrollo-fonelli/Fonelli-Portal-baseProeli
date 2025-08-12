@@ -12,6 +12,10 @@ export interface PrepedRepoContenido {
 export interface PrepedOficina {
   OficinaCode: string;
   OficinaNom: string;
+  NumPedOfic: number;
+  PzasOfic: number;
+  GrmsOfic: number;
+  ImpOfic: number;
   Pedidos: Pedido[];
 }
 
@@ -35,6 +39,8 @@ export interface Pedido {
   TiendaDest: string;
   Documentado: string;
   DocAutoriz: string;
+  PlazoDias: number;
+  PlazoTipo: string;
 
   cp3: number;
   cp35: number;
