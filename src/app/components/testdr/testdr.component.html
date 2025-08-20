@@ -1,33 +1,95 @@
 <div class="container mt-4">
-  <!-- Datos del cliente -->
-  <div class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">{{ cliente.nombre }}</h5>
-      <button class="btn btn-primary" (click)="cargarPedidos()">Pedidos</button>
-    </div>
-  </div>
+  <h2>Crear Orden de Venta (Reactiva)</h2>
 
-  <!-- Tabla1: Pedidos -->
-  <div *ngIf="showTable1">
-    <div class="card">
-      <div class="card-header">Pedidos de venta</div>
-      <div class="card-body">
-        <table #tabla1 class="table table-striped table-bordered" style="width:100%"></table>
-      </div>
-    </div>
-  </div>
+  <form [formGroup]="ordenForm" (ngSubmit)="enviarOrdenVenta()">
 
-  <!-- Tabla2: Artículos -->
-  <div *ngIf="showTable2">
-    <div class="card">
+    <div class="card mb-4">
       <div class="card-header">
-        Detalle de artículos
-        <button class="btn btn-secondary btn-sm" (click)="volverATabla1()">Volver</button>
+        Datos del Cliente
       </div>
-
       <div class="card-body">
-        <table #tabla2 class="table table-striped table-bordered" style="width:100%"></table>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="cltNombre" class="form-label">Nombre del Cliente</label>
+            <input type="text" id="cltNombre" class="form-control" formControlName="cltNombre"
+              [class.is-invalid]="ordenForm.get('cltNombre')?.invalid && ordenForm.get('cltNombre')?.touched">
+            <div *ngIf="ordenForm.get('cltNombre')?.errors?.['required']" class="invalid-feedback">
+              El nombre es requerido.
+            </div>
+            <div *ngIf="ordenForm.get('cltNombre')?.errors?.['minlength']" class="invalid-feedback">
+              Debe tener al menos 3 caracteres.
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="cltCodigo" class="form-label">ID Cliente</label>
+            <input type="number" id="cltCodigo" class="form-control" formControlName="cltCodigo"
+              [class.is-invalid]="ordenForm.get('cltCodigo')?.invalid && ordenForm.get('cltCodigo')?.touched">
+            <div *ngIf="ordenForm.get('cltCodigo')?.errors" class="invalid-feedback">
+              ID de cliente inválido.
+            </div>
+          </div>
+          <div class="col-md-3 mb-3">
+            <label for="ordFecha" class="form-label">Fecha</label>
+            <input type="date" id="ordFecha" class="form-control" formControlName="ordFecha">
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="card mb-4">
+      <div class="card-header">
+        Filas de la Orden
+      </div>
+      <div class="card-body">
+        <div formArrayName="ordFilas">
+          <div *ngFor="let fila of ordFilasFormArray.controls; let i = index" [formGroupName]="i"
+            class="row align-items-center mb-2">
+            <div class="col-md-3">
+              <input type="text" class="form-control" placeholder="Descripción" formControlName="itmDescrip">
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control" placeholder="ID Producto" formControlName="itmCode">
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control" placeholder="Cantidad" formControlName="piezas">
+            </div>
+            <div class="col-md-2">
+              <input type="number" class="form-control" placeholder="Precio Unit." formControlName="prec_unit">
+            </div>
+            <div class="col-md-2">
+              <input type="text" class="form-control" placeholder="Subtotal" formControlName="total_fila" readonly>
+            </div>
+            <div class="col-md-1">
+              <button type="button" class="btn btn-danger btn-sm" (click)="eliminarFila(i)">X</button>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="ordFilasFormArray.length === 0 && ordenForm.get('ordFilas')?.touched" class="text-danger mt-2">
+          Debe agregar al menos un producto a la orden.
+        </div>
+
+        <button type="button" class="btn btn-secondary mt-3" (click)="agregarFila()">
+          + Agregar Producto
+        </button>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-center">
+      <h4 class="me-4">Total: <span class="badge bg-success">{{ ordenForm.get('ordTotal')?.value | currency:'MXN'
+          }}</span>
+      </h4>
+      <button type="submit" class="btn btn-primary btn-lg" [disabled]="ordenForm.invalid || isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        {{ isLoading ? 'Enviando...' : 'Confirmar y Enviar Orden' }}
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-3">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    <strong>Error:</strong> {{ errorMessage }}
   </div>
 </div>

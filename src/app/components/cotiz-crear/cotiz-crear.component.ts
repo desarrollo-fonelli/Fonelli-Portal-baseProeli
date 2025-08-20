@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // Servicios
-import { CotizacService } from './servicios/cotizac.service';
+import { CotizCrearService } from './servicios/cotiz-crear.service';
 import { CotizacClienteService } from './servicios/cotizac-cliente.service'
 import { CotizacArticuloService } from './servicios/cotizac-articulo.service';
 
@@ -19,11 +19,11 @@ import * as _ from 'is-plain-object';
 import { Contenido } from '../docum-articulos/modelos/docum-articulos';
 
 @Component({
-  selector: 'app-cotizacion',
-  templateUrl: './cotizacion.component.html',
-  styleUrls: ['./cotizacion.component.css']
+  selector: 'app-cotiz-crear',
+  templateUrl: './cotiz-crear.component.html',
+  styleUrls: ['./cotiz-crear.component.css']
 })
-export class CotizacionComponent implements OnInit {
+export class CotizCrearComponent implements OnInit {
 
   sTipoUsuario: string | null;
   sUsuario: string | null;
@@ -61,7 +61,7 @@ export class CotizacionComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _router: Router,
-    private _cotizacService: CotizacService,
+    private _cotizCrearService: CotizCrearService,
     private _cotizacClienteService: CotizacClienteService,
     private _cotizacArticuloService: CotizacArticuloService
   ) {

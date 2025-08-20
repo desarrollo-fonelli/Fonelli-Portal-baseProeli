@@ -1,8 +1,9 @@
-export interface Cotizac {
+export interface CotizacDocum {
   ClienteCodigo: number;
   ClienteFilial: number;
   Folio: number;
   FechaDoc: Date | null;
+  StatusDoc: string;
   ClienteNombre: string;
   ClienteSucursal: string;
   CotizacFilas: CotizacFila[];

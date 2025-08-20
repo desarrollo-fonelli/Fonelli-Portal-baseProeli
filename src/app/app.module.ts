@@ -71,6 +71,7 @@ import { ArticulosReporteComponent } from './components/articulos-reporte/articu
 import { ArticulosConsultaComponent } from './components/articulos-consulta/articulos-consulta.component';
 import { PrepedidosRepoComponent } from './components/prepedidos-repo/prepedidos-repo.component';
 import { IndicVenta2025Component } from './components/indic-venta2025/indic-venta2025.component';
+import { CotizCrearComponent } from './components/cotiz-crear/cotiz-crear.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,8 @@ import { IndicVenta2025Component } from './components/indic-venta2025/indic-vent
     ArticulosReporteComponent,
     ArticulosConsultaComponent,
     PrepedidosRepoComponent,
-    IndicVenta2025Component
+    IndicVenta2025Component,
+    CotizCrearComponent
   ],
   imports: [
     BrowserModule,

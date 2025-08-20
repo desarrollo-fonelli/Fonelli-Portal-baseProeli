@@ -8,7 +8,7 @@ import { CotizacDocum } from '../modelos/cotizac-docum';
 @Injectable({
   providedIn: 'root'
 })
-export class CotizacService {
+export class CotizCrearService {
   private apiUrl = 'assets/datatest/testcotizac.json'
 
   constructor(private _http: HttpClient) { }

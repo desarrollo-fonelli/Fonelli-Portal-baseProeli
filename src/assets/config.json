@@ -1,9 +1,9 @@
 {
-  "version": "2.12.0",
+  "version": "2.13.0",
   "fecha": "2025-08-12",
   "caracteristicas": [
     {
-      "caract1": "Ajustes al Reporte de Prepedidos",
+      "caract1": "Extender módulo de Cotizaciones",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

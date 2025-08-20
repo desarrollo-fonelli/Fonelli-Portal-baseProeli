@@ -1,0 +1,136 @@
+.thead-p tr:first-child Th {
+  position: sticky;
+  z-index: 12;
+  top: 60px;
+  /* background: white; */
+}
+
+.thead-p Th {
+  position: fixed;
+  z-index: 12;
+  top: 300px;
+  /* background: white; */
+}
+
+.thead-p2 tr:first-child Th {
+  position: sticky;
+  z-index: 12;
+  top: 0;
+  background: #24a4cc;
+}
+
+.thead-p2 Th {
+  position: fixed;
+  z-index: 12;
+  top: 60px;
+  background: #24a4cc;
+}
+
+.col-fecha {
+  width: 70px;
+  text-align: center;
+}
+
+.thFonelli-center {
+  background-color: #24a4cc;
+  color: white;
+  text-align: center;
+}
+
+.thFonelli-left {
+  background-color: #24a4cc;
+  color: white;
+  text-align: left;
+}
+
+.thFonelli-right {
+  background-color: #24a4cc;
+  color: white;
+  text-align: right;
+}
+
+td.FilasFonelli-center {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.FilasFonelli-left {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: left;
+  vertical-align: middle;
+}
+
+td.FilasFonelli-right {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: right;
+  vertical-align: middle;
+}
+
+td.FilasFonelli-fecha {
+  width: 90px;
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+/*
+.table th {
+  background-color: #343a40;
+  color: white;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+*/
+
+.form-control:read-only {
+  background-color: #e9ecef;
+  opacity: 1;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-success {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.btn-outline-secondary {
+  border-color: #6c757d;
+  color: #6c757d;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.font-negrita {
+  font-weight: bold;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+}
+
+@media print {
+  .no-imprimir {
+    display: none !important;
+  }
+}
