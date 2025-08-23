@@ -3,7 +3,7 @@
  * Interfaces utilizadas para filtros y response en los 
  * servicios que se refieren al catálogo de artículos
  */
-export interface ColtzArticFiltros {
+export interface CotzArticFiltros {
   TipoUsuario: string;
   Usuario: number | string;
   LineaPT: string;

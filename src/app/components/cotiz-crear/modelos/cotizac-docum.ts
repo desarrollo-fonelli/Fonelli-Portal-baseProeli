@@ -23,3 +23,11 @@ export interface CotizacFila {
   IntExt: string;   // I=Interno E=Externo
   LPrecDirComp: string;  // 1=ListPrec Directa 2=ListPrec Componentes
 }
+
+export interface CotizFiltros {
+  TipoUsuario: string;
+  Usuario: number | string;
+  ClienteCodigo: number | null;
+  ClienteFilial: number | null;
+  AgenteCodigo: number | string;
+}

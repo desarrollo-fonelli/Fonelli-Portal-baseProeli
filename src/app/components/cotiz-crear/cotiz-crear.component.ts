@@ -8,20 +8,20 @@ import { CotizacClienteService } from './servicios/cotizac-cliente.service'
 import { CotizacArticuloService } from './servicios/cotizac-articulo.service';
 
 // Modelos e interfaces
-import { CotizacDocum, CotizacFila } from './modelos/cotizac-docum';
+import { CotizacDocum, CotizacFila, CotizFiltros } from './modelos/cotizac-docum';
 import { CotzClteFiltros, CotzClteResponse } from './modelos/cotizac-cliente';
-//import { ColtzArticFiltros, CotzArticResponse } from './modelos/cotizac-articulo';
+//import { CotzArticFiltros, CotzArticResponse } from './modelos/cotizac-articulo';
 import { CalcPrecParam } from 'src/app/models/calc-prec-param';
 import { CalcPrecResponse } from 'src/app/models/calc-prec-response';
 import { CotzArticResponse } from './modelos/cotizac-articulo';
 import { Articulo } from '../../models/ventasarticulo';
-import * as _ from 'is-plain-object';
-import { Contenido } from '../docum-articulos/modelos/docum-articulos';
+//import * as _ from 'is-plain-object';
 
 @Component({
   selector: 'app-cotiz-crear',
   templateUrl: './cotiz-crear.component.html',
-  styleUrls: ['./cotiz-crear.component.css']
+  styleUrls: ['./cotiz-crear.component.css'],
+  providers: [CotizCrearService]
 })
 export class CotizCrearComponent implements OnInit {
 
@@ -32,20 +32,26 @@ export class CotizCrearComponent implements OnInit {
 
   cotizacForm: FormGroup;
   articulos: CotizacFila[] = [];
+
+  // Filtros enviados al servicio para crear documento
+  oFiltros: CotizFiltros = {
+    TipoUsuario: '', Usuario: 0, ClienteCodigo: 0, ClienteFilial: 0, AgenteCodigo: 0
+  };
+
+  // Filtros para buscar cliente
   oCotzClteFiltros: CotzClteFiltros = {
     TipoUsuario: '', Usuario: 0, ClienteCodigo: 0, ClienteFilial: 0, AgenteCodigo: ''
   };
-
   oCotzClte: CotzClteResponse;    // Response del servicio que busca el cliente
 
+  // Filtros para cálculo de precios
   oCalcPrecParam: CalcPrecParam = {
     TipoUsuario: '', Usuario: 0, ClienteCodigo: 0, ClienteFilial: 0,
     ItemLinea: '', ItemCode: '', ListaPrecCode: '', ParidadTipo: '',
     PiezasCosto: 0, GramosCosto: 0
   };
-
   oCalcPrecResponse: CalcPrecResponse = {} as CalcPrecResponse;
-  totalDocum = 0;
+
 
   bCliente: boolean;
   clteEsValido = false;
@@ -54,6 +60,8 @@ export class CotizCrearComponent implements OnInit {
   mostrarMensajeArticulo = false;
   txtMensajeArticulo = '';
   mostrarModalMensaje = false;    // indica si se muestra un formulario modal con un mensaje
+
+  totalDocum = 0;
 
   sListaPrecCode = '11';   // cuando no se indica cliente, no es el caso en este componente
   sParidadTipo = "N";      // cuando no se indica cliente, no es el caso en este componente
@@ -82,6 +90,8 @@ export class CotizCrearComponent implements OnInit {
     this.sTipoUsuario = sessionStorage.getItem('tipo');
     this.sUsuario = sessionStorage.getItem('codigo');
 
+    this.oFiltros.TipoUsuario = this.sTipoUsuario;
+
     switch (this.sTipoUsuario) {
       case 'C': {
         //Tipo cliente                  
@@ -90,34 +100,48 @@ export class CotizCrearComponent implements OnInit {
         this.oCalcPrecParam.ClienteCodigo = this.sCodigo;
         this.oCalcPrecParam.ClienteFilial = this.sFilial;
 
+        this.oFiltros.Usuario = this.sCodigo + '-' + this.sFilial;
+        this.oFiltros.ClienteCodigo = this.sCodigo;
+        this.oFiltros.ClienteFilial = this.sFilial;
+
         break;
       }
       case 'A': {
         //Agente; 
         this.bCliente = false;
         this.oCalcPrecParam.Usuario = this.sCodigo;
+
+        this.oFiltros.Usuario = this.sCodigo;
+        this.oFiltros.AgenteCodigo = this.sCodigo;
+
         break;
       }
       default: {
         //Gerente; 
         this.bCliente = false;
         this.oCalcPrecParam.Usuario = this.sCodigo;
+
+        this.oFiltros.Usuario = this.sCodigo;
+
         break;
       }
     }
+
+    //console.dir(this.oFiltros);
 
     this.cotizacForm = this.fb.group({
       ClienteCodigo: [this.oCalcPrecParam.ClienteCodigo, [Validators.required, Validators.pattern('^[0-9]*$')]],
       ClienteFilial: [this.oCalcPrecParam.ClienteFilial, [Validators.required, Validators.pattern('^[0-9]*$')]],
       Folio: [''],
       FechaDoc: [new Date().toISOString().substring(0, 10), Validators.required],
-      StatusDoc: ['Activo'],
+      StatusDoc: ['A'],
       ClienteNombre: ['', Validators.required],
       ClienteSucursal: ['', Validators.required],
       txtDatosCliente: [''],
       LineaPT: [''],
       ItemCode: [''],
-      Piezas: [1, [Validators.required, Validators.min(1)]]
+      Piezas: [1, [Validators.required, Validators.min(1)]],
+      CotizacFilas: this.fb.array([])
     });
 
     if (this.sTipoUsuario == 'C') {
@@ -126,6 +150,10 @@ export class CotizCrearComponent implements OnInit {
 
   }
 
+  /**
+   * Busca cliente y asigna valores a las propiedades y variables requeridas para el
+   * cálculo de precios y los filtros que se envían al servicio para crear el documento
+   */
   DatosCliente(): void {
     if (this.sTipoUsuario == 'A') {
       const _agenteCodigo = this.oCalcPrecParam.Usuario;
@@ -142,7 +170,7 @@ export class CotizCrearComponent implements OnInit {
       ClienteFilial: this.cotizacForm.get('ClienteFilial')?.value,
       AgenteCodigo: this.sTipoUsuario == 'A' ? String(this.oCalcPrecParam.Usuario) : ''
     };
-    //console.table(this.oCotzClteFiltros);
+    //console.table(this.oCotzClteFiltros);   
 
     this.clteEsValido = false;
     this.txtMensajeClientes = '';
@@ -194,6 +222,11 @@ export class CotizCrearComponent implements OnInit {
     }
   }
 
+  /**
+   * Controla la llamada al servicio que busca el artículo y calcula el precio
+   * según los parámetros indicados. Si el artículo es válido, lo agrega al array
+   * de artículos del documento y recalcula el total del documento.
+   */
   AgregarArticulo(): void {
 
     const _lineaPT = this.cotizacForm.get('LineaPT')?.value;
@@ -247,7 +280,7 @@ export class CotizCrearComponent implements OnInit {
 
         //console.dir(articulo.Contenido);
         //console.log(typeof articulo.Contenido);
-        console.log(articulo.Codigo);
+        //console.log(articulo.Codigo);
 
         if (articulo.Codigo == 0) {
 
@@ -311,6 +344,9 @@ export class CotizCrearComponent implements OnInit {
       reduce((sum, item) => sum + item.Importe, 0);
   }
 
+  /**
+   * Llama el servicio para guardar registros del documento: datos generales y filas.
+   */
   guardarPropuesta(): void {
 
     if (this.articulos.length < 1) {
@@ -323,25 +359,50 @@ export class CotizCrearComponent implements OnInit {
       return;
     }
 
-    const _cotzClteResponse: CotzClteResponse = this.cotizacForm.value;
-    console.table(_cotzClteResponse);
+    // datos generales del documento, tomados del formulario
+    // Usamos getRawValue() para obtener los valores de TODOS los controles,
+    // incluidos los deshabilitados (como total y total_fila).
+    const _cotizacDocum: CotizacDocum = this.cotizacForm.getRawValue();
 
-    this.mostrarModalMensaje = true;
+    // copio a los datos del formulario el array con los artículos capturados.
+    // (lo recomendado es trabajar directo con un array en el formulario, pero 
+    //  ya tenía la rutina por eso lo hago así).
+    _cotizacDocum.CotizacFilas = this.articulos;
+    //console.dir(_cotizacDocum);
 
-    // Resetea campos para documento nuevo
-    if (this.sTipoUsuario != 'C') {
-      this.cotizacForm.get('ClienteCodigo')?.reset();
-      this.cotizacForm.get('ClienteFilial')?.reset();
-      this.cotizacForm.get('ClienteNombre')?.reset();
-      this.cotizacForm.get('ClienteSucursal')?.reset();
-      this.cotizacForm.get('txtDatosCliente')?.reset();
-    }
-    this.cotizacForm.get('LineaPT')?.reset();
-    this.cotizacForm.get('ItemCode')?.reset();
-    this.cotizacForm.get('Piezas')?.setValue(1);
+    this._cotizCrearService.guardarCotizac(this.oFiltros, _cotizacDocum).subscribe({
+      next: (response) => {
 
-    this.articulos = [];
-    this.totalDocum = 0;    // this.calcularTotal();
+        this.txtMensajeClientes = 'Propuesta guardada correctamente. Folio: ' + response.Contenido.folio;
+        this.mostrarMensajeClientes = true;
+        //this.mostrarModalMensaje = true;
+
+        // No voy a actualizar el campo del formulario porque los campos acaban
+        // inicializándose más adelante.
+        // this.cotizacForm.patchValue({
+        //   Folio: response.Contenido.folio
+        // });
+
+        // Resetea campos para documento nuevo
+        if (this.sTipoUsuario != 'C') {
+          this.cotizacForm.get('ClienteCodigo')?.reset();
+          this.cotizacForm.get('ClienteFilial')?.reset();
+          this.cotizacForm.get('ClienteNombre')?.reset();
+          this.cotizacForm.get('ClienteSucursal')?.reset();
+          this.cotizacForm.get('txtDatosCliente')?.reset();
+        }
+        this.cotizacForm.get('LineaPT')?.reset();
+        this.cotizacForm.get('ItemCode')?.reset();
+        this.cotizacForm.get('Piezas')?.setValue(1);
+
+        this.articulos = [];
+        this.totalDocum = 0;    // this.calcularTotal();
+
+      },
+      error: (err) => {
+        console.log(err.message);
+      }
+    });
 
   }
 

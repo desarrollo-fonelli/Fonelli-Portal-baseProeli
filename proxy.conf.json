@@ -1,7 +1,7 @@
 {
     "/med_fonelli_apiportal/*": {
-        "target_online": "https://www.fonelli.com/",
-        "target": "http://172.16.2.150/",
+        "target": "https://www.fonelli.com/",
+        "target_desarrollo": "http://172.16.2.150/",
         "secure": false,
         "logLevel": "debug"
     }

@@ -1,6 +1,5 @@
 <div class="container float-left">
 
-  <!-- <div class="card-title mb-2 h3">Propuesta Comercial (Cotización)</div> -->
   <div class="card-title h3 fw-bold mt-2 mb-2" style="color: #24a4cc;">Propuesta Comercial (Cotización de Venta)</div>
 
   <div class="card">
@@ -141,7 +140,7 @@
                 <td class="FilasFonelli-left">{{ item.Descripc}}</td>
                 <td class="FilasFonelli-center">{{ item.Kilataje }}</td>
                 <td class="FilasFonelli-center">{{ item.Piezas }}</td>
-                <td class="FilasFonelli-center">{{ item.Gramos }}</td>
+                <td class="FilasFonelli-center">{{ item.Gramos | number: '1.2-2'}}</td>
                 <td class="FilasFonelli-center">{{ (item.TipoCosteo == '1') ? 'Pzas' : 'Grms' }}</td>
                 <td class="FilasFonelli-right">{{ item.Precio | currency}}</td>
                 <td class="FilasFonelli-right">{{ item.Importe | currency}}</td>
@@ -166,7 +165,7 @@
         <div class="col-md-3 offset-md-9">
           <div class="d-flex justify-content-between align-items-center border-top pt-2">
             <span class="h5">Total:</span>
-            <span class="h5">{{ totalDocum | currency }}</span>
+            <span class="h5"><strong>{{ totalDocum | currency }}</strong></span>
           </div>
         </div>
       </div>

@@ -59,7 +59,8 @@ const appRoutes: Routes = [
       { path: 'guias2025', component: Guias2025Component },
       { path: 'cotizacion', component: CotizacionComponent },
       { path: 'articulosreporte', component: ArticulosConsultaComponent },
-      { path: 'prepedidos-repo', component: PrepedidosRepoComponent }
+      { path: 'prepedidos-repo', component: PrepedidosRepoComponent },
+      { path: 'cotizcrear', component: CotizCrearComponent }
 
       //{ path: 'guias', component: GuiasComponent }
       //{ path: 'ordnretorno', component: OrdnretornoComponent }
