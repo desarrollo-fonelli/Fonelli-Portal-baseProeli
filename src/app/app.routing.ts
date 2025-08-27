@@ -38,6 +38,7 @@ import { PrepedidosRepoComponent } from "./components/prepedidos-repo/prepedidos
 import { IndicVenta2025Component } from "./components/indic-venta2025/indic-venta2025.component";
 import { TestdrComponent } from './components/testdr/testdr.component';
 import { CotizCrearComponent } from './components/cotiz-crear/cotiz-crear.component';
+import { CotizListarComponent } from './components/cotiz-listar/cotiz-listar.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -60,7 +61,9 @@ const appRoutes: Routes = [
       { path: 'cotizacion', component: CotizacionComponent },
       { path: 'articulosreporte', component: ArticulosConsultaComponent },
       { path: 'prepedidos-repo', component: PrepedidosRepoComponent },
-      { path: 'cotizcrear', component: CotizCrearComponent }
+      { path: 'cotizcrear', component: CotizCrearComponent },
+      { path: 'cotizlistar', component: CotizListarComponent }
+
 
       //{ path: 'guias', component: GuiasComponent }
       //{ path: 'ordnretorno', component: OrdnretornoComponent }
@@ -97,8 +100,9 @@ const appRoutes: Routes = [
       { path: 'prepedidos-repo', component: PrepedidosRepoComponent },
       { path: 'indicventa2025', component: IndicVenta2025Component },
       { path: 'cotizcrear', component: CotizCrearComponent },
+      { path: 'cotizlistar', component: CotizListarComponent }
 
-      { path: 'testdr', component: TestdrComponent }
+      //{ path: 'testdr', component: TestdrComponent }
       //{ path: 'testdr2', component: Testdr2Component }
     ],
   },

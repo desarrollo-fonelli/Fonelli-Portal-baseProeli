@@ -2,15 +2,15 @@
 ## Control de Cambios
 
 ----------
-## v2.13.0 | 2025-08-19 | Extender módulo de Cotizaciones de Venta
+## v2.13.0 | 2025-08-27 | Extender módulo de Cotizaciones de Venta
 #### Nuevo:
 1. Se guardan en la base de datos los documentos creados.
 2. Se modifica el menú principal para tener los ítems:
-   a. Cotización Registro
-   b. Cotización Consulta
+   a. Crear Cotización
+   b. Consultar Cotización
 3. Se crean componentes para presentar Lista de Cotizaciones:
    a. Lista de cotizaciones filtrando por agente, cliente y fecha.
-   b. Formulario para modificar cotizaciones y actualizar cambios en la BD
+   b. Las filas de la lista son colapsables, presentando en una tabla anidada los artículos que contiene.
 
 ----------
 ## v2.12.0 | 2025-08-12 | prepedidos-repo | Ajustes reporte de prepedidos
