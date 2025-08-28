@@ -363,6 +363,8 @@ export class CotizCrearComponent implements OnInit {
     // Usamos getRawValue() para obtener los valores de TODOS los controles,
     // incluidos los deshabilitados (como total y total_fila).
     const _cotizacDocum: CotizacDocum = this.cotizacForm.getRawValue();
+    _cotizacDocum.ListaPreciosCodigo = this.sListaPrecCode;
+    _cotizacDocum.ParidadTipo = this.sParidadTipo;
 
     // copio a los datos del formulario el array con los artículos capturados.
     // (lo recomendado es trabajar directo con un array en el formulario, pero 
