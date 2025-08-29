@@ -1,6 +1,6 @@
 {
     "/med_fonelli_apiportal/*": {
-        "target_produccion": "https://www.fonelli.com/",
+        "target_online": "https://www.fonelli.com/",
         "target": "http://172.16.2.150/",
         "secure": false,
         "logLevel": "debug"

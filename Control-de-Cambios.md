@@ -2,12 +2,17 @@
 ## Control de Cambios
 
 ----------
-## v2.13.1 | 2025-08-28 | Componente para editar cotizaciones registradas
+## v2.13.2 | 2025-08-29 | Componente para editar cotizaciones registradas
 #### Nuevo:
 1. Se crean componente y artefactos necesarios para obtener datos de documentos registrados y permitir su edición.
    a. Los precios del documento original deben ser actualizados con las paridades del día.
    b. Se debe llamar un servicio API REST para actualizar la información.,
       * El servicio debe actualizar la fecha del documento original, borrar sus filas del documento original y crear
+
+----------
+## v2.13.1 | 2025-08-29 | Ajustes a la creación del documento de Cotización
+#### Nuevo:
+1. Se agregan campos al formulario y se ajusta rutina que llama el servicio para crear registros en la base de datos: código de lista de precios, tipo de paridad y comentarios del documento.
 
 ----------
 ## v2.13.0 | 2025-08-27 | Extender módulo de Cotizaciones de Venta
