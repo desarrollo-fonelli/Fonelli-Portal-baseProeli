@@ -8,6 +8,7 @@ export interface CotizacDocum {
   ClienteSucursal: string;
   ListaPreciosCodigo: string;
   ParidadTipo: string;
+  Comentarios: string;
   CotizacFilas: CotizacFila[];
 }
 

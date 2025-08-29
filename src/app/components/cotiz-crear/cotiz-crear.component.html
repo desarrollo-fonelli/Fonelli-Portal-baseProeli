@@ -4,7 +4,7 @@
 
   <div class="card">
 
-    <div class="card-header">
+    <div class="card-body">
 
       <form [formGroup]="cotizacForm">
 
@@ -77,6 +77,28 @@
                 <input type="text" class="form-control" formControlName="StatusDoc" id="StatusDoc" readonly>
               </div>
             </div>
+
+            <div class="row mb-2" hidden>
+              <div class="col-md-6"></div>
+              <div class="col-md-2 d-flex justify-content-end align-items-center">
+                <div class="CamposFonelli">ListaPrec</div>
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" formControlName="ListaPreciosCodigo" id="ListaPreciosCodigo"
+                  readonly>
+              </div>
+            </div>
+            <div class="row mb-2" hidden>
+              <div class="col-md-6"></div>
+              <div class="col-md-2 d-flex justify-content-end align-items-center">
+                <div class="CamposFonelli">Paridad</div>
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control" formControlName="ParidadTipo" id="ParidadTipo" readonly>
+              </div>
+            </div>
+
+
           </div> <!-- datos generales del documento -->
 
         </div>
@@ -110,74 +132,76 @@
           </div>
         </div>
 
+        <!----------------------- Tabla de artículos cotizados  ------------------------>
+        <div class="row">
+          <div class="table-responsive mb-2">
+            <table class="table table-sm table-striped table-bordered table-hover">
+              <thead>
+                <tr class="EncTabla">
+                  <th class="thFonelli-center" scope="col">Línea</th>
+                  <th class="thFonelli-left" scope="col">Modelo</th>
+                  <th class="thFonelli-left" scope="col">Descripción</th>
+                  <th class="thFonelli-center" scope="col">Ktje</th>
+                  <th class="thFonelli-center" scope="col">Piezas</th>
+                  <th class="thFonelli-center" scope="col">Gramos</th>
+                  <th class="thFonelli-center" scope="col">Calc</th>
+                  <th class="thFonelli-right" scope="col">PrecioUnit</th>
+                  <th class="thFonelli-right" scope="col">Importe</th>
+                  <th class="thFonelli-center" scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of articulos; let i=index">
+                  <td class="FilasFonelli-center">{{ item.LineaPT }}</td>
+                  <td class="FilasFonelli-left">{{ item.ItemCode }}</td>
+                  <td class="FilasFonelli-left">{{ item.Descripc}}</td>
+                  <td class="FilasFonelli-center">{{ item.Kilataje }}</td>
+                  <td class="FilasFonelli-center">{{ item.Piezas }}</td>
+                  <td class="FilasFonelli-center">{{ item.Gramos | number: '1.2-2'}}</td>
+                  <td class="FilasFonelli-center">{{ (item.TipoCosteo == '1') ? 'Pzas' : 'Grms' }}</td>
+                  <td class="FilasFonelli-right">{{ item.Precio | currency}}</td>
+                  <td class="FilasFonelli-right">{{ item.Importe | currency}}</td>
+                  <td class="FilasFonelli-center">
+                    <button class="btn btn-sm btn-dark" (click)="eliminarArticulo(i)">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="articulos.length === 0">
+                  <td colspan="10" class="text-center text-muted">No hay artículos agregados</td>
+                </tr>
+              </tbody>
+            </table> <!-- .table -->
+          </div> <!-- .table.responsive -->
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <textarea class="form-control" formControlName="Comentarios" id="Comentarios" rows="3"
+              placeholder="Notas del documento"></textarea>
+          </div>
+          <div class="col-md-3 offset-md-3">
+            <div class="d-flex justify-content-between align-items-center border-top pt-2">
+              <span class="h5">Total:</span>
+              <span class="h5"><strong>{{ totalDocum | currency }}</strong></span>
+            </div>
+            <div class="mt-3 d-flex justify-content-end gap-2 no-imprimir">
+              <button type="button" class="btn btnFonelliAzul mt-auto" (click)="guardarPropuesta()">
+                Guardar
+              </button>
+              <button type="button" class="btn btnFonelliAzul mt-auto" (click)="imprimir()">
+                <!--<i class="bi bi-printer me-1"></i>--> Imprimir
+              </button>
+            </div>
+          </div>
+        </div>
+
       </form>
-    </div> <!-- .card-header -->
-
-    <div class="card-body">
-
-      <!----------------------- Tabla de artículos cotizados  ------------------------>
-      <div class="row">
-        <div class="table-responsive mb-4">
-          <table class="table table-sm table-striped table-bordered table-hover">
-            <thead>
-              <tr class="EncTabla">
-                <th class="thFonelli-center" scope="col">Línea</th>
-                <th class="thFonelli-left" scope="col">Modelo</th>
-                <th class="thFonelli-left" scope="col">Descripción</th>
-                <th class="thFonelli-center" scope="col">Ktje</th>
-                <th class="thFonelli-center" scope="col">Piezas</th>
-                <th class="thFonelli-center" scope="col">Gramos</th>
-                <th class="thFonelli-center" scope="col">Calc</th>
-                <th class="thFonelli-right" scope="col">PrecioUnit</th>
-                <th class="thFonelli-right" scope="col">Importe</th>
-                <th class="thFonelli-center" scope="col">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of articulos; let i=index">
-                <td class="FilasFonelli-center">{{ item.LineaPT }}</td>
-                <td class="FilasFonelli-left">{{ item.ItemCode }}</td>
-                <td class="FilasFonelli-left">{{ item.Descripc}}</td>
-                <td class="FilasFonelli-center">{{ item.Kilataje }}</td>
-                <td class="FilasFonelli-center">{{ item.Piezas }}</td>
-                <td class="FilasFonelli-center">{{ item.Gramos | number: '1.2-2'}}</td>
-                <td class="FilasFonelli-center">{{ (item.TipoCosteo == '1') ? 'Pzas' : 'Grms' }}</td>
-                <td class="FilasFonelli-right">{{ item.Precio | currency}}</td>
-                <td class="FilasFonelli-right">{{ item.Importe | currency}}</td>
-                <td class="FilasFonelli-center">
-                  <button class="btn btn-sm btn-dark" (click)="eliminarArticulo(i)">
-                    <i class="bi bi-trash"></i>
-                  </button>
-                </td>
-              </tr>
-              <tr *ngIf="articulos.length === 0">
-                <td colspan="10" class="text-center text-muted">No hay artículos agregados</td>
-              </tr>
-            </tbody>
-          </table> <!-- .table -->
-        </div> <!-- .table.responsive -->
-      </div>
     </div> <!-- .card-body -->
 
     <div class="card-footer">
       <!-- Totales del documento -->
       <div class="row">
-        <div class="col-md-3 offset-md-9">
-          <div class="d-flex justify-content-between align-items-center border-top pt-2">
-            <span class="h5">Total:</span>
-            <span class="h5"><strong>{{ totalDocum | currency }}</strong></span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Botones del documento -->
-      <div class="mt-4 d-flex justify-content-end gap-2 no-imprimir">
-        <button type="button" class="btn btnFonelliAzul mt-auto" (click)="guardarPropuesta()">
-          Guardar
-        </button>
-        <button type="button" class="btn btnFonelliAzul mt-auto" (click)="imprimir()">
-          <!--<i class="bi bi-printer me-1"></i>--> Imprimir
-        </button>
+        Precios sujetos a cambio en base al valor del oro
       </div>
     </div>
 

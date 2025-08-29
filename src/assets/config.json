@@ -1,9 +1,9 @@
 {
-  "version": "2.13.0",
-  "fecha": "2025-08-27",
+  "version": "2.13.1",
+  "fecha": "2025-08-28",
   "caracteristicas": [
     {
-      "caract1": "Extender módulo de Cotizaciones",
+      "caract1": "MOdificación de Cotizaciones",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

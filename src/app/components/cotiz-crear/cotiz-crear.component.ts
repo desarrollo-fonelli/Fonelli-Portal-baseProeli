@@ -63,9 +63,6 @@ export class CotizCrearComponent implements OnInit {
 
   totalDocum = 0;
 
-  sListaPrecCode = '11';   // cuando no se indica cliente, no es el caso en este componente
-  sParidadTipo = "N";      // cuando no se indica cliente, no es el caso en este componente
-
   constructor(
     private fb: FormBuilder,
     private _router: Router,
@@ -138,6 +135,9 @@ export class CotizCrearComponent implements OnInit {
       ClienteNombre: ['', Validators.required],
       ClienteSucursal: ['', Validators.required],
       txtDatosCliente: [''],
+      ListaPreciosCodigo: [''],
+      ParidadTipo: [''],
+      Comentarios: [''],
       LineaPT: [''],
       ItemCode: [''],
       Piezas: [1, [Validators.required, Validators.min(1)]],
@@ -192,11 +192,11 @@ export class CotizCrearComponent implements OnInit {
               ClienteNombre: this.oCotzClte.Contenido.ClteRazonSocial,
               ClienteSucursal: this.oCotzClte.Contenido.ClteSucursal,
               txtDatosCliente: this.oCotzClte.Contenido.ClteRazonSocial + '\n' +
-                this.oCotzClte.Contenido.ClteSucursal
+                this.oCotzClte.Contenido.ClteSucursal,
+              ListaPreciosCodigo: this.oCotzClte.Contenido.ListaPreciosCodigo,
+              ParidadTipo: this.oCotzClte.Contenido.ParidadCodigo
             })
 
-            this.sListaPrecCode = this.oCotzClte.Contenido.ListaPreciosCodigo;
-            this.sParidadTipo = this.oCotzClte.Contenido.ParidadCodigo;
 
           } else {
             this.clteEsValido = false;
@@ -206,8 +206,10 @@ export class CotizCrearComponent implements OnInit {
               txtDatosCliente: 'Cliente NO registrado'
             })
 
-            this.sListaPrecCode = '11';   // cuando no se indica cliente, no es el caso en este componente
-            this.sParidadTipo = "N";      // cuando no se indica cliente, no es el caso en este componente
+            this.cotizacForm.patchValue({
+              ListaPreciosCodigo: '11',   // cuando no se indica cliente, no es el caso en este componente
+              ParidadTipo: "N"            // cuando no se indica cliente, no es el caso en este componente
+            })
           }
         }
       );
@@ -216,8 +218,10 @@ export class CotizCrearComponent implements OnInit {
       this.txtMensajeClientes = 'Debe ingresar un código de cliente y filial válidos';
       this.mostrarMensajeClientes = true;
 
-      this.sListaPrecCode = '11';   // cuando no se indica cliente, no es el caso en este componente
-      this.sParidadTipo = "N";      // cuando no se indica cliente, no es el caso en este componente
+      this.cotizacForm.patchValue({
+        ListaPreciosCodigo: '11',   // cuando no se indica cliente, no es el caso en este componente
+        ParidadTipo: "N"            // cuando no se indica cliente, no es el caso en este componente
+      })
 
     }
   }
@@ -269,8 +273,8 @@ export class CotizCrearComponent implements OnInit {
       ClienteFilial: this.cotizacForm.get('ClienteFilial')?.value,
       ItemLinea: _lineaPT,
       ItemCode: _itemCode,
-      ListaPrecCode: this.sListaPrecCode,
-      ParidadTipo: this.sParidadTipo,
+      ListaPrecCode: this.cotizacForm.get('ListaPreciosCodigo')?.value,
+      ParidadTipo: this.cotizacForm.get('ParidadTipo')?.value,
       PiezasCosto: _piezas,
       GramosCosto: 0
     }
@@ -279,8 +283,6 @@ export class CotizCrearComponent implements OnInit {
       articulo => {
 
         //console.dir(articulo.Contenido);
-        //console.log(typeof articulo.Contenido);
-        //console.log(articulo.Codigo);
 
         if (articulo.Codigo == 0) {
 
@@ -363,8 +365,6 @@ export class CotizCrearComponent implements OnInit {
     // Usamos getRawValue() para obtener los valores de TODOS los controles,
     // incluidos los deshabilitados (como total y total_fila).
     const _cotizacDocum: CotizacDocum = this.cotizacForm.getRawValue();
-    _cotizacDocum.ListaPreciosCodigo = this.sListaPrecCode;
-    _cotizacDocum.ParidadTipo = this.sParidadTipo;
 
     // copio a los datos del formulario el array con los artículos capturados.
     // (lo recomendado es trabajar directo con un array en el formulario, pero 
@@ -388,10 +388,14 @@ export class CotizCrearComponent implements OnInit {
         // Resetea campos para documento nuevo
         if (this.sTipoUsuario != 'C') {
           this.cotizacForm.get('ClienteCodigo')?.reset();
-          this.cotizacForm.get('ClienteFilial')?.reset();
+          //this.cotizacForm.get('ClienteFilial')?.reset();
+          this.cotizacForm.get('ClienteFilial')?.setValue(0);
           this.cotizacForm.get('ClienteNombre')?.reset();
           this.cotizacForm.get('ClienteSucursal')?.reset();
           this.cotizacForm.get('txtDatosCliente')?.reset();
+          this.cotizacForm.get('ListaPreciosCodigo')?.reset();
+          this.cotizacForm.get('ParidadTipo')?.reset();
+          this.cotizacForm.get('Comentarios')?.reset();
         }
         this.cotizacForm.get('LineaPT')?.reset();
         this.cotizacForm.get('ItemCode')?.reset();
