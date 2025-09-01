@@ -35,6 +35,7 @@ import { CotizListarResponse, CotizDocum } from './modelos/cotiz-listar.models';
 /**
  * Servicios
  */
+import { FuncFechasService } from 'src/app/core/services/func-fechas.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 import { CotizListarService } from './servicios/cotiz-listar.service';
 
@@ -110,6 +111,7 @@ export class CotizListarComponent implements OnInit {
     private modalService: NgbModal,
     private _route: ActivatedRoute,
     private _router: Router,
+    private _funcFechasService: FuncFechasService,
     private _servicioCClientes: ServicioClientes,
     private _servicioCotizListar: CotizListarService
   ) {
@@ -205,45 +207,9 @@ export class CotizListarComponent implements OnInit {
       this.oFiltros.AgenteCodigo = this.sCodigo;
     }
 
-    // Inicialización de fechas para criterios de filtro
-    let date: Date = new Date();
-    let mes;
-    let dia;
 
-    //Valida mes
-    if (date.getMonth().toString.length == 1) {
-      mes = '0' + (date.getMonth() + 1);
-    } else {
-      mes = (date.getMonth() + 1);
-    }
-    //Valida dia 
-    if (date.getDate().toString().length == 1) {
-      dia = '0' + (date.getDate());
-    }
-    //console.log('dRendon: mes',mes,(date.getMonth()+1).toString().length==1);
-    let fechaActual = (date.getFullYear() + 1) + '-' + mes + '-' + (date.getDate().toString().length == 1 ? '0' + (date.getDate()) : date.getDate());
-    let fechaAyer: string;
-
-    //validacion dia anterior inicio de mes
-    if (date.getDate() == 1) {//es inicio de mes
-      if (mes == '01') {
-        mes = '12';
-        fechaAyer = (date.getFullYear() - 1) + '-' + mes + '-' + '31';
-      } else {
-        mes = mes - 1;
-        if (mes < 10) {
-          fechaAyer = (date.getFullYear()) + '-0' + mes + '-' + '31';
-        } else {
-          fechaAyer = (date.getFullYear()) + '-' + mes + '-' + '31';
-        }
-      }
-    } else {
-      fechaAyer = (date.getFullYear()) + '-' + mes + '-' + (date.getDate().toString().length == 1 ? '0' + (date.getDate() - 1) : (date.getDate() - 1).toString().length == 1 ? '0' + (date.getDate() - 1) : date.getDate() - 1);
-    }
-    this.fechaHoy = date.getFullYear() + '-' + mes + '-' + date.getDate().toString().padStart(2, '0');
-
+    this.fechaHoy = this._funcFechasService.fechaHoy_aaaammdd();
     this.oFiltros.FechaDesde = '2025-01-01';
-    //this.oFiltros.FechaHasta = fechaAyer;
     this.oFiltros.FechaHasta = this.fechaHoy;
 
 
@@ -540,7 +506,9 @@ export class CotizListarComponent implements OnInit {
     return detailsHtml;
   }
 
-  // Función helper para rerender <<<
+  /**
+   * Función helper para rerender <<<---------------------
+   */
   rerender(): void {
     if (this.dtElement && this.dtElement.dtInstance) {
       this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -550,5 +518,24 @@ export class CotizListarComponent implements OnInit {
     } else {
       this.dtTrigger.next(null);
     }
+  }
+
+  /**
+   * Controla la presentación del formulario para editar la Cotización recibida como
+   * objeto, la cual corresponde a la fila seleccionada en la tabla de cotizaciones.
+   */
+  FormCotizac(doc: any): void {
+    console.log('Se presenta el formulario de Cotización...');
+    console.dir(doc);
+
+
+    // TODO
+    console.log('PENDTE: Actualiza lista de precios y tipo de paridad asignados al cliente, ya que pudieron modificarse para aplicarlas a la cotización.');
+
+    // TODO
+    console.log('PENDTE: Calcula nuevamente el precio de cada artículo, aplicando la paridad del día.');
+
+
+    return;
   }
 }

@@ -165,7 +165,9 @@
             <i *ngIf="!doc.expanded" class="bi bi-chevron-down text-grey fw-bold"></i>
             <i *ngIf="doc.expanded" class="bi bi-chevron-up text-grey fw-bold"></i>
           </td>
-          <td class="FilasFonelli-center text-primary fw-bold" style="cursor: pointer;"><u>{{doc.Folio }}</u></td>
+          <td class="FilasFonelli-center" style="cursor: pointer;" (click)="FormCotizac(doc)">
+            <span class="text-primary fw-bold"><u>{{doc.Folio }}</u></span>
+          </td>
           <td class="FilasFonelli-center" style="text-align: center;min-width: 10ch;">{{ doc.Fecha }}</td>
           <td class="FilasFonelli-center">{{ doc.Status }}</td>
           <td class="FilasFonelli-center" style="text-align: center;min-width: 9ch;">{{ doc.ClienteCodigo+ '-' +

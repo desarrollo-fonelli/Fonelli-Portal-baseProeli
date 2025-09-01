@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 // Servicios
+import { FuncFechasService } from 'src/app/core/services/func-fechas.service';
 import { CotizCrearService } from './servicios/cotiz-crear.service';
 import { CotizacClienteService } from './servicios/cotizac-cliente.service'
 import { CotizacArticuloService } from './servicios/cotizac-articulo.service';
@@ -66,6 +67,7 @@ export class CotizCrearComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _router: Router,
+    private _funcFechasService: FuncFechasService,
     private _cotizCrearService: CotizCrearService,
     private _cotizacClienteService: CotizacClienteService,
     private _cotizacArticuloService: CotizacArticuloService
@@ -125,12 +127,13 @@ export class CotizCrearComponent implements OnInit {
     }
 
     //console.dir(this.oFiltros);
+    //FechaDoc: [new Date().toISOString().substring(0, 10), Validators.required],
 
     this.cotizacForm = this.fb.group({
       ClienteCodigo: [this.oCalcPrecParam.ClienteCodigo, [Validators.required, Validators.pattern('^[0-9]*$')]],
       ClienteFilial: [this.oCalcPrecParam.ClienteFilial, [Validators.required, Validators.pattern('^[0-9]*$')]],
       Folio: [''],
-      FechaDoc: [new Date().toISOString().substring(0, 10), Validators.required],
+      FechaDoc: [this._funcFechasService.fechaHoy_aaaammdd(), Validators.required],
       StatusDoc: ['A'],
       ClienteNombre: ['', Validators.required],
       ClienteSucursal: ['', Validators.required],
