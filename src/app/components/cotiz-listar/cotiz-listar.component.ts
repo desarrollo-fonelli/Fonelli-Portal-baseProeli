@@ -81,6 +81,8 @@ export class CotizListarComponent implements OnInit {
   oCotizListarResponse: CotizListarResponse;
   oCotizDocumentos: CotizDocum[];
 
+  docElegido: any | null = null;    // documento que se va a editar
+
   fechaHoy: string;
 
   public bCargando: boolean = false;
@@ -289,7 +291,7 @@ export class CotizListarComponent implements OnInit {
         }
 
         this.oCotizDocumentos = this.oCotizListarResponse.Contenido.CotizDocumentos
-        //console.dir(this.oCotizDocumentos);
+        console.dir(this.oCotizDocumentos);
 
         // Inicializa la propiedad que indica si se expande cada fila
         this.oCotizDocumentos.forEach(doc => doc.expanded = false);
@@ -482,22 +484,28 @@ export class CotizListarComponent implements OnInit {
       '<h6 class="h6 fw-bold mb-2">Artículos de la Cotización</h6>' +
       '<table class="table table-sm table-bordered">' +
       '<thead class="thead-light"><tr>' +
-      '<th>Fila</th><th>Artículo</th><th>Descripción</th>' +
-      '<th class="text-end">Piezas</th><th class="text-end">Gramos</th><th class="text-end">Importe</th>' +
+      '<th>Fila</th><th>Línea</th><th>Modelo</th><th>Descripción</th><th>Ktje</th>' +
+      '<th class="text-end">Piezas</th><th class="text-end">Gramos</th>' +
+      '<th>Calc</th><th class="text-end">PrecUnit</th><th class="text-end">Importe</th>' +
       '</tr></thead><tbody>';
 
     filasDoc.forEach(fila => {
       // Nota: No podemos usar pipes de Angular aquí, formateamos manualmente.
       const piezas = fila.Piezas.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
       const gramos = fila.Gramos.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const precio = fila.Precio.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       const importe = fila.Importe.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
       detailsHtml += `<tr>
           <td>${fila.Fila}</td>
+          <td>${fila.LineaPT}</td>
           <td>${fila.ItemCode}</td>
           <td>${fila.Descripc}</td>
+          <td>${fila.Kilataje}</td>
           <td class="text-end">${piezas}</td>
           <td class="text-end">${gramos}</td>
+          <td>${(fila.TipoCosteo == '1') ? 'Pzas' : 'Grms'}</td>
+          <td class="text-end">${precio}</td>
           <td class="text-end">${importe}</td>
         </tr>`;
     });
@@ -525,16 +533,9 @@ export class CotizListarComponent implements OnInit {
    * objeto, la cual corresponde a la fila seleccionada en la tabla de cotizaciones.
    */
   FormCotizac(doc: any): void {
-    console.log('Se presenta el formulario de Cotización...');
-    console.dir(doc);
 
-
-    // TODO
-    console.log('PENDTE: Actualiza lista de precios y tipo de paridad asignados al cliente, ya que pudieron modificarse para aplicarlas a la cotización.');
-
-    // TODO
-    console.log('PENDTE: Calcula nuevamente el precio de cada artículo, aplicando la paridad del día.');
-
+    this.docElegido = doc;
+    //console.log('🔸Folio:' + doc.Folio);
 
     return;
   }

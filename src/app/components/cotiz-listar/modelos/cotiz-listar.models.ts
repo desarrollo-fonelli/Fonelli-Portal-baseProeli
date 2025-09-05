@@ -21,7 +21,10 @@ export interface CotizDocum {
   PzasDoc: number;
   GrmsDoc: number;
   ImporteDoc: number;
-  expanded: boolean;
+  ListaPreciosCodigo: string;
+  ParidadTipo: string;
+  Comentarios: string;
+  expanded: boolean;    // se usa para controlar presentación de filas en datatables
   FilasDoc: DocFila[];
 }
 
