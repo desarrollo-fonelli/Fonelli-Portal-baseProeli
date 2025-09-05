@@ -537,6 +537,19 @@ export class CotizListarComponent implements OnInit {
     this.docElegido = doc;
     //console.log('🔸Folio:' + doc.Folio);
 
+    this.mostrarTabla = false;
+
     return;
+  }
+
+  /**
+   * Método asociado al evento "finEdicion" emitido por el formulario de edicion
+   */
+  edicionTerminada() {
+
+    // TODO: Aquí se puede aprovechar para refrescar el objeto con los datos editados
+    // si no lo haz hecho antes.
+
+    this.mostrarTabla = true;
   }
 }

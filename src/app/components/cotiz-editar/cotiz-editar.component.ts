@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, Input,
+  Component, OnInit, Input, Output, EventEmitter,
   OnChanges, SimpleChanges, ChangeDetectorRef
 } from '@angular/core';
 import { forkJoin, Observable } from 'rxjs';
@@ -27,6 +27,7 @@ import { CalcPrecResponse } from 'src/app/models/calc-prec-response';
 export class CotizEditarComponent implements OnInit, OnChanges {
 
   @Input() oCotiz: any;   // objeto con datos generales y filas del documento elegido en la tabla "padre"
+  @Output() finEdicion = new EventEmitter<void>();  // notifica que se termino la edicion
 
   sTipoUsuario: string | null;
   sUsuario: string | null;
@@ -192,12 +193,6 @@ export class CotizEditarComponent implements OnInit, OnChanges {
     //this.articulos = filas;
     //this.calcularTotal(filas);
     // -- fin grok
-
-    //console.log('Formulario actualizado con cotización:');
-    //console.dir(this.formCotiz.value);
-
-    this.mostrarDocumento = true;
-
   }
 
   /**
@@ -447,6 +442,21 @@ export class CotizEditarComponent implements OnInit, OnChanges {
     console.log('🔸 En construcción - Rutina para guardar documento en API REST');
 
     this.mostrarDocumento = false;
+    this.finEdicion.emit();
+
+  }
+
+  /**
+   * No actualiza los datos de la propuesta y vuelve a la pantalla anterior
+   */
+  descartarPropuesta(): void {
+
+    this.articulos = [];
+    this.totalDocum = 0;
+    this.formCotiz.reset();
+
+    this.mostrarDocumento = false;
+    this.finEdicion.emit();
   }
 
   /**

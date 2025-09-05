@@ -166,7 +166,7 @@
             <i *ngIf="doc.expanded" class="bi bi-chevron-up text-grey fw-bold"></i>
           </td>
           <td class="FilasFonelli-center" style="cursor: pointer;" (click)="FormCotizac(doc)">
-            <span class="text-primary fw-bold"><u>{{doc.Folio }}</u></span>
+            <span class="text-primary fw-bold"><u>{{ doc.Folio }}</u></span>
           </td>
           <td class="FilasFonelli-center" style="text-align: center;min-width: 10ch;">{{ doc.Fecha }}</td>
           <td class="FilasFonelli-center">{{ doc.Status }}</td>
@@ -257,6 +257,6 @@
 
 </ng-template>
 
-<app-cotiz-editar *ngIf="docElegido" [oCotiz]="docElegido">
+<app-cotiz-editar *ngIf="docElegido" [oCotiz]="docElegido" (finEdicion)="edicionTerminada()">
 
 </app-cotiz-editar>
