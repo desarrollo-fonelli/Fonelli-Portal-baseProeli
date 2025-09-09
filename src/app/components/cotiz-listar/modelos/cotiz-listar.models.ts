@@ -10,6 +10,7 @@ export interface CotizListarContenido {
 }
 
 export interface CotizDocum {
+  DocId: number,
   Folio: number;
   Fecha: string;
   Status: string;

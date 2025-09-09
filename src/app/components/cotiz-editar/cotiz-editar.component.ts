@@ -16,6 +16,7 @@ import { CotizacDocum, CotizacFila, CotizFiltros } from '../cotiz-crear/modelos/
 import { CotzClteFiltros, CotzClteResponse } from '../cotiz-crear/modelos/cotizac-cliente';
 import { CalcPrecParam } from 'src/app/models/calc-prec-param';
 import { CalcPrecResponse } from 'src/app/models/calc-prec-response';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class CotizEditarComponent implements OnInit, OnChanges {
 
   // Filtros enviados al servicio para UPDATE el documento (los requiere la API REST)
   oFiltros: CotizFiltros = {
-    TipoUsuario: '', Usuario: 0, ClienteCodigo: 0, ClienteFilial: 0, AgenteCodigo: 0
+    TipoUsuario: '', Usuario: 0, ClienteCodigo: 0, ClienteFilial: 0,
+    AgenteCodigo: 0, DocId: 0
   };
 
   // Filtros para buscar cliente
@@ -71,8 +73,8 @@ export class CotizEditarComponent implements OnInit, OnChanges {
     private cdr: ChangeDetectorRef,
     private _funcFechasService: FuncFechasService,
     private _cotizacClienteService: CotizacClienteService,
-    private _cotizacArticuloService: CotizacArticuloService
-
+    private _cotizacArticuloService: CotizacArticuloService,
+    private _cotizEditarService: CotizEditarService
   ) {
     this.sTipoUsuario = sessionStorage.getItem('tipo');
     this.sUsuario = sessionStorage.getItem('codigo');
@@ -81,6 +83,7 @@ export class CotizEditarComponent implements OnInit, OnChanges {
 
     // Inicializa el formulario una sola vez
     this.formCotiz = this.fb.group({
+      DocId: ['0'],
       ClienteCodigo: [this.oCalcPrecParam.ClienteCodigo, [Validators.required, Validators.pattern('^[0-9]*$')]],
       ClienteFilial: [this.oCalcPrecParam.ClienteFilial, [Validators.required, Validators.pattern('^[0-9]*$')]],
       Folio: [''],
@@ -96,7 +99,6 @@ export class CotizEditarComponent implements OnInit, OnChanges {
       ItemCode: [''],
       Piezas: [1, [Validators.required, Validators.min(1)]],
       CotizacFilas: this.fb.array([])
-
     });
   }
 
@@ -128,6 +130,9 @@ export class CotizEditarComponent implements OnInit, OnChanges {
     //    this.sUsuario = sessionStorage.getItem('codigo');
 
     this.oFiltros.TipoUsuario = this.sTipoUsuario;
+    this.oFiltros.DocId = cotiz.DocId;
+    this.oFiltros.ClienteCodigo = cotiz.ClienteCodigo;
+    this.oFiltros.ClienteFilial = cotiz.ClienteFilial;
 
     switch (this.sTipoUsuario) {
       case 'C': {
@@ -164,6 +169,7 @@ export class CotizEditarComponent implements OnInit, OnChanges {
     this.mostrarMensajeArticulo = false;
 
     this.formCotiz.patchValue({
+      DocId: cotiz.DocId,
       ClienteCodigo: cotiz.ClienteCodigo,
       ClienteFilial: cotiz.ClienteFilial,
       Folio: cotiz.Folio,
@@ -193,6 +199,7 @@ export class CotizEditarComponent implements OnInit, OnChanges {
     //this.articulos = filas;
     //this.calcularTotal(filas);
     // -- fin grok
+
   }
 
   /**
@@ -263,6 +270,7 @@ export class CotizEditarComponent implements OnInit, OnChanges {
     }
     //console.table(this.oCalcPrecParam);
 
+    // LLama al servicio que Obtiene precio del artículo ------------------
     this._cotizacArticuloService.getArticulo(this.oCalcPrecParam).subscribe(
       articulo => {
 
@@ -439,11 +447,29 @@ export class CotizEditarComponent implements OnInit, OnChanges {
   * Llama el servicio para guardar registros del documento: datos generales y filas.
   */
   guardarPropuesta(): void {
-    console.log('🔸 En construcción - Rutina para guardar documento en API REST');
+
+    const _cotizacDocum: CotizacDocum = this.formCotiz.getRawValue();
+    _cotizacDocum.CotizacFilas = this.articulos;
+
+    // Llama al servicio que actualiza el documento
+    // Los filtros son necesarios para la API REST
+    this._cotizEditarService.updateCotizac(this.oFiltros, _cotizacDocum).subscribe({
+      next: (response) => {
+        this.txtMensajeArticulo = "Propuesta actualizada correctamente. Folio: " + response.Folio;
+        this.mostrarMensajeArticulo = true;
+      },
+      error: (err) => {
+        console.log(err.message);
+      }
+    });
+
+    // Resetea todo y vuelve a la pantalla anterior
+    this.articulos = [];
+    this.totalDocum = 0;
+    this.formCotiz.reset();
 
     this.mostrarDocumento = false;
     this.finEdicion.emit();
-
   }
 
   /**

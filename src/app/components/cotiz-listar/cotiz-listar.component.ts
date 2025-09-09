@@ -291,7 +291,7 @@ export class CotizListarComponent implements OnInit {
         }
 
         this.oCotizDocumentos = this.oCotizListarResponse.Contenido.CotizDocumentos
-        console.dir(this.oCotizDocumentos);
+        //console.dir(this.oCotizDocumentos);
 
         // Inicializa la propiedad que indica si se expande cada fila
         this.oCotizDocumentos.forEach(doc => doc.expanded = false);

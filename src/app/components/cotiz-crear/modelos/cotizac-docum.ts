@@ -33,4 +33,5 @@ export interface CotizFiltros {
   ClienteCodigo: number | null;
   ClienteFilial: number | null;
   AgenteCodigo: number | string;
+  DocId?: number | string;
 }
