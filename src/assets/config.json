@@ -1,9 +1,9 @@
 {
-  "version": "2.13.4",
-  "fecha": "2025-09-09",
+  "version": "2.14.0",
+  "fecha": "2025-09-12",
   "caracteristicas": [
     {
-      "caract1": "Ajustes módulo de Cotizaciones",
+      "caract1": "Presentación de imagenes en catálogo de artículos",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

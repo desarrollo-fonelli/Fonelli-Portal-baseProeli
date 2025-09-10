@@ -2,6 +2,10 @@
 ## Control de Cambios
 
 ----------
+## v2.14.0 | 2025-09-12 | Presentación de imagenes en catálogo de artículos
+1. 
+
+----------
 ## v2.13.4 | 2025-09-09 | Componente para editar cotizaciones registradas
 #### Nuevo:
 1. Se crean componente y artefactos necesarios para obtener datos de documentos registrados y permitir su edición.
