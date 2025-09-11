@@ -23,9 +23,10 @@ export class ArticulosConsultaComponent implements OnInit {
   bCargando = false;
   sMensaje = '';
   mostrarTabla: boolean;
+  selectedImage: string;            // <-- imagen seleccionada en el modal
 
-  sTipoUsuario: string | null;     // tipo de usuario
-  sCodigo: string | null;          // usuario loggeado
+  sTipoUsuario: string | null;      // tipo de usuario
+  sCodigo: string | null;           // usuario loggeado
   bCliente: boolean;
   sFilial: number | null;
 
@@ -66,6 +67,7 @@ export class ArticulosConsultaComponent implements OnInit {
 
     this.oItemsResponse = {} as ItemsResponse;
     this.oFilasItems = [];
+    this.selectedImage = '';    // <-- inicializa variable nueva
 
   }
 
@@ -183,6 +185,8 @@ export class ArticulosConsultaComponent implements OnInit {
         this.oItemsResponse = response;
         this.oFilasItems = this.oItemsResponse.Contenido;
 
+        console.dir(this.oFilasItems);
+
         this.bCargando = false;
 
         if (this.oItemsResponse.Codigo != 0) {
@@ -211,13 +215,22 @@ export class ArticulosConsultaComponent implements OnInit {
 
   }
 
+  // Método para abrir el modal con la imagen del artículo
+  openImageModal(content: any, imageUrl: string) {
+    this.selectedImage = imageUrl;
+    console.log('Imagen seleccionada:', this.selectedImage);
+    this.modalService.open(content, { centered: true, size: 'lg' });
+  }
+
   ngAfterViewInit(): void {
     this.dtTrigger.next("");
   }
 
   ngOnDestroy(): void {
+
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
+    this.oFilasItems = [];
   }
 
 }

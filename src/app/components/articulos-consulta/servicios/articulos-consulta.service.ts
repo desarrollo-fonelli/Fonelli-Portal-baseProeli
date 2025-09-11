@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { HttpClient, HttpHeaders, HttpErrorResponse } from "@angular/common/http";
+import { Observable, throwError } from "rxjs";
+import { catchError } from 'rxjs/operators';
 import { Configuracion } from "src/app/models/configuraciones";
 import { environment } from 'src/environments/environment';
 import { FiltrosItemsConsulta, ItemsResponse, ContenidoItem } from '../modelos/articulos-consulta.interfaces';
@@ -9,6 +10,7 @@ import { FiltrosItemsConsulta, ItemsResponse, ContenidoItem } from '../modelos/a
   providedIn: 'root'
 })
 export class ArticulosConsultaService {
+
   public API: string;
   public API_URL: string;
   public sToken: string;
@@ -20,12 +22,15 @@ export class ArticulosConsultaService {
   }
 
   Get(Filtros: FiltrosItemsConsulta): Observable<ItemsResponse> {
-    let headers = new HttpHeaders().set('Content-Type', 'application-json')
-      .set("Access-Control-Allow-Origin", "*")
-      .set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-      .set("Access-Control-Allow-Methods", "GET")
-      .set("Auth", this.sToken)
-      .set("Access-Control-Allow-Credentials", "true");
+
+    if (!this.sToken) {
+      console.error('Token no encontrado en sessionStorage');
+      return throwError(() => 'Error de autenticación. Por favor, inicie sesión nuevamente.');
+    }
+
+    let headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set("Auth", this.sToken);
 
     let _filtros = '';
     _filtros += '&TipoUsuario=' + Filtros.TipoUsuario;
@@ -33,8 +38,21 @@ export class ArticulosConsultaService {
     _filtros += '&ItemCode=' + Filtros.ItemCode;
     _filtros += '&MetodoBusqueda=' + Filtros.MetodoBusqueda;
 
-
-    return this._http.get<ItemsResponse>(
-      this.API_URL + this.API + 'reportes/ArticulosBusqueda.php?' + _filtros, { headers: headers });
+    return this._http.get<ItemsResponse>(this.API_URL + this.API +
+      'reportes/ArticulosBusqueda.php?' + _filtros, { headers: headers })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      console.error('Ocurrio un error en la red o en el cliente:', error.error);
+      return throwError(() => 'Error conectando con el servidor. Verifiquesu conexión o la configuración de CORS.');
+    } else {
+      console.error(`Error en Backend código ${error.status}:`, error.error);
+    }
+    return throwError(() => 'Error en la operación, intente más tarde...');
+  }
+
 }

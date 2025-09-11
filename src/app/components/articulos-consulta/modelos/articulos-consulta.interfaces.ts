@@ -22,6 +22,7 @@ export interface ContenidoItem {
   LineaPT: string;
   ItemCode: string;
   Descripc: string;
+  ImgPath?: string;
   // PrecioVenta: number;
   // PesoPromedio: number;
   // ParidadTipo: string;

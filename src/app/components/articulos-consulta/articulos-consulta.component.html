@@ -68,18 +68,45 @@
         <tr class="EncTabla">
           <th style="background-color: #24a4cc; color: white; text-align:center; max-width: 4ch;" scope="col">Linea</th>
           <th style="background-color: #24a4cc; color: white; text-align:left; max-width: 18ch;" scope="col">Clave</th>
-          <th style="background-color: #24a4cc; color: white; text-align:left; min-width: 60ch;" scope="col">Descripción
+          <th style="background-color: #24a4cc; color: white; text-align:left; max-width: 40ch;" scope="col">Descripción
+          </th>
+          <th style="background-color: #24a4cc; color: white; text-align:center; max-width: 8ch;" scope="col">Imagen
           </th>
         </tr>
       </thead>
 
       <tbody>
         <tr *ngFor="let itm of oFilasItems ; index as i">
-          <td class="FilasFonelli col-texto-medio" style="text-align:center; max-width: 4ch;">{{itm.LineaPT}}</td>
-          <td class="FilasFonelli col-texto-ancho" style="text-align:left; max-width: 18ch;">{{itm.ItemCode}}</td>
-          <td class="FilasFonelli col-texto-medio" style="text-align:left; min-width: 60ch;">{{itm.Descripc}}</td>
+          <td class="FilasFonelli-center col-texto-medio" style="max-width: 3ch;">{{itm.LineaPT}}</td>
+          <td class="FilasFonelli-left col-texto-ancho" style="max-width: 14ch;">{{itm.ItemCode}}</td>
+          <td class="FilasFonelli-left col-texto-medio" style="min-width: 40ch;">{{itm.Descripc}}</td>
+          <td class="FilasFonelli-center" style="text-align:center;">
+            <img [src]="itm.ImgPath" alt="Imagen de {{itm.ItemCode}}" class="thumbnail"
+              (click)="openImageModal(imageModal, itm.ImgPath)" loading="lazy"
+              onerror="this.src='assets/img/diamante-azul.png'">
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 </div>
+
+
+<!-----------------------Plantilla para el modal que muestra la imagen ----------------------->
+<ng-template #imageModal let-modal>
+  <div class="modal-header">
+    <div class="h5 modal-title" id="modal-basic-title">Vista previa del artículo</div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <img [src]="selectedImage" class="img-fluid" alt="imagen del producto"
+      onerror="this.src='assets/img/diamante-azul.png'">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      Cerrar
+    </button>
+  </div>
+</ng-template>
