@@ -1,13 +1,19 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+/**
+ * 11.09.2025 - dRendon:
+ * Ajusto el componente y su plantilla para reemplazar el uso de datatables por 
+ * scrolling virtual, considerando que la API puede devolver demasiados registros
+ * y cada uno puede tener su propia imagen. Este cambio mejora el rendimiento
+ * y la experiencia del usuario al navegar por la lista de artículos.
+ */
+
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { Subject, timer } from 'rxjs';
-import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DataTableDirective } from 'angular-datatables';
+import { Subscription } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { FiltrosItemsConsulta, ItemsResponse, ContenidoItem } from './modelos/articulos-consulta.interfaces';
 import { ArticulosConsultaService } from './servicios/articulos-consulta.service';
-import { ArticulosResponse } from '../articulos-reporte/modelos/articulos-reporte.response';
 
 @Component({
   selector: 'app-articulos-consulta',
@@ -15,7 +21,7 @@ import { ArticulosResponse } from '../articulos-reporte/modelos/articulos-report
   styleUrls: ['./articulos-consulta.component.css'],
   providers: [ArticulosConsultaService]
 })
-export class ArticulosConsultaComponent implements OnInit {
+export class ArticulosConsultaComponent implements OnInit, OnDestroy {
 
   searchtext = '';    // datatables
   bError: boolean = false;
@@ -30,17 +36,15 @@ export class ArticulosConsultaComponent implements OnInit {
   bCliente: boolean;
   sFilial: number | null;
 
-  @ViewChild(DataTableDirective)
-  dtElement: DataTableDirective;
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
-
   oBuscar: FiltrosItemsConsulta;
   oItemsResponse: ItemsResponse;
-  oFilasItems: ContenidoItem[];
+  oFilasItems: ContenidoItem[] = [];
 
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
+
+  // Para gestionar la subscripción y evitar fugas de memoria
+  private articulosSubscription: Subscription;
 
   constructor(
     changeDetectorRef: ChangeDetectorRef,
@@ -71,63 +75,13 @@ export class ArticulosConsultaComponent implements OnInit {
 
   }
 
-  // *********************************************************************
+  /*********************************************************************/
   ngOnInit(): void {
     //Se agrega validacion control de sesion distribuidores
     if (!this.sCodigo) {
       console.log('ingresa VALIDACION');
       this._router.navigate(['/']);
     }
-
-    this.dtOptions[0] = {
-      pagingType: 'full_numbers',
-      pageLength: 10,
-      processing: true,
-      destroy: true,
-      fixedHeader: {
-        header: true,
-        footer: false
-      },
-      order: [],
-      ordering: false,
-      dom: 'flBtip',
-      language: {
-        url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-      },
-      buttons: [
-        {
-          extend: 'excelHtml5',
-          title: 'Consulta de Artículos',
-          text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-          className: "btnExcel btn"
-        }
-      ]
-    };
-    this.dtOptions[1] = {
-      pagingType: 'full_numbers',
-      destroy: true,
-      pageLength: 10,
-      processing: true,
-      fixedHeader: {
-        header: true,
-        footer: false
-      },
-      order: [],
-      ordering: false,
-      dom: 'flBtip',
-      language: {
-        url: "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-      },
-      buttons: [
-        {
-          extend: 'excelHtml5',
-          title: 'Consulta de Artículos',
-          text: '<p style=" color: #f9f9f9; height: 9px;">Excel</p>',
-          className: "btnExcel btn"
-        }
-      ]
-    };
-
 
     switch (this.sTipoUsuario) {
       case 'C': {
@@ -154,8 +108,6 @@ export class ArticulosConsultaComponent implements OnInit {
 
     this.oBuscar.TipoUsuario = this.sTipoUsuario;
 
-    this.dtTrigger.next("");
-
   }
 
   /************************************************************************
@@ -173,63 +125,52 @@ export class ArticulosConsultaComponent implements OnInit {
       return;
     }
 
-    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.destroy();
-      this.dtTrigger.next("");
-    });
+    // Cancela búsqueda anterior en caso que siga en curso
+    if (this.articulosSubscription) {
+      this.articulosSubscription.unsubscribe();
+    }
 
     this.bCargando = true;
 
-    this._servicioArticulosConsulta.Get(this.oBuscar).subscribe(
-      (response: ItemsResponse) => {
-        this.oItemsResponse = response;
-        this.oFilasItems = this.oItemsResponse.Contenido;
-
-        console.dir(this.oFilasItems);
-
-        this.bCargando = false;
-
-        if (this.oItemsResponse.Codigo != 0) {
-          this.sMensaje = 'No se encontraron modelos semejantes';
+    this.articulosSubscription = this._servicioArticulosConsulta.Get(this.oBuscar)
+      .subscribe({
+        next: (response: ItemsResponse) => {
+          this.bCargando = false;
+          if (response.Codigo === 0 && response.Contenido.length > 0) {
+            this.oItemsResponse = response;
+            this.oFilasItems = this.oItemsResponse.Contenido;
+            //console.dir(this.oFilasItems);
+            this.sMensaje = '';
+            this.isCollapsed = true;
+            this.mostrarTabla = true;
+          } else {
+            this.sMensaje = 'No se encontraron modelos semejantes';
+            this.mostrarTabla = false;
+          }
+        },
+        error: (error: any) => {
+          this.bCargando = false;
           this.mostrarTabla = false;
+          this.sMensaje = 'Error recuperando registros...';
+          console.error('🔸 ...> error al buscar artículos', error);
         }
-
-        this.sMensaje = '';
-        this.isCollapsed = true;
-        this.mostrarTabla = true;
-
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-          dtInstance.destroy();
-          this.dtTrigger.next("");
-        });
-
-      },
-      (error: ItemsResponse) => {
-        this.oItemsResponse = error;
-        this.bCargando = false;
-        this.mostrarTabla = false;
-        this.sMensaje = 'Error recuperando registros...';
-        console.error('🔸 ...> error al buscar artículos', error);
-      }
-    );
-
+      });
   }
 
-  // Método para abrir el modal con la imagen del artículo
+  /******* Método para abrir el modal con la imagen del artículo *******/
   openImageModal(content: any, imageUrl: string) {
     this.selectedImage = imageUrl;
-    console.log('Imagen seleccionada:', this.selectedImage);
+    //console.log('Imagen seleccionada:', this.selectedImage);
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
 
-  ngAfterViewInit(): void {
-    this.dtTrigger.next("");
-  }
-
+  /******************************************************************* */
   ngOnDestroy(): void {
-
     // Do not forget to unsubscribe the event
-    this.dtTrigger.unsubscribe();
+    // Limpia la subscripción cuando el componente se destruye para evitar fugas de memoria
+    if (this.articulosSubscription) {
+      this.articulosSubscription.unsubscribe();
+    }
     this.oFilasItems = [];
   }
 

@@ -59,35 +59,54 @@
 
 <!--------------------- Tabla que muestra los resultados de la consulta SQL ------------------->
 <div class="container float-left" [hidden]="!mostrarTabla">
-  <br>
+  <br>{{'Se encontraron ' + oFilasItems.length + ' modelos'}}
   <div class="h4 text-center"><strong>Catálogo de artículos</strong></div>
-  <div class="container">
-    <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger">
-      <!-- <table class="table table-hover table-striped"> -->
-      <thead class="thead-p">
-        <tr class="EncTabla">
-          <th style="background-color: #24a4cc; color: white; text-align:center; max-width: 4ch;" scope="col">Linea</th>
-          <th style="background-color: #24a4cc; color: white; text-align:left; max-width: 18ch;" scope="col">Clave</th>
-          <th style="background-color: #24a4cc; color: white; text-align:left; max-width: 40ch;" scope="col">Descripción
-          </th>
-          <th style="background-color: #24a4cc; color: white; text-align:center; max-width: 8ch;" scope="col">Imagen
-          </th>
+  <div class="container table-responsive">
+    <!------- 1. Tabla solo para Cabecera Fija ------->
+    <table class="table">
+      <!-- <table class="table table-striped"> -->
+      <colgroup> <!-- corrección para implementar el desplazamiento -->
+        <col style="width: 10%;">
+        <col style="width: 25%;">
+        <col style="width: 50%;">
+        <col style="width: 15%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="thFonelli-center" scope="col">Linea</th>
+          <th class="thFonelli-left" scope="col">Clave</th>
+          <th class="thFonelli-left" scope="col">Descripción</th>
+          <th class="thFonelli-center" scope="col">Imagen</th>
         </tr>
       </thead>
-
-      <tbody>
-        <tr *ngFor="let itm of oFilasItems ; index as i">
-          <td class="FilasFonelli-center col-texto-medio" style="max-width: 3ch;">{{itm.LineaPT}}</td>
-          <td class="FilasFonelli-left col-texto-ancho" style="max-width: 14ch;">{{itm.ItemCode}}</td>
-          <td class="FilasFonelli-left col-texto-medio" style="min-width: 40ch;">{{itm.Descripc}}</td>
-          <td class="FilasFonelli-center" style="text-align:center;">
-            <img [src]="itm.ImgPath" alt="Imagen de {{itm.ItemCode}}" class="thumbnail"
-              (click)="openImageModal(imageModal, itm.ImgPath)" loading="lazy"
-              onerror="this.src='assets/img/diamante-azul.png'">
-          </td>
-        </tr>
-      </tbody>
     </table>
+
+    <!------- 2. Viewport de Scrolling Virtual para las filas de datos ------->
+    <!------- (itemSize es la altura de cada fila en pixeles)          ------->
+    <cdk-virtual-scroll-viewport itemSize="35" class="virtual-scroll-container">
+      <table class="table table-hover table-borderless">
+        <colgroup> <!-- corrección para implementar el desplazamiento -->
+          <col style="width: 10%;">
+          <col style="width: 25%;">
+          <col style="width: 50%;">
+          <col style="width: 15%;">
+        </colgroup>
+
+        <tbody *cdkVirtualFor="let itm of oFilasItems">
+          <!-- <tr *ngFor="let itm of oFilasItems ; index as i"> -->
+          <tr>
+            <td class="FilasFonelli-center">{{itm.LineaPT}}</td>
+            <td class="FilasFonelli-left">{{itm.ItemCode}}</td>
+            <td class="FilasFonelli-left">{{itm.Descripc}}</td>
+            <td class="FilasFonelli-center">
+              <img [src]="itm.ImgPath" alt="Imagen de {{itm.ItemCode}}" class="thumbnail"
+                (click)="openImageModal(imageModal, itm.ImgPath)" loading="lazy"
+                onerror="this.src='assets/img/diamante-azul.png'">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </cdk-virtual-scroll-viewport>
   </div>
 </div>
 

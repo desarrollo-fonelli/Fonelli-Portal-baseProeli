@@ -125,3 +125,17 @@ td.FilasFonelli-fecha {
 }
 
 /* FIN: NUEVOS ESTILOS PARA LAS IMÁGENES */
+
+/* Contenedor para el scrolling virtual. DEBE tener una altura definida. */
+.virtual-scroll-container {
+  /* Ajusta esta altura según el diseño de tu página */
+  height: 600px;
+  overflow: auto;
+}
+
+/* Asegura que el layout de la tabla sea consistente para alinear columnas */
+.table {
+  /* esta línea es crucial para que funcione <colgroup>*/
+  table-layout: fixed;
+  width: 100%;
+}

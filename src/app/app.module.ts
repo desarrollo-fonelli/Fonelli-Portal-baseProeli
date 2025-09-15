@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { routing, appRoutingProviders } from './app.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -135,6 +136,7 @@ import { CotizEditarComponent } from './components/cotiz-editar/cotiz-editar.com
   ],
   imports: [
     BrowserModule,
+    ScrollingModule,
     NgbModule,
     routing,
     FormsModule,
