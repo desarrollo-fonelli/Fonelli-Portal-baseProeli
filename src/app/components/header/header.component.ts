@@ -1,6 +1,6 @@
-import { Component, OnInit,VERSION,ChangeDetectorRef  } from '@angular/core';
-import { Router,ActivatedRoute,Params } from '@angular/router';
-import {MediaMatcher} from '@angular/cdk/layout';
+import { Component, OnInit, VERSION, ChangeDetectorRef } from '@angular/core';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 import {
   NgbModal,
@@ -19,8 +19,7 @@ import { ServicioContacto } from '../../services/contacto.service';
 import { ServicioLoginDistribuidor } from '../../services/loginDistribuidor.service';
 import { ServicioLoginEjecutivo } from '../../services/loginEjecutivo.service';
 
-
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Contenido } from '../../models/agentes';
 
@@ -28,8 +27,6 @@ import { TemplateLlamada, TemplatePortal } from 'src/app/models/template';
 
 //Servicios
 import { ServicioTemplate } from 'src/app/services/template.service';
-
-
 
 @Component({
   selector: 'app-header',
@@ -45,11 +42,10 @@ import { ServicioTemplate } from 'src/app/services/template.service';
 export class HeaderComponent implements OnInit {
   mobileQuery: MediaQueryList;
 
-
   private _mobileQueryListener: () => void;
 
   closeResult = '';
-  
+
   public idMenu: String = '1';
   public ModeloContacto: Contacto;
   public ModeloLoginDistribuidor: LoginDistribuidor;
@@ -70,7 +66,7 @@ export class HeaderComponent implements OnInit {
   public bCargandoContacto: boolean = false;
   public bCargandoEmpleados: boolean = false;
 
-  oTemplate: TemplatePortal; 
+  oTemplate: TemplatePortal;
   oTemplateLlamada: TemplateLlamada;
 
   constructor(
@@ -81,117 +77,99 @@ export class HeaderComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private snackBar: MatSnackBar,
-    changeDetectorRef: ChangeDetectorRef, 
-    media: MediaMatcher,    
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher,
     private _servicioTemplate: ServicioTemplate
-    
-    
-
   ) {
 
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-    
+
     this.ModeloContacto = new Contacto('', '', '', '');
-    this.ModeloLoginDistribuidor = new LoginDistribuidor('','', '','','');
-    this.ModeloLoginEjecutivo = new LoginEjecutivo('','', '', '','');
+    this.ModeloLoginDistribuidor = new LoginDistribuidor('', '', '', '', '');
+    this.ModeloLoginEjecutivo = new LoginEjecutivo('', '', '', '', '');
 
-     console.log("estoooooo:"+window.location.href)
+    console.log("estoooooo:" + window.location.href)
 
-    if (window.location.href.includes('/distribuidores')){
+    if (window.location.href.includes('/distribuidores')) {
       console.log("entra menu distribuidor");
       console.log(this._router.url);
       this.idMenu = '2';
-      
-    }else{
+    } else {
       console.log("entra menu home");
       console.log(this._router.url);
       this.idMenu = '1';
-      
     }
-    
+
   }
 
-    //modal distribuidor
-    openDistribuidor(LoginDistribuidor: any) {
+  //modal distribuidor
+  openDistribuidor(LoginDistribuidor: any) {
 
-      let sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-      let sTipo :string | null = sessionStorage.getItem('tipo');
-      let sFilial :number | null = Number(sessionStorage.getItem('filial'));
-      let sNombre :string | null = sessionStorage.getItem('nombre');
+    let sCodigo: number | null = Number(sessionStorage.getItem('codigo'));
+    let sTipo: string | null = sessionStorage.getItem('tipo');
+    let sFilial: number | null = Number(sessionStorage.getItem('filial'));
+    let sNombre: string | null = sessionStorage.getItem('nombre');
 
-
-      if(sTipo=='C')
-      {
-        console.log(1);
-        this._router.navigate(['/distribuidores/inicio/']);
-        return;
-       
-      }
-      else if(sTipo =='A' || sTipo =='G' || sTipo =='M')
-      {
-          this.snackBar.openFromComponent(mensajesesion, {
-          horizontalPosition: "center",
-          verticalPosition: "top",
-          duration: 2500,
-          panelClass: ['fondo_mensaje_sesion'],
-        });
-        return;
-      }
-
-      console.log(3);
-      
-
-   
-
-      this.ModalActivo = this.modalService.open(LoginDistribuidor, {
-        ariaLabelledBy: 'LoginDistribuidor',
+    if (sTipo == 'C') {
+      console.log(1);
+      this._router.navigate(['/distribuidores/inicio/']);
+      return;
+    }
+    else if (sTipo == 'A' || sTipo == 'G' || sTipo == 'M') {
+      this.snackBar.openFromComponent(mensajesesion, {
+        horizontalPosition: "center",
+        verticalPosition: "top",
+        duration: 2500,
+        panelClass: ['fondo_mensaje_sesion'],
       });
-  
-      this.ModalActivo.result.then(
-        (result) => {},
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-          console.log('reason ' + reason);
-        }
-      );
-      
+      return;
     }
 
-    ngOnInit(): void {
+    console.log(3);
 
-      AOS.init();
+    this.ModalActivo = this.modalService.open(LoginDistribuidor, {
+      ariaLabelledBy: 'LoginDistribuidor',
+    });
 
-      this._servicioTemplate    
+    this.ModalActivo.result.then(
+      (result) => { },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        console.log('reason ' + reason);
+      }
+    );
+
+  }
+
+  ngOnInit(): void {
+
+    AOS.init();
+
+    this._servicioTemplate
       .Get()
       .subscribe(
         (Response: TemplateLlamada) => {
-  
+
           console.log(Response);
-  
-          this.oTemplateLlamada = Response;       
-                 
-  
-          if(this.oTemplateLlamada.Codigo != 0){
+          this.oTemplateLlamada = Response;
+
+          if (this.oTemplateLlamada.Codigo != 0) {
             return;
           }
-  
-         this.oTemplate = this.oTemplateLlamada.Contenido;
 
-         console.log("Header");
+          this.oTemplate = this.oTemplateLlamada.Contenido;
 
-         console.log(this.oTemplate);
-    
+          console.log("Header");
+          console.log(this.oTemplate);
         },
-        (error:TemplateLlamada) => {
-  
+        (error: TemplateLlamada) => {
           console.log("Error 2");
-        
         }
       );
-  
-    }
+
+  }
 
   onSubmitLDistribuidor(form: any) {
     /*    console.log("submit");
@@ -225,89 +203,80 @@ export class HeaderComponent implements OnInit {
           //Respuesta correcta de login
           this.respuestaLoginDistribuidor = Response;
           console.log(Response);
-          
           console.log(this.respuestaLoginDistribuidor.Codigo)
 
-          
-            //Se valida login incorrecto
-            if (this.respuestaLoginDistribuidor.Codigo == 1) {
-              this.alerLoginDistribuidor = true;
-              this.respuestaLoginDistribuidor ="Datos incorrectos!";
-              //window.alert("Datos incorrectos")
+          //Se valida login incorrecto
+          if (this.respuestaLoginDistribuidor.Codigo == 1) {
+            this.alerLoginDistribuidor = true;
+            this.respuestaLoginDistribuidor = "Datos incorrectos!";
+            //window.alert("Datos incorrectos")
 
-            }else{
-              console.log("Login correcto");
+          } else {
+            console.log("Login correcto");
 
-              ModeloLoginDistribuidorAux = new LoginDistribuidor('','','','',''); 
-              let filialAux = this.ModeloLoginDistribuidor.codigo.split('-');
-              ModeloLoginDistribuidorAux.codigo=filialAux[0];
-              ModeloLoginDistribuidorAux.filial=filialAux[1];
-              ModeloLoginDistribuidorAux.TipoUsuario = this.ModeloLoginDistribuidor.TipoUsuario;
-              ModeloLoginDistribuidorAux.Usuario = this.ModeloLoginDistribuidor.codigo;
+            ModeloLoginDistribuidorAux = new LoginDistribuidor('', '', '', '', '');
+            let filialAux = this.ModeloLoginDistribuidor.codigo.split('-');
+            ModeloLoginDistribuidorAux.codigo = filialAux[0];
+            ModeloLoginDistribuidorAux.filial = filialAux[1];
+            ModeloLoginDistribuidorAux.TipoUsuario = this.ModeloLoginDistribuidor.TipoUsuario;
+            ModeloLoginDistribuidorAux.Usuario = this.ModeloLoginDistribuidor.codigo;
 
+            console.log("ModeloLoginDistribuidorAux");
+            console.log(ModeloLoginDistribuidorAux);
+            console.log("this.ModeloLoginDistribuidor");
+            console.log(this.ModeloLoginDistribuidor);
 
-              console.log("ModeloLoginDistribuidorAux");
-              console.log(ModeloLoginDistribuidorAux);
-              console.log("this.ModeloLoginDistribuidor");
-              console.log(this.ModeloLoginDistribuidor);
-              
-              this.saveData(ModeloLoginDistribuidorAux.codigo,ModeloLoginDistribuidorAux.filial,'',ModeloLoginDistribuidorAux.TipoUsuario,this.respuestaLoginDistribuidor.Auth)              
+            this.saveData(ModeloLoginDistribuidorAux.codigo, ModeloLoginDistribuidorAux.filial, '', ModeloLoginDistribuidorAux.TipoUsuario, this.respuestaLoginDistribuidor.Auth)
 
+            console.log("CONSULTA RAZON SOCIAL");
+            //Consultamos razon social
+            //Se realiza login con datos enviados
+            this._servicioLoginDistribuidor.ObtenRazon(ModeloLoginDistribuidorAux, this.respuestaLoginDistribuidor.Auth)
+              .subscribe(
+                (Response) => {
+                  console.log("222222222222222");
 
+                  //Respuesta correcta de login
+                  this.respuestaLoginDistribuidor = Response;
+                  console.log(Response);
 
-              console.log("CONSULTA RAZON SOCIAL");
-              //Consultamos razon social
-                  //Se realiza login con datos enviados
-                  this._servicioLoginDistribuidor.ObtenRazon(ModeloLoginDistribuidorAux, this.respuestaLoginDistribuidor.Auth)
-                  .subscribe(
-                    (Response) => {
-                      console.log("222222222222222");
-        
-                      //Respuesta correcta de login
-                      this.respuestaLoginDistribuidor = Response;
-                      console.log(Response);
-                      
-                      console.log(this.respuestaLoginDistribuidor.Codigo)
-                      
-                        //Se valida login incorrecto
-                        if (this.respuestaLoginDistribuidor.Codigo == 1) {
-                          this.alerLoginDistribuidor = true;
-                          this.respuestaLoginDistribuidor ="Datos incorrectos!";
-                          //window.alert("Datos incorrectos")
-                          console.log("Datos incorrectos");
-        
-                        }else{
-                          console.log("Se consulto correctamente razon social");
-                          
-                          console.log(this.respuestaLoginDistribuidor.Contenido[0].RazonSocial);
-                          sessionStorage.setItem('nombre', this.respuestaLoginDistribuidor.Contenido[0].RazonSocial);
-                          //this.saveData(ModeloLoginDistribuidorAux.codigo,ModeloLoginDistribuidorAux.filial,this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString(),ModeloLoginDistribuidorAux.tipo,this.respuestaLoginDistribuidor.Auth)              
-                          //this.saveData(ModeloLoginDistribuidorAux.codigo,ModeloLoginDistribuidorAux.filial,'',ModeloLoginDistribuidorAux.tipo,this.respuestaLoginDistribuidor.Auth)              
-        
-                          this.ModalActivo?.close();
-                          
-                          this._router.navigate(['/distribuidores/inicio/']);
-                        }
-        
-                        this.bCargandoDistribuidor = false;
-                      
-                    },
-                    (error) => {
-                      this.alerLoginDistribuidor = true;
-                      this.respuestaLoginDistribuidor = 'Error en login.';
-                      console.log("--------------");
-                      console.log(<any>error);
-                      this.bCargandoDistribuidor = false;
-                    }
-                  );
+                  console.log(this.respuestaLoginDistribuidor.Codigo)
 
+                  //Se valida login incorrecto
+                  if (this.respuestaLoginDistribuidor.Codigo == 1) {
+                    this.alerLoginDistribuidor = true;
+                    this.respuestaLoginDistribuidor = "Datos incorrectos!";
+                    //window.alert("Datos incorrectos")
+                    console.log("Datos incorrectos");
 
+                  } else {
+                    console.log("Se consulto correctamente razon social");
 
+                    console.log(this.respuestaLoginDistribuidor.Contenido[0].RazonSocial);
+                    sessionStorage.setItem('nombre', this.respuestaLoginDistribuidor.Contenido[0].RazonSocial);
+                    //this.saveData(ModeloLoginDistribuidorAux.codigo,ModeloLoginDistribuidorAux.filial,this.respuestaLoginDistribuidor.Contenido[0].RazonSocial.toString(),ModeloLoginDistribuidorAux.tipo,this.respuestaLoginDistribuidor.Auth)              
+                    //this.saveData(ModeloLoginDistribuidorAux.codigo,ModeloLoginDistribuidorAux.filial,'',ModeloLoginDistribuidorAux.tipo,this.respuestaLoginDistribuidor.Auth)              
 
-            }
+                    this.ModalActivo?.close();
 
-            //this.bCargandoDistribuidor = false;
-          
+                    this._router.navigate(['/distribuidores/inicio/']);
+                  }
+
+                  this.bCargandoDistribuidor = false;
+
+                },
+                (error) => {
+                  this.alerLoginDistribuidor = true;
+                  this.respuestaLoginDistribuidor = 'Error en login.';
+                  console.log("--------------");
+                  console.log(<any>error);
+                  this.bCargandoDistribuidor = false;
+                }
+              );
+          }
+
+          //this.bCargandoDistribuidor = false;
+
         },
         (error) => {
           this.alerLoginDistribuidor = true;
@@ -317,9 +286,6 @@ export class HeaderComponent implements OnInit {
           this.bCargandoDistribuidor = false;
         }
       );
-
-      
-
 
   }
 
@@ -336,23 +302,19 @@ export class HeaderComponent implements OnInit {
   //Modal ejecutivo
   openEjecutivo(LoginEjecutivos: any) {
 
-    let sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-    let sTipo :string | null = sessionStorage.getItem('tipo');
-    let sFilial :number | null = Number(sessionStorage.getItem('filial'));
-    let sNombre :string | null = sessionStorage.getItem('nombre');
+    let sCodigo: number | null = Number(sessionStorage.getItem('codigo'));
+    let sTipo: string | null = sessionStorage.getItem('tipo');
+    let sFilial: number | null = Number(sessionStorage.getItem('filial'));
+    let sNombre: string | null = sessionStorage.getItem('nombre');
 
-
-    if(sTipo =='A' || sTipo =='G')
-    {
+    if (sTipo == 'A' || sTipo == 'G') {
       console.log(1);
       this._router.navigate(['/asesores/inicio/']);
       return;
-     
     }
-    else if(sTipo =='C' || sTipo =='M')
-    {
+    else if (sTipo == 'C' || sTipo == 'M') {
       console.log(2);
-        this.snackBar.openFromComponent(mensajesesionasesores, {
+      this.snackBar.openFromComponent(mensajesesionasesores, {
         horizontalPosition: "center",
         verticalPosition: "top",
         duration: 2500,
@@ -361,19 +323,18 @@ export class HeaderComponent implements OnInit {
       return;
     }
 
-
     this.ModalActivo = this.modalService.open(LoginEjecutivos, {
       ariaLabelledBy: 'LoginEjecutivos',
     });
 
     this.ModalActivo.result.then(
-      (result) => {},
+      (result) => { },
       (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         console.log('reason ' + reason);
       }
     );
-  } 
+  }
 
   ConsultarLEjecutivo() {
     console.log(this.ModeloLoginEjecutivo);
@@ -382,10 +343,9 @@ export class HeaderComponent implements OnInit {
 
     var myFormData = new FormData();
 
-    if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
-      
+    if (this.ModeloLoginEjecutivo.puesto == 'Agente') {
       this.ModeloLoginEjecutivo.TipoUsuario = "A"
-    }else{
+    } else {
       this.ModeloLoginEjecutivo.TipoUsuario = "G"
     }
 
@@ -399,114 +359,104 @@ export class HeaderComponent implements OnInit {
 
     console.log(JSON.stringify(DatosNuevos))
 
-
     this._servicioLoginEjecutivo.login(myFormData).subscribe(
       (Response) => {
         this.respuestaLoginEjecutivo = Response;
         console.log('Respuesta login empleados: ' + JSON.stringify(this.respuestaLoginEjecutivo));
 
-       
-            //Se valida login incorrecto
-            if (this.respuestaLoginEjecutivo.Codigo == 1) {
-              this.alerLoginEjecutivo = true;
-              this.respuestaLoginEjecutivo ="Datos incorrectos!";
-              //window.alert("Datos incorrectos")
+        //Se valida login incorrecto
+        if (this.respuestaLoginEjecutivo.Codigo == 1) {
+          this.alerLoginEjecutivo = true;
+          this.respuestaLoginEjecutivo = "Datos incorrectos!";
+          //window.alert("Datos incorrectos")
 
-            }else{
-              console.log("Login correcto");
-              //console.log(this.respuestaLoginEjecutivo.Contenido[0].RazonSocial.toString());  
-              
-              this.saveData(this.ModeloLoginEjecutivo.codigo,'','',this.ModeloLoginEjecutivo.TipoUsuario,this.respuestaLoginEjecutivo.Auth)     
-              
-              
-              this.ModeloLoginEjecutivo.Usuario = sessionStorage.getItem("codigo")
-              console.log("Consultamos razon social");  
-              this._servicioLoginEjecutivo.ObtenRazon(this.ModeloLoginEjecutivo,this.respuestaLoginEjecutivo.Auth).subscribe(
-                (Response) => {
-                  this.respuestaLoginEjecutivo = Response;
-                  console.log('Respuesta login empleados: ' + JSON.stringify(this.respuestaLoginEjecutivo));
-          
-                 
-                      //Se valida login incorrecto
-                      if (this.respuestaLoginEjecutivo.Codigo == 1) {
-                        this.alerLoginEjecutivo = true;
-                        this.respuestaLoginEjecutivo ="Datos incorrectos!";
-                        //window.alert("Datos incorrectos")
-          
-                      }else{
-                        console.log("Login correcto");
-                        //console.log(this.respuestaLoginEjecutivo.Contenido[0].RazonSocial.toString());  
-                        
-                        console.log("Se consulto correctamente razon social");
-                            
-                            //console.log(this.respuestaLoginDistribuidor.Contenido[0].RazonSocial);
-                            if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
-                              console.log(this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre);
-                              sessionStorage.setItem('nombre', this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre);       
-                            }else{
-                              console.log(this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre);
-                              sessionStorage.setItem('nombre', this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre);       
-                            }
-                                 
-                        //this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A',"123456");  
-                     
-                        /*if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
-                          this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A',"123456");  
-                        }else{
-                          this.saveData(this.respuestaLoginEjecutivo.Contenido[0].GerenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre.toString(),'G',"123456");  
-                        }*/             
-          
-                        
-                        this.ModalActivo?.close();
-                        
-                        this._router.navigate(['/asesores/inicio/']);
-                      }
-          
-                  this.bCargandoEmpleados = false;
-                },
-                (error) => {
-                  console.log("error");
-                  console.log(error);
-                  this.alerLoginEjecutivo = true;
-                  this.respuestaLoginEjecutivo ="Datos incorrectos!";
-                  this.bCargandoEmpleados = false;
+        } else {
+          console.log("Login correcto");
+          //console.log(this.respuestaLoginEjecutivo.Contenido[0].RazonSocial.toString());  
+
+          this.saveData(this.ModeloLoginEjecutivo.codigo, '', '', this.ModeloLoginEjecutivo.TipoUsuario, this.respuestaLoginEjecutivo.Auth)
+
+          this.ModeloLoginEjecutivo.Usuario = sessionStorage.getItem("codigo")
+          console.log("Consultamos razon social");
+          this._servicioLoginEjecutivo.ObtenRazon(this.ModeloLoginEjecutivo, this.respuestaLoginEjecutivo.Auth).subscribe(
+            (Response) => {
+              this.respuestaLoginEjecutivo = Response;
+              console.log('Respuesta login empleados: ' + JSON.stringify(this.respuestaLoginEjecutivo));
+
+              //Se valida login incorrecto
+              if (this.respuestaLoginEjecutivo.Codigo == 1) {
+                this.alerLoginEjecutivo = true;
+                this.respuestaLoginEjecutivo = "Datos incorrectos!";
+                //window.alert("Datos incorrectos")
+
+              } else {
+                console.log("Login correcto");
+                //console.log(this.respuestaLoginEjecutivo.Contenido[0].RazonSocial.toString());  
+                console.log("Se consulto correctamente razon social");
+
+                //console.log(this.respuestaLoginDistribuidor.Contenido[0].RazonSocial);
+                if (this.ModeloLoginEjecutivo.puesto == 'Agente') {
+                  console.log(this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre);
+                  sessionStorage.setItem('nombre', this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre);
+                } else {
+                  console.log(this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre);
+                  sessionStorage.setItem('nombre', this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre);
                 }
-              );
 
+                //this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A',"123456");  
 
+                /*if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
+                  this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A',"123456");  
+                }else{
+                  this.saveData(this.respuestaLoginEjecutivo.Contenido[0].GerenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre.toString(),'G',"123456");  
+                }*/
 
+                this.ModalActivo?.close();
+
+                this._router.navigate(['/asesores/inicio/']);
+              }
+
+              this.bCargandoEmpleados = false;
+            },
+            (error) => {
+              console.log("error");
+              console.log(error);
+              this.alerLoginEjecutivo = true;
+              this.respuestaLoginEjecutivo = "Datos incorrectos!";
+              this.bCargandoEmpleados = false;
             }
+          );
+
+        }
 
         //this.bCargandoEmpleados = false;
       },
       (error) => {
         this.alerLoginEjecutivo = true;
-        this.respuestaLoginEjecutivo ="Datos incorrectos!";
+        this.respuestaLoginEjecutivo = "Datos incorrectos!";
         this.bCargandoEmpleados = false;
       }
     );
 
-
-   
   }
 
-    //Modal contacto
-    openContacto(Contacto: any) {
-      this.ModalActivo = this.modalService.open(Contacto, {
-        ariaLabelledBy: 'Contacto',
-      });
-  
-      this.ModalActivo.result.then(
-        (result) => {},
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-          console.log('reason ' + reason);
-        }
-      );
-    }
+  //Modal contacto
+  openContacto(Contacto: any) {
+    this.ModalActivo = this.modalService.open(Contacto, {
+      ariaLabelledBy: 'Contacto',
+    });
+
+    this.ModalActivo.result.then(
+      (result) => { },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        console.log('reason ' + reason);
+      }
+    );
+  }
 
   onSubmitContacto(form: any) {
-        console.log("submit");
+    console.log("submit");
     console.log(this.ModeloContacto);
     //form.reset();
   }
@@ -517,25 +467,22 @@ export class HeaderComponent implements OnInit {
     this.mensaje_contacto_guardado = true;
     this.contacto_guardado = "";
 
-    emailRegex=/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-    
-    
-    if (emailRegex.test(this.ModeloContacto.Email) == false){//True es valido 
+    emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+
+    if (emailRegex.test(this.ModeloContacto.Email) == false) {//True es valido 
       this.mensaje_contacto_guardado = true;
       this.contacto_guardado = "Correo invalido";
       return;
     }
-
-    
 
     this.bCargandoContacto = true;
 
     console.log(this.ModeloContacto);
     this._servicioContacto.addContacto(this.ModeloContacto).subscribe(
       (Response) => {
-        if(Response.Codigo == 0){    
+        if (Response.Codigo == 0) {
 
-          console.log( Response);
+          console.log(Response);
 
           this.ModalActivo?.close();
 
@@ -551,10 +498,10 @@ export class HeaderComponent implements OnInit {
           return;
         }
 
-        else{
+        else {
           this.mensaje_contacto_guardado = true;
           this.contacto_guardado = Response.Mensaje;
-        }     
+        }
         this.bCargandoContacto = false;
 
       },
@@ -562,22 +509,21 @@ export class HeaderComponent implements OnInit {
         this.mensaje_contacto_guardado = true;
         this.contacto_guardado = error.error[Object.keys(error.error)[1]];
         this.bCargandoContacto = false;
-        }
+      }
 
     );
 
   }
 
 
-
-  saveData(codigo: string, filial:string, nombre: string, tipo:string, token:string) {
+  saveData(codigo: string, filial: string, nombre: string, tipo: string, token: string) {
 
     sessionStorage.setItem('codigo', codigo);
     sessionStorage.setItem('filial', filial);
     //sessionStorage.setItem('nombre', nombre);
     sessionStorage.setItem('tipo', tipo);
     sessionStorage.setItem('token', token);
-    
+
   }
 
   getData() {
@@ -589,7 +535,6 @@ export class HeaderComponent implements OnInit {
   deleteData() {
     sessionStorage.clear();
   }
-
 
 }
 
@@ -608,8 +553,7 @@ export class HeaderComponent implements OnInit {
   ],
 })
 
-export class mensajesesion {}
-
+export class mensajesesion { }
 
 @Component({
   selector: 'mensaje-sesion-component',
@@ -626,8 +570,7 @@ export class mensajesesion {}
   ],
 })
 
-
-export class mensajesesionasesores {}
+export class mensajesesionasesores { }
 
 @Component({
   selector: 'mensaje-contacto-component',
@@ -639,4 +582,4 @@ export class mensajesesionasesores {}
   ],
 })
 
-export class mensajecontacto {}
+export class mensajecontacto { }

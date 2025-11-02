@@ -2,8 +2,14 @@
 ## Control de Cambios
 
 ----------
+## v2.15.0 | 2025-11-07 | Modificación de las secciones estáticas de la SPA 
+1. Ocultar sección "Nosotros"
+2. Reducir la altura del contenedor del video introductorio, para que se pueda ver el menú principal. 
+3. Se normalizó el formato de archivos HTML y TS
+
+----------
 ## v2.14.0 | 2025-09-12 | Presentación de imagenes en catálogo de artículos
-1. 
+1. ESTOS CAMBIOS ESTAN PENDIENTES DE APLICARSE, RECOMIENDO CREAR UN COMPONENTE APARTE EN VEZ DE SUSTITUIR EL ACTUAL Y RESTINGIR EL ACCESO MIENTRAS NO ESTE APROBADO
 
 ----------
 ## v2.13.4 | 2025-09-09 | Componente para editar cotizaciones registradas

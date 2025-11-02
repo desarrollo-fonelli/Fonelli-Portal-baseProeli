@@ -1,315 +1,311 @@
+<!---------- Sección Heroe ---------->
+<section class="hero" id="hero">
+  <div class="heroText">
+    <!-- <h2 class="TituloFonelli" [class]="mobileQuery.matches ? 'col-lg-5  mt-5 mb-lg-4 font_video_movil' : 'col-lg-5  mt-5 mb-lg-4 font_video'"  data-aos="fade-up"  data-aos-delay="800">
+            Aquí es donde nacen las historias
+         </h2>
+             -->
+    <!-- <p class="col-lg-3 text-secondary-white-color" data-aos="fade-up" data-aos-delay="1000">
+            create a great video for your <strong class="custom-underline">website</strong>
+         </p> -->
+  </div>
 
-    <section class="hero" id="hero">
-        <div class="heroText">
-            <!-- <h2 class="TituloFonelli" [class]="mobileQuery.matches ? 'col-lg-5  mt-5 mb-lg-4 font_video_movil' : 'col-lg-5  mt-5 mb-lg-4 font_video'"  data-aos="fade-up"  data-aos-delay="800">
-                Aquí es donde nacen las historias
-            </h2>
-     -->
-            <!-- <p class="col-lg-3 text-secondary-white-color" data-aos="fade-up" data-aos-delay="1000">
-                create a great video for your <strong class="custom-underline">website</strong>
-            </p> -->
-        </div>
-    
-        <div class="videoWrapper">
-            <video video loop muted autoplay playsinline oncanplay="this.play()" onloadedmetadata="this.muted = true" class="custom-video" src="{{oTemplate?.Video?.Url + oTemplate?.Video?.Video}}" type="video/mp4">
-       
-            </video>
-          
-        </div> 
-    
-        <div class="overlay"></div>
-    </section>  
+  <div class="videoWrapper">
+    <video video loop muted autoplay playsinline oncanplay="this.play()" onloadedmetadata="this.muted = true"
+      class="custom-video" src="{{oTemplate?.Video?.Url + oTemplate?.Video?.Video}}" type="video/mp4">
+    </video>
+  </div>
 
+  <div class="overlay"></div>
+</section> <!-- Fin sección Heroe -->
 
+<!---------- Menu principal ---------->
+<nav class="navbar navbar-expand-lg bg-light shadow-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#hero" [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 10%;'">
+      <!--<strong>Nomad Force</strong>-->
+      <!--<strong>Fonelli</strong>-->
+      <div class="cat">
+        <img src="../../../assets/images/principal/logo_fonelli.png">
+      </div>
+    </a>
 
-    <nav class="navbar navbar-expand-lg bg-light shadow-lg">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#hero" [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 10%;'">
-                <!--<strong>Nomad Force</strong>-->
-                <!--<strong>Fonelli</strong>-->
-                <div class="cat">
-                    <img src="../../../assets/images/principal/logo_fonelli.png" >
-                </div>
-                
-            </a>
+    <div [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 15%;'"> </div>
 
-            <div  [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 15%;'" >   </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <div *ngIf="idMenu == '1' " class="collapse navbar-collapse" id="navbarNav"
+      [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 75%;'">
+      <ul class="navbar-nav">
 
-            <div *ngIf="idMenu == '1' " class="collapse navbar-collapse" id="navbarNav" [style]="mobileQuery.matches ? 'width: 0px;' : 'width: 75%;'">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#about">Nosotros</a>
-                    </li>
+        <!--
+        <li class="nav-item active">
+          <a class="nav-link" href="#about">Nosotros</a>
+        </li>
+        -->
 
-                    <li class="nav-item">
-                        <!--<a class="nav-link" href="#about">Our Studio</a>-->
-                        <a class="nav-link" href ="https://shop.fonelli.com/" target="_blank">Tienda en linea</a>
-                        
-                    </li>
+        <li class="nav-item">
+          <!--<a class="nav-link" href="#about">Our Studio</a>-->
+          <a class="nav-link" href="https://shop.fonelli.com/" target="_blank">Tienda en linea</a>
 
-                    <!-- drendon 28/abr/2023 Voy a deshabilitar este item de menu hasta que se coriga el error-->
-                    <li class="nav-item">                        
-                        <a class="nav-link"  href="javascript:void(0);"(click)="openDistribuidor(LoginDistribuidor)">Distribuidores</a>
-                    </li>
-                    
+        </li>
 
-                    <li class="nav-item">
-                        <!--<a class="nav-link" href="#news">News & Events</a>-->
-                         <!--<a class="nav-link" href ="http://www.fonelli.devandtest.net/login.php" >Asesores comerciales</a>-->
-                    <a class="nav-link" href="javascript:void(0);"(click)="openEjecutivo(LoginEjecutivos)">Asesores comerciales</a>
-                    </li>
+        <!-- drendon 28/abr/2023 Voy a deshabilitar este item de menu hasta que se coriga el error-->
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0);"
+            (click)="openDistribuidor(LoginDistribuidor)">Distribuidores</a>
+        </li>
 
-                    <li class="nav-item">
-                        <!--<a class="nav-link" href="#contact">Contact Us</a>-->
-                        <a class="nav-link" href ="#" (click)="openContacto(Contacto)">Contacto</a>
-                    </li>
-                </ul>
-            </div>
+        <li class="nav-item">
+          <!--<a class="nav-link" href="#news">News & Events</a>-->
+          <!--<a class="nav-link" href ="http://www.fonelli.devandtest.net/login.php" >Asesores comerciales</a>-->
+          <a class="nav-link" href="javascript:void(0);" (click)="openEjecutivo(LoginEjecutivos)">Asesores
+            comerciales</a>
+        </li>
 
+        <li class="nav-item">
+          <!--<a class="nav-link" href="#contact">Contact Us</a>-->
+          <a class="nav-link" href="#" (click)="openContacto(Contacto)">Contacto</a>
+        </li>
+      </ul>
+    </div>
 
-            <div *ngIf="idMenu == '2' "  class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#about">Nosotros</a>
-                    </li>
+    <div *ngIf="idMenu == '2' " class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#about">Nosotros</a>
+        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href ="https://fonelli.com/">Tienda en linea</a>
-                        
-                    </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://fonelli.com/">Tienda en linea</a>
+        </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href ="#" (click)="openDistribuidor(LoginDistribuidor)">Distribuidores</a>
-                    </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" (click)="openDistribuidor(LoginDistribuidor)">Distribuidores</a>
+        </li>
+      </ul>
+    </div>
 
-                </ul>
-            </div> 
+  </div>
+</nav> <!-- Menu principal -->
 
-        </div>
-    </nav>
-
-
-
-    <!--Modal login distribuidor-->
+<!--Modal login distribuidor-->
 <ng-template #LoginDistribuidor let-modal>
-   <section class="h-100">
+  <section class="h-100">
     <div class="container h-100">
-        <div class="row justify-content-md-center h-100">
-            <div class="card-wrapper">
+      <div class="row justify-content-md-center h-100">
+        <div class="card-wrapper">
 
-                <div class="modal-header">
-               <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-               
-                    
-                  </div>
+          <div class="modal-header">
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+          </div>
 
-                <div class="card fat">
-                    <div class="card-body">
-                   
-                        <img src="../../../assets/images/principal/logo_fonelli.png" alt="logo" style="height: 50%; width: 50%;">
-                        
-                        <form #formLoginDistribuidor="ngForm" (ngSubmit)="onSubmitLDistribuidor(formLoginDistribuidor)">
-                            <div class="form-group">
-                                <label for="usuario" style="color: #183e6f;">Usuario</label>
-                                <input class="form-control" type ="text" name ="usuario" #codigo="ngModel"  [(ngModel)]="ModeloLoginDistribuidor.codigo" required autofocus>
-                                
-                                <span style="color:#e8b4c1" *ngIf="codigo.touched && !codigo.valid"> El usuario es obligatorio</span> 
-                            </div>
+          <div class="card fat">
+            <div class="card-body">
 
-                            <div class="form-group">
-                                <label for="password" style="color: #183e6f;">Contraseña
-                                    
-                                </label>
-                                <input id="password" type="password" class="form-control" name="password" #password="ngModel"  [(ngModel)]="ModeloLoginDistribuidor.password" required data-eye>
-                                <span style="color:#e8b4c1" *ngIf="password.touched && !password.valid"> El password es obligatorio</span>
-                            </div>
-                            
-                            <div *ngIf="alerLoginDistribuidor">
-                                <p class="alert alert-danger" role="alert">{{respuestaLoginDistribuidor}}</p>
-                            </div>
+              <img src="../../../assets/images/principal/logo_fonelli.png" alt="logo" style="height: 50%; width: 50%;">
 
-                            <div class="form-group m-0">
-                                <button type="submit" class="btn btn-block" style="background-color:#24a4cc; color: white;" [disabled]="!formLoginDistribuidor.form.valid" (click)="ConsultarLDistribuidor()"><span *ngIf="bCargandoDistribuidor" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#e8b4c1"></span>INGRESAR</button>
-                            </div> 
-                            
-                        </form>
-                    </div>
+              <form #formLoginDistribuidor="ngForm" (ngSubmit)="onSubmitLDistribuidor(formLoginDistribuidor)">
+                <div class="form-group">
+                  <label for="usuario" style="color: #183e6f;">Usuario</label>
+                  <input class="form-control" type="text" name="usuario" #codigo="ngModel"
+                    [(ngModel)]="ModeloLoginDistribuidor.codigo" required autofocus>
+
+                  <span style="color:#e8b4c1" *ngIf="codigo.touched && !codigo.valid"> El usuario es
+                    obligatorio</span>
                 </div>
-                <div class="footer">
-                  <br>
+
+                <div class="form-group">
+                  <label for="password" style="color: #183e6f;">Contraseña
+
+                  </label>
+                  <input id="password" type="password" class="form-control" name="password" #password="ngModel"
+                    [(ngModel)]="ModeloLoginDistribuidor.password" required data-eye>
+                  <span style="color:#e8b4c1" *ngIf="password.touched && !password.valid"> El password
+                    es obligatorio</span>
                 </div>
+
+                <div *ngIf="alerLoginDistribuidor">
+                  <p class="alert alert-danger" role="alert">{{respuestaLoginDistribuidor}}</p>
+                </div>
+
+                <div class="form-group m-0">
+                  <button type="submit" class="btn btn-block" style="background-color:#24a4cc; color: white;"
+                    [disabled]="!formLoginDistribuidor.form.valid" (click)="ConsultarLDistribuidor()"><span
+                      *ngIf="bCargandoDistribuidor" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true" style="color:#e8b4c1"></span>INGRESAR</button>
+                </div>
+
+              </form>
             </div>
+          </div>
+          <div class="footer">
+            <br>
+          </div>
         </div>
+      </div>
     </div>
-</section>
-</ng-template> 
+  </section>
+</ng-template>
 
 
-  <!--Modal login ejecutivos de venta-->
-  <ng-template #LoginEjecutivos let-modal>      
-    <section class="h-100">
-        <div class="container h-100">
-            <div class="row justify-content-md-center h-100">
-                <div class="card-wrapper">
-    
-                    <div class="modal-header">
-                       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>                                           
-                    </div>
+<!--Modal login ejecutivos de venta-->
+<ng-template #LoginEjecutivos let-modal>
+  <section class="h-100">
+    <div class="container h-100">
+      <div class="row justify-content-md-center h-100">
+        <div class="card-wrapper">
 
-                        <div class="card fat">
-                            <div class="card-body">
+          <div class="modal-header">
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+          </div>
 
-                                <form #formLoginEjecutivo="ngForm" >
-                                    
-                                    <div class="col-12 ">                
-                                        <img src="../../../assets/images/principal/ejecutivo_ventas.png" class="img-fluid large-news-image news-image" alt="" >
-                                        <!-- <h4>BIENVENIDO</h4> -->
-                                    </div>    
+          <div class="card fat">
+            <div class="card-body">
 
-                                    <div class="form-group">
-                                        <label for="puesto" class="CamposFonelli">Puesto</label><br/>
-                                        <select 
-                                            class="form-control" 
-                                            name="puesto" 
-                                            #puesto="ngModel" 
-                                            [(ngModel)]="ModeloLoginEjecutivo.puesto" 
-                                            required>
-                                        <option value="Agente">Agente</option>
-                                        <option value="Gerente">Gerente</option>
-                                    </select>
-                                    <span *ngIf="puesto.touched && !puesto.valid" style="color:#e8b4c1"> El puesto es obligatorio</span> <br/>
-                                    </div>
+              <form #formLoginEjecutivo="ngForm">
 
-                                    
-                                    <div class="form-group">
-                                        <label for="usuario" class="CamposFonelli">Usuario</label><br/>
-                                            <input 
-                                                class="form-control" 
-                                                type ="text" 
-                                                name ="usuario" 
-                                                #codigo="ngModel" 
-                                                [(ngModel)]="ModeloLoginEjecutivo.codigo" 
-                                                required
-                                            />
-                                        <span *ngIf="codigo.touched && !codigo.valid" style="color:#e8b4c1"> El usuario es obligatorio</span> <br/>
-                                    </div>
-
-                                    
-                                    <div class="form-group">
-                                        <label for="password"  class="CamposFonelli">Contraseña</label><br/>
-                                        <input 
-                                            class="form-control" 
-                                            type ="password" 
-                                            name ="password" 
-                                            #password="ngModel" 
-                                            [(ngModel)]="ModeloLoginEjecutivo.password" 
-                                            required
-                                            />
-                                        <span *ngIf="password.touched && !password.valid" style="color:#e8b4c1"> El password es obligatorio</span> <br/>            
-                                    </div>   
-                                    
-                                    <div *ngIf="alerLoginEjecutivo">
-                                        <p class="alert alert-danger" role="alert">{{respuestaLoginEjecutivo}}</p>
-                                    </div>
-
-                                    <div class="form-group m-0">
-                                        <button type="submit" class="btn btn-block" style="background-color:#24a4cc; color: white;" [disabled]="!formLoginEjecutivo.form.valid" (click)="ConsultarLEjecutivo()"><span *ngIf="bCargandoEmpleados" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#e8b4c1"></span>INGRESAR</button>
-                                    </div>
-
-                                <!-- <div class="modal-footer">
-                                    <button type="submit" class="btn btn-outline-dark" [disabled]="!formLoginEjecutivo.form.valid" (click)="ConsultarLEjecutivo()">Ingresar</button>
-                                </div> -->
-                                </form>
-                            </div>
-                        </div>
-
-                        <div class="footer">
-                            <br>
-                        </div>
-
+                <div class="col-12 ">
+                  <img src="../../../assets/images/principal/ejecutivo_ventas.png"
+                    class="img-fluid large-news-image news-image" alt="">
+                  <!-- <h4>BIENVENIDO</h4> -->
                 </div>
+
+                <div class="form-group">
+                  <label for="puesto" class="CamposFonelli">Puesto</label><br />
+                  <select class="form-control" name="puesto" #puesto="ngModel" [(ngModel)]="ModeloLoginEjecutivo.puesto"
+                    required>
+                    <option value="Agente">Agente</option>
+                    <option value="Gerente">Gerente</option>
+                  </select>
+                  <span *ngIf="puesto.touched && !puesto.valid" style="color:#e8b4c1"> El puesto es
+                    obligatorio</span> <br />
+                </div>
+
+                <div class="form-group">
+                  <label for="usuario" class="CamposFonelli">Usuario</label><br />
+                  <input class="form-control" type="text" name="usuario" #codigo="ngModel"
+                    [(ngModel)]="ModeloLoginEjecutivo.codigo" required />
+                  <span *ngIf="codigo.touched && !codigo.valid" style="color:#e8b4c1"> El usuario es
+                    obligatorio</span> <br />
+                </div>
+
+                <div class="form-group">
+                  <label for="password" class="CamposFonelli">Contraseña</label><br />
+                  <input class="form-control" type="password" name="password" #password="ngModel"
+                    [(ngModel)]="ModeloLoginEjecutivo.password" required />
+                  <span *ngIf="password.touched && !password.valid" style="color:#e8b4c1"> El password
+                    es obligatorio</span> <br />
+                </div>
+
+                <div *ngIf="alerLoginEjecutivo">
+                  <p class="alert alert-danger" role="alert">{{respuestaLoginEjecutivo}}</p>
+                </div>
+
+                <div class="form-group m-0">
+                  <button type="submit" class="btn btn-block" style="background-color:#24a4cc; color: white;"
+                    [disabled]="!formLoginEjecutivo.form.valid" (click)="ConsultarLEjecutivo()"><span
+                      *ngIf="bCargandoEmpleados" class="spinner-border spinner-border-sm" role="status"
+                      aria-hidden="true" style="color:#e8b4c1"></span>INGRESAR</button>
+                </div>
+
+                <!-- <div class="modal-footer">
+                       <button type="submit" class="btn btn-outline-dark" [disabled]="!formLoginEjecutivo.form.valid" (click)="ConsultarLEjecutivo()">Ingresar</button>
+                     </div> -->
+              </form>
             </div>
+          </div>
+
+          <div class="footer">
+            <br>
+          </div>
+
         </div>
-    </section>
-</ng-template> 
-
-   <!--Modal Contacto-->
-   <ng-template #Contacto let-modal>
-    <div class="modal-header" data-backdrop="false" style="background-color: #24a4cc" >
-        
-      <!--<label class= "col-9 title"  id="Contacto">¡ESCRIBENOS!</label>-->
-      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+      </div>
     </div>
+  </section>
+</ng-template>
 
-    <div class="card fat" data-backdrop="false" style="background-color: #24a4cc">
-        <div class="card-body" >
+<!--Modal Contacto-->
+<ng-template #Contacto let-modal>
+  <div class="modal-header" data-backdrop="false" style="background-color: #24a4cc">
 
-    <form #formContacto="ngForm" (ngSubmit)="onSubmitContacto(formContacto)" data-backdrop="false" style="background-color: #24a4cc">
+    <!--<label class= "col-9 title"  id="Contacto">¡ESCRIBENOS!</label>-->
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+
+  <div class="card fat" data-backdrop="false" style="background-color: #24a4cc">
+    <div class="card-body">
+
+      <form #formContacto="ngForm" (ngSubmit)="onSubmitContacto(formContacto)" data-backdrop="false"
+        style="background-color: #24a4cc">
         <!-- <div class="modal-body" data-backdrop="false" style="background-color: #24a4cc"> -->
-        <div class="form-group" >
-            <img class="float-left" src="../../../assets/images/principal/Imagotipo en blanco.png" alt="logo" style="margin-left: 20%; width: 10%;">
-            
-            <img class="float-center" src="../../../assets/images/principal/fonelli b.png" alt="logo" style="margin-right: 20%; height: 50%; width: 50%;">
-            
+        <div class="form-group">
+          <img class="float-left" src="../../../assets/images/principal/Imagotipo en blanco.png" alt="logo"
+            style="margin-left: 20%; width: 10%;">
+
+          <img class="float-center" src="../../../assets/images/principal/fonelli b.png" alt="logo"
+            style="margin-right: 20%; height: 50%; width: 50%;">
+
         </div>
-            <!-- <div class="container">
+        <!-- <div class="container">
                 <div class="row"> -->
-        <div class="form-group" >
-            <label class= "classy" for="nombre">Nombre</label><br/>
-                <input class="form-control" type ="text" name ="nombre" #nombre="ngModel" [(ngModel)]="ModeloContacto.Nombre" required/>
-            <span style="color:#e8b4c1" *ngIf="nombre.touched && !nombre.valid"> El nombre es obligatorio</span> <br/>           
+        <div class="form-group">
+          <label class="classy" for="nombre">Nombre</label><br />
+          <input class="form-control" type="text" name="nombre" #nombre="ngModel" [(ngModel)]="ModeloContacto.Nombre"
+            required />
+          <span style="color:#e8b4c1" *ngIf="nombre.touched && !nombre.valid"> El nombre es obligatorio</span>
+          <br />
         </div>
         <div class="form-group">
-            <label class= "classy" for="email"  >Email</label><br/>
-            <input class="form-control" type ="email" name ="email" #email="ngModel" [(ngModel)]="ModeloContacto.Email" required/>
-            <span style="color:#e8b4c1" *ngIf="email.touched && !email.valid"> El email es obligatorio</span> <br/>    
-
-        </div>
-
-        <div class="form-group">
-            <label class= "classy" for="numero"  >Número de teléfono</label><br/>
-            <input class="form-control" type ="text" name ="numero" #numero="ngModel" [(ngModel)]="ModeloContacto.Telefono" required/>
-            <span style="color:#e8b4c1" *ngIf="numero.touched && !numero.valid"> El número de teléfono es obligatorio</span> <br/>
-    
+          <label class="classy" for="email">Email</label><br />
+          <input class="form-control" type="email" name="email" #email="ngModel" [(ngModel)]="ModeloContacto.Email"
+            required />
+          <span style="color:#e8b4c1" *ngIf="email.touched && !email.valid"> El email es obligatorio</span>
+          <br />
         </div>
 
         <div class="form-group">
-            <label class= "classy" for="mensaje"  >Mensaje</label><br/>
-            <textarea  class="form-control" name="mensaje" #mensaje="ngModel" [(ngModel)]="ModeloContacto.Mensaje" required></textarea>
-            <span style="color:#e8b4c1" *ngIf="mensaje.touched && !mensaje.valid"> El mensaje es obligatorio</span> <br/>   
-            
+          <label class="classy" for="numero">Número de teléfono</label><br />
+          <input class="form-control" type="text" name="numero" #numero="ngModel" [(ngModel)]="ModeloContacto.Telefono"
+            required />
+          <span style="color:#e8b4c1" *ngIf="numero.touched && !numero.valid"> El número de teléfono es
+            obligatorio</span> <br />
         </div>
-    
+
+        <div class="form-group">
+          <label class="classy" for="mensaje">Mensaje</label><br />
+          <textarea class="form-control" name="mensaje" #mensaje="ngModel" [(ngModel)]="ModeloContacto.Mensaje"
+            required></textarea>
+          <span style="color:#e8b4c1" *ngIf="mensaje.touched && !mensaje.valid"> El mensaje es
+            obligatorio</span> <br />
+        </div>
+
         <div *ngIf="mensaje_contacto_guardado">
           <p class="alert alert-danger" role="alert">{{contacto_guardado}}</p>
         </div>
 
         <!-- <div *ngIf="alerLoginDistribuidor">
-            <p class="alert alert-danger" role="alert">{{respuestaLoginDistribuidor}}</p>
-        </div> -->
+                <p class="alert alert-danger" role="alert">{{respuestaLoginDistribuidor}}</p>
+             </div> -->
 
         <div class="form-group m-0">
-            <button type="submit" class="btn btn-block" style="background-color: #c3cfd9; color: white;" [disabled]="!formContacto.form.valid"  (click)="addContacto()"><span *ngIf="bCargandoContacto" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#e8b4c1"></span> INGRESAR</button>
+          <button type="submit" class="btn btn-block" style="background-color: #c3cfd9; color: white;"
+            [disabled]="!formContacto.form.valid" (click)="addContacto()"><span *ngIf="bCargandoContacto"
+              class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="color:#e8b4c1"></span>
+            INGRESAR</button>
         </div>
 
-    
         <!-- <div class="modal-footer" data-backdrop="false" style="background-color: #24a4cc">
-                <button type="button" class="btn btn-primary" [disabled]="!formContacto.form.valid" (click)="addContacto()">Enviar</button>
-        </div> -->
-    </form>
+               <button type="button" class="btn btn-primary" [disabled]="!formContacto.form.valid" (click)="addContacto()">Enviar</button>
+             </div> -->
+      </form>
 
-</div>
-</div>
-    
-
-  </ng-template>
-
-  
+    </div>
+  </div>
 
 
-
-
+</ng-template>
