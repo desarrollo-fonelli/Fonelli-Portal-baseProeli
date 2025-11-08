@@ -2,7 +2,11 @@
 ## Control de Cambios
 
 ----------
-## v2.15.0 | 2025-11-07 | Modificación de las secciones estáticas de la SPA 
+## v2.15.1 | 2025-11-07 | Formatear y limpiar componentes que se van a utilizar en iteración siguiente
+1. Formateo y limpieza de código en archivos globales que se van a usar en siguiente iteración. 
+
+----------
+## v2.15.0 | 2025-11-03 | Modificación de las secciones estáticas de la SPA 
 1. Ocultar sección "Nosotros"
 2. Reducir la altura del contenedor del video introductorio, para que se pueda ver el menú principal. 
 3. Se normalizó el formato de archivos HTML y TS

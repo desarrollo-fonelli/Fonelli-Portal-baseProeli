@@ -163,8 +163,6 @@ export class SidenavComponent implements OnInit {
     if (!sessionStorage.getItem('Agentes')) {
       console.log("Inicia carga agentes");
 
-      console.log(1);
-
       this.oBuscarAgentes.TipoUsuario = sessionStorage.getItem('tipo');
       if (sessionStorage.getItem('tipo') == 'C') {
         this.oBuscarAgentes.Usuario = sessionStorage.getItem('codigo') + '-' + sessionStorage.getItem('filial');
@@ -174,7 +172,6 @@ export class SidenavComponent implements OnInit {
       }
 
       this.oBuscarAgentes.Status = "A";
-      console.log(2);
 
       this._servicioAgentes
         .Get(this.oBuscarAgentes)
@@ -268,8 +265,7 @@ export class SidenavComponent implements OnInit {
 
             this.oLineasRes = error;
             //this.sMensaje="No se encontraron oficinas";
-
-            console.log(this.oLineasRes);
+            //console.log(this.oLineasRes);
             return;
 
           }
@@ -303,8 +299,8 @@ export class SidenavComponent implements OnInit {
 
             this.oCategoriasRes = error;
             //this.sMensaje="No se encontraron categorias";
-            console.log("error");
-            console.log(this.oCategoriasRes);
+            console.log("error: no se encontraron categorias");
+            //console.log(this.oCategoriasRes);
             return;
 
           }
@@ -358,7 +354,7 @@ export class SidenavComponent implements OnInit {
 
     //Consulta carteras
     if (!sessionStorage.getItem('Carteras')) {
-      console.log("Inicia carga Carteras");
+      //console.log("Inicia carga Carteras");
 
       this._servicioCartera
         .Get(this.oBuscaCartera)
@@ -380,7 +376,7 @@ export class SidenavComponent implements OnInit {
           (error: TipoCartera) => {
 
             this.oCarteras = error;
-            console.log(this.oCarteras);
+            //console.log(this.oCarteras);
             return false;
 
           }
@@ -392,7 +388,7 @@ export class SidenavComponent implements OnInit {
 
     //Consulta Tipos cliente
     if (!sessionStorage.getItem('TiposCliente')) {
-      console.log("Inicia carga Tipos cliente");
+      //console.log("Inicia carga Tipos cliente");
 
       this._servicioTiposCliente
         .Get(this.oBuscaTipoCliente)

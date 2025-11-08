@@ -30,10 +30,6 @@ declare const gtag: Function;
 export class AppComponent {
   title = 'portal-fonelli';
   closeResult = '';
-  //public MenuHomeAux: string | null;
-
-  //public MenuHome: string | null;
-
   public ModalActivo?: NgbModalRef;
 
   public respuestaLoginDistribuidor: any;
@@ -72,19 +68,6 @@ export class AppComponent {
         gtag('config', 'G-CT2Y958BMW', { 'page_path': event.urlAfterRedirects });
       }
     })
-
-    /*this.MenuHomeAux = this.obtenMenu();
-
-    if (this.MenuHomeAux == '2'){
-      sessionStorage.setItem('idMenu', '2');
-      console.log("Entra 2");
-    }else{
-      sessionStorage.setItem('idMenu', '1');
-      console.log("Entra 1");
-    }
-    
-    this.MenuHome = this.obtenMenu();
-    console.log(this.MenuHome);*/
 
     if (sessionStorage.getItem('codigo') != null) {
       console.log("hay datos");

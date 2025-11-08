@@ -403,14 +403,6 @@ export class HeaderComponent implements OnInit {
                   sessionStorage.setItem('nombre', this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre);
                 }
 
-                //this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A',"123456");  
-
-                /*if (this.ModeloLoginEjecutivo.puesto == 'Agente'){
-                  this.saveData(this.respuestaLoginEjecutivo.Contenido[0].AgenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].AgenteNombre.toString(),'A',"123456");  
-                }else{
-                  this.saveData(this.respuestaLoginEjecutivo.Contenido[0].GerenteCodigo.toString(),'',this.respuestaLoginEjecutivo.Contenido[0].GerenteNombre.toString(),'G',"123456");  
-                }*/
-
                 this.ModalActivo?.close();
 
                 this._router.navigate(['/asesores/inicio/']);

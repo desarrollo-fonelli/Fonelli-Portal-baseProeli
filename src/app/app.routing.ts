@@ -64,9 +64,6 @@ const appRoutes: Routes = [
       { path: 'cotizcrear', component: CotizCrearComponent },
       { path: 'cotizlistar', component: CotizListarComponent }
 
-
-      //{ path: 'guias', component: GuiasComponent }
-      //{ path: 'ordnretorno', component: OrdnretornoComponent }
     ],
   },
 

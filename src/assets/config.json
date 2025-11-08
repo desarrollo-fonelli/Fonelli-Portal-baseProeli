@@ -1,9 +1,9 @@
 {
-  "version": "2.15.0",
+  "version": "2.15.1",
   "fecha": "2025-11-01",
   "caracteristicas": [
     {
-      "caract1": "Se modifica estilo del Heroe y se oculta sección Nosotros",
+      "caract1": "Se limpian y comentan líneas de código en archivos globales",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }
