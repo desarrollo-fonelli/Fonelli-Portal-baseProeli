@@ -1,0 +1,84 @@
+<!-- src/app/components/mapa-distribuidores/mapa-distribuidores.component.html -->
+<div class="container-fluid vh-100 d-flex flex-column p-0">
+  <div class="row g-0 flex-grow-1">
+
+    <!-- Columna del Mapa -->
+    <div class="col-12 col-lg-8 order-2 order-lg-1">
+      <div class="map-wrapper">
+        <google-map height="100%" width="100%" [zoom]="zoom" [center]="center" [options]="mapOptions">
+
+          <!-- Marcador de ubicación del usuario -->
+          <map-marker *ngIf="userLocation" [position]="userLocation" [options]="userLocationMarkerOptions">
+          </map-marker>
+
+          <!-- Marcadores de Distribuidores -->
+          <map-marker *ngFor="let distribuidor of filteredDistribuidores; let i = index" #distribuidorMarker="mapMarker"
+            [position]="{lat: distribuidor.latitud, lng: distribuidor.longitud}" [options]="distribuidorMarkerOptions"
+            (mapClick)="openInfoWindow(distribuidorMarker, distribuidor)">
+          </map-marker>
+
+          <!-- Info Window (Popup) -->
+          <map-info-window>
+            <div [innerHTML]="infoWindowContent"></div>
+          </map-info-window>
+
+        </google-map>
+      </div>
+    </div>
+
+    <!-- Columna usada como contenedor de la Lista de Distribuidores -->
+    <div class="col-12 col-lg-4 order-1 order-lg-2 d-flex flex-column p-3 list-panel">
+
+      <!-- Controles -->
+      <div class="controls-section mb-3">
+        <p class="h5 text-center" style="color: #24a4cc;"><strong>Puntos de Venta</strong></p>
+
+        <div class="d-flex justify-content-center align-items-center mb-3">
+          <button class="btn" (click)="centerOnUserLocation()" title="Mi ubicación">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-geo-alt-fill"
+              viewBox="0 0 16 16">
+              <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+            </svg>
+            <span class="d-md-inline ms-2" style="color: #183e6f;"><strong>Mi ubicación</strong></span>
+          </button>
+        </div>
+
+        <div class="input-group">
+          <span class="input-group-text">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+              viewBox="0 0 16 16">
+              <path
+                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+          </span>
+          <input type="text" class="form-control" placeholder="Buscar nombre | ciudad | entidad"
+            [(ngModel)]="searchTerm" (keyup)="filterDistribuidores()">
+        </div>
+      </div>
+
+      <!-- Lista de distribuidores -->
+      <div #listContainer class="list-group list-distribuidores flex-grow-1">
+        <ng-container *ngIf="filteredDistribuidores.length > 0; else noResults">
+          <a *ngFor="let distribuidor of filteredDistribuidores; let i = index; trackBy: trackById"
+            href="javascript:void(0)" class="list-group-item list-group-item-action"
+            [id]="'distribuidor-' + distribuidor.id"
+            [class.active]="selectedDistribuidor && distribuidor.id === selectedDistribuidor.id"
+            (click)="selectDistribuidorFromList(distribuidor, i)">
+
+            <div class="fw-bold" style="color: #24a4cc;">{{ distribuidor.nombre }}</div>
+            <small class="d-block">{{ distribuidor.ciudad }}, {{ distribuidor.entidad }}</small>
+            <small class="d-block text-muted">{{ distribuidor.domicilio }}</small>
+            <small class="d-block">Tel: {{ distribuidor.telefono }}</small>
+          </a>
+        </ng-container>
+
+        <ng-template #noResults>
+          <div class="list-group-item text-center text-muted">
+            Distribuidor no localizado
+          </div>
+        </ng-template>
+      </div>
+
+    </div>
+  </div>
+</div>

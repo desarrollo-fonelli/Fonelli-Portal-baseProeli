@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { GoogleMapsModule } from '@angular/google-maps'; // drendon 10.11.2025
 import { routing, appRoutingProviders } from './app.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -74,6 +75,7 @@ import { IndicVenta2025Component } from './components/indic-venta2025/indic-vent
 import { CotizCrearComponent } from './components/cotiz-crear/cotiz-crear.component';
 import { CotizListarComponent } from './components/cotiz-listar/cotiz-listar.component';
 import { CotizEditarComponent } from './components/cotiz-editar/cotiz-editar.component';
+import { MapaDistribComponent } from './components/mapa-distrib/mapa-distrib.component';
 
 @NgModule({
   declarations: [
@@ -131,10 +133,12 @@ import { CotizEditarComponent } from './components/cotiz-editar/cotiz-editar.com
     IndicVenta2025Component,
     CotizCrearComponent,
     CotizListarComponent,
-    CotizEditarComponent
+    CotizEditarComponent,
+    MapaDistribComponent
   ],
   imports: [
     BrowserModule,
+    GoogleMapsModule, // drendon 10.11.2025
     NgbModule,
     routing,
     FormsModule,

@@ -1,7 +1,5 @@
 /*
-
 TemplateMo 567 Nomad Force
-
 https://templatemo.com/tm-567-nomad-force
 
 */
@@ -354,7 +352,7 @@ strong {
 
 @media screen and (min-width: 992px) {
   .hero {
-    height: 92vh;
+    height: 93vh;
   }
 
   .custom-video,
@@ -548,7 +546,7 @@ strong {
 -----------------------------------------*/
 .section-padding {
   padding-top: 7rem;
-  padding-bottom: 7rem;
+  padding-bottom: 3rem;
 }
 
 /*---------------------------------------
@@ -901,6 +899,20 @@ button.btnExcel {
   font-family: QuickSand-SemiBold;
   margin-bottom: 14px;
   margin-left: 40px;
+}
+
+.imagen-final-contenedor {
+  width: 100%;
+  height: 300px;
+  /* escritorio */
+}
+
+/* 🔽 En pantallas de hasta 768px (móviles) */
+@media (max-width: 768px) {
+  .imagen-final-contenedor {
+    height: 20vh;
+    /* 20% del alto visible */
+  }
 }
 
 /* ----------------------------------------- */

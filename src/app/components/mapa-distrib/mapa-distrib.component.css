@@ -1,0 +1,84 @@
+/* src/app/components/mapa-distribuidores/mapa-distribuidores.component.css */
+
+/* Contenedor principal para asegurar que ocupe toda la altura */
+:host {
+  display: block;
+  height: 100vh;
+}
+
+/* Panel de la lista para dispositivos de escritorio */
+.list-panel {
+  background-color: #f8f9fa;
+  height: 100vh;
+  /* Ocupa toda la altura en escritorio */
+  overflow-y: hidden;
+  /* El scroll estará en la lista interna */
+}
+
+/* Contenedor de la lista para activar el scroll */
+.list-distribuidores {
+  overflow-y: auto;
+  height: 100%;
+  /* Ocupa el espacio restante en el panel */
+}
+
+/* Wrapper del mapa con el padding solicitado */
+.map-wrapper {
+  height: 100%;
+  width: 100%;
+  padding: 0 2%;
+  /* 10% de padding a izquierda y derecha */
+  box-sizing: border-box;
+}
+
+/* Estilo para el ítem activo en la lista */
+.list-group-item.active {
+  background-color: #e9ecef;
+  /* Gris claro */
+  border-color: #ced4da;
+  /* color: #00a1ca; */
+  /* color: #183e6f; */
+  color: #212529;
+  /* Color de texto oscuro para legibilidad */
+}
+
+/* Media Query para dispositivos móviles */
+@media (max-width: 991.98px) {
+  .list-panel {
+    height: 50vh;
+    /* La lista ocupa la mitad superior */
+    max-height: 400px;
+    /* Altura máxima para que el mapa sea visible */
+  }
+
+  .map-wrapper {
+    height: calc(100vh - 50vh);
+    /* El mapa ocupa el resto del espacio */
+    min-height: 300px;
+    /* Altura mínima para el mapa */
+    padding: 0;
+    /* Sin padding en móvil para aprovechar el espacio */
+  }
+}
+
+/* Estilos para el contenido del popup del mapa */
+:host ::ng-deep .map-info-window-content {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  padding: 5px;
+}
+
+:host ::ng-deep .map-info-window-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+:host ::ng-deep .map-info-window-content a {
+  color: #0d6efd;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+:host ::ng-deep .map-info-window-content a:hover {
+  text-decoration: underline;
+}
