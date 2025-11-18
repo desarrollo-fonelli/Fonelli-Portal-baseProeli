@@ -2,6 +2,18 @@
 ## Control de Cambios
 
 ----------
+## v2.16.1 | 2025-11-18 | Ajustes derivados de la revisión con interesados
+1. Se realizan ajustes a los artefactos que muestran el mapa con distribuidores.
+2. Se realizan ajustes al HTML y estilos de la SPA.
+3. Se depuran los datos del JSON de distribuidores.
+
+----------
+## v2.16.0 | 2025-11-14 | Se muestra mapa con distribuidores sobresalientes de fonelli
+1. Se agregan librerías de google-maps.
+2. Se crean componente, servicio y otros artefactos para mostrar en la SPA un mapa con los distribuidores sobresalientes de fonelli.
+3. Se ajustan algunos elementos de la SPA a solicitud del Director General y del Gerente de Marketing.
+
+----------
 ## v2.15.1 | 2025-11-07 | Formatear y limpiar componentes que se van a utilizar en iteración siguiente
 1. Formateo y limpieza de código en archivos globales que se van a usar en siguiente iteración. 
 

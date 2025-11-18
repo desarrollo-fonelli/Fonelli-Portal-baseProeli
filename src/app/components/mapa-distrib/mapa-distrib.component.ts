@@ -54,10 +54,48 @@ export class MapaDistribComponent implements OnInit {
   distribuidorMarkerOptions: google.maps.MarkerOptions = {
     // Es mejor usar una URL completa si el activo no se encuentra fácilmente.
     // O puedes usar un icono de la librería de Material Icons si la tienes.
-    // icon: './assets/fonelli-diamante.ico' // Angular puede tener problemas con .ico
+
+
+    // azul estándar de google
     icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+
+    // // no le gustó a Matías
+    // icon: {
+    //   url: `assets/marcadormapa-diamante-azul.png`,
+    //   scaledSize: new google.maps.Size(32, 32),
+    //   anchor: new google.maps.Point(16, 32)
+    // }
+
+    // azul personalizado cuerpo del icono
+    // icon: {
+    //   path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z',
+    //   fillColor: '#24a4cc',
+    //   fillOpacity: 1,
+    //   strokeColor: '#FFFFFF',
+    //   strokeWeight: 1.5,
+    //   anchor: new google.maps.Point(12, 22),
+    //   scale: 1.5
+    // }
+
   };
 
+  // // Nuevo objeto de opciones para que se vea el punto interior en el marcador
+  // distribuidorDotOptions: google.maps.MarkerOptions = {
+  //   icon: {
+  //     // Trazado SVG estándar para un círculo
+  //     path: google.maps.SymbolPath.CIRCLE,
+  //     fillColor: '#000000', // Color negro
+  //     fillOpacity: 1,
+  //     strokeWeight: 0, // Sin borde
+  //     anchor: new google.maps.Point(0, 2.5), // Ajuste de posición vertical para centrarlo
+  //     scale: 3 // Tamaño del punto (ajusta según tu gusto)
+  //   },
+  //   // Hacemos que el punto no sea clickeable para que el clic siempre lo reciba el pin azul
+  //   clickable: false
+  // };
+
+
+  // --- Contenido del InfoWindow ---
   infoWindowContent = '';
 
   constructor(private distribuidorService: MapaDistribService) { }
@@ -132,20 +170,62 @@ export class MapaDistribComponent implements OnInit {
     }
   }
 
+  // filterDistribuidores(): void {
+  //   const term = this.searchTerm.toLowerCase();
+  //   if (!term) {
+  //     this.filteredDistribuidores = this.allDistribuidores;
+  //     return;
+  //   }
+  //   this.filteredDistribuidores = this.allDistribuidores.filter(d =>
+  //     d.nombre.toLowerCase().includes(term) ||
+  //     d.ciudad.toLowerCase().includes(term) ||
+  //     d.entidad.toLowerCase().includes(term) ||
+  //     d.domicilio.toLowerCase().includes(term)
+  //   );
+  // }
+
   filterDistribuidores(): void {
-    const term = this.searchTerm.toLowerCase();
-    if (!term) {
+    // 1. Si no hay término de búsqueda, mostramos todo y salimos.
+    if (!this.searchTerm) {
       this.filteredDistribuidores = this.allDistribuidores;
       return;
     }
 
-    this.filteredDistribuidores = this.allDistribuidores.filter(d =>
-      d.nombre.toLowerCase().includes(term) ||
-      d.ciudad.toLowerCase().includes(term) ||
-      d.entidad.toLowerCase().includes(term) ||
-      d.domicilio.toLowerCase().includes(term)
-    );
+    // 2. Normalizamos el término de búsqueda una sola vez para ser eficientes.
+    const term = this.normalizeString(this.searchTerm);
+
+    // 3. Filtramos la lista comparando siempre versiones normalizadas.
+    this.filteredDistribuidores = this.allDistribuidores.filter(d => {
+      // Concatenamos todos los campos en una sola cadena larga para buscar en todos a la vez
+      // o puedes hacerlo campo por campo si prefieres más precisión.
+      // Aquí normalizamos campo por campo para mayor claridad:
+
+      const nombreNorm = this.normalizeString(d.nombre);
+      const ciudadNorm = this.normalizeString(d.ciudad);
+      const entidadNorm = this.normalizeString(d.entidad);
+      const domicilioNorm = this.normalizeString(d.domicilio);
+
+      return nombreNorm.includes(term) ||
+        ciudadNorm.includes(term) ||
+        entidadNorm.includes(term) ||
+        domicilioNorm.includes(term);
+    });
   }
+
+  /**
+     * Método auxiliar para normalizar texto:
+     * 1. Convierte a minúsculas.
+     * 2. Elimina acentos y diacríticos (á -> a, ñ -> n, ü -> u).
+     */
+  private normalizeString(text: string): string {
+    if (!text) return '';
+
+    return text
+      .toLowerCase() // Convertir a minúsculas
+      .normalize("NFD") // Descompone los caracteres (ej: 'á' se convierte en 'a' + '´')
+      .replace(/[\u0300-\u036f]/g, ""); // Elimina los caracteres de acento (el rango unicode de marcas diacríticas)
+  }
+
 
   openInfoWindow(marker: MapMarker, distribuidor: UbicacDistrib): void {
     this.selectedDistribuidor = distribuidor;
@@ -239,6 +319,18 @@ export class MapaDistribComponent implements OnInit {
         top: newScrollTop,
         behavior: 'smooth'
       });
+    }
+  }
+
+  /**
+   * Restablece la vista del mapa para que todos los distribuidores sean visibles.
+   * Este método es llamado por el nuevo botón "Vista completa".
+   */
+  public resetMapView(): void {
+    // Simplemente reutilizamos la lógica que ya teníamos,
+    // asegurándonos de pasarle la lista COMPLETA de distribuidores.
+    if (this.allDistribuidores && this.allDistribuidores.length > 0) {
+      this.fitMapToBounds(this.allDistribuidores);
     }
   }
 }

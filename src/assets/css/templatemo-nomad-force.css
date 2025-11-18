@@ -902,15 +902,17 @@ button.btnExcel {
 }
 
 .imagen-final-contenedor {
-  width: 100%;
-  height: 300px;
   /* escritorio */
+  width: 100%;
+  height: 30vh;
+  /*height: 20vh;*/
 }
 
 /* 🔽 En pantallas de hasta 768px (móviles) */
 @media (max-width: 768px) {
   .imagen-final-contenedor {
-    height: 20vh;
+    width: 100%;
+    height: 12vh;
     /* 20% del alto visible */
   }
 }

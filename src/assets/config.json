@@ -1,9 +1,9 @@
 {
-  "version": "2.15.1",
-  "fecha": "2025-11-01",
+  "version": "2.16.1",
+  "fecha": "2025-11-18",
   "caracteristicas": [
     {
-      "caract1": "Se limpian y comentan líneas de código en archivos globales",
+      "caract1": "Ajustes a mapas ubicando distribuidores fonelli y a layout y estilos de la SPA",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }
