@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { GoogleMapsModule } from '@angular/google-maps'; // drendon 10.11.2025
 import { routing, appRoutingProviders } from './app.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,8 +8,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
+import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
 import { DataTablesModule } from 'angular-datatables';
 
 import { AppComponent } from './app.component';
@@ -76,6 +78,7 @@ import { CotizCrearComponent } from './components/cotiz-crear/cotiz-crear.compon
 import { CotizListarComponent } from './components/cotiz-listar/cotiz-listar.component';
 import { CotizEditarComponent } from './components/cotiz-editar/cotiz-editar.component';
 import { MapaDistribComponent } from './components/mapa-distrib/mapa-distrib.component';
+import { WhatsappButtonComponent } from './components/whatsapp-button/whatsapp-button.component';
 
 @NgModule({
   declarations: [
@@ -134,7 +137,8 @@ import { MapaDistribComponent } from './components/mapa-distrib/mapa-distrib.com
     CotizCrearComponent,
     CotizListarComponent,
     CotizEditarComponent,
-    MapaDistribComponent
+    MapaDistribComponent,
+    WhatsappButtonComponent
   ],
   imports: [
     BrowserModule,
@@ -151,6 +155,7 @@ import { MapaDistribComponent } from './components/mapa-distrib/mapa-distrib.com
     MatIconModule,
     MatSnackBarModule,
     MatMenuModule,
+    MatButtonModule,
     DataTablesModule
   ],
   providers: [
@@ -160,4 +165,13 @@ import { MapaDistribComponent } from './components/mapa-distrib/mapa-distrib.com
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  // El constructor es el lugar ideal para registrar íconos
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+    // Registramos nuestro ícono SVG personalizado
+    this.matIconRegistry.addSvgIcon(
+      'whatsapp',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/iconos/whatsapp.svg')
+    );
+  }
+}

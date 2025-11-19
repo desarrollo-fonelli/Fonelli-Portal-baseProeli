@@ -1,0 +1,18 @@
+.whatsapp-fab {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 1000;
+  background-color: #25D366;
+  /* Color oficial de WhatsApp */
+}
+
+/* 
+  Estilo para el ícono dentro del botón.
+  Ajusta el tamaño si es necesario.
+*/
+.whatsapp-fab mat-icon {
+  color: white;
+  transform: scale(1.5);
+  /* Hacemos el ícono un poco más grande */
+}

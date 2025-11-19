@@ -2,6 +2,10 @@
 ## Control de Cambios
 
 ----------
+## v2.17.0 | 2025-11-19 | Botón para iniciar chat en whatsapp
+1. Se crea rama "whatsapp-chat" y se escribe el código de componentes y artefactos.
+
+----------
 ## v2.16.1 | 2025-11-18 | Ajustes derivados de la revisión con interesados
 1. Se realizan ajustes a los artefactos que muestran el mapa con distribuidores.
 2. Se realizan ajustes al HTML y estilos de la SPA.

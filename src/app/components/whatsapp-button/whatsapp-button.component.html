@@ -1,0 +1,8 @@
+<!-- 
+  El botón solo se mostrará si la configuración se ha cargado correctamente.
+  Usamos el atributo 'aria-label' para la accesibilidad.
+-->
+<button *ngIf="config" mat-fab class="whatsapp-fab" (click)="openWhatsAppChat()" aria-label="Iniciar chat por WhatsApp">
+  <!-- Usamos un mat-icon con el SVG que registraremos -->
+  <mat-icon svgIcon="whatsapp"></mat-icon>
+</button>
