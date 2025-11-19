@@ -1,9 +1,9 @@
 {
-  "version": "2.16.1",
-  "fecha": "2025-11-18",
+  "version": "2.17.0",
+  "fecha": "2025-11-19",
   "caracteristicas": [
     {
-      "caract1": "Ajustes a mapas ubicando distribuidores fonelli y a layout y estilos de la SPA",
+      "caract1": "Se agrega botón para iniciar chat en Whatsapp en SPA",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

@@ -4,6 +4,7 @@
 ----------
 ## v2.17.0 | 2025-11-19 | Botón para iniciar chat en whatsapp
 1. Se crea rama "whatsapp-chat" y se escribe el código de componentes y artefactos.
+2. No se pidieron cambios después de la revisión, por lo que la versión se va a liberar sin iteraciones adicionales.
 
 ----------
 ## v2.16.1 | 2025-11-18 | Ajustes derivados de la revisión con interesados
