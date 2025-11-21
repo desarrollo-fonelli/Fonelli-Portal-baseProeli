@@ -133,7 +133,7 @@
     "id": 15,
     "nombre": "Click Joyas",
     "domicilio": "PASEO TABASCO 1405 SN GALAXIA/TABASCO 2000, CENTRO VILLAHERMOSA C.P. 86035",
-    "ciudad": "Villa Hermosa",
+    "ciudad": "Villahermosa",
     "entidad": "Tabasco",
     "telefono": "",
     "latitud": 18.000926222111005,
@@ -143,11 +143,41 @@
     "id": 16,
     "nombre": "Click Joyas",
     "domicilio": "QUINTIN ARAUZ SN LOCAL 4 PRIMERO DE MAYO, CENTRO VILLAHERMOSA, C.P. 86190",
-    "ciudad": "Villa Hermosa",
+    "ciudad": "VillaHermosa",
     "entidad": "Tabasco",
     "telefono": "",
     "latitud": 17.98098727333118,
     "longitud": -92.94072886563009
+  },
+  {
+    "id": 17,
+    "nombre": "Wappler Joyería",
+    "domicilio": "Oriente 2 Num. 66-4 colonia Centro cp 94300",
+    "ciudad": "Orizaba",
+    "entidad": "Veraruz",
+    "telefono": "",
+    "latitud": 18.8479658087651,
+    "longitud": -97.10412439771473
+  },
+  {
+    "id": 18,
+    "nombre": "Joyería Vanessa",
+    "domicilio": "SANCHEZ MARMOL 402 SIN NUMERO VILLAHERMOSA CENTRO, C.P. 86000",
+    "ciudad": "Villahermosa",
+    "entidad": "Tabasco",
+    "telefono": "",
+    "latitud": 17.991203251526837,
+    "longitud": -92.91731895049757
+  },
+  {
+    "id": 19,
+    "nombre": "Joyería Gema",
+    "domicilio": "MIGUEL HIDALGO 14-C  ALTAMIRA CENTRO, C.P. 89600",
+    "ciudad": "Altamira",
+    "entidad": "Tamaulipas",
+    "telefono": "",
+    "latitud": 22.39523215804621,
+    "longitud": -97.93634458829607
   },
   {
     "id": 20,
@@ -201,13 +231,13 @@
   },
   {
     "id": 25,
-    "nombre": "JEWELRY ART ISA",
-    "domicilio": "CARRETERA NACIONAL 245 202 LA RIOJA PRIVADA RESIDENCIAL 2DA ETAPA, C.P. 64984",
+    "nombre": "Joyas Dore",
+    "domicilio": "IGNACIO ZARAGOZA SUR 1000 4 MONTERREY CENTRO, C.P. 64000",
     "ciudad": "Monterrey",
     "entidad": "Nuevo León",
     "telefono": "",
-    "latitud": 25.575812409527195,
-    "longitud": -100.24308123650208
+    "latitud": 25.665728185286813,
+    "longitud": -100.31119578171538
   },
   {
     "id": 26,
@@ -250,9 +280,39 @@
     "longitud": -110.95435940182156
   },
   {
+    "id": 34,
+    "nombre": "Anello",
+    "domicilio": "Periferico Raul Lopez Sanchez 6000 Local 253 Col El Fresno. CP 27018",
+    "ciudad": "Torreón",
+    "entidad": "Coahuila",
+    "telefono": "",
+    "latitud": 25.581322847328977,
+    "longitud": -103.40433969895113
+  },
+  {
+    "id": 35,
+    "nombre": "Niza",
+    "domicilio": "JUAREZ PONIENTE 1109 TORREON CENTRO, C.P. 27000 ",
+    "ciudad": "Torreón",
+    "entidad": "Coahuila",
+    "telefono": "",
+    "latitud": 25.538210026262536,
+    "longitud": -103.4610120012248
+  },
+  {
+    "id": 36,
+    "nombre": "El Especialista",
+    "domicilio": "PEDRO INFANTE 3000 L29  TRES RIOS, C.P. 80020",
+    "ciudad": "Culiacán Rosales",
+    "entidad": "Sinaloa",
+    "telefono": "",
+    "latitud": 24.79832556897734,
+    "longitud": -107.42404793720453
+  },
+  {
     "id": 40,
     "nombre": "DANA Joyas",
-    "domicilio": "FRANCISCO I. MADERO 59 LOCAL 15 CENTRO DE LA CIUDAD DE MEXICO AREA 1, CUAUHTEMOC CIUDAD DE MEXICO, C.P. 06000",
+    "domicilio": "FRANCISCO I. MADERO 59 LOCAL 15 CENTRO DE LA CIUDAD DE MEXICO AREA 1, CUAUHTEMOC, C.P. 06000",
     "ciudad": "Ciudad de México",
     "entidad": "CDMX",
     "telefono": "",
@@ -262,7 +322,7 @@
   {
     "id": 41,
     "nombre": "Joyería Victoria",
-    "domicilio": "FRANCISCO I MADERO 69 LOCAL 5  CENTRO DE LA CIUDAD DE MEXICO AREA 1, CUAUHTEMOC CIUDAD DE MEXICO, C.P. 06000",
+    "domicilio": "FRANCISCO I MADERO 69 LOCAL 5  CENTRO DE LA CIUDAD DE MEXICO AREA 1, CUAUHTEMOC, C.P. 06000",
     "ciudad": "Ciudad de México",
     "entidad": "CDMX",
     "telefono": "",
@@ -272,7 +332,7 @@
   {
     "id": 42,
     "nombre": "Joyerías México",
-    "domicilio": "5 DE MAYO 61 B CENTRO (AREA 1), CUAUHTEMOC CIUDAD DE MEXICO, C.P. 06000",
+    "domicilio": "5 DE MAYO 61 B CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
     "ciudad": "Ciudad de México",
     "entidad": "CDMX",
     "telefono": "",
@@ -282,7 +342,7 @@
   {
     "id": 43,
     "nombre": "Joyerías México",
-    "domicilio": "REPUBLICA DE BRASIL 8-A CENTRO (AREA 2), CUAUHTEMOC CIUDAD DE MEXICO, C.P. 06010",
+    "domicilio": "REPUBLICA DE BRASIL 8-A CENTRO (AREA 2), CUAUHTEMOC, C.P. 06010",
     "ciudad": "Ciudad de México",
     "entidad": "CDMX",
     "telefono": "",
@@ -292,7 +352,7 @@
   {
     "id": 44,
     "nombre": "Cozcateo",
-    "domicilio": "FRANCISCO I. MADERO 54 5 CENTRO (AREA 1), CUAUHTEMOC, CIUDAD DE MEXICO, C.P. 06000",
+    "domicilio": "FRANCISCO I. MADERO 54 5 CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
     "ciudad": "Ciudad de México",
     "entidad": "CDMX",
     "telefono": "",
@@ -312,7 +372,7 @@
   {
     "id": 46,
     "nombre": "Joyería D-Descuento",
-    "domicilio": "PLAZA DE LA CONSTITUCION 3 16-17 CENTRO (AREA 2), CUAUHTEMOC CIUDAD DE MEXICO, C.P. 06010",
+    "domicilio": "PLAZA DE LA CONSTITUCION 3 16-17 CENTRO (AREA 2), CUAUHTEMOC, C.P. 06010",
     "ciudad": "Ciudad de México",
     "entidad": "CDMX",
     "telefono": "",
@@ -322,7 +382,7 @@
   {
     "id": 47,
     "nombre": "Joyería D-Descuento",
-    "domicilio": "MONTE DE PIEDAD 13 LOCAL 2-B CENTRO (AREA 1), CUAUHTEMOC CIUDAD DE MEXICO, C.P. 06000",
+    "domicilio": "MONTE DE PIEDAD 13 LOCAL 2-B CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
     "ciudad": "Ciudad de México",
     "entidad": "CDMX",
     "telefono": "",
@@ -332,7 +392,7 @@
   {
     "id": 48,
     "nombre": "Joyería Hari",
-    "domicilio": "FRANCISCO I. MADERO 55 16 C CENTRO (AREA 1), CUAUHTEMOC CIUDAD DE MEXICO, C.P. 06000",
+    "domicilio": "FRANCISCO I. MADERO 55 16 C CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
     "ciudad": "Ciudad de México",
     "entidad": "CDMX",
     "telefono": "",
@@ -348,6 +408,106 @@
     "telefono": "",
     "latitud": 19.289546052503827,
     "longitud": -99.65418220349675
+  },
+  {
+    "id": 50,
+    "nombre": "Joyerías México",
+    "domicilio": "Plaza de la Constitución 13 Loc. 7-14 Col. Centro 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.433475498195712,
+    "longitud": -99.13405253636422
+  },
+  {
+    "id": 51,
+    "nombre": "Joyerías México",
+    "domicilio": "Plaza de la Constitución 7 Col. Centro 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.43284653176005,
+    "longitud": -99.13432697438924
+  },
+  {
+    "id": 52,
+    "nombre": "Susy Joyas",
+    "domicilio": "FRANCISCO I MADERO 54 LOCAL 6  CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.433492735360403,
+    "longitud": -99.13585505353811
+  },
+  {
+    "id": 53,
+    "nombre": "SANTIS GOLD",
+    "domicilio": "FRANCISCO I MADERO 55 LOCAL 16-B  CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.43320287826565,
+    "longitud": -99.13553293674033
+  },
+  {
+    "id": 54,
+    "nombre": "DINASTI",
+    "domicilio": "FRANCISCO I MADERO 55 CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.43333693659941,
+    "longitud": -99.13580182819317
+  },
+  {
+    "id": 55,
+    "nombre": "JOYAS BODA",
+    "domicilio": "FRANCISCO I MADERO 69 Local 501,502 CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.43305801456463,
+    "longitud": -99.13474615242808
+  },
+  {
+    "id": 56,
+    "nombre": "JOYAS D`LIZ",
+    "domicilio": "PLAZA DE CONSTITUCION 13 22 CENTRO DE LA CIUDAD DE MEXICO AREA 1, CUAUHTEMOC C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.432629158549595,
+    "longitud": -99.13439447654565
+  },
+  {
+    "id": 57,
+    "nombre": "El Diamante de la Noche",
+    "domicilio": "FRANCISCO I MADERO 69 Local 27 CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.433102957828,
+    "longitud": -99.13475585563644
+  },
+  {
+    "id": 58,
+    "nombre": "Joyas Josae",
+    "domicilio": "FRANCISCO I MADERO 57 Local 6-D CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.433367123941373,
+    "longitud": -99.136004171758
+  },
+  {
+    "id": 59,
+    "nombre": "La Princesa",
+    "domicilio": "MONTE DE PIEDAD 1 LOCAL 3-C CENTRO (AREA 1), CUAUHTEMOC, C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.434923486620008,
+    "longitud": -99.1340306476579
   },
   {
     "id": 60,
@@ -488,5 +648,175 @@
     "telefono": "",
     "latitud": 25.554737994348887,
     "longitud": -103.49537466076328
+  },
+  {
+    "id": 74,
+    "nombre": "JOYERIA KAMY'S",
+    "domicilio": "PASAJE JUAN DE OROZCO 111 LOCAL 37 CENTRO, C.P. 37000",
+    "ciudad": "León de los Aldama",
+    "entidad": "Guanajuato",
+    "telefono": "",
+    "latitud": 21.122438274084164,
+    "longitud": -101.68241326539417
+  },
+  {
+    "id": 75,
+    "nombre": "ANABEL",
+    "domicilio": "GALEANA 66 LOCAL 3 IGUALA DE LA INDEPENDENCIA CENTRO, C.P. 40000",
+    "ciudad": "Iguala de la Independencia",
+    "entidad": "Guerrero",
+    "telefono": "",
+    "latitud": 18.339008830362285,
+    "longitud": -99.54176216390834
+  },
+  {
+    "id": 76,
+    "nombre": "JOYERIA SILVIA",
+    "domicilio": "ALVARO OBREGON 7 A LOC 50 PB IGUALA DE LA INDEPENDENCIA CENTRO, C.P. 40000",
+    "ciudad": "Iguala de la Independencia",
+    "entidad": "Guerrero",
+    "telefono": "",
+    "latitud": 18.343918576550227,
+    "longitud": -99.54114028167628
+  },
+  {
+    "id": 77,
+    "nombre": "SANTIS GOLD",
+    "domicilio": "Obregón esquina Reforma Local 102 IGUALA DE LA INDEPENDENCIA CENTRO CP 40000",
+    "ciudad": "Iguala de la Independencia",
+    "entidad": "Guerrero",
+    "telefono": "",
+    "latitud": 18.344167782938296,
+    "longitud": -99.5414233213929
+  },
+  {
+    "id": 78,
+    "nombre": "Joyería Evels",
+    "domicilio": "REFORMA 14 LOCAL 23 IGUALA DE LA INDEPENDENCIA CENTRO, C.P. 40000",
+    "ciudad": "Iguala de la Independencia",
+    "entidad": "Guerrero",
+    "telefono": "",
+    "latitud": 18.34422650958711,
+    "longitud": -99.54168533550714
+  },
+  {
+    "id": 79,
+    "nombre": "Joyería Aurium",
+    "domicilio": "OBREGON 2 LOCAL 13 IGUALA DE LA INDEPENDENCIA CENTRO, C.P. 40000",
+    "ciudad": "Iguala de la Independencia",
+    "entidad": "Guerrero",
+    "telefono": "",
+    "latitud": 18.344112580225644,
+    "longitud": -99.54135072994137
+  },
+  {
+    "id": 80,
+    "nombre": "Joyería Jesmay",
+    "domicilio": "BENITO JUAREZ SUR 103A S6  CENTRO, C.P. 50000",
+    "ciudad": "Toluca de Lerdo",
+    "entidad": "México",
+    "telefono": "",
+    "latitud": 19.289972138736964,
+    "longitud": -99.65426622101313
+  },
+  {
+    "id": 81,
+    "nombre": "Centro Joyero Guadalajara",
+    "domicilio": "CORREGIDORA 60 CENTRO, C.P. 76000",
+    "ciudad": "Querétaro",
+    "entidad": "Querétaro",
+    "telefono": "",
+    "latitud": 20.590758790598706,
+    "longitud": -100.39097985657405
+  },
+  {
+    "id": 82,
+    "nombre": "JOYERIA C M",
+    "domicilio": "MONTE DE PIEDAD 1 LOCAL 2-C CENTRO DE LA CIUDAD DE MEXICO AREA 1, CUAUHTEMOC C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.434923486620008,
+    "longitud": -99.1340306476579
+  },
+  {
+    "id": 83,
+    "nombre": "MARTHA EUGENIA BARRAGAN LEON",
+    "domicilio": "FRANCISCO I. MADERO 69 26  CENTRO (AREA 1), CUAUHTEMOC C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.433092793884743,
+    "longitud": -99.13475051099175
+  },
+  {
+    "id": 84,
+    "nombre": "METALICH",
+    "domicilio": "FRANCISCO I. MADERO 59 LOCAL 6E CENTRO DE LA CIUDAD DE MEXICO AREA 1, CUAUHTEMOC C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.433257155738612,
+    "longitud": -99.13541269966385
+  },
+  {
+    "id": 85,
+    "nombre": "Marianette",
+    "domicilio": "PLAZA DE LA CONSTITUCION 13 LOC 18 CENTRO (AREA 1), CUAUHTEMOC C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.43257857029197,
+    "longitud": -99.13430864585943
+  },
+  {
+    "id": 86,
+    "nombre": "RICHIE JOYAS",
+    "domicilio": "PLAZA DE LA CONSTITUCION 13 LOC 23 CENTRO (AREA 1), CUAUHTEMOC C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.43257857029197,
+    "longitud": -99.13430864585943
+  },
+  {
+    "id": 87,
+    "nombre": "HORUS JOYAS",
+    "domicilio": "FRANCISCO I MADERO 16 2 CENTRO  (AREA 1), CUAUHTEMOC C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.434182337939188,
+    "longitud": -99.13904921132317
+  },
+  {
+    "id": 88,
+    "nombre": "JD ACCESORIOS",
+    "domicilio": "FRANCISCO I MADERO 55 LOCAL 3  CENTRO (AREA 1), CUAUHTEMOC C.P. 06000",
+    "ciudad": "Ciudad de México",
+    "entidad": "CDMX",
+    "telefono": "",
+    "latitud": 19.433208569423176,
+    "longitud": -99.13553897171425
+  },
+  {
+    "id": 89,
+    "nombre": "Sirela Joyas",
+    "domicilio": "CALLE 65 501 B LOCAL 3 MERIDA CENTRO, C.P. 97000",
+    "ciudad": "Mérida",
+    "entidad": "Yucatán",
+    "telefono": "",
+    "latitud": 20.965476144819032,
+    "longitud": -89.62382411666914
+  },
+  {
+    "id": 90,
+    "nombre": "Joyería Anita",
+    "domicilio": "PASEO CENTRAL MZ1 LT1 ISLA C PLAYA DEL CARMEN CENTRO, C.P. 77710",
+    "ciudad": "Solidaridad Playa del Carmen",
+    "entidad": "Quintana Roo",
+    "telefono": "",
+    "latitud": 20.648401062396083,
+    "longitud": -87.08191118518863
   }
 ]
