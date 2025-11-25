@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ScrollingModule } from '@angular/cdk/scrolling';   // desplazamiento virtual "infinito"
 import { DomSanitizer } from '@angular/platform-browser';
 import { GoogleMapsModule } from '@angular/google-maps'; // drendon 10.11.2025
 import { routing, appRoutingProviders } from './app.routing';
@@ -79,6 +80,7 @@ import { CotizListarComponent } from './components/cotiz-listar/cotiz-listar.com
 import { CotizEditarComponent } from './components/cotiz-editar/cotiz-editar.component';
 import { MapaDistribComponent } from './components/mapa-distrib/mapa-distrib.component';
 import { WhatsappButtonComponent } from './components/whatsapp-button/whatsapp-button.component';
+import { ArticulosImagenesComponent } from './components/articulos-imagenes/articulos-imagenes.component';
 
 @NgModule({
   declarations: [
@@ -138,10 +140,12 @@ import { WhatsappButtonComponent } from './components/whatsapp-button/whatsapp-b
     CotizListarComponent,
     CotizEditarComponent,
     MapaDistribComponent,
-    WhatsappButtonComponent
+    WhatsappButtonComponent,
+    ArticulosImagenesComponent
   ],
   imports: [
     BrowserModule,
+    ScrollingModule,  // desplazamiento virtual "infinito"
     GoogleMapsModule, // drendon 10.11.2025
     NgbModule,
     routing,

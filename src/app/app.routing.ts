@@ -34,6 +34,7 @@ import { Guias2025Component } from "./components/guias2025/guias2025.component";
 import { CotizacionComponent } from "./components/cotizacion/cotizacion.component";
 import { ArticulosReporteComponent } from "./components/articulos-reporte/articulos-reporte.component";
 import { ArticulosConsultaComponent } from "./components/articulos-consulta/articulos-consulta.component";
+import { ArticulosImagenesComponent } from './components/articulos-imagenes/articulos-imagenes.component';
 import { PrepedidosRepoComponent } from "./components/prepedidos-repo/prepedidos-repo.component";
 import { IndicVenta2025Component } from "./components/indic-venta2025/indic-venta2025.component";
 import { TestdrComponent } from './components/testdr/testdr.component';
@@ -60,6 +61,7 @@ const appRoutes: Routes = [
       { path: 'guias2025', component: Guias2025Component },
       { path: 'cotizacion', component: CotizacionComponent },
       { path: 'articulosreporte', component: ArticulosConsultaComponent },
+      { path: 'articulosimagenes', component: ArticulosImagenesComponent },
       { path: 'prepedidos-repo', component: PrepedidosRepoComponent },
       { path: 'cotizcrear', component: CotizCrearComponent },
       { path: 'cotizlistar', component: CotizListarComponent }
@@ -94,6 +96,7 @@ const appRoutes: Routes = [
       { path: 'guias2025', component: Guias2025Component },
       { path: 'cotizacion', component: CotizacionComponent },
       { path: 'articulosreporte', component: ArticulosConsultaComponent },
+      { path: 'articulosimagenes', component: ArticulosImagenesComponent },
       { path: 'prepedidos-repo', component: PrepedidosRepoComponent },
       { path: 'indicventa2025', component: IndicVenta2025Component },
       { path: 'cotizcrear', component: CotizCrearComponent },
