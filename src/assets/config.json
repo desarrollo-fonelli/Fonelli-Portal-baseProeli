@@ -1,9 +1,9 @@
 {
-  "version": "2.17.0",
-  "fecha": "2025-11-19",
+  "version": "2.18.1",
+  "fecha": "2025-12-12",
   "caracteristicas": [
     {
-      "caract1": "Se agrega botón para iniciar chat en Whatsapp en SPA",
+      "caract1": "Consulta mejorada de artículos con imágenes",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

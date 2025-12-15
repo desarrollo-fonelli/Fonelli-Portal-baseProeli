@@ -2,6 +2,10 @@
 ## Control de Cambios
 
 ----------
+## v2.18.1 | 2025-12-16 | COnsulta de artículos de PT con imagenes
+1. Consulta de artículos de PT presentando imágenes de las piezas
+
+----------
 ## v2.17.0 | 2025-11-19 | Botón para iniciar chat en whatsapp
 1. Se crea rama "whatsapp-chat" y se escribe el código de componentes y artefactos.
 2. No se pidieron cambios después de la revisión, por lo que la versión se va a liberar sin iteraciones adicionales.

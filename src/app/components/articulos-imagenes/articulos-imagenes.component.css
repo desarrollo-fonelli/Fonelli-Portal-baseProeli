@@ -1,0 +1,143 @@
+/* Ancho fijo para columnas que contienen demasiado texto */
+.col-texto-medio {
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Opcional: muestra "..." si el texto es muy largo */
+}
+
+.col-texto-ancho {
+  width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Opcional: muestra "..." si el texto es muy largo */
+}
+
+.font-negrita {
+  font-weight: bold;
+}
+
+.thead-p tr:first-child Th {
+  position: sticky;
+  z-index: 12;
+  top: 60px;
+  /* background: white; */
+}
+
+.thead-p Th {
+  position: fixed;
+  z-index: 12;
+  top: 300px;
+  /* background: white; */
+}
+
+.thead-p2 tr:first-child Th {
+  position: sticky;
+  z-index: 12;
+  top: 0;
+  background: #24a4cc;
+}
+
+.thead-p2 Th {
+  position: fixed;
+  z-index: 12;
+  top: 60px;
+  background: #24a4cc;
+}
+
+.col-fecha {
+  width: 70px;
+  text-align: center;
+}
+
+.thFonelli-center {
+  background-color: #24a4cc;
+  color: white;
+  text-align: center;
+}
+
+.thFonelli-left {
+  background-color: #24a4cc;
+  color: white;
+  text-align: left;
+}
+
+.thFonelli-right {
+  background-color: #24a4cc;
+  color: white;
+  text-align: right;
+}
+
+td.FilasFonelli-center {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.FilasFonelli-left {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: left;
+  vertical-align: middle;
+}
+
+td.FilasFonelli-right {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: right;
+  vertical-align: middle;
+}
+
+td.FilasFonelli-fecha {
+  width: 90px;
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* INICIO: NUEVOS ESTILOS PARA LAS IMÁGENES */
+.thumbnail {
+  /* Ancho de la miniatura */
+  width: 42px;
+  height: auto;
+  /* Cambia el cursor para indicar que es clickeable */
+  cursor: pointer;
+  /* Efecto suave al pasar el mouse */
+  transition: transform 0.2s;
+
+  vertical-align: middle;
+}
+
+.thumbnail:hover {
+  transform: scale(1.1);
+  /* Agranda ligeramente la imagen al pasar el mouse */
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  max-height: 70vh;
+  /* Limita la altura de la imagen en el modal */
+}
+
+/* FIN: NUEVOS ESTILOS PARA LAS IMÁGENES */
+
+/* FIN: NUEVOS ESTILOS PARA LAS IMÁGENES */
+
+/* Contenedor para el scrolling virtual. DEBE tener una altura definida. */
+.virtual-scroll-container {
+  /* Ajusta esta altura según el diseño de tu página */
+  height: 600px;
+  overflow: auto;
+}
+
+/* Asegura que el layout de la tabla sea consistente para alinear columnas */
+.table {
+  /* esta línea es crucial para que funcione <colgroup>*/
+  table-layout: fixed;
+  width: 100%;
+}

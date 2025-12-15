@@ -1,1 +1,131 @@
-<p>articulos-imagenes works!</p>
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!---------------------------------- Criterios de Filtro -------------------------------------->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">Catálogo de Artículos</div>
+
+      <!--------------------------- Formulario para indicar Criterios de Filtro ----------------------->
+      <form>
+
+        <!--<div class="form-row mb-2">-->
+        <div class="form-row mb-2">
+          <div class="col-md-7">
+            <p class="CamposFonelli" style="color:black">Encuentra la línea y modelo correcto en nuestro
+              catálogo. <br>
+              Si no conoces el código exacto, teclea solo la porción que recuerdes y aparecerán los modelos
+              relacionados con tu búsqueda.</p>
+          </div>
+
+        </div>
+
+        <!------------------ Código de artículo --------------------->
+        <div class="form-row mb-2">
+          <div class="form-group col-md-3">
+            <label for="ItemCode" class="CamposFonelli">Buscar modelo</label>
+            <input type="text" class="form-control" id="ItemCode" name="ItemCode"
+              placeholder="Código parcial o completo" [(ngModel)]="oBuscar.ItemCode" #ItemCode="ngModel" required />
+          </div>
+        </div>
+        <!---------- Mensajes relacionados con la búsqueda ---------->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-warning font-negrita" role="alert">{{ sMensaje }}</p>
+        </div>
+
+        <!---------------------- Boton BUSCAR ----------------------->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" class="btnFonelli btn" (click)="BuscarArticulos()">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div> <!-- .card-body -->
+  </div> <!-- .card -->
+</div>
+
+<!--------------------- Tabla que muestra los resultados de la consulta SQL ------------------->
+<div class="container float-left" [hidden]="!mostrarTabla">
+  <br>{{'Se encontraron ' + oFilasItems.length + ' modelos'}}
+  <div class="h4 text-center"><strong>Catálogo de artículos</strong></div>
+  <div class="container table-responsive">
+    <!------- 1. Tabla solo para Cabecera Fija ------->
+    <table class="table">
+      <!-- <table class="table table-striped"> -->
+      <colgroup> <!-- corrección para implementar el desplazamiento -->
+        <col style="width: 10%;">
+        <col style="width: 25%;">
+        <col style="width: 50%;">
+        <col style="width: 15%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="thFonelli-center" scope="col">Linea</th>
+          <th class="thFonelli-left" scope="col">Clave</th>
+          <th class="thFonelli-left" scope="col">Descripción</th>
+          <th class="thFonelli-center" scope="col">Imagen</th>
+        </tr>
+      </thead>
+    </table>
+
+    <!------- 2. Viewport de Scrolling Virtual para las filas de datos ------->
+    <!------- (itemSize es la altura de cada fila en pixeles)          ------->
+    <cdk-virtual-scroll-viewport itemSize="35" class="virtual-scroll-container">
+      <table class="table table-hover table-borderless">
+        <colgroup> <!-- corrección para implementar el desplazamiento -->
+          <col style="width: 10%;">
+          <col style="width: 25%;">
+          <col style="width: 50%;">
+          <col style="width: 15%;">
+        </colgroup>
+
+        <tbody *cdkVirtualFor="let itm of oFilasItems">
+          <!-- <tr *ngFor="let itm of oFilasItems ; index as i"> -->
+          <tr>
+            <td class="FilasFonelli-center">{{itm.LineaPT}}</td>
+            <td class="FilasFonelli-left">{{itm.ItemCode}}</td>
+            <td class="FilasFonelli-left">{{itm.Descripc}}</td>
+            <td class="FilasFonelli-center">
+              <img [src]="itm.ImgPath" alt="Imagen de {{itm.ItemCode}}" class="thumbnail"
+                (click)="openImageModal(imageModal, itm.ImgPath)" loading="lazy"
+                (error)="handleImageError($event, itm)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>
+
+
+<!-----------------------Plantilla para el modal que muestra la imagen ----------------------->
+<ng-template #imageModal let-modal>
+  <div class="modal-header">
+    <div class="h5 modal-title" id="modal-basic-title">Vista previa del artículo</div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <img [src]="selectedImage" class="img-fluid" alt="imagen del producto"
+      onerror="this.src='assets/img/diamante-azul.png'">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      Cerrar
+    </button>
+  </div>
+</ng-template>
