@@ -1,0 +1,254 @@
+/* Ancho fijo para columnas que contienen demasiado texto */
+.col-texto-medio {
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Opcional: muestra "..." si el texto es muy largo */
+}
+
+.col-texto-ancho {
+  width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Opcional: muestra "..." si el texto es muy largo */
+}
+
+.font-negrita {
+  font-weight: bold;
+}
+
+.thead-p tr:first-child Th {
+  position: sticky;
+  z-index: 12;
+  top: 60px;
+  /* background: white; */
+}
+
+.thead-p Th {
+  position: fixed;
+  z-index: 12;
+  top: 300px;
+  /* background: white; */
+}
+
+.thead-p2 tr:first-child Th {
+  position: sticky;
+  z-index: 12;
+  top: 0;
+  background: #24a4cc;
+}
+
+.thead-p2 Th {
+  position: fixed;
+  z-index: 12;
+  top: 60px;
+  background: #24a4cc;
+}
+
+.col-fecha {
+  width: 70px;
+  text-align: center;
+}
+
+.thFonelli-center {
+  background-color: #24a4cc;
+  color: white;
+  text-align: center;
+}
+
+.thFonelli-left {
+  background-color: #24a4cc;
+  color: white;
+  text-align: left;
+}
+
+.thFonelli-right {
+  background-color: #24a4cc;
+  color: white;
+  text-align: right;
+}
+
+td.FilasFonelli-center {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+td.FilasFonelli-left {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: left;
+  vertical-align: middle;
+}
+
+td.FilasFonelli-right {
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: right;
+  vertical-align: middle;
+}
+
+td.FilasFonelli-fecha {
+  width: 90px;
+  color: #000000;
+  font-family: Quicksand-SemiBold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* INICIO: NUEVOS ESTILOS PARA LAS IMÁGENES */
+.thumbnail {
+  /* Ancho de la miniatura */
+  width: 42px;
+  height: auto;
+  /* Cambia el cursor para indicar que es clickeable */
+  cursor: pointer;
+  /* Efecto suave al pasar el mouse */
+  transition: transform 0.2s;
+
+  vertical-align: middle;
+}
+
+.thumbnail:hover {
+  transform: scale(1.1);
+  /* Agranda ligeramente la imagen al pasar el mouse */
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  max-height: 70vh;
+  /* Limita la altura de la imagen en el modal */
+}
+
+/* FIN: NUEVOS ESTILOS PARA LAS IMÁGENES */
+
+
+/********************************************************************************/
+
+/* --- CONFIGURACIÓN DE TABLA BASE (FONDO AZUL) --- */
+.thead-fonelli th {
+  background-color: #24a4cc;
+  color: white;
+  vertical-align: middle;
+  border: none;
+  white-space: nowrap;
+  /* Evita que el título se parta en dos líneas */
+}
+
+/* --- CLASES DE UTILIDAD PARA TEXTO --- */
+.texto-compacto {
+  font-family: 'Quicksand-SemiBold', sans-serif;
+  /* Asumiendo que usas esta fuente */
+  color: #000;
+  vertical-align: middle;
+}
+
+/* Clases auxiliares de alineación (opcionales si usas Bootstrap nativo) */
+.text-center {
+  text-align: center !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+/* --- IMÁGENES --- */
+.thumbnail {
+  width: 45px;
+  /* Ligeramente más grande para dedo en móvil */
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  border-radius: 4px;
+  /* Un toque estético moderno */
+}
+
+.thumbnail:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* --- RESPONSIVIDAD Y ANCHOS DE COLUMNA --- */
+
+/* 1. Contenedor que permite scroll horizontal solo si es necesario */
+.table-responsive-wrapper {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Suavidad en iOS */
+}
+
+/* 2. Estilos para DESKTOP (Pantallas grandes) */
+.th-linea,
+.td-linea {
+  width: 5%;
+  min-width: 50px;
+}
+
+.th-clave,
+.td-clave {
+  width: 15%;
+  min-width: 120px;
+}
+
+.th-descrip,
+.td-descrip {
+  width: auto;
+  min-width: 400px;
+  /* Reducido de 60ch para ser más flexible */
+}
+
+/* 3. Estilos para MÓVIL (Pantallas < 768px) */
+@media screen and (max-width: 768px) {
+
+  /* Reducción drástica del tamaño de fuente para datos en mayúsculas */
+  .texto-compacto {
+    font-size: 0.75rem;
+    /* Aprox 12px, mucho más pequeño */
+    line-height: 1.2;
+    padding: 4px !important;
+    /* Menos padding para ahorrar espacio */
+  }
+
+  /* Ajuste de anchos para móvil */
+  .th-descrip,
+  .td-descrip {
+    min-width: 180px;
+    /* Permitimos que se encoja mucho más */
+    white-space: normal;
+    /* Permitimos que el texto haga salto de línea */
+  }
+
+  .th-clave,
+  .td-clave {
+    min-width: 80px;
+    font-weight: bold;
+    /* Negrita para compensar el tamaño pequeño */
+  }
+
+  /* Opcional: Ocultar columnas menos relevantes en móvil muy pequeño */
+  /* .th-linea, .td-linea { display: none; } */
+
+  /* Ajuste de imagen en móvil */
+  .thumbnail {
+    width: 35px;
+  }
+}
+
+/* --- REGLAS PARA STICKY HEADERS (Manejo complejo) --- */
+/* Nota: Sticky dentro de un overflow-x:auto tiene limitaciones. 
+   Esta configuración intenta mantenerlo fijo respecto al scroll vertical del wrapper */
+
+.thead-fonelli th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  /* El background debe definirse aquí para tapar el contenido al scrollear */
+  background-color: #24a4cc;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}

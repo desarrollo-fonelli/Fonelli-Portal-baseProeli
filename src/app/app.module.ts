@@ -81,6 +81,7 @@ import { CotizEditarComponent } from './components/cotiz-editar/cotiz-editar.com
 import { MapaDistribComponent } from './components/mapa-distrib/mapa-distrib.component';
 import { WhatsappButtonComponent } from './components/whatsapp-button/whatsapp-button.component';
 import { ArticulosImagenesComponent } from './components/articulos-imagenes/articulos-imagenes.component';
+import { ArticulosTablaComponent } from './components/articulos-tabla/articulos-tabla.component';
 
 @NgModule({
   declarations: [
@@ -141,7 +142,8 @@ import { ArticulosImagenesComponent } from './components/articulos-imagenes/arti
     CotizEditarComponent,
     MapaDistribComponent,
     WhatsappButtonComponent,
-    ArticulosImagenesComponent
+    ArticulosImagenesComponent,
+    ArticulosTablaComponent
   ],
   imports: [
     BrowserModule,

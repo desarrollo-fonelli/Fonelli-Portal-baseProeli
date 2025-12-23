@@ -2,6 +2,10 @@
 ## Control de Cambios
 
 ----------
+## v2.18.5 | 2025-12-23 | Consulta artículos PT con imagenes usando Datatables
+1. Utilizo nuevamente Datatables en vez de cargar por demanda las imagenes
+
+----------
 ## v2.18.1 | 2025-12-16 | COnsulta de artículos de PT con imagenes
 1. Consulta de artículos de PT presentando imágenes de las piezas
 

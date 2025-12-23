@@ -1,0 +1,120 @@
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!---------------------------------- Criterios de Filtro -------------------------------------->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">Catálogo de Artículos</div>
+
+      <!--------------------------- Formulario para indicar Criterios de Filtro ----------------------->
+      <form>
+
+        <!--<div class="form-row mb-2">-->
+        <div class="form-row mb-2">
+          <div class="col-md-7">
+            <p class="CamposFonelli" style="color:black">Encuentra la línea y modelo correcto en nuestro
+              catálogo. <br>
+              Si no conoces el código exacto, teclea solo la porción que recuerdes y aparecerán los modelos
+              relacionados con tu búsqueda.</p>
+          </div>
+
+        </div>
+
+        <!------------------ Código de artículo --------------------->
+        <div class="form-row mb-2">
+          <div class="form-group col-md-3">
+            <label for="ItemCode" class="CamposFonelli">Buscar modelo</label>
+            <input type="text" class="form-control" id="ItemCode" name="ItemCode"
+              placeholder="Código parcial o completo" [(ngModel)]="oBuscar.ItemCode" #ItemCode="ngModel" required />
+          </div>
+        </div>
+        <!---------- Mensajes relacionados con la búsqueda ---------->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-warning font-negrita" role="alert">{{ sMensaje }}</p>
+        </div>
+
+        <!---------------------- Boton BUSCAR ----------------------->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" class="btnFonelli btn" (click)="BuscarArticulos()">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div> <!-- .card-body -->
+  </div> <!-- .card -->
+</div>
+
+<!--------------------- Tabla que muestra los resultados de la consulta SQL ------------------->
+<!-- Contenedor principal: Quitamos float-left para evitar problemas de flujo en móvil -->
+<div class="container" [hidden]="!mostrarTabla">
+
+  <!-- WRAPPER RESPONSIVE: Permite scroll horizontal en móviles sin romper el layout -->
+  <div class="table-responsive-wrapper">
+    <br>
+    <div class="h4 text-center"><strong>Catálogo de artículos</strong></div>
+
+    <table class="table table-hover table-striped" datatable [dtOptions]="dtOptions[0]" [dtTrigger]="dtTrigger">
+      <thead class="thead-fonelli">
+        <tr class="EncTabla">
+          <!-- Clases específicas para controlar anchos por CSS -->
+          <th scope="col" class="th-img text-center">Artículo</th>
+          <th scope="col" class="th-linea text-center">Lin</th>
+          <th scope="col" class="th-clave text-left">Clave</th>
+          <th scope="col" class="th-descrip text-left">Descripción</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let itm of oFilasItems; index as i">
+
+          <!-- Imagen -->
+          <td class="td-img text-center">
+            <img [src]="itm.ImgPath" alt="Imagen de {{itm.ItemCode}}" class="thumbnail"
+              (click)="openImageModal(imageModal, itm.ImgPath)" loading="lazy" (error)="handleImageError($event, itm)">
+          </td>
+
+          <!-- Datos: Usamos clases css en lugar de style inline -->
+          <td class="td-linea text-center texto-compacto">{{itm.LineaPT}}</td>
+
+          <!-- Aplicamos clase 'texto-compacto' para reducir fuente -->
+          <td class="td-clave text-left texto-compacto">{{itm.ItemCode}}</td>
+
+          <td class="td-descrip text-left texto-compacto">{{itm.Descripc}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<!-----------------------Plantilla para el modal que muestra la imagen ----------------------->
+<ng-template #imageModal let-modal>
+  <div class="modal-header">
+    <div class="h5 modal-title" id="modal-basic-title">Vista previa del artículo</div>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body text-center">
+    <img [src]="selectedImage" class="img-fluid" alt="imagen del producto"
+      onerror="this.src='assets/img/diamante-azul.png'">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">
+      Cerrar
+    </button>
+  </div>
+</ng-template>

@@ -1,9 +1,9 @@
 {
-  "version": "2.18.1",
-  "fecha": "2025-12-12",
+  "version": "2.18.5",
+  "fecha": "2025-12-23",
   "caracteristicas": [
     {
-      "caract1": "Consulta mejorada de artículos con imágenes",
+      "caract1": "Consulta artículos PT con imágenes usando DataTables",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

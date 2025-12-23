@@ -35,6 +35,7 @@ import { CotizacionComponent } from "./components/cotizacion/cotizacion.componen
 import { ArticulosReporteComponent } from "./components/articulos-reporte/articulos-reporte.component";
 import { ArticulosConsultaComponent } from "./components/articulos-consulta/articulos-consulta.component";
 import { ArticulosImagenesComponent } from './components/articulos-imagenes/articulos-imagenes.component';
+import { ArticulosTablaComponent } from './components/articulos-tabla/articulos-tabla.component';
 import { PrepedidosRepoComponent } from "./components/prepedidos-repo/prepedidos-repo.component";
 import { IndicVenta2025Component } from "./components/indic-venta2025/indic-venta2025.component";
 import { TestdrComponent } from './components/testdr/testdr.component';
@@ -97,6 +98,7 @@ const appRoutes: Routes = [
       { path: 'cotizacion', component: CotizacionComponent },
       { path: 'articulosreporte', component: ArticulosConsultaComponent },
       { path: 'articulosimagenes', component: ArticulosImagenesComponent },
+      { path: 'articulostabla', component: ArticulosTablaComponent },
       { path: 'prepedidos-repo', component: PrepedidosRepoComponent },
       { path: 'indicventa2025', component: IndicVenta2025Component },
       { path: 'cotizcrear', component: CotizCrearComponent },

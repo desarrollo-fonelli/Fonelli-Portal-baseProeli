@@ -172,12 +172,16 @@
           <a mat-list-item [routerLink]="['/asesores/articulosreporte/']" routerLinkActive="active-list-item"><span
               class="font_side">Catálogo de Artículos</span></a>
 
-
+          <!--
           <a mat-list-item [routerLink]="['/asesores/articulosimagenes/']" routerLinkActive="active-list-item"
             *ngIf="sTipo=='G' && sCodigo==99">
-            <span class="font_side">(Test)Artic con Imagen</span>
+            <span class="font_side">Test Artic con Imagen</span>
           </a>
+          -->
 
+          <a mat-list-item [routerLink]="['/asesores/articulostabla/']" routerLinkActive="active-list-item">
+            <span class="font_side">Artic con Imagen</span>
+          </a>
 
         </div>
 
