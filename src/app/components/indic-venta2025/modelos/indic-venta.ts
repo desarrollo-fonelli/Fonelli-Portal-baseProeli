@@ -13,6 +13,7 @@ export interface IndicadorAgente {
   AgteCodigo?: string;
   AgteNombre?: string;
   AgteEficienc?: number;
+  AgteComision?: number;
   Indicadores?: Indicador[];
 }
 

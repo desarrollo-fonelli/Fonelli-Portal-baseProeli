@@ -2,6 +2,10 @@
 ## Control de Cambios
 
 ----------
+## v2.19.0 | 2025-12-23 | Se agrega columna COMISION a KPIs por agente
+1. Se agrega la columna "comisión" a la tabla que muestra los KPIs por agente, mostrando la comisión acumulada en el mes, a la fecha de corte
+
+----------
 ## v2.18.5 | 2025-12-23 | Consulta artículos PT con imagenes usando Datatables
 1. Utilizo nuevamente Datatables en vez de cargar por demanda las imagenes
 

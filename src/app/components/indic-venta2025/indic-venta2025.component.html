@@ -90,6 +90,7 @@
             <th class="thFonelli-center" scope="col">Agte</th>
             <th class="thFonelli-left" scope="col">Nombre</th>
             <th class="thFonelli-center" scope="col">Eficiencia</th>
+            <th class="thFonelli-center" scope="col">Comisión</th>
           </tr>
         </thead>
         <tbody>
@@ -98,6 +99,9 @@
             <td class="FilasFonelli" style="text-align: left;min-width: 26ch;">{{age.AgteNombre}}</td>
             <td class="FilasFonelli" style="text-align: center;color: #183e6f;"><strong>{{age.AgteEficienc | number:
                 '1.2-2'}}&nbsp;%</strong>
+            </td>
+            <td class="FilasFonelli" style="text-align: center;color: #183e6f;"><strong>{{age.AgteComision | number:
+                '1.2-2'}}</strong>
             </td>
           </tr>
         </tbody>

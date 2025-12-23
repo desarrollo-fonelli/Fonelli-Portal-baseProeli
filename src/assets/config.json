@@ -1,9 +1,9 @@
 {
-  "version": "2.18.5",
+  "version": "2.19.0",
   "fecha": "2025-12-23",
   "caracteristicas": [
     {
-      "caract1": "Consulta artículos PT con imágenes usando DataTables",
+      "caract1": "Se agrega columna 'Comisión' en el reporte de Indicadores de Venta 2025.",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

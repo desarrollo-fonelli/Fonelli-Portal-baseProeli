@@ -231,7 +231,7 @@ export class IndicVenta2025Component implements OnInit {
         this.oIndicVentaResponse = response;
 
         if (this.oIndicVentaResponse.Codigo != 0) {
-          this.sMensaje = 'No se encontraron Prepedidos';
+          this.sMensaje = 'No se encontraron registros de venta...';
           this.bCargando = false;
           this.isCollapsed = false;
           return;
