@@ -6,51 +6,45 @@ import { environment } from '../../environments/environment';
 import * as crypto from 'crypto-js';
 import { Usuario } from '../models/usuario';
 
-
-
-
 export class LoginAdminAux {
     constructor(
-        public usuario :string,
-        public password: string    
-    ){}
+        public usuario: string,
+        public password: string
+    ) { }
 }
 
 @Injectable()
-export class ServicioLoginAdmin{
+export class ServicioLoginAdmin {
     public API: string;
     public API_URL: string;
     public LoginAdminAux: LoginAdminAux;
     public sToken: string;
 
-constructor(
-    public _http:HttpClient
-){
+    constructor(
+        public _http: HttpClient
+    ) {
 
-    this.API = Configuracion.API;
-    this.API_URL = environment.API_URL;
-    this.LoginAdminAux = {}  as LoginAdminAux;
-    this.sToken = sessionStorage.getItem('token');
+        this.API = Configuracion.API;
+        this.API_URL = environment.API_URL;
+        this.LoginAdminAux = {} as LoginAdminAux;
+        this.sToken = sessionStorage.getItem('token');
+    }
 
-}
+    Login(admin: any): Observable<any> {
 
-Login(admin: any): Observable<any>{
+        this.LoginAdminAux.usuario = admin.usuario;
+        this.LoginAdminAux.password = crypto.SHA256(admin.password).toString();
 
-    this.LoginAdminAux.usuario = admin.usuario;
-    this.LoginAdminAux.password = crypto.SHA256(admin.password).toString();
+        let params = JSON.stringify(this.LoginAdminAux);
 
-    let params = JSON.stringify(this.LoginAdminAux);
-    
-    let headers =  new HttpHeaders().set('Content-Type','application-json')
-                                    .set("Auth", this.sToken);
+        let headers = new HttpHeaders().set('Content-Type', 'application-json')
+            .set("Auth", this.sToken);
 
-    const form =  new FormData;
+        const form = new FormData;
 
-    form.append('DatosForm',params)    
+        form.append('DatosForm', params)
 
-    return this._http.post(this.API_URL+this.API + 'reportes/Login.php',form);
-    
-}
+        return this._http.post(this.API_URL + this.API + 'reportes/Login.php', form);
 
-
+    }
 }

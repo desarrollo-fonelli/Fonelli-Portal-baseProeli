@@ -1,7 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Icu } from '@angular/compiler/src/i18n/i18n_ast';
 import { Template } from '@angular/compiler/src/render3/r3_ast';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import {
   Component,
   OnInit,
@@ -157,8 +157,6 @@ export class TemplateComponent implements OnInit {
     myFormData.append('image', this.fileVideo[0]);
     myFormData.append('DatosForm', JSON.stringify(DatosNuevos));
 
-
-
     this._servicioTemplate.Update(myFormData).subscribe(
       (Response: TemplateLlamada) => {
         this.bErrorVideo = false;
@@ -171,13 +169,9 @@ export class TemplateComponent implements OnInit {
           duration: 4500,
           panelClass: ['fondo_mensaje_template']
         });
-        
-
-
       },
       (error) => {
         console.error(error);
-
         this.bErrorVideo = true;
         this.sMensajeError = error.error[Object.keys(error.error)[1]]
           ? error.error[Object.keys(error.error)[1]]
@@ -202,10 +196,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-
-
-    if((this.fileVideo[0].size/1024/1024)> 50)
-    {
+    if ((this.fileVideo[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -215,12 +206,9 @@ export class TemplateComponent implements OnInit {
     reader.readAsDataURL(this.fileVideo[0]);
     reader.onload = (_event) => {
       console.log(this.bVideo);
-
       this.bVideo = true;
       this.videoNuevo = (<FileReader>_event.target).result;
       this.oTemplate.Video.Video = this.fileVideo[0].name;
-
-      
     };
   }
 
@@ -251,7 +239,6 @@ export class TemplateComponent implements OnInit {
 
   onRemovBannerPrincipal(rowIndex: number) {
     console.log(this.BannerPrincipal);
-
     this.BannerPrincipal.splice(rowIndex, 1);
   }
 
@@ -270,7 +257,6 @@ export class TemplateComponent implements OnInit {
         ImagenMovil: elem.ImagenMovil,
         Orden: elem.Orden
       }))
-    
     };
 
     myFormData.append('DatosForm', JSON.stringify(DatosNuevos));
@@ -304,7 +290,6 @@ export class TemplateComponent implements OnInit {
     }
 
     console.log(this.oTemplate.BannerPrincipal);
-
     console.log(myFormData);
 
     this._servicioTemplate.Update(myFormData).subscribe(
@@ -320,7 +305,7 @@ export class TemplateComponent implements OnInit {
           duration: 4500,
           panelClass: ['fondo_mensaje_template']
         });
-        
+
       },
       (error) => {
         this.bErrorBanner = true;
@@ -333,7 +318,7 @@ export class TemplateComponent implements OnInit {
   }
 
   SeleccionarImagenBanner(event: any, rowIndex: number) {
-    
+
     this.bErrorBanner = false;
     this.sMensajeError = "";
 
@@ -354,8 +339,7 @@ export class TemplateComponent implements OnInit {
     reader.readAsDataURL(
       this.oTemplate.BannerPrincipal[rowIndex].fileBanner[0]
     );
-    if((this.oTemplate.BannerPrincipal[rowIndex].fileBanner[0].size/ 1024/1024)> 50)
-    {
+    if ((this.oTemplate.BannerPrincipal[rowIndex].fileBanner[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -371,10 +355,9 @@ export class TemplateComponent implements OnInit {
   SeleccionarImagenBannerMovil(event: any, rowIndex: number) {
     this.bErrorBanner = false;
     this.sMensajeError = "";
-
-
     this.oTemplate.BannerPrincipal[rowIndex].fileBannerMovil =
       event.target.files;
+
     if (this.oTemplate.BannerPrincipal[rowIndex].fileBannerMovil.length === 0)
       return;
 
@@ -385,8 +368,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    if((this.oTemplate.BannerPrincipal[rowIndex].fileBannerMovil[0].size/ 1024/1024)> 50)
-    {
+    if ((this.oTemplate.BannerPrincipal[rowIndex].fileBannerMovil[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -448,14 +430,13 @@ export class TemplateComponent implements OnInit {
           duration: 4500,
           panelClass: ['fondo_mensaje_template']
         });
-        
+
       },
       (error) => {
         this.bErrorGif = true;
         this.sMensajeError = error.error[Object.keys(error.error)[1]]
-        ? error.error[Object.keys(error.error)[1]]
-        : error.message;
-
+          ? error.error[Object.keys(error.error)[1]]
+          : error.message;
       }
     );
 
@@ -477,9 +458,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-
-    if((this.fileGif1[0].size/1024/1024)> 50)
-    {
+    if ((this.fileGif1[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -498,9 +477,8 @@ export class TemplateComponent implements OnInit {
 
     this.bErrorGif = false;
     this.sMensajeError = "";
-
-
     this.fileGif2 = event.target.files;
+
     if (this.fileGif2.length === 0) return;
 
     const mimeType = this.fileGif2[0].type;
@@ -509,9 +487,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    
-    if((this.fileGif2[0].size/1024/1024)> 50)
-    {
+    if ((this.fileGif2[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -530,9 +506,8 @@ export class TemplateComponent implements OnInit {
 
     this.bErrorGif = false;
     this.sMensajeError = "";
-
-
     this.fileGif3 = event.target.files;
+
     if (this.fileGif3 === 0) return;
 
     const mimeType = this.fileGif3[0].type;
@@ -541,9 +516,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    
-    if((this.fileGif3[0].size/1024/1024)> 50)
-    {
+    if ((this.fileGif3[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -599,7 +572,7 @@ export class TemplateComponent implements OnInit {
           duration: 4500,
           panelClass: ['fondo_mensaje_template']
         });
-        
+
       },
       (error) => {
         this.bErrorNosotros = true;
@@ -616,7 +589,7 @@ export class TemplateComponent implements OnInit {
 
     this.bErrorNosotros = false;
     this.sMensajeError = "";
-	
+
     this.fileNosotros1 = event.target.files;
     if (this.fileNosotros1.length === 0) return;
 
@@ -626,8 +599,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    if((this.fileNosotros1[0].size/1024/1024)> 50)
-    {
+    if ((this.fileNosotros1[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -656,8 +628,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    if((this.fileNosotros2[0].size/1024/1024)> 50)
-    {
+    if ((this.fileNosotros2[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -685,8 +656,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    if((this.fileNosotros3[0].size/1024/1024)> 50)
-    {
+    if ((this.fileNosotros3[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -714,8 +684,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    if((this.fileNosotros4[0].size/1024/1024)> 50)
-    {
+    if ((this.fileNosotros4[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -757,7 +726,7 @@ export class TemplateComponent implements OnInit {
           duration: 4500,
           panelClass: ['fondo_mensaje_template']
         });
-        
+
       },
       (error) => {
         this.bErrorFinal = true;
@@ -784,8 +753,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    if((this.fileFinal[0].size/1024/1024)> 50)
-    {
+    if ((this.fileFinal[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -834,7 +802,6 @@ export class TemplateComponent implements OnInit {
 
     var myFormData = new FormData();
 
- 
     var DatosNuevos = {
       BannerDistribuidores: this.oTemplate.BannerDistribuidores.map(elem => ({
         Titulo: elem.Titulo,
@@ -845,9 +812,8 @@ export class TemplateComponent implements OnInit {
         ImagenMovil: elem.ImagenMovil,
         Orden: elem.Orden
       }))
-    
-    };
 
+    };
 
     myFormData.append('DatosForm', JSON.stringify(DatosNuevos));
 
@@ -890,7 +856,7 @@ export class TemplateComponent implements OnInit {
           duration: 4500,
           panelClass: ['fondo_mensaje_template']
         });
-        
+
       },
       (error) => {
         this.bErrorDistribuidores = true;
@@ -919,8 +885,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    if((this.oTemplate.BannerDistribuidores[rowIndex].fileBanner[0].size/1024/1024)> 50)
-    {
+    if ((this.oTemplate.BannerDistribuidores[rowIndex].fileBanner[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -953,8 +918,7 @@ export class TemplateComponent implements OnInit {
       return;
     }
 
-    if((this.oTemplate.BannerDistribuidores[rowIndex].fileBannerMovil[0].size/1024/1024)> 50)
-    {
+    if ((this.oTemplate.BannerDistribuidores[rowIndex].fileBannerMovil[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -1007,7 +971,6 @@ export class TemplateComponent implements OnInit {
 
     var myFormData = new FormData();
 
-
     var DatosNuevos = {
       BannerAsesores: this.oTemplate.BannerAsesores.map(elem => ({
         Titulo: elem.Titulo,
@@ -1018,7 +981,7 @@ export class TemplateComponent implements OnInit {
         ImagenMovil: elem.ImagenMovil,
         Orden: elem.Orden
       }))
-    
+
     };
 
     myFormData.append('DatosForm', JSON.stringify(DatosNuevos));
@@ -1062,7 +1025,7 @@ export class TemplateComponent implements OnInit {
           duration: 4500,
           panelClass: ['fondo_mensaje_template']
         });
-        
+
       },
       (error) => {
         this.bErrorAsesores = true;
@@ -1085,13 +1048,12 @@ export class TemplateComponent implements OnInit {
 
     const mimeType = this.oTemplate.BannerAsesores[rowIndex].fileBanner[0].type;
     if (mimeType.match(/image\/*/) == null) {
-    
+
       this.mensaje_error_formato();
       return;
     }
 
-    if((this.oTemplate.BannerAsesores[rowIndex].fileBanner[0].size/1024/1024)> 50)
-    {
+    if ((this.oTemplate.BannerAsesores[rowIndex].fileBanner[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -1120,13 +1082,12 @@ export class TemplateComponent implements OnInit {
     const mimeType =
       this.oTemplate.BannerAsesores[rowIndex].fileBannerMovil[0].type;
     if (mimeType.match(/image\/*/) == null) {
-  
+
       this.mensaje_error_formato();
       return;
     }
 
-    if((this.oTemplate.BannerAsesores[rowIndex].fileBannerMovil[0].size/1024/1024)> 50)
-    {
+    if ((this.oTemplate.BannerAsesores[rowIndex].fileBannerMovil[0].size / 1024 / 1024) > 50) {
       this.mensaje_error_size();
       return;
     }
@@ -1144,24 +1105,23 @@ export class TemplateComponent implements OnInit {
     };
   }
 
-mensaje_error_formato()
-{
-  this.snackBar.openFromComponent(mensaje_extension , {
-    horizontalPosition: "center",
-    verticalPosition: "top",
-    duration: 4500,
-    panelClass: ['fondo_mensaje_sesion']
-  });
-}
+  mensaje_error_formato() {
+    this.snackBar.openFromComponent(mensaje_extension, {
+      horizontalPosition: "center",
+      verticalPosition: "top",
+      duration: 4500,
+      panelClass: ['fondo_mensaje_sesion']
+    });
+  }
 
-mensaje_error_size(){
-  this.snackBar.openFromComponent(mensaje_size, {
-    horizontalPosition: "center",
-    verticalPosition: "top",
-    duration: 4500,
-    panelClass: ['fondo_mensaje_sesion']
-  });
-}
+  mensaje_error_size() {
+    this.snackBar.openFromComponent(mensaje_size, {
+      horizontalPosition: "center",
+      verticalPosition: "top",
+      duration: 4500,
+      panelClass: ['fondo_mensaje_sesion']
+    });
+  }
 
 
 }
@@ -1180,7 +1140,7 @@ mensaje_error_size(){
   `,
   ],
 })
-export class mensaje_correcto {}
+export class mensaje_correcto { }
 
 
 @Component({
@@ -1197,7 +1157,7 @@ export class mensaje_correcto {}
   `,
   ],
 })
-export class mensaje_extension {}
+export class mensaje_extension { }
 
 
 @Component({
@@ -1214,4 +1174,4 @@ export class mensaje_extension {}
   `,
   ],
 })
-export class mensaje_size {}
+export class mensaje_size { }

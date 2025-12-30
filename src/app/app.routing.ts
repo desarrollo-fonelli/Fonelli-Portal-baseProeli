@@ -113,9 +113,10 @@ const appRoutes: Routes = [
   {
     path: 'panel',
     component: PaneladminComponent,
-    children: [{ path: 'inicio', component: InicioadminComponent },
-    { path: 'template', component: TemplateComponent }]
-
+    children: [
+      { path: 'inicio', component: InicioadminComponent },
+      { path: 'template', component: TemplateComponent }
+    ]
   },
   { path: '**', component: ErrorComponent }
 

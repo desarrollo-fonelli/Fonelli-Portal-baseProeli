@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { Router,ActivatedRoute } from '@angular/router';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from "@angular/material/snack-bar";
 import * as crypto from 'crypto-js';
 
 //Servicio
-import { ServicioLoginAdmin} from '../../services/loginadmin.service';
+import { ServicioLoginAdmin } from '../../services/loginadmin.service';
 
 //Modelos
-import { LoginAdmin} from '../../models/loginadmin';
+import { LoginAdmin } from '../../models/loginadmin';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
-  providers:[ServicioLoginAdmin]
+  providers: [ServicioLoginAdmin]
 })
 export class AdminComponent implements OnInit {
 
@@ -26,33 +26,25 @@ export class AdminComponent implements OnInit {
 
   constructor(private _servicioLoginAdmin: ServicioLoginAdmin,
     private _router: Router,
-    private snackBar: MatSnackBar) { 
+    private snackBar: MatSnackBar) {
 
-
-    this.ModeloLoginAdmin = {}  as LoginAdmin;
-
-
-
+    this.ModeloLoginAdmin = {} as LoginAdmin;
   }
 
   ngOnInit(): void {
 
-    let sCodigo :string | null = sessionStorage.getItem('codigo');
-    let sTipo :string | null = sessionStorage.getItem('tipo');
-    let sFilial :number | null = Number(sessionStorage.getItem('filial'));
-    let sNombre :string | null = sessionStorage.getItem('nombre');
+    let sCodigo: string | null = sessionStorage.getItem('codigo');
+    let sTipo: string | null = sessionStorage.getItem('tipo');
+    let sFilial: number | null = Number(sessionStorage.getItem('filial'));
+    let sNombre: string | null = sessionStorage.getItem('nombre');
 
-
-    if(sTipo=='M')
-    {
+    if (sTipo == 'M') {
       console.log(1);
       this._router.navigate(['/panel/']);
       return;
-     
     }
-    else if(sTipo =='A' || sTipo =='G' || sTipo =='C')
-    {
-        this.snackBar.openFromComponent(mensajesesion, {
+    else if (sTipo == 'A' || sTipo == 'G' || sTipo == 'C') {
+      this.snackBar.openFromComponent(mensajesesion, {
         horizontalPosition: "center",
         verticalPosition: "top",
         duration: 5500,
@@ -61,27 +53,22 @@ export class AdminComponent implements OnInit {
       this._router.navigate(['/']);
       return;
     }
-
   }
 
 
-  onInicioSesion(){
+  onInicioSesion() {
 
-    let sCodigo :number | null = Number(sessionStorage.getItem('codigo'));
-    let sTipo :string | null = sessionStorage.getItem('tipo');
+    let sCodigo: number | null = Number(sessionStorage.getItem('codigo'));
+    let sTipo: string | null = sessionStorage.getItem('tipo');
 
-
-    if(sTipo =='M')
-    {
+    if (sTipo == 'M') {
       console.log(1);
       this._router.navigate(['/panel/inicio']);
       return;
-     
     }
-    else if(sTipo =='A' || sTipo =='G' || sTipo =='C')
-    {
+    else if (sTipo == 'A' || sTipo == 'G' || sTipo == 'C') {
       console.log(2);
-        this.snackBar.openFromComponent(mensajesesion, {
+      this.snackBar.openFromComponent(mensajesesion, {
         horizontalPosition: "center",
         verticalPosition: "top",
         duration: 2500,
@@ -90,51 +77,47 @@ export class AdminComponent implements OnInit {
       return;
     }
 
-    console.log(this.ModeloLoginAdmin);
+    //console.log(this.ModeloLoginAdmin);
 
     this.bCargandoInicio = true;
-    
+
     this._servicioLoginAdmin
       .Login(this.ModeloLoginAdmin)
       .subscribe(
-      (Response) => {
-    
-        console.log('Respuesta login empleados: ' + JSON.stringify(Response));       
-      
-            if (Response.Codigo == 1) {
-              this.alerLoginAdmin = true;
-              this.respuestaLoginAdmin ="Datos incorrectos!";
-            }else{              
-              console.log("Login correcto");
-              this.saveData(this.ModeloLoginAdmin.usuario,'M',"123456");             
-              this._router.navigate(['/panel/inicio']);
-            }
+        (Response) => {
 
-        this.bCargandoInicio = false;
-      },
-      (error) => {
-        this.alerLoginAdmin = true;
-        this.respuestaLoginAdmin= error.error[Object.keys(error.error)[1]]
-        ? error.error[Object.keys(error.error)[1]]
-        : error.message;
-        this.bCargandoInicio = false;
-      }
-    );
+          //console.log('Respuesta login empleados: ' + JSON.stringify(Response));
 
+          if (Response.Codigo == 1) {
+            this.alerLoginAdmin = true;
+            this.respuestaLoginAdmin = "Datos incorrectos!";
+          } else {
+            console.log("Login correcto");
+            this.saveData(this.ModeloLoginAdmin.usuario, 'M', "123456");
+            this._router.navigate(['/panel/inicio']);
+          }
+
+          this.bCargandoInicio = false;
+        },
+        (error) => {
+          this.alerLoginAdmin = true;
+          this.respuestaLoginAdmin = error.error[Object.keys(error.error)[1]]
+            ? error.error[Object.keys(error.error)[1]]
+            : error.message;
+          this.bCargandoInicio = false;
+        }
+      );
   }
 
-
-  saveData(usuario: string, tipo:string, token:string) {
+  saveData(usuario: string, tipo: string, token: string) {
 
     sessionStorage.setItem('codigo', usuario);
     sessionStorage.setItem('tipo', tipo);
     sessionStorage.setItem('token', token);
 
-    
   }
 
 }
-
 
 @Component({
   selector: 'mensaje-sesion-component',
@@ -151,6 +134,4 @@ export class AdminComponent implements OnInit {
   ],
 })
 
-
-
-export class mensajesesion {}
+export class mensajesesion { }

@@ -17,9 +17,6 @@ export class PaneladminComponent implements OnInit {
   public sCodigo: string | null = sessionStorage.getItem('codigo');
   public sTipo: string | null = sessionStorage.getItem('tipo');
 
-
-
-
   private _mobileQueryListener: () => void;
 
   constructor(
@@ -28,21 +25,15 @@ export class PaneladminComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private breakpointObserver: BreakpointObserver
-  ) { 
+  ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-
   }
 
   ngOnInit(): void {
-
     this.mobileQuery.removeListener(this._mobileQueryListener);
-    
-
     //Se agrega validacion control de sesion distribuidores
-
-
   }
 
   toggle(nav: MatSidenav) {
@@ -54,12 +45,9 @@ export class PaneladminComponent implements OnInit {
     }
   }
 
-    //Funcion para cerrar sesion y redireccionar al home
-    EliminaSesion() {
-      sessionStorage.clear();
-      this._router.navigate(['/']);
-    }
-
-
-
+  //Funcion para cerrar sesion y redireccionar al home
+  EliminaSesion() {
+    sessionStorage.clear();
+    this._router.navigate(['/']);
+  }
 }
