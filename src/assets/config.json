@@ -1,9 +1,9 @@
 {
-  "version": "2.19.0",
-  "fecha": "2025-12-23",
+  "version": "2.20.0",
+  "fecha": "2026-01-08",
   "caracteristicas": [
     {
-      "caract1": "Se agrega columna 'Comisión' en el reporte de Indicadores de Venta 2025.",
+      "caract1": "Servicio de Mapa de Distribuidores Mejorado para evitar caché",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

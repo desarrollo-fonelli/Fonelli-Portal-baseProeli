@@ -2,6 +2,10 @@
 ## Control de Cambios
 
 ----------
+## v2.20.0 | 2026-01-08 | Se mejora servicio mapa-distrib para evitar caché
+1. Se agrega parámetro "aleatorio" para forzar lectura de JSON con ubicaciones
+
+----------
 ## v2.19.0 | 2025-12-23 | Se agrega columna COMISION a KPIs por agente
 1. Se agrega la columna "comisión" a la tabla que muestra los KPIs por agente, mostrando la comisión acumulada en el mes, a la fecha de corte
 
