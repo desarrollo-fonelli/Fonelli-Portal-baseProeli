@@ -1,9 +1,9 @@
 {
-  "version": "2.20.0",
-  "fecha": "2026-01-08",
+  "version": "2.21.0",
+  "fecha": "2026-01-15",
   "caracteristicas": [
     {
-      "caract1": "Servicio de Mapa de Distribuidores Mejorado para evitar caché",
+      "caract1": "Consulta de artículos con imagenes disponible para distribuidores",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

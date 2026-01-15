@@ -2,6 +2,11 @@
 ## Control de Cambios
 
 ----------
+## v2.21.0 | 2026-01-15 | Consulta de artículos con imagenes disponible para distribuidores
+1. Se agrega al menú de distribuidores la consulta de artículos con imagenes
+2. Se retira de los menús de distribuidores y asesores la consulta de artículos sin imagenes
+
+----------
 ## v2.20.0 | 2026-01-08 | Se mejora servicio mapa-distrib para evitar caché
 1. Se agrega parámetro "aleatorio" para forzar lectura de JSON con ubicaciones
 

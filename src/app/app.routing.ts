@@ -63,6 +63,7 @@ const appRoutes: Routes = [
       { path: 'cotizacion', component: CotizacionComponent },
       { path: 'articulosreporte', component: ArticulosConsultaComponent },
       { path: 'articulosimagenes', component: ArticulosImagenesComponent },
+      { path: 'articulostabla', component: ArticulosTablaComponent },
       { path: 'prepedidos-repo', component: PrepedidosRepoComponent },
       { path: 'cotizcrear', component: CotizCrearComponent },
       { path: 'cotizlistar', component: CotizListarComponent }

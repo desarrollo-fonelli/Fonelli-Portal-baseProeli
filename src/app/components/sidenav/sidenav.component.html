@@ -169,8 +169,10 @@
           <a mat-list-item [routerLink]="['/asesores/consultaexistencias/']" routerLinkActive="active-list-item"><span
               class="font_side">Consulta de Existencias</span></a>
 
-          <a mat-list-item [routerLink]="['/asesores/articulosreporte/']" routerLinkActive="active-list-item"><span
-              class="font_side">Catálogo de Artículos</span></a>
+          <!--  comentado dRendon 15.01.2026  
+          <a mat-list-item [routerLink]="['/asesores/articulosreporte/']" routerLinkActive="active-list-item">
+              <span class="font_side">Catálogo de Artículos</span></a>
+          -->
 
           <!--
           <a mat-list-item [routerLink]="['/asesores/articulosimagenes/']" routerLinkActive="active-list-item"
@@ -180,7 +182,7 @@
           -->
 
           <a mat-list-item [routerLink]="['/asesores/articulostabla/']" routerLinkActive="active-list-item">
-            <span class="font_side">Artic con Imagen</span>
+            <span class="font_side">Catálogo de Artículos</span>
           </a>
 
         </div>
@@ -262,8 +264,15 @@
             </div>
           </div>
         </div>
-        <a mat-list-item [routerLink]="['/asesores/articulosreporte/']" routerLinkActive="active-list-item"><span
-            class="font_side">Catálogo de Artículos</span></a>
+
+        <!--  comentado dRendon 15.01.2026
+        <a mat-list-item [routerLink]="['/asesores/articulosreporte/']" routerLinkActive="active-list-item">
+          <span class="font_side">Catálogo de Artículos</span></a>
+        -->
+
+        <a mat-list-item [routerLink]="['/distribuidores/articulostabla/']" routerLinkActive="active-list-item">
+          <span class="font_side">Catálogo de Artículos</span>
+        </a>
 
       </mat-nav-list>
 
