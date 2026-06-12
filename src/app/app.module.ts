@@ -82,6 +82,10 @@ import { MapaDistribComponent } from './components/mapa-distrib/mapa-distrib.com
 import { WhatsappButtonComponent } from './components/whatsapp-button/whatsapp-button.component';
 import { ArticulosImagenesComponent } from './components/articulos-imagenes/articulos-imagenes.component';
 import { ArticulosTablaComponent } from './components/articulos-tabla/articulos-tabla.component';
+import { ConsdirComercialComponent } from './components/consdir-comercial/consdir-comercial.component';
+import { ConsdirBalanceComponent } from './components/consdir-balance/consdir-balance.component';
+import { ConsdirEdoresultComponent } from './components/consdir-edoresult/consdir-edoresult.component';
+import { ConsdirFlujoComponent } from './components/consdir-flujo/consdir-flujo.component';
 
 @NgModule({
   declarations: [
@@ -143,7 +147,11 @@ import { ArticulosTablaComponent } from './components/articulos-tabla/articulos-
     MapaDistribComponent,
     WhatsappButtonComponent,
     ArticulosImagenesComponent,
-    ArticulosTablaComponent
+    ArticulosTablaComponent,
+    ConsdirComercialComponent,
+    ConsdirBalanceComponent,
+    ConsdirEdoresultComponent,
+    ConsdirFlujoComponent
   ],
   imports: [
     BrowserModule,

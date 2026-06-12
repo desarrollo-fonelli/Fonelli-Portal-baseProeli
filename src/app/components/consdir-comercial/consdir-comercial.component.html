@@ -1,0 +1,191 @@
+<!-- BOTON para mostrar o esconder Criterios de Filtro -->
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!------------------------------------   Criterios de filtro   ---------------------------------->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <!-- <h3 class="card-title">Consulta Directiva Comercial</h3> -->
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">Consulta Directiva COMERCIAL</div>
+      <!-- General Form Elements -->
+      <form>
+
+        <!---------------- Fechas Inicial y Final ----------------->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde Fecha</label>
+            <input type="date" id="idFechaDesde" class="form-control" name="idFechaDesde" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaDesde" required>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta Fecha</label>
+            <input type="date" id="idFechaHasta" class="form-control" name="idFechaHasta" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaHasta" required>
+          </div>
+        </div>
+
+        <!--------------- Línea de Mensajes --------------->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+        </div>
+
+        <!---------------- Botón de acción ---------------->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" (click)="ConsultaComercial()" class="btnFonelli btn">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+
+      </form>
+      <!-- End General Form Elements -->
+    </div>
+  </div>
+</div>
+<!-- Fin Criterios de filtro -->
+
+<!------------------------------------   Resumen de documentos   -------------------------------->
+<div class="container float-left mt-4" *ngIf="bMostrarTabla" id="containerResumen" #containerResumen>
+  <div class="row">
+    <div class="col-9">
+      <div class="h4" style="text-align: center;color: #24a4cc;"><strong>Consulta Directiva Comercial</strong>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-9">
+      <table class="table table-reactive table-sm table-hover table-bordered table-striped" id="tablaResumen">
+        <thead class="thead-p">
+          <tr class="EncTabla">
+            <th class="thFonelli-left" scope="col">Concepto</th>
+            <th class="thFonelli-right" scope="col">Importe</th>
+            <th class="thFonelli-right" scope="col">Valor Agregado</th>
+            <th class="thFonelli-center" scope="col">% Fact</th>
+            <th class="thFonelli-center" scope="col">% Importe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let grupo of oGruposFilas as i">
+            <td class="FilasFonelli" style="text-align: left;min-width: 16ch;">&nbsp;&nbsp;&nbsp;{{ grupo.GrupoDescripc
+              }}</td>
+            <td class="FilasFonelli" style="text-align: right;">{{ grupo.GrupoImporte | number:'1.2-2' }}</td>
+            <td class="FilasFonelli" style="text-align: right;">{{ grupo.GrupoValorAgregado | number:'1.2-2' }}</td>
+            <td class="FilasFonelli" style="text-align: center;color: #183e6f;">{{ grupo.GrupoPorcFact | number:
+              '1.2-2'}}&nbsp;%</td>
+            <td></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th class="FilasFonelli" style="text-align: left;color: #183e6f;">Total ventas</th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{ nTotalVentasImporte | number:'1.2-2'
+              }}</th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{ nTotalVentasValorAgregado |
+              number:'1.2-2' }}</th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;"></th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{
+              (nTotalVentasValorAgregado/nTotalVentasImporte * 100)
+              | number:'1.2-2' }}%</th>
+          </tr>
+          <tr>
+            <th class="FilasFonelli" style="text-align: left;color: #183e6f;">Pedidos</th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{ oPedidos.Importe | number:'1.2-2' }}
+            </th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{ oPedidos.ValorAgregado |
+              number:'1.2-2' }}</th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;"></th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{
+              (oPedidos.ValorAgregado/oPedidos.Importe * 100) |
+              number:'1.2-2' }}%</th>
+          </tr>
+          <tr>
+            <th class="thFonelli-left">Gran Total</th>
+            <th class="thFonelli-right">{{ nGranTotalImporte | number:'1.2-2' }}</th>
+            <th class="thFonelli-right">{{ nGranTotalValorAgregado | number:'1.2-2' }}</th>
+            <th class="thFonelli-right"></th>
+            <th class="thFonelli-right">{{ (nGranTotalValorAgregado/nGranTotalImporte * 100) | number:'1.2-2' }}%</th>
+          </tr>
+
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-9">
+      <button class="btn btn-sm btn-light" (click)="ToggleDetalle()">
+        {{ sTextoBotonDetalle }}
+      </button>
+    </div>
+  </div>
+
+</div>
+<!-- Fin Resumen de documentos -->
+
+<!-----------------------------------   Detalle de documentos   -------------------------------->
+<div class="container float-left mt-4" *ngIf="bMostrarDetalle" id="containerDetalle" #containerDetalle>
+  <div class="row">
+    <div class="col-9">
+      <div class="h5" style="text-align: center;color: #24a4cc;"><strong>Detalle de documentos</strong>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-9">
+      <table class="table table-sm table-hover table-bordered table-striped" id="tablaDetalle">
+        <thead class="thead-p">
+          <tr class="EncTabla">
+            <th class="thFonelli-center" scope="col">Clave</th>
+            <th class="thFonelli-left" scope="col">Concepto</th>
+            <th class="thFonelli-right" scope="col">Importe</th>
+            <th class="thFonelli-right" scope="col">Valor Agregado</th>
+            <th class="thFonelli-center" scope="col">% Fact</th>
+            <th class="thFonelli-center" scope="col">% Importe</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let grupo of oGruposFilas index as indx">
+            <ng-container *ngFor="let fila of grupo.Documentos; let j=index">
+              <tr>
+                <td class="FilasFonelli" style="text-align: center;">{{ fila.DocCodigo }}</td>
+                <td class="FilasFonelli" style="text-align: left;min-width: 16ch;">{{
+                  FormatoTitleCase(fila.DocDescripc)
+                  }}</td>
+                <td class="FilasFonelli" style="text-align: right;">{{ fila.DocImporte | number:'1.2-2' }}</td>
+                <td class="FilasFonelli" style="text-align: right;">{{ fila.DocValorAgregado | number:'1.2-2' }}</td>
+                <td class="FilasFonelli" style="text-align: center;color: #183e6f;">{{ fila.DocPorcFact | number:
+                  '1.2-2'}}&nbsp;%</td>
+                <td class="FilasFonelli" style="text-align: center;color: #183e6f;">&nbsp;</td>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th class="FilasFonelli" style="text-align: center;color: #183e6f;"></th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">Total ventas&nbsp;</th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{ nTotalVentasImporte | number:'1.2-2'
+              }}</th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{ nTotalVentasValorAgregado |
+              number:'1.2-2' }}</th>
+            <th></th>
+            <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{
+              (nGranTotalValorAgregado/nGranTotalImporte * 100) | number:'1.2-2' }}%</th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>
+<!-- Fin Detalle de documentos -->

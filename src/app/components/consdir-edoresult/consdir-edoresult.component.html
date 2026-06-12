@@ -1,0 +1,134 @@
+<!-- BOTON para mostrar o esconder Criterios de Filtro -->
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!------------------------------------   Criterios de filtro   ---------------------------------->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">Consulta Directiva Estado de Resultados</div>
+      <!-- General Form Elements -->
+      <form>
+
+        <!---------------- Fechas Inicial y Final ----------------->
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Desde Fecha</label>
+            <input type="date" id="idFechaDesde" class="form-control" name="idFechaDesde" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaDesde" required>
+          </div>
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Hasta Fecha</label>
+            <input type="date" id="idFechaHasta" class="form-control" name="idFechaHasta" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaHasta" required>
+          </div>
+        </div>
+
+        <!--------------- Línea de Mensajes --------------->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+        </div>
+
+        <!---------------- Botón de acción ---------------->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" (click)="ConsultaEdoResult()" class="btnFonelli btn">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+
+      </form>
+      <!-- End General Form Elements -->
+    </div>
+  </div>
+</div>
+<!-- Fin Criterios de filtro -->
+
+<!------------------------   Tabla que presenta Estado de Resultados   -------------------------->
+<div class="container float-left mt-4" *ngIf="bMostrarTabla" id="containerEdoResult" #containerEdoResult>
+  <div class="row">
+    <div class="col-9">
+      <div class="h4" style="text-align: center;color: #24a4cc;"><strong>Consulta Directiva: Estado de
+          Resultados</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-9">
+      <table class="table table-reactive table-sm table-hover table-bordered" id="tablaEdoResult">
+        <thead class="thead-p">
+          <tr class="EncTabla">
+            <th class="thFonelli-left" scope="col">Rubro</th>
+            <th class="thFonelli-right" scope="col">Interno</th>
+            <th class="thFonelli-right" scope="col">Externo</th>
+            <th class="thFonelli-right" scope="col">Total</th>
+            <th class="thFonelli-right" scope="col">% Venta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let secc of oEdoResultSecciones, let i=index">
+            <ng-container *ngIf="secc.Seccion != 'Utild'">
+              <tr class="table-secondary">
+                <th colspan="6" style="color: #183e6f;">{{ secc.SeccDescripc }}</th>
+              </tr>
+              <ng-container *ngFor="let rub of secc.SeccRubros; let j=index">
+                <tr>
+                  <td class="FilasFonelli-left" scope="col">&nbsp;&nbsp;{{rub.Rubro}}</td>
+                  <td class="FilasFonelli-right" scope="col">{{rub.RubroInterno != 0 ? (rub.RubroInterno |
+                    number:'1.2-2') : ''}}</td>
+                  <td class="FilasFonelli-right" scope="col">{{rub.RubroExterno != 0 ? (rub.RubroExterno |
+                    number:'1.2-2') : ''}}</td>
+                  <td class="FilasFonelli-right" scope="col">{{rub.RubroTotal != 0 ? (rub.RubroTotal | number:'1.2-2') :
+                    ''}}</td>
+                  <td class="FilasFonelli-right" scope="col">{{rub.RubroPorcVta != 0 ? (rub.RubroPorcVta |
+                    number:'1.2-2') : ''}}&nbsp;%</td>
+                </tr>
+              </ng-container>
+              <ng-container *ngIf="secc.Seccion != 'Vtas'">
+                <!-- No mostrar fila de totales para la sección de Ventas -->
+                <tr class="font-weight-bold">
+                  <th style="color: #183e6f;text-align: right;" scope="col">{{'Total'}}</th>
+                  <th style="color: #183e6f;text-align: right;" scope="col">{{secc.SeccInterno != 0 ? (secc.SeccInterno
+                    | number:'1.2-2') : ''}}</th>
+                  <th style="color: #183e6f;text-align: right;" scope="col">{{secc.SeccExterno != 0 ? (secc.SeccExterno
+                    | number:'1.2-2') : ''}}</th>
+                  <th style="color: #183e6f;text-align: right;" scope="col">{{secc.SeccTotal != 0 ? (secc.SeccTotal |
+                    number:'1.2-2') : ''}}</th>
+                  <th style="color: #183e6f;text-align: right;" scope="col">{{secc.SeccPorcVta != 0 ? (secc.SeccPorcVta
+                    | number:'1.2-2') : ''}}&nbsp;%
+                  </th>
+                </tr>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </tbody>
+        <tfoot>
+          <ng-container *ngFor="let secc of oEdoResultSecciones, let ii=index">
+            <ng-container *ngIf="secc.Seccion == 'Utild'">
+              <tr class="font-weight-bold table-secondary">
+                <th class="thFonelli-right">&nbsp;&nbsp;{{ secc.SeccDescripc }}</th>
+                <th class="thFonelli-right"></th>
+                <th class="thFonelli-right"></th>
+                <th class="thFonelli-right">{{secc.SeccTotal | number:'1.2-2'}}</th>
+                <th class="thFonelli-right" scope="col">{{secc.SeccPorcVta | number:'1.2-2'}}&nbsp;%</th>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>
+<!-- Fin Tabla que presenta Estado de Resultados -->

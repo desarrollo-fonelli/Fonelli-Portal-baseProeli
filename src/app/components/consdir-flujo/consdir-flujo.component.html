@@ -1,0 +1,118 @@
+<!-- BOTON para mostrar o esconder Criterios de Filtro -->
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!------------------------------------   Criterios de filtro   ---------------------------------->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">Consulta Directiva Flujo de Efectivo</div>
+      <!-- General Form Elements -->
+      <form>
+
+        <!---------------- Fechas Inicial y Final ----------------->
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Desde Fecha</label>
+            <input type="date" id="idFechaDesde" class="form-control" name="idFechaDesde" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaDesde" required>
+          </div>
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Hasta Fecha</label>
+            <input type="date" id="idFechaHasta" class="form-control" name="idFechaHasta" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaHasta" required>
+          </div>
+        </div>
+
+        <!--------------- Línea de Mensajes --------------->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+        </div>
+
+        <!---------------- Botón de acción ---------------->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" (click)="ConsultaFlujoEfectivo()" class="btnFonelli btn">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+
+      </form>
+      <!-- End General Form Elements -->
+    </div>
+  </div>
+</div>
+<!-- Fin Criterios de filtro -->
+
+<!-------------------------   Tabla que presenta Flujo de Efectivo   ---------------------------->
+<div class="container float-left mt-4" *ngIf="bMostrarTabla" id="containerFlujoEfectivo" #containerFlujoEfectivo>
+  <div class="row">
+    <div class="col-9">
+      <div class="h4" style="text-align: center;color: #24a4cc;"><strong>Consulta Directiva: Flujo de Efectivo</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-9">
+      <table class="table table-reactive table-sm table-hover table-bordered" id="tablaFlujoEfectivo">
+        <thead class="thead-p">
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let flujo of oFlujosContenido, let i=index">
+            <ng-container>
+              <tr class="EncTabla">
+                <th class="thFonelli-left">{{ flujo.TipoFlujo }}</th>
+                <th class="thFonelli-right" scope="col">Oro</th>
+                <th class="thFonelli-right" scope="col">Importe M.N.</th>
+              </tr>
+              <ng-container *ngFor="let sec of flujo.FlujoSecciones, let j=index">
+                <tr class="table-secondary">
+                  <th style="color: #183e6f;text-align: left;" scope="col">{{ sec.Seccion }}</th>
+                  <th style="color: #183e6f;" scope="col"></th>
+                  <th style="color: #183e6f;" scope="col"></th>
+                </tr>
+                <ng-container>
+                  <tr *ngFor="let rub of sec.SeccRubros, let k=index">
+                    <!-- <td style="text-align: center;" scope="col">{{rub.Rubro}}</td> -->
+                    <td scope="col">&nbsp;&nbsp;&nbsp;&nbsp;{{ rub.RubroDescripc }}</td>
+                    <td style="text-align: right;" scope="col">{{ rub.RubroOro != 0 ? (rub.RubroOro | number:'1.2-2') :
+                      '' }}</td>
+                    <td style="text-align: right;" scope="col">{{ rub.RubroImporteMN | number:'1.2-2' }}</td>
+                  </tr>
+                </ng-container>
+                <tr class="font-weight-bold" *ngIf="flujo.TipoFlujo=='Flujo Operativo'">
+                  <th style="text-align: right;" scope="col">Total&nbsp;{{sec.Seccion}}&nbsp;</th>
+                  <th style="text-align: right;" scope="col">{{sec.SeccOro != 0 ? (sec.SeccOro | number:'1.2-2') : ''}}
+                  </th>
+                  <th style="text-align: right;" scope="col">{{sec.SeccImporteMN |
+                    number:'1.2-2'}}</th>
+                </tr>
+              </ng-container>
+              <tr class="table-secondary">
+                <th style="color: #183e6f;text-align: center;" scope="col">Total&nbsp;{{flujo.TipoFlujo}}&nbsp;</th>
+                <th style="color: #183e6f;text-align: right;" scope="col">{{flujo.TipoFlujoOro | number:'1.2-2'}}</th>
+                <th style="color: #183e6f;text-align: right;" scope="col">{{flujo.TipoFlujoImporteMN |
+                  number:'1.2-2'}}</th>
+              </tr>
+            </ng-container>
+          </ng-container>
+        </tbody>
+        <tfoot>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>
+<!-- Fin Tabla que presenta Estado de Resultados -->

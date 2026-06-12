@@ -41,6 +41,11 @@ import { IndicVenta2025Component } from "./components/indic-venta2025/indic-vent
 import { TestdrComponent } from './components/testdr/testdr.component';
 import { CotizCrearComponent } from './components/cotiz-crear/cotiz-crear.component';
 import { CotizListarComponent } from './components/cotiz-listar/cotiz-listar.component';
+import { ConsdirComercialComponent } from './components/consdir-comercial/consdir-comercial.component';
+import { ConsdirBalanceComponent } from './components/consdir-balance/consdir-balance.component';
+import { ConsdirEdoresultComponent } from './components/consdir-edoresult/consdir-edoresult.component';
+import { ConsdirFlujoComponent } from './components/consdir-flujo/consdir-flujo.component';
+
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -103,7 +108,11 @@ const appRoutes: Routes = [
       { path: 'prepedidos-repo', component: PrepedidosRepoComponent },
       { path: 'indicventa2025', component: IndicVenta2025Component },
       { path: 'cotizcrear', component: CotizCrearComponent },
-      { path: 'cotizlistar', component: CotizListarComponent }
+      { path: 'cotizlistar', component: CotizListarComponent },
+      { path: 'consdir-comercial', component: ConsdirComercialComponent },
+      { path: 'consdir-balance', component: ConsdirBalanceComponent },
+      { path: 'consdir-edoresult', component: ConsdirEdoresultComponent },
+      { path: 'consdir-flujo', component: ConsdirFlujoComponent }
 
       //{ path: 'testdr', component: TestdrComponent }
       //{ path: 'testdr2', component: Testdr2Component }

@@ -1,0 +1,146 @@
+<!-- BOTON para mostrar o esconder Criterios de Filtro -->
+<div class="container float-left">
+  <p>
+    <button type="button" class="btnFonelliAzul btn" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      Filtros
+    </button>
+  </p>
+</div>
+
+<!------------------------------------   Criterios de filtro   ---------------------------------->
+<div #collapse="ngbCollapse" class="container float-left" [(ngbCollapse)]="isCollapsed">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title h3 fw-bold mb-4" style="color: #24a4cc;">Consulta Directiva BALANCE</div>
+      <!-- General Form Elements -->
+      <form>
+
+        <!---------------- Fecha de Corte ----------------->
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Fecha Corte</label>
+            <input type="date" id="idFechaCorte" class="form-control" name="idFechaCorte" #nombre="ngModel"
+              [(ngModel)]="oBuscar.FechaCorte" required>
+          </div>
+        </div>
+
+        <!---------------- Tipos de Cambio ----------------->
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Tipo Cambio MN</label>
+            <input type="number" id="idTipoCambioMN" class="form-control" name="idTipoCambioMN" #nombreTCMN="ngModel"
+              [(ngModel)]="oBuscar.TipoCambioMN" readonly required>
+          </div>
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Tipo Cambio USD</label>
+            <input type="number" id="idTipoCambioUSD" class="form-control" name="idTipoCambioUSD" #nombreTCUSD="ngModel"
+              [(ngModel)]="oBuscar.TipoCambioUSD" required>
+          </div>
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Tipo Cambio ORO</label>
+            <input type="number" id="idTipoCambioORO" class="form-control" name="idTipoCambioORO" #nombreTCORO="ngModel"
+              [(ngModel)]="oBuscar.TipoCambioORO" required>
+          </div>
+          <div class="form-group col-md-2">
+            <label class="CamposFonelli">Tipo Cambio PLATA</label>
+            <input type="number" id="idTipoCambioPLATA" class="form-control" name="idTipoCambioPLATA"
+              #nombreTCPLATA="ngModel" [(ngModel)]="oBuscar.TipoCambioPLATA" required>
+          </div>
+        </div>
+
+        <!--------------- Línea de Mensajes --------------->
+        <div *ngIf="sMensaje">
+          <p class="alert alert-danger" role="alert">{{sMensaje}}</p>
+        </div>
+
+        <!---------------- Botón de acción ---------------->
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <button type="submit" (click)="ConsultaBalance()" class="btnFonelli btn">
+              <span *ngIf="bCargando" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                style="color:#183e6f">
+              </span>
+              BUSCAR
+            </button>
+          </div>
+        </div>
+
+      </form>
+      <!-- End General Form Elements -->
+    </div>
+  </div>
+</div>
+<!-- Fin Criterios de filtro -->
+
+<!-----------------------   Tabla que presenta Balance   ------------------------>
+<div class="container float-left mt-4" *ngIf="bMostrarTabla" id="containerBalance" #containerBalance>
+  <div class="row">
+    <div class="col-9">
+      <div class="h4" style="text-align: center;color: #24a4cc;"><strong>Consulta Directiva: Balance</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-9">
+      <table class="table table-reactive table-sm table-hover table-bordered" id="tablaBalance">
+        <thead class="thead-p">
+          <tr class="EncTabla">
+            <th class="thFonelli-left" scope="col">Rubro</th>
+            <th class="thFonelli-right" scope="col">M.N.</th>
+            <th class="thFonelli-right" scope="col">USD</th>
+            <th class="thFonelli-right" scope="col">ORO</th>
+            <th class="thFonelli-right" scope="col">PLATA</th>
+            <th class="thFonelli-right" scope="col">Total rubro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let secc of oBalanceSecciones, let i=index">
+            <tr class="font-weight-bold table-secondary">
+              <td colspan="6" style="color: #183e6f;">{{ FormatoTitleCase(secc.SeccionDescripc) }}</td>
+            </tr>
+            <ng-container *ngFor="let rub of secc.BalanceRubros; let j=index">
+              <tr>
+                <td class="FilasFonelli-left" scope="col">&nbsp;&nbsp;&nbsp;{{rub.RubroDescripc}}</td>
+                <td class="FilasFonelli-right" scope="col">{{rub.RubroMN != 0 ? (rub.RubroMN | number:'1.2-2') : ''}}
+                </td>
+                <td class="FilasFonelli-right" scope="col">{{rub.RubroUSD != 0 ? (rub.RubroUSD | number:'1.2-2') : ''}}
+                </td>
+                <td class="FilasFonelli-right" scope="col">{{rub.RubroORO != 0 ? (rub.RubroORO | number:'1.2-2') : ''}}
+                </td>
+                <td class="FilasFonelli-right" scope="col">{{rub.RubroPLATA != 0 ? (rub.RubroPLATA | number:'1.2-2') :
+                  ''}}
+                <td class="FilasFonelli-right" scope="col">{{rub.RubroTotal | number:'1.2-2'}}</td>
+              </tr>
+            </ng-container>
+            <tr class="font-weight-bold">
+              <th class="thFonelli-left" scope="col">{{'Total ' + secc.SeccionTipo}}</th>
+              <th class="thFonelli-right" scope="col">{{secc.SeccionMN | number:'1.2-2'}}</th>
+              <th class="thFonelli-right" scope="col">{{secc.SeccionUSD | number:'1.2-2'}}</th>
+              <th class="thFonelli-right" scope="col">{{secc.SeccionORO | number:'1.2-2'}}</th>
+              <th class="thFonelli-right" scope="col">{{secc.SeccionPLATA | number:'1.2-2'}}</th>
+              <th class="thFonelli-right" scope="col">{{secc.SeccionTotal | number:'1.2-2'}}</th>
+            </tr>
+          </ng-container>
+        </tbody>
+        <tfoot>
+          <tr class="font-weight-bold table-secondary">
+            <th style="text-align: left; color: #183e6f;" scope="col">Total General</th>
+            <th style="text-align: right; color: #183e6f;" scope="col">{{oTotalesBalance.TotalMN | number:'1.2-2'}}</th>
+            <th style="text-align: right; color: #183e6f;" scope="col">{{oTotalesBalance.TotalUSD | number:'1.2-2'}}
+            </th>
+            <th style="text-align: right; color: #183e6f;" scope="col">{{oTotalesBalance.TotalORO | number:'1.2-2'}}
+            </th>
+            <th style="text-align: right; color: #183e6f;" scope="col">{{oTotalesBalance.TotalPLATA | number:'1.2-2'}}
+            </th>
+            <th style="text-align: right; color: #183e6f;" scope="col">{{oTotalesBalance.TotalGeneral | number:'1.2-2'}}
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+</div>
+<!-- Fin Tabla que presenta Balance -->

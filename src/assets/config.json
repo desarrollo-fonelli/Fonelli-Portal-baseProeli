@@ -1,9 +1,9 @@
 {
-  "version": "2.21.0",
-  "fecha": "2026-01-15",
+  "version": "2.3.0",
+  "fecha": "2026-05-21",
   "caracteristicas": [
     {
-      "caract1": "Consulta de artículos con imagenes disponible para distribuidores",
+      "caract1": "Consulta Directiva: Comercial",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

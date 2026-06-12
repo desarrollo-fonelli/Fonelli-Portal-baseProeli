@@ -40,7 +40,7 @@
       fixedTopGap="64" [opened]="mobileQuery.matches ? 'false' : 'true'" style="width:260px;">
 
       <!-- =============================================================== -->
-      <!-- Menú para Asesores y Gerentes de Venta (*ngIf="!bCliente")       -->
+      <!-- Menú para Asesores y Gerentes de Venta (*ngIf="!bCliente")      -->
       <!-- =============================================================== -->
       <mat-nav-list *ngIf="!bCliente" nav-list>
 
@@ -48,6 +48,33 @@
           class="text-uppercase"><span class="font_side">Inicio</span></a>
 
         <div class="accordion accordion-flush" id="menuAsesorAccordion">
+
+
+          <!-- Grupo Consulta Directiva. Dejo Five porque originalmente tenía el ítem de menu en esa posición -->
+          <div class="accordion-item" *ngIf="sTipo=='G'">
+            <h2 class="accordion-header" id="asesor-headingFive">
+              <button class="accordion-button collapsed text-uppercase" type="button" data-bs-toggle="collapse"
+                data-bs-target="#asesor-collapseFive" aria-expanded="false" aria-controls="asesor-collapseFive">
+                <span class="font_side">Consulta Direct</span>
+              </button>
+            </h2>
+            <div id="asesor-collapseFive" class="accordion-collapse collapse" aria-labelledby="asesor-headingFive"
+              data-bs-parent="#menuAsesorAccordion">
+              <a mat-list-item [routerLink]="['/asesores/consdir-comercial/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Comercial</span></a>
+
+              <!--
+              <a mat-list-item [routerLink]="['/asesores/consdir-balance/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Balance</span></a>
+              <a mat-list-item [routerLink]="['/asesores/consdir-edoresult/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Edo Resultados</span></a>
+              <a mat-list-item [routerLink]="['/asesores/consdir-flujo/']" routerLinkActive="active-list-item"><span
+                  class="font_side">Flujo Efectivo</span></a>
+              -->
+
+            </div>
+          </div>
+
 
           <!-- Grupo Indicadores. Uso "Nine" para no romper la secuencia que ya existía -->
           <div class="accordion-item">
@@ -150,6 +177,7 @@
                   class="font_side">Reporte de ventas</span></a>
             </div>
           </div>
+
           <!-- Grupo Inventario -->
           <!--
           <div class="accordion-item">

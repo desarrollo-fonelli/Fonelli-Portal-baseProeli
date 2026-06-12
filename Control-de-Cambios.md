@@ -2,6 +2,12 @@
 ## Control de Cambios
 
 ----------
+## v2.30.0 | 2026-01-15 | Consultas Directivas: Comercial
+1. Se agregan al menú, router y módulos los componentes para Consultas Directivas
+2. Se escriben modelos, template, servicios, etc.
+3. En esta versión solo se presenta la Consulta Directiva COMERCIAL, las demás en versiones posteriores.
+
+----------
 ## v2.21.0 | 2026-01-15 | Consulta de artículos con imagenes disponible para distribuidores
 1. Se agrega al menú de distribuidores la consulta de artículos con imagenes
 2. Se retira de los menús de distribuidores y asesores la consulta de artículos sin imagenes
