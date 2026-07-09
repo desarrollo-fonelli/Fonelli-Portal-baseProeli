@@ -222,4 +222,32 @@ export class ConsdirComercialComponent implements OnInit {
     this.bMostrarDetalle = !this.bMostrarDetalle;
     this.sTextoBotonDetalle = this.bMostrarDetalle ? 'Ocultar Detalle' : 'Mostrar Detalle';
   }
+
+  getTableRowClass(grupo: string): string {
+    // Aseguramos que el grupo se evalúe correctamente como string
+    const c = grupo ? grupo.toString().trim() : '';
+
+    // Grupo Facturas
+    if (['Fact'].includes(c)) {
+      return 'row-factura';
+    }
+
+    // Grupo Cancelaciones
+    // Nota: Incluyo la 10 aquí ya que es una "Cancelación de Nota de Crédito" (misma naturaleza de reversión)
+    if (['Canc'].includes(c)) {
+      return 'row-cancelacion';
+    }
+
+    // Grupo Notas de Crédito
+    if (['NCre'].includes(c)) {
+      return 'row-nota-credito';
+    }
+
+    // Grupo Bonificaciones
+    if (['Boni'].includes(c)) {
+      return 'row-bonificacion';
+    }
+
+    return '';
+  }
 }

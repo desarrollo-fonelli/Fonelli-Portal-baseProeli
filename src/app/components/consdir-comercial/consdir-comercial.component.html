@@ -65,7 +65,7 @@
   </div>
   <div class="row mt-3">
     <div class="col-9">
-      <table class="table table-reactive table-sm table-hover table-bordered table-striped" id="tablaResumen">
+      <table class="table table-reactive table-sm table-hover table-bordered" id="tablaResumen">
         <thead class="thead-p">
           <tr class="EncTabla">
             <th class="thFonelli-left" scope="col">Concepto</th>
@@ -76,7 +76,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let grupo of oGruposFilas as i">
+          <tr *ngFor="let grupo of oGruposFilas as i" [ngClass]="getTableRowClass(grupo.GrupoCodigo)">
             <td class="FilasFonelli" style="text-align: left;min-width: 16ch;">&nbsp;&nbsp;&nbsp;{{ grupo.GrupoDescripc
               }}</td>
             <td class="FilasFonelli" style="text-align: right;">{{ grupo.GrupoImporte | number:'1.2-2' }}</td>
@@ -142,7 +142,7 @@
   </div>
   <div class="row mt-3">
     <div class="col-9">
-      <table class="table table-sm table-hover table-bordered table-striped" id="tablaDetalle">
+      <table class="table table-sm table-hover table-bordered" id="tablaDetalle">
         <thead class="thead-p">
           <tr class="EncTabla">
             <th class="thFonelli-center" scope="col">Clave</th>
@@ -156,7 +156,7 @@
         <tbody>
           <ng-container *ngFor="let grupo of oGruposFilas index as indx">
             <ng-container *ngFor="let fila of grupo.Documentos; let j=index">
-              <tr>
+              <tr [ngClass]="getTableRowClass(grupo.GrupoCodigo)">
                 <td class="FilasFonelli" style="text-align: center;">{{ fila.DocCodigo }}</td>
                 <td class="FilasFonelli" style="text-align: left;min-width: 16ch;">{{
                   FormatoTitleCase(fila.DocDescripc)
@@ -180,7 +180,7 @@
               number:'1.2-2' }}</th>
             <th></th>
             <th class="FilasFonelli" style="text-align: right;color: #183e6f;">{{
-              (nGranTotalValorAgregado/nGranTotalImporte * 100) | number:'1.2-2' }}%</th>
+              (nTotalVentasValorAgregado/nTotalVentasImporte * 100) | number:'1.2-2' }}%</th>
           </tr>
         </tfoot>
       </table>

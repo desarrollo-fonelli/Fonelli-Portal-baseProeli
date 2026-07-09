@@ -2,7 +2,13 @@
 ## Control de Cambios
 
 ----------
-## v2.30.0 | 2026-01-15 | Consultas Directivas: Comercial
+## v2.30.1 | 2026-07-09 | Consultas Directivas: Balance
+1. Se crean artefactos para obtener las paridades del día.
+2. En esta versión se presenta el BALANCE
+3. Se ajusta layout para Consulta Comercial
+
+----------
+## v2.30.0 | 2026-06-30 | Consultas Directivas: Comercial
 1. Se agregan al menú, router y módulos los componentes para Consultas Directivas
 2. Se escriben modelos, template, servicios, etc.
 3. En esta versión solo se presenta la Consulta Directiva COMERCIAL, las demás en versiones posteriores.

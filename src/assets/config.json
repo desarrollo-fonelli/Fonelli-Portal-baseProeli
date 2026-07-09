@@ -1,10 +1,15 @@
 {
-  "version": "2.3.0",
-  "fecha": "2026-05-21",
+  "version": "2.30.1",
+  "fecha": "2026-07-09",
   "caracteristicas": [
     {
-      "caract1": "Consulta Directiva: Comercial",
+      "caract1": "Consulta Directiva: Balance",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
+      "enabled": true
+    },
+    {
+      "caract2": "Servicio para obtener paridades del día",
+      "descripcion": "Se crean artefactos para obtener las paridades del día",
       "enabled": true
     }
   ]

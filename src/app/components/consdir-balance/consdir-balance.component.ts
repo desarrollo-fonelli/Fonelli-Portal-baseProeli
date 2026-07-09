@@ -7,11 +7,15 @@ import { finalize } from 'rxjs/operators';
 // Modelos
 import { BalanceFiltros } from './modelos/consdir-balance.filtros';
 import { BalanceResponse, Seccion } from './modelos/consdir-balance.model';
+import { ParidadesResponse, Paridad } from 'src/app/models/paridades.model';
 
 // Servicios
 import { ConsdirBalanceService } from './servicios/consdir-balance.service';
+import { ParidadesService } from 'src/app/services/paridades.service';
 import { FuncFechasService } from 'src/app/core/services/func-fechas.service';
 import { FuncStringsService } from 'src/app/core/services/func-strings.service';
+import { forEach } from 'jszip';
+import { ParidadesContenido } from '../../models/paridades.model';
 
 /*******************************************************************************
  * Clase principal del componente
@@ -20,7 +24,8 @@ import { FuncStringsService } from 'src/app/core/services/func-strings.service';
   selector: 'app-consdir-balance',
   templateUrl: './consdir-balance.component.html',
   styleUrls: ['./consdir-balance.component.css'],
-  providers: [DecimalPipe, ConsdirBalanceService, FuncFechasService, FuncStringsService]
+  providers: [DecimalPipe, ConsdirBalanceService, ParidadesService,
+    FuncFechasService, FuncStringsService]
 })
 export class ConsdirBalanceComponent implements OnInit {
   //#region Propiedades del componente
@@ -44,8 +49,21 @@ export class ConsdirBalanceComponent implements OnInit {
     Pagina: 1
   };
 
+  oParidFiltros = { TipoUsuario: '', Usuario: 0 };  // sin interface
+
   oBalanceResponse: BalanceResponse;
   oBalanceSecciones: Seccion[];
+
+  oParidadesResponse: ParidadesResponse;
+  oParidadesFilas: Paridad[];
+
+  // // Importe Paridades
+  // oParidades = {
+  //   TipoCambioMN: 0.00,
+  //   TipoCambioUSD: 0.00,
+  //   TipoCambioORO: 0.00,
+  //   TipoCambioPLATA: 0.00,
+  // };
 
   // Totales columnas del balance
   oTotalesBalance = {
@@ -54,7 +72,7 @@ export class ConsdirBalanceComponent implements OnInit {
     TotalORO: 0.00,
     TotalPLATA: 0.00,
     TotalGeneral: 0.00
-  }
+  };
 
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
@@ -71,7 +89,8 @@ export class ConsdirBalanceComponent implements OnInit {
     private _router: Router,
     private _funcFechasService: FuncFechasService,
     private _funcStringsService: FuncStringsService,
-    private _servicioConsdirBalance: ConsdirBalanceService
+    private _servicioConsdirBalance: ConsdirBalanceService,
+    private _servicioParidades: ParidadesService
   ) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
@@ -83,6 +102,8 @@ export class ConsdirBalanceComponent implements OnInit {
 
     this.oBalanceResponse = {} as BalanceResponse;
     this.oBalanceSecciones = [] as Seccion[];
+    this.oParidadesResponse = {} as ParidadesResponse;
+    this.oParidadesFilas = [] as Paridad[];
   }
 
   /**
@@ -103,6 +124,9 @@ export class ConsdirBalanceComponent implements OnInit {
     this.oBuscar.Usuario = this.sCodigo;
     this.bCliente = false;
 
+    this.oParidFiltros.TipoUsuario = this.sTipo;
+    this.oParidFiltros.Usuario = this.sCodigo;
+
     let date: Date = new Date();
 
     //this.fechaHoy = date.getDate() + '-' + mes + '-' + date.getFullYear();
@@ -110,6 +134,9 @@ export class ConsdirBalanceComponent implements OnInit {
     let fechaAyer = this._funcFechasService.obtenerFechaAyer();
 
     this.oBuscar.FechaCorte = fechaAyer;
+
+    // Inicializa filtros con paridades del día
+    this.GetParidades();
 
   }
 
@@ -216,4 +243,82 @@ export class ConsdirBalanceComponent implements OnInit {
       TotalGeneral: 0
     });
   }
+
+  /** --------------------------------------------------------------------------
+  * Llama al servicio que hace el request a la API REST para
+  * obtener los datos del reporte
+  */
+  GetParidades() {
+    this.sMensaje = '';
+    //this.bMostrarTabla = false;
+    this.bError = false;
+    //this.isCollapsed = false;
+    this.oParidadesFilas = [] as Paridad[];
+    //console.log('🔸Filtros enviados:', this.oParidFiltros);
+
+    this._servicioParidades.GetParidades(this.oParidFiltros)
+      .pipe(finalize(() => { this.bCargando = false }))
+      .subscribe({
+        next: (response: ParidadesResponse) => {
+
+          this.oParidadesResponse = response;
+          // console.dir(this.oParidadesResponse);
+          // console.dir(this.oParidadesResponse.Contenido);
+          // console.dir(this.oParidadesResponse.Contenido.ParidadesFilas);
+
+          if (this.oParidadesResponse.Codigo == 0) {
+            this.bError = false;
+            this.sMensaje = '';
+            //this.isCollapsed = true;
+
+            this.oParidadesFilas = this.oParidadesResponse.Contenido.ParidadesFilas || [];
+            //console.log(this.oParidadesFilas);
+
+            for (let paridad of this.oParidadesFilas) {
+              if (paridad.Codigo == '1') {
+                this.oBuscar.TipoCambioMN = paridad.ValorCapturado;
+              }
+              if (paridad.Codigo == '2') {
+                this.oBuscar.TipoCambioORO = paridad.ValorCapturado;
+              }
+              if (paridad.Codigo == '3') {
+                this.oBuscar.TipoCambioUSD = paridad.ValorCapturado;
+              }
+              if (paridad.Codigo == '7') {
+                this.oBuscar.TipoCambioPLATA = paridad.ValorCapturado;
+              }
+            }
+
+            //this.bMostrarTabla = true;
+            //
+          } else {
+            this.bError = true;
+            //this.isCollapsed = false;
+            this.sMensaje = this.oParidadesResponse.Mensaje || 'No se obtuvieron datos para los filtros seleccionados';
+
+            this.oBuscar.TipoCambioMN = 0.00;
+            this.oBuscar.TipoCambioUSD = 0.00;
+            this.oBuscar.TipoCambioORO = 0.00;
+            this.oBuscar.TipoCambioPLATA = 0.00;
+          }
+        },
+        error: (err) => {
+
+          console.error('Error en la petición:', err);
+
+          this.bError = true;
+          //this.isCollapsed = false;
+          //this.bMostrarTabla = false;
+
+          // Mensaje amigable para UI
+          this.sMensaje =
+            err?.error?.Mensaje ||
+            err?.message ||
+            'Ocurrió un error al consultar la información';
+        }
+      });
+
+  }
+
 }
+

@@ -73,3 +73,29 @@ td.FilasFonelli-fecha {
   font-family: Quicksand-SemiBold;
   text-align: center;
 }
+
+/* Facturas:  */
+.row-factura td {
+  background-color: #fbf8cc !important;
+}
+
+/* Cancelaciones */
+.row-cancelacion td {
+  background-color: #e3f2fd !important;
+}
+
+/* Notas de Crédito  */
+.row-nota-credito td {
+  background-color: #ffe6e8 !important;
+}
+
+.row-bonificacion td {
+  background-color: #c7f9cc !important;
+}
+
+/* Opcional: Mantener la fila de totales limpia y con tipografía destacada */
+.row-totales td {
+  background-color: #ffffff !important;
+  font-weight: bold;
+  border-top: 2px solid #dee2e6;
+}
