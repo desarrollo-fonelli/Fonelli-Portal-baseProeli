@@ -2,6 +2,11 @@
 ## Control de Cambios
 
 ----------
+## v2.30.2 | 2026-07-22 | Consultas Directivas: Estado Resultados
+1. Se habilita en el menú el acceso a este reporte.
+2. En esta versión se presenta el ESTADO de RESULTADOS
+
+----------
 ## v2.30.1 | 2026-07-09 | Consultas Directivas: Balance
 1. Se crean artefactos para obtener las paridades del día.
 2. En esta versión se presenta el BALANCE

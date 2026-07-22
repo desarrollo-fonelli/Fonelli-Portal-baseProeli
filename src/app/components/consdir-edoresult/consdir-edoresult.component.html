@@ -83,6 +83,7 @@
                 <th colspan="6" style="color: #183e6f;">{{ secc.SeccDescripc }}</th>
               </tr>
               <ng-container *ngFor="let rub of secc.SeccRubros; let j=index">
+                <!--
                 <tr>
                   <td class="FilasFonelli-left" scope="col">&nbsp;&nbsp;{{rub.Rubro}}</td>
                   <td class="FilasFonelli-right" scope="col">{{rub.RubroInterno != 0 ? (rub.RubroInterno |
@@ -94,11 +95,23 @@
                   <td class="FilasFonelli-right" scope="col">{{rub.RubroPorcVta != 0 ? (rub.RubroPorcVta |
                     number:'1.2-2') : ''}}&nbsp;%</td>
                 </tr>
+                -->
+                <tr>
+                  <td class="FilasFonelli-left" scope="col">&nbsp;&nbsp;{{rub.Rubro}}</td>
+                  <td class="FilasFonelli-right" scope="col">{{secc.Seccion != "GastIndir" ? (rub.RubroInterno |
+                    number:'1.2-2') : ''}}</td>
+                  <td class="FilasFonelli-right" scope="col">{{secc.Seccion != "GastIndir" ? (rub.RubroExterno |
+                    number:'1.2-2') : ''}}</td>
+                  <td class="FilasFonelli-right" scope="col">{{rub.RubroTotal | number:'1.2-2' :
+                    ''}}</td>
+                  <td class="FilasFonelli-right" scope="col">{{rub.RubroPorcVta | number:'1.2-2'}}&nbsp;%</td>
+                </tr>
+
               </ng-container>
-              <ng-container *ngIf="secc.Seccion != 'Vtas'">
+              <ng-container *ngIf="secc.Seccion != 'Vtas' && secc.Seccion != 'GastDirec'">
                 <!-- No mostrar fila de totales para la sección de Ventas -->
                 <tr class="font-weight-bold">
-                  <th style="color: #183e6f;text-align: right;" scope="col">{{'Total'}}</th>
+                  <th style="color: #183e6f;text-align: right;" scope="col">Total</th>
                   <th style="color: #183e6f;text-align: right;" scope="col">{{secc.SeccInterno != 0 ? (secc.SeccInterno
                     | number:'1.2-2') : ''}}</th>
                   <th style="color: #183e6f;text-align: right;" scope="col">{{secc.SeccExterno != 0 ? (secc.SeccExterno
@@ -117,7 +130,7 @@
           <ng-container *ngFor="let secc of oEdoResultSecciones, let ii=index">
             <ng-container *ngIf="secc.Seccion == 'Utild'">
               <tr class="font-weight-bold table-secondary">
-                <th class="thFonelli-right">&nbsp;&nbsp;{{ secc.SeccDescripc }}</th>
+                <th class="thFonelli-left">&nbsp;&nbsp;{{ secc.SeccDescripc }}</th>
                 <th class="thFonelli-right"></th>
                 <th class="thFonelli-right"></th>
                 <th class="thFonelli-right">{{secc.SeccTotal | number:'1.2-2'}}</th>
