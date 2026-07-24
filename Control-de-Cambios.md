@@ -2,6 +2,10 @@
 ## Control de Cambios
 
 ----------
+## v2.30.3 | 2026-07-24 | Consultas Directivas: Estado Resultados
+1. Ajustes en la presentación solicitados por Director General
+
+----------
 ## v2.30.2 | 2026-07-22 | Consultas Directivas: Estado Resultados
 1. Se habilita en el menú el acceso a este reporte.
 2. En esta versión se presenta el ESTADO de RESULTADOS

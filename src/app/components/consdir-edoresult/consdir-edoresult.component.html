@@ -79,24 +79,22 @@
         <tbody>
           <ng-container *ngFor="let secc of oEdoResultSecciones, let i=index">
             <ng-container *ngIf="secc.Seccion != 'Utild'">
-              <tr class="table-secondary">
+              <tr class="table-secondary" *ngIf="secc.Seccion != 'UtilBr' && secc.Seccion != 'GastDirec'">
                 <th colspan="6" style="color: #183e6f;">{{ secc.SeccDescripc }}</th>
               </tr>
               <ng-container *ngFor="let rub of secc.SeccRubros; let j=index">
-                <!--
-                <tr>
+
+                <tr class="font-weight-bold" *ngIf="secc.Seccion == 'Vtas'">
                   <td class="FilasFonelli-left" scope="col">&nbsp;&nbsp;{{rub.Rubro}}</td>
-                  <td class="FilasFonelli-right" scope="col">{{rub.RubroInterno != 0 ? (rub.RubroInterno |
-                    number:'1.2-2') : ''}}</td>
-                  <td class="FilasFonelli-right" scope="col">{{rub.RubroExterno != 0 ? (rub.RubroExterno |
-                    number:'1.2-2') : ''}}</td>
-                  <td class="FilasFonelli-right" scope="col">{{rub.RubroTotal != 0 ? (rub.RubroTotal | number:'1.2-2') :
+                  <td style="color: #183e6f;text-align: right;" scope="col">{{ rub.RubroInterno | number:'1.2-2' }}</td>
+                  <td style="color: #183e6f;text-align: right;" scope="col">{{ rub.RubroExterno | number:'1.2-2' }}</td>
+                  <td style="color: #183e6f;text-align: right;" scope="col">{{rub.RubroTotal | number:'1.2-2' :
                     ''}}</td>
-                  <td class="FilasFonelli-right" scope="col">{{rub.RubroPorcVta != 0 ? (rub.RubroPorcVta |
-                    number:'1.2-2') : ''}}&nbsp;%</td>
+                  <td style="color: #183e6f;text-align: right;" scope="col">{{rub.RubroPorcVta | number:'1.2-2'}}&nbsp;%
+                  </td>
                 </tr>
-                -->
-                <tr>
+
+                <tr *ngIf="secc.Seccion != 'UtilBr' && secc.Seccion != 'Vtas'">
                   <td class="FilasFonelli-left" scope="col">&nbsp;&nbsp;{{rub.Rubro}}</td>
                   <td class="FilasFonelli-right" scope="col">{{secc.Seccion != "GastIndir" ? (rub.RubroInterno |
                     number:'1.2-2') : ''}}</td>
@@ -110,8 +108,9 @@
               </ng-container>
               <ng-container *ngIf="secc.Seccion != 'Vtas' && secc.Seccion != 'GastDirec'">
                 <!-- No mostrar fila de totales para la sección de Ventas -->
-                <tr class="font-weight-bold">
-                  <th style="color: #183e6f;text-align: right;" scope="col">Total</th>
+                <tr class="font-weight-bold" *ngIf="secc.Seccion != 'UtilBr'">
+                  <th style="color: #183e6f;text-align: right;" scope="col">
+                    Total&nbsp;{{secc.SeccDescripc}}</th>
                   <th style="color: #183e6f;text-align: right;" scope="col">{{secc.SeccInterno != 0 ? (secc.SeccInterno
                     | number:'1.2-2') : ''}}</th>
                   <th style="color: #183e6f;text-align: right;" scope="col">{{secc.SeccExterno != 0 ? (secc.SeccExterno
@@ -122,6 +121,24 @@
                     | number:'1.2-2') : ''}}&nbsp;%
                   </th>
                 </tr>
+                <tr class="font-weight-bold" *ngIf="secc.Seccion=='UtilBr'">
+                  <th style="color: #183e6f;text-align: left;background-color: #e3f2fd;" scope="col">
+                    {{secc.SeccDescripc}}</th>
+                  <th style="color: #183e6f;text-align: right;background-color: #e3f2fd;" scope="col">{{secc.SeccInterno
+                    != 0 ? (secc.SeccInterno
+                    | number:'1.2-2') : ''}}</th>
+                  <th style="color: #183e6f;text-align: right;background-color: #e3f2fd;" scope="col">{{secc.SeccExterno
+                    != 0 ? (secc.SeccExterno
+                    | number:'1.2-2') : ''}}</th>
+                  <th style="color: #183e6f;text-align: right;background-color: #e3f2fd;" scope="col">{{secc.SeccTotal
+                    != 0 ? (secc.SeccTotal |
+                    number:'1.2-2') : ''}}</th>
+                  <th style="color: #183e6f;text-align: right;background-color: #e3f2fd;" scope="col">{{secc.SeccPorcVta
+                    != 0 ? (secc.SeccPorcVta
+                    | number:'1.2-2') : ''}}&nbsp;%
+                  </th>
+                </tr>
+
               </ng-container>
             </ng-container>
           </ng-container>

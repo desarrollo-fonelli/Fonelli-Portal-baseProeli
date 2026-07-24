@@ -1,9 +1,9 @@
 {
-  "version": "2.30.2",
-  "fecha": "2026-07-22",
+  "version": "2.30.3",
+  "fecha": "2026-07-24",
   "caracteristicas": [
     {
-      "caract1": "Consulta Directiva: Estado de Resultados",
+      "caract1": "Consulta Directiva: Estado de Resultados - ajustes",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }
