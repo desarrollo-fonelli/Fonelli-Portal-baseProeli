@@ -45,7 +45,7 @@ import { ConsdirComercialComponent } from './components/consdir-comercial/consdi
 import { ConsdirBalanceComponent } from './components/consdir-balance/consdir-balance.component';
 import { ConsdirEdoresultComponent } from './components/consdir-edoresult/consdir-edoresult.component';
 import { ConsdirFlujoComponent } from './components/consdir-flujo/consdir-flujo.component';
-
+import { PedEstadistComponent } from './components/ped-estadist/ped-estadist.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -112,7 +112,8 @@ const appRoutes: Routes = [
       { path: 'consdir-comercial', component: ConsdirComercialComponent },
       { path: 'consdir-balance', component: ConsdirBalanceComponent },
       { path: 'consdir-edoresult', component: ConsdirEdoresultComponent },
-      { path: 'consdir-flujo', component: ConsdirFlujoComponent }
+      { path: 'consdir-flujo', component: ConsdirFlujoComponent },
+      { path: 'ped-estadist', component: PedEstadistComponent }
 
       //{ path: 'testdr', component: TestdrComponent }
       //{ path: 'testdr2', component: Testdr2Component }

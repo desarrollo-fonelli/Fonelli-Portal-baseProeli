@@ -1,0 +1,16 @@
+/* Ancho fijo para columnas que contienen demasiado texto */
+.col-texto-medio {
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Opcional: muestra "..." si el texto es muy largo */
+}
+
+.col-texto-ancho {
+  width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Opcional: muestra "..." si el texto es muy largo */
+}

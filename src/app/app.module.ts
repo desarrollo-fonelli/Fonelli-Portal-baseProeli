@@ -86,6 +86,7 @@ import { ConsdirComercialComponent } from './components/consdir-comercial/consdi
 import { ConsdirBalanceComponent } from './components/consdir-balance/consdir-balance.component';
 import { ConsdirEdoresultComponent } from './components/consdir-edoresult/consdir-edoresult.component';
 import { ConsdirFlujoComponent } from './components/consdir-flujo/consdir-flujo.component';
+import { PedEstadistComponent } from './components/ped-estadist/ped-estadist.component';
 
 @NgModule({
   declarations: [
@@ -151,7 +152,8 @@ import { ConsdirFlujoComponent } from './components/consdir-flujo/consdir-flujo.
     ConsdirComercialComponent,
     ConsdirBalanceComponent,
     ConsdirEdoresultComponent,
-    ConsdirFlujoComponent
+    ConsdirFlujoComponent,
+    PedEstadistComponent
   ],
   imports: [
     BrowserModule,

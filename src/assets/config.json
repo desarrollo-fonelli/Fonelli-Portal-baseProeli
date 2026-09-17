@@ -1,9 +1,9 @@
 {
-  "version": "2.30.3",
-  "fecha": "2026-07-24",
+  "version": "2.31.0",
+  "fecha": "2026-09-09",
   "caracteristicas": [
     {
-      "caract1": "Consulta Directiva: Estado de Resultados - ajustes",
+      "caract1": "Estadistica de Pedidos",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

@@ -2,6 +2,11 @@
 ## Control de Cambios
 
 ----------
+## v2.31.0 | 2026-09-09 | Estadistica de Pedidos
+1. Se crean los artefactos para emitir el reporte "Estadistica de Pedidos"
+2. Se agrega el componentes al archivo de rutas y al sidemenu
+
+----------
 ## v2.30.3 | 2026-07-24 | Consultas Directivas: Estado Resultados
 1. Ajustes en la presentación solicitados por Director General
 
