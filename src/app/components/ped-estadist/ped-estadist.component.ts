@@ -23,6 +23,8 @@ import { DatosGenerales } from 'src/app/models/clientes';
 import { Contactos } from 'src/app/models/clientes';
 import { FiltrosLineas } from 'src/app/models/lineas.filtros';
 import { Lineas, Contenido as LineasCon } from 'src/app/models/lineas';
+import { TiposPedidoList, TipoPedRow } from 'src/app/models/tipospedido';
+
 
 //---- Servicios
 import { FuncFechasService } from 'src/app/core/services/func-fechas.service';
@@ -31,6 +33,7 @@ import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 import { ServicioLineas } from 'src/app/services/lineas.service';
 import { PedEstadistService } from './servicios/ped-estadist.service';
+import { TipospedidoService } from 'src/app/services/tipospedido.service';
 
 
 @Component({
@@ -40,7 +43,7 @@ import { PedEstadistService } from './servicios/ped-estadist.service';
   providers: [
     FuncFechasService, FuncStringsService, DecimalPipe,
     ServicioOficinas, ServicioClientes, ServicioLineas,
-    PedEstadistService]
+    PedEstadistService, TipospedidoService]
 })
 export class PedEstadistComponent implements OnInit, OnDestroy {
 
@@ -81,6 +84,8 @@ export class PedEstadistComponent implements OnInit, OnDestroy {
   oBuscarLineas: FiltrosLineas;
   oLineasRes: Lineas;
   oLineasCon: LineasCon[];
+  oTiposPedidoList: TiposPedidoList;
+  oTipoPedRow: TipoPedRow[];
 
   Buscar: FiltrosClientes;
   oCliente: Clientes;
@@ -126,7 +131,8 @@ export class PedEstadistComponent implements OnInit, OnDestroy {
     private _servicioOficinas: ServicioOficinas,
     private _servicioCClientes: ServicioClientes,
     private _servicioLineas: ServicioLineas,
-    private _pedEstadistService: PedEstadistService
+    private _pedEstadistService: PedEstadistService,
+    private _servicioTiposPedido: TipospedidoService
   ) {
 
     this.sCodigo = Number(sessionStorage.getItem('codigo'));
@@ -142,6 +148,8 @@ export class PedEstadistComponent implements OnInit, OnDestroy {
 
     this.oBuscarOfi = new FiltrosOficina('', 0)
     this.oOficinasRes = {} as Oficina;
+    this.oTiposPedidoList = {} as TiposPedidoList;
+
     this.Buscar = new FiltrosClientes(0, 0, 0, '', 0);
     this.oCliente = {} as Clientes;
     this.oContenido = {} as ContenidoCli;
@@ -371,6 +379,59 @@ export class PedEstadistComponent implements OnInit, OnDestroy {
       this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
       this.oDatosGenerales = this.oCliente.Contenido[0].DatosGenerales;
       this.oContacto = this.oCliente.Contenido[0].Contactos;
+    }
+
+    // Lista con Tipos de Pedido
+    if (!sessionStorage.getItem('TiposPedido')) {
+
+      this._servicioTiposPedido
+        .GetTiposPedido(this.oBuscar)
+        .subscribe(
+          (Response: TiposPedidoList) => {
+
+            this.oTiposPedidoList = Response;
+            //console.log("🔸 RESULTADO LLAMADA TiposPedidoList " + JSON.stringify(this.oTiposPedidoList));
+
+            if (this.oTiposPedidoList.Codigo != 0) {
+              this.bError = true;
+              this.sMensaje = "No se encontraron Tipos de Pedido";
+              console.log('🔸No se encontraron Tipos de Pedido');
+              return;
+            }
+
+            sessionStorage.setItem('TiposPedido', JSON.stringify(this.oTiposPedidoList.Contenido));
+            this.oTipoPedRow = this.oTiposPedidoList.Contenido;
+            //console.table(oTipoPedRow);
+            this.oBuscar.TipoPedDesde = this.oTipoPedRow[0].TipoPedCodigo;
+            this.oBuscar.TipoPedHasta = this.oTipoPedRow[this.oTipoPedRow.length - 1].TipoPedCodigo;
+            this.sMensaje = "";
+
+          },
+          (error: TiposPedidoList) => {
+            this.oTiposPedidoList = error;
+            this.sMensaje = "No se encontraron Tipos de Pedido";
+            console.log('🔸error oTiposPedido', this.oTiposPedidoList);
+            return;
+          }
+        );
+    } else {
+      // console.log('Ya existen Almacenes');
+      // dRendon 30.04.2025:
+      // Este bloque de código es diferente al que se tiene para las
+      // líneas de producto, oficinas y otros catálogos.
+      // En este caso, se tendrá un array de objetos con las filas de
+      // los almacenes obtenidos en la llamada previa.
+      console.log("🔸 array existe");
+      let arrayTiposPedido = JSON.parse(sessionStorage.getItem('TiposPedido'));
+      this.oTipoPedRow = arrayTiposPedido;
+      //console.table(arrayTiposPedido);
+      this.oBuscar.TipoPedDesde = arrayTiposPedido[0].TipoPedCodigo;
+      this.oBuscar.TipoPedHasta = arrayTiposPedido[arrayTiposPedido.length - 1].TipoPedCodigo;
+
+      //console.log(this.oBuscar.TipoPedDesde, this.oBuscar.TipoPedHasta);
+
+      this.sMensaje = "";
+
     }
 
     this.dtTrigger.next("");

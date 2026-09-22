@@ -33,6 +33,7 @@ import { Condiciones } from 'src/app/models/clientes';
 import { DatosGenerales } from 'src/app/models/clientes';
 import { Contactos } from 'src/app/models/clientes';
 import { PedidoDet, RelacionPedidosDet, Contenido as DetPedCon } from 'src/app/models/relacionPedidosDet';
+import { TiposPedidoList, TipoPedRow } from 'src/app/models/tipospedido';
 
 
 //Servicios
@@ -41,8 +42,7 @@ import { ServicioOficinas } from 'src/app/services/oficinas.srevice';
 import { ServicioDetallePedido } from 'src/app/services/detallepedido.service';
 import { ServicioClientes } from 'src/app/services/clientes.service';
 import { ServicioRelacionPedidoDet } from 'src/app/services/relacionPedidosDet.service';
-
-
+import { TipospedidoService } from 'src/app/services/tipospedido.service';
 
 @Component({
   selector: 'app-relacionpedidos',
@@ -52,7 +52,8 @@ import { ServicioRelacionPedidoDet } from 'src/app/services/relacionPedidosDet.s
     ServicioOficinas,
     ServicioDetallePedido,
     DecimalPipe,
-    ServicioClientes]
+    ServicioClientes,
+    TipospedidoService]
 })
 export class RelacionpedidosComponent implements OnInit, OnDestroy {
 
@@ -77,7 +78,8 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
   oOficinasRes: Oficina;
   public oBuscaDetalle: FiltrosDetallePedidos;
   oPedidoDetalleRes: DetallePedido;
-  //oContenido: ContenidoRelPed; 
+  oTiposPedidoList: TiposPedidoList;
+  oTipoPedRow: TipoPedRow[];
 
   //Detalle excel
   public oBuscarPedDet: FiltrosRelacionPedidos;
@@ -141,7 +143,8 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
     private _servicioCPedidosDet: ServicioDetallePedido,
     private modalService: NgbModal,
     private _servicioRelacionPedDet: ServicioRelacionPedidoDet,
-    private _servicioCClientes: ServicioClientes) {
+    private _servicioCClientes: ServicioClientes,
+    private _servicioTiposPedido: TipospedidoService) {
 
     this.oPedDetRes = [];
 
@@ -151,14 +154,14 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
     this.sNombre = sessionStorage.getItem('nombre');
 
     //Inicializamos variables consulta pedidos
-    this.oBuscar = new FiltrosRelacionPedidos('', 0, '', '', 0, 0, 0, 0, '', '', '', '', '', '', '', '', 0)
+    this.oBuscar = new FiltrosRelacionPedidos('', 0, '', '', 0, 0, 0, 0, '', '', '', '', '', '', '', '', '', 0)
     this.oRelacionPedRes = {} as RelacionPedidos;
     this.oBuscarOfi = new FiltrosOficina('', 0)
     this.oOficinasRes = {} as Oficina;
-    //this.oContenido = {} as ContenidoRelPed;
+    this.oTiposPedidoList = {} as TiposPedidoList;
 
     //Inicializamos variables consulta detalle pedidos
-    this.oBuscarPedDet = new FiltrosRelacionPedidos('', 0, '', '', 0, 0, 0, 0, '', '', '', '', '', '', '', '', 0)
+    this.oBuscarPedDet = new FiltrosRelacionPedidos('', 0, '', '', 0, 0, 0, 0, '', '', '', '', '', '', '', '', '', 0)
     this.oBuscaDetalle = new FiltrosDetallePedidos('', 0, '', 0, 0, 0);
     this.oPedidoDetalleRes = {} as DetallePedido;
     this.pedidoDet = [];
@@ -289,7 +292,8 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
     }
 
     this.oBuscar.Status = 'A';
-    this.oBuscar.TipoPedido = 'T';
+    this.oBuscar.TipoPedDesde = '01';
+    this.oBuscar.TipoPedHasta = '99';
     this.oBuscar.TipoOrigen = 'T';
     this.oBuscar.SoloAtrasados = 'T';
     this.oBuscar.FechaPedidoDesde = '2000-01-01';
@@ -301,7 +305,7 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
     this.Buscar.TipoUsuario = this.sTipo;
     this.Buscar.Usuario = this.sCodigo;
 
-    //Llenamos oficinas
+    // Llenamos oficinas
     if (!sessionStorage.getItem('Oficinas')) {
       //console.log("NO tenemos oficina");
 
@@ -311,7 +315,7 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
           (Response: Oficina) => {
 
             this.oOficinasRes = Response;
-            //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );              
+            //console.log("RESULTADO LLAMADA Oficinas "+JSON.stringify(this.oOficinasRes) );
 
             if (this.oOficinasRes.Codigo != 0) {
               this.bError = true;
@@ -341,10 +345,12 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
 
       this.oBuscar.OficinaDesde = this.oOficinasRes.Contenido[0].OficinaCodigo;
       this.oBuscar.OficinaHasta = this.oOficinasRes.Contenido[this.oOficinasRes.Contenido?.length - 1].OficinaCodigo;
+      console.log('🔸 OficinaDesde', this.oBuscar.OficinaDesde);
+
 
     }
 
-    //Realizamos llamada al servicio de clientes 
+    // Realizamos llamada al servicio de clientes 
     if (!sessionStorage.getItem('Clientes')) {
 
       //console.log("no tenemos  Clientes");
@@ -385,6 +391,59 @@ export class RelacionpedidosComponent implements OnInit, OnDestroy {
       this.oCondiciones = this.oCliente.Contenido[0].Condiciones;
       this.oDatosGenerales = this.oCliente.Contenido[0].DatosGenerales;
       this.oContacto = this.oCliente.Contenido[0].Contactos;
+    }
+
+    // Lista con Tipos de Pedido
+    if (!sessionStorage.getItem('TiposPedido')) {
+
+      this._servicioTiposPedido
+        .GetTiposPedido(this.oBuscar)
+        .subscribe(
+          (Response: TiposPedidoList) => {
+
+            this.oTiposPedidoList = Response;
+            //console.log("🔸 RESULTADO LLAMADA TiposPedidoList " + JSON.stringify(this.oTiposPedidoList));
+
+            if (this.oTiposPedidoList.Codigo != 0) {
+              this.bError = true;
+              this.sMensaje = "No se encontraron Tipos de Pedido";
+              console.log('🔸No se encontraron Tipos de Pedido');
+              return;
+            }
+
+            sessionStorage.setItem('TiposPedido', JSON.stringify(this.oTiposPedidoList.Contenido));
+            this.oTipoPedRow = this.oTiposPedidoList.Contenido;
+            //console.table(oTipoPedRow);
+            this.oBuscar.TipoPedDesde = this.oTipoPedRow[0].TipoPedCodigo;
+            this.oBuscar.TipoPedHasta = this.oTipoPedRow[this.oTipoPedRow.length - 1].TipoPedCodigo;
+            this.sMensaje = "";
+
+          },
+          (error: TiposPedidoList) => {
+            this.oTiposPedidoList = error;
+            this.sMensaje = "No se encontraron Tipos de Pedido";
+            console.log('🔸error oTiposPedido', this.oTiposPedidoList);
+            return;
+          }
+        );
+    } else {
+      // console.log('Ya existen Almacenes');
+      // dRendon 30.04.2025:
+      // Este bloque de código es diferente al que se tiene para las
+      // líneas de producto, oficinas y otros catálogos.
+      // En este caso, se tendrá un array de objetos con las filas de
+      // los almacenes obtenidos en la llamada previa.
+      console.log("🔸 array existe");
+      let arrayTiposPedido = JSON.parse(sessionStorage.getItem('TiposPedido'));
+      this.oTipoPedRow = arrayTiposPedido;
+      //console.table(arrayTiposPedido);
+      this.oBuscar.TipoPedDesde = arrayTiposPedido[0].TipoPedCodigo;
+      this.oBuscar.TipoPedHasta = arrayTiposPedido[arrayTiposPedido.length - 1].TipoPedCodigo;
+
+      //console.log(this.oBuscar.TipoPedDesde, this.oBuscar.TipoPedHasta);
+
+      this.sMensaje = "";
+
     }
 
   }

@@ -1,6 +1,6 @@
 {
     "/med_fonelli_apiportal/*": {
-        "target_online": "https://www.fonelli.com/",
+        "target_produccion": "https://www.fonelli.com/",
         "target": "http://localhost/",
         "secure": false,
         "logLevel": "debug"

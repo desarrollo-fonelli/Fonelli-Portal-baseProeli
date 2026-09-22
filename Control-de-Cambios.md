@@ -2,6 +2,13 @@
 ## Control de Cambios
 
 ----------
+## v2.32.1 | 2026-09-17 | Relación de Pedidos
+1. Se agregan controles SELECT en formulario de criterios de filtro, para asignar rango pot tipos de pedido.
+2. Se ajusta código TS para asignar tipos de pedido al storage y usarlos al llamar el Servicio correspondiente
+3. Se crea el Servicio para obtener los tipos de pedido
+4. Se modifica el Servicio que llama la API REST agregando el rango de tipos de pedido.
+
+----------
 ## v2.31.0 | 2026-09-09 | Estadistica de Pedidos
 1. Se crean los artefactos para emitir el reporte "Estadistica de Pedidos"
 2. Se agrega el componentes al archivo de rutas y al sidemenu

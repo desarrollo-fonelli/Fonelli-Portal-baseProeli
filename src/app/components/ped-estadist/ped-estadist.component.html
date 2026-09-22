@@ -120,28 +120,30 @@
         </div>
 
         <!----------------   Rango de Tipos Pedido   ----------------->
-        <div class="form-row">
+        <div class="form-row" [hidden]="bCliente">
           <div class="form-group col-md-3">
             <label class="CamposFonelli">Desde Tipo Pedido</label>
-            <!--
-                      <select class="form-select" name="idOficinaDesde" #nombre="ngModel" [(ngModel)]="oBuscar.OficinaDesde" required>
-                        <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">{{dato.OficinaCodigo}}
-                          - {{dato.OficinaNombre}}</option>
-                      </select>
-                    -->
-            <input type="text" id="idTipoPedDesde" class="form-control" name="idTipoPedDesde" #nombre="ngModel"
+            <!--            <input type="text" id="idTipoPedDesde" class="form-control" name="idTipoPedDesde" #nombre="ngModel"
               [(ngModel)]="oBuscar.TipoPedDesde" required>
+            -->
+            <select class="form-select" name="idTipoPedDesde" #nombre="ngModel" [(ngModel)]="oBuscar.TipoPedDesde"
+              required>
+              <option value="{{dato.TipoPedCodigo}}" *ngFor="let dato of oTipoPedRow">
+                {{dato.TipoPedCodigo}}
+                - {{dato.TipoPedDescripc}}</option>
+            </select>
           </div>
           <div class="form-group col-md-3">
             <label class="CamposFonelli">Hasta Tipo Pedido</label>
-            <!--
-                      <select class="form-select" name="idOficinaHasta" #nombre="ngModel" [(ngModel)]="oBuscar.OficinaHasta" required>
-                        <option value="{{dato.OficinaCodigo}}" *ngFor="let dato of oOficinasRes.Contenido">{{dato.OficinaCodigo}}
-                          - {{dato.OficinaNombre}}</option>
-                      </select>
-                    -->
-            <input type="text" id="idTipoPedHasta" class="form-control" name="idTipoPedHasta" #nombre="ngModel"
+            <!--            <input type="text" id="idTipoPedHasta" class="form-control" name="idTipoPedHasta" #nombre="ngModel"
               [(ngModel)]="oBuscar.TipoPedHasta" required>
+              -->
+            <select class="form-select" name="idTipoPedHasta" #nombre="ngModel" [(ngModel)]="oBuscar.TipoPedHasta"
+              required>
+              <option value="{{dato.TipoPedCodigo}}" *ngFor="let dato of oTipoPedRow">
+                {{dato.TipoPedCodigo}}
+                - {{dato.TipoPedDescripc}}</option>
+            </select>
           </div>
         </div>
 

@@ -1,9 +1,9 @@
 {
-  "version": "2.31.0",
-  "fecha": "2026-09-09",
+  "version": "2.32.1",
+  "fecha": "2026-09-18",
   "caracteristicas": [
     {
-      "caract1": "Estadistica de Pedidos",
+      "caract1": "Relación de Pedidos: Agregar filtro por rango de tipos de pedido",
       "descripcion": "Detalles en 'Control-de-Cambios.md'",
       "enabled": true
     }

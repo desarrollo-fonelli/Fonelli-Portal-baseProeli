@@ -112,6 +112,28 @@
           </div>
         </div>
 
+        <div class="row" [hidden]="bCliente">
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Desde TipoPed</label>
+            <select class="form-select" name="idTipoPedDesde" #nombre="ngModel" [(ngModel)]="oBuscar.TipoPedDesde"
+              required>
+              <option value="{{dato.TipoPedCodigo}}" *ngFor="let dato of oTipoPedRow">
+                {{dato.TipoPedCodigo}}
+                - {{dato.TipoPedDescripc}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label class="CamposFonelli">Hasta TipoPed</label>
+            <select class="form-select" name="idTipoPedHasta" #nombre="ngModel" [(ngModel)]="oBuscar.TipoPedHasta"
+              required>
+              <option value="{{dato.TipoPedCodigo}}" *ngFor="let dato of oTipoPedRow">
+                {{dato.TipoPedCodigo}}
+                - {{dato.TipoPedDescripc}}</option>
+            </select>
+          </div>
+
+        </div>
+
         <div class="row">
           <div class="form-group col-md-3">
             <div class="form-check">
@@ -130,7 +152,7 @@
               <label class="form-check-label CamposFonelli"> Todos </label>
             </div>
           </div>
-
+          <!--
           <div class="form-group col-md-3" [hidden]="bCliente">
             <div class="form-check">
               <input class="form-check-input" type="radio" name="gpoTipPed" value="P" #nombre="ngModel"
@@ -153,7 +175,7 @@
               <label class="form-check-label CamposFonelli"> Todos </label>
             </div>
           </div>
-
+-->
           <div class="form-group col-md-3" [hidden]="bCliente">
             <div class="form-check">
               <input class="form-check-input" type="radio" name="gpoTipOri" value="I" #nombre="ngModel"
